@@ -50,7 +50,9 @@
 #ifndef OC_INTROSPECTION_H
 #define OC_INTROSPECTION_H
 
+#ifndef __WITH_AVRLIBC__
 #include <wchar.h>
+#endif
 #include <inttypes.h>
 #include <stddef.h>
 

@@ -23,6 +23,57 @@
 
 #include <inttypes.h>
 
+#ifndef __WITH_AVRLIBC__
+#define PRINT_INT64(str, len, value) snprintf(str, len, PRId64, value)
+#else
+#define PRINT_INT64(str, len, value) print_int64(str, len, value)
+
+static int print_int64(char* buf, size_t len, int64_t val) {
+  static const char digits[] = "0123456789";
+  char* ptr = buf;
+
+  if(val < 0) {
+    *ptr++ = '-';
+    val *= -1;
+  }
+
+  uint64_t order = 1000000000000000000ULL;
+
+  for(; order > 0; order /= 10) {
+    if( (val/order) == 0) {
+      continue;
+    } else {
+      goto print_digit;
+    }
+  }
+
+  if(buf == ptr || (buf[0] == '-' && (ptr == (buf+1))) ) {
+    if(ptr >= buf+len) return -1;
+    *ptr++ = '0';
+    if(ptr >= buf+len) return -1;
+    *ptr++ = '\0';
+    return ptr - buf;
+  }
+
+print_digit:
+  for(; order > 0; order /= 10) {
+    if(ptr >= buf+len) return len;
+
+    uint8_t num = (uint8_t)(val / order);
+    val -= (num * order);
+
+    if(ptr >= buf+len) return -1;
+    *ptr++ = digits[num];
+  }
+
+  if(ptr >= buf+len) return -1;
+  *ptr++ = '\0';
+  return ptr - buf;
+}
+
+
+#endif
+
 static struct oc_memb *rep_objects;
 static uint8_t *g_buf;
 CborEncoder g_encoder, root_map, links_array;
@@ -723,7 +774,7 @@ oc_rep_to_json_format(oc_rep_t *rep, char *buf, size_t buf_size, int tab_depth,
     }
     case OC_REP_INT: {
       num_char_printed =
-        snprintf(buf, buf_size, "%" PRId64, rep->value.integer);
+        PRINT_INT64(buf, buf_size, rep->value.integer);
       OC_JSON_UPDATE_BUFFER_AND_TOTAL;
       break;
     }
@@ -777,7 +828,7 @@ oc_rep_to_json_format(oc_rep_t *rep, char *buf, size_t buf_size, int tab_depth,
       oc_rep_get_int_array(rep, oc_string(rep->name), &int_array,
                            &int_array_size);
       for (size_t i = 0; i < int_array_size; i++) {
-        num_char_printed = snprintf(buf, buf_size, "%" PRId64, int_array[i]);
+        num_char_printed = PRINT_INT64(buf, buf_size, int_array[i]);
         OC_JSON_UPDATE_BUFFER_AND_TOTAL;
         if (i < int_array_size - 1) {
           num_char_printed = (pretty_print) ? snprintf(buf, buf_size, ", ")
