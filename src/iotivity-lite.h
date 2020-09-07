@@ -1,3 +1,4 @@
+#include <oc_config.h>
 #include <oc_acl.h>
 #include <oc_api.h>
 #include <oc_base64.h>
@@ -12,6 +13,7 @@
 #include <oc_cred.h>
 #include <oc_discovery.h>
 #include <oc_endpoint.h>
+#include <oc_enums.h>
 #include <oc_helpers.h>
 #include <oc_introspection.h>
 #include <oc_network_events.h>
