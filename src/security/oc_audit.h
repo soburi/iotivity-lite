@@ -1,5 +1,6 @@
 /*
-// Copyright (c) 2016 Intel Corporation
+// Copyright (c) 2016-2019 Intel Corporation
+// Copyright 2019 Samsung Electronics All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,39 +15,21 @@
 // limitations under the License.
 */
 
-#ifndef OC_COAP_H
-#define OC_COAP_H
+#ifndef OC_AUDIT_H
+#define OC_AUDIT_H
 
-#include "separate.h"
-#include "util/oc_list.h"
-#include "oc_ri.h"
+#include "oc_config.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-struct oc_separate_response_s
-{
-  OC_LIST_STRUCT(requests);
-  int active;
-#ifdef OC_DYNAMIC_ALLOCATION
-  uint8_t *buffer;
-#else  /* OC_DYNAMIC_ALLOCATION */
-  uint8_t buffer[OC_MAX_APP_DATA_SIZE];
-#endif /* !OC_DYNAMIC_ALLOCATION */
-};
-
-struct oc_response_buffer_s
-{
-  uint8_t *buffer;
-  uint16_t buffer_size;
-  uint16_t response_length;
-  int code;
-  oc_content_format_t content_format;
-};
+void oc_audit_log(size_t device, const char *aeid, const char *message,
+                  uint8_t category, uint8_t priority, const char **aux,
+                  size_t aux_len);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* OC_COAP_H */
+#endif /* OC_AUDIT_H */

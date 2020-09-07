@@ -1045,6 +1045,8 @@ device1_RFPRO(int status, void *data)
     if (!p->switch_dos) {
       free_credprov_ctx(p, -1);
     }
+  } else {
+    free_credprov_ctx(p, -1);
   }
 }
 
@@ -2655,6 +2657,7 @@ oc_obt_init(void)
     oc_sec_dump_doxm(0);
     oc_sec_dump_cred(0);
     oc_sec_dump_acl(0);
+    oc_sec_dump_ael(0);
 
 #ifdef OC_PKI
     uint8_t public_key[OC_ECDSA_PUBKEY_SIZE];

@@ -57,6 +57,7 @@
 #include "oc_ri.h"
 #ifdef OC_SECURITY
 #include "security/oc_tls.h"
+#include "security/oc_audit.h"
 #endif
 
 /*---------------------------------------------------------------------------*/
@@ -1154,7 +1155,7 @@ coap_udp_parse_message(void *packet, uint8_t *data, uint16_t data_len)
   coap_status_t ret =
     coap_parse_token_option(packet, data, data_len, current_option);
   if (COAP_NO_ERROR != ret) {
-    OC_DBG("coap_parse_token_option failed!");
+    OC_DBG("coap_parse_token_option failed! %d", ret);
     return ret;
   }
 
