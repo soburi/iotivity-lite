@@ -46,6 +46,7 @@ static oc_device_info_t oc_device_info[OC_MAX_NUM_DEVICES];
 static oc_platform_info_t oc_platform_info;
 
 static bool announce_con_res = false;
+static int res_latency = 0;
 static size_t device_count = 0;
 
 /* Although used several times in the OCF spec, "/oic/con" is not
@@ -270,6 +271,18 @@ bool
 oc_get_con_res_announced(void)
 {
   return announce_con_res;
+}
+
+void
+oc_core_set_latency(int latency)
+{
+  res_latency = latency;
+}
+
+int
+oc_core_get_latency(void)
+{
+  return res_latency;
 }
 
 void
@@ -610,6 +623,10 @@ oc_core_get_resource_by_uri(const char *uri, size_t device)
     type = OCF_SEC_ROLES;
   }
 #endif /* OC_PKI */
+  else if ((strlen(uri) - skip) == 11 &&
+           memcmp(uri + skip, "oic/sec/sdi", 11) == 0) {
+    type = OCF_SEC_SDI;
+  }
 #endif /* OC_SECURITY */
 #ifdef OC_SOFTWARE_UPDATE
   else if ((strlen(uri) - skip) == 2 && memcmp(uri + skip, "sw", 2) == 0) {
