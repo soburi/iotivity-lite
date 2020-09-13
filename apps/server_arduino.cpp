@@ -161,7 +161,7 @@ uint8_t ConnectToNetwork()
 {
 	// Note: ****Update the MAC address here with your shield's MAC address****
 	uint8_t ETHERNET_MAC[] = {0x92, 0xA1, 0xDA, 0x11, 0x44, 0xA9};
-#if defined(__SAMD21G18A__)
+#if defined(SAMD_MKRZERO)
   Ethernet.init(5); // CS Pin for MKRZERO
 #endif
 	uint8_t error = Ethernet.begin(ETHERNET_MAC);
