@@ -8,12 +8,10 @@
 #include "port/oc_log.h"
 #define STORE_PATH_SIZE 20
 // SD chip select pin
-#if defined(__AVR__) || defined(__SAM3X8E__)
-const uint8_t chipSelect = 4;
-#elif defined(__SAMD21G18A__)
+#if defined(SAMD_MKRZERO)
 const uint8_t chipSelect = SDCARD_SS_PIN;
 #else
-#warning Please update Eth shield chip select
+const uint8_t chipSelect = 4;
 #endif
 
 static SdFat sdfat;
