@@ -18,9 +18,6 @@
 
 #include <stddef.h>
 #include <string.h>
-#ifndef _WIN32
-#include <strings.h>
-#endif
 
 #include "oc_ael.h"
 #include "oc_api.h"

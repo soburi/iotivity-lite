@@ -757,8 +757,9 @@ oc_ri_invoke_coap_entity_handler(void *request, void *response, uint8_t *buffer,
   size_t uri_query_len = coap_get_header_uri_query(request, &uri_query);
 
   /* Read the Content-Format CoAP option in the request */
-  oc_content_format_t cf = 0;
-  coap_get_header_content_format(request, &cf);
+  unsigned int _cf;
+  coap_get_header_content_format(request, &_cf);
+  oc_content_format_t cf = _cf;
 
   if (uri_query_len) {
     request_obj.query = uri_query;
@@ -1323,8 +1324,9 @@ oc_ri_invoke_client_cb(void *response, oc_client_cb_t *cb,
 #endif /* OC_BLOCK_WISE */
 {
   endpoint->version = OCF_VER_1_0_0;
-  oc_content_format_t cf = 0;
-  coap_get_header_content_format(response, &cf);
+  unsigned int _cf;
+  coap_get_header_content_format(response, &_cf);
+  oc_content_format_t cf = _cf;
 #ifdef OC_SPEC_VER_OIC
   if (cf == APPLICATION_CBOR) {
     endpoint->version = OIC_VER_1_1_0;
