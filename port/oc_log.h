@@ -13,9 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 */
-/**
-  @file
-*/
+
 #ifndef OC_LOG_H
 #define OC_LOG_H
 
@@ -30,9 +28,27 @@ extern "C"
 {
 #endif
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #define TAG "OC-JNI"
 #define PRINT(...) __android_log_print(ANDROID_LOG_INFO, TAG, __VA_ARGS__)
+
+#elif defined(ARDUINO)
+
+#if defined(__AVR__)
+#include "avr/pgmspace.h"
+#define PCF(str)  ((PROGMEM const char *)(PSTR(str)))
+void avr_log(PROGMEM const char *format, ...);
+#define PRINT(format, ...) avr_log(PCF(format),##__VA_ARGS__)
+#else
+void arm_log(const char *format, ...);
+#define PRINT(format, ...) arm_log(format,##__VA_ARGS__)
+#endif
+
+#ifdef __cplusplus
+class Stream;
+void oc_arduino_set_logstream(Stream &strm);
+#endif
+
 #else
 #define PRINT(...) printf(__VA_ARGS__)
 #endif
@@ -50,7 +66,7 @@ extern "C"
     if ((endpoint).flags & TCP && (endpoint).flags & SECURED)                  \
       scheme = "coaps+tcp";                                                    \
     if ((endpoint).flags & IPV4) {                                             \
-      PRINT("%s://%d.%d.%d.%d:%d", scheme, ((endpoint).addr.ipv4.address)[0],  \
+      PRINT("%s://%d.%d.%d.%d:%u", scheme, ((endpoint).addr.ipv4.address)[0],  \
             ((endpoint).addr.ipv4.address)[1],                                 \
             ((endpoint).addr.ipv4.address)[2],                                 \
             ((endpoint).addr.ipv4.address)[3], (endpoint).addr.ipv4.port);     \
@@ -59,7 +75,7 @@ extern "C"
         "%s://[%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%02x:%02x%"    \
         "02x:%"                                                                \
         "02x%"                                                                 \
-        "02x]:%d",                                                             \
+        "02x]:%u",                                                             \
         scheme, ((endpoint).addr.ipv6.address)[0],                             \
         ((endpoint).addr.ipv6.address)[1], ((endpoint).addr.ipv6.address)[2],  \
         ((endpoint).addr.ipv6.address)[3], ((endpoint).addr.ipv6.address)[4],  \
@@ -164,10 +180,31 @@ extern "C"
   } while (0)
 
 #ifdef OC_DEBUG
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #define OC_LOG(level, ...)          android_log(level, __FILE__, __func__, __LINE__, __VA_ARGS__)
 #define OC_LOGipaddr(endpoint)      android_log_ipaddr("DEBUG", __FILE__, __func__, __LINE__, endpoint)
 #define OC_LOGbytes(bytes, length)  android_log_bytes("DEBUG", __FILE__, __func__, __LINE__, bytes, length)
+#elif defined(ARDUINO)
+#define OC_LOG(level, format, ...)                                            \
+  do {                                                                        \
+      PRINT(level ": " __FILE__ "<%s:%d> ", __func__, __LINE__);           \
+      PRINT(format, ##__VA_ARGS__);                                           \
+      PRINT("\n");                                                          \
+  } while (0)
+#define OC_LOGipaddr(endpoint)                                                \
+  do {                                                                        \
+      PRINT("DBG: " __FILE__   "<%s:%d>: " , __func__, __LINE__);             \
+      PRINTipaddr(endpoint);                                                  \
+      PRINT("\r\n");                                                          \
+  } while (0)
+#define OC_LOGbytes(bytes, length)                                            \
+  do {                                                                        \
+			 PRINT("DBG: " __FILE__  "<%s:%d>: " , __func__, __LINE__);                   \
+			 uint16_t i;                                                             \
+      for (i = 0; i < (uint16_t)length; i++)                                            \
+        PRINT(" %02X", bytes[i]);                                             \
+      PRINT("\r\n");                                                          \
+  } while (0)
 #else  /* ! __ANDROID */
 #define OC_LOG(level, ...)                                                     \
   do {                                                                         \
@@ -185,7 +222,7 @@ extern "C"
   do {                                                                         \
     PRINT("DEBUG: %s <%s:%d>: ", __FILE__, __func__, __LINE__);                \
     uint16_t i;                                                                \
-    for (i = 0; i < length; i++)                                               \
+    for (i = 0; i < (uint16_t)length; i++)                                               \
       PRINT(" %02X", bytes[i]);                                                \
     PRINT("\n");                                                               \
   } while (0)
