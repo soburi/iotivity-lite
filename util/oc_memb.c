@@ -66,7 +66,7 @@ _oc_memb_alloc(
     return NULL;
   }
 
-  int i = m->num;
+  unsigned int i = m->num;
   void *ptr = NULL;
   if (m->num > 0) {
     for (i = 0; i < m->num; i++) {
@@ -125,7 +125,7 @@ _oc_memb_free(
   oc_mem_trace_add_pace(func, m->size, MEM_TRACE_FREE, ptr);
 #endif
 
-  int i = m->num;
+  unsigned int i = m->num;
   char *ptr2 = NULL;
   if (m->num > 0) {
     /* Walk through the list of blocks and try to find the block to
@@ -173,7 +173,7 @@ int oc_memb_inmemb(struct oc_memb * m, void *ptr)
 int
 oc_memb_numfree(struct oc_memb *m)
 {
-  int i;
+  unsigned int i;
   int num_free = 0;
 
   for (i = 0; i < m->num; ++i) {
