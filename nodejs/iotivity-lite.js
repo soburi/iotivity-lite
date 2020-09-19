@@ -120,3 +120,22 @@ console.dir(y.rowneruuid.id);
 
 console.dir(iotivity_lite.oc_clock_init);
 iotivity_lite.oc_clock_init();
+
+uuid = new iotivity_lite.OCUuid();
+console.log(uuid.id);
+newid  = new Uint8Array(16);
+console.log(x);
+console.log(uuid.id);
+console.dir(newid);
+console.log(uuid.id);
+
+main = new iotivity_lite.OCMain();
+
+init_func = function() { console.log("init_func"); return 0; }
+eventloop_func = function() { console.log("eventloop"); return 0; }
+regres_func = function() { console.log("regres"); return 0; }
+reqent_func = function() { console.log("reqent"); return 0; }
+
+handler = new iotivity_lite.OCHandler(init_func, eventloop_func, regres_func, reqent_func);
+
+main.main_init(null);

@@ -103,6 +103,8 @@
 #include "OCClientResponse.h"
 #include "OCResponseBuffer.h"
 #include "OCSeparateResponse.h"
+#include "OCMain.h"
+#include "OCHandler.h"
 
 %}
 
@@ -255,3 +257,6 @@
 %include OCClientResponse.h
 %include OCResponseBuffer.h
 %include OCSeparateResponse.h
+
+%include OCMain.h
+%include OCHandler.h
