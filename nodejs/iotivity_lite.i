@@ -63,9 +63,13 @@
 #include "OCCredUsage.h"
 #include "OCDiscoveryFlags.h"
 #include "OCEncoding.h"
+#include "OCEventCallbackResult.h"
 #include "OCFVersion.h"
 #include "OCMethod.h"
 #include "OCPositionDescription.h"
+#include "OCSessionState.h"
+#include "OCStatus.h"
+#include "OCSoftwareUpdateResult.h"
 #include "OCQos.h"
 
 %}
@@ -129,11 +133,8 @@
 %rename(OCArray) oc_mmem;
 %rename(OCClientCallback) oc_client_cb_t;
 %rename(OCClientResponse) oc_client_response_t;
-%rename(OCEventCallbackResult) oc_event_callback_retval_t;
 %rename(OCResponseBuffer) oc_response_buffer_s;
 %rename(OCSeparateResponse) oc_separate_response_s;
-%rename(OCSessionState) oc_session_state_t;
-%rename(OCStatus) oc_status_t;
 %rename(OCType) oc_rep_value_type_t;
 %rename(OCValue) oc_rep_value;
 
@@ -204,8 +205,12 @@
 %include OCCredUsage.h
 %include OCDiscoveryFlags.h
 %include OCEncoding.h
+%include OCEventCallbackResult.h
 %include OCFVersion.h
 %include OCMethod.h
 %include OCPositionDescription.h
+%include OCSessionState.h
+%include OCStatus.h
+%include OCSoftwareUpdateResult.h
 %include OCQos.h
 
