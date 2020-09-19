@@ -70,6 +70,7 @@
 #include "OCSessionState.h"
 #include "OCStatus.h"
 #include "OCSoftwareUpdateResult.h"
+#include "OCType.h"
 #include "OCQos.h"
 
 %}
@@ -116,11 +117,6 @@
 %rename(OCCreds) oc_sec_creds_t;
 %rename(OCAceResource) oc_ace_res_t;
 %rename(OCSecurityAce) oc_sec_ace_t;
-/*%rename(XXX) oc_event_callback;*/
-/*%rename(XXX) oc_blockwise_state_t;*/
-/*%rename(XXX) oc_blockwise_request_state_t;*/
-/*%rename(XXX) oc_blockwise_response_state_t;*/
-
 %rename(OCSecurityAcl) oc_sec_acl_s;
 %rename(OCRepresentation) oc_rep_s;
 %rename(OCLink) oc_link_s;
@@ -135,8 +131,26 @@
 %rename(OCClientResponse) oc_client_response_t;
 %rename(OCResponseBuffer) oc_response_buffer_s;
 %rename(OCSeparateResponse) oc_separate_response_s;
-%rename(OCType) oc_rep_value_type_t;
 %rename(OCValue) oc_rep_value;
+
+%ignore OCAceConnectionType::operator=;
+%ignore OCAceSubjectType::operator=;
+%ignore OCAceWildcard::operator=;
+%ignore OCCloudError::operator=;
+%ignore OCCloudPrivisioningStatus::operator=;
+%ignore OCCredType::operator=;
+%ignore OCCredUsage::operator=;
+%ignore OCDiscoveryFlags::operator=;
+%ignore OCEncoding::operator=;
+%ignore OCEventCallbackResult::operator=;
+%ignore OCFVersion::operator=;
+%ignore OCMethod::operator=;
+%ignore OCPositionDescription::operator=;
+%ignore OCSessionState::operator=;
+%ignore OCStatus::operator=;
+%ignore OCSoftwareUpdateResult::operator=;
+%ignore OCType::operator=;
+%ignore OCQos::operator=;
 
 %include oc_config.h
 /*
@@ -212,5 +226,5 @@
 %include OCSessionState.h
 %include OCStatus.h
 %include OCSoftwareUpdateResult.h
+%include OCType.h
 %include OCQos.h
-

@@ -8,7 +8,7 @@ public:
   };
 
   OCAceConnectionType() {}
-  operator oc_ace_connection_type_t() { return value; }
+  //operator oc_ace_connection_type_t() { return value; }
   oc_ace_connection_type_t& operator=(const oc_ace_connection_type_t& v) { value = v; return value; }
 private:
   oc_ace_connection_type_t value;
