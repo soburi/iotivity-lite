@@ -72,6 +72,37 @@
 #include "OCSoftwareUpdateResult.h"
 #include "OCType.h"
 #include "OCQos.h"
+#include "OCCloudContext.h"
+#include "OCCloudStore.h"
+#include "OCCredData.h"
+#include "OCDeviceInfo.h"
+#include "OCEndpoint.h"
+#include "OCIPv4Addr.h"
+#include "OCIPv6Addr.h"
+#include "OCLEAddr.h"
+#include "OCLinkParams.h"
+#include "OCPlatformInfo.h"
+#include "OCRep.h"
+#include "OCRequest.h"
+#include "OCRequestHandler.h"
+#include "OCResponse.h"
+#include "OCRole.h"
+#include "OCResourceType.h"
+#include "OCCred.h"
+#include "OCCreds.h"
+#include "OCAceResource.h"
+#include "OCSecurityAce.h"
+#include "OCSecurityAcl.h"
+#include "OCRepresentation.h"
+#include "OCLink.h"
+#include "OCCollection.h"
+#include "OCResource.h"
+#include "OCUuid.h"
+#include "OCArray.h"
+#include "OCClientCallback.h"
+#include "OCClientResponse.h"
+#include "OCResponseBuffer.h"
+#include "OCSeparateResponse.h"
 
 %}
 
@@ -96,42 +127,6 @@
 %ignore oc_handler_t;
 %ignore oc_properties_cb;
 %ignore oc_swupdate_cb;
-
-%rename(OCCloudContext) oc_cloud_context_t;
-%rename(OCCloudStore) oc_cloud_store_t;
-%rename(OCCredData) oc_cred_data_t;
-%rename(OCDeviceInfo) oc_device_info_t;
-%rename(OCEndpoint) oc_endpoint_t;
-%rename(OCIPv4Addr) oc_ipv4_addr_t;
-%rename(OCIPv6Addr) oc_ipv6_addr_t;
-%rename(OCLEAddr) oc_le_addr_t;
-%rename(OCLinkParams) oc_link_params_t;
-%rename(OCPlatformInfo) oc_platform_info_t;
-%rename(OCRep) oc_rep_s;
-%rename(OCRequest) oc_request_t;
-%rename(OCRequestHandler) oc_request_handler_t;
-%rename(OCResponse) oc_response_t;
-%rename(OCRole) oc_role_t;
-%rename(OCResourceType) oc_rt_t;
-%rename(OCCred) oc_sec_cred_t;
-%rename(OCCreds) oc_sec_creds_t;
-%rename(OCAceResource) oc_ace_res_t;
-%rename(OCSecurityAce) oc_sec_ace_t;
-%rename(OCSecurityAcl) oc_sec_acl_s;
-%rename(OCRepresentation) oc_rep_s;
-%rename(OCLink) oc_link_s;
-%rename(OCCollection) oc_collection_s;
-%rename(OCResource) oc_resource_s;
-%rename(OCUuid) oc_uuid_t;
-
-/*******************************************************/
-
-%rename(OCArray) oc_mmem;
-%rename(OCClientCallback) oc_client_cb_t;
-%rename(OCClientResponse) oc_client_response_t;
-%rename(OCResponseBuffer) oc_response_buffer_s;
-%rename(OCSeparateResponse) oc_separate_response_s;
-%rename(OCValue) oc_rep_value;
 
 %ignore OCAceConnectionType::operator=;
 %ignore OCAceSubjectType::operator=;
@@ -228,3 +223,35 @@
 %include OCSoftwareUpdateResult.h
 %include OCType.h
 %include OCQos.h
+
+%include OCCloudContext.h
+%include OCCloudStore.h
+%include OCCredData.h
+%include OCDeviceInfo.h
+%include OCEndpoint.h
+%include OCIPv4Addr.h
+%include OCIPv6Addr.h
+%include OCLEAddr.h
+%include OCLinkParams.h
+%include OCPlatformInfo.h
+%include OCRep.h
+%include OCRequest.h
+%include OCRequestHandler.h
+%include OCResponse.h
+%include OCRole.h
+%include OCResourceType.h
+%include OCCred.h
+%include OCCreds.h
+%include OCAceResource.h
+%include OCSecurityAce.h
+%include OCSecurityAcl.h
+%include OCRepresentation.h
+%include OCLink.h
+%include OCCollection.h
+%include OCResource.h
+%include OCUuid.h
+%include OCArray.h
+%include OCClientCallback.h
+%include OCClientResponse.h
+%include OCResponseBuffer.h
+%include OCSeparateResponse.h
