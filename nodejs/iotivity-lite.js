@@ -105,3 +105,18 @@ enums.forEach(e => {
 	}
 });
 
+
+x = new iotivity_lite.OCCredType();
+console.dir(x);
+x = 1;
+
+console.dir(x);
+y = new iotivity_lite.OCSecurityAcl();
+
+console.dir(y);
+console.dir(y.rowneruuid);
+console.dir(y.rowneruuid.id);
+console.dir(y.rowneruuid.id);
+
+console.dir(iotivity_lite.oc_clock_init);
+iotivity_lite.oc_clock_init();

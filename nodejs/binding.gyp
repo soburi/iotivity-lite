@@ -5,7 +5,8 @@
       "sources": [ 
                    "iotivity_lite_wrap.cxx"
       ],
-      "include_dirs": [ ".", "..", "../include", "../port", "../port/linux" ]
+      "include_dirs": [ ".", "..", "../include", "../port", "../port/linux" ],
+      "libraries": ['../../port/linux/libiotivity-lite-client-server.a']
     }
   ]
 }
