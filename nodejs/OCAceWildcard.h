@@ -1,6 +1,6 @@
 #include "oc_cred.h"
 
-class OCWildcard {
+class OCAceWildcard {
 public:
   enum {
     NO_WC          = OC_ACE_NO_WC,
@@ -9,7 +9,7 @@ public:
     WC_ALL_PUBLIC  = OC_ACE_WC_ALL_PUBLIC,
   };
 
-  OCWildcard() {}
+  OCAceWildcard() {}
   operator oc_ace_wildcard_t() { return value; }
   oc_ace_wildcard_t& operator=(const oc_ace_wildcard_t& v) { value = v; return value; }
 private:

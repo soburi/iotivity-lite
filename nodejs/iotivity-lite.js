@@ -22,7 +22,7 @@ enums = [
 	'OCAceSubjectType',
 	'OCAceWildcard',
 	'OCCloudError',
-	'OCCloudPrivisoningStatus',
+	'OCCloudPrivisioningStatus',
 	'OCCredType',
 	'OCCredUsage',
 	'OCDiscoveryFlags',
