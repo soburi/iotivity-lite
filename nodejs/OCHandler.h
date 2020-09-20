@@ -1,16 +1,14 @@
 #include <oc_api.h>
 
-typedef int (*init_fptr)(void);
-typedef void (*sigevent_fptr)(void);
-typedef void (*regres_fptr)(void);
-typedef void (*reqent_fptr)(void);
+typedef int (*fp_void_int)(void);
+typedef void (*fp_void_void)(void);
 
 class OCHandler : public oc_handler_t {
 public:
-  OCHandler( init_fptr init_func
-           , sigevent_fptr sigevent_func
-           , regres_fptr regres_func
-           , reqent_fptr reqent_func)
+  OCHandler( fp_void_int init_func
+           , fp_void_void sigevent_func
+           , fp_void_void regres_func
+           , fp_void_void reqent_func)
 /*
            : init(init_func)
            , signal_event_loop(sigevent_func)
@@ -26,7 +24,7 @@ public:
 #endif
 */
   {
-    init = init_func;
-    signal_event_loop = sigevent_func;
+    init = (fp_void_int)init_func;
+    signal_event_loop = (fp_void_void)sigevent_func;
   }
 };

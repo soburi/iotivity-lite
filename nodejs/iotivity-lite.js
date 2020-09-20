@@ -122,12 +122,20 @@ console.dir(iotivity_lite.oc_clock_init);
 iotivity_lite.oc_clock_init();
 
 uuid = new iotivity_lite.OCUuid();
+console.log("uuid");
 console.log(uuid.id);
-newid  = new Uint8Array(16);
+newid  = new Buffer(16);
+//uuid.id = newid;
 console.log(x);
 console.log(uuid.id);
 console.dir(newid);
 console.log(uuid.id);
+
+ep = iotivity_lite.oc_new_endpoint();
+
+console.dir(ep);
+
+iotivity_lite.oc_free_endpoint(ep);
 
 main = new iotivity_lite.OCMain();
 

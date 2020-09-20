@@ -1,5 +1,6 @@
 %module iotivity_lite
 %include "typemaps.i"
+%include "arrays_javascript.i"
 
 %{
 #include "oc_config.h"
@@ -105,7 +106,7 @@
 #include "OCSeparateResponse.h"
 #include "OCMain.h"
 #include "OCHandler.h"
-
+#include "TypeMapping.h"
 %}
 
 
@@ -130,6 +131,9 @@
 %ignore oc_properties_cb;
 %ignore oc_swupdate_cb;
 
+%ignore oc_collection_s;
+%ignore oc_resource_s;
+
 %ignore OCAceConnectionType::operator=;
 %ignore OCAceSubjectType::operator=;
 %ignore OCAceWildcard::operator=;
@@ -149,6 +153,21 @@
 %ignore OCType::operator=;
 %ignore OCQos::operator=;
 
+
+%typemap(in) fp_void_int {
+  $1 = v8func_passthrough($input);
+}
+
+/*
+%ignore OCHandler(fp_void_int, fp_void_void, fp_void_void, fp_void_void);
+
+%native(new_OCHandler) SwigV8ReturnValue new_ochandler(const SwigV8Arguments *args);
+%{
+static SwigV8ReturnValue new_ochandler(const SwigV8Arguments &args) {
+  SWIGV8_RETURN(SWIGV8_UNDEFINED());
+}
+%}
+*/
 %include oc_config.h
 /*
 %include util/pt/lc-switch.h
