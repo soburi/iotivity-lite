@@ -12,6 +12,11 @@ function IotivityLite(name) {
     console.dir(_addonInstance);
     console.dir(_addonInstance.device);
     console.dir(_addonInstance.di);
+    var _ipv4 = new addon.OCIPv4Addr();
+    console.dir(_ipv4);
+    var _endpointdevaddr = new addon.OCEndpointDevAddr();
+    console.dir(_endpointdevaddr );
+    console.dir(_endpointdevaddr.ipv4 );
 }
 
 module.exports = IotivityLite;

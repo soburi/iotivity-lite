@@ -2,7 +2,80 @@
 
 using namespace Napi;
 
+Napi::FunctionReference OCIPv4Addr::constructor;
+
+OCIPv4Addr::OCIPv4Addr(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  printf("OCIPv4Addr\n");
+  if (info.Length() == 0) {
+     value = new oc_ipv4_addr_t();
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     printf("IsExternal\n");
+     value = new oc_ipv4_addr_t();
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+
+Napi::Function OCIPv4Addr::GetClass(Napi::Env env) {
+  Napi::Function func = DefineClass(env, "OCIPv4Addr", {
+    //OCIPv4Addr::InstanceAccessor("addr", &OCIPv4Addr::get_address, &OCIPv4Addr::set_address),
+    OCIPv4Addr::InstanceAccessor("port", &OCIPv4Addr::get_port, &OCIPv4Addr::set_port),
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+
+//  Napi::Value OCIPv4Addr::get_address(const Napi::CallbackInfo& info);
+//         void OCIPv4Addr::set_address(const Napi::CallbackInfo& infor, const Napi::Value&);
+
+Napi::Value OCIPv4Addr::get_port(const Napi::CallbackInfo& info)
+{
+    return Napi::Number::New(info.Env(), value->port);
+}
+void OCIPv4Addr::set_port(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  this->value->port = (uint32_t)info[0].As<Napi::Number>();
+}
+
+
 Napi::FunctionReference OCUuid::constructor;
+
+
+OCEndpointDevAddr::OCEndpointDevAddr(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  printf("OCIPv4Addr\n");
+  value = new oc_endpoint_t::dev_addr();
+}
+Napi::Function OCEndpointDevAddr::GetClass(Napi::Env env)
+{
+  Napi::Function func = DefineClass(env, "OCEndpointDevAddr", {
+    OCEndpointDevAddr::InstanceAccessor("ipv4", &OCEndpointDevAddr::get_ipv4, &OCEndpointDevAddr::set_ipv4),
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+
+Napi::FunctionReference OCEndpointDevAddr::constructor;
+
+Napi::Value OCEndpointDevAddr::get_ipv4(const Napi::CallbackInfo& info)
+{
+  Napi::External<oc_ipv4_addr_t>  accessor = Napi::External<oc_ipv4_addr_t>::New(info.Env(), &value->ipv4);
+  return OCIPv4Addr::constructor.New({accessor});
+}
+void OCEndpointDevAddr::set_ipv4(const Napi::CallbackInfo&, const Napi::Value&)
+{
+}
+
 
 OCUuid::OCUuid(const Napi::CallbackInfo& info) : ObjectWrap(info) {
 	printf("OCUuid\n");
@@ -98,7 +171,7 @@ void IotivityLite::SetDevice(const Napi::CallbackInfo& info, const Napi::Value& 
 
 Napi::Value IotivityLite::GetDi(const Napi::CallbackInfo& info) {
     printf("GetDi\n");
-    Napi::Env env = info.Env();
+    //Napi::Env env = info.Env();
     //Object obj = Object::New(env);
     //OCUuid* uuid = new OCUuid(env, obj);
     return OCUuid::constructor.New({});
@@ -112,10 +185,10 @@ void IotivityLite::SetDi(const Napi::CallbackInfo& info, const Napi::Value& val)
 
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-    Napi::String name = Napi::String::New(env, "IotivityLite");
-    exports.Set(name, IotivityLite::GetClass(env));
-    Napi::String name2 = Napi::String::New(env, "OCUuid");
-    exports.Set(name2, OCUuid::GetClass(env));
+    exports.Set("IotivityLite", IotivityLite::GetClass(env));
+    exports.Set("OCUuid", OCUuid::GetClass(env));
+    exports.Set("OCIPv4Addr", OCIPv4Addr::GetClass(env));
+    exports.Set("OCEndpointDevAddr", OCEndpointDevAddr::GetClass(env));
     return exports;
 }
 
