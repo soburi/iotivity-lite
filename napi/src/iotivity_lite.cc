@@ -6,13 +6,11 @@ Napi::FunctionReference OCIPv4Addr::constructor;
 
 OCIPv4Addr::OCIPv4Addr(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
-  printf("OCIPv4Addr\n");
   if (info.Length() == 0) {
-     value = new oc_ipv4_addr_t();
+     m_pvalue = shared_ptr<oc_ipv4_addr_t>(new oc_ipv4_addr_t());
   }
   else if (info.Length() == 1 && info[0].IsExternal() ) {
-     printf("IsExternal\n");
-     value = new oc_ipv4_addr_t();
+     m_pvalue = *(info[0].As<External<shared_ptr<oc_ipv4_addr_t>>>().Data());
   }
   else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -21,7 +19,7 @@ OCIPv4Addr::OCIPv4Addr(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 
 Napi::Function OCIPv4Addr::GetClass(Napi::Env env) {
-  Napi::Function func = DefineClass(env, "OCIPv4Addr", {
+  auto func = DefineClass(env, "OCIPv4Addr", {
     //OCIPv4Addr::InstanceAccessor("addr", &OCIPv4Addr::get_address, &OCIPv4Addr::set_address),
     OCIPv4Addr::InstanceAccessor("port", &OCIPv4Addr::get_port, &OCIPv4Addr::set_port),
   });
@@ -32,16 +30,23 @@ Napi::Function OCIPv4Addr::GetClass(Napi::Env env) {
   return func;
 }
 
-//  Napi::Value OCIPv4Addr::get_address(const Napi::CallbackInfo& info);
-//         void OCIPv4Addr::set_address(const Napi::CallbackInfo& infor, const Napi::Value&);
+Napi::Value OCIPv4Addr::get_address(const Napi::CallbackInfo& info)
+{
+   auto array = Napi::Uint8Array::New(info.Env(), 4);
+   array[0] = m_pvalue->address[0];
+   array[1] = m_pvalue->address[1];
+   array[2] = m_pvalue->address[2];
+   array[3] = m_pvalue->address[3];
+   return array;
+}
 
 Napi::Value OCIPv4Addr::get_port(const Napi::CallbackInfo& info)
 {
-    return Napi::Number::New(info.Env(), value->port);
+  return Napi::Number::New(info.Env(), m_pvalue->port);
 }
 void OCIPv4Addr::set_port(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-  this->value->port = (uint32_t)info[0].As<Napi::Number>();
+  this->m_pvalue->port = (uint32_t)info[0].As<Napi::Number>();
 }
 
 
@@ -51,11 +56,11 @@ Napi::FunctionReference OCUuid::constructor;
 OCEndpointDevAddr::OCEndpointDevAddr(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   printf("OCIPv4Addr\n");
-  value = new oc_endpoint_t::dev_addr();
+  m_pvalue = shared_ptr<oc_endpoint_t::dev_addr>(new oc_endpoint_t::dev_addr());
 }
 Napi::Function OCEndpointDevAddr::GetClass(Napi::Env env)
 {
-  Napi::Function func = DefineClass(env, "OCEndpointDevAddr", {
+  auto func = DefineClass(env, "OCEndpointDevAddr", {
     OCEndpointDevAddr::InstanceAccessor("ipv4", &OCEndpointDevAddr::get_ipv4, &OCEndpointDevAddr::set_ipv4),
   });
 
@@ -69,11 +74,13 @@ Napi::FunctionReference OCEndpointDevAddr::constructor;
 
 Napi::Value OCEndpointDevAddr::get_ipv4(const Napi::CallbackInfo& info)
 {
-  Napi::External<oc_ipv4_addr_t>  accessor = Napi::External<oc_ipv4_addr_t>::New(info.Env(), &value->ipv4);
+  shared_ptr<oc_ipv4_addr_t> sp(&m_pvalue->ipv4);
+  auto accessor = Napi::External<shared_ptr<oc_ipv4_addr_t>>::New(info.Env(), &sp);
   return OCIPv4Addr::constructor.New({accessor});
 }
-void OCEndpointDevAddr::set_ipv4(const Napi::CallbackInfo&, const Napi::Value&)
+void OCEndpointDevAddr::set_ipv4(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
+  m_pvalue->ipv4 = *(*(value.As<External<shared_ptr<oc_ipv4_addr_t>>>().Data()));
 }
 
 

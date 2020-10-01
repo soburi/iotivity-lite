@@ -17,6 +17,8 @@ function IotivityLite(name) {
     var _endpointdevaddr = new addon.OCEndpointDevAddr();
     console.dir(_endpointdevaddr );
     console.dir(_endpointdevaddr.ipv4 );
+    console.dir(_endpointdevaddr.ipv4.port );
+    console.log("-----------------------------");
 }
 
 module.exports = IotivityLite;
