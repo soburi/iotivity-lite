@@ -30,12 +30,12 @@ using namespace std;
 }
 */
 
-class OCIPv4Addr : public Napi::ObjectWrap<OCIPv4Addr>
+class XOCIPv4Addr : public Napi::ObjectWrap<XOCIPv4Addr>
 {
 friend Napi::Object Init(Napi::Env env, Napi::Object exports);
 public:
   static Napi::FunctionReference constructor;
-  OCIPv4Addr(const Napi::CallbackInfo&);
+  XOCIPv4Addr(const Napi::CallbackInfo&);
 
 private:
   static Napi::Function GetClass(Napi::Env);
@@ -47,13 +47,13 @@ private:
   //oc_ipv4_addr_t* value; //to be smart!
 };
 
-class OCEndpointDevAddr : public Napi::ObjectWrap<OCEndpointDevAddr>
+class XOCEndpointDevAddr : public Napi::ObjectWrap<XOCEndpointDevAddr>
 {
 friend Napi::Object Init(Napi::Env env, Napi::Object exports);
 
 public:
   static Napi::FunctionReference constructor;
-  OCEndpointDevAddr(const Napi::CallbackInfo&);
+  XOCEndpointDevAddr(const Napi::CallbackInfo&);
 
 private:
   Napi::Value get_ipv4(const Napi::CallbackInfo&);
@@ -66,10 +66,10 @@ private:
   //oc_endpoint_t::dev_addr *value; //to be smart!
 };
 
-class OCUuid: public Napi::ObjectWrap<OCUuid>
+class XOCUuid: public Napi::ObjectWrap<XOCUuid>
 {
 public:
-    OCUuid(const Napi::CallbackInfo&);
+    XOCUuid(const Napi::CallbackInfo&);
     static Napi::Function GetClass(Napi::Env);
     static Napi::FunctionReference constructor;
 
@@ -83,6 +83,8 @@ public:
     IotivityLite(const Napi::CallbackInfo&);
     Napi::Value Greet(const Napi::CallbackInfo&);
 
+    Napi::Value Callback(const Napi::CallbackInfo&);
+
     Napi::Value GetDevice(const Napi::CallbackInfo&);
     void SetDevice(const Napi::CallbackInfo&, const Napi::Value&);
 
@@ -90,6 +92,7 @@ public:
     void SetDi(const Napi::CallbackInfo&, const Napi::Value&);
 
     static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference callback_helper;
 
 private:
     std::string _greeterName;

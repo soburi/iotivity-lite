@@ -2,9 +2,9 @@
 
 using namespace Napi;
 
-Napi::FunctionReference OCIPv4Addr::constructor;
+Napi::FunctionReference XOCIPv4Addr::constructor;
 
-OCIPv4Addr::OCIPv4Addr(const Napi::CallbackInfo& info) : ObjectWrap(info)
+XOCIPv4Addr::XOCIPv4Addr(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = shared_ptr<oc_ipv4_addr_t>(new oc_ipv4_addr_t());
@@ -18,10 +18,10 @@ OCIPv4Addr::OCIPv4Addr(const Napi::CallbackInfo& info) : ObjectWrap(info)
   }
 }
 
-Napi::Function OCIPv4Addr::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCIPv4Addr", {
-    //OCIPv4Addr::InstanceAccessor("addr", &OCIPv4Addr::get_address, &OCIPv4Addr::set_address),
-    OCIPv4Addr::InstanceAccessor("port", &OCIPv4Addr::get_port, &OCIPv4Addr::set_port),
+Napi::Function XOCIPv4Addr::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "XOCIPv4Addr", {
+    //XOCIPv4Addr::InstanceAccessor("addr", &XOCIPv4Addr::get_address, &XOCIPv4Addr::set_address),
+    XOCIPv4Addr::InstanceAccessor("port", &XOCIPv4Addr::get_port, &XOCIPv4Addr::set_port),
   });
 
   constructor = Napi::Persistent(func);
@@ -30,7 +30,7 @@ Napi::Function OCIPv4Addr::GetClass(Napi::Env env) {
   return func;
 }
 
-Napi::Value OCIPv4Addr::get_address(const Napi::CallbackInfo& info)
+Napi::Value XOCIPv4Addr::get_address(const Napi::CallbackInfo& info)
 {
    auto array = Napi::Uint8Array::New(info.Env(), 4);
    array[0] = m_pvalue->address[0];
@@ -40,28 +40,28 @@ Napi::Value OCIPv4Addr::get_address(const Napi::CallbackInfo& info)
    return array;
 }
 
-Napi::Value OCIPv4Addr::get_port(const Napi::CallbackInfo& info)
+Napi::Value XOCIPv4Addr::get_port(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->port);
 }
-void OCIPv4Addr::set_port(const Napi::CallbackInfo& info, const Napi::Value& value)
+void XOCIPv4Addr::set_port(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   this->m_pvalue->port = (uint32_t)info[0].As<Napi::Number>();
 }
 
 
-Napi::FunctionReference OCUuid::constructor;
+Napi::FunctionReference XOCUuid::constructor;
 
 
-OCEndpointDevAddr::OCEndpointDevAddr(const Napi::CallbackInfo& info) : ObjectWrap(info)
+XOCEndpointDevAddr::XOCEndpointDevAddr(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
-  printf("OCIPv4Addr\n");
+  printf("XOCIPv4Addr\n");
   m_pvalue = shared_ptr<oc_endpoint_t::dev_addr>(new oc_endpoint_t::dev_addr());
 }
-Napi::Function OCEndpointDevAddr::GetClass(Napi::Env env)
+Napi::Function XOCEndpointDevAddr::GetClass(Napi::Env env)
 {
-  auto func = DefineClass(env, "OCEndpointDevAddr", {
-    OCEndpointDevAddr::InstanceAccessor("ipv4", &OCEndpointDevAddr::get_ipv4, &OCEndpointDevAddr::set_ipv4),
+  auto func = DefineClass(env, "XOCEndpointDevAddr", {
+    XOCEndpointDevAddr::InstanceAccessor("ipv4", &XOCEndpointDevAddr::get_ipv4, &XOCEndpointDevAddr::set_ipv4),
   });
 
   constructor = Napi::Persistent(func);
@@ -70,30 +70,30 @@ Napi::Function OCEndpointDevAddr::GetClass(Napi::Env env)
   return func;
 }
 
-Napi::FunctionReference OCEndpointDevAddr::constructor;
+Napi::FunctionReference XOCEndpointDevAddr::constructor;
 
-Napi::Value OCEndpointDevAddr::get_ipv4(const Napi::CallbackInfo& info)
+Napi::Value XOCEndpointDevAddr::get_ipv4(const Napi::CallbackInfo& info)
 {
   shared_ptr<oc_ipv4_addr_t> sp(&m_pvalue->ipv4);
   auto accessor = Napi::External<shared_ptr<oc_ipv4_addr_t>>::New(info.Env(), &sp);
-  return OCIPv4Addr::constructor.New({accessor});
+  return XOCIPv4Addr::constructor.New({accessor});
 }
-void OCEndpointDevAddr::set_ipv4(const Napi::CallbackInfo& info, const Napi::Value& value)
+void XOCEndpointDevAddr::set_ipv4(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->ipv4 = *(*(value.As<External<shared_ptr<oc_ipv4_addr_t>>>().Data()));
 }
 
 
-OCUuid::OCUuid(const Napi::CallbackInfo& info) : ObjectWrap(info) {
-	printf("OCUuid\n");
+XOCUuid::XOCUuid(const Napi::CallbackInfo& info) : ObjectWrap(info) {
+	printf("XOCUuid\n");
 }
 /*
-OCUuid::OCUuid(const Napi::Env& env, Napi::Object& wrapper) {
+XOCUuid::XOCUuid(const Napi::Env& env, Napi::Object& wrapper) {
   //napi_env env = callbackInfo.Env();
   //napi_value wrapper = callbackInfo.This();
   napi_status status;
   napi_ref ref;
-  OCUuid* instance = static_cast<OCUuid*>(this);
+  XOCUuid* instance = static_cast<XOCUuid*>(this);
   status = napi_wrap(env, wrapper, instance, MyFinalizeCallback, nullptr, &ref);
   NAPI_THROW_IF_FAILED_VOID(env, status);
 
@@ -102,8 +102,8 @@ OCUuid::OCUuid(const Napi::Env& env, Napi::Object& wrapper) {
 }
 */
 
-Napi::Function OCUuid::GetClass(Napi::Env env) {
-    Napi::Function func = DefineClass(env, "OCUuid", {
+Napi::Function XOCUuid::GetClass(Napi::Env env) {
+    Napi::Function func = DefineClass(env, "XOCUuid", {
 		    });
 
     constructor = Napi::Persistent(func);
@@ -130,8 +130,22 @@ IotivityLite::IotivityLite(const Napi::CallbackInfo& info) : ObjectWrap(info) {
         return;
     }
 
-    //OCUuid* uuid = new OCUuid(info);
+    //XOCUuid* uuid = new XOCUuid(info);
     this->_greeterName = info[0].As<Napi::String>().Utf8Value();
+}
+
+Napi::FunctionReference IotivityLite::callback_helper;
+
+Napi::Value IotivityLite::Callback(const Napi::CallbackInfo& info) {
+
+	Napi::Function func = info[0].As<Napi::Function>();
+
+	IotivityLite::callback_helper = Napi::Persistent(func);
+	IotivityLite::callback_helper.SuppressDestruct();
+
+	callback_helper.Call({});
+
+	return info.Env().Null();
 }
 
 Napi::Value IotivityLite::Greet(const Napi::CallbackInfo& info) {
@@ -162,13 +176,14 @@ Napi::Function IotivityLite::GetClass(Napi::Env env) {
         IotivityLite::InstanceAccessor("device", &IotivityLite::GetDevice, &IotivityLite::SetDevice),
         IotivityLite::InstanceAccessor("di", &IotivityLite::GetDi, &IotivityLite::SetDi),
         IotivityLite::InstanceAccessor("greet", &IotivityLite::Greet, nullptr),
+        IotivityLite::InstanceMethod("callback", &IotivityLite::Callback),
     });
 }
 
 Napi::Value IotivityLite::GetDevice(const Napi::CallbackInfo& info) {
     printf("GetDevice\n");
     Napi::Env env = info.Env();
-    //OCUuid* uuid = new OCUuid(info);
+    //XOCUuid* uuid = new XOCUuid(info);
     return Napi::Number::New(env, endpoint.device);
 }
 
@@ -180,8 +195,8 @@ Napi::Value IotivityLite::GetDi(const Napi::CallbackInfo& info) {
     printf("GetDi\n");
     //Napi::Env env = info.Env();
     //Object obj = Object::New(env);
-    //OCUuid* uuid = new OCUuid(env, obj);
-    return OCUuid::constructor.New({});
+    //XOCUuid* uuid = new XOCUuid(env, obj);
+    return XOCUuid::constructor.New({});
     //return Napi::Number::New(env, 0);
 }
 
@@ -193,9 +208,9 @@ void IotivityLite::SetDi(const Napi::CallbackInfo& info, const Napi::Value& val)
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("IotivityLite", IotivityLite::GetClass(env));
-    exports.Set("OCUuid", OCUuid::GetClass(env));
-    exports.Set("OCIPv4Addr", OCIPv4Addr::GetClass(env));
-    exports.Set("OCEndpointDevAddr", OCEndpointDevAddr::GetClass(env));
+    exports.Set("XOCUuid", XOCUuid::GetClass(env));
+    exports.Set("XOCIPv4Addr", XOCIPv4Addr::GetClass(env));
+    exports.Set("XOCEndpointDevAddr", XOCEndpointDevAddr::GetClass(env));
     return exports;
 }
 

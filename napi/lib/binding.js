@@ -9,6 +9,13 @@ function IotivityLite(name) {
 	            set device(x) { _addonInstance.device(x); } }
 */
     var _addonInstance = new addon.IotivityLite(name);
+
+	var f = function(num) {
+		console.log("---" + num);
+	}
+
+	_addonInstance.callback(f)
+
     console.dir(_addonInstance);
     console.dir(_addonInstance.device);
     console.dir(_addonInstance.di);
