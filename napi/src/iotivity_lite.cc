@@ -1,5 +1,5 @@
 #include "iotivity_lite.h"
-
+#include "structs.h"
 using namespace Napi;
 
 Napi::FunctionReference XOCIPv4Addr::constructor;
@@ -208,9 +208,9 @@ void IotivityLite::SetDi(const Napi::CallbackInfo& info, const Napi::Value& val)
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("IotivityLite", IotivityLite::GetClass(env));
-    exports.Set("XOCUuid", XOCUuid::GetClass(env));
-    exports.Set("XOCIPv4Addr", XOCIPv4Addr::GetClass(env));
-    exports.Set("XOCEndpointDevAddr", XOCEndpointDevAddr::GetClass(env));
+    exports.Set("OCUuid", OCUuid::GetClass(env));
+    exports.Set("OCIPv4Addr", OCIPv4Addr::GetClass(env));
+    exports.Set("DevAddr", DevAddr::GetClass(env));
     return exports;
 }
 

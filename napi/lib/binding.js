@@ -17,11 +17,11 @@ function IotivityLite(name) {
 	_addonInstance.callback(f)
 
     console.dir(_addonInstance);
-    console.dir(_addonInstance.device);
-    console.dir(_addonInstance.di);
+    //console.dir(_addonInstance.device);
+    //console.dir(_addonInstance.di);
     var _ipv4 = new addon.OCIPv4Addr();
     console.dir(_ipv4);
-    var _endpointdevaddr = new addon.OCEndpointDevAddr();
+    var _endpointdevaddr = new addon.DevAddr();
     console.dir(_endpointdevaddr );
     console.dir(_endpointdevaddr.ipv4 );
     console.dir(_endpointdevaddr.ipv4.port );

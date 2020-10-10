@@ -1,6 +1,6 @@
 #include "functions.h"
 Napi::Value N_oc_assert_all_roles(const Napi::CallbackInfo& info) {
-  OCEndpoint endpoint = info[0].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[0]);
   oc_response_handler_t handler = nullptr;
   Napi::Function handler_ = info[1].As<Napi::Function>();
   void* user_data = info[2];
@@ -11,7 +11,7 @@ Napi::Value N_oc_assert_all_roles(const Napi::CallbackInfo& info) {
 Napi::Value N_oc_assert_role(const Napi::CallbackInfo& info) {
   const char* role = info[0].As<Napi::String>().Utf8Value().c_str();
   const char* authority = info[1].As<Napi::String>().Utf8Value().c_str();
-  OCEndpoint endpoint = info[2].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[2]);
   oc_response_handler_t handler = nullptr;
   Napi::Function handler_ = info[3].As<Napi::Function>();
   void* user_data = info[4];
@@ -31,14 +31,14 @@ Napi::Value N_oc_get_all_roles(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_close_session(const Napi::CallbackInfo& info) {
-  OCEndpoint endpoint = info[0].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[0]);
   (void)oc_close_session(endpoint);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_do_delete(const Napi::CallbackInfo& info) {
   const char* uri = info[0].As<Napi::String>().Utf8Value().c_str();
-  OCEndpoint endpoint = info[1].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[1]);
   const char* query = info[2].As<Napi::String>().Utf8Value().c_str();
   oc_response_handler_t handler = nullptr;
   Napi::Function handler_ = info[3].As<Napi::Function>();
@@ -49,7 +49,7 @@ Napi::Value N_oc_do_delete(const Napi::CallbackInfo& info) {
 
 Napi::Value N_oc_do_get(const Napi::CallbackInfo& info) {
   const char* uri = info[0].As<Napi::String>().Utf8Value().c_str();
-  OCEndpoint endpoint = info[1].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[1]);
   const char* query = info[2].As<Napi::String>().Utf8Value().c_str();
   oc_response_handler_t handler = nullptr;
   Napi::Function handler_ = info[3].As<Napi::Function>();
@@ -76,7 +76,7 @@ Napi::Value N_oc_do_ip_discovery_all(const Napi::CallbackInfo& info) {
 Napi::Value N_oc_do_ip_discovery_all_at_endpoint(const Napi::CallbackInfo& info) {
   oc_discovery_all_handler_t handler = nullptr;
   Napi::Function handler_ = info[0].As<Napi::Function>();
-  OCEndpoint endpoint = info[1].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[1]);
   void* user_data = info[2];
   return Napi::Boolean::New(info.Env(), oc_do_ip_discovery_all_at_endpoint(handler, endpoint, user_data));
 }
@@ -85,7 +85,7 @@ Napi::Value N_oc_do_ip_discovery_at_endpoint(const Napi::CallbackInfo& info) {
   const char* rt = info[0].As<Napi::String>().Utf8Value().c_str();
   oc_discovery_handler_t handler = nullptr;
   Napi::Function handler_ = info[1].As<Napi::Function>();
-  OCEndpoint endpoint = info[2].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[2]);
   void* user_data = info[3];
   return Napi::Boolean::New(info.Env(), oc_do_ip_discovery_at_endpoint(rt, handler, endpoint, user_data));
 }
@@ -101,7 +101,7 @@ Napi::Value N_oc_do_ip_multicast(const Napi::CallbackInfo& info) {
 
 Napi::Value N_oc_do_observe(const Napi::CallbackInfo& info) {
   const char* uri = info[0].As<Napi::String>().Utf8Value().c_str();
-  OCEndpoint endpoint = info[1].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[1]);
   const char* query = info[2].As<Napi::String>().Utf8Value().c_str();
   oc_response_handler_t handler = nullptr;
   Napi::Function handler_ = info[3].As<Napi::Function>();
@@ -167,14 +167,14 @@ Napi::Value N_oc_do_site_local_ipv6_multicast(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_free_server_endpoints(const Napi::CallbackInfo& info) {
-  OCEndpoint endpoint = info[0].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[0]);
   (void)oc_free_server_endpoints(endpoint);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_init_post(const Napi::CallbackInfo& info) {
   const char* uri = info[0].As<Napi::String>().Utf8Value().c_str();
-  OCEndpoint endpoint = info[1].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[1]);
   const char* query = info[2].As<Napi::String>().Utf8Value().c_str();
   oc_response_handler_t handler = nullptr;
   Napi::Function handler_ = info[3].As<Napi::Function>();
@@ -185,7 +185,7 @@ Napi::Value N_oc_init_post(const Napi::CallbackInfo& info) {
 
 Napi::Value N_oc_init_put(const Napi::CallbackInfo& info) {
   const char* uri = info[0].As<Napi::String>().Utf8Value().c_str();
-  OCEndpoint endpoint = info[1].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[1]);
   const char* query = info[2].As<Napi::String>().Utf8Value().c_str();
   oc_response_handler_t handler = nullptr;
   Napi::Function handler_ = info[3].As<Napi::Function>();
@@ -195,38 +195,38 @@ Napi::Value N_oc_init_put(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_stop_multicast(const Napi::CallbackInfo& info) {
-  OCClientResponse response = info[0].As<OCClientResponse>();
+  oc_client_response_t* response;// = dynamic_cast<OCClientResponse>(info[0]);
   (void)oc_stop_multicast(response);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_stop_observe(const Napi::CallbackInfo& info) {
   const char* uri = info[0].As<Napi::String>().Utf8Value().c_str();
-  OCEndpoint endpoint = info[1].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[1]);
   return Napi::Boolean::New(info.Env(), oc_stop_observe(uri, endpoint));
 }
 
 Napi::Value N_oc_add_collection(const Napi::CallbackInfo& info) {
-  OCResource collection = info[0].As<OCResource>();
+  oc_resource_s* collection;// = dynamic_cast<OCResource>(info[0]);
   (void)oc_add_collection(collection);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_collection_add_link(const Napi::CallbackInfo& info) {
-  OCResource collection = info[0].As<OCResource>();
-  OCLink link = info[1].As<OCLink>();
+  oc_resource_s* collection;// = dynamic_cast<OCResource>(info[0]);
+  oc_link_s* link;// = dynamic_cast<OCLink>(info[1]);
   (void)oc_collection_add_link(collection, link);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_collection_add_mandatory_rt(const Napi::CallbackInfo& info) {
-  OCResource collection = info[0].As<OCResource>();
+  oc_resource_s* collection;// = dynamic_cast<OCResource>(info[0]);
   const char* rt = info[1].As<Napi::String>().Utf8Value().c_str();
   return Napi::Boolean::New(info.Env(), oc_collection_add_mandatory_rt(collection, rt));
 }
 
 Napi::Value N_oc_collection_add_supported_rt(const Napi::CallbackInfo& info) {
-  OCResource collection = info[0].As<OCResource>();
+  oc_resource_s* collection;// = dynamic_cast<OCResource>(info[0]);
   const char* rt = info[1].As<Napi::String>().Utf8Value().c_str();
   return Napi::Boolean::New(info.Env(), oc_collection_add_supported_rt(collection, rt));
 }
@@ -238,33 +238,33 @@ Napi::Value N_oc_collection_get_collections(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_collection_get_links(const Napi::CallbackInfo& info) {
-  OCResource collection = info[0].As<OCResource>();
+  oc_resource_s* collection;// = dynamic_cast<OCResource>(info[0]);
   std::shared_ptr<oc_link_t> sp(oc_collection_get_links(collection));
   auto args = Napi::External<std::shared_ptr<oc_link_t>>::New(info.Env(), &sp);
   return OCLink::constructor.New({args});
 }
 
 Napi::Value N_oc_collection_remove_link(const Napi::CallbackInfo& info) {
-  OCResource collection = info[0].As<OCResource>();
-  OCLink link = info[1].As<OCLink>();
+  oc_resource_s* collection;// = dynamic_cast<OCResource>(info[0]);
+  oc_link_s* link;// = dynamic_cast<OCLink>(info[1]);
   (void)oc_collection_remove_link(collection, link);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_delete_collection(const Napi::CallbackInfo& info) {
-  OCResource collection = info[0].As<OCResource>();
+  oc_resource_s* collection;// = dynamic_cast<OCResource>(info[0]);
   (void)oc_delete_collection(collection);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_delete_link(const Napi::CallbackInfo& info) {
-  OCLink link = info[0].As<OCLink>();
+  oc_link_s* link;// = dynamic_cast<OCLink>(info[0]);
   (void)oc_delete_link(link);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_link_add_link_param(const Napi::CallbackInfo& info) {
-  OCLink link = info[0].As<OCLink>();
+  oc_link_s* link;// = dynamic_cast<OCLink>(info[0]);
   const char* key = info[1].As<Napi::String>().Utf8Value().c_str();
   const char* value = info[2].As<Napi::String>().Utf8Value().c_str();
   (void)oc_link_add_link_param(link, key, value);
@@ -272,7 +272,7 @@ Napi::Value N_oc_link_add_link_param(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_link_add_rel(const Napi::CallbackInfo& info) {
-  OCLink link = info[0].As<OCLink>();
+  oc_link_s* link;// = dynamic_cast<OCLink>(info[0]);
   const char* rel = info[1].As<Napi::String>().Utf8Value().c_str();
   (void)oc_link_add_rel(link, rel);
   return info.Env().Undefined();
@@ -289,7 +289,7 @@ Napi::Value N_oc_new_collection(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_new_link(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   std::shared_ptr<oc_link_t> sp(oc_new_link(resource));
   auto args = Napi::External<std::shared_ptr<oc_link_t>>::New(info.Env(), &sp);
   return OCLink::constructor.New({args});
@@ -314,18 +314,18 @@ Napi::Value N_oc_set_delayed_callback(const Napi::CallbackInfo& info) {
 
 Napi::Value N_oc_set_immutable_device_identifier(const Napi::CallbackInfo& info) {
   size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  OCUuid piid = info[1].As<OCUuid>();
+  oc_uuid_t* piid;// = dynamic_cast<OCUuid>(info[1]);
   (void)oc_set_immutable_device_identifier(device, piid);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_add_resource(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   return Napi::Boolean::New(info.Env(), oc_add_resource(resource));
 }
 
 Napi::Value N_oc_delete_resource(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   return Napi::Boolean::New(info.Env(), oc_delete_resource(resource));
 }
 
@@ -337,7 +337,7 @@ Napi::Value N_oc_device_bind_resource_type(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_ignore_request(const Napi::CallbackInfo& info) {
-  OCRequest request = info[0].As<OCRequest>();
+  oc_request_t* request;// = dynamic_cast<OCRequest>(info[0]);
   (void)oc_ignore_request(request);
   return info.Env().Undefined();
 }
@@ -358,66 +358,66 @@ Napi::Value N_oc_new_resource(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_notify_observers(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   return Napi::Number::New(info.Env(), oc_notify_observers(resource));
 }
 
 Napi::Value N_oc_process_baseline_interface(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   (void)oc_process_baseline_interface(resource);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_resource_bind_resource_interface(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)oc_resource_bind_resource_interface(resource, iface_mask);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_resource_bind_resource_type(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   const char* type = info[1].As<Napi::String>().Utf8Value().c_str();
   (void)oc_resource_bind_resource_type(resource, type);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_resource_make_public(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   (void)oc_resource_make_public(resource);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_resource_set_default_interface(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)oc_resource_set_default_interface(resource, iface_mask);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_resource_set_discoverable(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   bool state = info[1].As<Napi::Boolean>().Value();
   (void)oc_resource_set_discoverable(resource, state);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_resource_set_observable(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   bool state = info[1].As<Napi::Boolean>().Value();
   (void)oc_resource_set_observable(resource, state);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_resource_set_periodic_observable(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   uint16_t seconds = static_cast<uint16_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)oc_resource_set_periodic_observable(resource, seconds);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_resource_set_properties_cbs(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   oc_get_properties_cb_t get_properties = nullptr;
   Napi::Function get_properties_ = info[1].As<Napi::Function>();
   void* get_propr_user_data = info[2];
@@ -429,7 +429,7 @@ Napi::Value N_oc_resource_set_properties_cbs(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_resource_set_request_handler(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   oc_method_t method = static_cast<oc_method_t>(info[1].As<Napi::Number>().Uint32Value());
   oc_request_callback_t callback = nullptr;
   Napi::Function callback_ = info[2].As<Napi::Function>();
@@ -439,21 +439,21 @@ Napi::Value N_oc_resource_set_request_handler(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_resource_tag_func_desc(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   oc_enum_t func = static_cast<oc_enum_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)oc_resource_tag_func_desc(resource, func);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_resource_tag_pos_desc(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   oc_pos_description_t pos = static_cast<oc_pos_description_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)oc_resource_tag_pos_desc(resource, pos);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_resource_tag_pos_rel(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   double x = info[1].As<Napi::Number>().DoubleValue();
   double y = info[2].As<Napi::Number>().DoubleValue();
   double z = info[3].As<Napi::Number>().DoubleValue();
@@ -462,7 +462,7 @@ Napi::Value N_oc_resource_tag_pos_rel(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_send_diagnostic_message(const Napi::CallbackInfo& info) {
-  OCRequest request = info[0].As<OCRequest>();
+  oc_request_t* request;// = dynamic_cast<OCRequest>(info[0]);
   const char* msg = info[1].As<Napi::String>().Utf8Value().c_str();
   size_t msg_len = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
   oc_status_t response_code = static_cast<oc_status_t>(info[3].As<Napi::Number>().Uint32Value());
@@ -471,14 +471,14 @@ Napi::Value N_oc_send_diagnostic_message(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_send_response(const Napi::CallbackInfo& info) {
-  OCRequest request = info[0].As<OCRequest>();
+  oc_request_t* request;// = dynamic_cast<OCRequest>(info[0]);
   oc_status_t response_code = static_cast<oc_status_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)oc_send_response(request, response_code);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_send_response_raw(const Napi::CallbackInfo& info) {
-  OCRequest request = info[0].As<OCRequest>();
+  oc_request_t* request;// = dynamic_cast<OCRequest>(info[0]);
   const uint8_t* payload = info[1].As<Napi::Buffer<const uint8_t>>().Data();
   size_t size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
   oc_content_format_t content_format = static_cast<oc_content_format_t>(info[3].As<Napi::Number>().Uint32Value());
@@ -495,29 +495,29 @@ Napi::Value N_oc_set_con_write_cb(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_timer_expired(const Napi::CallbackInfo& info) {
-  OCTimer t = info[0].As<OCTimer>();
+  oc_timer* t;// = dynamic_cast<OCTimer>(info[0]);
   return Napi::Number::New(info.Env(), oc_timer_expired(t));
 }
 
 Napi::Value N_oc_timer_remaining(const Napi::CallbackInfo& info) {
-  OCTimer t = info[0].As<OCTimer>();
+  oc_timer* t;// = dynamic_cast<OCTimer>(info[0]);
   return Napi::Number::New(info.Env(), oc_timer_remaining(t));
 }
 
 Napi::Value N_oc_timer_reset(const Napi::CallbackInfo& info) {
-  OCTimer t = info[0].As<OCTimer>();
+  oc_timer* t;// = dynamic_cast<OCTimer>(info[0]);
   (void)oc_timer_reset(t);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_timer_restart(const Napi::CallbackInfo& info) {
-  OCTimer t = info[0].As<OCTimer>();
+  oc_timer* t;// = dynamic_cast<OCTimer>(info[0]);
   (void)oc_timer_restart(t);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_timer_set(const Napi::CallbackInfo& info) {
-  OCTimer t = info[0].As<OCTimer>();
+  oc_timer* t;// = dynamic_cast<OCTimer>(info[0]);
   oc_clock_time_t interval = static_cast<uint64_t>(info[1].As<Napi::Number>().Int64Value());
   (void)oc_timer_set(t, interval);
   return info.Env().Undefined();
@@ -561,7 +561,7 @@ Napi::Value N_oc_is_owned_device(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
-  OCHandler handler = info[0].As<OCHandler>();
+  oc_handler_t* handler;// = dynamic_cast<OCHandler>(info[0]);
   return Napi::Number::New(info.Env(), oc_main_init(handler));
 }
 
@@ -655,7 +655,7 @@ Napi::Value N_oc_base64_encode(const Napi::CallbackInfo& info) {
 Napi::Value N_oc_blockwise_alloc_request_buffer(const Napi::CallbackInfo& info) {
   const char* href = info[0].As<Napi::String>().Utf8Value().c_str();
   size_t href_len = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-  OCEndpoint endpoint = info[2].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[2]);
   oc_method_t method = static_cast<oc_method_t>(info[3].As<Napi::Number>().Uint32Value());
   oc_blockwise_role_t role = static_cast<oc_blockwise_role_t>(info[4].As<Napi::Number>().Uint32Value());
   std::shared_ptr<oc_blockwise_state_t> sp(oc_blockwise_alloc_request_buffer(href, href_len, endpoint, method, role));
@@ -666,7 +666,7 @@ Napi::Value N_oc_blockwise_alloc_request_buffer(const Napi::CallbackInfo& info) 
 Napi::Value N_oc_blockwise_alloc_response_buffer(const Napi::CallbackInfo& info) {
   const char* href = info[0].As<Napi::String>().Utf8Value().c_str();
   size_t href_len = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-  OCEndpoint endpoint = info[2].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[2]);
   oc_method_t method = static_cast<oc_method_t>(info[3].As<Napi::Number>().Uint32Value());
   oc_blockwise_role_t role = static_cast<oc_blockwise_role_t>(info[4].As<Napi::Number>().Uint32Value());
   std::shared_ptr<oc_blockwise_state_t> sp(oc_blockwise_alloc_response_buffer(href, href_len, endpoint, method, role));
@@ -677,7 +677,7 @@ Napi::Value N_oc_blockwise_alloc_response_buffer(const Napi::CallbackInfo& info)
 Napi::Value N_oc_blockwise_find_request_buffer(const Napi::CallbackInfo& info) {
   const char* href = info[0].As<Napi::String>().Utf8Value().c_str();
   size_t href_len = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-  OCEndpoint endpoint = info[2].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[2]);
   oc_method_t method = static_cast<oc_method_t>(info[3].As<Napi::Number>().Uint32Value());
   const char* query = info[4].As<Napi::String>().Utf8Value().c_str();
   size_t query_len = static_cast<size_t>(info[5].As<Napi::Number>().Uint32Value());
@@ -688,7 +688,7 @@ Napi::Value N_oc_blockwise_find_request_buffer(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_blockwise_find_request_buffer_by_client_cb(const Napi::CallbackInfo& info) {
-  OCEndpoint endpoint = info[0].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[0]);
   void* client_cb = info[1];
   std::shared_ptr<oc_blockwise_state_t> sp(oc_blockwise_find_request_buffer_by_client_cb(endpoint, client_cb));
   auto args = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
@@ -713,7 +713,7 @@ Napi::Value N_oc_blockwise_find_request_buffer_by_token(const Napi::CallbackInfo
 Napi::Value N_oc_blockwise_find_response_buffer(const Napi::CallbackInfo& info) {
   const char* href = info[0].As<Napi::String>().Utf8Value().c_str();
   size_t href_len = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-  OCEndpoint endpoint = info[2].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[2]);
   oc_method_t method = static_cast<oc_method_t>(info[3].As<Napi::Number>().Uint32Value());
   const char* query = info[4].As<Napi::String>().Utf8Value().c_str();
   size_t query_len = static_cast<size_t>(info[5].As<Napi::Number>().Uint32Value());
@@ -724,7 +724,7 @@ Napi::Value N_oc_blockwise_find_response_buffer(const Napi::CallbackInfo& info) 
 }
 
 Napi::Value N_oc_blockwise_find_response_buffer_by_client_cb(const Napi::CallbackInfo& info) {
-  OCEndpoint endpoint = info[0].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[0]);
   void* client_cb = info[1];
   std::shared_ptr<oc_blockwise_state_t> sp(oc_blockwise_find_response_buffer_by_client_cb(endpoint, client_cb));
   auto args = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
@@ -747,19 +747,19 @@ Napi::Value N_oc_blockwise_find_response_buffer_by_token(const Napi::CallbackInf
 }
 
 Napi::Value N_oc_blockwise_free_request_buffer(const Napi::CallbackInfo& info) {
-  OCBlockwiseState buffer = info[0].As<OCBlockwiseState>();
+  oc_blockwise_state_s* buffer;// = dynamic_cast<OCBlockwiseState>(info[0]);
   (void)oc_blockwise_free_request_buffer(buffer);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_blockwise_free_response_buffer(const Napi::CallbackInfo& info) {
-  OCBlockwiseState buffer = info[0].As<OCBlockwiseState>();
+  oc_blockwise_state_s* buffer;// = dynamic_cast<OCBlockwiseState>(info[0]);
   (void)oc_blockwise_free_response_buffer(buffer);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_blockwise_handle_block(const Napi::CallbackInfo& info) {
-  OCBlockwiseState buffer = info[0].As<OCBlockwiseState>();
+  oc_blockwise_state_s* buffer;// = dynamic_cast<OCBlockwiseState>(info[0]);
   uint32_t incoming_block_offset = static_cast<uint32_t>(info[1].As<Napi::Number>().Uint32Value());
   const uint8_t* incoming_block = info[2].As<Napi::Buffer<const uint8_t>>().Data();
   uint32_t incoming_block_size = static_cast<uint32_t>(info[3].As<Napi::Number>().Uint32Value());
@@ -785,7 +785,7 @@ Napi::Value N_oc_allocate_message(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_allocate_message_from_pool(const Napi::CallbackInfo& info) {
-  OCMemb pool = info[0].As<OCMemb>();
+  oc_memb* pool;// = dynamic_cast<OCMemb>(info[0]);
   std::shared_ptr<oc_message_t> sp(oc_allocate_message_from_pool(pool));
   auto args = Napi::External<std::shared_ptr<oc_message_t>>::New(info.Env(), &sp);
   return OCMessage::constructor.New({args});
@@ -809,25 +809,25 @@ Napi::Value N_oc_internal_allocate_outgoing_message(const Napi::CallbackInfo& in
 }
 
 Napi::Value N_oc_message_add_ref(const Napi::CallbackInfo& info) {
-  OCMessage message = info[0].As<OCMessage>();
+  oc_message_s* message;// = dynamic_cast<OCMessage>(info[0]);
   (void)oc_message_add_ref(message);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_message_unref(const Napi::CallbackInfo& info) {
-  OCMessage message = info[0].As<OCMessage>();
+  oc_message_s* message;// = dynamic_cast<OCMessage>(info[0]);
   (void)oc_message_unref(message);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_recv_message(const Napi::CallbackInfo& info) {
-  OCMessage message = info[0].As<OCMessage>();
+  oc_message_s* message;// = dynamic_cast<OCMessage>(info[0]);
   (void)oc_recv_message(message);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_send_message(const Napi::CallbackInfo& info) {
-  OCMessage message = info[0].As<OCMessage>();
+  oc_message_s* message;// = dynamic_cast<OCMessage>(info[0]);
   (void)oc_send_message(message);
   return info.Env().Undefined();
 }
@@ -878,7 +878,7 @@ Napi::Value N_oc_ri_find_client_cb_by_token(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_ri_free_client_cbs_by_endpoint(const Napi::CallbackInfo& info) {
-  OCEndpoint endpoint = info[0].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[0]);
   (void)oc_ri_free_client_cbs_by_endpoint(endpoint);
   return info.Env().Undefined();
 }
@@ -891,7 +891,7 @@ Napi::Value N_oc_ri_free_client_cbs_by_mid(const Napi::CallbackInfo& info) {
 
 Napi::Value N_oc_ri_get_client_cb(const Napi::CallbackInfo& info) {
   const char* uri = info[0].As<Napi::String>().Utf8Value().c_str();
-  OCEndpoint endpoint = info[1].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[1]);
   oc_method_t method = static_cast<oc_method_t>(info[2].As<Napi::Number>().Uint32Value());
   std::shared_ptr<oc_client_cb_t> sp(oc_ri_get_client_cb(uri, endpoint, method));
   auto args = Napi::External<std::shared_ptr<oc_client_cb_t>>::New(info.Env(), &sp);
@@ -899,7 +899,7 @@ Napi::Value N_oc_ri_get_client_cb(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_ri_is_client_cb_valid(const Napi::CallbackInfo& info) {
-  OCClientCallback client_cb = info[0].As<OCClientCallback>();
+  oc_client_cb_t* client_cb;// = dynamic_cast<OCClientCallback>(info[0]);
   return Napi::Boolean::New(info.Env(), oc_ri_is_client_cb_valid(client_cb));
 }
 
@@ -942,18 +942,18 @@ Napi::Value N_oc_clock_time_rfc3339(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_cloud_add_resource(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   return Napi::Number::New(info.Env(), oc_cloud_add_resource(resource));
 }
 
 Napi::Value N_oc_cloud_delete_resource(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   (void)oc_cloud_delete_resource(resource);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_cloud_deregister(const Napi::CallbackInfo& info) {
-  OCCloudContext ctx = info[0].As<OCCloudContext>();
+  oc_cloud_context_t* ctx;// = dynamic_cast<OCCloudContext>(info[0]);
   oc_cloud_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -961,7 +961,7 @@ Napi::Value N_oc_cloud_deregister(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_cloud_discover_resources(const Napi::CallbackInfo& info) {
-  OCCloudContext ctx = info[0].As<OCCloudContext>();
+  oc_cloud_context_t* ctx;// = dynamic_cast<OCCloudContext>(info[0]);
   oc_discovery_all_handler_t handler = nullptr;
   Napi::Function handler_ = info[1].As<Napi::Function>();
   void* user_data = info[2];
@@ -976,12 +976,12 @@ Napi::Value N_oc_cloud_get_context(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_cloud_get_token_expiry(const Napi::CallbackInfo& info) {
-  OCCloudContext ctx = info[0].As<OCCloudContext>();
+  oc_cloud_context_t* ctx;// = dynamic_cast<OCCloudContext>(info[0]);
   return Napi::Number::New(info.Env(), oc_cloud_get_token_expiry(ctx));
 }
 
 Napi::Value N_oc_cloud_login(const Napi::CallbackInfo& info) {
-  OCCloudContext ctx = info[0].As<OCCloudContext>();
+  oc_cloud_context_t* ctx;// = dynamic_cast<OCCloudContext>(info[0]);
   oc_cloud_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -989,7 +989,7 @@ Napi::Value N_oc_cloud_login(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_cloud_logout(const Napi::CallbackInfo& info) {
-  OCCloudContext ctx = info[0].As<OCCloudContext>();
+  oc_cloud_context_t* ctx;// = dynamic_cast<OCCloudContext>(info[0]);
   oc_cloud_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -997,7 +997,7 @@ Napi::Value N_oc_cloud_logout(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_cloud_manager_start(const Napi::CallbackInfo& info) {
-  OCCloudContext ctx = info[0].As<OCCloudContext>();
+  oc_cloud_context_t* ctx;// = dynamic_cast<OCCloudContext>(info[0]);
   oc_cloud_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -1005,12 +1005,12 @@ Napi::Value N_oc_cloud_manager_start(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_cloud_manager_stop(const Napi::CallbackInfo& info) {
-  OCCloudContext ctx = info[0].As<OCCloudContext>();
+  oc_cloud_context_t* ctx;// = dynamic_cast<OCCloudContext>(info[0]);
   return Napi::Number::New(info.Env(), oc_cloud_manager_stop(ctx));
 }
 
 Napi::Value N_oc_cloud_provision_conf_resource(const Napi::CallbackInfo& info) {
-  OCCloudContext ctx = info[0].As<OCCloudContext>();
+  oc_cloud_context_t* ctx;// = dynamic_cast<OCCloudContext>(info[0]);
   const char* server = info[1].As<Napi::String>().Utf8Value().c_str();
   const char* access_token = info[2].As<Napi::String>().Utf8Value().c_str();
   const char* server_id = info[3].As<Napi::String>().Utf8Value().c_str();
@@ -1024,7 +1024,7 @@ Napi::Value N_oc_cloud_publish_resources(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_cloud_refresh_token(const Napi::CallbackInfo& info) {
-  OCCloudContext ctx = info[0].As<OCCloudContext>();
+  oc_cloud_context_t* ctx;// = dynamic_cast<OCCloudContext>(info[0]);
   oc_cloud_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -1032,7 +1032,7 @@ Napi::Value N_oc_cloud_refresh_token(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_cloud_register(const Napi::CallbackInfo& info) {
-  OCCloudContext ctx = info[0].As<OCCloudContext>();
+  oc_cloud_context_t* ctx;// = dynamic_cast<OCCloudContext>(info[0]);
   oc_cloud_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -1040,12 +1040,12 @@ Napi::Value N_oc_cloud_register(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_check_if_collection(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   return Napi::Boolean::New(info.Env(), oc_check_if_collection(resource));
 }
 
 Napi::Value N_oc_collection_add(const Napi::CallbackInfo& info) {
-  OCCollection collection = info[0].As<OCCollection>();
+  oc_collection_s* collection;// = dynamic_cast<OCCollection>(info[0]);
   (void)oc_collection_add(collection);
   return info.Env().Undefined();
 }
@@ -1057,7 +1057,7 @@ Napi::Value N_oc_collection_alloc(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_collection_free(const Napi::CallbackInfo& info) {
-  OCCollection collection = info[0].As<OCCollection>();
+  oc_collection_s* collection;// = dynamic_cast<OCCollection>(info[0]);
   (void)oc_collection_free(collection);
   return info.Env().Undefined();
 }
@@ -1078,7 +1078,7 @@ Napi::Value N_oc_get_collection_by_uri(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_get_link_by_uri(const Napi::CallbackInfo& info) {
-  OCCollection collection = info[0].As<OCCollection>();
+  oc_collection_s* collection;// = dynamic_cast<OCCollection>(info[0]);
   const char* uri_path = info[1].As<Napi::String>().Utf8Value().c_str();
   int uri_path_len = static_cast<int>(info[2].As<Napi::Number>());
   std::shared_ptr<oc_link_t> sp(oc_get_link_by_uri(collection, uri_path, uri_path_len));
@@ -1087,8 +1087,8 @@ Napi::Value N_oc_get_link_by_uri(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_get_next_collection_with_link(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
-  OCCollection start = info[1].As<OCCollection>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
+  oc_collection_s* start;// = dynamic_cast<OCCollection>(info[1]);
   std::shared_ptr<oc_collection_t> sp(oc_get_next_collection_with_link(resource, start));
   auto args = Napi::External<std::shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
   return OCCollection::constructor.New({args});
@@ -1096,14 +1096,14 @@ Napi::Value N_oc_get_next_collection_with_link(const Napi::CallbackInfo& info) {
 
 Napi::Value N_oc_handle_collection_request(const Napi::CallbackInfo& info) {
   oc_method_t method = static_cast<oc_method_t>(info[0].As<Napi::Number>().Uint32Value());
-  OCRequest request = info[1].As<OCRequest>();
+  oc_request_t* request;// = dynamic_cast<OCRequest>(info[1]);
   oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[2].As<Napi::Number>().Uint32Value());
-  OCResource notify_resource = info[3].As<OCResource>();
+  oc_resource_s* notify_resource;// = dynamic_cast<OCResource>(info[3]);
   return Napi::Boolean::New(info.Env(), oc_handle_collection_request(method, request, iface_mask, notify_resource));
 }
 
 Napi::Value N_oc_link_set_interfaces(const Napi::CallbackInfo& info) {
-  OCLink link = info[0].As<OCLink>();
+  oc_link_s* link;// = dynamic_cast<OCLink>(info[0]);
   oc_interface_mask_t new_interfaces = static_cast<oc_interface_mask_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)oc_link_set_interfaces(link, new_interfaces);
   return info.Env().Undefined();
@@ -1116,14 +1116,14 @@ Napi::Value N_handle_network_interface_event_callback(const Napi::CallbackInfo& 
 }
 
 Napi::Value N_handle_session_event_callback(const Napi::CallbackInfo& info) {
-  OCEndpoint endpoint = info[0].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[0]);
   oc_session_state_t state = static_cast<oc_session_state_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)handle_session_event_callback(endpoint, state);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_connectivity_end_session(const Napi::CallbackInfo& info) {
-  OCEndpoint endpoint = info[0].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[0]);
   (void)oc_connectivity_end_session(endpoint);
   return info.Env().Undefined();
 }
@@ -1147,12 +1147,12 @@ Napi::Value N_oc_connectivity_shutdown(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_send_buffer(const Napi::CallbackInfo& info) {
-  OCMessage message = info[0].As<OCMessage>();
+  oc_message_s* message;// = dynamic_cast<OCMessage>(info[0]);
   return Napi::Number::New(info.Env(), oc_send_buffer(message));
 }
 
 Napi::Value N_oc_send_discovery_request(const Napi::CallbackInfo& info) {
-  OCMessage message = info[0].As<OCMessage>();
+  oc_message_s* message;// = dynamic_cast<OCMessage>(info[0]);
   (void)oc_send_discovery_request(message);
   return info.Env().Undefined();
 }
@@ -1231,7 +1231,7 @@ Napi::Value N_oc_core_init_platform(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_core_is_DCR(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   size_t device = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
   return Napi::Boolean::New(info.Env(), oc_core_is_DCR(resource, device));
 }
@@ -1268,14 +1268,14 @@ Napi::Value N_oc_core_shutdown(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_filter_resource_by_rt(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
-  OCRequest request = info[1].As<OCRequest>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
+  oc_request_t* request;// = dynamic_cast<OCRequest>(info[1]);
   return Napi::Boolean::New(info.Env(), oc_filter_resource_by_rt(resource, request));
 }
 
 Napi::Value N_oc_store_uri(const Napi::CallbackInfo& info) {
   const char* s_uri = info[0].As<Napi::String>().Utf8Value().c_str();
-  OCMmem d_uri = info[1].As<OCMmem>();
+  oc_mmem* d_uri;// = dynamic_cast<OCMmem>(info[1]);
   (void)oc_store_uri(s_uri, d_uri);
   return info.Env().Undefined();
 }
@@ -1285,11 +1285,11 @@ Napi::Value N_oc_cred_credtype_string(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_cred_parse_credusage(const Napi::CallbackInfo& info) {
-  OCMmem credusage_string = info[0].As<OCMmem>();
+  oc_mmem* credusage_string;// = dynamic_cast<OCMmem>(info[0]);
 }
 
 Napi::Value N_oc_cred_parse_encoding(const Napi::CallbackInfo& info) {
-  OCMmem encoding_string = info[0].As<OCMmem>();
+  oc_mmem* encoding_string;// = dynamic_cast<OCMmem>(info[0]);
 }
 
 Napi::Value N_oc_cred_read_credusage(const Napi::CallbackInfo& info) {
@@ -1308,58 +1308,58 @@ Napi::Value N_oc_create_discovery_resource(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_endpoint_compare(const Napi::CallbackInfo& info) {
-  OCEndpoint ep1 = info[0].As<OCEndpoint>();
-  OCEndpoint ep2 = info[1].As<OCEndpoint>();
+  oc_endpoint_t* ep1;// = dynamic_cast<OCEndpoint>(info[0]);
+  oc_endpoint_t* ep2;// = dynamic_cast<OCEndpoint>(info[1]);
   return Napi::Number::New(info.Env(), oc_endpoint_compare(ep1, ep2));
 }
 
 Napi::Value N_oc_endpoint_compare_address(const Napi::CallbackInfo& info) {
-  OCEndpoint ep1 = info[0].As<OCEndpoint>();
-  OCEndpoint ep2 = info[1].As<OCEndpoint>();
+  oc_endpoint_t* ep1;// = dynamic_cast<OCEndpoint>(info[0]);
+  oc_endpoint_t* ep2;// = dynamic_cast<OCEndpoint>(info[1]);
   return Napi::Number::New(info.Env(), oc_endpoint_compare_address(ep1, ep2));
 }
 
 Napi::Value N_oc_endpoint_copy(const Napi::CallbackInfo& info) {
-  OCEndpoint dst = info[0].As<OCEndpoint>();
-  OCEndpoint src = info[1].As<OCEndpoint>();
+  oc_endpoint_t* dst;// = dynamic_cast<OCEndpoint>(info[0]);
+  oc_endpoint_t* src;// = dynamic_cast<OCEndpoint>(info[1]);
   (void)oc_endpoint_copy(dst, src);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_endpoint_set_di(const Napi::CallbackInfo& info) {
-  OCEndpoint endpoint = info[0].As<OCEndpoint>();
-  OCUuid di = info[1].As<OCUuid>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[0]);
+  oc_uuid_t* di;// = dynamic_cast<OCUuid>(info[1]);
   (void)oc_endpoint_set_di(endpoint, di);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_endpoint_set_local_address(const Napi::CallbackInfo& info) {
-  OCEndpoint ep = info[0].As<OCEndpoint>();
+  oc_endpoint_t* ep;// = dynamic_cast<OCEndpoint>(info[0]);
   int interface_index = static_cast<int>(info[1].As<Napi::Number>());
   (void)oc_endpoint_set_local_address(ep, interface_index);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_endpoint_string_parse_path(const Napi::CallbackInfo& info) {
-  OCMmem endpoint_str = info[0].As<OCMmem>();
-  OCMmem path = info[1].As<OCMmem>();
+  oc_mmem* endpoint_str;// = dynamic_cast<OCMmem>(info[0]);
+  oc_mmem* path;// = dynamic_cast<OCMmem>(info[1]);
   return Napi::Number::New(info.Env(), oc_endpoint_string_parse_path(endpoint_str, path));
 }
 
 Napi::Value N_oc_endpoint_to_string(const Napi::CallbackInfo& info) {
-  OCEndpoint endpoint = info[0].As<OCEndpoint>();
-  OCMmem endpoint_str = info[1].As<OCMmem>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[0]);
+  oc_mmem* endpoint_str;// = dynamic_cast<OCMmem>(info[1]);
   return Napi::Number::New(info.Env(), oc_endpoint_to_string(endpoint, endpoint_str));
 }
 
 Napi::Value N_oc_free_endpoint(const Napi::CallbackInfo& info) {
-  OCEndpoint endpoint = info[0].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[0]);
   (void)oc_free_endpoint(endpoint);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_ipv6_endpoint_is_link_local(const Napi::CallbackInfo& info) {
-  OCEndpoint endpoint = info[0].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[0]);
   return Napi::Number::New(info.Env(), oc_ipv6_endpoint_is_link_local(endpoint));
 }
 
@@ -1370,9 +1370,9 @@ Napi::Value N_oc_new_endpoint(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_string_to_endpoint(const Napi::CallbackInfo& info) {
-  OCMmem endpoint_str = info[0].As<OCMmem>();
-  OCEndpoint endpoint = info[1].As<OCEndpoint>();
-  OCMmem uri = info[2].As<OCMmem>();
+  oc_mmem* endpoint_str;// = dynamic_cast<OCMmem>(info[0]);
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[1]);
+  oc_mmem* uri;// = dynamic_cast<OCMmem>(info[2]);
   return Napi::Number::New(info.Env(), oc_string_to_endpoint(endpoint_str, endpoint, uri));
 }
 
@@ -1385,34 +1385,34 @@ Napi::Value N_oc_enum_to_str(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N__oc_alloc_string(const Napi::CallbackInfo& info) {
-  OCMmem ocstring = info[0].As<OCMmem>();
+  oc_mmem* ocstring;// = dynamic_cast<OCMmem>(info[0]);
   size_t size = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)_oc_alloc_string(ocstring, size);
   return info.Env().Undefined();
 }
 
 Napi::Value N__oc_alloc_string_array(const Napi::CallbackInfo& info) {
-  OCMmem ocstringarray = info[0].As<OCMmem>();
+  oc_mmem* ocstringarray;// = dynamic_cast<OCMmem>(info[0]);
   size_t size = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)_oc_alloc_string_array(ocstringarray, size);
   return info.Env().Undefined();
 }
 
 Napi::Value N__oc_free_array(const Napi::CallbackInfo& info) {
-  OCMmem ocarray = info[0].As<OCMmem>();
+  oc_mmem* ocarray;// = dynamic_cast<OCMmem>(info[0]);
   pool type = static_cast<pool>(info[1].As<Napi::Number>().Uint32Value());
   (void)_oc_free_array(ocarray, type);
   return info.Env().Undefined();
 }
 
 Napi::Value N__oc_free_string(const Napi::CallbackInfo& info) {
-  OCMmem ocstring = info[0].As<OCMmem>();
+  oc_mmem* ocstring;// = dynamic_cast<OCMmem>(info[0]);
   (void)_oc_free_string(ocstring);
   return info.Env().Undefined();
 }
 
 Napi::Value N__oc_new_array(const Napi::CallbackInfo& info) {
-  OCMmem ocarray = info[0].As<OCMmem>();
+  oc_mmem* ocarray;// = dynamic_cast<OCMmem>(info[0]);
   size_t size = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
   pool type = static_cast<pool>(info[2].As<Napi::Number>().Uint32Value());
   (void)_oc_new_array(ocarray, size, type);
@@ -1420,7 +1420,7 @@ Napi::Value N__oc_new_array(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N__oc_new_string(const Napi::CallbackInfo& info) {
-  OCMmem ocstring = info[0].As<OCMmem>();
+  oc_mmem* ocstring;// = dynamic_cast<OCMmem>(info[0]);
   const char* str = info[1].As<Napi::String>().Utf8Value().c_str();
   size_t str_len = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
   (void)_oc_new_string(ocstring, str, str_len);
@@ -1428,7 +1428,7 @@ Napi::Value N__oc_new_string(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_concat_strings(const Napi::CallbackInfo& info) {
-  OCMmem concat = info[0].As<OCMmem>();
+  oc_mmem* concat;// = dynamic_cast<OCMmem>(info[0]);
   const char* str1 = info[1].As<Napi::String>().Utf8Value().c_str();
   const char* str2 = info[2].As<Napi::String>().Utf8Value().c_str();
   (void)oc_concat_strings(concat, str1, str2);
@@ -1436,8 +1436,8 @@ Napi::Value N_oc_concat_strings(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_join_string_array(const Napi::CallbackInfo& info) {
-  OCMmem ocstringarray = info[0].As<OCMmem>();
-  OCMmem ocstring = info[1].As<OCMmem>();
+  oc_mmem* ocstringarray;// = dynamic_cast<OCMmem>(info[0]);
+  oc_mmem* ocstring;// = dynamic_cast<OCMmem>(info[1]);
   (void)oc_join_string_array(ocstringarray, ocstring);
   return info.Env().Undefined();
 }
@@ -1451,33 +1451,33 @@ Napi::Value N_oc_set_introspection_data(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N__oc_memb_alloc(const Napi::CallbackInfo& info) {
-  OCMemb m = info[0].As<OCMemb>();
+  oc_memb* m;// = dynamic_cast<OCMemb>(info[0]);
 }
 
 Napi::Value N__oc_memb_free(const Napi::CallbackInfo& info) {
-  OCMemb m = info[0].As<OCMemb>();
+  oc_memb* m;// = dynamic_cast<OCMemb>(info[0]);
   void* ptr = info[1];
 }
 
 Napi::Value N_oc_memb_init(const Napi::CallbackInfo& info) {
-  OCMemb m = info[0].As<OCMemb>();
+  oc_memb* m;// = dynamic_cast<OCMemb>(info[0]);
   (void)oc_memb_init(m);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_memb_inmemb(const Napi::CallbackInfo& info) {
-  OCMemb m = info[0].As<OCMemb>();
+  oc_memb* m;// = dynamic_cast<OCMemb>(info[0]);
   void* ptr = info[1];
   return Napi::Number::New(info.Env(), oc_memb_inmemb(m, ptr));
 }
 
 Napi::Value N_oc_memb_numfree(const Napi::CallbackInfo& info) {
-  OCMemb m = info[0].As<OCMemb>();
+  oc_memb* m;// = dynamic_cast<OCMemb>(info[0]);
   return Napi::Number::New(info.Env(), oc_memb_numfree(m));
 }
 
 Napi::Value N_oc_memb_set_buffers_avail_cb(const Napi::CallbackInfo& info) {
-  OCMemb m = info[0].As<OCMemb>();
+  oc_memb* m;// = dynamic_cast<OCMemb>(info[0]);
   oc_memb_buffers_avail_callback_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   (void)oc_memb_set_buffers_avail_cb(m, cb);
@@ -1504,14 +1504,14 @@ Napi::Value N_oc_mem_trace_shutdown(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N__oc_mmem_alloc(const Napi::CallbackInfo& info) {
-  OCMmem m = info[0].As<OCMmem>();
+  oc_mmem* m;// = dynamic_cast<OCMmem>(info[0]);
   size_t size = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
   pool pool_type = static_cast<pool>(info[2].As<Napi::Number>().Uint32Value());
   return Napi::Number::New(info.Env(), _oc_mmem_alloc(m, size, pool_type));
 }
 
 Napi::Value N__oc_mmem_free(const Napi::CallbackInfo& info) {
-  OCMmem m = info[0].As<OCMmem>();
+  oc_mmem* m;// = dynamic_cast<OCMmem>(info[0]);
   pool pool_type = static_cast<pool>(info[1].As<Napi::Number>().Uint32Value());
   (void)_oc_mmem_free(m, pool_type);
   return info.Env().Undefined();
@@ -1523,7 +1523,7 @@ Napi::Value N_oc_mmem_init(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_network_event(const Napi::CallbackInfo& info) {
-  OCMessage message = info[0].As<OCMessage>();
+  oc_message_s* message;// = dynamic_cast<OCMessage>(info[0]);
   (void)oc_network_event(message);
   return info.Env().Undefined();
 }
@@ -1579,35 +1579,35 @@ Napi::Value N_oc_remove_session_event_callback(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_obt_ace_add_permission(const Napi::CallbackInfo& info) {
-  OCSecurityAce ace = info[0].As<OCSecurityAce>();
+  oc_sec_ace_t* ace;// = dynamic_cast<OCSecurityAce>(info[0]);
   oc_ace_permissions_t permission = static_cast<oc_ace_permissions_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)oc_obt_ace_add_permission(ace, permission);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_obt_ace_new_resource(const Napi::CallbackInfo& info) {
-  OCSecurityAce ace = info[0].As<OCSecurityAce>();
+  oc_sec_ace_t* ace;// = dynamic_cast<OCSecurityAce>(info[0]);
   std::shared_ptr<oc_ace_res_t> sp(oc_obt_ace_new_resource(ace));
   auto args = Napi::External<std::shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
   return OCAceResource::constructor.New({args});
 }
 
 Napi::Value N_oc_obt_ace_resource_set_href(const Napi::CallbackInfo& info) {
-  OCAceResource resource = info[0].As<OCAceResource>();
+  oc_ace_res_t* resource;// = dynamic_cast<OCAceResource>(info[0]);
   const char* href = info[1].As<Napi::String>().Utf8Value().c_str();
   (void)oc_obt_ace_resource_set_href(resource, href);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_obt_ace_resource_set_wc(const Napi::CallbackInfo& info) {
-  OCAceResource resource = info[0].As<OCAceResource>();
+  oc_ace_res_t* resource;// = dynamic_cast<OCAceResource>(info[0]);
   oc_ace_wildcard_t wc = static_cast<oc_ace_wildcard_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)oc_obt_ace_resource_set_wc(resource, wc);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_obt_add_roleid(const Napi::CallbackInfo& info) {
-  OCRole roles = info[0].As<OCRole>();
+  oc_role_t* roles;// = dynamic_cast<OCRole>(info[0]);
   const char* role = info[1].As<Napi::String>().Utf8Value().c_str();
   const char* authority = info[2].As<Napi::String>().Utf8Value().c_str();
   std::shared_ptr<oc_role_t> sp(oc_obt_add_roleid(roles, role, authority));
@@ -1616,7 +1616,7 @@ Napi::Value N_oc_obt_add_roleid(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_obt_delete_ace_by_aceid(const Napi::CallbackInfo& info) {
-  OCUuid uuid = info[0].As<OCUuid>();
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[0]);
   int aceid = static_cast<int>(info[1].As<Napi::Number>());
   oc_obt_status_cb_t cb = nullptr;
   Napi::Function cb_ = info[2].As<Napi::Function>();
@@ -1625,7 +1625,7 @@ Napi::Value N_oc_obt_delete_ace_by_aceid(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_obt_delete_cred_by_credid(const Napi::CallbackInfo& info) {
-  OCUuid uuid = info[0].As<OCUuid>();
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[0]);
   int credid = static_cast<int>(info[1].As<Napi::Number>());
   oc_obt_status_cb_t cb = nullptr;
   Napi::Function cb_ = info[2].As<Napi::Function>();
@@ -1639,7 +1639,7 @@ Napi::Value N_oc_obt_delete_own_cred_by_credid(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_obt_device_hard_reset(const Napi::CallbackInfo& info) {
-  OCUuid uuid = info[0].As<OCUuid>();
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[0]);
   oc_obt_device_status_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -1647,7 +1647,7 @@ Napi::Value N_oc_obt_device_hard_reset(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_obt_discover_all_resources(const Napi::CallbackInfo& info) {
-  OCUuid uuid = info[0].As<OCUuid>();
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[0]);
   oc_discovery_all_handler_t handler = nullptr;
   Napi::Function handler_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -1697,25 +1697,25 @@ Napi::Value N_oc_obt_discover_unowned_devices_site_local_ipv6(const Napi::Callba
 }
 
 Napi::Value N_oc_obt_free_ace(const Napi::CallbackInfo& info) {
-  OCSecurityAce ace = info[0].As<OCSecurityAce>();
+  oc_sec_ace_t* ace;// = dynamic_cast<OCSecurityAce>(info[0]);
   (void)oc_obt_free_ace(ace);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_obt_free_acl(const Napi::CallbackInfo& info) {
-  OCSecurityAcl acl = info[0].As<OCSecurityAcl>();
+  oc_sec_acl_s* acl;// = dynamic_cast<OCSecurityAcl>(info[0]);
   (void)oc_obt_free_acl(acl);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_obt_free_creds(const Napi::CallbackInfo& info) {
-  OCCreds creds = info[0].As<OCCreds>();
+  oc_sec_creds_t* creds;// = dynamic_cast<OCCreds>(info[0]);
   (void)oc_obt_free_creds(creds);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_obt_free_roleid(const Napi::CallbackInfo& info) {
-  OCRole roles = info[0].As<OCRole>();
+  oc_role_t* roles;// = dynamic_cast<OCRole>(info[0]);
   (void)oc_obt_free_roleid(roles);
   return info.Env().Undefined();
 }
@@ -1740,14 +1740,14 @@ Napi::Value N_oc_obt_new_ace_for_role(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_obt_new_ace_for_subject(const Napi::CallbackInfo& info) {
-  OCUuid uuid = info[0].As<OCUuid>();
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[0]);
   std::shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_subject(uuid));
   auto args = Napi::External<std::shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
   return OCSecurityAce::constructor.New({args});
 }
 
 Napi::Value N_oc_obt_perform_cert_otm(const Napi::CallbackInfo& info) {
-  OCUuid uuid = info[0].As<OCUuid>();
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[0]);
   oc_obt_device_status_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -1755,7 +1755,7 @@ Napi::Value N_oc_obt_perform_cert_otm(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_obt_perform_just_works_otm(const Napi::CallbackInfo& info) {
-  OCUuid uuid = info[0].As<OCUuid>();
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[0]);
   oc_obt_device_status_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -1763,7 +1763,7 @@ Napi::Value N_oc_obt_perform_just_works_otm(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_obt_perform_random_pin_otm(const Napi::CallbackInfo& info) {
-  OCUuid uuid = info[0].As<OCUuid>();
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[0]);
   const unsigned char* pin = info[1].As<Napi::Buffer<const uint8_t>>().Data();
   size_t pin_len = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
   oc_obt_device_status_cb_t cb = nullptr;
@@ -1773,8 +1773,8 @@ Napi::Value N_oc_obt_perform_random_pin_otm(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_obt_provision_ace(const Napi::CallbackInfo& info) {
-  OCUuid subject = info[0].As<OCUuid>();
-  OCSecurityAce ace = info[1].As<OCSecurityAce>();
+  oc_uuid_t* subject;// = dynamic_cast<OCUuid>(info[0]);
+  oc_sec_ace_t* ace;// = dynamic_cast<OCSecurityAce>(info[1]);
   oc_obt_device_status_cb_t cb = nullptr;
   Napi::Function cb_ = info[2].As<Napi::Function>();
   void* data = info[3];
@@ -1782,7 +1782,7 @@ Napi::Value N_oc_obt_provision_ace(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_obt_provision_auth_wildcard_ace(const Napi::CallbackInfo& info) {
-  OCUuid subject = info[0].As<OCUuid>();
+  oc_uuid_t* subject;// = dynamic_cast<OCUuid>(info[0]);
   oc_obt_device_status_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -1790,7 +1790,7 @@ Napi::Value N_oc_obt_provision_auth_wildcard_ace(const Napi::CallbackInfo& info)
 }
 
 Napi::Value N_oc_obt_provision_identity_certificate(const Napi::CallbackInfo& info) {
-  OCUuid uuid = info[0].As<OCUuid>();
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[0]);
   oc_obt_status_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -1798,8 +1798,8 @@ Napi::Value N_oc_obt_provision_identity_certificate(const Napi::CallbackInfo& in
 }
 
 Napi::Value N_oc_obt_provision_pairwise_credentials(const Napi::CallbackInfo& info) {
-  OCUuid uuid1 = info[0].As<OCUuid>();
-  OCUuid uuid2 = info[1].As<OCUuid>();
+  oc_uuid_t* uuid1;// = dynamic_cast<OCUuid>(info[0]);
+  oc_uuid_t* uuid2;// = dynamic_cast<OCUuid>(info[1]);
   oc_obt_status_cb_t cb = nullptr;
   Napi::Function cb_ = info[2].As<Napi::Function>();
   void* data = info[3];
@@ -1807,8 +1807,8 @@ Napi::Value N_oc_obt_provision_pairwise_credentials(const Napi::CallbackInfo& in
 }
 
 Napi::Value N_oc_obt_provision_role_certificate(const Napi::CallbackInfo& info) {
-  OCRole roles = info[0].As<OCRole>();
-  OCUuid uuid = info[1].As<OCUuid>();
+  oc_role_t* roles;// = dynamic_cast<OCRole>(info[0]);
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[1]);
   oc_obt_status_cb_t cb = nullptr;
   Napi::Function cb_ = info[2].As<Napi::Function>();
   void* data = info[3];
@@ -1816,7 +1816,7 @@ Napi::Value N_oc_obt_provision_role_certificate(const Napi::CallbackInfo& info) 
 }
 
 Napi::Value N_oc_obt_provision_role_wildcard_ace(const Napi::CallbackInfo& info) {
-  OCUuid subject = info[0].As<OCUuid>();
+  oc_uuid_t* subject;// = dynamic_cast<OCUuid>(info[0]);
   const char* role = info[1].As<Napi::String>().Utf8Value().c_str();
   const char* authority = info[2].As<Napi::String>().Utf8Value().c_str();
   oc_obt_device_status_cb_t cb = nullptr;
@@ -1826,7 +1826,7 @@ Napi::Value N_oc_obt_provision_role_wildcard_ace(const Napi::CallbackInfo& info)
 }
 
 Napi::Value N_oc_obt_request_random_pin(const Napi::CallbackInfo& info) {
-  OCUuid uuid = info[0].As<OCUuid>();
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[0]);
   oc_obt_device_status_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -1834,7 +1834,7 @@ Napi::Value N_oc_obt_request_random_pin(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_obt_retrieve_acl(const Napi::CallbackInfo& info) {
-  OCUuid uuid = info[0].As<OCUuid>();
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[0]);
   oc_obt_acl_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -1842,7 +1842,7 @@ Napi::Value N_oc_obt_retrieve_acl(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_obt_retrieve_creds(const Napi::CallbackInfo& info) {
-  OCUuid subject = info[0].As<OCUuid>();
+  oc_uuid_t* subject;// = dynamic_cast<OCUuid>(info[0]);
   oc_obt_creds_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
   void* data = info[2];
@@ -1921,15 +1921,15 @@ Napi::Value N_oc_random_value(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_free_rep(const Napi::CallbackInfo& info) {
-  OCRep rep = info[0].As<OCRep>();
+  oc_rep_s* rep;// = dynamic_cast<OCRep>(info[0]);
   (void)oc_free_rep(rep);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_rep_get_byte_string_array(const Napi::CallbackInfo& info) {
-  OCRep rep = info[0].As<OCRep>();
+  oc_rep_s* rep;// = dynamic_cast<OCRep>(info[0]);
   const char* key = info[1].As<Napi::String>().Utf8Value().c_str();
-  OCMmem value = info[2].As<OCMmem>();
+  oc_mmem* value;// = dynamic_cast<OCMmem>(info[2]);
   size_t* size = reinterpret_cast<size_t*>(info[3].As<Napi::Uint32Array>().Data());
   return Napi::Boolean::New(info.Env(), oc_rep_get_byte_string_array(rep, key, value, size));
 }
@@ -1945,9 +1945,9 @@ Napi::Value N_oc_rep_get_encoder_buf(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_get_string_array(const Napi::CallbackInfo& info) {
-  OCRep rep = info[0].As<OCRep>();
+  oc_rep_s* rep;// = dynamic_cast<OCRep>(info[0]);
   const char* key = info[1].As<Napi::String>().Utf8Value().c_str();
-  OCMmem value = info[2].As<OCMmem>();
+  oc_mmem* value;// = dynamic_cast<OCMmem>(info[2]);
   size_t* size = reinterpret_cast<size_t*>(info[3].As<Napi::Uint32Array>().Data());
   return Napi::Boolean::New(info.Env(), oc_rep_get_string_array(rep, key, value, size));
 }
@@ -1960,13 +1960,13 @@ Napi::Value N_oc_rep_new(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_set_pool(const Napi::CallbackInfo& info) {
-  OCMemb rep_objects_pool = info[0].As<OCMemb>();
+  oc_memb* rep_objects_pool;// = dynamic_cast<OCMemb>(info[0]);
   (void)oc_rep_set_pool(rep_objects_pool);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_rep_to_json(const Napi::CallbackInfo& info) {
-  OCRep rep = info[0].As<OCRep>();
+  oc_rep_s* rep;// = dynamic_cast<OCRep>(info[0]);
   char* buf = const_cast<char*>(info[1].As<Napi::String>().Utf8Value().c_str());
   size_t buf_size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
   bool pretty_print = info[3].As<Napi::Boolean>().Value();
@@ -1983,7 +1983,7 @@ Napi::Value N_oc_ri_add_timed_event_callback_ticks(const Napi::CallbackInfo& inf
 }
 
 Napi::Value N_oc_ri_free_resource_properties(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   (void)oc_ri_free_resource_properties(resource);
   return info.Env().Undefined();
 }
@@ -2014,7 +2014,7 @@ Napi::Value N_oc_ri_init(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_ri_is_app_resource_valid(const Napi::CallbackInfo& info) {
-  OCResource resource = info[0].As<OCResource>();
+  oc_resource_s* resource;// = dynamic_cast<OCResource>(info[0]);
   return Napi::Boolean::New(info.Env(), oc_ri_is_app_resource_valid(resource));
 }
 
@@ -2037,7 +2037,7 @@ Napi::Value N_oc_status_code(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_session_end_event(const Napi::CallbackInfo& info) {
-  OCEndpoint endpoint = info[0].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[0]);
   (void)oc_session_end_event(endpoint);
   return info.Env().Undefined();
 }
@@ -2049,7 +2049,7 @@ Napi::Value N_oc_session_events_set_event_delay(const Napi::CallbackInfo& info) 
 }
 
 Napi::Value N_oc_session_start_event(const Napi::CallbackInfo& info) {
-  OCEndpoint endpoint = info[0].As<OCEndpoint>();
+  oc_endpoint_t* endpoint;// = dynamic_cast<OCEndpoint>(info[0]);
   (void)oc_session_start_event(endpoint);
   return info.Env().Undefined();
 }
@@ -2111,26 +2111,26 @@ Napi::Value N_oc_swupdate_notify_upgrading(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_swupdate_set_impl(const Napi::CallbackInfo& info) {
-  OCSoftwareUpdateHandler swupdate_impl = info[0].As<OCSoftwareUpdateHandler>();
+  oc_swupdate_cb_t* swupdate_impl;// = dynamic_cast<OCSoftwareUpdateHandler>(info[0]);
   (void)oc_swupdate_set_impl(swupdate_impl);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_gen_uuid(const Napi::CallbackInfo& info) {
-  OCUuid uuid = info[0].As<OCUuid>();
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[0]);
   (void)oc_gen_uuid(uuid);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_str_to_uuid(const Napi::CallbackInfo& info) {
   const char* str = info[0].As<Napi::String>().Utf8Value().c_str();
-  OCUuid uuid = info[1].As<OCUuid>();
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[1]);
   (void)oc_str_to_uuid(str, uuid);
   return info.Env().Undefined();
 }
 
 Napi::Value N_oc_uuid_to_str(const Napi::CallbackInfo& info) {
-  OCUuid uuid = info[0].As<OCUuid>();
+  oc_uuid_t* uuid;// = dynamic_cast<OCUuid>(info[0]);
   char* buffer = const_cast<char*>(info[1].As<Napi::String>().Utf8Value().c_str());
   int buflen = static_cast<int>(info[2].As<Napi::Number>());
   (void)oc_uuid_to_str(uuid, buffer, buflen);

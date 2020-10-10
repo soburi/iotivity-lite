@@ -28,7 +28,7 @@ Napi::Value OCAceResource::get_href(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->href);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCAceResource::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCAceResource::set_href(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -50,7 +50,7 @@ Napi::Value OCAceResource::get_types(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->types);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCAceResource::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCAceResource::set_types(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -97,7 +97,7 @@ Napi::Value OCBlockwiseRequestState::get_base(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_blockwise_state_s> sp(&m_pvalue->base);
   auto accessor = Napi::External<std::shared_ptr<oc_blockwise_state_s>>::New(info.Env(), &sp);
-  return OCBlockwiseRequestState::constructor.New({accessor});
+  return OCBlockwiseState::constructor.New({accessor});
 }
 
 void OCBlockwiseRequestState::set_base(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -137,7 +137,7 @@ Napi::Value OCBlockwiseResponseState::get_base(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_blockwise_state_s> sp(&m_pvalue->base);
   auto accessor = Napi::External<std::shared_ptr<oc_blockwise_state_s>>::New(info.Env(), &sp);
-  return OCBlockwiseResponseState::constructor.New({accessor});
+  return OCBlockwiseState::constructor.New({accessor});
 }
 
 void OCBlockwiseResponseState::set_base(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -230,7 +230,7 @@ Napi::Value OCBlockwiseState::get_endpoint(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_endpoint_t> sp(&m_pvalue->endpoint);
   auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({accessor});
+  return OCEndpoint::constructor.New({accessor});
 }
 
 void OCBlockwiseState::set_endpoint(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -242,7 +242,7 @@ Napi::Value OCBlockwiseState::get_href(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->href);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCBlockwiseState::set_href(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -340,7 +340,7 @@ Napi::Value OCBlockwiseState::get_uri_query(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->uri_query);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCBlockwiseState::set_uri_query(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -387,7 +387,7 @@ Napi::Value OCClientCallback::get_handler(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_client_handler_t> sp(&m_pvalue->handler);
   auto accessor = Napi::External<std::shared_ptr<oc_client_handler_t>>::New(info.Env(), &sp);
-  return OCClientCallback::constructor.New({accessor});
+  return OCClientHandler::constructor.New({accessor});
 }
 
 void OCClientCallback::set_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -449,7 +449,7 @@ Napi::Value OCClientCallback::get_query(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->query);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCClientCallback::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCClientCallback::set_query(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -521,7 +521,7 @@ Napi::Value OCClientCallback::get_uri(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->uri);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCClientCallback::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCClientCallback::set_uri(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -748,7 +748,7 @@ Napi::Value OCCloudContext::get_store(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_cloud_store_t> sp(&m_pvalue->store);
   auto accessor = Napi::External<std::shared_ptr<oc_cloud_store_t>>::New(info.Env(), &sp);
-  return OCCloudContext::constructor.New({accessor});
+  return OCCloudStore::constructor.New({accessor});
 }
 
 void OCCloudContext::set_store(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -795,7 +795,7 @@ Napi::Value OCCloudStore::get_access_token(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->access_token);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCCloudStore::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCCloudStore::set_access_token(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -807,7 +807,7 @@ Napi::Value OCCloudStore::get_auth_provider(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->auth_provider);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCCloudStore::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCCloudStore::set_auth_provider(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -819,7 +819,7 @@ Napi::Value OCCloudStore::get_ci_server(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->ci_server);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCCloudStore::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCCloudStore::set_ci_server(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -851,7 +851,7 @@ Napi::Value OCCloudStore::get_refresh_token(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->refresh_token);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCCloudStore::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCCloudStore::set_refresh_token(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -863,7 +863,7 @@ Napi::Value OCCloudStore::get_sid(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->sid);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCCloudStore::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCCloudStore::set_sid(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -885,7 +885,7 @@ Napi::Value OCCloudStore::get_uid(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->uid);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCCloudStore::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCCloudStore::set_uid(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -932,7 +932,7 @@ Napi::Value OCCollection::get_delete_handler(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->delete_handler);
   auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
-  return OCCollection::constructor.New({accessor});
+  return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCCollection::set_delete_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -954,7 +954,7 @@ Napi::Value OCCollection::get_get_handler(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->get_handler);
   auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
-  return OCCollection::constructor.New({accessor});
+  return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCCollection::set_get_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -966,7 +966,7 @@ Napi::Value OCCollection::get_get_properties(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_properties_cb_t> sp(&m_pvalue->get_properties);
   auto accessor = Napi::External<std::shared_ptr<oc_properties_cb_t>>::New(info.Env(), &sp);
-  return OCCollection::constructor.New({accessor});
+  return OCPropertiesCb::constructor.New({accessor});
 }
 
 void OCCollection::set_get_properties(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -988,7 +988,7 @@ Napi::Value OCCollection::get_name(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->name);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCCollection::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCCollection::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1020,7 +1020,7 @@ Napi::Value OCCollection::get_post_handler(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->post_handler);
   auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
-  return OCCollection::constructor.New({accessor});
+  return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCCollection::set_post_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1042,7 +1042,7 @@ Napi::Value OCCollection::get_put_handler(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->put_handler);
   auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
-  return OCCollection::constructor.New({accessor});
+  return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCCollection::set_put_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1054,7 +1054,7 @@ Napi::Value OCCollection::get_set_properties(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_properties_cb_t> sp(&m_pvalue->set_properties);
   auto accessor = Napi::External<std::shared_ptr<oc_properties_cb_t>>::New(info.Env(), &sp);
-  return OCCollection::constructor.New({accessor});
+  return OCPropertiesCb::constructor.New({accessor});
 }
 
 void OCCollection::set_set_properties(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1088,6 +1088,7 @@ auto array = Napi::Float64Array::New(info.Env(), 3);
 array[0] = m_pvalue->tag_pos_rel[0];
 array[1] = m_pvalue->tag_pos_rel[1];
 array[2] = m_pvalue->tag_pos_rel[2];
+return array;
 }
 
 void OCCollection::set_tag_pos_rel(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1101,7 +1102,7 @@ Napi::Value OCCollection::get_types(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->types);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCCollection::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCCollection::set_types(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1113,7 +1114,7 @@ Napi::Value OCCollection::get_uri(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->uri);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCCollection::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCCollection::set_uri(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1150,7 +1151,7 @@ Napi::Value OCCredData::get_data(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->data);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCCredData::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCCredData::set_data(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1217,7 +1218,7 @@ Napi::Value OCDeviceInfo::get_di(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_uuid_t> sp(&m_pvalue->di);
   auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
-  return OCDeviceInfo::constructor.New({accessor});
+  return OCUuid::constructor.New({accessor});
 }
 
 void OCDeviceInfo::set_di(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1229,7 +1230,7 @@ Napi::Value OCDeviceInfo::get_dmv(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->dmv);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCDeviceInfo::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCDeviceInfo::set_dmv(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1241,7 +1242,7 @@ Napi::Value OCDeviceInfo::get_icv(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->icv);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCDeviceInfo::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCDeviceInfo::set_icv(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1253,7 +1254,7 @@ Napi::Value OCDeviceInfo::get_name(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->name);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCDeviceInfo::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCDeviceInfo::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1265,7 +1266,7 @@ Napi::Value OCDeviceInfo::get_piid(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_uuid_t> sp(&m_pvalue->piid);
   auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
-  return OCDeviceInfo::constructor.New({accessor});
+  return OCUuid::constructor.New({accessor});
 }
 
 void OCDeviceInfo::set_piid(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1302,7 +1303,7 @@ Napi::Value OCEndpoint::get_addr(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_endpoint_t::dev_addr> sp(&m_pvalue->addr);
   auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t::dev_addr>>::New(info.Env(), &sp);
-  return OCEndpoint::constructor.New({accessor});
+  return DevAddr::constructor.New({accessor});
 }
 
 void OCEndpoint::set_addr(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1314,7 +1315,7 @@ Napi::Value OCEndpoint::get_addr_local(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_endpoint_t::dev_addr> sp(&m_pvalue->addr_local);
   auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t::dev_addr>>::New(info.Env(), &sp);
-  return OCEndpoint::constructor.New({accessor});
+  return DevAddr::constructor.New({accessor});
 }
 
 void OCEndpoint::set_addr_local(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1336,7 +1337,7 @@ Napi::Value OCEndpoint::get_di(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_uuid_t> sp(&m_pvalue->di);
   auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
-  return OCEndpoint::constructor.New({accessor});
+  return OCUuid::constructor.New({accessor});
 }
 
 void OCEndpoint::set_di(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1413,7 +1414,7 @@ Napi::Value OCEtimer::get_timer(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_timer> sp(&m_pvalue->timer);
   auto accessor = Napi::External<std::shared_ptr<oc_timer>>::New(info.Env(), &sp);
-  return OCEtimer::constructor.New({accessor});
+  return OCTimer::constructor.New({accessor});
 }
 
 void OCEtimer::set_timer(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1470,7 +1471,7 @@ Napi::Value OCEventCallback::get_timer(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_etimer> sp(&m_pvalue->timer);
   auto accessor = Napi::External<std::shared_ptr<oc_etimer>>::New(info.Env(), &sp);
-  return OCEventCallback::constructor.New({accessor});
+  return OCEtimer::constructor.New({accessor});
 }
 
 void OCEventCallback::set_timer(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1753,7 +1754,7 @@ Napi::Value OCLinkParams::get_key(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->key);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCLinkParams::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCLinkParams::set_key(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1765,7 +1766,7 @@ Napi::Value OCLinkParams::get_value(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->value);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCLinkParams::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCLinkParams::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1822,7 +1823,7 @@ Napi::Value OCLink::get_rel(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->rel);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCLink::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCLink::set_rel(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -1942,7 +1943,7 @@ Napi::Value OCMessage::get_endpoint(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_endpoint_t> sp(&m_pvalue->endpoint);
   auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
-  return OCMessage::constructor.New({accessor});
+  return OCEndpoint::constructor.New({accessor});
 }
 
 void OCMessage::set_endpoint(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2092,7 +2093,7 @@ Napi::Value OCPlatformInfo::get_mfg_name(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->mfg_name);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCPlatformInfo::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCPlatformInfo::set_mfg_name(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2104,7 +2105,7 @@ Napi::Value OCPlatformInfo::get_pi(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_uuid_t> sp(&m_pvalue->pi);
   auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
-  return OCPlatformInfo::constructor.New({accessor});
+  return OCUuid::constructor.New({accessor});
 }
 
 void OCPlatformInfo::set_pi(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2222,7 +2223,7 @@ Napi::Value OCRep::get_name(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->name);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCRep::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCRep::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2402,7 +2403,7 @@ Napi::Value OCResource::get_delete_handler(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->delete_handler);
   auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
-  return OCResource::constructor.New({accessor});
+  return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCResource::set_delete_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2424,7 +2425,7 @@ Napi::Value OCResource::get_get_handler(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->get_handler);
   auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
-  return OCResource::constructor.New({accessor});
+  return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCResource::set_get_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2436,7 +2437,7 @@ Napi::Value OCResource::get_get_properties(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_properties_cb_t> sp(&m_pvalue->get_properties);
   auto accessor = Napi::External<std::shared_ptr<oc_properties_cb_t>>::New(info.Env(), &sp);
-  return OCResource::constructor.New({accessor});
+  return OCPropertiesCb::constructor.New({accessor});
 }
 
 void OCResource::set_get_properties(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2458,7 +2459,7 @@ Napi::Value OCResource::get_name(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->name);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCResource::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCResource::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2502,7 +2503,7 @@ Napi::Value OCResource::get_post_handler(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->post_handler);
   auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
-  return OCResource::constructor.New({accessor});
+  return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCResource::set_post_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2524,7 +2525,7 @@ Napi::Value OCResource::get_put_handler(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->put_handler);
   auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
-  return OCResource::constructor.New({accessor});
+  return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCResource::set_put_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2536,7 +2537,7 @@ Napi::Value OCResource::get_set_properties(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_properties_cb_t> sp(&m_pvalue->set_properties);
   auto accessor = Napi::External<std::shared_ptr<oc_properties_cb_t>>::New(info.Env(), &sp);
-  return OCResource::constructor.New({accessor});
+  return OCPropertiesCb::constructor.New({accessor});
 }
 
 void OCResource::set_set_properties(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2570,6 +2571,7 @@ auto array = Napi::Float64Array::New(info.Env(), 3);
 array[0] = m_pvalue->tag_pos_rel[0];
 array[1] = m_pvalue->tag_pos_rel[1];
 array[2] = m_pvalue->tag_pos_rel[2];
+return array;
 }
 
 void OCResource::set_tag_pos_rel(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2583,7 +2585,7 @@ Napi::Value OCResource::get_types(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->types);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCResource::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCResource::set_types(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2595,7 +2597,7 @@ Napi::Value OCResource::get_uri(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->uri);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCResource::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCResource::set_uri(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2658,7 +2660,7 @@ Napi::Value OCRole::get_authority(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->authority);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCRole::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCRole::set_authority(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2670,7 +2672,7 @@ Napi::Value OCRole::get_role(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->role);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCRole::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCRole::set_role(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2707,7 +2709,7 @@ Napi::Value OCResourceType::get_rt(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->rt);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCResourceType::constructor.New({accessor});
+  return OCMmem::constructor.New({accessor});
 }
 
 void OCResourceType::set_rt(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2764,7 +2766,7 @@ Napi::Value OCSecurityAce::get_subject(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_ace_subject_t> sp(&m_pvalue->subject);
   auto accessor = Napi::External<std::shared_ptr<oc_ace_subject_t>>::New(info.Env(), &sp);
-  return OCSecurityAce::constructor.New({accessor});
+  return OCAceSubject::constructor.New({accessor});
 }
 
 void OCSecurityAce::set_subject(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2811,7 +2813,7 @@ Napi::Value OCSecurityAcl::get_rowneruuid(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_uuid_t> sp(&m_pvalue->rowneruuid);
   auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
-  return OCSecurityAcl::constructor.New({accessor});
+  return OCUuid::constructor.New({accessor});
 }
 
 void OCSecurityAcl::set_rowneruuid(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2848,7 +2850,7 @@ Napi::Value OCCreds::get_rowneruuid(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_uuid_t> sp(&m_pvalue->rowneruuid);
   auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
-  return OCCreds::constructor.New({accessor});
+  return OCUuid::constructor.New({accessor});
 }
 
 void OCCreds::set_rowneruuid(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2967,7 +2969,7 @@ Napi::Value OCCred::get_privatedata(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_cred_data_t> sp(&m_pvalue->privatedata);
   auto accessor = Napi::External<std::shared_ptr<oc_cred_data_t>>::New(info.Env(), &sp);
-  return OCCred::constructor.New({accessor});
+  return OCCredData::constructor.New({accessor});
 }
 
 void OCCred::set_privatedata(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2980,7 +2982,7 @@ Napi::Value OCCred::get_publicdata(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_cred_data_t> sp(&m_pvalue->publicdata);
   auto accessor = Napi::External<std::shared_ptr<oc_cred_data_t>>::New(info.Env(), &sp);
-  return OCCred::constructor.New({accessor});
+  return OCCredData::constructor.New({accessor});
 }
 
 void OCCred::set_publicdata(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -2993,7 +2995,7 @@ Napi::Value OCCred::get_subjectuuid(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_uuid_t> sp(&m_pvalue->subjectuuid);
   auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
-  return OCCred::constructor.New({accessor});
+  return OCUuid::constructor.New({accessor});
 }
 
 void OCCred::set_subjectuuid(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3211,7 +3213,7 @@ Napi::Value OCAceSubject::get_uuid(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_uuid_t> sp(&m_pvalue->uuid);
   auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
-  return OCAceSubject::constructor.New({accessor});
+  return OCUuid::constructor.New({accessor});
 }
 
 void OCAceSubject::set_uuid(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3248,7 +3250,7 @@ Napi::Value DevAddr::get_bt(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_le_addr_t> sp(&m_pvalue->bt);
   auto accessor = Napi::External<std::shared_ptr<oc_le_addr_t>>::New(info.Env(), &sp);
-  return DevAddr::constructor.New({accessor});
+  return OCLEAddr::constructor.New({accessor});
 }
 
 void DevAddr::set_bt(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3260,7 +3262,7 @@ Napi::Value DevAddr::get_ipv4(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_ipv4_addr_t> sp(&m_pvalue->ipv4);
   auto accessor = Napi::External<std::shared_ptr<oc_ipv4_addr_t>>::New(info.Env(), &sp);
-  return DevAddr::constructor.New({accessor});
+  return OCIPv4Addr::constructor.New({accessor});
 }
 
 void DevAddr::set_ipv4(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3272,7 +3274,7 @@ Napi::Value DevAddr::get_ipv6(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_ipv6_addr_t> sp(&m_pvalue->ipv6);
   auto accessor = Napi::External<std::shared_ptr<oc_ipv6_addr_t>>::New(info.Env(), &sp);
-  return DevAddr::constructor.New({accessor});
+  return OCIPv6Addr::constructor.New({accessor});
 }
 
 void DevAddr::set_ipv6(const Napi::CallbackInfo& info, const Napi::Value& value)

@@ -17,7 +17,7 @@ class CLASSNAME : public Napi::ObjectWrap<CLASSNAME>
 {
 public:
   CLASSNAME(const Napi::CallbackInfo&);
-  CLASSNAME(const napi_env&, const napi_value&); //TODO
+  //CLASSNAME(const napi_env&, const napi_value&) {} //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator STRUCTNAME*() { return m_pvalue.get(); }
@@ -125,7 +125,7 @@ STRUCT_SET = "  m_pvalue->VALNAME = *(*(value.As<Napi::External<std::shared_ptr<
 STRUCT_GET = "\
   std::shared_ptr<STRUCTNAME> sp(&m_pvalue->VALNAME);
   auto accessor = Napi::External<std::shared_ptr<STRUCTNAME>>::New(info.Env(), &sp);
-  return CLASSNAME::constructor.New({accessor});"
+  return WRAPNAME::constructor.New({accessor});"
 
 ENUM_SET = "  m_pvalue->VALNAME = static_cast<STRUCTNAME>(value.As<Napi::Number>().Uint32Value());"
 ENUM_GET = "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);"
@@ -298,7 +298,8 @@ MAPPER = {
     "auto array = Napi::Float64Array::New(info.Env(), 3);\n" +
     "array[0] = m_pvalue->tag_pos_rel[0];\n" +
     "array[1] = m_pvalue->tag_pos_rel[1];\n" +
-    "array[2] = m_pvalue->tag_pos_rel[2];"},
+    "array[2] = m_pvalue->tag_pos_rel[2];\n" +
+    "return array;"},
   "oc_resource_s::tag_pos_rel"=>
   {"set"=>
     "m_pvalue->tag_pos_rel[0] = value.As<Napi::Float64Array>()[0];\n" +
@@ -308,7 +309,8 @@ MAPPER = {
     "auto array = Napi::Float64Array::New(info.Env(), 3);\n" +
     "array[0] = m_pvalue->tag_pos_rel[0];\n" +
     "array[1] = m_pvalue->tag_pos_rel[1];\n" +
-    "array[2] = m_pvalue->tag_pos_rel[2];"},
+    "array[2] = m_pvalue->tag_pos_rel[2];\n" +
+    "return array;"},
   "oc_cloud_context_t::user_data"=>
   {"set"=>
    "callback_data = value;",
@@ -675,7 +677,7 @@ def gen_setget_impl(key, h)
     t = v
     t = TYPEDEFS[v] if TYPEDEFS[v] != nil
 
-    impl = SETGETIMPL.gsub(/^\#error getter/, gen_getter_impl(key, k, t)).gsub(/^#error setter/, gen_setter_impl(key, k, t)).gsub(/STRUCTNAME/, t).gsub(/CLASSNAME/, gen_classname(key)).gsub(/VALNAME/, k)
+    impl = SETGETIMPL.gsub(/^\#error getter/, gen_getter_impl(key, k, t)).gsub(/^#error setter/, gen_setter_impl(key, k, t)).gsub(/STRUCTNAME/, t).gsub(/CLASSNAME/, gen_classname(key)).gsub(/VALNAME/, k).gsub(/WRAPNAME/, gen_classname(t))
 
 
     if IFDEFS.has_key?(key) and IFDEFS[key].is_a?(Hash) and IFDEFS[key].has_key?(k)
@@ -852,7 +854,8 @@ def gen_funcimpl(name, param)
       raw_ty = raw_ty.gsub(/^struct /, "")
       raw_ty = raw_ty.gsub(/^const /, "")
       raw_ty = TYPEDEFS[raw_ty] if TYPEDEFS.keys.include?(raw_ty)
-      decl += "  #{gen_classname(raw_ty)} #{n} = info[#{i}].As<#{gen_classname(raw_ty)}>();\n"
+      #decl += "  #{gen_classname(raw_ty)} #{n} = info[#{i}].As<#{gen_classname(raw_ty)}>();\n"
+      decl += "  #{raw_ty}* #{n};// = dynamic_cast<#{gen_classname(raw_ty)}>(info[#{i}]);\n"
       args.append(n)
     elsif ENUMS.include?(ty)
       decl += "  #{ty} #{n} = static_cast<#{ty}>(info[#{i}].As<Napi::Number>().Uint32Value());\n"
