@@ -70,8 +70,281 @@ void OCAceResource::set_wildcard(const Napi::CallbackInfo& info, const Napi::Val
   m_pvalue->wildcard = static_cast<oc_ace_wildcard_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::Function OCBlockwiseRequestState::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCBlockwiseRequestState", {
+    OCBlockwiseRequestState::InstanceAccessor("base", &OCBlockwiseRequestState::get_base, &OCBlockwiseRequestState::set_base),
 
+  });
 
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+OCBlockwiseRequestState::OCBlockwiseRequestState(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<oc_blockwise_request_state_s>(new oc_blockwise_request_state_s());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_blockwise_request_state_s>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value OCBlockwiseRequestState::get_base(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_blockwise_state_s> sp(&m_pvalue->base);
+  auto accessor = Napi::External<std::shared_ptr<oc_blockwise_state_s>>::New(info.Env(), &sp);
+  return OCBlockwiseRequestState::constructor.New({accessor});
+}
+
+void OCBlockwiseRequestState::set_base(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->base = *(*(value.As<Napi::External<std::shared_ptr<oc_blockwise_state_s>>>().Data()));
+}
+
+Napi::Function OCBlockwiseResponseState::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCBlockwiseResponseState", {
+    OCBlockwiseResponseState::InstanceAccessor("base", &OCBlockwiseResponseState::get_base, &OCBlockwiseResponseState::set_base),
+    OCBlockwiseResponseState::InstanceAccessor("etag", &OCBlockwiseResponseState::get_etag, &OCBlockwiseResponseState::set_etag),
+    OCBlockwiseResponseState::InstanceAccessor("observe_seq", &OCBlockwiseResponseState::get_observe_seq, &OCBlockwiseResponseState::set_observe_seq),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+OCBlockwiseResponseState::OCBlockwiseResponseState(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<oc_blockwise_response_state_s>(new oc_blockwise_response_state_s());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_blockwise_response_state_s>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value OCBlockwiseResponseState::get_base(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_blockwise_state_s> sp(&m_pvalue->base);
+  auto accessor = Napi::External<std::shared_ptr<oc_blockwise_state_s>>::New(info.Env(), &sp);
+  return OCBlockwiseResponseState::constructor.New({accessor});
+}
+
+void OCBlockwiseResponseState::set_base(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->base = *(*(value.As<Napi::External<std::shared_ptr<oc_blockwise_state_s>>>().Data()));
+}
+
+Napi::Value OCBlockwiseResponseState::get_etag(const Napi::CallbackInfo& info)
+{
+return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->etag, COAP_ETAG_LEN);
+}
+
+void OCBlockwiseResponseState::set_etag(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+for(uint32_t i=0; i<COAP_ETAG_LEN; i++) { m_pvalue->etag[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }
+}
+
+#ifdef OC_CLIENT
+Napi::Value OCBlockwiseResponseState::get_observe_seq(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->observe_seq);
+}
+
+void OCBlockwiseResponseState::set_observe_seq(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->observe_seq = value.As<Napi::Number>().Int32Value();
+}
+#endif
+
+Napi::Function OCBlockwiseState::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCBlockwiseState", {
+    OCBlockwiseState::InstanceAccessor("buffer", &OCBlockwiseState::get_buffer, &OCBlockwiseState::set_buffer),
+    OCBlockwiseState::InstanceAccessor("client_cb", &OCBlockwiseState::get_client_cb, &OCBlockwiseState::set_client_cb),
+    OCBlockwiseState::InstanceAccessor("endpoint", &OCBlockwiseState::get_endpoint, &OCBlockwiseState::set_endpoint),
+    OCBlockwiseState::InstanceAccessor("href", &OCBlockwiseState::get_href, &OCBlockwiseState::set_href),
+    OCBlockwiseState::InstanceAccessor("method", &OCBlockwiseState::get_method, &OCBlockwiseState::set_method),
+    OCBlockwiseState::InstanceAccessor("mid", &OCBlockwiseState::get_mid, &OCBlockwiseState::set_mid),
+    OCBlockwiseState::InstanceAccessor("next_block_offset", &OCBlockwiseState::get_next_block_offset, &OCBlockwiseState::set_next_block_offset),
+    OCBlockwiseState::InstanceAccessor("payload_size", &OCBlockwiseState::get_payload_size, &OCBlockwiseState::set_payload_size),
+    OCBlockwiseState::InstanceAccessor("ref_count", &OCBlockwiseState::get_ref_count, &OCBlockwiseState::set_ref_count),
+    OCBlockwiseState::InstanceAccessor("role", &OCBlockwiseState::get_role, &OCBlockwiseState::set_role),
+    OCBlockwiseState::InstanceAccessor("token", &OCBlockwiseState::get_token, &OCBlockwiseState::set_token),
+    OCBlockwiseState::InstanceAccessor("token_len", &OCBlockwiseState::get_token_len, &OCBlockwiseState::set_token_len),
+    OCBlockwiseState::InstanceAccessor("uri_query", &OCBlockwiseState::get_uri_query, &OCBlockwiseState::set_uri_query),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+OCBlockwiseState::OCBlockwiseState(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<oc_blockwise_state_s>(new oc_blockwise_state_s());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_blockwise_state_s>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value OCBlockwiseState::get_buffer(const Napi::CallbackInfo& info)
+{
+return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, OC_MAX_APP_DATA_SIZE);
+}
+
+void OCBlockwiseState::set_buffer(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+for(uint32_t i=0; i<value.As<Napi::Buffer<uint8_t>>().Length(); i++) { m_pvalue->buffer[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }
+}
+
+#ifdef OC_CLEINT
+Napi::Value OCBlockwiseState::get_client_cb(const Napi::CallbackInfo& info)
+{
+#error void* OCBlockwiseState::client_cb
+}
+
+void OCBlockwiseState::set_client_cb(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+#error void* OCBlockwiseState::client_cb
+}
+#endif
+
+Napi::Value OCBlockwiseState::get_endpoint(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_endpoint_t> sp(&m_pvalue->endpoint);
+  auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+  return OCBlockwiseState::constructor.New({accessor});
+}
+
+void OCBlockwiseState::set_endpoint(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->endpoint = *(*(value.As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data()));
+}
+
+Napi::Value OCBlockwiseState::get_href(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_mmem> sp(&m_pvalue->href);
+  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+  return OCBlockwiseState::constructor.New({accessor});
+}
+
+void OCBlockwiseState::set_href(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->href = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+}
+
+Napi::Value OCBlockwiseState::get_method(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->method);
+}
+
+void OCBlockwiseState::set_method(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->method = static_cast<oc_method_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+#ifdef OC_CLIENT
+Napi::Value OCBlockwiseState::get_mid(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->mid);
+}
+
+void OCBlockwiseState::set_mid(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->mid = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+#endif
+
+Napi::Value OCBlockwiseState::get_next_block_offset(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->next_block_offset);
+}
+
+void OCBlockwiseState::set_next_block_offset(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->next_block_offset = static_cast<uint32_t>(value.As<Napi::Number>());
+}
+
+Napi::Value OCBlockwiseState::get_payload_size(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->payload_size);
+}
+
+void OCBlockwiseState::set_payload_size(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->payload_size = static_cast<uint32_t>(value.As<Napi::Number>());
+}
+
+Napi::Value OCBlockwiseState::get_ref_count(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->ref_count);
+}
+
+void OCBlockwiseState::set_ref_count(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->ref_count = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value OCBlockwiseState::get_role(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->role);
+}
+
+void OCBlockwiseState::set_role(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->role = static_cast<oc_blockwise_role_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+#ifdef OC_CLIENT
+Napi::Value OCBlockwiseState::get_token(const Napi::CallbackInfo& info)
+{
+return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->token, COAP_TOKEN_LEN);
+}
+
+void OCBlockwiseState::set_token(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) { m_pvalue->token[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }
+}
+#endif
+
+#ifdef OC_CLIENT
+Napi::Value OCBlockwiseState::get_token_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->token_len);
+}
+
+void OCBlockwiseState::set_token_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->token_len = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+#endif
+
+Napi::Value OCBlockwiseState::get_uri_query(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_mmem> sp(&m_pvalue->uri_query);
+  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+  return OCBlockwiseState::constructor.New({accessor});
+}
+
+void OCBlockwiseState::set_uri_query(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->uri_query = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+}
 
 Napi::Function OCClientCallback::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCClientCallback", {
@@ -1166,6 +1439,41 @@ void OCEndpoint::set_version(const Napi::CallbackInfo& info, const Napi::Value& 
   m_pvalue->version = static_cast<ocf_version_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::Function OCEtimer::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCEtimer", {
+    OCEtimer::InstanceAccessor("timer", &OCEtimer::get_timer, &OCEtimer::set_timer),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+OCEtimer::OCEtimer(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<oc_etimer>(new oc_etimer());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_etimer>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value OCEtimer::get_timer(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_timer> sp(&m_pvalue->timer);
+  auto accessor = Napi::External<std::shared_ptr<oc_timer>>::New(info.Env(), &sp);
+  return OCEtimer::constructor.New({accessor});
+}
+
+void OCEtimer::set_timer(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->timer = *(*(value.As<Napi::External<std::shared_ptr<oc_timer>>>().Data()));
+}
 
 Napi::Function OCEventCallback::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEventCallback", {
@@ -1581,7 +1889,156 @@ void OCLink::set_rel(const Napi::CallbackInfo& info, const Napi::Value& value)
   m_pvalue->rel = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
+Napi::Function OCMemb::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCMemb", {
+    OCMemb::InstanceAccessor("count", &OCMemb::get_count, &OCMemb::set_count),
+    OCMemb::InstanceAccessor("num", &OCMemb::get_num, &OCMemb::set_num),
+    OCMemb::InstanceAccessor("size", &OCMemb::get_size, &OCMemb::set_size),
 
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+OCMemb::OCMemb(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<oc_memb>(new oc_memb());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_memb>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value OCMemb::get_count(const Napi::CallbackInfo& info)
+{
+return Napi::Buffer<char>::New(info.Env(), m_pvalue->count, m_pvalue->num);
+}
+
+void OCMemb::set_count(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+for(uint32_t i=0; i<m_pvalue->num; i++) { m_pvalue->count[i] = value.As<Napi::Buffer<int8_t>>().Data()[i]; }
+}
+
+Napi::Value OCMemb::get_num(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->num);
+}
+
+void OCMemb::set_num(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->num = static_cast<unsigned short>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value OCMemb::get_size(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->size);
+}
+
+void OCMemb::set_size(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->size = static_cast<unsigned short>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Function OCMessage::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCMessage", {
+    OCMessage::InstanceAccessor("data", &OCMessage::get_data, &OCMessage::set_data),
+    OCMessage::InstanceAccessor("encrypted", &OCMessage::get_encrypted, &OCMessage::set_encrypted),
+    OCMessage::InstanceAccessor("endpoint", &OCMessage::get_endpoint, &OCMessage::set_endpoint),
+    OCMessage::InstanceAccessor("length", &OCMessage::get_length, &OCMessage::set_length),
+    OCMessage::InstanceAccessor("read_offset", &OCMessage::get_read_offset, &OCMessage::set_read_offset),
+    OCMessage::InstanceAccessor("ref_count", &OCMessage::get_ref_count, &OCMessage::set_ref_count),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+OCMessage::OCMessage(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<oc_message_s>(new oc_message_s());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_message_s>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value OCMessage::get_data(const Napi::CallbackInfo& info)
+{
+return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->data, OC_PDU_SIZE);
+}
+
+void OCMessage::set_data(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+for(uint32_t i=0; i<value.As<Napi::Buffer<uint8_t>>().Length(); i++) { m_pvalue->data[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }
+}
+
+#ifdef OC_SECURITY
+Napi::Value OCMessage::get_encrypted(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->encrypted);
+}
+
+void OCMessage::set_encrypted(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->encrypted = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+#endif
+
+Napi::Value OCMessage::get_endpoint(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_endpoint_t> sp(&m_pvalue->endpoint);
+  auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+  return OCMessage::constructor.New({accessor});
+}
+
+void OCMessage::set_endpoint(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->endpoint = *(*(value.As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data()));
+}
+
+Napi::Value OCMessage::get_length(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->length);
+}
+
+void OCMessage::set_length(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->length = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+#ifdef OC_TCP
+Napi::Value OCMessage::get_read_offset(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->read_offset);
+}
+
+void OCMessage::set_read_offset(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->read_offset = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
+}
+#endif
+
+Napi::Value OCMessage::get_ref_count(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->ref_count);
+}
+
+void OCMessage::set_ref_count(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->ref_count = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
 
 Napi::Function OCMmem::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCMmem", {
@@ -2700,6 +3157,50 @@ void OCSoftwareUpdateHandler::set_validate_purl(const Napi::CallbackInfo& info, 
 validate_purl_function = value;
 }
 
+Napi::Function OCTimer::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCTimer", {
+    OCTimer::InstanceAccessor("interval", &OCTimer::get_interval, &OCTimer::set_interval),
+    OCTimer::InstanceAccessor("start", &OCTimer::get_start, &OCTimer::set_start),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+OCTimer::OCTimer(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<oc_timer>(new oc_timer());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_timer>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value OCTimer::get_interval(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->interval);
+}
+
+void OCTimer::set_interval(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->interval = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value OCTimer::get_start(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->start);
+}
+
+void OCTimer::set_start(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->start = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
+}
 
 Napi::Function OCUuid::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCUuid", {
@@ -3102,6 +3603,50 @@ void OCAceWildcard::set_OC_ACE_WC_ALL_PUBLIC(const Napi::CallbackInfo& info, con
 
 }
 
+Napi::Function OCBlockwiseRole::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCBlockwiseRole", {
+    OCBlockwiseRole::InstanceAccessor("OC_BLOCKWISE_CLIENT", &OCBlockwiseRole::get_OC_BLOCKWISE_CLIENT, nullptr),
+    OCBlockwiseRole::InstanceAccessor("OC_BLOCKWISE_SERVER", &OCBlockwiseRole::get_OC_BLOCKWISE_SERVER, nullptr),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+OCBlockwiseRole::OCBlockwiseRole(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<oc_blockwise_role_t>(new oc_blockwise_role_t());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_blockwise_role_t>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value OCBlockwiseRole::get_OC_BLOCKWISE_CLIENT(const Napi::CallbackInfo& info)
+{
+return Napi::Number::New(info.Env(), OC_BLOCKWISE_CLIENT);
+}
+
+void OCBlockwiseRole::set_OC_BLOCKWISE_CLIENT(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value OCBlockwiseRole::get_OC_BLOCKWISE_SERVER(const Napi::CallbackInfo& info)
+{
+return Napi::Number::New(info.Env(), OC_BLOCKWISE_SERVER);
+}
+
+void OCBlockwiseRole::set_OC_BLOCKWISE_SERVER(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
 
 Napi::Function OCDiscoveryFlags::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCDiscoveryFlags", {

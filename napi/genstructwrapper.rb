@@ -432,15 +432,15 @@ IGNORES = {
   "oc_client_response_t" => [/endpoint/, /payload/, /client_cb/, /user_data/],
   "oc_request_t" => [/^origin$/, /^request_payload$/, /^resource$/, /^response$/], 
 
-  "oc_blockwise_request_state_s" => nil,
-  "oc_blockwise_response_state_s" => nil,
-  "oc_blockwise_role_t" => nil,
-  "oc_blockwise_state_s" => nil,
-  "oc_etimer" => nil,
-  "oc_memb" => nil,
-  "oc_message_s" => nil,
   "pool" => nil,
-  "oc_timer" => nil,
+#  "oc_blockwise_request_state_s" => nil,
+#  "oc_blockwise_response_state_s" => nil,
+#  "oc_blockwise_role_t" => nil,
+#  "oc_blockwise_state_s" => nil,
+#  "oc_etimer" => nil,
+#  "oc_memb" => nil,
+#  "oc_message_s" => nil,
+#  "oc_timer" => nil,
 
 }
 
