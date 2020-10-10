@@ -1,10 +1,8 @@
 #include "structs.h"
+Napi::FunctionReference OCAceResource::constructor;
+
 Napi::Function OCAceResource::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceResource", {
-    OCAceResource::InstanceAccessor("href", &OCAceResource::get_href, &OCAceResource::set_href),
-    OCAceResource::InstanceAccessor("interfaces", &OCAceResource::get_interfaces, &OCAceResource::set_interfaces),
-    OCAceResource::InstanceAccessor("types", &OCAceResource::get_types, &OCAceResource::set_types),
-    OCAceResource::InstanceAccessor("wildcard", &OCAceResource::get_wildcard, &OCAceResource::set_wildcard),
 
   });
 
@@ -70,9 +68,10 @@ void OCAceResource::set_wildcard(const Napi::CallbackInfo& info, const Napi::Val
   m_pvalue->wildcard = static_cast<oc_ace_wildcard_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::FunctionReference OCBlockwiseRequestState::constructor;
+
 Napi::Function OCBlockwiseRequestState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCBlockwiseRequestState", {
-    OCBlockwiseRequestState::InstanceAccessor("base", &OCBlockwiseRequestState::get_base, &OCBlockwiseRequestState::set_base),
 
   });
 
@@ -106,11 +105,13 @@ void OCBlockwiseRequestState::set_base(const Napi::CallbackInfo& info, const Nap
   m_pvalue->base = *(*(value.As<Napi::External<std::shared_ptr<oc_blockwise_state_s>>>().Data()));
 }
 
+Napi::FunctionReference OCBlockwiseResponseState::constructor;
+
 Napi::Function OCBlockwiseResponseState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCBlockwiseResponseState", {
-    OCBlockwiseResponseState::InstanceAccessor("base", &OCBlockwiseResponseState::get_base, &OCBlockwiseResponseState::set_base),
-    OCBlockwiseResponseState::InstanceAccessor("etag", &OCBlockwiseResponseState::get_etag, &OCBlockwiseResponseState::set_etag),
+#ifdef OC_CLIENT
     OCBlockwiseResponseState::InstanceAccessor("observe_seq", &OCBlockwiseResponseState::get_observe_seq, &OCBlockwiseResponseState::set_observe_seq),
+#endif
 
   });
 
@@ -166,21 +167,22 @@ void OCBlockwiseResponseState::set_observe_seq(const Napi::CallbackInfo& info, c
 }
 #endif
 
+Napi::FunctionReference OCBlockwiseState::constructor;
+
 Napi::Function OCBlockwiseState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCBlockwiseState", {
-    OCBlockwiseState::InstanceAccessor("buffer", &OCBlockwiseState::get_buffer, &OCBlockwiseState::set_buffer),
+#ifdef OC_CLEINT
     OCBlockwiseState::InstanceAccessor("client_cb", &OCBlockwiseState::get_client_cb, &OCBlockwiseState::set_client_cb),
-    OCBlockwiseState::InstanceAccessor("endpoint", &OCBlockwiseState::get_endpoint, &OCBlockwiseState::set_endpoint),
-    OCBlockwiseState::InstanceAccessor("href", &OCBlockwiseState::get_href, &OCBlockwiseState::set_href),
-    OCBlockwiseState::InstanceAccessor("method", &OCBlockwiseState::get_method, &OCBlockwiseState::set_method),
+#endif
+#ifdef OC_CLIENT
     OCBlockwiseState::InstanceAccessor("mid", &OCBlockwiseState::get_mid, &OCBlockwiseState::set_mid),
-    OCBlockwiseState::InstanceAccessor("next_block_offset", &OCBlockwiseState::get_next_block_offset, &OCBlockwiseState::set_next_block_offset),
-    OCBlockwiseState::InstanceAccessor("payload_size", &OCBlockwiseState::get_payload_size, &OCBlockwiseState::set_payload_size),
-    OCBlockwiseState::InstanceAccessor("ref_count", &OCBlockwiseState::get_ref_count, &OCBlockwiseState::set_ref_count),
-    OCBlockwiseState::InstanceAccessor("role", &OCBlockwiseState::get_role, &OCBlockwiseState::set_role),
+#endif
+#ifdef OC_CLIENT
     OCBlockwiseState::InstanceAccessor("token", &OCBlockwiseState::get_token, &OCBlockwiseState::set_token),
+#endif
+#ifdef OC_CLIENT
     OCBlockwiseState::InstanceAccessor("token_len", &OCBlockwiseState::get_token_len, &OCBlockwiseState::set_token_len),
-    OCBlockwiseState::InstanceAccessor("uri_query", &OCBlockwiseState::get_uri_query, &OCBlockwiseState::set_uri_query),
+#endif
 
   });
 
@@ -346,23 +348,10 @@ void OCBlockwiseState::set_uri_query(const Napi::CallbackInfo& info, const Napi:
   m_pvalue->uri_query = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
+Napi::FunctionReference OCClientCallback::constructor;
+
 Napi::Function OCClientCallback::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCClientCallback", {
-    OCClientCallback::InstanceAccessor("discovery", &OCClientCallback::get_discovery, &OCClientCallback::set_discovery),
-    OCClientCallback::InstanceAccessor("handler", &OCClientCallback::get_handler, &OCClientCallback::set_handler),
-    OCClientCallback::InstanceAccessor("method", &OCClientCallback::get_method, &OCClientCallback::set_method),
-    OCClientCallback::InstanceAccessor("mid", &OCClientCallback::get_mid, &OCClientCallback::set_mid),
-    OCClientCallback::InstanceAccessor("multicast", &OCClientCallback::get_multicast, &OCClientCallback::set_multicast),
-    OCClientCallback::InstanceAccessor("observe_seq", &OCClientCallback::get_observe_seq, &OCClientCallback::set_observe_seq),
-    OCClientCallback::InstanceAccessor("qos", &OCClientCallback::get_qos, &OCClientCallback::set_qos),
-    OCClientCallback::InstanceAccessor("query", &OCClientCallback::get_query, &OCClientCallback::set_query),
-    OCClientCallback::InstanceAccessor("ref_count", &OCClientCallback::get_ref_count, &OCClientCallback::set_ref_count),
-    OCClientCallback::InstanceAccessor("separate", &OCClientCallback::get_separate, &OCClientCallback::set_separate),
-    OCClientCallback::InstanceAccessor("stop_multicast_receive", &OCClientCallback::get_stop_multicast_receive, &OCClientCallback::set_stop_multicast_receive),
-    OCClientCallback::InstanceAccessor("timestamp", &OCClientCallback::get_timestamp, &OCClientCallback::set_timestamp),
-    OCClientCallback::InstanceAccessor("token", &OCClientCallback::get_token, &OCClientCallback::set_token),
-    OCClientCallback::InstanceAccessor("token_len", &OCClientCallback::get_token_len, &OCClientCallback::set_token_len),
-    OCClientCallback::InstanceAccessor("uri", &OCClientCallback::get_uri, &OCClientCallback::set_uri),
 
   });
 
@@ -540,11 +529,10 @@ void OCClientCallback::set_uri(const Napi::CallbackInfo& info, const Napi::Value
   m_pvalue->uri = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
+Napi::FunctionReference OCClientHandler::constructor;
+
 Napi::Function OCClientHandler::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCClientHandler", {
-    OCClientHandler::InstanceAccessor("discovery", &OCClientHandler::get_discovery, &OCClientHandler::set_discovery),
-    OCClientHandler::InstanceAccessor("discovery_all", &OCClientHandler::get_discovery_all, &OCClientHandler::set_discovery_all),
-    OCClientHandler::InstanceAccessor("response", &OCClientHandler::get_response, &OCClientHandler::set_response),
 
   });
 
@@ -596,11 +584,10 @@ void OCClientHandler::set_response(const Napi::CallbackInfo& info, const Napi::V
 response_function = value;
 }
 
+Napi::FunctionReference OCClientResponse::constructor;
+
 Napi::Function OCClientResponse::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCClientResponse", {
-    OCClientResponse::InstanceAccessor("code", &OCClientResponse::get_code, &OCClientResponse::set_code),
-    OCClientResponse::InstanceAccessor("content_format", &OCClientResponse::get_content_format, &OCClientResponse::set_content_format),
-    OCClientResponse::InstanceAccessor("observe_option", &OCClientResponse::get_observe_option, &OCClientResponse::set_observe_option),
 
   });
 
@@ -652,18 +639,10 @@ void OCClientResponse::set_observe_option(const Napi::CallbackInfo& info, const 
   m_pvalue->observe_option = static_cast<int>(value.As<Napi::Number>());
 }
 
+Napi::FunctionReference OCCloudContext::constructor;
+
 Napi::Function OCCloudContext::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudContext", {
-    OCCloudContext::InstanceAccessor("callback", &OCCloudContext::get_callback, &OCCloudContext::set_callback),
-    OCCloudContext::InstanceAccessor("cloud_manager", &OCCloudContext::get_cloud_manager, &OCCloudContext::set_cloud_manager),
-    OCCloudContext::InstanceAccessor("device", &OCCloudContext::get_device, &OCCloudContext::set_device),
-    OCCloudContext::InstanceAccessor("expires_in", &OCCloudContext::get_expires_in, &OCCloudContext::set_expires_in),
-    OCCloudContext::InstanceAccessor("last_error", &OCCloudContext::get_last_error, &OCCloudContext::set_last_error),
-    OCCloudContext::InstanceAccessor("rd_delete_all", &OCCloudContext::get_rd_delete_all, &OCCloudContext::set_rd_delete_all),
-    OCCloudContext::InstanceAccessor("retry_count", &OCCloudContext::get_retry_count, &OCCloudContext::set_retry_count),
-    OCCloudContext::InstanceAccessor("retry_refresh_token_count", &OCCloudContext::get_retry_refresh_token_count, &OCCloudContext::set_retry_refresh_token_count),
-    OCCloudContext::InstanceAccessor("store", &OCCloudContext::get_store, &OCCloudContext::set_store),
-    OCCloudContext::InstanceAccessor("user_data", &OCCloudContext::get_user_data, &OCCloudContext::set_user_data),
 
   });
 
@@ -787,17 +766,10 @@ void OCCloudContext::set_user_data(const Napi::CallbackInfo& info, const Napi::V
 callback_data = value;
 }
 
+Napi::FunctionReference OCCloudStore::constructor;
+
 Napi::Function OCCloudStore::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudStore", {
-    OCCloudStore::InstanceAccessor("access_token", &OCCloudStore::get_access_token, &OCCloudStore::set_access_token),
-    OCCloudStore::InstanceAccessor("auth_provider", &OCCloudStore::get_auth_provider, &OCCloudStore::set_auth_provider),
-    OCCloudStore::InstanceAccessor("ci_server", &OCCloudStore::get_ci_server, &OCCloudStore::set_ci_server),
-    OCCloudStore::InstanceAccessor("cps", &OCCloudStore::get_cps, &OCCloudStore::set_cps),
-    OCCloudStore::InstanceAccessor("device", &OCCloudStore::get_device, &OCCloudStore::set_device),
-    OCCloudStore::InstanceAccessor("refresh_token", &OCCloudStore::get_refresh_token, &OCCloudStore::set_refresh_token),
-    OCCloudStore::InstanceAccessor("sid", &OCCloudStore::get_sid, &OCCloudStore::set_sid),
-    OCCloudStore::InstanceAccessor("status", &OCCloudStore::get_status, &OCCloudStore::set_status),
-    OCCloudStore::InstanceAccessor("uid", &OCCloudStore::get_uid, &OCCloudStore::set_uid),
 
   });
 
@@ -921,26 +893,10 @@ void OCCloudStore::set_uid(const Napi::CallbackInfo& info, const Napi::Value& va
   m_pvalue->uid = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
+Napi::FunctionReference OCCollection::constructor;
+
 Napi::Function OCCollection::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCollection", {
-    OCCollection::InstanceAccessor("default_interface", &OCCollection::get_default_interface, &OCCollection::set_default_interface),
-    OCCollection::InstanceAccessor("delete_handler", &OCCollection::get_delete_handler, &OCCollection::set_delete_handler),
-    OCCollection::InstanceAccessor("device", &OCCollection::get_device, &OCCollection::set_device),
-    OCCollection::InstanceAccessor("get_handler", &OCCollection::get_get_handler, &OCCollection::set_get_handler),
-    OCCollection::InstanceAccessor("get_properties", &OCCollection::get_get_properties, &OCCollection::set_get_properties),
-    OCCollection::InstanceAccessor("interfaces", &OCCollection::get_interfaces, &OCCollection::set_interfaces),
-    OCCollection::InstanceAccessor("name", &OCCollection::get_name, &OCCollection::set_name),
-    OCCollection::InstanceAccessor("num_links", &OCCollection::get_num_links, &OCCollection::set_num_links),
-    OCCollection::InstanceAccessor("num_observers", &OCCollection::get_num_observers, &OCCollection::set_num_observers),
-    OCCollection::InstanceAccessor("post_handler", &OCCollection::get_post_handler, &OCCollection::set_post_handler),
-    OCCollection::InstanceAccessor("properties", &OCCollection::get_properties, &OCCollection::set_properties),
-    OCCollection::InstanceAccessor("put_handler", &OCCollection::get_put_handler, &OCCollection::set_put_handler),
-    OCCollection::InstanceAccessor("set_properties", &OCCollection::get_set_properties, &OCCollection::set_set_properties),
-    OCCollection::InstanceAccessor("tag_pos_desc", &OCCollection::get_tag_pos_desc, &OCCollection::set_tag_pos_desc),
-    OCCollection::InstanceAccessor("tag_pos_func", &OCCollection::get_tag_pos_func, &OCCollection::set_tag_pos_func),
-    OCCollection::InstanceAccessor("tag_pos_rel", &OCCollection::get_tag_pos_rel, &OCCollection::set_tag_pos_rel),
-    OCCollection::InstanceAccessor("types", &OCCollection::get_types, &OCCollection::set_types),
-    OCCollection::InstanceAccessor("uri", &OCCollection::get_uri, &OCCollection::set_uri),
 
   });
 
@@ -1165,10 +1121,10 @@ void OCCollection::set_uri(const Napi::CallbackInfo& info, const Napi::Value& va
   m_pvalue->uri = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
+Napi::FunctionReference OCCredData::constructor;
+
 Napi::Function OCCredData::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCredData", {
-    OCCredData::InstanceAccessor("data", &OCCredData::get_data, &OCCredData::set_data),
-    OCCredData::InstanceAccessor("encoding", &OCCredData::get_encoding, &OCCredData::set_encoding),
 
   });
 
@@ -1212,15 +1168,10 @@ void OCCredData::set_encoding(const Napi::CallbackInfo& info, const Napi::Value&
   m_pvalue->encoding = static_cast<oc_sec_encoding_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::FunctionReference OCDeviceInfo::constructor;
+
 Napi::Function OCDeviceInfo::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCDeviceInfo", {
-    OCDeviceInfo::InstanceAccessor("add_device_cb", &OCDeviceInfo::get_add_device_cb, &OCDeviceInfo::set_add_device_cb),
-    OCDeviceInfo::InstanceAccessor("data", &OCDeviceInfo::get_data, &OCDeviceInfo::set_data),
-    OCDeviceInfo::InstanceAccessor("di", &OCDeviceInfo::get_di, &OCDeviceInfo::set_di),
-    OCDeviceInfo::InstanceAccessor("dmv", &OCDeviceInfo::get_dmv, &OCDeviceInfo::set_dmv),
-    OCDeviceInfo::InstanceAccessor("icv", &OCDeviceInfo::get_icv, &OCDeviceInfo::set_icv),
-    OCDeviceInfo::InstanceAccessor("name", &OCDeviceInfo::get_name, &OCDeviceInfo::set_name),
-    OCDeviceInfo::InstanceAccessor("piid", &OCDeviceInfo::get_piid, &OCDeviceInfo::set_piid),
 
   });
 
@@ -1322,16 +1273,10 @@ void OCDeviceInfo::set_piid(const Napi::CallbackInfo& info, const Napi::Value& v
   m_pvalue->piid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
 }
 
+Napi::FunctionReference OCEndpoint::constructor;
+
 Napi::Function OCEndpoint::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEndpoint", {
-    OCEndpoint::InstanceAccessor("addr", &OCEndpoint::get_addr, &OCEndpoint::set_addr),
-    OCEndpoint::InstanceAccessor("addr_local", &OCEndpoint::get_addr_local, &OCEndpoint::set_addr_local),
-    OCEndpoint::InstanceAccessor("device", &OCEndpoint::get_device, &OCEndpoint::set_device),
-    OCEndpoint::InstanceAccessor("di", &OCEndpoint::get_di, &OCEndpoint::set_di),
-    OCEndpoint::InstanceAccessor("flags", &OCEndpoint::get_flags, &OCEndpoint::set_flags),
-    OCEndpoint::InstanceAccessor("interface_index", &OCEndpoint::get_interface_index, &OCEndpoint::set_interface_index),
-    OCEndpoint::InstanceAccessor("priority", &OCEndpoint::get_priority, &OCEndpoint::set_priority),
-    OCEndpoint::InstanceAccessor("version", &OCEndpoint::get_version, &OCEndpoint::set_version),
 
   });
 
@@ -1439,9 +1384,10 @@ void OCEndpoint::set_version(const Napi::CallbackInfo& info, const Napi::Value& 
   m_pvalue->version = static_cast<ocf_version_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::FunctionReference OCEtimer::constructor;
+
 Napi::Function OCEtimer::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEtimer", {
-    OCEtimer::InstanceAccessor("timer", &OCEtimer::get_timer, &OCEtimer::set_timer),
 
   });
 
@@ -1475,11 +1421,10 @@ void OCEtimer::set_timer(const Napi::CallbackInfo& info, const Napi::Value& valu
   m_pvalue->timer = *(*(value.As<Napi::External<std::shared_ptr<oc_timer>>>().Data()));
 }
 
+Napi::FunctionReference OCEventCallback::constructor;
+
 Napi::Function OCEventCallback::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEventCallback", {
-    OCEventCallback::InstanceAccessor("callback", &OCEventCallback::get_callback, &OCEventCallback::set_callback),
-    OCEventCallback::InstanceAccessor("data", &OCEventCallback::get_data, &OCEventCallback::set_data),
-    OCEventCallback::InstanceAccessor("timer", &OCEventCallback::get_timer, &OCEventCallback::set_timer),
 
   });
 
@@ -1533,12 +1478,10 @@ void OCEventCallback::set_timer(const Napi::CallbackInfo& info, const Napi::Valu
   m_pvalue->timer = *(*(value.As<Napi::External<std::shared_ptr<oc_etimer>>>().Data()));
 }
 
+Napi::FunctionReference OCHandler::constructor;
+
 Napi::Function OCHandler::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCHandler", {
-    OCHandler::InstanceAccessor("init", &OCHandler::get_init, &OCHandler::set_init),
-    OCHandler::InstanceAccessor("register_resources", &OCHandler::get_register_resources, &OCHandler::set_register_resources),
-    OCHandler::InstanceAccessor("requests_entry", &OCHandler::get_requests_entry, &OCHandler::set_requests_entry),
-    OCHandler::InstanceAccessor("signal_event_loop", &OCHandler::get_signal_event_loop, &OCHandler::set_signal_event_loop),
 
   });
 
@@ -1600,10 +1543,10 @@ void OCHandler::set_signal_event_loop(const Napi::CallbackInfo& info, const Napi
 signal_event_loop_function = value;
 }
 
+Napi::FunctionReference OCIPv4Addr::constructor;
+
 Napi::Function OCIPv4Addr::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCIPv4Addr", {
-    OCIPv4Addr::InstanceAccessor("address", &OCIPv4Addr::get_address, &OCIPv4Addr::set_address),
-    OCIPv4Addr::InstanceAccessor("port", &OCIPv4Addr::get_port, &OCIPv4Addr::set_port),
 
   });
 
@@ -1653,11 +1596,10 @@ void OCIPv4Addr::set_port(const Napi::CallbackInfo& info, const Napi::Value& val
   m_pvalue->port = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::FunctionReference OCIPv6Addr::constructor;
+
 Napi::Function OCIPv6Addr::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCIPv6Addr", {
-    OCIPv6Addr::InstanceAccessor("address", &OCIPv6Addr::get_address, &OCIPv6Addr::set_address),
-    OCIPv6Addr::InstanceAccessor("port", &OCIPv6Addr::get_port, &OCIPv6Addr::set_port),
-    OCIPv6Addr::InstanceAccessor("scope", &OCIPv6Addr::get_scope, &OCIPv6Addr::set_scope),
 
   });
 
@@ -1725,10 +1667,10 @@ void OCIPv6Addr::set_scope(const Napi::CallbackInfo& info, const Napi::Value& va
   m_pvalue->scope = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::FunctionReference OCLEAddr::constructor;
+
 Napi::Function OCLEAddr::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCLEAddr", {
-    OCLEAddr::InstanceAccessor("address", &OCLEAddr::get_address, &OCLEAddr::set_address),
-    OCLEAddr::InstanceAccessor("type", &OCLEAddr::get_type, &OCLEAddr::set_type),
 
   });
 
@@ -1782,10 +1724,10 @@ void OCLEAddr::set_type(const Napi::CallbackInfo& info, const Napi::Value& value
   m_pvalue->type = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::FunctionReference OCLinkParams::constructor;
+
 Napi::Function OCLinkParams::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCLinkParams", {
-    OCLinkParams::InstanceAccessor("key", &OCLinkParams::get_key, &OCLinkParams::set_key),
-    OCLinkParams::InstanceAccessor("value", &OCLinkParams::get_value, &OCLinkParams::set_value),
 
   });
 
@@ -1831,11 +1773,10 @@ void OCLinkParams::set_value(const Napi::CallbackInfo& info, const Napi::Value& 
   m_pvalue->value = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
+Napi::FunctionReference OCLink::constructor;
+
 Napi::Function OCLink::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCLink", {
-    OCLink::InstanceAccessor("ins", &OCLink::get_ins, &OCLink::set_ins),
-    OCLink::InstanceAccessor("interfaces", &OCLink::get_interfaces, &OCLink::set_interfaces),
-    OCLink::InstanceAccessor("rel", &OCLink::get_rel, &OCLink::set_rel),
 
   });
 
@@ -1889,11 +1830,10 @@ void OCLink::set_rel(const Napi::CallbackInfo& info, const Napi::Value& value)
   m_pvalue->rel = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
+Napi::FunctionReference OCMemb::constructor;
+
 Napi::Function OCMemb::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCMemb", {
-    OCMemb::InstanceAccessor("count", &OCMemb::get_count, &OCMemb::set_count),
-    OCMemb::InstanceAccessor("num", &OCMemb::get_num, &OCMemb::set_num),
-    OCMemb::InstanceAccessor("size", &OCMemb::get_size, &OCMemb::set_size),
 
   });
 
@@ -1945,14 +1885,16 @@ void OCMemb::set_size(const Napi::CallbackInfo& info, const Napi::Value& value)
   m_pvalue->size = static_cast<unsigned short>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::FunctionReference OCMessage::constructor;
+
 Napi::Function OCMessage::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCMessage", {
-    OCMessage::InstanceAccessor("data", &OCMessage::get_data, &OCMessage::set_data),
+#ifdef OC_SECURITY
     OCMessage::InstanceAccessor("encrypted", &OCMessage::get_encrypted, &OCMessage::set_encrypted),
-    OCMessage::InstanceAccessor("endpoint", &OCMessage::get_endpoint, &OCMessage::set_endpoint),
-    OCMessage::InstanceAccessor("length", &OCMessage::get_length, &OCMessage::set_length),
+#endif
+#ifdef OC_TCP
     OCMessage::InstanceAccessor("read_offset", &OCMessage::get_read_offset, &OCMessage::set_read_offset),
-    OCMessage::InstanceAccessor("ref_count", &OCMessage::get_ref_count, &OCMessage::set_ref_count),
+#endif
 
   });
 
@@ -2040,9 +1982,10 @@ void OCMessage::set_ref_count(const Napi::CallbackInfo& info, const Napi::Value&
   m_pvalue->ref_count = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::FunctionReference OCMmem::constructor;
+
 Napi::Function OCMmem::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCMmem", {
-    OCMmem::InstanceAccessor("size", &OCMmem::get_size, &OCMmem::set_size),
 
   });
 
@@ -2074,6 +2017,8 @@ void OCMmem::set_size(const Napi::CallbackInfo& info, const Napi::Value& value)
   m_pvalue->size = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::FunctionReference OCNetworkInterfaceCb::constructor;
+
 Napi::Function OCNetworkInterfaceCb::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCNetworkInterfaceCb", {
 
@@ -2098,12 +2043,10 @@ OCNetworkInterfaceCb::OCNetworkInterfaceCb(const Napi::CallbackInfo& info) : Obj
   }
 }
 
+Napi::FunctionReference OCPlatformInfo::constructor;
+
 Napi::Function OCPlatformInfo::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCPlatformInfo", {
-    OCPlatformInfo::InstanceAccessor("data", &OCPlatformInfo::get_data, &OCPlatformInfo::set_data),
-    OCPlatformInfo::InstanceAccessor("init_platform_cb", &OCPlatformInfo::get_init_platform_cb, &OCPlatformInfo::set_init_platform_cb),
-    OCPlatformInfo::InstanceAccessor("mfg_name", &OCPlatformInfo::get_mfg_name, &OCPlatformInfo::set_mfg_name),
-    OCPlatformInfo::InstanceAccessor("pi", &OCPlatformInfo::get_pi, &OCPlatformInfo::set_pi),
 
   });
 
@@ -2169,11 +2112,10 @@ void OCPlatformInfo::set_pi(const Napi::CallbackInfo& info, const Napi::Value& v
   m_pvalue->pi = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
 }
 
+Napi::FunctionReference OCProcess::constructor;
+
 Napi::Function OCProcess::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCProcess", {
-    OCProcess::InstanceAccessor("name", &OCProcess::get_name, &OCProcess::set_name),
-    OCProcess::InstanceAccessor("needspoll", &OCProcess::get_needspoll, &OCProcess::set_needspoll),
-    OCProcess::InstanceAccessor("state", &OCProcess::get_state, &OCProcess::set_state),
 
   });
 
@@ -2225,6 +2167,8 @@ void OCProcess::set_state(const Napi::CallbackInfo& info, const Napi::Value& val
   m_pvalue->state = static_cast<unsigned char>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::FunctionReference OCPropertiesCb::constructor;
+
 Napi::Function OCPropertiesCb::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCPropertiesCb", {
 
@@ -2249,10 +2193,10 @@ OCPropertiesCb::OCPropertiesCb(const Napi::CallbackInfo& info) : ObjectWrap(info
   }
 }
 
+Napi::FunctionReference OCRep::constructor;
+
 Napi::Function OCRep::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCRep", {
-    OCRep::InstanceAccessor("name", &OCRep::get_name, &OCRep::set_name),
-    OCRep::InstanceAccessor("type", &OCRep::get_type, &OCRep::set_type),
 
   });
 
@@ -2296,10 +2240,10 @@ void OCRep::set_type(const Napi::CallbackInfo& info, const Napi::Value& value)
   m_pvalue->type = static_cast<oc_rep_value_type_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::FunctionReference OCRequestHandler::constructor;
+
 Napi::Function OCRequestHandler::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCRequestHandler", {
-    OCRequestHandler::InstanceAccessor("cb", &OCRequestHandler::get_cb, &OCRequestHandler::set_cb),
-    OCRequestHandler::InstanceAccessor("user_data", &OCRequestHandler::get_user_data, &OCRequestHandler::set_user_data),
 
   });
 
@@ -2341,13 +2285,10 @@ void OCRequestHandler::set_user_data(const Napi::CallbackInfo& info, const Napi:
 cb_data = value;
 }
 
+Napi::FunctionReference OCRequest::constructor;
+
 Napi::Function OCRequest::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCRequest", {
-    OCRequest::InstanceAccessor("_payload", &OCRequest::get__payload, &OCRequest::set__payload),
-    OCRequest::InstanceAccessor("_payload_len", &OCRequest::get__payload_len, &OCRequest::set__payload_len),
-    OCRequest::InstanceAccessor("content_format", &OCRequest::get_content_format, &OCRequest::set_content_format),
-    OCRequest::InstanceAccessor("query", &OCRequest::get_query, &OCRequest::set_query),
-    OCRequest::InstanceAccessor("query_len", &OCRequest::get_query_len, &OCRequest::set_query_len),
 
   });
 
@@ -2419,27 +2360,13 @@ void OCRequest::set_query_len(const Napi::CallbackInfo& info, const Napi::Value&
   m_pvalue->query_len = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::FunctionReference OCResource::constructor;
+
 Napi::Function OCResource::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCResource", {
-    OCResource::InstanceAccessor("default_interface", &OCResource::get_default_interface, &OCResource::set_default_interface),
-    OCResource::InstanceAccessor("delete_handler", &OCResource::get_delete_handler, &OCResource::set_delete_handler),
-    OCResource::InstanceAccessor("device", &OCResource::get_device, &OCResource::set_device),
-    OCResource::InstanceAccessor("get_handler", &OCResource::get_get_handler, &OCResource::set_get_handler),
-    OCResource::InstanceAccessor("get_properties", &OCResource::get_get_properties, &OCResource::set_get_properties),
-    OCResource::InstanceAccessor("interfaces", &OCResource::get_interfaces, &OCResource::set_interfaces),
-    OCResource::InstanceAccessor("name", &OCResource::get_name, &OCResource::set_name),
+#ifdef OC_COLLECTIONS
     OCResource::InstanceAccessor("num_links", &OCResource::get_num_links, &OCResource::set_num_links),
-    OCResource::InstanceAccessor("num_observers", &OCResource::get_num_observers, &OCResource::set_num_observers),
-    OCResource::InstanceAccessor("observe_period_seconds", &OCResource::get_observe_period_seconds, &OCResource::set_observe_period_seconds),
-    OCResource::InstanceAccessor("post_handler", &OCResource::get_post_handler, &OCResource::set_post_handler),
-    OCResource::InstanceAccessor("properties", &OCResource::get_properties, &OCResource::set_properties),
-    OCResource::InstanceAccessor("put_handler", &OCResource::get_put_handler, &OCResource::set_put_handler),
-    OCResource::InstanceAccessor("set_properties", &OCResource::get_set_properties, &OCResource::set_set_properties),
-    OCResource::InstanceAccessor("tag_func_desc", &OCResource::get_tag_func_desc, &OCResource::set_tag_func_desc),
-    OCResource::InstanceAccessor("tag_pos_desc", &OCResource::get_tag_pos_desc, &OCResource::set_tag_pos_desc),
-    OCResource::InstanceAccessor("tag_pos_rel", &OCResource::get_tag_pos_rel, &OCResource::set_tag_pos_rel),
-    OCResource::InstanceAccessor("types", &OCResource::get_types, &OCResource::set_types),
-    OCResource::InstanceAccessor("uri", &OCResource::get_uri, &OCResource::set_uri),
+#endif
 
   });
 
@@ -2676,6 +2603,8 @@ void OCResource::set_uri(const Napi::CallbackInfo& info, const Napi::Value& valu
   m_pvalue->uri = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
+Napi::FunctionReference OCResponse::constructor;
+
 Napi::Function OCResponse::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCResponse", {
 
@@ -2700,10 +2629,10 @@ OCResponse::OCResponse(const Napi::CallbackInfo& info) : ObjectWrap(info)
   }
 }
 
+Napi::FunctionReference OCRole::constructor;
+
 Napi::Function OCRole::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCRole", {
-    OCRole::InstanceAccessor("authority", &OCRole::get_authority, &OCRole::set_authority),
-    OCRole::InstanceAccessor("role", &OCRole::get_role, &OCRole::set_role),
 
   });
 
@@ -2749,9 +2678,10 @@ void OCRole::set_role(const Napi::CallbackInfo& info, const Napi::Value& value)
   m_pvalue->role = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
+Napi::FunctionReference OCResourceType::constructor;
+
 Napi::Function OCResourceType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCResourceType", {
-    OCResourceType::InstanceAccessor("rt", &OCResourceType::get_rt, &OCResourceType::set_rt),
 
   });
 
@@ -2785,12 +2715,10 @@ void OCResourceType::set_rt(const Napi::CallbackInfo& info, const Napi::Value& v
   m_pvalue->rt = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
+Napi::FunctionReference OCSecurityAce::constructor;
+
 Napi::Function OCSecurityAce::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSecurityAce", {
-    OCSecurityAce::InstanceAccessor("aceid", &OCSecurityAce::get_aceid, &OCSecurityAce::set_aceid),
-    OCSecurityAce::InstanceAccessor("permission", &OCSecurityAce::get_permission, &OCSecurityAce::set_permission),
-    OCSecurityAce::InstanceAccessor("subject", &OCSecurityAce::get_subject, &OCSecurityAce::set_subject),
-    OCSecurityAce::InstanceAccessor("subject_type", &OCSecurityAce::get_subject_type, &OCSecurityAce::set_subject_type),
 
   });
 
@@ -2854,9 +2782,10 @@ void OCSecurityAce::set_subject_type(const Napi::CallbackInfo& info, const Napi:
   m_pvalue->subject_type = static_cast<oc_ace_subject_type_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::FunctionReference OCSecurityAcl::constructor;
+
 Napi::Function OCSecurityAcl::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSecurityAcl", {
-    OCSecurityAcl::InstanceAccessor("rowneruuid", &OCSecurityAcl::get_rowneruuid, &OCSecurityAcl::set_rowneruuid),
 
   });
 
@@ -2890,9 +2819,10 @@ void OCSecurityAcl::set_rowneruuid(const Napi::CallbackInfo& info, const Napi::V
   m_pvalue->rowneruuid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
 }
 
+Napi::FunctionReference OCCreds::constructor;
+
 Napi::Function OCCreds::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCreds", {
-    OCCreds::InstanceAccessor("rowneruuid", &OCCreds::get_rowneruuid, &OCCreds::set_rowneruuid),
 
   });
 
@@ -2926,17 +2856,22 @@ void OCCreds::set_rowneruuid(const Napi::CallbackInfo& info, const Napi::Value& 
   m_pvalue->rowneruuid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
 }
 
+Napi::FunctionReference OCCred::constructor;
+
 Napi::Function OCCred::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCred", {
+#ifdef OC_PKI
     OCCred::InstanceAccessor("chain", &OCCred::get_chain, &OCCred::set_chain),
+#endif
+#ifdef OC_PKI
     OCCred::InstanceAccessor("child", &OCCred::get_child, &OCCred::set_child),
-    OCCred::InstanceAccessor("credid", &OCCred::get_credid, &OCCred::set_credid),
-    OCCred::InstanceAccessor("credtype", &OCCred::get_credtype, &OCCred::set_credtype),
+#endif
+#ifdef OC_PKI
     OCCred::InstanceAccessor("credusage", &OCCred::get_credusage, &OCCred::set_credusage),
-    OCCred::InstanceAccessor("owner_cred", &OCCred::get_owner_cred, &OCCred::set_owner_cred),
-    OCCred::InstanceAccessor("privatedata", &OCCred::get_privatedata, &OCCred::set_privatedata),
+#endif
+#ifdef OC_PKI
     OCCred::InstanceAccessor("publicdata", &OCCred::get_publicdata, &OCCred::set_publicdata),
-    OCCred::InstanceAccessor("subjectuuid", &OCCred::get_subjectuuid, &OCCred::set_subjectuuid),
+#endif
 
   });
 
@@ -3066,6 +3001,8 @@ void OCCred::set_subjectuuid(const Napi::CallbackInfo& info, const Napi::Value& 
   m_pvalue->subjectuuid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
 }
 
+Napi::FunctionReference OCSessionEventCb::constructor;
+
 Napi::Function OCSessionEventCb::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSessionEventCb", {
 
@@ -3090,12 +3027,10 @@ OCSessionEventCb::OCSessionEventCb(const Napi::CallbackInfo& info) : ObjectWrap(
   }
 }
 
+Napi::FunctionReference OCSoftwareUpdateHandler::constructor;
+
 Napi::Function OCSoftwareUpdateHandler::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSoftwareUpdateHandler", {
-    OCSoftwareUpdateHandler::InstanceAccessor("check_new_version", &OCSoftwareUpdateHandler::get_check_new_version, &OCSoftwareUpdateHandler::set_check_new_version),
-    OCSoftwareUpdateHandler::InstanceAccessor("download_update", &OCSoftwareUpdateHandler::get_download_update, &OCSoftwareUpdateHandler::set_download_update),
-    OCSoftwareUpdateHandler::InstanceAccessor("perform_upgrade", &OCSoftwareUpdateHandler::get_perform_upgrade, &OCSoftwareUpdateHandler::set_perform_upgrade),
-    OCSoftwareUpdateHandler::InstanceAccessor("validate_purl", &OCSoftwareUpdateHandler::get_validate_purl, &OCSoftwareUpdateHandler::set_validate_purl),
 
   });
 
@@ -3157,10 +3092,10 @@ void OCSoftwareUpdateHandler::set_validate_purl(const Napi::CallbackInfo& info, 
 validate_purl_function = value;
 }
 
+Napi::FunctionReference OCTimer::constructor;
+
 Napi::Function OCTimer::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCTimer", {
-    OCTimer::InstanceAccessor("interval", &OCTimer::get_interval, &OCTimer::set_interval),
-    OCTimer::InstanceAccessor("start", &OCTimer::get_start, &OCTimer::set_start),
 
   });
 
@@ -3202,9 +3137,10 @@ void OCTimer::set_start(const Napi::CallbackInfo& info, const Napi::Value& value
   m_pvalue->start = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::FunctionReference OCUuid::constructor;
+
 Napi::Function OCUuid::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCUuid", {
-    OCUuid::InstanceAccessor("id", &OCUuid::get_id, &OCUuid::set_id),
 
   });
 
@@ -3236,10 +3172,10 @@ void OCUuid::set_id(const Napi::CallbackInfo& info, const Napi::Value& value)
 for(uint32_t i=0; i<16; i++) { m_pvalue->id[i] = info[0].As<Napi::Buffer<uint8_t>>().Data()[i]; }
 }
 
+Napi::FunctionReference OCAceSubject::constructor;
+
 Napi::Function OCAceSubject::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceSubject", {
-    OCAceSubject::InstanceAccessor("conn", &OCAceSubject::get_conn, &OCAceSubject::set_conn),
-    OCAceSubject::InstanceAccessor("uuid", &OCAceSubject::get_uuid, &OCAceSubject::set_uuid),
 
   });
 
@@ -3283,11 +3219,10 @@ void OCAceSubject::set_uuid(const Napi::CallbackInfo& info, const Napi::Value& v
   m_pvalue->uuid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
 }
 
+Napi::FunctionReference DevAddr::constructor;
+
 Napi::Function DevAddr::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "DevAddr", {
-    DevAddr::InstanceAccessor("bt", &DevAddr::get_bt, &DevAddr::set_bt),
-    DevAddr::InstanceAccessor("ipv4", &DevAddr::get_ipv4, &DevAddr::set_ipv4),
-    DevAddr::InstanceAccessor("ipv6", &DevAddr::get_ipv6, &DevAddr::set_ipv6),
 
   });
 
@@ -3346,10 +3281,10 @@ void DevAddr::set_ipv6(const Napi::CallbackInfo& info, const Napi::Value& value)
 }
 
 
+Napi::FunctionReference OCAceConnectionType::constructor;
+
 Napi::Function OCAceConnectionType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceConnectionType", {
-    OCAceConnectionType::InstanceAccessor("OC_CONN_AUTH_CRYPT", &OCAceConnectionType::get_OC_CONN_AUTH_CRYPT, nullptr),
-    OCAceConnectionType::InstanceAccessor("OC_CONN_ANON_CLEAR", &OCAceConnectionType::get_OC_CONN_ANON_CLEAR, nullptr),
 
   });
 
@@ -3391,14 +3326,10 @@ void OCAceConnectionType::set_OC_CONN_ANON_CLEAR(const Napi::CallbackInfo& info,
 
 }
 
+Napi::FunctionReference OCAcePermissionsMask::constructor;
+
 Napi::Function OCAcePermissionsMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAcePermissionsMask", {
-    OCAcePermissionsMask::InstanceAccessor("OC_PERM_NONE", &OCAcePermissionsMask::get_OC_PERM_NONE, nullptr),
-    OCAcePermissionsMask::InstanceAccessor("OC_PERM_CREATE", &OCAcePermissionsMask::get_OC_PERM_CREATE, nullptr),
-    OCAcePermissionsMask::InstanceAccessor("OC_PERM_RETRIEVE", &OCAcePermissionsMask::get_OC_PERM_RETRIEVE, nullptr),
-    OCAcePermissionsMask::InstanceAccessor("OC_PERM_UPDATE", &OCAcePermissionsMask::get_OC_PERM_UPDATE, nullptr),
-    OCAcePermissionsMask::InstanceAccessor("OC_PERM_DELETE", &OCAcePermissionsMask::get_OC_PERM_DELETE, nullptr),
-    OCAcePermissionsMask::InstanceAccessor("OC_PERM_NOTIFY", &OCAcePermissionsMask::get_OC_PERM_NOTIFY, nullptr),
 
   });
 
@@ -3480,11 +3411,10 @@ void OCAcePermissionsMask::set_OC_PERM_NOTIFY(const Napi::CallbackInfo& info, co
 
 }
 
+Napi::FunctionReference OCAceSubjectType::constructor;
+
 Napi::Function OCAceSubjectType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceSubjectType", {
-    OCAceSubjectType::InstanceAccessor("OC_SUBJECT_UUID", &OCAceSubjectType::get_OC_SUBJECT_UUID, nullptr),
-    OCAceSubjectType::InstanceAccessor("OC_SUBJECT_ROLE", &OCAceSubjectType::get_OC_SUBJECT_ROLE, nullptr),
-    OCAceSubjectType::InstanceAccessor("OC_SUBJECT_CONN", &OCAceSubjectType::get_OC_SUBJECT_CONN, nullptr),
 
   });
 
@@ -3536,12 +3466,10 @@ void OCAceSubjectType::set_OC_SUBJECT_CONN(const Napi::CallbackInfo& info, const
 
 }
 
+Napi::FunctionReference OCAceWildcard::constructor;
+
 Napi::Function OCAceWildcard::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceWildcard", {
-    OCAceWildcard::InstanceAccessor("OC_ACE_NO_WC", &OCAceWildcard::get_OC_ACE_NO_WC, nullptr),
-    OCAceWildcard::InstanceAccessor("OC_ACE_WC_ALL", &OCAceWildcard::get_OC_ACE_WC_ALL, nullptr),
-    OCAceWildcard::InstanceAccessor("OC_ACE_WC_ALL_SECURED", &OCAceWildcard::get_OC_ACE_WC_ALL_SECURED, nullptr),
-    OCAceWildcard::InstanceAccessor("OC_ACE_WC_ALL_PUBLIC", &OCAceWildcard::get_OC_ACE_WC_ALL_PUBLIC, nullptr),
 
   });
 
@@ -3603,10 +3531,10 @@ void OCAceWildcard::set_OC_ACE_WC_ALL_PUBLIC(const Napi::CallbackInfo& info, con
 
 }
 
+Napi::FunctionReference OCBlockwiseRole::constructor;
+
 Napi::Function OCBlockwiseRole::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCBlockwiseRole", {
-    OCBlockwiseRole::InstanceAccessor("OC_BLOCKWISE_CLIENT", &OCBlockwiseRole::get_OC_BLOCKWISE_CLIENT, nullptr),
-    OCBlockwiseRole::InstanceAccessor("OC_BLOCKWISE_SERVER", &OCBlockwiseRole::get_OC_BLOCKWISE_SERVER, nullptr),
 
   });
 
@@ -3648,10 +3576,10 @@ void OCBlockwiseRole::set_OC_BLOCKWISE_SERVER(const Napi::CallbackInfo& info, co
 
 }
 
+Napi::FunctionReference OCDiscoveryFlags::constructor;
+
 Napi::Function OCDiscoveryFlags::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCDiscoveryFlags", {
-    OCDiscoveryFlags::InstanceAccessor("OC_STOP_DISCOVERY", &OCDiscoveryFlags::get_OC_STOP_DISCOVERY, nullptr),
-    OCDiscoveryFlags::InstanceAccessor("OC_CONTINUE_DISCOVERY", &OCDiscoveryFlags::get_OC_CONTINUE_DISCOVERY, nullptr),
 
   });
 
@@ -3693,10 +3621,10 @@ void OCDiscoveryFlags::set_OC_CONTINUE_DISCOVERY(const Napi::CallbackInfo& info,
 
 }
 
+Napi::FunctionReference OCQos::constructor;
+
 Napi::Function OCQos::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCQos", {
-    OCQos::InstanceAccessor("HIGH_QOS", &OCQos::get_HIGH_QOS, nullptr),
-    OCQos::InstanceAccessor("LOW_QOS", &OCQos::get_LOW_QOS, nullptr),
 
   });
 
@@ -3738,12 +3666,10 @@ void OCQos::set_LOW_QOS(const Napi::CallbackInfo& info, const Napi::Value& value
 
 }
 
+Napi::FunctionReference OCCloudError::constructor;
+
 Napi::Function OCCloudError::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudError", {
-    OCCloudError::InstanceAccessor("CLOUD_OK", &OCCloudError::get_CLOUD_OK, nullptr),
-    OCCloudError::InstanceAccessor("CLOUD_ERROR_RESPONSE", &OCCloudError::get_CLOUD_ERROR_RESPONSE, nullptr),
-    OCCloudError::InstanceAccessor("CLOUD_ERROR_CONNECT", &OCCloudError::get_CLOUD_ERROR_CONNECT, nullptr),
-    OCCloudError::InstanceAccessor("CLOUD_ERROR_REFRESH_ACCESS_TOKEN", &OCCloudError::get_CLOUD_ERROR_REFRESH_ACCESS_TOKEN, nullptr),
 
   });
 
@@ -3805,16 +3731,10 @@ void OCCloudError::set_CLOUD_ERROR_REFRESH_ACCESS_TOKEN(const Napi::CallbackInfo
 
 }
 
+Napi::FunctionReference OCCloudStatusMask::constructor;
+
 Napi::Function OCCloudStatusMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudStatusMask", {
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_INITIALIZED", &OCCloudStatusMask::get_OC_CLOUD_INITIALIZED, nullptr),
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_REGISTERED", &OCCloudStatusMask::get_OC_CLOUD_REGISTERED, nullptr),
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_LOGGED_IN", &OCCloudStatusMask::get_OC_CLOUD_LOGGED_IN, nullptr),
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_TOKEN_EXPIRY", &OCCloudStatusMask::get_OC_CLOUD_TOKEN_EXPIRY, nullptr),
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_REFRESHED_TOKEN", &OCCloudStatusMask::get_OC_CLOUD_REFRESHED_TOKEN, nullptr),
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_LOGGED_OUT", &OCCloudStatusMask::get_OC_CLOUD_LOGGED_OUT, nullptr),
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_FAILURE", &OCCloudStatusMask::get_OC_CLOUD_FAILURE, nullptr),
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_DEREGISTERED", &OCCloudStatusMask::get_OC_CLOUD_DEREGISTERED, nullptr),
 
   });
 
@@ -3916,13 +3836,10 @@ void OCCloudStatusMask::set_OC_CLOUD_DEREGISTERED(const Napi::CallbackInfo& info
 
 }
 
+Napi::FunctionReference OCCloudPrivisoningStatus::constructor;
+
 Napi::Function OCCloudPrivisoningStatus::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudPrivisoningStatus", {
-    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_UNINITIALIZED", &OCCloudPrivisoningStatus::get_OC_CPS_UNINITIALIZED, nullptr),
-    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_READYTOREGISTER", &OCCloudPrivisoningStatus::get_OC_CPS_READYTOREGISTER, nullptr),
-    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_REGISTERING", &OCCloudPrivisoningStatus::get_OC_CPS_REGISTERING, nullptr),
-    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_REGISTERED", &OCCloudPrivisoningStatus::get_OC_CPS_REGISTERED, nullptr),
-    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_FAILED", &OCCloudPrivisoningStatus::get_OC_CPS_FAILED, nullptr),
 
   });
 
@@ -3995,12 +3912,10 @@ void OCCloudPrivisoningStatus::set_OC_CPS_FAILED(const Napi::CallbackInfo& info,
 }
 
 #ifdef OC_TCP
+Napi::FunctionReference tcpCsmState::constructor;
+
 Napi::Function tcpCsmState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "tcpCsmState", {
-    tcpCsmState::InstanceAccessor("CSM_NONE", &tcpCsmState::get_CSM_NONE, nullptr),
-    tcpCsmState::InstanceAccessor("CSM_SENT", &tcpCsmState::get_CSM_SENT, nullptr),
-    tcpCsmState::InstanceAccessor("CSM_DONE", &tcpCsmState::get_CSM_DONE, nullptr),
-    tcpCsmState::InstanceAccessor("CSM_ERROR", &tcpCsmState::get_CSM_ERROR, nullptr),
 
   });
 
@@ -4063,11 +3978,10 @@ void tcpCsmState::set_CSM_ERROR(const Napi::CallbackInfo& info, const Napi::Valu
 }
 #endif
 
+Napi::FunctionReference OCCredType::constructor;
+
 Napi::Function OCCredType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCredType", {
-    OCCredType::InstanceAccessor("OC_CREDTYPE_NULL", &OCCredType::get_OC_CREDTYPE_NULL, nullptr),
-    OCCredType::InstanceAccessor("OC_CREDTYPE_PSK", &OCCredType::get_OC_CREDTYPE_PSK, nullptr),
-    OCCredType::InstanceAccessor("OC_CREDTYPE_CERT", &OCCredType::get_OC_CREDTYPE_CERT, nullptr),
 
   });
 
@@ -4119,14 +4033,10 @@ void OCCredType::set_OC_CREDTYPE_CERT(const Napi::CallbackInfo& info, const Napi
 
 }
 
+Napi::FunctionReference OCCredUsage::constructor;
+
 Napi::Function OCCredUsage::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCredUsage", {
-    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_NULL", &OCCredUsage::get_OC_CREDUSAGE_NULL, nullptr),
-    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_TRUSTCA", &OCCredUsage::get_OC_CREDUSAGE_TRUSTCA, nullptr),
-    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_IDENTITY_CERT", &OCCredUsage::get_OC_CREDUSAGE_IDENTITY_CERT, nullptr),
-    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_ROLE_CERT", &OCCredUsage::get_OC_CREDUSAGE_ROLE_CERT, nullptr),
-    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_MFG_TRUSTCA", &OCCredUsage::get_OC_CREDUSAGE_MFG_TRUSTCA, nullptr),
-    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_MFG_CERT", &OCCredUsage::get_OC_CREDUSAGE_MFG_CERT, nullptr),
 
   });
 
@@ -4208,13 +4118,10 @@ void OCCredUsage::set_OC_CREDUSAGE_MFG_CERT(const Napi::CallbackInfo& info, cons
 
 }
 
+Napi::FunctionReference OCEncoding::constructor;
+
 Napi::Function OCEncoding::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEncoding", {
-    OCEncoding::InstanceAccessor("OC_ENCODING_UNSUPPORTED", &OCEncoding::get_OC_ENCODING_UNSUPPORTED, nullptr),
-    OCEncoding::InstanceAccessor("OC_ENCODING_BASE64", &OCEncoding::get_OC_ENCODING_BASE64, nullptr),
-    OCEncoding::InstanceAccessor("OC_ENCODING_RAW", &OCEncoding::get_OC_ENCODING_RAW, nullptr),
-    OCEncoding::InstanceAccessor("OC_ENCODING_PEM", &OCEncoding::get_OC_ENCODING_PEM, nullptr),
-    OCEncoding::InstanceAccessor("OC_ENCODING_HANDLE", &OCEncoding::get_OC_ENCODING_HANDLE, nullptr),
 
   });
 
@@ -4286,10 +4193,10 @@ void OCEncoding::set_OC_ENCODING_HANDLE(const Napi::CallbackInfo& info, const Na
 
 }
 
+Napi::FunctionReference OCFVersion::constructor;
+
 Napi::Function OCFVersion::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCFVersion", {
-    OCFVersion::InstanceAccessor("OCF_VER_1_0_0", &OCFVersion::get_OCF_VER_1_0_0, nullptr),
-    OCFVersion::InstanceAccessor("OIC_VER_1_1_0", &OCFVersion::get_OIC_VER_1_1_0, nullptr),
 
   });
 
@@ -4331,15 +4238,10 @@ void OCFVersion::set_OIC_VER_1_1_0(const Napi::CallbackInfo& info, const Napi::V
 
 }
 
+Napi::FunctionReference transportFlags::constructor;
+
 Napi::Function transportFlags::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "transportFlags", {
-    transportFlags::InstanceAccessor("DISCOVERY", &transportFlags::get_DISCOVERY, nullptr),
-    transportFlags::InstanceAccessor("SECURED", &transportFlags::get_SECURED, nullptr),
-    transportFlags::InstanceAccessor("IPV4", &transportFlags::get_IPV4, nullptr),
-    transportFlags::InstanceAccessor("IPV6", &transportFlags::get_IPV6, nullptr),
-    transportFlags::InstanceAccessor("TCP", &transportFlags::get_TCP, nullptr),
-    transportFlags::InstanceAccessor("GATT", &transportFlags::get_GATT, nullptr),
-    transportFlags::InstanceAccessor("MULTICAST", &transportFlags::get_MULTICAST, nullptr),
 
   });
 
@@ -4431,81 +4333,10 @@ void transportFlags::set_MULTICAST(const Napi::CallbackInfo& info, const Napi::V
 
 }
 
+Napi::FunctionReference OCEnum::constructor;
+
 Napi::Function OCEnum::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEnum", {
-    OCEnum::InstanceAccessor("OC_ENUM_ABORTED", &OCEnum::get_OC_ENUM_ABORTED, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_ACTIVE", &OCEnum::get_OC_ENUM_ACTIVE, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_AIRDRY", &OCEnum::get_OC_ENUM_AIRDRY, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_ARMEDAWAY", &OCEnum::get_OC_ENUM_ARMEDAWAY, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_ARMEDINSTANT", &OCEnum::get_OC_ENUM_ARMEDINSTANT, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_ARMEDMAXIMUM", &OCEnum::get_OC_ENUM_ARMEDMAXIMUM, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_ARMEDNIGHTSTAY", &OCEnum::get_OC_ENUM_ARMEDNIGHTSTAY, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_ARMEDSTAY", &OCEnum::get_OC_ENUM_ARMEDSTAY, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_AROMA", &OCEnum::get_OC_ENUM_AROMA, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_AI", &OCEnum::get_OC_ENUM_AI, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_AUTO", &OCEnum::get_OC_ENUM_AUTO, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_BOILING", &OCEnum::get_OC_ENUM_BOILING, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_BREWING", &OCEnum::get_OC_ENUM_BREWING, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_CANCELLED", &OCEnum::get_OC_ENUM_CANCELLED, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_CIRCULATING", &OCEnum::get_OC_ENUM_CIRCULATING, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_CLEANING", &OCEnum::get_OC_ENUM_CLEANING, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_CLOTHES", &OCEnum::get_OC_ENUM_CLOTHES, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_COMPLETED", &OCEnum::get_OC_ENUM_COMPLETED, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_COOL", &OCEnum::get_OC_ENUM_COOL, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_DELICATE", &OCEnum::get_OC_ENUM_DELICATE, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_DISABLED", &OCEnum::get_OC_ENUM_DISABLED, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_DOWN", &OCEnum::get_OC_ENUM_DOWN, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_DUAL", &OCEnum::get_OC_ENUM_DUAL, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_DRY", &OCEnum::get_OC_ENUM_DRY, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_ENABLED", &OCEnum::get_OC_ENUM_ENABLED, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_EXTENDED", &OCEnum::get_OC_ENUM_EXTENDED, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_FAN", &OCEnum::get_OC_ENUM_FAN, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_FAST", &OCEnum::get_OC_ENUM_FAST, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_FILTERMATERIAL", &OCEnum::get_OC_ENUM_FILTERMATERIAL, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_FOCUSED", &OCEnum::get_OC_ENUM_FOCUSED, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_GRINDING", &OCEnum::get_OC_ENUM_GRINDING, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_HEATING", &OCEnum::get_OC_ENUM_HEATING, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_HEAVY", &OCEnum::get_OC_ENUM_HEAVY, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_IDLE", &OCEnum::get_OC_ENUM_IDLE, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_INK", &OCEnum::get_OC_ENUM_INK, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_INKBLACK", &OCEnum::get_OC_ENUM_INKBLACK, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_INKCYAN", &OCEnum::get_OC_ENUM_INKCYAN, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_INKMAGENTA", &OCEnum::get_OC_ENUM_INKMAGENTA, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_INKTRICOLOUR", &OCEnum::get_OC_ENUM_INKTRICOLOUR, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_INKYELLOW", &OCEnum::get_OC_ENUM_INKYELLOW, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_KEEPWARM", &OCEnum::get_OC_ENUM_KEEPWARM, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_NORMAL", &OCEnum::get_OC_ENUM_NORMAL, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_NOTSUPPORTED", &OCEnum::get_OC_ENUM_NOTSUPPORTED, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_PAUSE", &OCEnum::get_OC_ENUM_PAUSE, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_PENDING", &OCEnum::get_OC_ENUM_PENDING, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_PENDINGHELD", &OCEnum::get_OC_ENUM_PENDINGHELD, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_PERMAPRESS", &OCEnum::get_OC_ENUM_PERMAPRESS, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_PREWASH", &OCEnum::get_OC_ENUM_PREWASH, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_PROCESSING", &OCEnum::get_OC_ENUM_PROCESSING, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_PURE", &OCEnum::get_OC_ENUM_PURE, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_QUICK", &OCEnum::get_OC_ENUM_QUICK, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_QUIET", &OCEnum::get_OC_ENUM_QUIET, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_RINSE", &OCEnum::get_OC_ENUM_RINSE, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_SECTORED", &OCEnum::get_OC_ENUM_SECTORED, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_SILENT", &OCEnum::get_OC_ENUM_SILENT, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_SLEEP", &OCEnum::get_OC_ENUM_SLEEP, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_SMART", &OCEnum::get_OC_ENUM_SMART, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_SPOT", &OCEnum::get_OC_ENUM_SPOT, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_STEAM", &OCEnum::get_OC_ENUM_STEAM, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_STOPPED", &OCEnum::get_OC_ENUM_STOPPED, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_SPIN", &OCEnum::get_OC_ENUM_SPIN, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_TESTING", &OCEnum::get_OC_ENUM_TESTING, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_TONER", &OCEnum::get_OC_ENUM_TONER, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_TONERBLACK", &OCEnum::get_OC_ENUM_TONERBLACK, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_TONERCYAN", &OCEnum::get_OC_ENUM_TONERCYAN, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_TONERMAGENTA", &OCEnum::get_OC_ENUM_TONERMAGENTA, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_TONERYELLOW", &OCEnum::get_OC_ENUM_TONERYELLOW, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_WARM", &OCEnum::get_OC_ENUM_WARM, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_WASH", &OCEnum::get_OC_ENUM_WASH, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_WET", &OCEnum::get_OC_ENUM_WET, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_WIND", &OCEnum::get_OC_ENUM_WIND, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_WRINKLEPREVENT", &OCEnum::get_OC_ENUM_WRINKLEPREVENT, nullptr),
-    OCEnum::InstanceAccessor("OC_ENUM_ZIGZAG", &OCEnum::get_OC_ENUM_ZIGZAG, nullptr),
 
   });
 
@@ -5257,22 +5088,10 @@ void OCEnum::set_OC_ENUM_ZIGZAG(const Napi::CallbackInfo& info, const Napi::Valu
 
 }
 
+Napi::FunctionReference OCPositionDescription::constructor;
+
 Napi::Function OCPositionDescription::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCPositionDescription", {
-    OCPositionDescription::InstanceAccessor("OC_POS_UNKNOWN", &OCPositionDescription::get_OC_POS_UNKNOWN, nullptr),
-    OCPositionDescription::InstanceAccessor("OC_POS_TOP", &OCPositionDescription::get_OC_POS_TOP, nullptr),
-    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOM", &OCPositionDescription::get_OC_POS_BOTTOM, nullptr),
-    OCPositionDescription::InstanceAccessor("OC_POS_LEFT", &OCPositionDescription::get_OC_POS_LEFT, nullptr),
-    OCPositionDescription::InstanceAccessor("OC_POS_RIGHT", &OCPositionDescription::get_OC_POS_RIGHT, nullptr),
-    OCPositionDescription::InstanceAccessor("OC_POS_CENTRE", &OCPositionDescription::get_OC_POS_CENTRE, nullptr),
-    OCPositionDescription::InstanceAccessor("OC_POS_TOPLEFT", &OCPositionDescription::get_OC_POS_TOPLEFT, nullptr),
-    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOMLEFT", &OCPositionDescription::get_OC_POS_BOTTOMLEFT, nullptr),
-    OCPositionDescription::InstanceAccessor("OC_POS_CENTRELEFT", &OCPositionDescription::get_OC_POS_CENTRELEFT, nullptr),
-    OCPositionDescription::InstanceAccessor("OC_POS_CENTRERIGHT", &OCPositionDescription::get_OC_POS_CENTRERIGHT, nullptr),
-    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOMRIGHT", &OCPositionDescription::get_OC_POS_BOTTOMRIGHT, nullptr),
-    OCPositionDescription::InstanceAccessor("OC_POS_TOPRIGHT", &OCPositionDescription::get_OC_POS_TOPRIGHT, nullptr),
-    OCPositionDescription::InstanceAccessor("OC_POS_TOPCENTRE", &OCPositionDescription::get_OC_POS_TOPCENTRE, nullptr),
-    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOMCENTRE", &OCPositionDescription::get_OC_POS_BOTTOMCENTRE, nullptr),
 
   });
 
@@ -5435,10 +5254,10 @@ void OCPositionDescription::set_OC_POS_BOTTOMCENTRE(const Napi::CallbackInfo& in
 }
 
 
+Napi::FunctionReference OCInterfaceEvent::constructor;
+
 Napi::Function OCInterfaceEvent::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCInterfaceEvent", {
-    OCInterfaceEvent::InstanceAccessor("NETWORK_INTERFACE_DOWN", &OCInterfaceEvent::get_NETWORK_INTERFACE_DOWN, nullptr),
-    OCInterfaceEvent::InstanceAccessor("NETWORK_INTERFACE_UP", &OCInterfaceEvent::get_NETWORK_INTERFACE_UP, nullptr),
 
   });
 
@@ -5480,12 +5299,10 @@ void OCInterfaceEvent::set_NETWORK_INTERFACE_UP(const Napi::CallbackInfo& info, 
 
 }
 
+Napi::FunctionReference OCSpTypesMask::constructor;
+
 Napi::Function OCSpTypesMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSpTypesMask", {
-    OCSpTypesMask::InstanceAccessor("OC_SP_BASELINE", &OCSpTypesMask::get_OC_SP_BASELINE, nullptr),
-    OCSpTypesMask::InstanceAccessor("OC_SP_BLACK", &OCSpTypesMask::get_OC_SP_BLACK, nullptr),
-    OCSpTypesMask::InstanceAccessor("OC_SP_BLUE", &OCSpTypesMask::get_OC_SP_BLUE, nullptr),
-    OCSpTypesMask::InstanceAccessor("OC_SP_PURPLE", &OCSpTypesMask::get_OC_SP_PURPLE, nullptr),
 
   });
 
@@ -5547,22 +5364,10 @@ void OCSpTypesMask::set_OC_SP_PURPLE(const Napi::CallbackInfo& info, const Napi:
 
 }
 
+Napi::FunctionReference OCRepValueType::constructor;
+
 Napi::Function OCRepValueType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCRepValueType", {
-    OCRepValueType::InstanceAccessor("OC_REP_NIL", &OCRepValueType::get_OC_REP_NIL, nullptr),
-    OCRepValueType::InstanceAccessor("OC_REP_INT", &OCRepValueType::get_OC_REP_INT, nullptr),
-    OCRepValueType::InstanceAccessor("OC_REP_DOUBLE", &OCRepValueType::get_OC_REP_DOUBLE, nullptr),
-    OCRepValueType::InstanceAccessor("OC_REP_BOOL", &OCRepValueType::get_OC_REP_BOOL, nullptr),
-    OCRepValueType::InstanceAccessor("OC_REP_BYTE_STRING", &OCRepValueType::get_OC_REP_BYTE_STRING, nullptr),
-    OCRepValueType::InstanceAccessor("OC_REP_STRING", &OCRepValueType::get_OC_REP_STRING, nullptr),
-    OCRepValueType::InstanceAccessor("OC_REP_OBJECT", &OCRepValueType::get_OC_REP_OBJECT, nullptr),
-    OCRepValueType::InstanceAccessor("OC_REP_ARRAY", &OCRepValueType::get_OC_REP_ARRAY, nullptr),
-    OCRepValueType::InstanceAccessor("OC_REP_INT_ARRAY", &OCRepValueType::get_OC_REP_INT_ARRAY, nullptr),
-    OCRepValueType::InstanceAccessor("OC_REP_DOUBLE_ARRAY", &OCRepValueType::get_OC_REP_DOUBLE_ARRAY, nullptr),
-    OCRepValueType::InstanceAccessor("OC_REP_BOOL_ARRAY", &OCRepValueType::get_OC_REP_BOOL_ARRAY, nullptr),
-    OCRepValueType::InstanceAccessor("OC_REP_BYTE_STRING_ARRAY", &OCRepValueType::get_OC_REP_BYTE_STRING_ARRAY, nullptr),
-    OCRepValueType::InstanceAccessor("OC_REP_STRING_ARRAY", &OCRepValueType::get_OC_REP_STRING_ARRAY, nullptr),
-    OCRepValueType::InstanceAccessor("OC_REP_OBJECT_ARRAY", &OCRepValueType::get_OC_REP_OBJECT_ARRAY, nullptr),
 
   });
 
@@ -5724,32 +5529,10 @@ void OCRepValueType::set_OC_REP_OBJECT_ARRAY(const Napi::CallbackInfo& info, con
 
 }
 
+Napi::FunctionReference OCContentFormat::constructor;
+
 Napi::Function OCContentFormat::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCContentFormat", {
-    OCContentFormat::InstanceAccessor("TEXT_PLAIN", &OCContentFormat::get_TEXT_PLAIN, nullptr),
-    OCContentFormat::InstanceAccessor("TEXT_XML", &OCContentFormat::get_TEXT_XML, nullptr),
-    OCContentFormat::InstanceAccessor("TEXT_CSV", &OCContentFormat::get_TEXT_CSV, nullptr),
-    OCContentFormat::InstanceAccessor("TEXT_HTML", &OCContentFormat::get_TEXT_HTML, nullptr),
-    OCContentFormat::InstanceAccessor("IMAGE_GIF", &OCContentFormat::get_IMAGE_GIF, nullptr),
-    OCContentFormat::InstanceAccessor("IMAGE_JPEG", &OCContentFormat::get_IMAGE_JPEG, nullptr),
-    OCContentFormat::InstanceAccessor("IMAGE_PNG", &OCContentFormat::get_IMAGE_PNG, nullptr),
-    OCContentFormat::InstanceAccessor("IMAGE_TIFF", &OCContentFormat::get_IMAGE_TIFF, nullptr),
-    OCContentFormat::InstanceAccessor("AUDIO_RAW", &OCContentFormat::get_AUDIO_RAW, nullptr),
-    OCContentFormat::InstanceAccessor("VIDEO_RAW", &OCContentFormat::get_VIDEO_RAW, nullptr),
-    OCContentFormat::InstanceAccessor("APPLICATION_LINK_FORMAT", &OCContentFormat::get_APPLICATION_LINK_FORMAT, nullptr),
-    OCContentFormat::InstanceAccessor("APPLICATION_XML", &OCContentFormat::get_APPLICATION_XML, nullptr),
-    OCContentFormat::InstanceAccessor("APPLICATION_OCTET_STREAM", &OCContentFormat::get_APPLICATION_OCTET_STREAM, nullptr),
-    OCContentFormat::InstanceAccessor("APPLICATION_RDF_XML", &OCContentFormat::get_APPLICATION_RDF_XML, nullptr),
-    OCContentFormat::InstanceAccessor("APPLICATION_SOAP_XML", &OCContentFormat::get_APPLICATION_SOAP_XML, nullptr),
-    OCContentFormat::InstanceAccessor("APPLICATION_ATOM_XML", &OCContentFormat::get_APPLICATION_ATOM_XML, nullptr),
-    OCContentFormat::InstanceAccessor("APPLICATION_XMPP_XML", &OCContentFormat::get_APPLICATION_XMPP_XML, nullptr),
-    OCContentFormat::InstanceAccessor("APPLICATION_EXI", &OCContentFormat::get_APPLICATION_EXI, nullptr),
-    OCContentFormat::InstanceAccessor("APPLICATION_FASTINFOSET", &OCContentFormat::get_APPLICATION_FASTINFOSET, nullptr),
-    OCContentFormat::InstanceAccessor("APPLICATION_SOAP_FASTINFOSET", &OCContentFormat::get_APPLICATION_SOAP_FASTINFOSET, nullptr),
-    OCContentFormat::InstanceAccessor("APPLICATION_JSON", &OCContentFormat::get_APPLICATION_JSON, nullptr),
-    OCContentFormat::InstanceAccessor("APPLICATION_X_OBIX_BINARY", &OCContentFormat::get_APPLICATION_X_OBIX_BINARY, nullptr),
-    OCContentFormat::InstanceAccessor("APPLICATION_CBOR", &OCContentFormat::get_APPLICATION_CBOR, nullptr),
-    OCContentFormat::InstanceAccessor("APPLICATION_VND_OCF_CBOR", &OCContentFormat::get_APPLICATION_VND_OCF_CBOR, nullptr),
 
   });
 
@@ -6011,26 +5794,46 @@ void OCContentFormat::set_APPLICATION_VND_OCF_CBOR(const Napi::CallbackInfo& inf
 
 }
 
+Napi::FunctionReference OCCoreRes::constructor;
+
 Napi::Function OCCoreRes::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCoreRes", {
-    OCCoreRes::InstanceAccessor("OCF_P", &OCCoreRes::get_OCF_P, nullptr),
-    OCCoreRes::InstanceAccessor("OCF_CON", &OCCoreRes::get_OCF_CON, nullptr),
-    OCCoreRes::InstanceAccessor("OCF_INTROSPECTION_WK", &OCCoreRes::get_OCF_INTROSPECTION_WK, nullptr),
-    OCCoreRes::InstanceAccessor("OCF_INTROSPECTION_DATA", &OCCoreRes::get_OCF_INTROSPECTION_DATA, nullptr),
-    OCCoreRes::InstanceAccessor("OCF_RES", &OCCoreRes::get_OCF_RES, nullptr),
+#ifdef OC_MNT
     OCCoreRes::InstanceAccessor("OCF_MNT", &OCCoreRes::get_OCF_MNT, nullptr),
+#endif
+#ifdef OC_CLOUD
     OCCoreRes::InstanceAccessor("OCF_COAPCLOUDCONF", &OCCoreRes::get_OCF_COAPCLOUDCONF, nullptr),
+#endif
+#ifdef OC_SOFTWARE_UPDATE
     OCCoreRes::InstanceAccessor("OCF_SW_UPDATE", &OCCoreRes::get_OCF_SW_UPDATE, nullptr),
+#endif
+#ifdef OC_SECURITY
     OCCoreRes::InstanceAccessor("OCF_SEC_DOXM", &OCCoreRes::get_OCF_SEC_DOXM, nullptr),
+#endif
+#ifdef OC_SECURITY
     OCCoreRes::InstanceAccessor("OCF_SEC_PSTAT", &OCCoreRes::get_OCF_SEC_PSTAT, nullptr),
+#endif
+#ifdef OC_SECURITY
     OCCoreRes::InstanceAccessor("OCF_SEC_ACL", &OCCoreRes::get_OCF_SEC_ACL, nullptr),
+#endif
+#ifdef OC_SECURITY
     OCCoreRes::InstanceAccessor("OCF_SEC_AEL", &OCCoreRes::get_OCF_SEC_AEL, nullptr),
+#endif
+#ifdef OC_SECURITY
     OCCoreRes::InstanceAccessor("OCF_SEC_CRED", &OCCoreRes::get_OCF_SEC_CRED, nullptr),
+#endif
+#ifdef OC_SECURITY
     OCCoreRes::InstanceAccessor("OCF_SEC_SDI", &OCCoreRes::get_OCF_SEC_SDI, nullptr),
+#endif
+#ifdef OC_SECURITY
     OCCoreRes::InstanceAccessor("OCF_SEC_SP", &OCCoreRes::get_OCF_SEC_SP, nullptr),
+#endif
+#ifdef OC_PKI
     OCCoreRes::InstanceAccessor("OCF_SEC_CSR", &OCCoreRes::get_OCF_SEC_CSR, nullptr),
+#endif
+#ifdef OC_PKI
     OCCoreRes::InstanceAccessor("OCF_SEC_ROLES", &OCCoreRes::get_OCF_SEC_ROLES, nullptr),
-    OCCoreRes::InstanceAccessor("OCF_D", &OCCoreRes::get_OCF_D, nullptr),
+#endif
 
   });
 
@@ -6256,10 +6059,10 @@ void OCCoreRes::set_OCF_D(const Napi::CallbackInfo& info, const Napi::Value& val
 
 }
 
+Napi::FunctionReference OCEventCallbackResult::constructor;
+
 Napi::Function OCEventCallbackResult::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEventCallbackResult", {
-    OCEventCallbackResult::InstanceAccessor("OC_EVENT_DONE", &OCEventCallbackResult::get_OC_EVENT_DONE, nullptr),
-    OCEventCallbackResult::InstanceAccessor("OC_EVENT_CONTINUE", &OCEventCallbackResult::get_OC_EVENT_CONTINUE, nullptr),
 
   });
 
@@ -6301,16 +6104,10 @@ void OCEventCallbackResult::set_OC_EVENT_CONTINUE(const Napi::CallbackInfo& info
 
 }
 
+Napi::FunctionReference OCInterfaceMask::constructor;
+
 Napi::Function OCInterfaceMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCInterfaceMask", {
-    OCInterfaceMask::InstanceAccessor("OC_IF_BASELINE", &OCInterfaceMask::get_OC_IF_BASELINE, nullptr),
-    OCInterfaceMask::InstanceAccessor("OC_IF_LL", &OCInterfaceMask::get_OC_IF_LL, nullptr),
-    OCInterfaceMask::InstanceAccessor("OC_IF_B", &OCInterfaceMask::get_OC_IF_B, nullptr),
-    OCInterfaceMask::InstanceAccessor("OC_IF_R", &OCInterfaceMask::get_OC_IF_R, nullptr),
-    OCInterfaceMask::InstanceAccessor("OC_IF_RW", &OCInterfaceMask::get_OC_IF_RW, nullptr),
-    OCInterfaceMask::InstanceAccessor("OC_IF_A", &OCInterfaceMask::get_OC_IF_A, nullptr),
-    OCInterfaceMask::InstanceAccessor("OC_IF_S", &OCInterfaceMask::get_OC_IF_S, nullptr),
-    OCInterfaceMask::InstanceAccessor("OC_IF_CREATE", &OCInterfaceMask::get_OC_IF_CREATE, nullptr),
 
   });
 
@@ -6412,12 +6209,10 @@ void OCInterfaceMask::set_OC_IF_CREATE(const Napi::CallbackInfo& info, const Nap
 
 }
 
+Napi::FunctionReference OCMethod::constructor;
+
 Napi::Function OCMethod::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCMethod", {
-    OCMethod::InstanceAccessor("OC_GET", &OCMethod::get_OC_GET, nullptr),
-    OCMethod::InstanceAccessor("OC_POST", &OCMethod::get_OC_POST, nullptr),
-    OCMethod::InstanceAccessor("OC_PUT", &OCMethod::get_OC_PUT, nullptr),
-    OCMethod::InstanceAccessor("OC_DELETE", &OCMethod::get_OC_DELETE, nullptr),
 
   });
 
@@ -6479,12 +6274,10 @@ void OCMethod::set_OC_DELETE(const Napi::CallbackInfo& info, const Napi::Value& 
 
 }
 
+Napi::FunctionReference OCResourcePropertiesMask::constructor;
+
 Napi::Function OCResourcePropertiesMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCResourcePropertiesMask", {
-    OCResourcePropertiesMask::InstanceAccessor("OC_DISCOVERABLE", &OCResourcePropertiesMask::get_OC_DISCOVERABLE, nullptr),
-    OCResourcePropertiesMask::InstanceAccessor("OC_OBSERVABLE", &OCResourcePropertiesMask::get_OC_OBSERVABLE, nullptr),
-    OCResourcePropertiesMask::InstanceAccessor("OC_SECURE", &OCResourcePropertiesMask::get_OC_SECURE, nullptr),
-    OCResourcePropertiesMask::InstanceAccessor("OC_PERIODIC", &OCResourcePropertiesMask::get_OC_PERIODIC, nullptr),
 
   });
 
@@ -6546,31 +6339,10 @@ void OCResourcePropertiesMask::set_OC_PERIODIC(const Napi::CallbackInfo& info, c
 
 }
 
+Napi::FunctionReference OCStatus::constructor;
+
 Napi::Function OCStatus::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCStatus", {
-    OCStatus::InstanceAccessor("OC_STATUS_OK", &OCStatus::get_OC_STATUS_OK, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_CREATED", &OCStatus::get_OC_STATUS_CREATED, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_CHANGED", &OCStatus::get_OC_STATUS_CHANGED, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_DELETED", &OCStatus::get_OC_STATUS_DELETED, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_NOT_MODIFIED", &OCStatus::get_OC_STATUS_NOT_MODIFIED, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_BAD_REQUEST", &OCStatus::get_OC_STATUS_BAD_REQUEST, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_UNAUTHORIZED", &OCStatus::get_OC_STATUS_UNAUTHORIZED, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_BAD_OPTION", &OCStatus::get_OC_STATUS_BAD_OPTION, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_FORBIDDEN", &OCStatus::get_OC_STATUS_FORBIDDEN, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_NOT_FOUND", &OCStatus::get_OC_STATUS_NOT_FOUND, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_METHOD_NOT_ALLOWED", &OCStatus::get_OC_STATUS_METHOD_NOT_ALLOWED, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_NOT_ACCEPTABLE", &OCStatus::get_OC_STATUS_NOT_ACCEPTABLE, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_REQUEST_ENTITY_TOO_LARGE", &OCStatus::get_OC_STATUS_REQUEST_ENTITY_TOO_LARGE, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_UNSUPPORTED_MEDIA_TYPE", &OCStatus::get_OC_STATUS_UNSUPPORTED_MEDIA_TYPE, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_INTERNAL_SERVER_ERROR", &OCStatus::get_OC_STATUS_INTERNAL_SERVER_ERROR, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_NOT_IMPLEMENTED", &OCStatus::get_OC_STATUS_NOT_IMPLEMENTED, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_BAD_GATEWAY", &OCStatus::get_OC_STATUS_BAD_GATEWAY, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_SERVICE_UNAVAILABLE", &OCStatus::get_OC_STATUS_SERVICE_UNAVAILABLE, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_GATEWAY_TIMEOUT", &OCStatus::get_OC_STATUS_GATEWAY_TIMEOUT, nullptr),
-    OCStatus::InstanceAccessor("OC_STATUS_PROXYING_NOT_SUPPORTED", &OCStatus::get_OC_STATUS_PROXYING_NOT_SUPPORTED, nullptr),
-    OCStatus::InstanceAccessor("__NUM_OC_STATUS_CODES__", &OCStatus::get___NUM_OC_STATUS_CODES__, nullptr),
-    OCStatus::InstanceAccessor("OC_IGNORE", &OCStatus::get_OC_IGNORE, nullptr),
-    OCStatus::InstanceAccessor("OC_PING_TIMEOUT", &OCStatus::get_OC_PING_TIMEOUT, nullptr),
 
   });
 
@@ -6822,10 +6594,10 @@ void OCStatus::set_OC_PING_TIMEOUT(const Napi::CallbackInfo& info, const Napi::V
 
 }
 
+Napi::FunctionReference OCSessionState::constructor;
+
 Napi::Function OCSessionState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSessionState", {
-    OCSessionState::InstanceAccessor("OC_SESSION_CONNECTED", &OCSessionState::get_OC_SESSION_CONNECTED, nullptr),
-    OCSessionState::InstanceAccessor("OC_SESSION_DISCONNECTED", &OCSessionState::get_OC_SESSION_DISCONNECTED, nullptr),
 
   });
 
@@ -6867,16 +6639,10 @@ void OCSessionState::set_OC_SESSION_DISCONNECTED(const Napi::CallbackInfo& info,
 
 }
 
+Napi::FunctionReference OCSoftwareUpdateResult::constructor;
+
 Napi::Function OCSoftwareUpdateResult::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSoftwareUpdateResult", {
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_IDLE", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_IDLE, nullptr),
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_SUCCESS", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SUCCESS, nullptr),
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_LESS_RAM", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_RAM, nullptr),
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_LESS_FLASH", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_FLASH, nullptr),
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_CONN_FAIL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_CONN_FAIL, nullptr),
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_SVV_FAIL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SVV_FAIL, nullptr),
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_INVALID_URL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_INVALID_URL, nullptr),
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_UPGRADE_FAIL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_UPGRADE_FAIL, nullptr),
 
   });
 

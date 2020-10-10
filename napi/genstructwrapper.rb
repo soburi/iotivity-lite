@@ -28,6 +28,8 @@ private:
 CLSDECL
 
 GETCLASSIMPL = <<'GETCLASSIMPL'
+Napi::FunctionReference CLASSNAME::constructor;
+
 Napi::Function CLASSNAME::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "CLASSNAME", {
 /* accessor */
@@ -577,16 +579,22 @@ def gen_setget_decl(ftable)
   list.join()
 end
 
-def gen_accessor(ftable)
+def gen_accessor(type, ftable)
   list = ftable.collect do |k, v|
-    ACCESSORIMPL.gsub(/VALNAME/, k)
+    accr = ACCESSORIMPL.gsub(/VALNAME/, k)
+    if IFDEFS.has_key?(type) and IFDEFS[type].is_a?(Hash) and IFDEFS[type].has_key?(k)
+      accr = "#ifdef #{IFDEFS[type][k]}\n" + accr+ "#endif\n"
+    end
   end
   list.join()
 end
 
-def gen_enumaccessor(ftable)
+def gen_enumaccessor(type, ftable)
   list = ftable.collect do |k, v|
-    ENUMACCESSORIMPL.gsub(/VALNAME/, k)
+    accr = ENUMACCESSORIMPL.gsub(/VALNAME/, k)
+    if IFDEFS.has_key?(type) and IFDEFS[type].is_a?(Hash) and IFDEFS[type].has_key?(k)
+      accr = "#ifdef #{IFDEFS[type][k]}\n" + accr+ "#endif\n"
+    end
   end
   list.join()
 end
@@ -697,7 +705,7 @@ def gen_classimpl(type, h)
   return "" if IGNORES.has_key?(type) and IGNORES[type] == nil
   hh = format_ignore(type, h)
 
-  impl = GETCLASSIMPL.gsub(/\/\* accessor \*\//, gen_accessor(hh)).gsub(/CLASSNAME/, gen_classname(type))
+  impl = GETCLASSIMPL.gsub(/\/\* accessor \*\//, gen_accessor(type, hh)).gsub(/CLASSNAME/, gen_classname(type))
   impl += CTORIMPL.gsub(/STRUCTNAME/, type).gsub(/CLASSNAME/, gen_classname(type))
   impl += gen_setget_impl(type, hh)
 
@@ -711,7 +719,7 @@ def gen_enumclassimpl(type, h)
   return "" if IGNORES.has_key?(type) and IGNORES[type] == nil
   hh = format_ignore(type, h)
 
-  impl = GETCLASSIMPL.gsub(/\/\* accessor \*\//, gen_enumaccessor(hh)).gsub(/CLASSNAME/, gen_classname(type))
+  impl = GETCLASSIMPL.gsub(/\/\* accessor \*\//, gen_enumaccessor(type, hh)).gsub(/CLASSNAME/, gen_classname(type))
   impl += CTORIMPL.gsub(/STRUCTNAME/, type).gsub(/CLASSNAME/, gen_classname(type))
   impl += gen_enum_entry_impl(type, hh)
 
