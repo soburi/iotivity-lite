@@ -343,7 +343,27 @@ WRAPPERNAME = { 'oc_ipv4_addr_t' => "OCIPv4Addr",
                 'oc_ipv6_addr_t' => "OCIPv6Addr",
                 'oc_le_addr_t' => "OCLEAddr",
                 "oc_endpoint_t::dev_addr" => "DevAddr",
-                "pool" => "OCPool",
+                'oc_sec_ace_t' => 'OCSecurityAce',
+                'oc_sec_acl_s' => 'OCSecurityAcl',
+                'oc_cps_t' => 'OCCloudPrivisoningStatus',
+                'oc_pos_description_t' => 'OCPositionDescription',
+                'oc_resource_properties_t' => 'OCResourcePropertiesMask',
+                'oc_sp_types_t' => 'OCSpTypesMask',
+                'oc_cloud_status_t' => 'OCCloudStatusMask',
+                'oc_ace_permissions_t' => 'OCAcePermissionsMask',
+                'oc_ace_res_t' => 'OCAceResource',
+                'oc_core_resource_t' => 'OCCoreRes',
+                'oc_event_callback_retval_t' => 'OCEventCallbackResult',
+                'oc_swupdate_cb_t' => 'OCSoftwareUpdateHandler',
+                'oc_swupdate_result_t' => 'OCSoftwareUpdateResult',
+                'ocf_version_t' => 'OCFVersion',
+                'oc_client_cb_t' => 'OCClientCallback',
+                'oc_sec_cred_t' => 'OCCred',
+                'oc_sec_creds_t' => 'OCCreds',
+                'oc_sec_credtype_t' => 'OCCredType',
+                'oc_sec_credusage_t' => 'OCCredUsage',
+                'oc_sec_encoding_t' => 'OCEncoding',
+                'oc_rt_t' => 'OCResourceType',
 }
 
 TYPEDEFS = {
@@ -411,6 +431,17 @@ IGNORES = {
   "oc_rep_s::oc_rep_value" => nil,
   "oc_client_response_t" => [/endpoint/, /payload/, /client_cb/, /user_data/],
   "oc_request_t" => [/^origin$/, /^request_payload$/, /^resource$/, /^response$/], 
+
+  "oc_blockwise_request_state_s" => nil,
+  "oc_blockwise_response_state_s" => nil,
+  "oc_blockwise_role_t" => nil,
+  "oc_blockwise_state_s" => nil,
+  "oc_etimer" => nil,
+  "oc_memb" => nil,
+  "oc_message_s" => nil,
+  "pool" => nil,
+  "oc_timer" => nil,
+
 }
 
 IFDEFS = {
@@ -854,7 +885,6 @@ def gen_funcimpl(name, param)
 end
 
 
-=begin
 File.open('src/structs.h', 'w') do |f|
   f.print "#pragma once\n"
 
@@ -916,8 +946,6 @@ File.open('src/structs.cc', 'w') do |f|
     f.print "\n"
   end
 end
-
-=end
 
 File.open('src/functions.h', 'w') do |f|
   f.print "#include \"structs.h\"\n"

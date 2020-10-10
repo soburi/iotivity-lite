@@ -1,10 +1,10 @@
 #include "structs.h"
-Napi::Function OCAceRes::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCAceRes", {
-    OCAceRes::InstanceAccessor("href", &OCAceRes::get_href, &OCAceRes::set_href),
-    OCAceRes::InstanceAccessor("interfaces", &OCAceRes::get_interfaces, &OCAceRes::set_interfaces),
-    OCAceRes::InstanceAccessor("types", &OCAceRes::get_types, &OCAceRes::set_types),
-    OCAceRes::InstanceAccessor("wildcard", &OCAceRes::get_wildcard, &OCAceRes::set_wildcard),
+Napi::Function OCAceResource::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCAceResource", {
+    OCAceResource::InstanceAccessor("href", &OCAceResource::get_href, &OCAceResource::set_href),
+    OCAceResource::InstanceAccessor("interfaces", &OCAceResource::get_interfaces, &OCAceResource::set_interfaces),
+    OCAceResource::InstanceAccessor("types", &OCAceResource::get_types, &OCAceResource::set_types),
+    OCAceResource::InstanceAccessor("wildcard", &OCAceResource::get_wildcard, &OCAceResource::set_wildcard),
 
   });
 
@@ -13,7 +13,7 @@ Napi::Function OCAceRes::GetClass(Napi::Env env) {
 
   return func;
 }
-OCAceRes::OCAceRes(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCAceResource::OCAceResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_ace_res_t>(new oc_ace_res_t());
@@ -26,53 +26,70 @@ OCAceRes::OCAceRes(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCAceRes::get_href(const Napi::CallbackInfo& info)
+Napi::Value OCAceResource::get_href(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->href);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCAceRes::constructor.New({accessor});
+  return OCAceResource::constructor.New({accessor});
 }
 
-void OCAceRes::set_href(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCAceResource::set_href(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->href = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
-Napi::Value OCAceRes::get_interfaces(const Napi::CallbackInfo& info)
+Napi::Value OCAceResource::get_interfaces(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->interfaces);
 }
 
-void OCAceRes::set_interfaces(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCAceResource::set_interfaces(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->interfaces = static_cast<oc_interface_mask_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-Napi::Value OCAceRes::get_types(const Napi::CallbackInfo& info)
+Napi::Value OCAceResource::get_types(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->types);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCAceRes::constructor.New({accessor});
+  return OCAceResource::constructor.New({accessor});
 }
 
-void OCAceRes::set_types(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCAceResource::set_types(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->types = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
-Napi::Value OCAceRes::get_wildcard(const Napi::CallbackInfo& info)
+Napi::Value OCAceResource::get_wildcard(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->wildcard);
 }
 
-void OCAceRes::set_wildcard(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCAceResource::set_wildcard(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->wildcard = static_cast<oc_ace_wildcard_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-Napi::Function OCBlockwiseRequestState::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCBlockwiseRequestState", {
-    OCBlockwiseRequestState::InstanceAccessor("base", &OCBlockwiseRequestState::get_base, &OCBlockwiseRequestState::set_base),
+
+
+
+Napi::Function OCClientCallback::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCClientCallback", {
+    OCClientCallback::InstanceAccessor("discovery", &OCClientCallback::get_discovery, &OCClientCallback::set_discovery),
+    OCClientCallback::InstanceAccessor("handler", &OCClientCallback::get_handler, &OCClientCallback::set_handler),
+    OCClientCallback::InstanceAccessor("method", &OCClientCallback::get_method, &OCClientCallback::set_method),
+    OCClientCallback::InstanceAccessor("mid", &OCClientCallback::get_mid, &OCClientCallback::set_mid),
+    OCClientCallback::InstanceAccessor("multicast", &OCClientCallback::get_multicast, &OCClientCallback::set_multicast),
+    OCClientCallback::InstanceAccessor("observe_seq", &OCClientCallback::get_observe_seq, &OCClientCallback::set_observe_seq),
+    OCClientCallback::InstanceAccessor("qos", &OCClientCallback::get_qos, &OCClientCallback::set_qos),
+    OCClientCallback::InstanceAccessor("query", &OCClientCallback::get_query, &OCClientCallback::set_query),
+    OCClientCallback::InstanceAccessor("ref_count", &OCClientCallback::get_ref_count, &OCClientCallback::set_ref_count),
+    OCClientCallback::InstanceAccessor("separate", &OCClientCallback::get_separate, &OCClientCallback::set_separate),
+    OCClientCallback::InstanceAccessor("stop_multicast_receive", &OCClientCallback::get_stop_multicast_receive, &OCClientCallback::set_stop_multicast_receive),
+    OCClientCallback::InstanceAccessor("timestamp", &OCClientCallback::get_timestamp, &OCClientCallback::set_timestamp),
+    OCClientCallback::InstanceAccessor("token", &OCClientCallback::get_token, &OCClientCallback::set_token),
+    OCClientCallback::InstanceAccessor("token_len", &OCClientCallback::get_token_len, &OCClientCallback::set_token_len),
+    OCClientCallback::InstanceAccessor("uri", &OCClientCallback::get_uri, &OCClientCallback::set_uri),
 
   });
 
@@ -81,297 +98,7 @@ Napi::Function OCBlockwiseRequestState::GetClass(Napi::Env env) {
 
   return func;
 }
-OCBlockwiseRequestState::OCBlockwiseRequestState(const Napi::CallbackInfo& info) : ObjectWrap(info)
-{
-  if (info.Length() == 0) {
-     m_pvalue = std::shared_ptr<oc_blockwise_request_state_s>(new oc_blockwise_request_state_s());
-  }
-  else if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_blockwise_request_state_s>>>().Data());
-  }
-  else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
-          .ThrowAsJavaScriptException();
-  }
-}
-Napi::Value OCBlockwiseRequestState::get_base(const Napi::CallbackInfo& info)
-{
-  std::shared_ptr<oc_blockwise_state_s> sp(&m_pvalue->base);
-  auto accessor = Napi::External<std::shared_ptr<oc_blockwise_state_s>>::New(info.Env(), &sp);
-  return OCBlockwiseRequestState::constructor.New({accessor});
-}
-
-void OCBlockwiseRequestState::set_base(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->base = *(*(value.As<Napi::External<std::shared_ptr<oc_blockwise_state_s>>>().Data()));
-}
-
-Napi::Function OCBlockwiseResponseState::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCBlockwiseResponseState", {
-    OCBlockwiseResponseState::InstanceAccessor("base", &OCBlockwiseResponseState::get_base, &OCBlockwiseResponseState::set_base),
-    OCBlockwiseResponseState::InstanceAccessor("etag", &OCBlockwiseResponseState::get_etag, &OCBlockwiseResponseState::set_etag),
-    OCBlockwiseResponseState::InstanceAccessor("observe_seq", &OCBlockwiseResponseState::get_observe_seq, &OCBlockwiseResponseState::set_observe_seq),
-
-  });
-
-  constructor = Napi::Persistent(func);
-  constructor.SuppressDestruct();
-
-  return func;
-}
-OCBlockwiseResponseState::OCBlockwiseResponseState(const Napi::CallbackInfo& info) : ObjectWrap(info)
-{
-  if (info.Length() == 0) {
-     m_pvalue = std::shared_ptr<oc_blockwise_response_state_s>(new oc_blockwise_response_state_s());
-  }
-  else if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_blockwise_response_state_s>>>().Data());
-  }
-  else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
-          .ThrowAsJavaScriptException();
-  }
-}
-Napi::Value OCBlockwiseResponseState::get_base(const Napi::CallbackInfo& info)
-{
-  std::shared_ptr<oc_blockwise_state_s> sp(&m_pvalue->base);
-  auto accessor = Napi::External<std::shared_ptr<oc_blockwise_state_s>>::New(info.Env(), &sp);
-  return OCBlockwiseResponseState::constructor.New({accessor});
-}
-
-void OCBlockwiseResponseState::set_base(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->base = *(*(value.As<Napi::External<std::shared_ptr<oc_blockwise_state_s>>>().Data()));
-}
-
-Napi::Value OCBlockwiseResponseState::get_etag(const Napi::CallbackInfo& info)
-{
-return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->etag, COAP_ETAG_LEN);
-}
-
-void OCBlockwiseResponseState::set_etag(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-for(uint32_t i=0; i<COAP_ETAG_LEN; i++) { m_pvalue->etag[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }
-}
-
-#ifdef OC_CLIENT
-Napi::Value OCBlockwiseResponseState::get_observe_seq(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->observe_seq);
-}
-
-void OCBlockwiseResponseState::set_observe_seq(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->observe_seq = value.As<Napi::Number>().Int32Value();
-}
-#endif
-
-Napi::Function OCBlockwiseState::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCBlockwiseState", {
-    OCBlockwiseState::InstanceAccessor("buffer", &OCBlockwiseState::get_buffer, &OCBlockwiseState::set_buffer),
-    OCBlockwiseState::InstanceAccessor("client_cb", &OCBlockwiseState::get_client_cb, &OCBlockwiseState::set_client_cb),
-    OCBlockwiseState::InstanceAccessor("endpoint", &OCBlockwiseState::get_endpoint, &OCBlockwiseState::set_endpoint),
-    OCBlockwiseState::InstanceAccessor("href", &OCBlockwiseState::get_href, &OCBlockwiseState::set_href),
-    OCBlockwiseState::InstanceAccessor("method", &OCBlockwiseState::get_method, &OCBlockwiseState::set_method),
-    OCBlockwiseState::InstanceAccessor("mid", &OCBlockwiseState::get_mid, &OCBlockwiseState::set_mid),
-    OCBlockwiseState::InstanceAccessor("next_block_offset", &OCBlockwiseState::get_next_block_offset, &OCBlockwiseState::set_next_block_offset),
-    OCBlockwiseState::InstanceAccessor("payload_size", &OCBlockwiseState::get_payload_size, &OCBlockwiseState::set_payload_size),
-    OCBlockwiseState::InstanceAccessor("ref_count", &OCBlockwiseState::get_ref_count, &OCBlockwiseState::set_ref_count),
-    OCBlockwiseState::InstanceAccessor("role", &OCBlockwiseState::get_role, &OCBlockwiseState::set_role),
-    OCBlockwiseState::InstanceAccessor("token", &OCBlockwiseState::get_token, &OCBlockwiseState::set_token),
-    OCBlockwiseState::InstanceAccessor("token_len", &OCBlockwiseState::get_token_len, &OCBlockwiseState::set_token_len),
-    OCBlockwiseState::InstanceAccessor("uri_query", &OCBlockwiseState::get_uri_query, &OCBlockwiseState::set_uri_query),
-
-  });
-
-  constructor = Napi::Persistent(func);
-  constructor.SuppressDestruct();
-
-  return func;
-}
-OCBlockwiseState::OCBlockwiseState(const Napi::CallbackInfo& info) : ObjectWrap(info)
-{
-  if (info.Length() == 0) {
-     m_pvalue = std::shared_ptr<oc_blockwise_state_s>(new oc_blockwise_state_s());
-  }
-  else if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_blockwise_state_s>>>().Data());
-  }
-  else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
-          .ThrowAsJavaScriptException();
-  }
-}
-Napi::Value OCBlockwiseState::get_buffer(const Napi::CallbackInfo& info)
-{
-return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, OC_MAX_APP_DATA_SIZE);
-}
-
-void OCBlockwiseState::set_buffer(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-for(uint32_t i=0; i<value.As<Napi::Buffer<uint8_t>>().Length(); i++) { m_pvalue->buffer[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }
-}
-
-#ifdef OC_CLEINT
-Napi::Value OCBlockwiseState::get_client_cb(const Napi::CallbackInfo& info)
-{
-#error void* OCBlockwiseState::client_cb
-}
-
-void OCBlockwiseState::set_client_cb(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-#error void* OCBlockwiseState::client_cb
-}
-#endif
-
-Napi::Value OCBlockwiseState::get_endpoint(const Napi::CallbackInfo& info)
-{
-  std::shared_ptr<oc_endpoint_t> sp(&m_pvalue->endpoint);
-  auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({accessor});
-}
-
-void OCBlockwiseState::set_endpoint(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->endpoint = *(*(value.As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data()));
-}
-
-Napi::Value OCBlockwiseState::get_href(const Napi::CallbackInfo& info)
-{
-  std::shared_ptr<oc_mmem> sp(&m_pvalue->href);
-  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({accessor});
-}
-
-void OCBlockwiseState::set_href(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->href = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
-}
-
-Napi::Value OCBlockwiseState::get_method(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->method);
-}
-
-void OCBlockwiseState::set_method(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->method = static_cast<oc_method_t>(value.As<Napi::Number>().Uint32Value());
-}
-
-#ifdef OC_CLIENT
-Napi::Value OCBlockwiseState::get_mid(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->mid);
-}
-
-void OCBlockwiseState::set_mid(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->mid = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
-}
-#endif
-
-Napi::Value OCBlockwiseState::get_next_block_offset(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->next_block_offset);
-}
-
-void OCBlockwiseState::set_next_block_offset(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->next_block_offset = static_cast<uint32_t>(value.As<Napi::Number>());
-}
-
-Napi::Value OCBlockwiseState::get_payload_size(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->payload_size);
-}
-
-void OCBlockwiseState::set_payload_size(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->payload_size = static_cast<uint32_t>(value.As<Napi::Number>());
-}
-
-Napi::Value OCBlockwiseState::get_ref_count(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->ref_count);
-}
-
-void OCBlockwiseState::set_ref_count(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->ref_count = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
-}
-
-Napi::Value OCBlockwiseState::get_role(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->role);
-}
-
-void OCBlockwiseState::set_role(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->role = static_cast<oc_blockwise_role_t>(value.As<Napi::Number>().Uint32Value());
-}
-
-#ifdef OC_CLIENT
-Napi::Value OCBlockwiseState::get_token(const Napi::CallbackInfo& info)
-{
-return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->token, COAP_TOKEN_LEN);
-}
-
-void OCBlockwiseState::set_token(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) { m_pvalue->token[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }
-}
-#endif
-
-#ifdef OC_CLIENT
-Napi::Value OCBlockwiseState::get_token_len(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->token_len);
-}
-
-void OCBlockwiseState::set_token_len(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->token_len = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
-}
-#endif
-
-Napi::Value OCBlockwiseState::get_uri_query(const Napi::CallbackInfo& info)
-{
-  std::shared_ptr<oc_mmem> sp(&m_pvalue->uri_query);
-  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({accessor});
-}
-
-void OCBlockwiseState::set_uri_query(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->uri_query = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
-}
-
-Napi::Function OCClientCb::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCClientCb", {
-    OCClientCb::InstanceAccessor("discovery", &OCClientCb::get_discovery, &OCClientCb::set_discovery),
-    OCClientCb::InstanceAccessor("handler", &OCClientCb::get_handler, &OCClientCb::set_handler),
-    OCClientCb::InstanceAccessor("method", &OCClientCb::get_method, &OCClientCb::set_method),
-    OCClientCb::InstanceAccessor("mid", &OCClientCb::get_mid, &OCClientCb::set_mid),
-    OCClientCb::InstanceAccessor("multicast", &OCClientCb::get_multicast, &OCClientCb::set_multicast),
-    OCClientCb::InstanceAccessor("observe_seq", &OCClientCb::get_observe_seq, &OCClientCb::set_observe_seq),
-    OCClientCb::InstanceAccessor("qos", &OCClientCb::get_qos, &OCClientCb::set_qos),
-    OCClientCb::InstanceAccessor("query", &OCClientCb::get_query, &OCClientCb::set_query),
-    OCClientCb::InstanceAccessor("ref_count", &OCClientCb::get_ref_count, &OCClientCb::set_ref_count),
-    OCClientCb::InstanceAccessor("separate", &OCClientCb::get_separate, &OCClientCb::set_separate),
-    OCClientCb::InstanceAccessor("stop_multicast_receive", &OCClientCb::get_stop_multicast_receive, &OCClientCb::set_stop_multicast_receive),
-    OCClientCb::InstanceAccessor("timestamp", &OCClientCb::get_timestamp, &OCClientCb::set_timestamp),
-    OCClientCb::InstanceAccessor("token", &OCClientCb::get_token, &OCClientCb::set_token),
-    OCClientCb::InstanceAccessor("token_len", &OCClientCb::get_token_len, &OCClientCb::set_token_len),
-    OCClientCb::InstanceAccessor("uri", &OCClientCb::get_uri, &OCClientCb::set_uri),
-
-  });
-
-  constructor = Napi::Persistent(func);
-  constructor.SuppressDestruct();
-
-  return func;
-}
-OCClientCb::OCClientCb(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCClientCallback::OCClientCallback(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_client_cb_t>(new oc_client_cb_t());
@@ -384,158 +111,158 @@ OCClientCb::OCClientCb(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCClientCb::get_discovery(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_discovery(const Napi::CallbackInfo& info)
 {
   return Napi::Boolean::New(info.Env(), m_pvalue->discovery);
 }
 
-void OCClientCb::set_discovery(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_discovery(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->discovery = value.As<Napi::Boolean>().Value();
 }
 
-Napi::Value OCClientCb::get_handler(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_handler(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_client_handler_t> sp(&m_pvalue->handler);
   auto accessor = Napi::External<std::shared_ptr<oc_client_handler_t>>::New(info.Env(), &sp);
-  return OCClientCb::constructor.New({accessor});
+  return OCClientCallback::constructor.New({accessor});
 }
 
-void OCClientCb::set_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->handler = *(*(value.As<Napi::External<std::shared_ptr<oc_client_handler_t>>>().Data()));
 }
 
-Napi::Value OCClientCb::get_method(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_method(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->method);
 }
 
-void OCClientCb::set_method(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_method(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->method = static_cast<oc_method_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-Napi::Value OCClientCb::get_mid(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_mid(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->mid);
 }
 
-void OCClientCb::set_mid(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_mid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->mid = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-Napi::Value OCClientCb::get_multicast(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_multicast(const Napi::CallbackInfo& info)
 {
   return Napi::Boolean::New(info.Env(), m_pvalue->multicast);
 }
 
-void OCClientCb::set_multicast(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_multicast(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->multicast = value.As<Napi::Boolean>().Value();
 }
 
-Napi::Value OCClientCb::get_observe_seq(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_observe_seq(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->observe_seq);
 }
 
-void OCClientCb::set_observe_seq(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_observe_seq(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->observe_seq = value.As<Napi::Number>().Int32Value();
 }
 
-Napi::Value OCClientCb::get_qos(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_qos(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->qos);
 }
 
-void OCClientCb::set_qos(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_qos(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->qos = static_cast<oc_qos_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-Napi::Value OCClientCb::get_query(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_query(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->query);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCClientCb::constructor.New({accessor});
+  return OCClientCallback::constructor.New({accessor});
 }
 
-void OCClientCb::set_query(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_query(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->query = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
-Napi::Value OCClientCb::get_ref_count(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_ref_count(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->ref_count);
 }
 
-void OCClientCb::set_ref_count(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_ref_count(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->ref_count = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-Napi::Value OCClientCb::get_separate(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_separate(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->separate);
 }
 
-void OCClientCb::set_separate(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_separate(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->separate = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-Napi::Value OCClientCb::get_stop_multicast_receive(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_stop_multicast_receive(const Napi::CallbackInfo& info)
 {
   return Napi::Boolean::New(info.Env(), m_pvalue->stop_multicast_receive);
 }
 
-void OCClientCb::set_stop_multicast_receive(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_stop_multicast_receive(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->stop_multicast_receive = value.As<Napi::Boolean>().Value();
 }
 
-Napi::Value OCClientCb::get_timestamp(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_timestamp(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->timestamp);
 }
 
-void OCClientCb::set_timestamp(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_timestamp(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->timestamp = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-Napi::Value OCClientCb::get_token(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_token(const Napi::CallbackInfo& info)
 {
 return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->token, COAP_TOKEN_LEN);
 }
 
-void OCClientCb::set_token(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_token(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) { m_pvalue->token[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }
 }
 
-Napi::Value OCClientCb::get_token_len(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_token_len(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->token_len);
 }
 
-void OCClientCb::set_token_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_token_len(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->token_len = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-Napi::Value OCClientCb::get_uri(const Napi::CallbackInfo& info)
+Napi::Value OCClientCallback::get_uri(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->uri);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCClientCb::constructor.New({accessor});
+  return OCClientCallback::constructor.New({accessor});
 }
 
-void OCClientCb::set_uri(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCClientCallback::set_uri(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->uri = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
@@ -1439,41 +1166,6 @@ void OCEndpoint::set_version(const Napi::CallbackInfo& info, const Napi::Value& 
   m_pvalue->version = static_cast<ocf_version_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-Napi::Function OCEtimer::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCEtimer", {
-    OCEtimer::InstanceAccessor("timer", &OCEtimer::get_timer, &OCEtimer::set_timer),
-
-  });
-
-  constructor = Napi::Persistent(func);
-  constructor.SuppressDestruct();
-
-  return func;
-}
-OCEtimer::OCEtimer(const Napi::CallbackInfo& info) : ObjectWrap(info)
-{
-  if (info.Length() == 0) {
-     m_pvalue = std::shared_ptr<oc_etimer>(new oc_etimer());
-  }
-  else if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_etimer>>>().Data());
-  }
-  else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
-          .ThrowAsJavaScriptException();
-  }
-}
-Napi::Value OCEtimer::get_timer(const Napi::CallbackInfo& info)
-{
-  std::shared_ptr<oc_timer> sp(&m_pvalue->timer);
-  auto accessor = Napi::External<std::shared_ptr<oc_timer>>::New(info.Env(), &sp);
-  return OCEtimer::constructor.New({accessor});
-}
-
-void OCEtimer::set_timer(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->timer = *(*(value.As<Napi::External<std::shared_ptr<oc_timer>>>().Data()));
-}
 
 Napi::Function OCEventCallback::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEventCallback", {
@@ -1889,156 +1581,7 @@ void OCLink::set_rel(const Napi::CallbackInfo& info, const Napi::Value& value)
   m_pvalue->rel = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
-Napi::Function OCMemb::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCMemb", {
-    OCMemb::InstanceAccessor("count", &OCMemb::get_count, &OCMemb::set_count),
-    OCMemb::InstanceAccessor("num", &OCMemb::get_num, &OCMemb::set_num),
-    OCMemb::InstanceAccessor("size", &OCMemb::get_size, &OCMemb::set_size),
 
-  });
-
-  constructor = Napi::Persistent(func);
-  constructor.SuppressDestruct();
-
-  return func;
-}
-OCMemb::OCMemb(const Napi::CallbackInfo& info) : ObjectWrap(info)
-{
-  if (info.Length() == 0) {
-     m_pvalue = std::shared_ptr<oc_memb>(new oc_memb());
-  }
-  else if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_memb>>>().Data());
-  }
-  else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
-          .ThrowAsJavaScriptException();
-  }
-}
-Napi::Value OCMemb::get_count(const Napi::CallbackInfo& info)
-{
-return Napi::Buffer<char>::New(info.Env(), m_pvalue->count, m_pvalue->num);
-}
-
-void OCMemb::set_count(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-for(uint32_t i=0; i<m_pvalue->num; i++) { m_pvalue->count[i] = value.As<Napi::Buffer<int8_t>>().Data()[i]; }
-}
-
-Napi::Value OCMemb::get_num(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->num);
-}
-
-void OCMemb::set_num(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->num = static_cast<unsigned short>(value.As<Napi::Number>().Uint32Value());
-}
-
-Napi::Value OCMemb::get_size(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->size);
-}
-
-void OCMemb::set_size(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->size = static_cast<unsigned short>(value.As<Napi::Number>().Uint32Value());
-}
-
-Napi::Function OCMessage::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCMessage", {
-    OCMessage::InstanceAccessor("data", &OCMessage::get_data, &OCMessage::set_data),
-    OCMessage::InstanceAccessor("encrypted", &OCMessage::get_encrypted, &OCMessage::set_encrypted),
-    OCMessage::InstanceAccessor("endpoint", &OCMessage::get_endpoint, &OCMessage::set_endpoint),
-    OCMessage::InstanceAccessor("length", &OCMessage::get_length, &OCMessage::set_length),
-    OCMessage::InstanceAccessor("read_offset", &OCMessage::get_read_offset, &OCMessage::set_read_offset),
-    OCMessage::InstanceAccessor("ref_count", &OCMessage::get_ref_count, &OCMessage::set_ref_count),
-
-  });
-
-  constructor = Napi::Persistent(func);
-  constructor.SuppressDestruct();
-
-  return func;
-}
-OCMessage::OCMessage(const Napi::CallbackInfo& info) : ObjectWrap(info)
-{
-  if (info.Length() == 0) {
-     m_pvalue = std::shared_ptr<oc_message_s>(new oc_message_s());
-  }
-  else if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_message_s>>>().Data());
-  }
-  else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
-          .ThrowAsJavaScriptException();
-  }
-}
-Napi::Value OCMessage::get_data(const Napi::CallbackInfo& info)
-{
-return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->data, OC_PDU_SIZE);
-}
-
-void OCMessage::set_data(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-for(uint32_t i=0; i<value.As<Napi::Buffer<uint8_t>>().Length(); i++) { m_pvalue->data[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }
-}
-
-#ifdef OC_SECURITY
-Napi::Value OCMessage::get_encrypted(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->encrypted);
-}
-
-void OCMessage::set_encrypted(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->encrypted = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
-}
-#endif
-
-Napi::Value OCMessage::get_endpoint(const Napi::CallbackInfo& info)
-{
-  std::shared_ptr<oc_endpoint_t> sp(&m_pvalue->endpoint);
-  auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
-  return OCMessage::constructor.New({accessor});
-}
-
-void OCMessage::set_endpoint(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->endpoint = *(*(value.As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data()));
-}
-
-Napi::Value OCMessage::get_length(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->length);
-}
-
-void OCMessage::set_length(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->length = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
-}
-
-#ifdef OC_TCP
-Napi::Value OCMessage::get_read_offset(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->read_offset);
-}
-
-void OCMessage::set_read_offset(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->read_offset = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
-}
-#endif
-
-Napi::Value OCMessage::get_ref_count(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->ref_count);
-}
-
-void OCMessage::set_ref_count(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->ref_count = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
-}
 
 Napi::Function OCMmem::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCMmem", {
@@ -2749,9 +2292,9 @@ void OCRole::set_role(const Napi::CallbackInfo& info, const Napi::Value& value)
   m_pvalue->role = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
-Napi::Function OCRt::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCRt", {
-    OCRt::InstanceAccessor("rt", &OCRt::get_rt, &OCRt::set_rt),
+Napi::Function OCResourceType::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCResourceType", {
+    OCResourceType::InstanceAccessor("rt", &OCResourceType::get_rt, &OCResourceType::set_rt),
 
   });
 
@@ -2760,7 +2303,7 @@ Napi::Function OCRt::GetClass(Napi::Env env) {
 
   return func;
 }
-OCRt::OCRt(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCResourceType::OCResourceType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_rt_t>(new oc_rt_t());
@@ -2773,24 +2316,24 @@ OCRt::OCRt(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCRt::get_rt(const Napi::CallbackInfo& info)
+Napi::Value OCResourceType::get_rt(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->rt);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCRt::constructor.New({accessor});
+  return OCResourceType::constructor.New({accessor});
 }
 
-void OCRt::set_rt(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCResourceType::set_rt(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->rt = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
-Napi::Function OCSecAce::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCSecAce", {
-    OCSecAce::InstanceAccessor("aceid", &OCSecAce::get_aceid, &OCSecAce::set_aceid),
-    OCSecAce::InstanceAccessor("permission", &OCSecAce::get_permission, &OCSecAce::set_permission),
-    OCSecAce::InstanceAccessor("subject", &OCSecAce::get_subject, &OCSecAce::set_subject),
-    OCSecAce::InstanceAccessor("subject_type", &OCSecAce::get_subject_type, &OCSecAce::set_subject_type),
+Napi::Function OCSecurityAce::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCSecurityAce", {
+    OCSecurityAce::InstanceAccessor("aceid", &OCSecurityAce::get_aceid, &OCSecurityAce::set_aceid),
+    OCSecurityAce::InstanceAccessor("permission", &OCSecurityAce::get_permission, &OCSecurityAce::set_permission),
+    OCSecurityAce::InstanceAccessor("subject", &OCSecurityAce::get_subject, &OCSecurityAce::set_subject),
+    OCSecurityAce::InstanceAccessor("subject_type", &OCSecurityAce::get_subject_type, &OCSecurityAce::set_subject_type),
 
   });
 
@@ -2799,7 +2342,7 @@ Napi::Function OCSecAce::GetClass(Napi::Env env) {
 
   return func;
 }
-OCSecAce::OCSecAce(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCSecurityAce::OCSecurityAce(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_sec_ace_t>(new oc_sec_ace_t());
@@ -2812,51 +2355,51 @@ OCSecAce::OCSecAce(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCSecAce::get_aceid(const Napi::CallbackInfo& info)
+Napi::Value OCSecurityAce::get_aceid(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->aceid);
 }
 
-void OCSecAce::set_aceid(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSecurityAce::set_aceid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->aceid = static_cast<int>(value.As<Napi::Number>());
 }
 
-Napi::Value OCSecAce::get_permission(const Napi::CallbackInfo& info)
+Napi::Value OCSecurityAce::get_permission(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->permission);
 }
 
-void OCSecAce::set_permission(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSecurityAce::set_permission(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->permission = static_cast<oc_ace_permissions_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-Napi::Value OCSecAce::get_subject(const Napi::CallbackInfo& info)
+Napi::Value OCSecurityAce::get_subject(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_ace_subject_t> sp(&m_pvalue->subject);
   auto accessor = Napi::External<std::shared_ptr<oc_ace_subject_t>>::New(info.Env(), &sp);
-  return OCSecAce::constructor.New({accessor});
+  return OCSecurityAce::constructor.New({accessor});
 }
 
-void OCSecAce::set_subject(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSecurityAce::set_subject(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->subject = *(*(value.As<Napi::External<std::shared_ptr<oc_ace_subject_t>>>().Data()));
 }
 
-Napi::Value OCSecAce::get_subject_type(const Napi::CallbackInfo& info)
+Napi::Value OCSecurityAce::get_subject_type(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->subject_type);
 }
 
-void OCSecAce::set_subject_type(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSecurityAce::set_subject_type(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->subject_type = static_cast<oc_ace_subject_type_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-Napi::Function OCSecAcl::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCSecAcl", {
-    OCSecAcl::InstanceAccessor("rowneruuid", &OCSecAcl::get_rowneruuid, &OCSecAcl::set_rowneruuid),
+Napi::Function OCSecurityAcl::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCSecurityAcl", {
+    OCSecurityAcl::InstanceAccessor("rowneruuid", &OCSecurityAcl::get_rowneruuid, &OCSecurityAcl::set_rowneruuid),
 
   });
 
@@ -2865,7 +2408,7 @@ Napi::Function OCSecAcl::GetClass(Napi::Env env) {
 
   return func;
 }
-OCSecAcl::OCSecAcl(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCSecurityAcl::OCSecurityAcl(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_sec_acl_s>(new oc_sec_acl_s());
@@ -2878,21 +2421,21 @@ OCSecAcl::OCSecAcl(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCSecAcl::get_rowneruuid(const Napi::CallbackInfo& info)
+Napi::Value OCSecurityAcl::get_rowneruuid(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_uuid_t> sp(&m_pvalue->rowneruuid);
   auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
-  return OCSecAcl::constructor.New({accessor});
+  return OCSecurityAcl::constructor.New({accessor});
 }
 
-void OCSecAcl::set_rowneruuid(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSecurityAcl::set_rowneruuid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->rowneruuid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
 }
 
-Napi::Function OCSecCreds::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCSecCreds", {
-    OCSecCreds::InstanceAccessor("rowneruuid", &OCSecCreds::get_rowneruuid, &OCSecCreds::set_rowneruuid),
+Napi::Function OCCreds::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCCreds", {
+    OCCreds::InstanceAccessor("rowneruuid", &OCCreds::get_rowneruuid, &OCCreds::set_rowneruuid),
 
   });
 
@@ -2901,7 +2444,7 @@ Napi::Function OCSecCreds::GetClass(Napi::Env env) {
 
   return func;
 }
-OCSecCreds::OCSecCreds(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCCreds::OCCreds(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_sec_creds_t>(new oc_sec_creds_t());
@@ -2914,29 +2457,29 @@ OCSecCreds::OCSecCreds(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCSecCreds::get_rowneruuid(const Napi::CallbackInfo& info)
+Napi::Value OCCreds::get_rowneruuid(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_uuid_t> sp(&m_pvalue->rowneruuid);
   auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
-  return OCSecCreds::constructor.New({accessor});
+  return OCCreds::constructor.New({accessor});
 }
 
-void OCSecCreds::set_rowneruuid(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCreds::set_rowneruuid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->rowneruuid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
 }
 
-Napi::Function OCSecCred::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCSecCred", {
-    OCSecCred::InstanceAccessor("chain", &OCSecCred::get_chain, &OCSecCred::set_chain),
-    OCSecCred::InstanceAccessor("child", &OCSecCred::get_child, &OCSecCred::set_child),
-    OCSecCred::InstanceAccessor("credid", &OCSecCred::get_credid, &OCSecCred::set_credid),
-    OCSecCred::InstanceAccessor("credtype", &OCSecCred::get_credtype, &OCSecCred::set_credtype),
-    OCSecCred::InstanceAccessor("credusage", &OCSecCred::get_credusage, &OCSecCred::set_credusage),
-    OCSecCred::InstanceAccessor("owner_cred", &OCSecCred::get_owner_cred, &OCSecCred::set_owner_cred),
-    OCSecCred::InstanceAccessor("privatedata", &OCSecCred::get_privatedata, &OCSecCred::set_privatedata),
-    OCSecCred::InstanceAccessor("publicdata", &OCSecCred::get_publicdata, &OCSecCred::set_publicdata),
-    OCSecCred::InstanceAccessor("subjectuuid", &OCSecCred::get_subjectuuid, &OCSecCred::set_subjectuuid),
+Napi::Function OCCred::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCCred", {
+    OCCred::InstanceAccessor("chain", &OCCred::get_chain, &OCCred::set_chain),
+    OCCred::InstanceAccessor("child", &OCCred::get_child, &OCCred::set_child),
+    OCCred::InstanceAccessor("credid", &OCCred::get_credid, &OCCred::set_credid),
+    OCCred::InstanceAccessor("credtype", &OCCred::get_credtype, &OCCred::set_credtype),
+    OCCred::InstanceAccessor("credusage", &OCCred::get_credusage, &OCCred::set_credusage),
+    OCCred::InstanceAccessor("owner_cred", &OCCred::get_owner_cred, &OCCred::set_owner_cred),
+    OCCred::InstanceAccessor("privatedata", &OCCred::get_privatedata, &OCCred::set_privatedata),
+    OCCred::InstanceAccessor("publicdata", &OCCred::get_publicdata, &OCCred::set_publicdata),
+    OCCred::InstanceAccessor("subjectuuid", &OCCred::get_subjectuuid, &OCCred::set_subjectuuid),
 
   });
 
@@ -2945,7 +2488,7 @@ Napi::Function OCSecCred::GetClass(Napi::Env env) {
 
   return func;
 }
-OCSecCred::OCSecCred(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCCred::OCCred(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_sec_cred_t>(new oc_sec_cred_t());
@@ -2959,109 +2502,109 @@ OCSecCred::OCSecCred(const Napi::CallbackInfo& info) : ObjectWrap(info)
   }
 }
 #ifdef OC_PKI
-Napi::Value OCSecCred::get_chain(const Napi::CallbackInfo& info)
+Napi::Value OCCred::get_chain(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_sec_cred_t> sp(&m_pvalue->chain);
   auto accessor = Napi::External<std::shared_ptr<oc_sec_cred_t>>::New(info.Env(), &sp);
-  return OCSecCred::constructor.New({accessor});
+  return OCCred::constructor.New({accessor});
 }
 
-void OCSecCred::set_chain(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCred::set_chain(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->chain = *(*(value.As<Napi::External<std::shared_ptr<oc_sec_cred_t>>>().Data()));
 }
 #endif
 
 #ifdef OC_PKI
-Napi::Value OCSecCred::get_child(const Napi::CallbackInfo& info)
+Napi::Value OCCred::get_child(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_sec_cred_t> sp(&m_pvalue->child);
   auto accessor = Napi::External<std::shared_ptr<oc_sec_cred_t>>::New(info.Env(), &sp);
-  return OCSecCred::constructor.New({accessor});
+  return OCCred::constructor.New({accessor});
 }
 
-void OCSecCred::set_child(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCred::set_child(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->child = *(*(value.As<Napi::External<std::shared_ptr<oc_sec_cred_t>>>().Data()));
 }
 #endif
 
-Napi::Value OCSecCred::get_credid(const Napi::CallbackInfo& info)
+Napi::Value OCCred::get_credid(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->credid);
 }
 
-void OCSecCred::set_credid(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCred::set_credid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->credid = static_cast<int>(value.As<Napi::Number>());
 }
 
-Napi::Value OCSecCred::get_credtype(const Napi::CallbackInfo& info)
+Napi::Value OCCred::get_credtype(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->credtype);
 }
 
-void OCSecCred::set_credtype(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCred::set_credtype(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->credtype = static_cast<oc_sec_credtype_t>(value.As<Napi::Number>().Uint32Value());
 }
 
 #ifdef OC_PKI
-Napi::Value OCSecCred::get_credusage(const Napi::CallbackInfo& info)
+Napi::Value OCCred::get_credusage(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->credusage);
 }
 
-void OCSecCred::set_credusage(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCred::set_credusage(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->credusage = static_cast<oc_sec_credusage_t>(value.As<Napi::Number>().Uint32Value());
 }
 #endif
 
-Napi::Value OCSecCred::get_owner_cred(const Napi::CallbackInfo& info)
+Napi::Value OCCred::get_owner_cred(const Napi::CallbackInfo& info)
 {
   return Napi::Boolean::New(info.Env(), m_pvalue->owner_cred);
 }
 
-void OCSecCred::set_owner_cred(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCred::set_owner_cred(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->owner_cred = value.As<Napi::Boolean>().Value();
 }
 
-Napi::Value OCSecCred::get_privatedata(const Napi::CallbackInfo& info)
+Napi::Value OCCred::get_privatedata(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_cred_data_t> sp(&m_pvalue->privatedata);
   auto accessor = Napi::External<std::shared_ptr<oc_cred_data_t>>::New(info.Env(), &sp);
-  return OCSecCred::constructor.New({accessor});
+  return OCCred::constructor.New({accessor});
 }
 
-void OCSecCred::set_privatedata(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCred::set_privatedata(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->privatedata = *(*(value.As<Napi::External<std::shared_ptr<oc_cred_data_t>>>().Data()));
 }
 
 #ifdef OC_PKI
-Napi::Value OCSecCred::get_publicdata(const Napi::CallbackInfo& info)
+Napi::Value OCCred::get_publicdata(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_cred_data_t> sp(&m_pvalue->publicdata);
   auto accessor = Napi::External<std::shared_ptr<oc_cred_data_t>>::New(info.Env(), &sp);
-  return OCSecCred::constructor.New({accessor});
+  return OCCred::constructor.New({accessor});
 }
 
-void OCSecCred::set_publicdata(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCred::set_publicdata(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->publicdata = *(*(value.As<Napi::External<std::shared_ptr<oc_cred_data_t>>>().Data()));
 }
 #endif
 
-Napi::Value OCSecCred::get_subjectuuid(const Napi::CallbackInfo& info)
+Napi::Value OCCred::get_subjectuuid(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_uuid_t> sp(&m_pvalue->subjectuuid);
   auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
-  return OCSecCred::constructor.New({accessor});
+  return OCCred::constructor.New({accessor});
 }
 
-void OCSecCred::set_subjectuuid(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCred::set_subjectuuid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->subjectuuid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
 }
@@ -3090,12 +2633,12 @@ OCSessionEventCb::OCSessionEventCb(const Napi::CallbackInfo& info) : ObjectWrap(
   }
 }
 
-Napi::Function OCSwupdateCb::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCSwupdateCb", {
-    OCSwupdateCb::InstanceAccessor("check_new_version", &OCSwupdateCb::get_check_new_version, &OCSwupdateCb::set_check_new_version),
-    OCSwupdateCb::InstanceAccessor("download_update", &OCSwupdateCb::get_download_update, &OCSwupdateCb::set_download_update),
-    OCSwupdateCb::InstanceAccessor("perform_upgrade", &OCSwupdateCb::get_perform_upgrade, &OCSwupdateCb::set_perform_upgrade),
-    OCSwupdateCb::InstanceAccessor("validate_purl", &OCSwupdateCb::get_validate_purl, &OCSwupdateCb::set_validate_purl),
+Napi::Function OCSoftwareUpdateHandler::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCSoftwareUpdateHandler", {
+    OCSoftwareUpdateHandler::InstanceAccessor("check_new_version", &OCSoftwareUpdateHandler::get_check_new_version, &OCSoftwareUpdateHandler::set_check_new_version),
+    OCSoftwareUpdateHandler::InstanceAccessor("download_update", &OCSoftwareUpdateHandler::get_download_update, &OCSoftwareUpdateHandler::set_download_update),
+    OCSoftwareUpdateHandler::InstanceAccessor("perform_upgrade", &OCSoftwareUpdateHandler::get_perform_upgrade, &OCSoftwareUpdateHandler::set_perform_upgrade),
+    OCSoftwareUpdateHandler::InstanceAccessor("validate_purl", &OCSoftwareUpdateHandler::get_validate_purl, &OCSoftwareUpdateHandler::set_validate_purl),
 
   });
 
@@ -3104,7 +2647,7 @@ Napi::Function OCSwupdateCb::GetClass(Napi::Env env) {
 
   return func;
 }
-OCSwupdateCb::OCSwupdateCb(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCSoftwareUpdateHandler::OCSoftwareUpdateHandler(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_swupdate_cb_t>(new oc_swupdate_cb_t());
@@ -3117,90 +2660,46 @@ OCSwupdateCb::OCSwupdateCb(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCSwupdateCb::get_check_new_version(const Napi::CallbackInfo& info)
+Napi::Value OCSoftwareUpdateHandler::get_check_new_version(const Napi::CallbackInfo& info)
 {
 return check_new_version_function ;
 }
 
-void OCSwupdateCb::set_check_new_version(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSoftwareUpdateHandler::set_check_new_version(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 check_new_version_function = value;
 }
 
-Napi::Value OCSwupdateCb::get_download_update(const Napi::CallbackInfo& info)
+Napi::Value OCSoftwareUpdateHandler::get_download_update(const Napi::CallbackInfo& info)
 {
 return download_update_function;
 }
 
-void OCSwupdateCb::set_download_update(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSoftwareUpdateHandler::set_download_update(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 download_update_function = value;
 }
 
-Napi::Value OCSwupdateCb::get_perform_upgrade(const Napi::CallbackInfo& info)
+Napi::Value OCSoftwareUpdateHandler::get_perform_upgrade(const Napi::CallbackInfo& info)
 {
 return perform_upgrade_function;
 }
 
-void OCSwupdateCb::set_perform_upgrade(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSoftwareUpdateHandler::set_perform_upgrade(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 perform_upgrade_function = value;
 }
 
-Napi::Value OCSwupdateCb::get_validate_purl(const Napi::CallbackInfo& info)
+Napi::Value OCSoftwareUpdateHandler::get_validate_purl(const Napi::CallbackInfo& info)
 {
 return validate_purl_function;
 }
 
-void OCSwupdateCb::set_validate_purl(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSoftwareUpdateHandler::set_validate_purl(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 validate_purl_function = value;
 }
 
-Napi::Function OCTimer::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCTimer", {
-    OCTimer::InstanceAccessor("interval", &OCTimer::get_interval, &OCTimer::set_interval),
-    OCTimer::InstanceAccessor("start", &OCTimer::get_start, &OCTimer::set_start),
-
-  });
-
-  constructor = Napi::Persistent(func);
-  constructor.SuppressDestruct();
-
-  return func;
-}
-OCTimer::OCTimer(const Napi::CallbackInfo& info) : ObjectWrap(info)
-{
-  if (info.Length() == 0) {
-     m_pvalue = std::shared_ptr<oc_timer>(new oc_timer());
-  }
-  else if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_timer>>>().Data());
-  }
-  else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
-          .ThrowAsJavaScriptException();
-  }
-}
-Napi::Value OCTimer::get_interval(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->interval);
-}
-
-void OCTimer::set_interval(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->interval = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
-}
-
-Napi::Value OCTimer::get_start(const Napi::CallbackInfo& info)
-{
-  return Napi::Number::New(info.Env(), m_pvalue->start);
-}
-
-void OCTimer::set_start(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  m_pvalue->start = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
-}
 
 Napi::Function OCUuid::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCUuid", {
@@ -3391,14 +2890,14 @@ void OCAceConnectionType::set_OC_CONN_ANON_CLEAR(const Napi::CallbackInfo& info,
 
 }
 
-Napi::Function OCAcePermissions::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCAcePermissions", {
-    OCAcePermissions::InstanceAccessor("OC_PERM_NONE", &OCAcePermissions::get_OC_PERM_NONE, nullptr),
-    OCAcePermissions::InstanceAccessor("OC_PERM_CREATE", &OCAcePermissions::get_OC_PERM_CREATE, nullptr),
-    OCAcePermissions::InstanceAccessor("OC_PERM_RETRIEVE", &OCAcePermissions::get_OC_PERM_RETRIEVE, nullptr),
-    OCAcePermissions::InstanceAccessor("OC_PERM_UPDATE", &OCAcePermissions::get_OC_PERM_UPDATE, nullptr),
-    OCAcePermissions::InstanceAccessor("OC_PERM_DELETE", &OCAcePermissions::get_OC_PERM_DELETE, nullptr),
-    OCAcePermissions::InstanceAccessor("OC_PERM_NOTIFY", &OCAcePermissions::get_OC_PERM_NOTIFY, nullptr),
+Napi::Function OCAcePermissionsMask::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCAcePermissionsMask", {
+    OCAcePermissionsMask::InstanceAccessor("OC_PERM_NONE", &OCAcePermissionsMask::get_OC_PERM_NONE, nullptr),
+    OCAcePermissionsMask::InstanceAccessor("OC_PERM_CREATE", &OCAcePermissionsMask::get_OC_PERM_CREATE, nullptr),
+    OCAcePermissionsMask::InstanceAccessor("OC_PERM_RETRIEVE", &OCAcePermissionsMask::get_OC_PERM_RETRIEVE, nullptr),
+    OCAcePermissionsMask::InstanceAccessor("OC_PERM_UPDATE", &OCAcePermissionsMask::get_OC_PERM_UPDATE, nullptr),
+    OCAcePermissionsMask::InstanceAccessor("OC_PERM_DELETE", &OCAcePermissionsMask::get_OC_PERM_DELETE, nullptr),
+    OCAcePermissionsMask::InstanceAccessor("OC_PERM_NOTIFY", &OCAcePermissionsMask::get_OC_PERM_NOTIFY, nullptr),
 
   });
 
@@ -3407,7 +2906,7 @@ Napi::Function OCAcePermissions::GetClass(Napi::Env env) {
 
   return func;
 }
-OCAcePermissions::OCAcePermissions(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCAcePermissionsMask::OCAcePermissionsMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_ace_permissions_t>(new oc_ace_permissions_t());
@@ -3420,62 +2919,62 @@ OCAcePermissions::OCAcePermissions(const Napi::CallbackInfo& info) : ObjectWrap(
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCAcePermissions::get_OC_PERM_NONE(const Napi::CallbackInfo& info)
+Napi::Value OCAcePermissionsMask::get_OC_PERM_NONE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_PERM_NONE);
 }
 
-void OCAcePermissions::set_OC_PERM_NONE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCAcePermissionsMask::set_OC_PERM_NONE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCAcePermissions::get_OC_PERM_CREATE(const Napi::CallbackInfo& info)
+Napi::Value OCAcePermissionsMask::get_OC_PERM_CREATE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_PERM_CREATE);
 }
 
-void OCAcePermissions::set_OC_PERM_CREATE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCAcePermissionsMask::set_OC_PERM_CREATE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCAcePermissions::get_OC_PERM_RETRIEVE(const Napi::CallbackInfo& info)
+Napi::Value OCAcePermissionsMask::get_OC_PERM_RETRIEVE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_PERM_RETRIEVE);
 }
 
-void OCAcePermissions::set_OC_PERM_RETRIEVE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCAcePermissionsMask::set_OC_PERM_RETRIEVE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCAcePermissions::get_OC_PERM_UPDATE(const Napi::CallbackInfo& info)
+Napi::Value OCAcePermissionsMask::get_OC_PERM_UPDATE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_PERM_UPDATE);
 }
 
-void OCAcePermissions::set_OC_PERM_UPDATE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCAcePermissionsMask::set_OC_PERM_UPDATE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCAcePermissions::get_OC_PERM_DELETE(const Napi::CallbackInfo& info)
+Napi::Value OCAcePermissionsMask::get_OC_PERM_DELETE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_PERM_DELETE);
 }
 
-void OCAcePermissions::set_OC_PERM_DELETE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCAcePermissionsMask::set_OC_PERM_DELETE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCAcePermissions::get_OC_PERM_NOTIFY(const Napi::CallbackInfo& info)
+Napi::Value OCAcePermissionsMask::get_OC_PERM_NOTIFY(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_PERM_NOTIFY);
 }
 
-void OCAcePermissions::set_OC_PERM_NOTIFY(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCAcePermissionsMask::set_OC_PERM_NOTIFY(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
@@ -3603,50 +3102,6 @@ void OCAceWildcard::set_OC_ACE_WC_ALL_PUBLIC(const Napi::CallbackInfo& info, con
 
 }
 
-Napi::Function OCBlockwiseRole::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCBlockwiseRole", {
-    OCBlockwiseRole::InstanceAccessor("OC_BLOCKWISE_CLIENT", &OCBlockwiseRole::get_OC_BLOCKWISE_CLIENT, nullptr),
-    OCBlockwiseRole::InstanceAccessor("OC_BLOCKWISE_SERVER", &OCBlockwiseRole::get_OC_BLOCKWISE_SERVER, nullptr),
-
-  });
-
-  constructor = Napi::Persistent(func);
-  constructor.SuppressDestruct();
-
-  return func;
-}
-OCBlockwiseRole::OCBlockwiseRole(const Napi::CallbackInfo& info) : ObjectWrap(info)
-{
-  if (info.Length() == 0) {
-     m_pvalue = std::shared_ptr<oc_blockwise_role_t>(new oc_blockwise_role_t());
-  }
-  else if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_blockwise_role_t>>>().Data());
-  }
-  else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
-          .ThrowAsJavaScriptException();
-  }
-}
-Napi::Value OCBlockwiseRole::get_OC_BLOCKWISE_CLIENT(const Napi::CallbackInfo& info)
-{
-return Napi::Number::New(info.Env(), OC_BLOCKWISE_CLIENT);
-}
-
-void OCBlockwiseRole::set_OC_BLOCKWISE_CLIENT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
-Napi::Value OCBlockwiseRole::get_OC_BLOCKWISE_SERVER(const Napi::CallbackInfo& info)
-{
-return Napi::Number::New(info.Env(), OC_BLOCKWISE_SERVER);
-}
-
-void OCBlockwiseRole::set_OC_BLOCKWISE_SERVER(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
 
 Napi::Function OCDiscoveryFlags::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCDiscoveryFlags", {
@@ -3805,16 +3260,16 @@ void OCCloudError::set_CLOUD_ERROR_REFRESH_ACCESS_TOKEN(const Napi::CallbackInfo
 
 }
 
-Napi::Function OCCloudStatus::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCCloudStatus", {
-    OCCloudStatus::InstanceAccessor("OC_CLOUD_INITIALIZED", &OCCloudStatus::get_OC_CLOUD_INITIALIZED, nullptr),
-    OCCloudStatus::InstanceAccessor("OC_CLOUD_REGISTERED", &OCCloudStatus::get_OC_CLOUD_REGISTERED, nullptr),
-    OCCloudStatus::InstanceAccessor("OC_CLOUD_LOGGED_IN", &OCCloudStatus::get_OC_CLOUD_LOGGED_IN, nullptr),
-    OCCloudStatus::InstanceAccessor("OC_CLOUD_TOKEN_EXPIRY", &OCCloudStatus::get_OC_CLOUD_TOKEN_EXPIRY, nullptr),
-    OCCloudStatus::InstanceAccessor("OC_CLOUD_REFRESHED_TOKEN", &OCCloudStatus::get_OC_CLOUD_REFRESHED_TOKEN, nullptr),
-    OCCloudStatus::InstanceAccessor("OC_CLOUD_LOGGED_OUT", &OCCloudStatus::get_OC_CLOUD_LOGGED_OUT, nullptr),
-    OCCloudStatus::InstanceAccessor("OC_CLOUD_FAILURE", &OCCloudStatus::get_OC_CLOUD_FAILURE, nullptr),
-    OCCloudStatus::InstanceAccessor("OC_CLOUD_DEREGISTERED", &OCCloudStatus::get_OC_CLOUD_DEREGISTERED, nullptr),
+Napi::Function OCCloudStatusMask::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCCloudStatusMask", {
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_INITIALIZED", &OCCloudStatusMask::get_OC_CLOUD_INITIALIZED, nullptr),
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_REGISTERED", &OCCloudStatusMask::get_OC_CLOUD_REGISTERED, nullptr),
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_LOGGED_IN", &OCCloudStatusMask::get_OC_CLOUD_LOGGED_IN, nullptr),
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_TOKEN_EXPIRY", &OCCloudStatusMask::get_OC_CLOUD_TOKEN_EXPIRY, nullptr),
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_REFRESHED_TOKEN", &OCCloudStatusMask::get_OC_CLOUD_REFRESHED_TOKEN, nullptr),
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_LOGGED_OUT", &OCCloudStatusMask::get_OC_CLOUD_LOGGED_OUT, nullptr),
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_FAILURE", &OCCloudStatusMask::get_OC_CLOUD_FAILURE, nullptr),
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_DEREGISTERED", &OCCloudStatusMask::get_OC_CLOUD_DEREGISTERED, nullptr),
 
   });
 
@@ -3823,7 +3278,7 @@ Napi::Function OCCloudStatus::GetClass(Napi::Env env) {
 
   return func;
 }
-OCCloudStatus::OCCloudStatus(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCCloudStatusMask::OCCloudStatusMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_cloud_status_t>(new oc_cloud_status_t());
@@ -3836,93 +3291,93 @@ OCCloudStatus::OCCloudStatus(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCCloudStatus::get_OC_CLOUD_INITIALIZED(const Napi::CallbackInfo& info)
+Napi::Value OCCloudStatusMask::get_OC_CLOUD_INITIALIZED(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CLOUD_INITIALIZED);
 }
 
-void OCCloudStatus::set_OC_CLOUD_INITIALIZED(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCloudStatusMask::set_OC_CLOUD_INITIALIZED(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCloudStatus::get_OC_CLOUD_REGISTERED(const Napi::CallbackInfo& info)
+Napi::Value OCCloudStatusMask::get_OC_CLOUD_REGISTERED(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CLOUD_REGISTERED);
 }
 
-void OCCloudStatus::set_OC_CLOUD_REGISTERED(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCloudStatusMask::set_OC_CLOUD_REGISTERED(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCloudStatus::get_OC_CLOUD_LOGGED_IN(const Napi::CallbackInfo& info)
+Napi::Value OCCloudStatusMask::get_OC_CLOUD_LOGGED_IN(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CLOUD_LOGGED_IN);
 }
 
-void OCCloudStatus::set_OC_CLOUD_LOGGED_IN(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCloudStatusMask::set_OC_CLOUD_LOGGED_IN(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCloudStatus::get_OC_CLOUD_TOKEN_EXPIRY(const Napi::CallbackInfo& info)
+Napi::Value OCCloudStatusMask::get_OC_CLOUD_TOKEN_EXPIRY(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CLOUD_TOKEN_EXPIRY);
 }
 
-void OCCloudStatus::set_OC_CLOUD_TOKEN_EXPIRY(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCloudStatusMask::set_OC_CLOUD_TOKEN_EXPIRY(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCloudStatus::get_OC_CLOUD_REFRESHED_TOKEN(const Napi::CallbackInfo& info)
+Napi::Value OCCloudStatusMask::get_OC_CLOUD_REFRESHED_TOKEN(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CLOUD_REFRESHED_TOKEN);
 }
 
-void OCCloudStatus::set_OC_CLOUD_REFRESHED_TOKEN(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCloudStatusMask::set_OC_CLOUD_REFRESHED_TOKEN(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCloudStatus::get_OC_CLOUD_LOGGED_OUT(const Napi::CallbackInfo& info)
+Napi::Value OCCloudStatusMask::get_OC_CLOUD_LOGGED_OUT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CLOUD_LOGGED_OUT);
 }
 
-void OCCloudStatus::set_OC_CLOUD_LOGGED_OUT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCloudStatusMask::set_OC_CLOUD_LOGGED_OUT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCloudStatus::get_OC_CLOUD_FAILURE(const Napi::CallbackInfo& info)
+Napi::Value OCCloudStatusMask::get_OC_CLOUD_FAILURE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CLOUD_FAILURE);
 }
 
-void OCCloudStatus::set_OC_CLOUD_FAILURE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCloudStatusMask::set_OC_CLOUD_FAILURE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCloudStatus::get_OC_CLOUD_DEREGISTERED(const Napi::CallbackInfo& info)
+Napi::Value OCCloudStatusMask::get_OC_CLOUD_DEREGISTERED(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CLOUD_DEREGISTERED);
 }
 
-void OCCloudStatus::set_OC_CLOUD_DEREGISTERED(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCloudStatusMask::set_OC_CLOUD_DEREGISTERED(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Function OCCps::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCCps", {
-    OCCps::InstanceAccessor("OC_CPS_UNINITIALIZED", &OCCps::get_OC_CPS_UNINITIALIZED, nullptr),
-    OCCps::InstanceAccessor("OC_CPS_READYTOREGISTER", &OCCps::get_OC_CPS_READYTOREGISTER, nullptr),
-    OCCps::InstanceAccessor("OC_CPS_REGISTERING", &OCCps::get_OC_CPS_REGISTERING, nullptr),
-    OCCps::InstanceAccessor("OC_CPS_REGISTERED", &OCCps::get_OC_CPS_REGISTERED, nullptr),
-    OCCps::InstanceAccessor("OC_CPS_FAILED", &OCCps::get_OC_CPS_FAILED, nullptr),
+Napi::Function OCCloudPrivisoningStatus::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCCloudPrivisoningStatus", {
+    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_UNINITIALIZED", &OCCloudPrivisoningStatus::get_OC_CPS_UNINITIALIZED, nullptr),
+    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_READYTOREGISTER", &OCCloudPrivisoningStatus::get_OC_CPS_READYTOREGISTER, nullptr),
+    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_REGISTERING", &OCCloudPrivisoningStatus::get_OC_CPS_REGISTERING, nullptr),
+    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_REGISTERED", &OCCloudPrivisoningStatus::get_OC_CPS_REGISTERED, nullptr),
+    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_FAILED", &OCCloudPrivisoningStatus::get_OC_CPS_FAILED, nullptr),
 
   });
 
@@ -3931,7 +3386,7 @@ Napi::Function OCCps::GetClass(Napi::Env env) {
 
   return func;
 }
-OCCps::OCCps(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCCloudPrivisoningStatus::OCCloudPrivisoningStatus(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_cps_t>(new oc_cps_t());
@@ -3944,52 +3399,52 @@ OCCps::OCCps(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCCps::get_OC_CPS_UNINITIALIZED(const Napi::CallbackInfo& info)
+Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_UNINITIALIZED(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CPS_UNINITIALIZED);
 }
 
-void OCCps::set_OC_CPS_UNINITIALIZED(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCloudPrivisoningStatus::set_OC_CPS_UNINITIALIZED(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCps::get_OC_CPS_READYTOREGISTER(const Napi::CallbackInfo& info)
+Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_READYTOREGISTER(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CPS_READYTOREGISTER);
 }
 
-void OCCps::set_OC_CPS_READYTOREGISTER(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCloudPrivisoningStatus::set_OC_CPS_READYTOREGISTER(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCps::get_OC_CPS_REGISTERING(const Napi::CallbackInfo& info)
+Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_REGISTERING(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CPS_REGISTERING);
 }
 
-void OCCps::set_OC_CPS_REGISTERING(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCloudPrivisoningStatus::set_OC_CPS_REGISTERING(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCps::get_OC_CPS_REGISTERED(const Napi::CallbackInfo& info)
+Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_REGISTERED(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CPS_REGISTERED);
 }
 
-void OCCps::set_OC_CPS_REGISTERED(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCloudPrivisoningStatus::set_OC_CPS_REGISTERED(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCps::get_OC_CPS_FAILED(const Napi::CallbackInfo& info)
+Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_FAILED(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CPS_FAILED);
 }
 
-void OCCps::set_OC_CPS_FAILED(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCloudPrivisoningStatus::set_OC_CPS_FAILED(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
@@ -4063,11 +3518,11 @@ void tcpCsmState::set_CSM_ERROR(const Napi::CallbackInfo& info, const Napi::Valu
 }
 #endif
 
-Napi::Function OCSecCredtype::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCSecCredtype", {
-    OCSecCredtype::InstanceAccessor("OC_CREDTYPE_NULL", &OCSecCredtype::get_OC_CREDTYPE_NULL, nullptr),
-    OCSecCredtype::InstanceAccessor("OC_CREDTYPE_PSK", &OCSecCredtype::get_OC_CREDTYPE_PSK, nullptr),
-    OCSecCredtype::InstanceAccessor("OC_CREDTYPE_CERT", &OCSecCredtype::get_OC_CREDTYPE_CERT, nullptr),
+Napi::Function OCCredType::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCCredType", {
+    OCCredType::InstanceAccessor("OC_CREDTYPE_NULL", &OCCredType::get_OC_CREDTYPE_NULL, nullptr),
+    OCCredType::InstanceAccessor("OC_CREDTYPE_PSK", &OCCredType::get_OC_CREDTYPE_PSK, nullptr),
+    OCCredType::InstanceAccessor("OC_CREDTYPE_CERT", &OCCredType::get_OC_CREDTYPE_CERT, nullptr),
 
   });
 
@@ -4076,7 +3531,7 @@ Napi::Function OCSecCredtype::GetClass(Napi::Env env) {
 
   return func;
 }
-OCSecCredtype::OCSecCredtype(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCCredType::OCCredType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_sec_credtype_t>(new oc_sec_credtype_t());
@@ -4089,44 +3544,44 @@ OCSecCredtype::OCSecCredtype(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCSecCredtype::get_OC_CREDTYPE_NULL(const Napi::CallbackInfo& info)
+Napi::Value OCCredType::get_OC_CREDTYPE_NULL(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CREDTYPE_NULL);
 }
 
-void OCSecCredtype::set_OC_CREDTYPE_NULL(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCredType::set_OC_CREDTYPE_NULL(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSecCredtype::get_OC_CREDTYPE_PSK(const Napi::CallbackInfo& info)
+Napi::Value OCCredType::get_OC_CREDTYPE_PSK(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CREDTYPE_PSK);
 }
 
-void OCSecCredtype::set_OC_CREDTYPE_PSK(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCredType::set_OC_CREDTYPE_PSK(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSecCredtype::get_OC_CREDTYPE_CERT(const Napi::CallbackInfo& info)
+Napi::Value OCCredType::get_OC_CREDTYPE_CERT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CREDTYPE_CERT);
 }
 
-void OCSecCredtype::set_OC_CREDTYPE_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCredType::set_OC_CREDTYPE_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Function OCSecCredusage::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCSecCredusage", {
-    OCSecCredusage::InstanceAccessor("OC_CREDUSAGE_NULL", &OCSecCredusage::get_OC_CREDUSAGE_NULL, nullptr),
-    OCSecCredusage::InstanceAccessor("OC_CREDUSAGE_TRUSTCA", &OCSecCredusage::get_OC_CREDUSAGE_TRUSTCA, nullptr),
-    OCSecCredusage::InstanceAccessor("OC_CREDUSAGE_IDENTITY_CERT", &OCSecCredusage::get_OC_CREDUSAGE_IDENTITY_CERT, nullptr),
-    OCSecCredusage::InstanceAccessor("OC_CREDUSAGE_ROLE_CERT", &OCSecCredusage::get_OC_CREDUSAGE_ROLE_CERT, nullptr),
-    OCSecCredusage::InstanceAccessor("OC_CREDUSAGE_MFG_TRUSTCA", &OCSecCredusage::get_OC_CREDUSAGE_MFG_TRUSTCA, nullptr),
-    OCSecCredusage::InstanceAccessor("OC_CREDUSAGE_MFG_CERT", &OCSecCredusage::get_OC_CREDUSAGE_MFG_CERT, nullptr),
+Napi::Function OCCredUsage::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCCredUsage", {
+    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_NULL", &OCCredUsage::get_OC_CREDUSAGE_NULL, nullptr),
+    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_TRUSTCA", &OCCredUsage::get_OC_CREDUSAGE_TRUSTCA, nullptr),
+    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_IDENTITY_CERT", &OCCredUsage::get_OC_CREDUSAGE_IDENTITY_CERT, nullptr),
+    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_ROLE_CERT", &OCCredUsage::get_OC_CREDUSAGE_ROLE_CERT, nullptr),
+    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_MFG_TRUSTCA", &OCCredUsage::get_OC_CREDUSAGE_MFG_TRUSTCA, nullptr),
+    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_MFG_CERT", &OCCredUsage::get_OC_CREDUSAGE_MFG_CERT, nullptr),
 
   });
 
@@ -4135,7 +3590,7 @@ Napi::Function OCSecCredusage::GetClass(Napi::Env env) {
 
   return func;
 }
-OCSecCredusage::OCSecCredusage(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCCredUsage::OCCredUsage(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_sec_credusage_t>(new oc_sec_credusage_t());
@@ -4148,73 +3603,73 @@ OCSecCredusage::OCSecCredusage(const Napi::CallbackInfo& info) : ObjectWrap(info
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCSecCredusage::get_OC_CREDUSAGE_NULL(const Napi::CallbackInfo& info)
+Napi::Value OCCredUsage::get_OC_CREDUSAGE_NULL(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CREDUSAGE_NULL);
 }
 
-void OCSecCredusage::set_OC_CREDUSAGE_NULL(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCredUsage::set_OC_CREDUSAGE_NULL(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSecCredusage::get_OC_CREDUSAGE_TRUSTCA(const Napi::CallbackInfo& info)
+Napi::Value OCCredUsage::get_OC_CREDUSAGE_TRUSTCA(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CREDUSAGE_TRUSTCA);
 }
 
-void OCSecCredusage::set_OC_CREDUSAGE_TRUSTCA(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCredUsage::set_OC_CREDUSAGE_TRUSTCA(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSecCredusage::get_OC_CREDUSAGE_IDENTITY_CERT(const Napi::CallbackInfo& info)
+Napi::Value OCCredUsage::get_OC_CREDUSAGE_IDENTITY_CERT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CREDUSAGE_IDENTITY_CERT);
 }
 
-void OCSecCredusage::set_OC_CREDUSAGE_IDENTITY_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCredUsage::set_OC_CREDUSAGE_IDENTITY_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSecCredusage::get_OC_CREDUSAGE_ROLE_CERT(const Napi::CallbackInfo& info)
+Napi::Value OCCredUsage::get_OC_CREDUSAGE_ROLE_CERT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CREDUSAGE_ROLE_CERT);
 }
 
-void OCSecCredusage::set_OC_CREDUSAGE_ROLE_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCredUsage::set_OC_CREDUSAGE_ROLE_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSecCredusage::get_OC_CREDUSAGE_MFG_TRUSTCA(const Napi::CallbackInfo& info)
+Napi::Value OCCredUsage::get_OC_CREDUSAGE_MFG_TRUSTCA(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CREDUSAGE_MFG_TRUSTCA);
 }
 
-void OCSecCredusage::set_OC_CREDUSAGE_MFG_TRUSTCA(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCredUsage::set_OC_CREDUSAGE_MFG_TRUSTCA(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSecCredusage::get_OC_CREDUSAGE_MFG_CERT(const Napi::CallbackInfo& info)
+Napi::Value OCCredUsage::get_OC_CREDUSAGE_MFG_CERT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_CREDUSAGE_MFG_CERT);
 }
 
-void OCSecCredusage::set_OC_CREDUSAGE_MFG_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCredUsage::set_OC_CREDUSAGE_MFG_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Function OCSecEncoding::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCSecEncoding", {
-    OCSecEncoding::InstanceAccessor("OC_ENCODING_UNSUPPORTED", &OCSecEncoding::get_OC_ENCODING_UNSUPPORTED, nullptr),
-    OCSecEncoding::InstanceAccessor("OC_ENCODING_BASE64", &OCSecEncoding::get_OC_ENCODING_BASE64, nullptr),
-    OCSecEncoding::InstanceAccessor("OC_ENCODING_RAW", &OCSecEncoding::get_OC_ENCODING_RAW, nullptr),
-    OCSecEncoding::InstanceAccessor("OC_ENCODING_PEM", &OCSecEncoding::get_OC_ENCODING_PEM, nullptr),
-    OCSecEncoding::InstanceAccessor("OC_ENCODING_HANDLE", &OCSecEncoding::get_OC_ENCODING_HANDLE, nullptr),
+Napi::Function OCEncoding::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCEncoding", {
+    OCEncoding::InstanceAccessor("OC_ENCODING_UNSUPPORTED", &OCEncoding::get_OC_ENCODING_UNSUPPORTED, nullptr),
+    OCEncoding::InstanceAccessor("OC_ENCODING_BASE64", &OCEncoding::get_OC_ENCODING_BASE64, nullptr),
+    OCEncoding::InstanceAccessor("OC_ENCODING_RAW", &OCEncoding::get_OC_ENCODING_RAW, nullptr),
+    OCEncoding::InstanceAccessor("OC_ENCODING_PEM", &OCEncoding::get_OC_ENCODING_PEM, nullptr),
+    OCEncoding::InstanceAccessor("OC_ENCODING_HANDLE", &OCEncoding::get_OC_ENCODING_HANDLE, nullptr),
 
   });
 
@@ -4223,7 +3678,7 @@ Napi::Function OCSecEncoding::GetClass(Napi::Env env) {
 
   return func;
 }
-OCSecEncoding::OCSecEncoding(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCEncoding::OCEncoding(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_sec_encoding_t>(new oc_sec_encoding_t());
@@ -4236,60 +3691,60 @@ OCSecEncoding::OCSecEncoding(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCSecEncoding::get_OC_ENCODING_UNSUPPORTED(const Napi::CallbackInfo& info)
+Napi::Value OCEncoding::get_OC_ENCODING_UNSUPPORTED(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_ENCODING_UNSUPPORTED);
 }
 
-void OCSecEncoding::set_OC_ENCODING_UNSUPPORTED(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCEncoding::set_OC_ENCODING_UNSUPPORTED(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSecEncoding::get_OC_ENCODING_BASE64(const Napi::CallbackInfo& info)
+Napi::Value OCEncoding::get_OC_ENCODING_BASE64(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_ENCODING_BASE64);
 }
 
-void OCSecEncoding::set_OC_ENCODING_BASE64(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCEncoding::set_OC_ENCODING_BASE64(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSecEncoding::get_OC_ENCODING_RAW(const Napi::CallbackInfo& info)
+Napi::Value OCEncoding::get_OC_ENCODING_RAW(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_ENCODING_RAW);
 }
 
-void OCSecEncoding::set_OC_ENCODING_RAW(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCEncoding::set_OC_ENCODING_RAW(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSecEncoding::get_OC_ENCODING_PEM(const Napi::CallbackInfo& info)
+Napi::Value OCEncoding::get_OC_ENCODING_PEM(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_ENCODING_PEM);
 }
 
-void OCSecEncoding::set_OC_ENCODING_PEM(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCEncoding::set_OC_ENCODING_PEM(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSecEncoding::get_OC_ENCODING_HANDLE(const Napi::CallbackInfo& info)
+Napi::Value OCEncoding::get_OC_ENCODING_HANDLE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_ENCODING_HANDLE);
 }
 
-void OCSecEncoding::set_OC_ENCODING_HANDLE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCEncoding::set_OC_ENCODING_HANDLE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Function OCfVersion::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCfVersion", {
-    OCfVersion::InstanceAccessor("OCF_VER_1_0_0", &OCfVersion::get_OCF_VER_1_0_0, nullptr),
-    OCfVersion::InstanceAccessor("OIC_VER_1_1_0", &OCfVersion::get_OIC_VER_1_1_0, nullptr),
+Napi::Function OCFVersion::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCFVersion", {
+    OCFVersion::InstanceAccessor("OCF_VER_1_0_0", &OCFVersion::get_OCF_VER_1_0_0, nullptr),
+    OCFVersion::InstanceAccessor("OIC_VER_1_1_0", &OCFVersion::get_OIC_VER_1_1_0, nullptr),
 
   });
 
@@ -4298,7 +3753,7 @@ Napi::Function OCfVersion::GetClass(Napi::Env env) {
 
   return func;
 }
-OCfVersion::OCfVersion(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCFVersion::OCFVersion(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<ocf_version_t>(new ocf_version_t());
@@ -4311,22 +3766,22 @@ OCfVersion::OCfVersion(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCfVersion::get_OCF_VER_1_0_0(const Napi::CallbackInfo& info)
+Napi::Value OCFVersion::get_OCF_VER_1_0_0(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_VER_1_0_0);
 }
 
-void OCfVersion::set_OCF_VER_1_0_0(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCFVersion::set_OCF_VER_1_0_0(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCfVersion::get_OIC_VER_1_1_0(const Napi::CallbackInfo& info)
+Napi::Value OCFVersion::get_OIC_VER_1_1_0(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OIC_VER_1_1_0);
 }
 
-void OCfVersion::set_OIC_VER_1_1_0(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCFVersion::set_OIC_VER_1_1_0(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
@@ -5257,22 +4712,22 @@ void OCEnum::set_OC_ENUM_ZIGZAG(const Napi::CallbackInfo& info, const Napi::Valu
 
 }
 
-Napi::Function OCPosDescription::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCPosDescription", {
-    OCPosDescription::InstanceAccessor("OC_POS_UNKNOWN", &OCPosDescription::get_OC_POS_UNKNOWN, nullptr),
-    OCPosDescription::InstanceAccessor("OC_POS_TOP", &OCPosDescription::get_OC_POS_TOP, nullptr),
-    OCPosDescription::InstanceAccessor("OC_POS_BOTTOM", &OCPosDescription::get_OC_POS_BOTTOM, nullptr),
-    OCPosDescription::InstanceAccessor("OC_POS_LEFT", &OCPosDescription::get_OC_POS_LEFT, nullptr),
-    OCPosDescription::InstanceAccessor("OC_POS_RIGHT", &OCPosDescription::get_OC_POS_RIGHT, nullptr),
-    OCPosDescription::InstanceAccessor("OC_POS_CENTRE", &OCPosDescription::get_OC_POS_CENTRE, nullptr),
-    OCPosDescription::InstanceAccessor("OC_POS_TOPLEFT", &OCPosDescription::get_OC_POS_TOPLEFT, nullptr),
-    OCPosDescription::InstanceAccessor("OC_POS_BOTTOMLEFT", &OCPosDescription::get_OC_POS_BOTTOMLEFT, nullptr),
-    OCPosDescription::InstanceAccessor("OC_POS_CENTRELEFT", &OCPosDescription::get_OC_POS_CENTRELEFT, nullptr),
-    OCPosDescription::InstanceAccessor("OC_POS_CENTRERIGHT", &OCPosDescription::get_OC_POS_CENTRERIGHT, nullptr),
-    OCPosDescription::InstanceAccessor("OC_POS_BOTTOMRIGHT", &OCPosDescription::get_OC_POS_BOTTOMRIGHT, nullptr),
-    OCPosDescription::InstanceAccessor("OC_POS_TOPRIGHT", &OCPosDescription::get_OC_POS_TOPRIGHT, nullptr),
-    OCPosDescription::InstanceAccessor("OC_POS_TOPCENTRE", &OCPosDescription::get_OC_POS_TOPCENTRE, nullptr),
-    OCPosDescription::InstanceAccessor("OC_POS_BOTTOMCENTRE", &OCPosDescription::get_OC_POS_BOTTOMCENTRE, nullptr),
+Napi::Function OCPositionDescription::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCPositionDescription", {
+    OCPositionDescription::InstanceAccessor("OC_POS_UNKNOWN", &OCPositionDescription::get_OC_POS_UNKNOWN, nullptr),
+    OCPositionDescription::InstanceAccessor("OC_POS_TOP", &OCPositionDescription::get_OC_POS_TOP, nullptr),
+    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOM", &OCPositionDescription::get_OC_POS_BOTTOM, nullptr),
+    OCPositionDescription::InstanceAccessor("OC_POS_LEFT", &OCPositionDescription::get_OC_POS_LEFT, nullptr),
+    OCPositionDescription::InstanceAccessor("OC_POS_RIGHT", &OCPositionDescription::get_OC_POS_RIGHT, nullptr),
+    OCPositionDescription::InstanceAccessor("OC_POS_CENTRE", &OCPositionDescription::get_OC_POS_CENTRE, nullptr),
+    OCPositionDescription::InstanceAccessor("OC_POS_TOPLEFT", &OCPositionDescription::get_OC_POS_TOPLEFT, nullptr),
+    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOMLEFT", &OCPositionDescription::get_OC_POS_BOTTOMLEFT, nullptr),
+    OCPositionDescription::InstanceAccessor("OC_POS_CENTRELEFT", &OCPositionDescription::get_OC_POS_CENTRELEFT, nullptr),
+    OCPositionDescription::InstanceAccessor("OC_POS_CENTRERIGHT", &OCPositionDescription::get_OC_POS_CENTRERIGHT, nullptr),
+    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOMRIGHT", &OCPositionDescription::get_OC_POS_BOTTOMRIGHT, nullptr),
+    OCPositionDescription::InstanceAccessor("OC_POS_TOPRIGHT", &OCPositionDescription::get_OC_POS_TOPRIGHT, nullptr),
+    OCPositionDescription::InstanceAccessor("OC_POS_TOPCENTRE", &OCPositionDescription::get_OC_POS_TOPCENTRE, nullptr),
+    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOMCENTRE", &OCPositionDescription::get_OC_POS_BOTTOMCENTRE, nullptr),
 
   });
 
@@ -5281,7 +4736,7 @@ Napi::Function OCPosDescription::GetClass(Napi::Env env) {
 
   return func;
 }
-OCPosDescription::OCPosDescription(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCPositionDescription::OCPositionDescription(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_pos_description_t>(new oc_pos_description_t());
@@ -5294,201 +4749,146 @@ OCPosDescription::OCPosDescription(const Napi::CallbackInfo& info) : ObjectWrap(
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCPosDescription::get_OC_POS_UNKNOWN(const Napi::CallbackInfo& info)
+Napi::Value OCPositionDescription::get_OC_POS_UNKNOWN(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_POS_UNKNOWN);
 }
 
-void OCPosDescription::set_OC_POS_UNKNOWN(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCPositionDescription::set_OC_POS_UNKNOWN(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCPosDescription::get_OC_POS_TOP(const Napi::CallbackInfo& info)
+Napi::Value OCPositionDescription::get_OC_POS_TOP(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_POS_TOP);
 }
 
-void OCPosDescription::set_OC_POS_TOP(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCPositionDescription::set_OC_POS_TOP(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCPosDescription::get_OC_POS_BOTTOM(const Napi::CallbackInfo& info)
+Napi::Value OCPositionDescription::get_OC_POS_BOTTOM(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_POS_BOTTOM);
 }
 
-void OCPosDescription::set_OC_POS_BOTTOM(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCPositionDescription::set_OC_POS_BOTTOM(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCPosDescription::get_OC_POS_LEFT(const Napi::CallbackInfo& info)
+Napi::Value OCPositionDescription::get_OC_POS_LEFT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_POS_LEFT);
 }
 
-void OCPosDescription::set_OC_POS_LEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCPositionDescription::set_OC_POS_LEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCPosDescription::get_OC_POS_RIGHT(const Napi::CallbackInfo& info)
+Napi::Value OCPositionDescription::get_OC_POS_RIGHT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_POS_RIGHT);
 }
 
-void OCPosDescription::set_OC_POS_RIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCPositionDescription::set_OC_POS_RIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCPosDescription::get_OC_POS_CENTRE(const Napi::CallbackInfo& info)
+Napi::Value OCPositionDescription::get_OC_POS_CENTRE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_POS_CENTRE);
 }
 
-void OCPosDescription::set_OC_POS_CENTRE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCPositionDescription::set_OC_POS_CENTRE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCPosDescription::get_OC_POS_TOPLEFT(const Napi::CallbackInfo& info)
+Napi::Value OCPositionDescription::get_OC_POS_TOPLEFT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_POS_TOPLEFT);
 }
 
-void OCPosDescription::set_OC_POS_TOPLEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCPositionDescription::set_OC_POS_TOPLEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCPosDescription::get_OC_POS_BOTTOMLEFT(const Napi::CallbackInfo& info)
+Napi::Value OCPositionDescription::get_OC_POS_BOTTOMLEFT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_POS_BOTTOMLEFT);
 }
 
-void OCPosDescription::set_OC_POS_BOTTOMLEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCPositionDescription::set_OC_POS_BOTTOMLEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCPosDescription::get_OC_POS_CENTRELEFT(const Napi::CallbackInfo& info)
+Napi::Value OCPositionDescription::get_OC_POS_CENTRELEFT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_POS_CENTRELEFT);
 }
 
-void OCPosDescription::set_OC_POS_CENTRELEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCPositionDescription::set_OC_POS_CENTRELEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCPosDescription::get_OC_POS_CENTRERIGHT(const Napi::CallbackInfo& info)
+Napi::Value OCPositionDescription::get_OC_POS_CENTRERIGHT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_POS_CENTRERIGHT);
 }
 
-void OCPosDescription::set_OC_POS_CENTRERIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCPositionDescription::set_OC_POS_CENTRERIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCPosDescription::get_OC_POS_BOTTOMRIGHT(const Napi::CallbackInfo& info)
+Napi::Value OCPositionDescription::get_OC_POS_BOTTOMRIGHT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_POS_BOTTOMRIGHT);
 }
 
-void OCPosDescription::set_OC_POS_BOTTOMRIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCPositionDescription::set_OC_POS_BOTTOMRIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCPosDescription::get_OC_POS_TOPRIGHT(const Napi::CallbackInfo& info)
+Napi::Value OCPositionDescription::get_OC_POS_TOPRIGHT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_POS_TOPRIGHT);
 }
 
-void OCPosDescription::set_OC_POS_TOPRIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCPositionDescription::set_OC_POS_TOPRIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCPosDescription::get_OC_POS_TOPCENTRE(const Napi::CallbackInfo& info)
+Napi::Value OCPositionDescription::get_OC_POS_TOPCENTRE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_POS_TOPCENTRE);
 }
 
-void OCPosDescription::set_OC_POS_TOPCENTRE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCPositionDescription::set_OC_POS_TOPCENTRE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCPosDescription::get_OC_POS_BOTTOMCENTRE(const Napi::CallbackInfo& info)
+Napi::Value OCPositionDescription::get_OC_POS_BOTTOMCENTRE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_POS_BOTTOMCENTRE);
 }
 
-void OCPosDescription::set_OC_POS_BOTTOMCENTRE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCPositionDescription::set_OC_POS_BOTTOMCENTRE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Function OCPool::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCPool", {
-    OCPool::InstanceAccessor("BYTE_POOL", &OCPool::get_BYTE_POOL, nullptr),
-    OCPool::InstanceAccessor("INT_POOL", &OCPool::get_INT_POOL, nullptr),
-    OCPool::InstanceAccessor("DOUBLE_POOL", &OCPool::get_DOUBLE_POOL, nullptr),
-
-  });
-
-  constructor = Napi::Persistent(func);
-  constructor.SuppressDestruct();
-
-  return func;
-}
-OCPool::OCPool(const Napi::CallbackInfo& info) : ObjectWrap(info)
-{
-  if (info.Length() == 0) {
-     m_pvalue = std::shared_ptr<pool>(new pool());
-  }
-  else if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<pool>>>().Data());
-  }
-  else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
-          .ThrowAsJavaScriptException();
-  }
-}
-Napi::Value OCPool::get_BYTE_POOL(const Napi::CallbackInfo& info)
-{
-return Napi::Number::New(info.Env(), BYTE_POOL);
-}
-
-void OCPool::set_BYTE_POOL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
-Napi::Value OCPool::get_INT_POOL(const Napi::CallbackInfo& info)
-{
-return Napi::Number::New(info.Env(), INT_POOL);
-}
-
-void OCPool::set_INT_POOL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
-Napi::Value OCPool::get_DOUBLE_POOL(const Napi::CallbackInfo& info)
-{
-return Napi::Number::New(info.Env(), DOUBLE_POOL);
-}
-
-void OCPool::set_DOUBLE_POOL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
 
 Napi::Function OCInterfaceEvent::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCInterfaceEvent", {
@@ -5535,12 +4935,12 @@ void OCInterfaceEvent::set_NETWORK_INTERFACE_UP(const Napi::CallbackInfo& info, 
 
 }
 
-Napi::Function OCSpTypes::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCSpTypes", {
-    OCSpTypes::InstanceAccessor("OC_SP_BASELINE", &OCSpTypes::get_OC_SP_BASELINE, nullptr),
-    OCSpTypes::InstanceAccessor("OC_SP_BLACK", &OCSpTypes::get_OC_SP_BLACK, nullptr),
-    OCSpTypes::InstanceAccessor("OC_SP_BLUE", &OCSpTypes::get_OC_SP_BLUE, nullptr),
-    OCSpTypes::InstanceAccessor("OC_SP_PURPLE", &OCSpTypes::get_OC_SP_PURPLE, nullptr),
+Napi::Function OCSpTypesMask::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCSpTypesMask", {
+    OCSpTypesMask::InstanceAccessor("OC_SP_BASELINE", &OCSpTypesMask::get_OC_SP_BASELINE, nullptr),
+    OCSpTypesMask::InstanceAccessor("OC_SP_BLACK", &OCSpTypesMask::get_OC_SP_BLACK, nullptr),
+    OCSpTypesMask::InstanceAccessor("OC_SP_BLUE", &OCSpTypesMask::get_OC_SP_BLUE, nullptr),
+    OCSpTypesMask::InstanceAccessor("OC_SP_PURPLE", &OCSpTypesMask::get_OC_SP_PURPLE, nullptr),
 
   });
 
@@ -5549,7 +4949,7 @@ Napi::Function OCSpTypes::GetClass(Napi::Env env) {
 
   return func;
 }
-OCSpTypes::OCSpTypes(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCSpTypesMask::OCSpTypesMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_sp_types_t>(new oc_sp_types_t());
@@ -5562,42 +4962,42 @@ OCSpTypes::OCSpTypes(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCSpTypes::get_OC_SP_BASELINE(const Napi::CallbackInfo& info)
+Napi::Value OCSpTypesMask::get_OC_SP_BASELINE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_SP_BASELINE);
 }
 
-void OCSpTypes::set_OC_SP_BASELINE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSpTypesMask::set_OC_SP_BASELINE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSpTypes::get_OC_SP_BLACK(const Napi::CallbackInfo& info)
+Napi::Value OCSpTypesMask::get_OC_SP_BLACK(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_SP_BLACK);
 }
 
-void OCSpTypes::set_OC_SP_BLACK(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSpTypesMask::set_OC_SP_BLACK(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSpTypes::get_OC_SP_BLUE(const Napi::CallbackInfo& info)
+Napi::Value OCSpTypesMask::get_OC_SP_BLUE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_SP_BLUE);
 }
 
-void OCSpTypes::set_OC_SP_BLUE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSpTypesMask::set_OC_SP_BLUE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSpTypes::get_OC_SP_PURPLE(const Napi::CallbackInfo& info)
+Napi::Value OCSpTypesMask::get_OC_SP_PURPLE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_SP_PURPLE);
 }
 
-void OCSpTypes::set_OC_SP_PURPLE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSpTypesMask::set_OC_SP_PURPLE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
@@ -6066,26 +5466,26 @@ void OCContentFormat::set_APPLICATION_VND_OCF_CBOR(const Napi::CallbackInfo& inf
 
 }
 
-Napi::Function OCCoreResource::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCCoreResource", {
-    OCCoreResource::InstanceAccessor("OCF_P", &OCCoreResource::get_OCF_P, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_CON", &OCCoreResource::get_OCF_CON, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_INTROSPECTION_WK", &OCCoreResource::get_OCF_INTROSPECTION_WK, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_INTROSPECTION_DATA", &OCCoreResource::get_OCF_INTROSPECTION_DATA, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_RES", &OCCoreResource::get_OCF_RES, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_MNT", &OCCoreResource::get_OCF_MNT, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_COAPCLOUDCONF", &OCCoreResource::get_OCF_COAPCLOUDCONF, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_SW_UPDATE", &OCCoreResource::get_OCF_SW_UPDATE, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_SEC_DOXM", &OCCoreResource::get_OCF_SEC_DOXM, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_SEC_PSTAT", &OCCoreResource::get_OCF_SEC_PSTAT, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_SEC_ACL", &OCCoreResource::get_OCF_SEC_ACL, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_SEC_AEL", &OCCoreResource::get_OCF_SEC_AEL, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_SEC_CRED", &OCCoreResource::get_OCF_SEC_CRED, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_SEC_SDI", &OCCoreResource::get_OCF_SEC_SDI, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_SEC_SP", &OCCoreResource::get_OCF_SEC_SP, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_SEC_CSR", &OCCoreResource::get_OCF_SEC_CSR, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_SEC_ROLES", &OCCoreResource::get_OCF_SEC_ROLES, nullptr),
-    OCCoreResource::InstanceAccessor("OCF_D", &OCCoreResource::get_OCF_D, nullptr),
+Napi::Function OCCoreRes::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCCoreRes", {
+    OCCoreRes::InstanceAccessor("OCF_P", &OCCoreRes::get_OCF_P, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_CON", &OCCoreRes::get_OCF_CON, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_INTROSPECTION_WK", &OCCoreRes::get_OCF_INTROSPECTION_WK, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_INTROSPECTION_DATA", &OCCoreRes::get_OCF_INTROSPECTION_DATA, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_RES", &OCCoreRes::get_OCF_RES, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_MNT", &OCCoreRes::get_OCF_MNT, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_COAPCLOUDCONF", &OCCoreRes::get_OCF_COAPCLOUDCONF, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SW_UPDATE", &OCCoreRes::get_OCF_SW_UPDATE, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_DOXM", &OCCoreRes::get_OCF_SEC_DOXM, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_PSTAT", &OCCoreRes::get_OCF_SEC_PSTAT, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_ACL", &OCCoreRes::get_OCF_SEC_ACL, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_AEL", &OCCoreRes::get_OCF_SEC_AEL, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_CRED", &OCCoreRes::get_OCF_SEC_CRED, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_SDI", &OCCoreRes::get_OCF_SEC_SDI, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_SP", &OCCoreRes::get_OCF_SEC_SP, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_CSR", &OCCoreRes::get_OCF_SEC_CSR, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_ROLES", &OCCoreRes::get_OCF_SEC_ROLES, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_D", &OCCoreRes::get_OCF_D, nullptr),
 
   });
 
@@ -6094,7 +5494,7 @@ Napi::Function OCCoreResource::GetClass(Napi::Env env) {
 
   return func;
 }
-OCCoreResource::OCCoreResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCCoreRes::OCCoreRes(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_core_resource_t>(new oc_core_resource_t());
@@ -6107,214 +5507,214 @@ OCCoreResource::OCCoreResource(const Napi::CallbackInfo& info) : ObjectWrap(info
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCCoreResource::get_OCF_P(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_P(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_P);
 }
 
-void OCCoreResource::set_OCF_P(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_P(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCoreResource::get_OCF_CON(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_CON(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_CON);
 }
 
-void OCCoreResource::set_OCF_CON(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_CON(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCoreResource::get_OCF_INTROSPECTION_WK(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_INTROSPECTION_WK(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_INTROSPECTION_WK);
 }
 
-void OCCoreResource::set_OCF_INTROSPECTION_WK(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_INTROSPECTION_WK(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCoreResource::get_OCF_INTROSPECTION_DATA(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_INTROSPECTION_DATA(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_INTROSPECTION_DATA);
 }
 
-void OCCoreResource::set_OCF_INTROSPECTION_DATA(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_INTROSPECTION_DATA(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCoreResource::get_OCF_RES(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_RES(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_RES);
 }
 
-void OCCoreResource::set_OCF_RES(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_RES(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
 #ifdef OC_MNT
-Napi::Value OCCoreResource::get_OCF_MNT(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_MNT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_MNT);
 }
 
-void OCCoreResource::set_OCF_MNT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_MNT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #ifdef OC_CLOUD
-Napi::Value OCCoreResource::get_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_COAPCLOUDCONF);
 }
 
-void OCCoreResource::set_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #ifdef OC_SOFTWARE_UPDATE
-Napi::Value OCCoreResource::get_OCF_SW_UPDATE(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_SW_UPDATE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_SW_UPDATE);
 }
 
-void OCCoreResource::set_OCF_SW_UPDATE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_SW_UPDATE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #ifdef OC_SECURITY
-Napi::Value OCCoreResource::get_OCF_SEC_DOXM(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_SEC_DOXM(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_SEC_DOXM);
 }
 
-void OCCoreResource::set_OCF_SEC_DOXM(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_SEC_DOXM(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #ifdef OC_SECURITY
-Napi::Value OCCoreResource::get_OCF_SEC_PSTAT(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_SEC_PSTAT(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_SEC_PSTAT);
 }
 
-void OCCoreResource::set_OCF_SEC_PSTAT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_SEC_PSTAT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #ifdef OC_SECURITY
-Napi::Value OCCoreResource::get_OCF_SEC_ACL(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_SEC_ACL(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_SEC_ACL);
 }
 
-void OCCoreResource::set_OCF_SEC_ACL(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_SEC_ACL(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #ifdef OC_SECURITY
-Napi::Value OCCoreResource::get_OCF_SEC_AEL(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_SEC_AEL(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_SEC_AEL);
 }
 
-void OCCoreResource::set_OCF_SEC_AEL(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_SEC_AEL(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #ifdef OC_SECURITY
-Napi::Value OCCoreResource::get_OCF_SEC_CRED(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_SEC_CRED(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_SEC_CRED);
 }
 
-void OCCoreResource::set_OCF_SEC_CRED(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_SEC_CRED(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #ifdef OC_SECURITY
-Napi::Value OCCoreResource::get_OCF_SEC_SDI(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_SEC_SDI(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_SEC_SDI);
 }
 
-void OCCoreResource::set_OCF_SEC_SDI(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_SEC_SDI(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #ifdef OC_SECURITY
-Napi::Value OCCoreResource::get_OCF_SEC_SP(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_SEC_SP(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_SEC_SP);
 }
 
-void OCCoreResource::set_OCF_SEC_SP(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_SEC_SP(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #ifdef OC_PKI
-Napi::Value OCCoreResource::get_OCF_SEC_CSR(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_SEC_CSR(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_SEC_CSR);
 }
 
-void OCCoreResource::set_OCF_SEC_CSR(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_SEC_CSR(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #ifdef OC_PKI
-Napi::Value OCCoreResource::get_OCF_SEC_ROLES(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_SEC_ROLES(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_SEC_ROLES);
 }
 
-void OCCoreResource::set_OCF_SEC_ROLES(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_SEC_ROLES(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
-Napi::Value OCCoreResource::get_OCF_D(const Napi::CallbackInfo& info)
+Napi::Value OCCoreRes::get_OCF_D(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OCF_D);
 }
 
-void OCCoreResource::set_OCF_D(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreRes::set_OCF_D(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Function OCEventCallbackRetval::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCEventCallbackRetval", {
-    OCEventCallbackRetval::InstanceAccessor("OC_EVENT_DONE", &OCEventCallbackRetval::get_OC_EVENT_DONE, nullptr),
-    OCEventCallbackRetval::InstanceAccessor("OC_EVENT_CONTINUE", &OCEventCallbackRetval::get_OC_EVENT_CONTINUE, nullptr),
+Napi::Function OCEventCallbackResult::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCEventCallbackResult", {
+    OCEventCallbackResult::InstanceAccessor("OC_EVENT_DONE", &OCEventCallbackResult::get_OC_EVENT_DONE, nullptr),
+    OCEventCallbackResult::InstanceAccessor("OC_EVENT_CONTINUE", &OCEventCallbackResult::get_OC_EVENT_CONTINUE, nullptr),
 
   });
 
@@ -6323,7 +5723,7 @@ Napi::Function OCEventCallbackRetval::GetClass(Napi::Env env) {
 
   return func;
 }
-OCEventCallbackRetval::OCEventCallbackRetval(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCEventCallbackResult::OCEventCallbackResult(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_event_callback_retval_t>(new oc_event_callback_retval_t());
@@ -6336,22 +5736,22 @@ OCEventCallbackRetval::OCEventCallbackRetval(const Napi::CallbackInfo& info) : O
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCEventCallbackRetval::get_OC_EVENT_DONE(const Napi::CallbackInfo& info)
+Napi::Value OCEventCallbackResult::get_OC_EVENT_DONE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_EVENT_DONE);
 }
 
-void OCEventCallbackRetval::set_OC_EVENT_DONE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCEventCallbackResult::set_OC_EVENT_DONE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCEventCallbackRetval::get_OC_EVENT_CONTINUE(const Napi::CallbackInfo& info)
+Napi::Value OCEventCallbackResult::get_OC_EVENT_CONTINUE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_EVENT_CONTINUE);
 }
 
-void OCEventCallbackRetval::set_OC_EVENT_CONTINUE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCEventCallbackResult::set_OC_EVENT_CONTINUE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
@@ -6534,12 +5934,12 @@ void OCMethod::set_OC_DELETE(const Napi::CallbackInfo& info, const Napi::Value& 
 
 }
 
-Napi::Function OCResourceProperties::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCResourceProperties", {
-    OCResourceProperties::InstanceAccessor("OC_DISCOVERABLE", &OCResourceProperties::get_OC_DISCOVERABLE, nullptr),
-    OCResourceProperties::InstanceAccessor("OC_OBSERVABLE", &OCResourceProperties::get_OC_OBSERVABLE, nullptr),
-    OCResourceProperties::InstanceAccessor("OC_SECURE", &OCResourceProperties::get_OC_SECURE, nullptr),
-    OCResourceProperties::InstanceAccessor("OC_PERIODIC", &OCResourceProperties::get_OC_PERIODIC, nullptr),
+Napi::Function OCResourcePropertiesMask::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCResourcePropertiesMask", {
+    OCResourcePropertiesMask::InstanceAccessor("OC_DISCOVERABLE", &OCResourcePropertiesMask::get_OC_DISCOVERABLE, nullptr),
+    OCResourcePropertiesMask::InstanceAccessor("OC_OBSERVABLE", &OCResourcePropertiesMask::get_OC_OBSERVABLE, nullptr),
+    OCResourcePropertiesMask::InstanceAccessor("OC_SECURE", &OCResourcePropertiesMask::get_OC_SECURE, nullptr),
+    OCResourcePropertiesMask::InstanceAccessor("OC_PERIODIC", &OCResourcePropertiesMask::get_OC_PERIODIC, nullptr),
 
   });
 
@@ -6548,7 +5948,7 @@ Napi::Function OCResourceProperties::GetClass(Napi::Env env) {
 
   return func;
 }
-OCResourceProperties::OCResourceProperties(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCResourcePropertiesMask::OCResourcePropertiesMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_resource_properties_t>(new oc_resource_properties_t());
@@ -6561,42 +5961,42 @@ OCResourceProperties::OCResourceProperties(const Napi::CallbackInfo& info) : Obj
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCResourceProperties::get_OC_DISCOVERABLE(const Napi::CallbackInfo& info)
+Napi::Value OCResourcePropertiesMask::get_OC_DISCOVERABLE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_DISCOVERABLE);
 }
 
-void OCResourceProperties::set_OC_DISCOVERABLE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCResourcePropertiesMask::set_OC_DISCOVERABLE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCResourceProperties::get_OC_OBSERVABLE(const Napi::CallbackInfo& info)
+Napi::Value OCResourcePropertiesMask::get_OC_OBSERVABLE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_OBSERVABLE);
 }
 
-void OCResourceProperties::set_OC_OBSERVABLE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCResourcePropertiesMask::set_OC_OBSERVABLE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCResourceProperties::get_OC_SECURE(const Napi::CallbackInfo& info)
+Napi::Value OCResourcePropertiesMask::get_OC_SECURE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_SECURE);
 }
 
-void OCResourceProperties::set_OC_SECURE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCResourcePropertiesMask::set_OC_SECURE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCResourceProperties::get_OC_PERIODIC(const Napi::CallbackInfo& info)
+Napi::Value OCResourcePropertiesMask::get_OC_PERIODIC(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_PERIODIC);
 }
 
-void OCResourceProperties::set_OC_PERIODIC(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCResourcePropertiesMask::set_OC_PERIODIC(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
@@ -6922,16 +6322,16 @@ void OCSessionState::set_OC_SESSION_DISCONNECTED(const Napi::CallbackInfo& info,
 
 }
 
-Napi::Function OCSwupdateResult::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCSwupdateResult", {
-    OCSwupdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_IDLE", &OCSwupdateResult::get_OC_SWUPDATE_RESULT_IDLE, nullptr),
-    OCSwupdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_SUCCESS", &OCSwupdateResult::get_OC_SWUPDATE_RESULT_SUCCESS, nullptr),
-    OCSwupdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_LESS_RAM", &OCSwupdateResult::get_OC_SWUPDATE_RESULT_LESS_RAM, nullptr),
-    OCSwupdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_LESS_FLASH", &OCSwupdateResult::get_OC_SWUPDATE_RESULT_LESS_FLASH, nullptr),
-    OCSwupdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_CONN_FAIL", &OCSwupdateResult::get_OC_SWUPDATE_RESULT_CONN_FAIL, nullptr),
-    OCSwupdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_SVV_FAIL", &OCSwupdateResult::get_OC_SWUPDATE_RESULT_SVV_FAIL, nullptr),
-    OCSwupdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_INVALID_URL", &OCSwupdateResult::get_OC_SWUPDATE_RESULT_INVALID_URL, nullptr),
-    OCSwupdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_UPGRADE_FAIL", &OCSwupdateResult::get_OC_SWUPDATE_RESULT_UPGRADE_FAIL, nullptr),
+Napi::Function OCSoftwareUpdateResult::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCSoftwareUpdateResult", {
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_IDLE", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_IDLE, nullptr),
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_SUCCESS", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SUCCESS, nullptr),
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_LESS_RAM", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_RAM, nullptr),
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_LESS_FLASH", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_FLASH, nullptr),
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_CONN_FAIL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_CONN_FAIL, nullptr),
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_SVV_FAIL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SVV_FAIL, nullptr),
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_INVALID_URL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_INVALID_URL, nullptr),
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_UPGRADE_FAIL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_UPGRADE_FAIL, nullptr),
 
   });
 
@@ -6940,7 +6340,7 @@ Napi::Function OCSwupdateResult::GetClass(Napi::Env env) {
 
   return func;
 }
-OCSwupdateResult::OCSwupdateResult(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCSoftwareUpdateResult::OCSoftwareUpdateResult(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_swupdate_result_t>(new oc_swupdate_result_t());
@@ -6953,82 +6353,82 @@ OCSwupdateResult::OCSwupdateResult(const Napi::CallbackInfo& info) : ObjectWrap(
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCSwupdateResult::get_OC_SWUPDATE_RESULT_IDLE(const Napi::CallbackInfo& info)
+Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_IDLE(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_IDLE);
 }
 
-void OCSwupdateResult::set_OC_SWUPDATE_RESULT_IDLE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_IDLE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSwupdateResult::get_OC_SWUPDATE_RESULT_SUCCESS(const Napi::CallbackInfo& info)
+Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SUCCESS(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_SUCCESS);
 }
 
-void OCSwupdateResult::set_OC_SWUPDATE_RESULT_SUCCESS(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SUCCESS(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSwupdateResult::get_OC_SWUPDATE_RESULT_LESS_RAM(const Napi::CallbackInfo& info)
+Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_RAM(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_LESS_RAM);
 }
 
-void OCSwupdateResult::set_OC_SWUPDATE_RESULT_LESS_RAM(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_RAM(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSwupdateResult::get_OC_SWUPDATE_RESULT_LESS_FLASH(const Napi::CallbackInfo& info)
+Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_FLASH(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_LESS_FLASH);
 }
 
-void OCSwupdateResult::set_OC_SWUPDATE_RESULT_LESS_FLASH(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_FLASH(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSwupdateResult::get_OC_SWUPDATE_RESULT_CONN_FAIL(const Napi::CallbackInfo& info)
+Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_CONN_FAIL(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_CONN_FAIL);
 }
 
-void OCSwupdateResult::set_OC_SWUPDATE_RESULT_CONN_FAIL(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_CONN_FAIL(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSwupdateResult::get_OC_SWUPDATE_RESULT_SVV_FAIL(const Napi::CallbackInfo& info)
+Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SVV_FAIL(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_SVV_FAIL);
 }
 
-void OCSwupdateResult::set_OC_SWUPDATE_RESULT_SVV_FAIL(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SVV_FAIL(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSwupdateResult::get_OC_SWUPDATE_RESULT_INVALID_URL(const Napi::CallbackInfo& info)
+Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_INVALID_URL(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_INVALID_URL);
 }
 
-void OCSwupdateResult::set_OC_SWUPDATE_RESULT_INVALID_URL(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_INVALID_URL(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSwupdateResult::get_OC_SWUPDATE_RESULT_UPGRADE_FAIL(const Napi::CallbackInfo& info)
+Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_UPGRADE_FAIL(const Napi::CallbackInfo& info)
 {
 return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_UPGRADE_FAIL);
 }
 
-void OCSwupdateResult::set_OC_SWUPDATE_RESULT_UPGRADE_FAIL(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_UPGRADE_FAIL(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }

@@ -30,11 +30,11 @@
 #include <oc_connectivity.h>
 #include <oc_assert.h>
 #include <oc_mem_trace.h>
-class OCAceRes : public Napi::ObjectWrap<OCAceRes>
+class OCAceResource : public Napi::ObjectWrap<OCAceResource>
 {
 public:
-  OCAceRes(const Napi::CallbackInfo&);
-  OCAceRes(const napi_env&, const napi_value&); //TODO
+  OCAceResource(const Napi::CallbackInfo&);
+  OCAceResource(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_ace_res_t*() { return m_pvalue.get(); }
@@ -51,84 +51,14 @@ private:
   std::shared_ptr<oc_ace_res_t> m_pvalue;
 };
 
-class OCBlockwiseRequestState : public Napi::ObjectWrap<OCBlockwiseRequestState>
+
+
+
+class OCClientCallback : public Napi::ObjectWrap<OCClientCallback>
 {
 public:
-  OCBlockwiseRequestState(const Napi::CallbackInfo&);
-  OCBlockwiseRequestState(const napi_env&, const napi_value&); //TODO
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  operator oc_blockwise_request_state_s*() { return m_pvalue.get(); }
-private:
-  Napi::Value get_base(const Napi::CallbackInfo&);
-         void set_base(const Napi::CallbackInfo&, const Napi::Value&);
-
-  std::shared_ptr<oc_blockwise_request_state_s> m_pvalue;
-};
-
-class OCBlockwiseResponseState : public Napi::ObjectWrap<OCBlockwiseResponseState>
-{
-public:
-  OCBlockwiseResponseState(const Napi::CallbackInfo&);
-  OCBlockwiseResponseState(const napi_env&, const napi_value&); //TODO
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  operator oc_blockwise_response_state_s*() { return m_pvalue.get(); }
-private:
-  Napi::Value get_base(const Napi::CallbackInfo&);
-         void set_base(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_etag(const Napi::CallbackInfo&);
-         void set_etag(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_observe_seq(const Napi::CallbackInfo&);
-         void set_observe_seq(const Napi::CallbackInfo&, const Napi::Value&);
-
-  std::shared_ptr<oc_blockwise_response_state_s> m_pvalue;
-};
-
-class OCBlockwiseState : public Napi::ObjectWrap<OCBlockwiseState>
-{
-public:
-  OCBlockwiseState(const Napi::CallbackInfo&);
-  OCBlockwiseState(const napi_env&, const napi_value&); //TODO
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  operator oc_blockwise_state_s*() { return m_pvalue.get(); }
-private:
-  Napi::Value get_buffer(const Napi::CallbackInfo&);
-         void set_buffer(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_client_cb(const Napi::CallbackInfo&);
-         void set_client_cb(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_endpoint(const Napi::CallbackInfo&);
-         void set_endpoint(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_href(const Napi::CallbackInfo&);
-         void set_href(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_method(const Napi::CallbackInfo&);
-         void set_method(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_mid(const Napi::CallbackInfo&);
-         void set_mid(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_next_block_offset(const Napi::CallbackInfo&);
-         void set_next_block_offset(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_payload_size(const Napi::CallbackInfo&);
-         void set_payload_size(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_ref_count(const Napi::CallbackInfo&);
-         void set_ref_count(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_role(const Napi::CallbackInfo&);
-         void set_role(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_token(const Napi::CallbackInfo&);
-         void set_token(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_token_len(const Napi::CallbackInfo&);
-         void set_token_len(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_uri_query(const Napi::CallbackInfo&);
-         void set_uri_query(const Napi::CallbackInfo&, const Napi::Value&);
-
-  std::shared_ptr<oc_blockwise_state_s> m_pvalue;
-};
-
-class OCClientCb : public Napi::ObjectWrap<OCClientCb>
-{
-public:
-  OCClientCb(const Napi::CallbackInfo&);
-  OCClientCb(const napi_env&, const napi_value&); //TODO
+  OCClientCallback(const Napi::CallbackInfo&);
+  OCClientCallback(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_client_cb_t*() { return m_pvalue.get(); }
@@ -401,20 +331,6 @@ private:
   std::shared_ptr<oc_endpoint_t> m_pvalue;
 };
 
-class OCEtimer : public Napi::ObjectWrap<OCEtimer>
-{
-public:
-  OCEtimer(const Napi::CallbackInfo&);
-  OCEtimer(const napi_env&, const napi_value&); //TODO
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  operator oc_etimer*() { return m_pvalue.get(); }
-private:
-  Napi::Value get_timer(const Napi::CallbackInfo&);
-         void set_timer(const Napi::CallbackInfo&, const Napi::Value&);
-
-  std::shared_ptr<oc_etimer> m_pvalue;
-};
 
 class OCEventCallback : public Napi::ObjectWrap<OCEventCallback>
 {
@@ -555,49 +471,7 @@ private:
   std::shared_ptr<oc_link_s> m_pvalue;
 };
 
-class OCMemb : public Napi::ObjectWrap<OCMemb>
-{
-public:
-  OCMemb(const Napi::CallbackInfo&);
-  OCMemb(const napi_env&, const napi_value&); //TODO
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  operator oc_memb*() { return m_pvalue.get(); }
-private:
-  Napi::Value get_count(const Napi::CallbackInfo&);
-         void set_count(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_num(const Napi::CallbackInfo&);
-         void set_num(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_size(const Napi::CallbackInfo&);
-         void set_size(const Napi::CallbackInfo&, const Napi::Value&);
 
-  std::shared_ptr<oc_memb> m_pvalue;
-};
-
-class OCMessage : public Napi::ObjectWrap<OCMessage>
-{
-public:
-  OCMessage(const Napi::CallbackInfo&);
-  OCMessage(const napi_env&, const napi_value&); //TODO
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  operator oc_message_s*() { return m_pvalue.get(); }
-private:
-  Napi::Value get_data(const Napi::CallbackInfo&);
-         void set_data(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_encrypted(const Napi::CallbackInfo&);
-         void set_encrypted(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_endpoint(const Napi::CallbackInfo&);
-         void set_endpoint(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_length(const Napi::CallbackInfo&);
-         void set_length(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_read_offset(const Napi::CallbackInfo&);
-         void set_read_offset(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_ref_count(const Napi::CallbackInfo&);
-         void set_ref_count(const Napi::CallbackInfo&, const Napi::Value&);
-
-  std::shared_ptr<oc_message_s> m_pvalue;
-};
 
 class OCMmem : public Napi::ObjectWrap<OCMmem>
 {
@@ -822,11 +696,11 @@ private:
   std::shared_ptr<oc_role_t> m_pvalue;
 };
 
-class OCRt : public Napi::ObjectWrap<OCRt>
+class OCResourceType : public Napi::ObjectWrap<OCResourceType>
 {
 public:
-  OCRt(const Napi::CallbackInfo&);
-  OCRt(const napi_env&, const napi_value&); //TODO
+  OCResourceType(const Napi::CallbackInfo&);
+  OCResourceType(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_rt_t*() { return m_pvalue.get(); }
@@ -837,11 +711,11 @@ private:
   std::shared_ptr<oc_rt_t> m_pvalue;
 };
 
-class OCSecAce : public Napi::ObjectWrap<OCSecAce>
+class OCSecurityAce : public Napi::ObjectWrap<OCSecurityAce>
 {
 public:
-  OCSecAce(const Napi::CallbackInfo&);
-  OCSecAce(const napi_env&, const napi_value&); //TODO
+  OCSecurityAce(const Napi::CallbackInfo&);
+  OCSecurityAce(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_ace_t*() { return m_pvalue.get(); }
@@ -858,11 +732,11 @@ private:
   std::shared_ptr<oc_sec_ace_t> m_pvalue;
 };
 
-class OCSecAcl : public Napi::ObjectWrap<OCSecAcl>
+class OCSecurityAcl : public Napi::ObjectWrap<OCSecurityAcl>
 {
 public:
-  OCSecAcl(const Napi::CallbackInfo&);
-  OCSecAcl(const napi_env&, const napi_value&); //TODO
+  OCSecurityAcl(const Napi::CallbackInfo&);
+  OCSecurityAcl(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_acl_s*() { return m_pvalue.get(); }
@@ -873,11 +747,11 @@ private:
   std::shared_ptr<oc_sec_acl_s> m_pvalue;
 };
 
-class OCSecCreds : public Napi::ObjectWrap<OCSecCreds>
+class OCCreds : public Napi::ObjectWrap<OCCreds>
 {
 public:
-  OCSecCreds(const Napi::CallbackInfo&);
-  OCSecCreds(const napi_env&, const napi_value&); //TODO
+  OCCreds(const Napi::CallbackInfo&);
+  OCCreds(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_creds_t*() { return m_pvalue.get(); }
@@ -888,11 +762,11 @@ private:
   std::shared_ptr<oc_sec_creds_t> m_pvalue;
 };
 
-class OCSecCred : public Napi::ObjectWrap<OCSecCred>
+class OCCred : public Napi::ObjectWrap<OCCred>
 {
 public:
-  OCSecCred(const Napi::CallbackInfo&);
-  OCSecCred(const napi_env&, const napi_value&); //TODO
+  OCCred(const Napi::CallbackInfo&);
+  OCCred(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_cred_t*() { return m_pvalue.get(); }
@@ -932,11 +806,11 @@ private:
   std::shared_ptr<oc_session_event_cb> m_pvalue;
 };
 
-class OCSwupdateCb : public Napi::ObjectWrap<OCSwupdateCb>
+class OCSoftwareUpdateHandler : public Napi::ObjectWrap<OCSoftwareUpdateHandler>
 {
 public:
-  OCSwupdateCb(const Napi::CallbackInfo&);
-  OCSwupdateCb(const napi_env&, const napi_value&); //TODO
+  OCSoftwareUpdateHandler(const Napi::CallbackInfo&);
+  OCSoftwareUpdateHandler(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_swupdate_cb_t*() { return m_pvalue.get(); }
@@ -961,22 +835,6 @@ private:
   std::shared_ptr<oc_swupdate_cb_t> m_pvalue;
 };
 
-class OCTimer : public Napi::ObjectWrap<OCTimer>
-{
-public:
-  OCTimer(const Napi::CallbackInfo&);
-  OCTimer(const napi_env&, const napi_value&); //TODO
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  operator oc_timer*() { return m_pvalue.get(); }
-private:
-  Napi::Value get_interval(const Napi::CallbackInfo&);
-         void set_interval(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_start(const Napi::CallbackInfo&);
-         void set_start(const Napi::CallbackInfo&, const Napi::Value&);
-
-  std::shared_ptr<oc_timer> m_pvalue;
-};
 
 class OCUuid : public Napi::ObjectWrap<OCUuid>
 {
@@ -1047,11 +905,11 @@ private:
   std::shared_ptr<oc_ace_connection_type_t> m_pvalue;
 };
 
-class OCAcePermissions : public Napi::ObjectWrap<OCAcePermissions>
+class OCAcePermissionsMask : public Napi::ObjectWrap<OCAcePermissionsMask>
 {
 public:
-  OCAcePermissions(const Napi::CallbackInfo&);
-  OCAcePermissions(const napi_env&, const napi_value&); //TODO
+  OCAcePermissionsMask(const Napi::CallbackInfo&);
+  OCAcePermissionsMask(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_ace_permissions_t*() { return m_pvalue.get(); }
@@ -1112,22 +970,6 @@ private:
   std::shared_ptr<oc_ace_wildcard_t> m_pvalue;
 };
 
-class OCBlockwiseRole : public Napi::ObjectWrap<OCBlockwiseRole>
-{
-public:
-  OCBlockwiseRole(const Napi::CallbackInfo&);
-  OCBlockwiseRole(const napi_env&, const napi_value&); //TODO
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  operator oc_blockwise_role_t*() { return m_pvalue.get(); }
-private:
-  Napi::Value get_OC_BLOCKWISE_CLIENT(const Napi::CallbackInfo&);
-         void set_OC_BLOCKWISE_CLIENT(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_OC_BLOCKWISE_SERVER(const Napi::CallbackInfo&);
-         void set_OC_BLOCKWISE_SERVER(const Napi::CallbackInfo&, const Napi::Value&);
-
-  std::shared_ptr<oc_blockwise_role_t> m_pvalue;
-};
 
 class OCDiscoveryFlags : public Napi::ObjectWrap<OCDiscoveryFlags>
 {
@@ -1184,11 +1026,11 @@ private:
   std::shared_ptr<oc_cloud_error_t> m_pvalue;
 };
 
-class OCCloudStatus : public Napi::ObjectWrap<OCCloudStatus>
+class OCCloudStatusMask : public Napi::ObjectWrap<OCCloudStatusMask>
 {
 public:
-  OCCloudStatus(const Napi::CallbackInfo&);
-  OCCloudStatus(const napi_env&, const napi_value&); //TODO
+  OCCloudStatusMask(const Napi::CallbackInfo&);
+  OCCloudStatusMask(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_cloud_status_t*() { return m_pvalue.get(); }
@@ -1213,11 +1055,11 @@ private:
   std::shared_ptr<oc_cloud_status_t> m_pvalue;
 };
 
-class OCCps : public Napi::ObjectWrap<OCCps>
+class OCCloudPrivisoningStatus : public Napi::ObjectWrap<OCCloudPrivisoningStatus>
 {
 public:
-  OCCps(const Napi::CallbackInfo&);
-  OCCps(const napi_env&, const napi_value&); //TODO
+  OCCloudPrivisoningStatus(const Napi::CallbackInfo&);
+  OCCloudPrivisoningStatus(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_cps_t*() { return m_pvalue.get(); }
@@ -1259,11 +1101,11 @@ private:
 };
 #endif
 
-class OCSecCredtype : public Napi::ObjectWrap<OCSecCredtype>
+class OCCredType : public Napi::ObjectWrap<OCCredType>
 {
 public:
-  OCSecCredtype(const Napi::CallbackInfo&);
-  OCSecCredtype(const napi_env&, const napi_value&); //TODO
+  OCCredType(const Napi::CallbackInfo&);
+  OCCredType(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_credtype_t*() { return m_pvalue.get(); }
@@ -1278,11 +1120,11 @@ private:
   std::shared_ptr<oc_sec_credtype_t> m_pvalue;
 };
 
-class OCSecCredusage : public Napi::ObjectWrap<OCSecCredusage>
+class OCCredUsage : public Napi::ObjectWrap<OCCredUsage>
 {
 public:
-  OCSecCredusage(const Napi::CallbackInfo&);
-  OCSecCredusage(const napi_env&, const napi_value&); //TODO
+  OCCredUsage(const Napi::CallbackInfo&);
+  OCCredUsage(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_credusage_t*() { return m_pvalue.get(); }
@@ -1303,11 +1145,11 @@ private:
   std::shared_ptr<oc_sec_credusage_t> m_pvalue;
 };
 
-class OCSecEncoding : public Napi::ObjectWrap<OCSecEncoding>
+class OCEncoding : public Napi::ObjectWrap<OCEncoding>
 {
 public:
-  OCSecEncoding(const Napi::CallbackInfo&);
-  OCSecEncoding(const napi_env&, const napi_value&); //TODO
+  OCEncoding(const Napi::CallbackInfo&);
+  OCEncoding(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_encoding_t*() { return m_pvalue.get(); }
@@ -1326,11 +1168,11 @@ private:
   std::shared_ptr<oc_sec_encoding_t> m_pvalue;
 };
 
-class OCfVersion : public Napi::ObjectWrap<OCfVersion>
+class OCFVersion : public Napi::ObjectWrap<OCFVersion>
 {
 public:
-  OCfVersion(const Napi::CallbackInfo&);
-  OCfVersion(const napi_env&, const napi_value&); //TODO
+  OCFVersion(const Napi::CallbackInfo&);
+  OCFVersion(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator ocf_version_t*() { return m_pvalue.get(); }
@@ -1529,11 +1371,11 @@ private:
   std::shared_ptr<oc_enum_t> m_pvalue;
 };
 
-class OCPosDescription : public Napi::ObjectWrap<OCPosDescription>
+class OCPositionDescription : public Napi::ObjectWrap<OCPositionDescription>
 {
 public:
-  OCPosDescription(const Napi::CallbackInfo&);
-  OCPosDescription(const napi_env&, const napi_value&); //TODO
+  OCPositionDescription(const Napi::CallbackInfo&);
+  OCPositionDescription(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_pos_description_t*() { return m_pvalue.get(); }
@@ -1570,24 +1412,6 @@ private:
   std::shared_ptr<oc_pos_description_t> m_pvalue;
 };
 
-class OCPool : public Napi::ObjectWrap<OCPool>
-{
-public:
-  OCPool(const Napi::CallbackInfo&);
-  OCPool(const napi_env&, const napi_value&); //TODO
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  operator pool*() { return m_pvalue.get(); }
-private:
-  Napi::Value get_BYTE_POOL(const Napi::CallbackInfo&);
-         void set_BYTE_POOL(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_INT_POOL(const Napi::CallbackInfo&);
-         void set_INT_POOL(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_DOUBLE_POOL(const Napi::CallbackInfo&);
-         void set_DOUBLE_POOL(const Napi::CallbackInfo&, const Napi::Value&);
-
-  std::shared_ptr<pool> m_pvalue;
-};
 
 class OCInterfaceEvent : public Napi::ObjectWrap<OCInterfaceEvent>
 {
@@ -1606,11 +1430,11 @@ private:
   std::shared_ptr<oc_interface_event_t> m_pvalue;
 };
 
-class OCSpTypes : public Napi::ObjectWrap<OCSpTypes>
+class OCSpTypesMask : public Napi::ObjectWrap<OCSpTypesMask>
 {
 public:
-  OCSpTypes(const Napi::CallbackInfo&);
-  OCSpTypes(const napi_env&, const napi_value&); //TODO
+  OCSpTypesMask(const Napi::CallbackInfo&);
+  OCSpTypesMask(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sp_types_t*() { return m_pvalue.get(); }
@@ -1729,11 +1553,11 @@ private:
   std::shared_ptr<oc_content_format_t> m_pvalue;
 };
 
-class OCCoreResource : public Napi::ObjectWrap<OCCoreResource>
+class OCCoreRes : public Napi::ObjectWrap<OCCoreRes>
 {
 public:
-  OCCoreResource(const Napi::CallbackInfo&);
-  OCCoreResource(const napi_env&, const napi_value&); //TODO
+  OCCoreRes(const Napi::CallbackInfo&);
+  OCCoreRes(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_core_resource_t*() { return m_pvalue.get(); }
@@ -1778,11 +1602,11 @@ private:
   std::shared_ptr<oc_core_resource_t> m_pvalue;
 };
 
-class OCEventCallbackRetval : public Napi::ObjectWrap<OCEventCallbackRetval>
+class OCEventCallbackResult : public Napi::ObjectWrap<OCEventCallbackResult>
 {
 public:
-  OCEventCallbackRetval(const Napi::CallbackInfo&);
-  OCEventCallbackRetval(const napi_env&, const napi_value&); //TODO
+  OCEventCallbackResult(const Napi::CallbackInfo&);
+  OCEventCallbackResult(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_event_callback_retval_t*() { return m_pvalue.get(); }
@@ -1845,11 +1669,11 @@ private:
   std::shared_ptr<oc_method_t> m_pvalue;
 };
 
-class OCResourceProperties : public Napi::ObjectWrap<OCResourceProperties>
+class OCResourcePropertiesMask : public Napi::ObjectWrap<OCResourcePropertiesMask>
 {
 public:
-  OCResourceProperties(const Napi::CallbackInfo&);
-  OCResourceProperties(const napi_env&, const napi_value&); //TODO
+  OCResourcePropertiesMask(const Napi::CallbackInfo&);
+  OCResourcePropertiesMask(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_resource_properties_t*() { return m_pvalue.get(); }
@@ -1942,11 +1766,11 @@ private:
   std::shared_ptr<oc_session_state_t> m_pvalue;
 };
 
-class OCSwupdateResult : public Napi::ObjectWrap<OCSwupdateResult>
+class OCSoftwareUpdateResult : public Napi::ObjectWrap<OCSoftwareUpdateResult>
 {
 public:
-  OCSwupdateResult(const Napi::CallbackInfo&);
-  OCSwupdateResult(const napi_env&, const napi_value&); //TODO
+  OCSoftwareUpdateResult(const Napi::CallbackInfo&);
+  OCSoftwareUpdateResult(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_swupdate_result_t*() { return m_pvalue.get(); }
