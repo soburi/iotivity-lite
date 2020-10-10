@@ -17,9 +17,10 @@ class CLASSNAME : public Napi::ObjectWrap<CLASSNAME>
 {
 public:
   CLASSNAME(const Napi::CallbackInfo&);
+  CLASSNAME(const napi_env&, const napi_value&); //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
-  
+  operator STRUCTNAME*() { return m_pvalue.get(); }
 private:
 /* setget */
   std::shared_ptr<STRUCTNAME> m_pvalue;
@@ -131,6 +132,9 @@ struct_table = open(ARGV[0]) do |io|
   JSON.load(io)
 end
 enum_table = open(ARGV[1]) do |io|
+  JSON.load(io)
+end
+func_table = open(ARGV[2]) do |io|
   JSON.load(io)
 end
 
@@ -343,6 +347,8 @@ WRAPPERNAME = { 'oc_ipv4_addr_t' => "OCIPv4Addr",
 }
 
 TYPEDEFS = {
+  'oc_separate_response_t' => 'oc_separate_response_s',
+  'oc_sec_acl_t' => 'oc_sec_acl_s',
   'oc_handle_t' => 'oc_mmem',
   'oc_string_t' => 'oc_mmem',
   'oc_array_t' => 'oc_mmem',
@@ -353,6 +359,7 @@ TYPEDEFS = {
   'oc_resource_t' => 'oc_resource_s',
   'oc_request_handler_t' => 'oc_request_handler_s',
   'oc_response_handler_s' => 'oc_response_handler_t',
+  'oc_message_t' => 'oc_message_s',
   'oc_link_t' => 'oc_link_s',
   'oc_rep_t' => 'oc_rep_s',
   'oc_collection_t' => 'oc_collection_s',
@@ -434,14 +441,92 @@ IFDEFS = {
   "tcp_csm_state_t" => "OC_TCP",
 }
 
+IFDEF_FUNCS = {
+  "oc_send_ping" => "OC_TCP",
+  "oc_collections_add_rt_factory" => "OC_COLLECTIONS_IF_CREATE",
+  'oc_collections_free_rt_factories' => 'OC_COLLECTIONS_IF_CREATE',
+  "PT_THREAD" => "XXX",
+  "OC_PROCESS_NAME" => "XXX",
+  "oc_tcp_get_csm_state" => "OC_TCP",
+  "oc_tcp_update_csm_state" => "OC_TCP",
+  'oc_ri_alloc_resource' => 'OC_SERVER',
+  'oc_ri_add_resource' => 'OC_SERVER',
+  'oc_ri_delete_resource' => 'OC_SERVER',
 
+'oc_list_add' => "XXX",
+'oc_list_chop' => "XXX",
+'oc_list_copy' => "XXX",
+'oc_list_head' => "XXX",
+'oc_list_init' => "XXX",
+'oc_list_insert' => "XXX",
+'oc_list_item_next' => "XXX",
+'oc_list_length' => "XXX",
+'oc_list_pop' => "XXX",
+'oc_list_push' => "XXX",
+'oc_list_remove' => "XXX",
+'oc_list_tail' => "XXX",
+
+
+'oc_get_diagnostic_message'=>'XXX',
+'oc_get_query_value'=>'XXX',
+'oc_get_request_payload_raw'=>'XXX',
+'oc_get_response_payload_raw'=>'XXX',
+'oc_iterate_query'=>'XXX',
+'oc_iterate_query_get_values'=>'XXX',
+'oc_send_separate_response'=>'XXX',
+'oc_set_separate_response_buffer'=>'XXX',
+'oc_blockwise_dispatch_block'=>'XXX',
+'oc_ri_alloc_client_cb'=>'XXX',
+'oc_ri_invoke_client_cb'=>'XXX',
+'oc_ri_process_discovery_payload'=>'XXX',
+'oc_dns_lookup'=>'XXX',
+'oc_core_encode_interfaces_mask'=>'XXX',
+'oc_endpoint_list_copy'=>'XXX',
+'oc_parse_rep'=>'XXX',
+'oc_rep_get_bool'=>'XXX',
+'oc_rep_get_bool_array'=>'XXX',
+'oc_rep_get_byte_string'=>'XXX',
+'oc_rep_get_double'=>'XXX',
+'oc_rep_get_double_array'=>'XXX',
+'oc_rep_get_int'=>'XXX',
+'oc_rep_get_int_array'=>'XXX',
+'oc_rep_get_object'=>'XXX',
+'oc_rep_get_object_array'=>'XXX',
+'oc_rep_get_string'=>'XXX',
+'oc_ri_get_query_nth_key_value'=>'XXX',
+'oc_ri_get_query_value'=>'XXX',
+'oc_indicate_separate_response'=>'XXX',
+'_oc_copy_byte_string_to_array'=>'xxx',
+'_oc_byte_string_array_add_item'=>'xxx',
+'_oc_string_array_add_item'=>'xxx',
+'_oc_copy_string_to_array'=>'xxx',
+}
+
+PRIMITIVES_POINTER = [
+  /^int[0-9]*_t(\*)?$/,
+  /^uint[0-9]*_t(\*)?$/,
+  /^const int[0-9]*_t(\*)?$/,
+  /^const uint[0-9]*_t(\*)?$/,
+]
+
+PRIMITIVES = [
+  /^int$/,
+  /^int[0-9]*_t$/,
+  /^uint[0-9]*_t$/,
+  /^const int[0-9]*_t$/,
+  /^const uint[0-9]*_t$/,
+  /^size_t$/
+]
 
 def gen_classname(typename)
+  if match_any?(typename, PRIMITIVES_POINTER)
+    return typename
+  end
   if WRAPPERNAME.keys.include?(typename)
     return WRAPPERNAME[typename]
   end
 
-  return (typename.gsub(/_t$/,"").gsub(/_t:/,":").gsub(/_s$/,"").gsub(/_s:/,":").gsub(/_([a-z])/){ $1.upcase}).gsub(/^oc/, "OC")
+  return (typename.gsub(/_t$/,"").gsub(/_t:/,":").gsub(/_t\*$/,"*").gsub(/_s$/,"").gsub(/_s:/,":").gsub(/_([a-z])/){ $1.upcase}).gsub(/^oc/, "OC")
 end
 
 def gen_setget_decl(ftable)
@@ -623,6 +708,153 @@ def gen_enum_entry_decl(hh)
   list.join()
 end
 
+FUNC_TYPEMAP = {
+  "oc_clock_time_t" => "uint64_t"
+}
+
+def gen_funcdecl(name, param)
+  "Napi::Value N_#{name}(const Napi::CallbackInfo&);"
+end
+
+def is_struct_ptr?(ty)
+  if (ty =~ /\*\s*$/) != nil
+    raw_ty = ty.gsub(/\*$/, "")
+    raw_ty = raw_ty.gsub(/^struct /, "")
+    raw_ty = raw_ty.gsub(/^const /, "")
+    raw_ty = TYPEDEFS[raw_ty] if TYPEDEFS.keys.include?(raw_ty)
+    if STRUCTS.include?(raw_ty)
+      return true
+    end
+  end
+
+  return false
+end
+
+def gen_funcimpl(name, param)
+  type = param['type']
+  type = FUNC_TYPEMAP[type] if FUNC_TYPEMAP.include?(type)
+
+  check = true
+  args = []
+  decl = "Napi::Value N_#{name}(const Napi::CallbackInfo& info) {\n"
+  #decl = gen_classname(type) + " N_" + name + "("
+  #decl += param['param'].collect {|n, ty| "#{ty} #{n}" }.join(", ")
+  
+  param['param'].each.with_index do |(n, ty), i|
+    if ty == 'uint8_t' or ty == 'uint16_t' or ty == 'uint32_t' or ty == 'size_t'
+      decl += "  #{ty} #{n} = static_cast<#{ty}>(info[#{i}].As<Napi::Number>().Uint32Value());\n"
+      args.append(n)
+    elsif ty == 'double'
+      decl += "  #{ty} #{n} = info[#{i}].As<Napi::Number>().DoubleValue();\n"
+      args.append(n)
+    elsif ty == 'oc_clock_time_t'
+      decl += "  #{ty} #{n} = static_cast<uint64_t>(info[#{i}].As<Napi::Number>().Int64Value());\n"
+      args.append(n)
+    elsif ty == 'void*'
+      decl += "  #{ty} #{n} = info[#{i}];\n"
+      args.append(n)
+    elsif ty == 'const char*' # or ty == 'char*'
+      decl += "  #{ty} #{n} = info[#{i}].As<Napi::String>().Utf8Value().c_str();\n"
+      args.append(n)
+    elsif ty == 'char*'
+      decl += "  #{ty} #{n} = const_cast<char*>(info[#{i}].As<Napi::String>().Utf8Value().c_str());\n"
+      args.append(n)
+    elsif ty == 'const char'
+      decl += "  #{ty} #{n} = static_cast<uint8_t>(info[#{i}].As<Napi::Number>().Uint32Value());\n"
+      args.append(n)
+    elsif ty == 'const unsigned char*'
+      decl += "  #{ty} #{n} = info[#{i}].As<Napi::Buffer<const uint8_t>>().Data();\n"
+      args.append(n)
+    elsif ty == 'const uint8_t*'
+      decl += "  #{ty} #{n} = info[#{i}].As<Napi::Buffer<const uint8_t>>().Data();\n"
+      args.append(n)
+    elsif ty == 'uint8_t*'
+      decl += "  #{ty} #{n} = info[#{i}].As<Napi::Buffer<uint8_t>>().Data();\n"
+      args.append(n)
+    elsif ty == 'size_t*'
+      decl += "  #{ty} #{n} = reinterpret_cast<size_t*>(info[#{i}].As<Napi::Uint32Array>().Data());\n"
+      args.append(n)
+    elsif ty == 'bool'
+      decl += "  #{ty} #{n} = info[#{i}].As<Napi::Boolean>().Value();\n"
+      args.append(n)
+    elsif ty == 'oc_response_handler_t' or
+          ty == 'interface_event_handler_t' or
+          ty == 'oc_add_device_cb_t' or
+          ty == 'oc_cloud_cb_t' or
+          ty == 'oc_con_write_cb_t' or
+          ty == 'oc_core_add_device_cb_t' or
+          ty == 'oc_core_init_platform_cb_t' or
+          ty == 'oc_discovery_all_handler_t' or
+          ty == 'oc_discovery_handler_t' or
+          ty == 'oc_factory_presets_cb_t' or
+          ty == 'oc_get_properties_cb_t' or
+          ty == 'oc_init_platform_cb_t' or
+          ty == 'oc_memb_buffers_avail_callback_t' or
+          ty == 'oc_obt_acl_cb_t' or
+          ty == 'oc_obt_creds_cb_t' or
+          ty == 'oc_obt_device_status_cb_t' or
+          ty == 'oc_obt_discovery_cb_t' or
+          ty == 'oc_obt_status_cb_t' or
+          ty == 'oc_ownership_status_cb_t' or
+          ty == 'oc_random_pin_cb_t' or
+          ty == 'oc_request_callback_t' or
+          ty == 'oc_set_properties_cb_t' or
+          ty == 'oc_trigger_t' or
+          ty == 'session_event_handler_t'
+      decl += "  #{ty} #{n} = nullptr;\n"
+      decl += "  Napi::Function #{n}_ = info[#{i}].As<Napi::Function>();\n"
+      args.append(n)
+    elsif match_any?(ty, PRIMITIVES)
+      decl += "  #{ty} #{n} = static_cast<#{ty}>(info[#{i}].As<Napi::Number>());\n"
+      args.append(n)
+    elsif is_struct_ptr?(ty) #ty =~ /\*$/ and STRUCTS.include?(ty.gsub(/\*$/, ""))
+      p ty
+      raw_ty = ty.gsub(/\*$/, "")
+      raw_ty = raw_ty.gsub(/^struct /, "")
+      raw_ty = raw_ty.gsub(/^const /, "")
+      raw_ty = TYPEDEFS[raw_ty] if TYPEDEFS.keys.include?(raw_ty)
+      decl += "  #{gen_classname(raw_ty)} #{n} = info[#{i}].As<#{gen_classname(raw_ty)}>();\n"
+      args.append(n)
+    elsif ENUMS.include?(ty)
+      decl += "  #{ty} #{n} = static_cast<#{ty}>(info[#{i}].As<Napi::Number>().Uint32Value());\n"
+      args.append(n)
+    else
+      decl += "// #{i} #{n}, #{ty}\n"
+      check = false
+    end
+  end
+
+  call_func = "0"
+  call_func = name + "(" + args.join(", ") + ")" if check
+
+  if type == 'void'
+    decl += "  (void)#{call_func};\n"
+    decl += "  return info.Env().Undefined();\n"
+  elsif type == 'bool'
+    decl += "  return Napi::Boolean::New(info.Env(), #{call_func});\n"
+  elsif type == 'long'
+    decl += "  return Napi::Number::New(info.Env(), #{call_func});\n"
+  elsif type == 'unsigned long'
+    decl += "  return Napi::Number::New(info.Env(), #{call_func});\n"
+  elsif type == 'const char*'
+  elsif type == 'void*'
+  elsif type == 'const void*'
+  elsif type == 'const uint8_t*'
+  elsif type == 'const char*'
+    decl += "  return Napi::String::New(info.Env(), #{call_func});\n"
+  elsif match_any?(type, PRIMITIVES)
+    decl += "  return Napi::Number::New(info.Env(), #{call_func});\n"
+  elsif type =~ /.*\*$/
+    type = type.gsub(/\*$/, "")
+    decl += "  std::shared_ptr<#{type}> sp(#{call_func});\n"
+    decl += "  auto args = Napi::External<std::shared_ptr<#{type}>>::New(info.Env(), &sp);\n"
+    decl += "  return #{gen_classname(type)}::constructor.New({args});\n"
+  end
+  decl += "}\n"
+end
+
+
+=begin
 File.open('src/structs.h', 'w') do |f|
   f.print "#pragma once\n"
 
@@ -654,8 +886,10 @@ File.open('src/structs.h', 'w') do |f|
   f.print "#include <oc_signal_event_loop.h>\n"
   f.print "#include <oc_swupdate.h>\n"
   f.print "#include <oc_uuid.h>\n"
-  f.print "#include <server_introspection.dat.h>\n"
+#  f.print "#include <server_introspection.dat.h>\n"
   f.print "#include <oc_connectivity.h>\n"
+  f.print "#include <oc_assert.h>\n"
+  f.print "#include <oc_mem_trace.h>\n"
 
   struct_table.each do |key, h|
     f.print gen_classdecl(key, h)
@@ -682,3 +916,28 @@ File.open('src/structs.cc', 'w') do |f|
     f.print "\n"
   end
 end
+
+=end
+
+File.open('src/functions.h', 'w') do |f|
+  f.print "#include \"structs.h\"\n"
+
+  func_table.each do |key, h|
+    if not IFDEF_FUNCS.include?(key)
+      f.print gen_funcdecl(key, h) + "\n"
+    end
+  end 
+end
+
+
+File.open('src/functions.cc', 'w') do |f|
+  f.print "#include \"functions.h\"\n"
+
+  func_table.each do |key, h|
+    if not IFDEF_FUNCS.include?(key)
+      f.print gen_funcimpl(key, h) + "\n"
+    end
+  end 
+end
+
+
