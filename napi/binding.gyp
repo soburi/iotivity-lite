@@ -6,16 +6,14 @@
       'include_dirs': [".", "..", "../include", "../port", "../port/linux", "../util", "<!@(node -p \"require('node-addon-api').include\")"], 
 
       'conditions': [
-        ['OS'=='linux', {
-          "libraries": ['../../port/linux/libiotivity-lite-client-server.a'],
-	  }
-        ],
-        ['OS'=='win', {
-          "libraries": ['../../port/windows/vs2015/x64/Debug/Iotivity-lite.lib', 'ws2_32.lib'],
-	  }
-        ],
-      ],
+        ['OS=="win"', {
           "libraries": ['../../port/windows/vs2015/x64/Debug/Iotivity-lite.lib', 'ws2_32.lib', 'iphlpapi.lib'],
+	  'ldflags': [ '/NODEFAULTLIB:libcmt.lib' ],
+	 }],
+        ['OS=="linux"', {
+          "libraries": ['../../port/linux/libiotivity-lite-client-server.a'],
+	 }],
+      ],
 
       'dependencies': ["<!(node -p \"require('node-addon-api').gyp\")"],
       'cflags!': [ '-fno-exceptions' ],
@@ -27,6 +25,7 @@
       },
       'msvs_settings': {
         'VCCLCompilerTool': { 'ExceptionHandling': 1 },
+	'VCLinkerTool': { 'IgnoreDefaultLibraryNames': ['libcmtd.lib' ] },
       }
     }
   ]

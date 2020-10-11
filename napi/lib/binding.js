@@ -1,6 +1,6 @@
 const addon = require('../build/Release/iotivity-lite-native');
 
-function IotivityLite(name) {
+function IotivityLite() {
     this.greet = function(str) {
         return _addonInstance.greet(str);
     }
@@ -8,7 +8,7 @@ function IotivityLite(name) {
     this.device = { get device() { return _addonInstance.device; }
 	            set device(x) { _addonInstance.device(x); } }
 */
-    var _addonInstance = new addon.IotivityLite(name);
+    var _addonInstance = new addon.IotivityLite("hoge");
 
 	var f = function(num) {
 		console.log("---" + num);
@@ -25,7 +25,8 @@ function IotivityLite(name) {
     console.dir(_endpointdevaddr.ipv4 );
     console.dir(_endpointdevaddr.ipv4.port );
 
-    _addonInstance.callback(_ipv4);
+    //_addonInstance.callback(_ipv4);
+    this.OCIpv4Addr = addon.OCIPv4Addr;
 
     console.log("-----------------------------");
 }

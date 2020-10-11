@@ -1,11 +1,11 @@
-const IotivityLite = require("../lib/binding.js");
+const IotivityLite = require("../lib/iotivity-lite.js");
 const assert = require("assert");
 
 assert(IotivityLite, "The expected module is undefined");
 
 function testBasic()
 {
-    const instance = new IotivityLite("mr-yeoman");
+    const instance = new IotivityLite();
     //assert(instance.greet, "The expected method is not defined");
     //assert.strictEqual(instance.greet("kermit"), "mr-yeoman", "Unexpected value returned");
     console.dir(instance);

@@ -100,23 +100,23 @@ void CLASSNAME::set_VALNAME(const Napi::CallbackInfo& info, const Napi::Value& v
 }
 SETTERIMPL
 
-GENERIC_GET = { "bool"  => "  return Napi::Boolean::New(info.Env(), m_pvalue->VALNAME);",
-                "int"  => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                "unsigned char"  => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
+GENERIC_GET = {           "bool"  => "  return Napi::Boolean::New(info.Env(), m_pvalue->VALNAME);",
+                           "int"  => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
+                 "unsigned char"  => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
                 "unsigned short"  => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                "uint8_t"  => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                "uint16_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                "uint32_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                "uint64_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                "int32_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                "int64_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                "double" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
+                       "uint8_t"  => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
+                       "uint16_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
+                       "uint32_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
+                       "uint64_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
+                        "int32_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
+                        "int64_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
+                         "double" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
                 "oc_clock_time_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                "size_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
+                         "size_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
 }
-GENERIC_SET = { "bool"  => "  m_pvalue->VALNAME = value.As<Napi::Boolean>().Value();",
-                "int"  => "  m_pvalue->VALNAME = static_cast<int>(value.As<Napi::Number>());",
-                "unsigned char"  => "  m_pvalue->VALNAME = static_cast<unsigned char>(value.As<Napi::Number>().Uint32Value());",
+GENERIC_SET = {           "bool"  => "  m_pvalue->VALNAME = value.As<Napi::Boolean>().Value();",
+                           "int"  => "  m_pvalue->VALNAME = static_cast<int>(value.As<Napi::Number>());",
+                 "unsigned char"  => "  m_pvalue->VALNAME = static_cast<unsigned char>(value.As<Napi::Number>().Uint32Value());",
                 "unsigned short"  => "  m_pvalue->VALNAME = static_cast<unsigned short>(value.As<Napi::Number>().Uint32Value());",
                 "uint8_t"  => "  m_pvalue->VALNAME = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());",
                 "uint16_t"  => "  m_pvalue->VALNAME = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());",
@@ -1059,4 +1059,26 @@ File.open('src/binding.cc', 'w') do |f|
 
   f.print "  return exports;\n"
   f.print "}\n"
+end
+
+File.open('lib/iotivity-lite.js', 'w') do |f|
+
+  f.print "const addon = require('../build/Release/iotivity-lite-native');\n"
+  f.print "function IotivityLite() {\n"
+  struct_table.each do |key, h|
+    if IGNORE_TYPES[key] != nil
+      impl = "  this.#{gen_classname(key)} = addon.#{gen_classname(key)};\n"
+      f.print "#{impl}"
+    end
+  end
+  func_table.each do |key, h|
+    if not IFDEF_FUNCS.include?(key)
+      f.print "  this.#{key} = addon.#{key};"
+      f.print "\n"
+    end
+  end
+  f.print "}\n"
+  f.print "\n"
+  f.print "module.exports = IotivityLite;"
+
 end
