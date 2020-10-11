@@ -987,28 +987,37 @@ end
 File.open('src/binding.cc', 'w') do |f|
   f.print "#include \"structs.h\"\n"
   f.print "#include \"functions.h\"\n"
+
+  f.print "Napi::Object module_init(Napi::Env env, Napi::Object exports) {\n"
   struct_table.each do |key, h|
-    impl = "  exports.Set(\"#{gen_classname(key)}\", #{gen_classname(key)}::GetClass(env);\n"
-    if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
-      impl = "#ifdef #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
+    if IGNORES[key] != nil
+      impl = "  exports.Set(\"#{gen_classname(key)}\", #{gen_classname(key)}::GetClass(env));\n"
+      if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
+        impl = "#ifdef #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
+      end
+      f.print "#{impl}"
     end
-    f.print "#{impl}"
   end
 
 
   enum_table.each do |key, h|
-    impl = "  exports.Set(\"#{gen_classname(key)}\", #{gen_classname(key)}::GetClass(env);\n"
-    if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
-      impl = "#ifdef #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
+    if IGNORES[key] != nil
+      impl = "  exports.Set(\"#{gen_classname(key)}\", #{gen_classname(key)}::GetClass(env));\n"
+      if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
+        impl = "#ifdef #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
+      end
+      f.print "#{impl}"
     end
-    f.print "#{impl}"
   end
 
 
   func_table.each do |key, h|
     if not IFDEF_FUNCS.include?(key)
-      f.print "  exports.Set(\"#{key}\", Napi::Function::New(env, N_#{key}) );"
+      f.print "  exports.Set(\"#{key}\", Napi::Function::New(env, N_#{key}));"
       f.print "\n"
     end
   end
+
+  f.print "  return exports;\n"
+  f.print "}\n"
 end

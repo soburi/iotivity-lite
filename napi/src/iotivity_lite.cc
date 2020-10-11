@@ -207,13 +207,14 @@ void IotivityLite::SetDi(const Napi::CallbackInfo& info, const Napi::Value& val)
 }
 
 
+Napi::Object module_init(Napi::Env env, Napi::Object exports);
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("IotivityLite", IotivityLite::GetClass(env));
     exports.Set("OCUuid", OCUuid::GetClass(env));
     exports.Set("OCIPv4Addr", OCIPv4Addr::GetClass(env));
     exports.Set("DevAddr", DevAddr::GetClass(env));
-    return exports;
+    return module_init(env, exports);
 }
 
 NODE_API_MODULE(addon, Init)

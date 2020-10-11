@@ -2,7 +2,7 @@
   'targets': [
     {
       'target_name': 'iotivity-lite-native',
-      'sources': [ 'src/iotivity_lite.cc', 'src/structs.cc', 'src/functions.cc' ],
+      'sources': [ 'src/iotivity_lite.cc', 'src/structs.cc', 'src/functions.cc', 'src/binding.cc' ],
       'include_dirs': [".", "..", "../include", "../port", "../port/linux", "../util", "<!@(node -p \"require('node-addon-api').include\")"], 
       "libraries": ['../../port/linux/libiotivity-lite-client-server.a'],
       'dependencies': ["<!(node -p \"require('node-addon-api').gyp\")"],
