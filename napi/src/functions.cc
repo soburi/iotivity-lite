@@ -1487,25 +1487,6 @@ Napi::Value N_oc_memb_set_buffers_avail_cb(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-Napi::Value N_oc_mem_trace_add_pace(const Napi::CallbackInfo& info) {
-  const char* func = info[0].As<Napi::String>().Utf8Value().c_str();
-  int size = static_cast<int>(info[1].As<Napi::Number>());
-  int type = static_cast<int>(info[2].As<Napi::Number>());
-  void* address = info[3];
-  (void)oc_mem_trace_add_pace(func, size, type, address);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_mem_trace_init(const Napi::CallbackInfo& info) {
-  (void)oc_mem_trace_init();
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_mem_trace_shutdown(const Napi::CallbackInfo& info) {
-  (void)oc_mem_trace_shutdown();
-  return info.Env().Undefined();
-}
-
 Napi::Value N__oc_mmem_alloc(const Napi::CallbackInfo& info) {
   OCMmem& m = *OCMmem::Unwrap(info[0].As<Napi::Object>());
   size_t size = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
@@ -1920,9 +1901,6 @@ Napi::Value N_oc_random_init(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-Napi::Value N_oc_random_value(const Napi::CallbackInfo& info) {
-}
-
 Napi::Value N_oc_free_rep(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
   (void)oc_free_rep(rep);
@@ -1937,14 +1915,8 @@ Napi::Value N_oc_rep_get_byte_string_array(const Napi::CallbackInfo& info) {
   return Napi::Boolean::New(info.Env(), oc_rep_get_byte_string_array(rep, key, value, size));
 }
 
-Napi::Value N_oc_rep_get_cbor_errno(const Napi::CallbackInfo& info) {
-}
-
 Napi::Value N_oc_rep_get_encoded_payload_size(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_rep_get_encoded_payload_size());
-}
-
-Napi::Value N_oc_rep_get_encoder_buf(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_get_string_array(const Napi::CallbackInfo& info) {
@@ -2079,44 +2051,6 @@ Napi::Value N_oc_storage_write(const Napi::CallbackInfo& info) {
   uint8_t* buf = info[1].As<Napi::Buffer<uint8_t>>().Data();
   size_t size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
   return Napi::Number::New(info.Env(), oc_storage_write(store, buf, size));
-}
-
-Napi::Value N_oc_swupdate_notify_done(const Napi::CallbackInfo& info) {
-  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[1].As<Napi::Number>().Uint32Value());
-  (void)oc_swupdate_notify_done(device, result);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_swupdate_notify_downloaded(const Napi::CallbackInfo& info) {
-  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  const char* version = info[1].As<Napi::String>().Utf8Value().c_str();
-  oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[2].As<Napi::Number>().Uint32Value());
-  (void)oc_swupdate_notify_downloaded(device, version, result);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_swupdate_notify_new_version_available(const Napi::CallbackInfo& info) {
-  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  const char* version = info[1].As<Napi::String>().Utf8Value().c_str();
-  oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[2].As<Napi::Number>().Uint32Value());
-  (void)oc_swupdate_notify_new_version_available(device, version, result);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_swupdate_notify_upgrading(const Napi::CallbackInfo& info) {
-  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  const char* version = info[1].As<Napi::String>().Utf8Value().c_str();
-  oc_clock_time_t timestamp = static_cast<uint64_t>(info[2].As<Napi::Number>().Int64Value());
-  oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[3].As<Napi::Number>().Uint32Value());
-  (void)oc_swupdate_notify_upgrading(device, version, timestamp, result);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_swupdate_set_impl(const Napi::CallbackInfo& info) {
-  OCSoftwareUpdateHandler& swupdate_impl = *OCSoftwareUpdateHandler::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_swupdate_set_impl(swupdate_impl);
-  return info.Env().Undefined();
 }
 
 Napi::Value N_oc_gen_uuid(const Napi::CallbackInfo& info) {

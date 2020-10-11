@@ -246,9 +246,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_memb_inmemb", Napi::Function::New(env, N_oc_memb_inmemb));
   exports.Set("oc_memb_numfree", Napi::Function::New(env, N_oc_memb_numfree));
   exports.Set("oc_memb_set_buffers_avail_cb", Napi::Function::New(env, N_oc_memb_set_buffers_avail_cb));
-  exports.Set("oc_mem_trace_add_pace", Napi::Function::New(env, N_oc_mem_trace_add_pace));
-  exports.Set("oc_mem_trace_init", Napi::Function::New(env, N_oc_mem_trace_init));
-  exports.Set("oc_mem_trace_shutdown", Napi::Function::New(env, N_oc_mem_trace_shutdown));
   exports.Set("_oc_mmem_alloc", Napi::Function::New(env, N__oc_mmem_alloc));
   exports.Set("_oc_mmem_free", Napi::Function::New(env, N__oc_mmem_free));
   exports.Set("oc_mmem_init", Napi::Function::New(env, N_oc_mmem_init));
@@ -308,12 +305,9 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_pki_set_security_profile", Napi::Function::New(env, N_oc_pki_set_security_profile));
   exports.Set("oc_random_destroy", Napi::Function::New(env, N_oc_random_destroy));
   exports.Set("oc_random_init", Napi::Function::New(env, N_oc_random_init));
-  exports.Set("oc_random_value", Napi::Function::New(env, N_oc_random_value));
   exports.Set("oc_free_rep", Napi::Function::New(env, N_oc_free_rep));
   exports.Set("oc_rep_get_byte_string_array", Napi::Function::New(env, N_oc_rep_get_byte_string_array));
-  exports.Set("oc_rep_get_cbor_errno", Napi::Function::New(env, N_oc_rep_get_cbor_errno));
   exports.Set("oc_rep_get_encoded_payload_size", Napi::Function::New(env, N_oc_rep_get_encoded_payload_size));
-  exports.Set("oc_rep_get_encoder_buf", Napi::Function::New(env, N_oc_rep_get_encoder_buf));
   exports.Set("oc_rep_get_string_array", Napi::Function::New(env, N_oc_rep_get_string_array));
   exports.Set("oc_rep_new", Napi::Function::New(env, N_oc_rep_new));
   exports.Set("oc_rep_set_pool", Napi::Function::New(env, N_oc_rep_set_pool));
@@ -335,11 +329,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_storage_config", Napi::Function::New(env, N_oc_storage_config));
   exports.Set("oc_storage_read", Napi::Function::New(env, N_oc_storage_read));
   exports.Set("oc_storage_write", Napi::Function::New(env, N_oc_storage_write));
-  exports.Set("oc_swupdate_notify_done", Napi::Function::New(env, N_oc_swupdate_notify_done));
-  exports.Set("oc_swupdate_notify_downloaded", Napi::Function::New(env, N_oc_swupdate_notify_downloaded));
-  exports.Set("oc_swupdate_notify_new_version_available", Napi::Function::New(env, N_oc_swupdate_notify_new_version_available));
-  exports.Set("oc_swupdate_notify_upgrading", Napi::Function::New(env, N_oc_swupdate_notify_upgrading));
-  exports.Set("oc_swupdate_set_impl", Napi::Function::New(env, N_oc_swupdate_set_impl));
   exports.Set("oc_gen_uuid", Napi::Function::New(env, N_oc_gen_uuid));
   exports.Set("oc_str_to_uuid", Napi::Function::New(env, N_oc_str_to_uuid));
   exports.Set("oc_uuid_to_str", Napi::Function::New(env, N_oc_uuid_to_str));

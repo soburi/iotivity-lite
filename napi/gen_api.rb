@@ -452,8 +452,11 @@ IGNORE_TYPES = {
 #  "oc_memb" => nil,
 #  "oc_message_s" => nil,
 #  "oc_timer" => nil,
-
 }
+
+IGNORE_FUNCS = [
+
+]
 
 IFDEF_TYPES = {
   "oc_sec_cred_t" => { "chain" => "OC_PKI",
@@ -536,6 +539,8 @@ IFDEF_FUNCS = {
 'oc_rep_get_object'=>'XXX',
 'oc_rep_get_object_array'=>'XXX',
 'oc_rep_get_string'=>'XXX',
+'oc_rep_get_encoder_buf' => 'xxx',
+'oc_rep_get_cbor_errno' => 'xxx',
 'oc_ri_get_query_nth_key_value'=>'XXX',
 'oc_ri_get_query_value'=>'XXX',
 'oc_indicate_separate_response'=>'XXX',
@@ -543,6 +548,17 @@ IFDEF_FUNCS = {
 '_oc_byte_string_array_add_item'=>'xxx',
 '_oc_string_array_add_item'=>'xxx',
 '_oc_copy_string_to_array'=>'xxx',
+'oc_random_value' => 'xxx',
+
+'oc_swupdate_notify_upgrading' => 'OC_SOFTWARE_UPDATE',
+'oc_swupdate_notify_downloaded' => 'OC_SOFTWARE_UPDATE',
+'oc_swupdate_notify_done' => 'OC_SOFTWARE_UPDATE',
+'oc_swupdate_notify_new_version_available' => 'OC_SOFTWARE_UPDATE',
+'oc_swupdate_set_impl' => 'OC_SOFTWARE_UPDATE',
+'oc_mem_trace_add_pace' => 'OC_MEMORY_TRACE',
+'oc_mem_trace_shutdown' => 'OC_MEMORY_TRACE',
+'oc_mem_trace_init' => 'OC_MEMORY_TRACE',
+
 }
 
 PRIMITIVES_POINTER = [
@@ -926,6 +942,7 @@ File.open('src/structs.h', 'w') do |f|
 
   f.print "#include <napi.h>\n"
   f.print "#include <memory>\n"
+  f.print "extern \"C\" {\n"
   f.print "#include <oc_api.h>\n"
   f.print "#include <oc_base64.h>\n"
   f.print "#include <oc_blockwise.h>\n"
@@ -956,6 +973,7 @@ File.open('src/structs.h', 'w') do |f|
   f.print "#include <oc_connectivity.h>\n"
   f.print "#include <oc_assert.h>\n"
   f.print "#include <oc_mem_trace.h>\n"
+  f.print "}\n"
 
   struct_table.each do |key, h|
     f.print gen_classdecl(key, h)

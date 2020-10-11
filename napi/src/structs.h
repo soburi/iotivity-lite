@@ -1,6 +1,7 @@
 #pragma once
 #include <napi.h>
 #include <memory>
+extern "C" {
 #include <oc_api.h>
 #include <oc_base64.h>
 #include <oc_blockwise.h>
@@ -30,6 +31,7 @@
 #include <oc_connectivity.h>
 #include <oc_assert.h>
 #include <oc_mem_trace.h>
+}
 class OCAceResource : public Napi::ObjectWrap<OCAceResource>
 {
 public:
