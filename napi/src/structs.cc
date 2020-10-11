@@ -3,6 +3,10 @@ Napi::FunctionReference OCAceResource::constructor;
 
 Napi::Function OCAceResource::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceResource", {
+    OCAceResource::InstanceAccessor("href", &OCAceResource::get_href, &OCAceResource::set_href),
+    OCAceResource::InstanceAccessor("interfaces", &OCAceResource::get_interfaces, &OCAceResource::set_interfaces),
+    OCAceResource::InstanceAccessor("types", &OCAceResource::get_types, &OCAceResource::set_types),
+    OCAceResource::InstanceAccessor("wildcard", &OCAceResource::get_wildcard, &OCAceResource::set_wildcard),
 
   });
 
@@ -72,6 +76,7 @@ Napi::FunctionReference OCBlockwiseRequestState::constructor;
 
 Napi::Function OCBlockwiseRequestState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCBlockwiseRequestState", {
+    OCBlockwiseRequestState::InstanceAccessor("base", &OCBlockwiseRequestState::get_base, &OCBlockwiseRequestState::set_base),
 
   });
 
@@ -109,6 +114,8 @@ Napi::FunctionReference OCBlockwiseResponseState::constructor;
 
 Napi::Function OCBlockwiseResponseState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCBlockwiseResponseState", {
+    OCBlockwiseResponseState::InstanceAccessor("base", &OCBlockwiseResponseState::get_base, &OCBlockwiseResponseState::set_base),
+    OCBlockwiseResponseState::InstanceAccessor("etag", &OCBlockwiseResponseState::get_etag, &OCBlockwiseResponseState::set_etag),
 #ifdef OC_CLIENT
     OCBlockwiseResponseState::InstanceAccessor("observe_seq", &OCBlockwiseResponseState::get_observe_seq, &OCBlockwiseResponseState::set_observe_seq),
 #endif
@@ -171,18 +178,27 @@ Napi::FunctionReference OCBlockwiseState::constructor;
 
 Napi::Function OCBlockwiseState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCBlockwiseState", {
+    OCBlockwiseState::InstanceAccessor("buffer", &OCBlockwiseState::get_buffer, &OCBlockwiseState::set_buffer),
 #ifdef OC_CLEINT
     OCBlockwiseState::InstanceAccessor("client_cb", &OCBlockwiseState::get_client_cb, &OCBlockwiseState::set_client_cb),
 #endif
+    OCBlockwiseState::InstanceAccessor("endpoint", &OCBlockwiseState::get_endpoint, &OCBlockwiseState::set_endpoint),
+    OCBlockwiseState::InstanceAccessor("href", &OCBlockwiseState::get_href, &OCBlockwiseState::set_href),
+    OCBlockwiseState::InstanceAccessor("method", &OCBlockwiseState::get_method, &OCBlockwiseState::set_method),
 #ifdef OC_CLIENT
     OCBlockwiseState::InstanceAccessor("mid", &OCBlockwiseState::get_mid, &OCBlockwiseState::set_mid),
 #endif
+    OCBlockwiseState::InstanceAccessor("next_block_offset", &OCBlockwiseState::get_next_block_offset, &OCBlockwiseState::set_next_block_offset),
+    OCBlockwiseState::InstanceAccessor("payload_size", &OCBlockwiseState::get_payload_size, &OCBlockwiseState::set_payload_size),
+    OCBlockwiseState::InstanceAccessor("ref_count", &OCBlockwiseState::get_ref_count, &OCBlockwiseState::set_ref_count),
+    OCBlockwiseState::InstanceAccessor("role", &OCBlockwiseState::get_role, &OCBlockwiseState::set_role),
 #ifdef OC_CLIENT
     OCBlockwiseState::InstanceAccessor("token", &OCBlockwiseState::get_token, &OCBlockwiseState::set_token),
 #endif
 #ifdef OC_CLIENT
     OCBlockwiseState::InstanceAccessor("token_len", &OCBlockwiseState::get_token_len, &OCBlockwiseState::set_token_len),
 #endif
+    OCBlockwiseState::InstanceAccessor("uri_query", &OCBlockwiseState::get_uri_query, &OCBlockwiseState::set_uri_query),
 
   });
 
@@ -352,6 +368,21 @@ Napi::FunctionReference OCClientCallback::constructor;
 
 Napi::Function OCClientCallback::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCClientCallback", {
+    OCClientCallback::InstanceAccessor("discovery", &OCClientCallback::get_discovery, &OCClientCallback::set_discovery),
+    OCClientCallback::InstanceAccessor("handler", &OCClientCallback::get_handler, &OCClientCallback::set_handler),
+    OCClientCallback::InstanceAccessor("method", &OCClientCallback::get_method, &OCClientCallback::set_method),
+    OCClientCallback::InstanceAccessor("mid", &OCClientCallback::get_mid, &OCClientCallback::set_mid),
+    OCClientCallback::InstanceAccessor("multicast", &OCClientCallback::get_multicast, &OCClientCallback::set_multicast),
+    OCClientCallback::InstanceAccessor("observe_seq", &OCClientCallback::get_observe_seq, &OCClientCallback::set_observe_seq),
+    OCClientCallback::InstanceAccessor("qos", &OCClientCallback::get_qos, &OCClientCallback::set_qos),
+    OCClientCallback::InstanceAccessor("query", &OCClientCallback::get_query, &OCClientCallback::set_query),
+    OCClientCallback::InstanceAccessor("ref_count", &OCClientCallback::get_ref_count, &OCClientCallback::set_ref_count),
+    OCClientCallback::InstanceAccessor("separate", &OCClientCallback::get_separate, &OCClientCallback::set_separate),
+    OCClientCallback::InstanceAccessor("stop_multicast_receive", &OCClientCallback::get_stop_multicast_receive, &OCClientCallback::set_stop_multicast_receive),
+    OCClientCallback::InstanceAccessor("timestamp", &OCClientCallback::get_timestamp, &OCClientCallback::set_timestamp),
+    OCClientCallback::InstanceAccessor("token", &OCClientCallback::get_token, &OCClientCallback::set_token),
+    OCClientCallback::InstanceAccessor("token_len", &OCClientCallback::get_token_len, &OCClientCallback::set_token_len),
+    OCClientCallback::InstanceAccessor("uri", &OCClientCallback::get_uri, &OCClientCallback::set_uri),
 
   });
 
@@ -533,6 +564,9 @@ Napi::FunctionReference OCClientHandler::constructor;
 
 Napi::Function OCClientHandler::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCClientHandler", {
+    OCClientHandler::InstanceAccessor("discovery", &OCClientHandler::get_discovery, &OCClientHandler::set_discovery),
+    OCClientHandler::InstanceAccessor("discovery_all", &OCClientHandler::get_discovery_all, &OCClientHandler::set_discovery_all),
+    OCClientHandler::InstanceAccessor("response", &OCClientHandler::get_response, &OCClientHandler::set_response),
 
   });
 
@@ -588,6 +622,9 @@ Napi::FunctionReference OCClientResponse::constructor;
 
 Napi::Function OCClientResponse::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCClientResponse", {
+    OCClientResponse::InstanceAccessor("code", &OCClientResponse::get_code, &OCClientResponse::set_code),
+    OCClientResponse::InstanceAccessor("content_format", &OCClientResponse::get_content_format, &OCClientResponse::set_content_format),
+    OCClientResponse::InstanceAccessor("observe_option", &OCClientResponse::get_observe_option, &OCClientResponse::set_observe_option),
 
   });
 
@@ -643,6 +680,16 @@ Napi::FunctionReference OCCloudContext::constructor;
 
 Napi::Function OCCloudContext::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudContext", {
+    OCCloudContext::InstanceAccessor("callback", &OCCloudContext::get_callback, &OCCloudContext::set_callback),
+    OCCloudContext::InstanceAccessor("cloud_manager", &OCCloudContext::get_cloud_manager, &OCCloudContext::set_cloud_manager),
+    OCCloudContext::InstanceAccessor("device", &OCCloudContext::get_device, &OCCloudContext::set_device),
+    OCCloudContext::InstanceAccessor("expires_in", &OCCloudContext::get_expires_in, &OCCloudContext::set_expires_in),
+    OCCloudContext::InstanceAccessor("last_error", &OCCloudContext::get_last_error, &OCCloudContext::set_last_error),
+    OCCloudContext::InstanceAccessor("rd_delete_all", &OCCloudContext::get_rd_delete_all, &OCCloudContext::set_rd_delete_all),
+    OCCloudContext::InstanceAccessor("retry_count", &OCCloudContext::get_retry_count, &OCCloudContext::set_retry_count),
+    OCCloudContext::InstanceAccessor("retry_refresh_token_count", &OCCloudContext::get_retry_refresh_token_count, &OCCloudContext::set_retry_refresh_token_count),
+    OCCloudContext::InstanceAccessor("store", &OCCloudContext::get_store, &OCCloudContext::set_store),
+    OCCloudContext::InstanceAccessor("user_data", &OCCloudContext::get_user_data, &OCCloudContext::set_user_data),
 
   });
 
@@ -770,6 +817,15 @@ Napi::FunctionReference OCCloudStore::constructor;
 
 Napi::Function OCCloudStore::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudStore", {
+    OCCloudStore::InstanceAccessor("access_token", &OCCloudStore::get_access_token, &OCCloudStore::set_access_token),
+    OCCloudStore::InstanceAccessor("auth_provider", &OCCloudStore::get_auth_provider, &OCCloudStore::set_auth_provider),
+    OCCloudStore::InstanceAccessor("ci_server", &OCCloudStore::get_ci_server, &OCCloudStore::set_ci_server),
+    OCCloudStore::InstanceAccessor("cps", &OCCloudStore::get_cps, &OCCloudStore::set_cps),
+    OCCloudStore::InstanceAccessor("device", &OCCloudStore::get_device, &OCCloudStore::set_device),
+    OCCloudStore::InstanceAccessor("refresh_token", &OCCloudStore::get_refresh_token, &OCCloudStore::set_refresh_token),
+    OCCloudStore::InstanceAccessor("sid", &OCCloudStore::get_sid, &OCCloudStore::set_sid),
+    OCCloudStore::InstanceAccessor("status", &OCCloudStore::get_status, &OCCloudStore::set_status),
+    OCCloudStore::InstanceAccessor("uid", &OCCloudStore::get_uid, &OCCloudStore::set_uid),
 
   });
 
@@ -897,6 +953,24 @@ Napi::FunctionReference OCCollection::constructor;
 
 Napi::Function OCCollection::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCollection", {
+    OCCollection::InstanceAccessor("default_interface", &OCCollection::get_default_interface, &OCCollection::set_default_interface),
+    OCCollection::InstanceAccessor("delete_handler", &OCCollection::get_delete_handler, &OCCollection::set_delete_handler),
+    OCCollection::InstanceAccessor("device", &OCCollection::get_device, &OCCollection::set_device),
+    OCCollection::InstanceAccessor("get_handler", &OCCollection::get_get_handler, &OCCollection::set_get_handler),
+    OCCollection::InstanceAccessor("get_properties", &OCCollection::get_get_properties, &OCCollection::set_get_properties),
+    OCCollection::InstanceAccessor("interfaces", &OCCollection::get_interfaces, &OCCollection::set_interfaces),
+    OCCollection::InstanceAccessor("name", &OCCollection::get_name, &OCCollection::set_name),
+    OCCollection::InstanceAccessor("num_links", &OCCollection::get_num_links, &OCCollection::set_num_links),
+    OCCollection::InstanceAccessor("num_observers", &OCCollection::get_num_observers, &OCCollection::set_num_observers),
+    OCCollection::InstanceAccessor("post_handler", &OCCollection::get_post_handler, &OCCollection::set_post_handler),
+    OCCollection::InstanceAccessor("properties", &OCCollection::get_properties, &OCCollection::set_properties),
+    OCCollection::InstanceAccessor("put_handler", &OCCollection::get_put_handler, &OCCollection::set_put_handler),
+    OCCollection::InstanceAccessor("set_properties", &OCCollection::get_set_properties, &OCCollection::set_set_properties),
+    OCCollection::InstanceAccessor("tag_pos_desc", &OCCollection::get_tag_pos_desc, &OCCollection::set_tag_pos_desc),
+    OCCollection::InstanceAccessor("tag_pos_func", &OCCollection::get_tag_pos_func, &OCCollection::set_tag_pos_func),
+    OCCollection::InstanceAccessor("tag_pos_rel", &OCCollection::get_tag_pos_rel, &OCCollection::set_tag_pos_rel),
+    OCCollection::InstanceAccessor("types", &OCCollection::get_types, &OCCollection::set_types),
+    OCCollection::InstanceAccessor("uri", &OCCollection::get_uri, &OCCollection::set_uri),
 
   });
 
@@ -1126,6 +1200,8 @@ Napi::FunctionReference OCCredData::constructor;
 
 Napi::Function OCCredData::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCredData", {
+    OCCredData::InstanceAccessor("data", &OCCredData::get_data, &OCCredData::set_data),
+    OCCredData::InstanceAccessor("encoding", &OCCredData::get_encoding, &OCCredData::set_encoding),
 
   });
 
@@ -1173,6 +1249,13 @@ Napi::FunctionReference OCDeviceInfo::constructor;
 
 Napi::Function OCDeviceInfo::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCDeviceInfo", {
+    OCDeviceInfo::InstanceAccessor("add_device_cb", &OCDeviceInfo::get_add_device_cb, &OCDeviceInfo::set_add_device_cb),
+    OCDeviceInfo::InstanceAccessor("data", &OCDeviceInfo::get_data, &OCDeviceInfo::set_data),
+    OCDeviceInfo::InstanceAccessor("di", &OCDeviceInfo::get_di, &OCDeviceInfo::set_di),
+    OCDeviceInfo::InstanceAccessor("dmv", &OCDeviceInfo::get_dmv, &OCDeviceInfo::set_dmv),
+    OCDeviceInfo::InstanceAccessor("icv", &OCDeviceInfo::get_icv, &OCDeviceInfo::set_icv),
+    OCDeviceInfo::InstanceAccessor("name", &OCDeviceInfo::get_name, &OCDeviceInfo::set_name),
+    OCDeviceInfo::InstanceAccessor("piid", &OCDeviceInfo::get_piid, &OCDeviceInfo::set_piid),
 
   });
 
@@ -1278,6 +1361,14 @@ Napi::FunctionReference OCEndpoint::constructor;
 
 Napi::Function OCEndpoint::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEndpoint", {
+    OCEndpoint::InstanceAccessor("addr", &OCEndpoint::get_addr, &OCEndpoint::set_addr),
+    OCEndpoint::InstanceAccessor("addr_local", &OCEndpoint::get_addr_local, &OCEndpoint::set_addr_local),
+    OCEndpoint::InstanceAccessor("device", &OCEndpoint::get_device, &OCEndpoint::set_device),
+    OCEndpoint::InstanceAccessor("di", &OCEndpoint::get_di, &OCEndpoint::set_di),
+    OCEndpoint::InstanceAccessor("flags", &OCEndpoint::get_flags, &OCEndpoint::set_flags),
+    OCEndpoint::InstanceAccessor("interface_index", &OCEndpoint::get_interface_index, &OCEndpoint::set_interface_index),
+    OCEndpoint::InstanceAccessor("priority", &OCEndpoint::get_priority, &OCEndpoint::set_priority),
+    OCEndpoint::InstanceAccessor("version", &OCEndpoint::get_version, &OCEndpoint::set_version),
 
   });
 
@@ -1389,6 +1480,7 @@ Napi::FunctionReference OCEtimer::constructor;
 
 Napi::Function OCEtimer::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEtimer", {
+    OCEtimer::InstanceAccessor("timer", &OCEtimer::get_timer, &OCEtimer::set_timer),
 
   });
 
@@ -1426,6 +1518,9 @@ Napi::FunctionReference OCEventCallback::constructor;
 
 Napi::Function OCEventCallback::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEventCallback", {
+    OCEventCallback::InstanceAccessor("callback", &OCEventCallback::get_callback, &OCEventCallback::set_callback),
+    OCEventCallback::InstanceAccessor("data", &OCEventCallback::get_data, &OCEventCallback::set_data),
+    OCEventCallback::InstanceAccessor("timer", &OCEventCallback::get_timer, &OCEventCallback::set_timer),
 
   });
 
@@ -1483,6 +1578,10 @@ Napi::FunctionReference OCHandler::constructor;
 
 Napi::Function OCHandler::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCHandler", {
+    OCHandler::InstanceAccessor("init", &OCHandler::get_init, &OCHandler::set_init),
+    OCHandler::InstanceAccessor("register_resources", &OCHandler::get_register_resources, &OCHandler::set_register_resources),
+    OCHandler::InstanceAccessor("requests_entry", &OCHandler::get_requests_entry, &OCHandler::set_requests_entry),
+    OCHandler::InstanceAccessor("signal_event_loop", &OCHandler::get_signal_event_loop, &OCHandler::set_signal_event_loop),
 
   });
 
@@ -1548,6 +1647,8 @@ Napi::FunctionReference OCIPv4Addr::constructor;
 
 Napi::Function OCIPv4Addr::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCIPv4Addr", {
+    OCIPv4Addr::InstanceAccessor("address", &OCIPv4Addr::get_address, &OCIPv4Addr::set_address),
+    OCIPv4Addr::InstanceAccessor("port", &OCIPv4Addr::get_port, &OCIPv4Addr::set_port),
 
   });
 
@@ -1601,6 +1702,9 @@ Napi::FunctionReference OCIPv6Addr::constructor;
 
 Napi::Function OCIPv6Addr::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCIPv6Addr", {
+    OCIPv6Addr::InstanceAccessor("address", &OCIPv6Addr::get_address, &OCIPv6Addr::set_address),
+    OCIPv6Addr::InstanceAccessor("port", &OCIPv6Addr::get_port, &OCIPv6Addr::set_port),
+    OCIPv6Addr::InstanceAccessor("scope", &OCIPv6Addr::get_scope, &OCIPv6Addr::set_scope),
 
   });
 
@@ -1672,6 +1776,8 @@ Napi::FunctionReference OCLEAddr::constructor;
 
 Napi::Function OCLEAddr::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCLEAddr", {
+    OCLEAddr::InstanceAccessor("address", &OCLEAddr::get_address, &OCLEAddr::set_address),
+    OCLEAddr::InstanceAccessor("type", &OCLEAddr::get_type, &OCLEAddr::set_type),
 
   });
 
@@ -1729,6 +1835,8 @@ Napi::FunctionReference OCLinkParams::constructor;
 
 Napi::Function OCLinkParams::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCLinkParams", {
+    OCLinkParams::InstanceAccessor("key", &OCLinkParams::get_key, &OCLinkParams::set_key),
+    OCLinkParams::InstanceAccessor("value", &OCLinkParams::get_value, &OCLinkParams::set_value),
 
   });
 
@@ -1778,6 +1886,9 @@ Napi::FunctionReference OCLink::constructor;
 
 Napi::Function OCLink::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCLink", {
+    OCLink::InstanceAccessor("ins", &OCLink::get_ins, &OCLink::set_ins),
+    OCLink::InstanceAccessor("interfaces", &OCLink::get_interfaces, &OCLink::set_interfaces),
+    OCLink::InstanceAccessor("rel", &OCLink::get_rel, &OCLink::set_rel),
 
   });
 
@@ -1835,6 +1946,9 @@ Napi::FunctionReference OCMemb::constructor;
 
 Napi::Function OCMemb::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCMemb", {
+    OCMemb::InstanceAccessor("count", &OCMemb::get_count, &OCMemb::set_count),
+    OCMemb::InstanceAccessor("num", &OCMemb::get_num, &OCMemb::set_num),
+    OCMemb::InstanceAccessor("size", &OCMemb::get_size, &OCMemb::set_size),
 
   });
 
@@ -1890,12 +2004,16 @@ Napi::FunctionReference OCMessage::constructor;
 
 Napi::Function OCMessage::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCMessage", {
+    OCMessage::InstanceAccessor("data", &OCMessage::get_data, &OCMessage::set_data),
 #ifdef OC_SECURITY
     OCMessage::InstanceAccessor("encrypted", &OCMessage::get_encrypted, &OCMessage::set_encrypted),
 #endif
+    OCMessage::InstanceAccessor("endpoint", &OCMessage::get_endpoint, &OCMessage::set_endpoint),
+    OCMessage::InstanceAccessor("length", &OCMessage::get_length, &OCMessage::set_length),
 #ifdef OC_TCP
     OCMessage::InstanceAccessor("read_offset", &OCMessage::get_read_offset, &OCMessage::set_read_offset),
 #endif
+    OCMessage::InstanceAccessor("ref_count", &OCMessage::get_ref_count, &OCMessage::set_ref_count),
 
   });
 
@@ -1987,6 +2105,7 @@ Napi::FunctionReference OCMmem::constructor;
 
 Napi::Function OCMmem::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCMmem", {
+    OCMmem::InstanceAccessor("size", &OCMmem::get_size, &OCMmem::set_size),
 
   });
 
@@ -2048,6 +2167,10 @@ Napi::FunctionReference OCPlatformInfo::constructor;
 
 Napi::Function OCPlatformInfo::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCPlatformInfo", {
+    OCPlatformInfo::InstanceAccessor("data", &OCPlatformInfo::get_data, &OCPlatformInfo::set_data),
+    OCPlatformInfo::InstanceAccessor("init_platform_cb", &OCPlatformInfo::get_init_platform_cb, &OCPlatformInfo::set_init_platform_cb),
+    OCPlatformInfo::InstanceAccessor("mfg_name", &OCPlatformInfo::get_mfg_name, &OCPlatformInfo::set_mfg_name),
+    OCPlatformInfo::InstanceAccessor("pi", &OCPlatformInfo::get_pi, &OCPlatformInfo::set_pi),
 
   });
 
@@ -2117,6 +2240,9 @@ Napi::FunctionReference OCProcess::constructor;
 
 Napi::Function OCProcess::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCProcess", {
+    OCProcess::InstanceAccessor("name", &OCProcess::get_name, &OCProcess::set_name),
+    OCProcess::InstanceAccessor("needspoll", &OCProcess::get_needspoll, &OCProcess::set_needspoll),
+    OCProcess::InstanceAccessor("state", &OCProcess::get_state, &OCProcess::set_state),
 
   });
 
@@ -2198,6 +2324,8 @@ Napi::FunctionReference OCRep::constructor;
 
 Napi::Function OCRep::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCRep", {
+    OCRep::InstanceAccessor("name", &OCRep::get_name, &OCRep::set_name),
+    OCRep::InstanceAccessor("type", &OCRep::get_type, &OCRep::set_type),
 
   });
 
@@ -2245,6 +2373,8 @@ Napi::FunctionReference OCRequestHandler::constructor;
 
 Napi::Function OCRequestHandler::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCRequestHandler", {
+    OCRequestHandler::InstanceAccessor("cb", &OCRequestHandler::get_cb, &OCRequestHandler::set_cb),
+    OCRequestHandler::InstanceAccessor("user_data", &OCRequestHandler::get_user_data, &OCRequestHandler::set_user_data),
 
   });
 
@@ -2290,6 +2420,11 @@ Napi::FunctionReference OCRequest::constructor;
 
 Napi::Function OCRequest::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCRequest", {
+    OCRequest::InstanceAccessor("_payload", &OCRequest::get__payload, &OCRequest::set__payload),
+    OCRequest::InstanceAccessor("_payload_len", &OCRequest::get__payload_len, &OCRequest::set__payload_len),
+    OCRequest::InstanceAccessor("content_format", &OCRequest::get_content_format, &OCRequest::set_content_format),
+    OCRequest::InstanceAccessor("query", &OCRequest::get_query, &OCRequest::set_query),
+    OCRequest::InstanceAccessor("query_len", &OCRequest::get_query_len, &OCRequest::set_query_len),
 
   });
 
@@ -2365,9 +2500,27 @@ Napi::FunctionReference OCResource::constructor;
 
 Napi::Function OCResource::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCResource", {
+    OCResource::InstanceAccessor("default_interface", &OCResource::get_default_interface, &OCResource::set_default_interface),
+    OCResource::InstanceAccessor("delete_handler", &OCResource::get_delete_handler, &OCResource::set_delete_handler),
+    OCResource::InstanceAccessor("device", &OCResource::get_device, &OCResource::set_device),
+    OCResource::InstanceAccessor("get_handler", &OCResource::get_get_handler, &OCResource::set_get_handler),
+    OCResource::InstanceAccessor("get_properties", &OCResource::get_get_properties, &OCResource::set_get_properties),
+    OCResource::InstanceAccessor("interfaces", &OCResource::get_interfaces, &OCResource::set_interfaces),
+    OCResource::InstanceAccessor("name", &OCResource::get_name, &OCResource::set_name),
 #ifdef OC_COLLECTIONS
     OCResource::InstanceAccessor("num_links", &OCResource::get_num_links, &OCResource::set_num_links),
 #endif
+    OCResource::InstanceAccessor("num_observers", &OCResource::get_num_observers, &OCResource::set_num_observers),
+    OCResource::InstanceAccessor("observe_period_seconds", &OCResource::get_observe_period_seconds, &OCResource::set_observe_period_seconds),
+    OCResource::InstanceAccessor("post_handler", &OCResource::get_post_handler, &OCResource::set_post_handler),
+    OCResource::InstanceAccessor("properties", &OCResource::get_properties, &OCResource::set_properties),
+    OCResource::InstanceAccessor("put_handler", &OCResource::get_put_handler, &OCResource::set_put_handler),
+    OCResource::InstanceAccessor("set_properties", &OCResource::get_set_properties, &OCResource::set_set_properties),
+    OCResource::InstanceAccessor("tag_func_desc", &OCResource::get_tag_func_desc, &OCResource::set_tag_func_desc),
+    OCResource::InstanceAccessor("tag_pos_desc", &OCResource::get_tag_pos_desc, &OCResource::set_tag_pos_desc),
+    OCResource::InstanceAccessor("tag_pos_rel", &OCResource::get_tag_pos_rel, &OCResource::set_tag_pos_rel),
+    OCResource::InstanceAccessor("types", &OCResource::get_types, &OCResource::set_types),
+    OCResource::InstanceAccessor("uri", &OCResource::get_uri, &OCResource::set_uri),
 
   });
 
@@ -2635,6 +2788,8 @@ Napi::FunctionReference OCRole::constructor;
 
 Napi::Function OCRole::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCRole", {
+    OCRole::InstanceAccessor("authority", &OCRole::get_authority, &OCRole::set_authority),
+    OCRole::InstanceAccessor("role", &OCRole::get_role, &OCRole::set_role),
 
   });
 
@@ -2684,6 +2839,7 @@ Napi::FunctionReference OCResourceType::constructor;
 
 Napi::Function OCResourceType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCResourceType", {
+    OCResourceType::InstanceAccessor("rt", &OCResourceType::get_rt, &OCResourceType::set_rt),
 
   });
 
@@ -2721,6 +2877,10 @@ Napi::FunctionReference OCSecurityAce::constructor;
 
 Napi::Function OCSecurityAce::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSecurityAce", {
+    OCSecurityAce::InstanceAccessor("aceid", &OCSecurityAce::get_aceid, &OCSecurityAce::set_aceid),
+    OCSecurityAce::InstanceAccessor("permission", &OCSecurityAce::get_permission, &OCSecurityAce::set_permission),
+    OCSecurityAce::InstanceAccessor("subject", &OCSecurityAce::get_subject, &OCSecurityAce::set_subject),
+    OCSecurityAce::InstanceAccessor("subject_type", &OCSecurityAce::get_subject_type, &OCSecurityAce::set_subject_type),
 
   });
 
@@ -2788,6 +2948,7 @@ Napi::FunctionReference OCSecurityAcl::constructor;
 
 Napi::Function OCSecurityAcl::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSecurityAcl", {
+    OCSecurityAcl::InstanceAccessor("rowneruuid", &OCSecurityAcl::get_rowneruuid, &OCSecurityAcl::set_rowneruuid),
 
   });
 
@@ -2825,6 +2986,7 @@ Napi::FunctionReference OCCreds::constructor;
 
 Napi::Function OCCreds::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCreds", {
+    OCCreds::InstanceAccessor("rowneruuid", &OCCreds::get_rowneruuid, &OCCreds::set_rowneruuid),
 
   });
 
@@ -2868,12 +3030,17 @@ Napi::Function OCCred::GetClass(Napi::Env env) {
 #ifdef OC_PKI
     OCCred::InstanceAccessor("child", &OCCred::get_child, &OCCred::set_child),
 #endif
+    OCCred::InstanceAccessor("credid", &OCCred::get_credid, &OCCred::set_credid),
+    OCCred::InstanceAccessor("credtype", &OCCred::get_credtype, &OCCred::set_credtype),
 #ifdef OC_PKI
     OCCred::InstanceAccessor("credusage", &OCCred::get_credusage, &OCCred::set_credusage),
 #endif
+    OCCred::InstanceAccessor("owner_cred", &OCCred::get_owner_cred, &OCCred::set_owner_cred),
+    OCCred::InstanceAccessor("privatedata", &OCCred::get_privatedata, &OCCred::set_privatedata),
 #ifdef OC_PKI
     OCCred::InstanceAccessor("publicdata", &OCCred::get_publicdata, &OCCred::set_publicdata),
 #endif
+    OCCred::InstanceAccessor("subjectuuid", &OCCred::get_subjectuuid, &OCCred::set_subjectuuid),
 
   });
 
@@ -3033,6 +3200,10 @@ Napi::FunctionReference OCSoftwareUpdateHandler::constructor;
 
 Napi::Function OCSoftwareUpdateHandler::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSoftwareUpdateHandler", {
+    OCSoftwareUpdateHandler::InstanceAccessor("check_new_version", &OCSoftwareUpdateHandler::get_check_new_version, &OCSoftwareUpdateHandler::set_check_new_version),
+    OCSoftwareUpdateHandler::InstanceAccessor("download_update", &OCSoftwareUpdateHandler::get_download_update, &OCSoftwareUpdateHandler::set_download_update),
+    OCSoftwareUpdateHandler::InstanceAccessor("perform_upgrade", &OCSoftwareUpdateHandler::get_perform_upgrade, &OCSoftwareUpdateHandler::set_perform_upgrade),
+    OCSoftwareUpdateHandler::InstanceAccessor("validate_purl", &OCSoftwareUpdateHandler::get_validate_purl, &OCSoftwareUpdateHandler::set_validate_purl),
 
   });
 
@@ -3098,6 +3269,8 @@ Napi::FunctionReference OCTimer::constructor;
 
 Napi::Function OCTimer::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCTimer", {
+    OCTimer::InstanceAccessor("interval", &OCTimer::get_interval, &OCTimer::set_interval),
+    OCTimer::InstanceAccessor("start", &OCTimer::get_start, &OCTimer::set_start),
 
   });
 
@@ -3143,6 +3316,7 @@ Napi::FunctionReference OCUuid::constructor;
 
 Napi::Function OCUuid::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCUuid", {
+    OCUuid::InstanceAccessor("id", &OCUuid::get_id, &OCUuid::set_id),
 
   });
 
@@ -3178,6 +3352,8 @@ Napi::FunctionReference OCAceSubject::constructor;
 
 Napi::Function OCAceSubject::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceSubject", {
+    OCAceSubject::InstanceAccessor("conn", &OCAceSubject::get_conn, &OCAceSubject::set_conn),
+    OCAceSubject::InstanceAccessor("uuid", &OCAceSubject::get_uuid, &OCAceSubject::set_uuid),
 
   });
 
@@ -3225,6 +3401,9 @@ Napi::FunctionReference DevAddr::constructor;
 
 Napi::Function DevAddr::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "DevAddr", {
+    DevAddr::InstanceAccessor("bt", &DevAddr::get_bt, &DevAddr::set_bt),
+    DevAddr::InstanceAccessor("ipv4", &DevAddr::get_ipv4, &DevAddr::set_ipv4),
+    DevAddr::InstanceAccessor("ipv6", &DevAddr::get_ipv6, &DevAddr::set_ipv6),
 
   });
 
@@ -3287,6 +3466,8 @@ Napi::FunctionReference OCAceConnectionType::constructor;
 
 Napi::Function OCAceConnectionType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceConnectionType", {
+    OCAceConnectionType::InstanceAccessor("OC_CONN_AUTH_CRYPT", &OCAceConnectionType::get_OC_CONN_AUTH_CRYPT, &OCAceConnectionType::set_OC_CONN_AUTH_CRYPT),
+    OCAceConnectionType::InstanceAccessor("OC_CONN_ANON_CLEAR", &OCAceConnectionType::get_OC_CONN_ANON_CLEAR, &OCAceConnectionType::set_OC_CONN_ANON_CLEAR),
 
   });
 
@@ -3310,7 +3491,7 @@ OCAceConnectionType::OCAceConnectionType(const Napi::CallbackInfo& info) : Objec
 }
 Napi::Value OCAceConnectionType::get_OC_CONN_AUTH_CRYPT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CONN_AUTH_CRYPT);
+  return Napi::Number::New(info.Env(), OC_CONN_AUTH_CRYPT);
 }
 
 void OCAceConnectionType::set_OC_CONN_AUTH_CRYPT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3320,7 +3501,7 @@ void OCAceConnectionType::set_OC_CONN_AUTH_CRYPT(const Napi::CallbackInfo& info,
 
 Napi::Value OCAceConnectionType::get_OC_CONN_ANON_CLEAR(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CONN_ANON_CLEAR);
+  return Napi::Number::New(info.Env(), OC_CONN_ANON_CLEAR);
 }
 
 void OCAceConnectionType::set_OC_CONN_ANON_CLEAR(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3332,6 +3513,12 @@ Napi::FunctionReference OCAcePermissionsMask::constructor;
 
 Napi::Function OCAcePermissionsMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAcePermissionsMask", {
+    OCAcePermissionsMask::InstanceAccessor("OC_PERM_NONE", &OCAcePermissionsMask::get_OC_PERM_NONE, &OCAcePermissionsMask::set_OC_PERM_NONE),
+    OCAcePermissionsMask::InstanceAccessor("OC_PERM_CREATE", &OCAcePermissionsMask::get_OC_PERM_CREATE, &OCAcePermissionsMask::set_OC_PERM_CREATE),
+    OCAcePermissionsMask::InstanceAccessor("OC_PERM_RETRIEVE", &OCAcePermissionsMask::get_OC_PERM_RETRIEVE, &OCAcePermissionsMask::set_OC_PERM_RETRIEVE),
+    OCAcePermissionsMask::InstanceAccessor("OC_PERM_UPDATE", &OCAcePermissionsMask::get_OC_PERM_UPDATE, &OCAcePermissionsMask::set_OC_PERM_UPDATE),
+    OCAcePermissionsMask::InstanceAccessor("OC_PERM_DELETE", &OCAcePermissionsMask::get_OC_PERM_DELETE, &OCAcePermissionsMask::set_OC_PERM_DELETE),
+    OCAcePermissionsMask::InstanceAccessor("OC_PERM_NOTIFY", &OCAcePermissionsMask::get_OC_PERM_NOTIFY, &OCAcePermissionsMask::set_OC_PERM_NOTIFY),
 
   });
 
@@ -3355,7 +3542,7 @@ OCAcePermissionsMask::OCAcePermissionsMask(const Napi::CallbackInfo& info) : Obj
 }
 Napi::Value OCAcePermissionsMask::get_OC_PERM_NONE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_PERM_NONE);
+  return Napi::Number::New(info.Env(), OC_PERM_NONE);
 }
 
 void OCAcePermissionsMask::set_OC_PERM_NONE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3365,7 +3552,7 @@ void OCAcePermissionsMask::set_OC_PERM_NONE(const Napi::CallbackInfo& info, cons
 
 Napi::Value OCAcePermissionsMask::get_OC_PERM_CREATE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_PERM_CREATE);
+  return Napi::Number::New(info.Env(), OC_PERM_CREATE);
 }
 
 void OCAcePermissionsMask::set_OC_PERM_CREATE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3375,7 +3562,7 @@ void OCAcePermissionsMask::set_OC_PERM_CREATE(const Napi::CallbackInfo& info, co
 
 Napi::Value OCAcePermissionsMask::get_OC_PERM_RETRIEVE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_PERM_RETRIEVE);
+  return Napi::Number::New(info.Env(), OC_PERM_RETRIEVE);
 }
 
 void OCAcePermissionsMask::set_OC_PERM_RETRIEVE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3385,7 +3572,7 @@ void OCAcePermissionsMask::set_OC_PERM_RETRIEVE(const Napi::CallbackInfo& info, 
 
 Napi::Value OCAcePermissionsMask::get_OC_PERM_UPDATE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_PERM_UPDATE);
+  return Napi::Number::New(info.Env(), OC_PERM_UPDATE);
 }
 
 void OCAcePermissionsMask::set_OC_PERM_UPDATE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3395,7 +3582,7 @@ void OCAcePermissionsMask::set_OC_PERM_UPDATE(const Napi::CallbackInfo& info, co
 
 Napi::Value OCAcePermissionsMask::get_OC_PERM_DELETE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_PERM_DELETE);
+  return Napi::Number::New(info.Env(), OC_PERM_DELETE);
 }
 
 void OCAcePermissionsMask::set_OC_PERM_DELETE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3405,7 +3592,7 @@ void OCAcePermissionsMask::set_OC_PERM_DELETE(const Napi::CallbackInfo& info, co
 
 Napi::Value OCAcePermissionsMask::get_OC_PERM_NOTIFY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_PERM_NOTIFY);
+  return Napi::Number::New(info.Env(), OC_PERM_NOTIFY);
 }
 
 void OCAcePermissionsMask::set_OC_PERM_NOTIFY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3417,6 +3604,9 @@ Napi::FunctionReference OCAceSubjectType::constructor;
 
 Napi::Function OCAceSubjectType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceSubjectType", {
+    OCAceSubjectType::InstanceAccessor("OC_SUBJECT_UUID", &OCAceSubjectType::get_OC_SUBJECT_UUID, &OCAceSubjectType::set_OC_SUBJECT_UUID),
+    OCAceSubjectType::InstanceAccessor("OC_SUBJECT_ROLE", &OCAceSubjectType::get_OC_SUBJECT_ROLE, &OCAceSubjectType::set_OC_SUBJECT_ROLE),
+    OCAceSubjectType::InstanceAccessor("OC_SUBJECT_CONN", &OCAceSubjectType::get_OC_SUBJECT_CONN, &OCAceSubjectType::set_OC_SUBJECT_CONN),
 
   });
 
@@ -3440,7 +3630,7 @@ OCAceSubjectType::OCAceSubjectType(const Napi::CallbackInfo& info) : ObjectWrap(
 }
 Napi::Value OCAceSubjectType::get_OC_SUBJECT_UUID(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SUBJECT_UUID);
+  return Napi::Number::New(info.Env(), OC_SUBJECT_UUID);
 }
 
 void OCAceSubjectType::set_OC_SUBJECT_UUID(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3450,7 +3640,7 @@ void OCAceSubjectType::set_OC_SUBJECT_UUID(const Napi::CallbackInfo& info, const
 
 Napi::Value OCAceSubjectType::get_OC_SUBJECT_ROLE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SUBJECT_ROLE);
+  return Napi::Number::New(info.Env(), OC_SUBJECT_ROLE);
 }
 
 void OCAceSubjectType::set_OC_SUBJECT_ROLE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3460,7 +3650,7 @@ void OCAceSubjectType::set_OC_SUBJECT_ROLE(const Napi::CallbackInfo& info, const
 
 Napi::Value OCAceSubjectType::get_OC_SUBJECT_CONN(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SUBJECT_CONN);
+  return Napi::Number::New(info.Env(), OC_SUBJECT_CONN);
 }
 
 void OCAceSubjectType::set_OC_SUBJECT_CONN(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3472,6 +3662,10 @@ Napi::FunctionReference OCAceWildcard::constructor;
 
 Napi::Function OCAceWildcard::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceWildcard", {
+    OCAceWildcard::InstanceAccessor("OC_ACE_NO_WC", &OCAceWildcard::get_OC_ACE_NO_WC, &OCAceWildcard::set_OC_ACE_NO_WC),
+    OCAceWildcard::InstanceAccessor("OC_ACE_WC_ALL", &OCAceWildcard::get_OC_ACE_WC_ALL, &OCAceWildcard::set_OC_ACE_WC_ALL),
+    OCAceWildcard::InstanceAccessor("OC_ACE_WC_ALL_SECURED", &OCAceWildcard::get_OC_ACE_WC_ALL_SECURED, &OCAceWildcard::set_OC_ACE_WC_ALL_SECURED),
+    OCAceWildcard::InstanceAccessor("OC_ACE_WC_ALL_PUBLIC", &OCAceWildcard::get_OC_ACE_WC_ALL_PUBLIC, &OCAceWildcard::set_OC_ACE_WC_ALL_PUBLIC),
 
   });
 
@@ -3495,7 +3689,7 @@ OCAceWildcard::OCAceWildcard(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCAceWildcard::get_OC_ACE_NO_WC(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ACE_NO_WC);
+  return Napi::Number::New(info.Env(), OC_ACE_NO_WC);
 }
 
 void OCAceWildcard::set_OC_ACE_NO_WC(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3505,7 +3699,7 @@ void OCAceWildcard::set_OC_ACE_NO_WC(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCAceWildcard::get_OC_ACE_WC_ALL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ACE_WC_ALL);
+  return Napi::Number::New(info.Env(), OC_ACE_WC_ALL);
 }
 
 void OCAceWildcard::set_OC_ACE_WC_ALL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3515,7 +3709,7 @@ void OCAceWildcard::set_OC_ACE_WC_ALL(const Napi::CallbackInfo& info, const Napi
 
 Napi::Value OCAceWildcard::get_OC_ACE_WC_ALL_SECURED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ACE_WC_ALL_SECURED);
+  return Napi::Number::New(info.Env(), OC_ACE_WC_ALL_SECURED);
 }
 
 void OCAceWildcard::set_OC_ACE_WC_ALL_SECURED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3525,7 +3719,7 @@ void OCAceWildcard::set_OC_ACE_WC_ALL_SECURED(const Napi::CallbackInfo& info, co
 
 Napi::Value OCAceWildcard::get_OC_ACE_WC_ALL_PUBLIC(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ACE_WC_ALL_PUBLIC);
+  return Napi::Number::New(info.Env(), OC_ACE_WC_ALL_PUBLIC);
 }
 
 void OCAceWildcard::set_OC_ACE_WC_ALL_PUBLIC(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3537,6 +3731,8 @@ Napi::FunctionReference OCBlockwiseRole::constructor;
 
 Napi::Function OCBlockwiseRole::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCBlockwiseRole", {
+    OCBlockwiseRole::InstanceAccessor("OC_BLOCKWISE_CLIENT", &OCBlockwiseRole::get_OC_BLOCKWISE_CLIENT, &OCBlockwiseRole::set_OC_BLOCKWISE_CLIENT),
+    OCBlockwiseRole::InstanceAccessor("OC_BLOCKWISE_SERVER", &OCBlockwiseRole::get_OC_BLOCKWISE_SERVER, &OCBlockwiseRole::set_OC_BLOCKWISE_SERVER),
 
   });
 
@@ -3560,7 +3756,7 @@ OCBlockwiseRole::OCBlockwiseRole(const Napi::CallbackInfo& info) : ObjectWrap(in
 }
 Napi::Value OCBlockwiseRole::get_OC_BLOCKWISE_CLIENT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_BLOCKWISE_CLIENT);
+  return Napi::Number::New(info.Env(), OC_BLOCKWISE_CLIENT);
 }
 
 void OCBlockwiseRole::set_OC_BLOCKWISE_CLIENT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3570,7 +3766,7 @@ void OCBlockwiseRole::set_OC_BLOCKWISE_CLIENT(const Napi::CallbackInfo& info, co
 
 Napi::Value OCBlockwiseRole::get_OC_BLOCKWISE_SERVER(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_BLOCKWISE_SERVER);
+  return Napi::Number::New(info.Env(), OC_BLOCKWISE_SERVER);
 }
 
 void OCBlockwiseRole::set_OC_BLOCKWISE_SERVER(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3582,6 +3778,8 @@ Napi::FunctionReference OCDiscoveryFlags::constructor;
 
 Napi::Function OCDiscoveryFlags::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCDiscoveryFlags", {
+    OCDiscoveryFlags::InstanceAccessor("OC_STOP_DISCOVERY", &OCDiscoveryFlags::get_OC_STOP_DISCOVERY, &OCDiscoveryFlags::set_OC_STOP_DISCOVERY),
+    OCDiscoveryFlags::InstanceAccessor("OC_CONTINUE_DISCOVERY", &OCDiscoveryFlags::get_OC_CONTINUE_DISCOVERY, &OCDiscoveryFlags::set_OC_CONTINUE_DISCOVERY),
 
   });
 
@@ -3605,7 +3803,7 @@ OCDiscoveryFlags::OCDiscoveryFlags(const Napi::CallbackInfo& info) : ObjectWrap(
 }
 Napi::Value OCDiscoveryFlags::get_OC_STOP_DISCOVERY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STOP_DISCOVERY);
+  return Napi::Number::New(info.Env(), OC_STOP_DISCOVERY);
 }
 
 void OCDiscoveryFlags::set_OC_STOP_DISCOVERY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3615,7 +3813,7 @@ void OCDiscoveryFlags::set_OC_STOP_DISCOVERY(const Napi::CallbackInfo& info, con
 
 Napi::Value OCDiscoveryFlags::get_OC_CONTINUE_DISCOVERY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CONTINUE_DISCOVERY);
+  return Napi::Number::New(info.Env(), OC_CONTINUE_DISCOVERY);
 }
 
 void OCDiscoveryFlags::set_OC_CONTINUE_DISCOVERY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3627,6 +3825,8 @@ Napi::FunctionReference OCQos::constructor;
 
 Napi::Function OCQos::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCQos", {
+    OCQos::InstanceAccessor("HIGH_QOS", &OCQos::get_HIGH_QOS, &OCQos::set_HIGH_QOS),
+    OCQos::InstanceAccessor("LOW_QOS", &OCQos::get_LOW_QOS, &OCQos::set_LOW_QOS),
 
   });
 
@@ -3650,7 +3850,7 @@ OCQos::OCQos(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCQos::get_HIGH_QOS(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), HIGH_QOS);
+  return Napi::Number::New(info.Env(), HIGH_QOS);
 }
 
 void OCQos::set_HIGH_QOS(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3660,7 +3860,7 @@ void OCQos::set_HIGH_QOS(const Napi::CallbackInfo& info, const Napi::Value& valu
 
 Napi::Value OCQos::get_LOW_QOS(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), LOW_QOS);
+  return Napi::Number::New(info.Env(), LOW_QOS);
 }
 
 void OCQos::set_LOW_QOS(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3672,6 +3872,10 @@ Napi::FunctionReference OCCloudError::constructor;
 
 Napi::Function OCCloudError::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudError", {
+    OCCloudError::InstanceAccessor("CLOUD_OK", &OCCloudError::get_CLOUD_OK, &OCCloudError::set_CLOUD_OK),
+    OCCloudError::InstanceAccessor("CLOUD_ERROR_RESPONSE", &OCCloudError::get_CLOUD_ERROR_RESPONSE, &OCCloudError::set_CLOUD_ERROR_RESPONSE),
+    OCCloudError::InstanceAccessor("CLOUD_ERROR_CONNECT", &OCCloudError::get_CLOUD_ERROR_CONNECT, &OCCloudError::set_CLOUD_ERROR_CONNECT),
+    OCCloudError::InstanceAccessor("CLOUD_ERROR_REFRESH_ACCESS_TOKEN", &OCCloudError::get_CLOUD_ERROR_REFRESH_ACCESS_TOKEN, &OCCloudError::set_CLOUD_ERROR_REFRESH_ACCESS_TOKEN),
 
   });
 
@@ -3695,7 +3899,7 @@ OCCloudError::OCCloudError(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCCloudError::get_CLOUD_OK(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), CLOUD_OK);
+  return Napi::Number::New(info.Env(), CLOUD_OK);
 }
 
 void OCCloudError::set_CLOUD_OK(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3705,7 +3909,7 @@ void OCCloudError::set_CLOUD_OK(const Napi::CallbackInfo& info, const Napi::Valu
 
 Napi::Value OCCloudError::get_CLOUD_ERROR_RESPONSE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), CLOUD_ERROR_RESPONSE);
+  return Napi::Number::New(info.Env(), CLOUD_ERROR_RESPONSE);
 }
 
 void OCCloudError::set_CLOUD_ERROR_RESPONSE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3715,7 +3919,7 @@ void OCCloudError::set_CLOUD_ERROR_RESPONSE(const Napi::CallbackInfo& info, cons
 
 Napi::Value OCCloudError::get_CLOUD_ERROR_CONNECT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), CLOUD_ERROR_CONNECT);
+  return Napi::Number::New(info.Env(), CLOUD_ERROR_CONNECT);
 }
 
 void OCCloudError::set_CLOUD_ERROR_CONNECT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3725,7 +3929,7 @@ void OCCloudError::set_CLOUD_ERROR_CONNECT(const Napi::CallbackInfo& info, const
 
 Napi::Value OCCloudError::get_CLOUD_ERROR_REFRESH_ACCESS_TOKEN(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), CLOUD_ERROR_REFRESH_ACCESS_TOKEN);
+  return Napi::Number::New(info.Env(), CLOUD_ERROR_REFRESH_ACCESS_TOKEN);
 }
 
 void OCCloudError::set_CLOUD_ERROR_REFRESH_ACCESS_TOKEN(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3737,6 +3941,14 @@ Napi::FunctionReference OCCloudStatusMask::constructor;
 
 Napi::Function OCCloudStatusMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudStatusMask", {
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_INITIALIZED", &OCCloudStatusMask::get_OC_CLOUD_INITIALIZED, &OCCloudStatusMask::set_OC_CLOUD_INITIALIZED),
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_REGISTERED", &OCCloudStatusMask::get_OC_CLOUD_REGISTERED, &OCCloudStatusMask::set_OC_CLOUD_REGISTERED),
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_LOGGED_IN", &OCCloudStatusMask::get_OC_CLOUD_LOGGED_IN, &OCCloudStatusMask::set_OC_CLOUD_LOGGED_IN),
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_TOKEN_EXPIRY", &OCCloudStatusMask::get_OC_CLOUD_TOKEN_EXPIRY, &OCCloudStatusMask::set_OC_CLOUD_TOKEN_EXPIRY),
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_REFRESHED_TOKEN", &OCCloudStatusMask::get_OC_CLOUD_REFRESHED_TOKEN, &OCCloudStatusMask::set_OC_CLOUD_REFRESHED_TOKEN),
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_LOGGED_OUT", &OCCloudStatusMask::get_OC_CLOUD_LOGGED_OUT, &OCCloudStatusMask::set_OC_CLOUD_LOGGED_OUT),
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_FAILURE", &OCCloudStatusMask::get_OC_CLOUD_FAILURE, &OCCloudStatusMask::set_OC_CLOUD_FAILURE),
+    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_DEREGISTERED", &OCCloudStatusMask::get_OC_CLOUD_DEREGISTERED, &OCCloudStatusMask::set_OC_CLOUD_DEREGISTERED),
 
   });
 
@@ -3760,7 +3972,7 @@ OCCloudStatusMask::OCCloudStatusMask(const Napi::CallbackInfo& info) : ObjectWra
 }
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_INITIALIZED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CLOUD_INITIALIZED);
+  return Napi::Number::New(info.Env(), OC_CLOUD_INITIALIZED);
 }
 
 void OCCloudStatusMask::set_OC_CLOUD_INITIALIZED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3770,7 +3982,7 @@ void OCCloudStatusMask::set_OC_CLOUD_INITIALIZED(const Napi::CallbackInfo& info,
 
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_REGISTERED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CLOUD_REGISTERED);
+  return Napi::Number::New(info.Env(), OC_CLOUD_REGISTERED);
 }
 
 void OCCloudStatusMask::set_OC_CLOUD_REGISTERED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3780,7 +3992,7 @@ void OCCloudStatusMask::set_OC_CLOUD_REGISTERED(const Napi::CallbackInfo& info, 
 
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_LOGGED_IN(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CLOUD_LOGGED_IN);
+  return Napi::Number::New(info.Env(), OC_CLOUD_LOGGED_IN);
 }
 
 void OCCloudStatusMask::set_OC_CLOUD_LOGGED_IN(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3790,7 +4002,7 @@ void OCCloudStatusMask::set_OC_CLOUD_LOGGED_IN(const Napi::CallbackInfo& info, c
 
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_TOKEN_EXPIRY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CLOUD_TOKEN_EXPIRY);
+  return Napi::Number::New(info.Env(), OC_CLOUD_TOKEN_EXPIRY);
 }
 
 void OCCloudStatusMask::set_OC_CLOUD_TOKEN_EXPIRY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3800,7 +4012,7 @@ void OCCloudStatusMask::set_OC_CLOUD_TOKEN_EXPIRY(const Napi::CallbackInfo& info
 
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_REFRESHED_TOKEN(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CLOUD_REFRESHED_TOKEN);
+  return Napi::Number::New(info.Env(), OC_CLOUD_REFRESHED_TOKEN);
 }
 
 void OCCloudStatusMask::set_OC_CLOUD_REFRESHED_TOKEN(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3810,7 +4022,7 @@ void OCCloudStatusMask::set_OC_CLOUD_REFRESHED_TOKEN(const Napi::CallbackInfo& i
 
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_LOGGED_OUT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CLOUD_LOGGED_OUT);
+  return Napi::Number::New(info.Env(), OC_CLOUD_LOGGED_OUT);
 }
 
 void OCCloudStatusMask::set_OC_CLOUD_LOGGED_OUT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3820,7 +4032,7 @@ void OCCloudStatusMask::set_OC_CLOUD_LOGGED_OUT(const Napi::CallbackInfo& info, 
 
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_FAILURE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CLOUD_FAILURE);
+  return Napi::Number::New(info.Env(), OC_CLOUD_FAILURE);
 }
 
 void OCCloudStatusMask::set_OC_CLOUD_FAILURE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3830,7 +4042,7 @@ void OCCloudStatusMask::set_OC_CLOUD_FAILURE(const Napi::CallbackInfo& info, con
 
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_DEREGISTERED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CLOUD_DEREGISTERED);
+  return Napi::Number::New(info.Env(), OC_CLOUD_DEREGISTERED);
 }
 
 void OCCloudStatusMask::set_OC_CLOUD_DEREGISTERED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3842,6 +4054,11 @@ Napi::FunctionReference OCCloudPrivisoningStatus::constructor;
 
 Napi::Function OCCloudPrivisoningStatus::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudPrivisoningStatus", {
+    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_UNINITIALIZED", &OCCloudPrivisoningStatus::get_OC_CPS_UNINITIALIZED, &OCCloudPrivisoningStatus::set_OC_CPS_UNINITIALIZED),
+    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_READYTOREGISTER", &OCCloudPrivisoningStatus::get_OC_CPS_READYTOREGISTER, &OCCloudPrivisoningStatus::set_OC_CPS_READYTOREGISTER),
+    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_REGISTERING", &OCCloudPrivisoningStatus::get_OC_CPS_REGISTERING, &OCCloudPrivisoningStatus::set_OC_CPS_REGISTERING),
+    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_REGISTERED", &OCCloudPrivisoningStatus::get_OC_CPS_REGISTERED, &OCCloudPrivisoningStatus::set_OC_CPS_REGISTERED),
+    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_FAILED", &OCCloudPrivisoningStatus::get_OC_CPS_FAILED, &OCCloudPrivisoningStatus::set_OC_CPS_FAILED),
 
   });
 
@@ -3865,7 +4082,7 @@ OCCloudPrivisoningStatus::OCCloudPrivisoningStatus(const Napi::CallbackInfo& inf
 }
 Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_UNINITIALIZED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CPS_UNINITIALIZED);
+  return Napi::Number::New(info.Env(), OC_CPS_UNINITIALIZED);
 }
 
 void OCCloudPrivisoningStatus::set_OC_CPS_UNINITIALIZED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3875,7 +4092,7 @@ void OCCloudPrivisoningStatus::set_OC_CPS_UNINITIALIZED(const Napi::CallbackInfo
 
 Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_READYTOREGISTER(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CPS_READYTOREGISTER);
+  return Napi::Number::New(info.Env(), OC_CPS_READYTOREGISTER);
 }
 
 void OCCloudPrivisoningStatus::set_OC_CPS_READYTOREGISTER(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3885,7 +4102,7 @@ void OCCloudPrivisoningStatus::set_OC_CPS_READYTOREGISTER(const Napi::CallbackIn
 
 Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_REGISTERING(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CPS_REGISTERING);
+  return Napi::Number::New(info.Env(), OC_CPS_REGISTERING);
 }
 
 void OCCloudPrivisoningStatus::set_OC_CPS_REGISTERING(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3895,7 +4112,7 @@ void OCCloudPrivisoningStatus::set_OC_CPS_REGISTERING(const Napi::CallbackInfo& 
 
 Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_REGISTERED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CPS_REGISTERED);
+  return Napi::Number::New(info.Env(), OC_CPS_REGISTERED);
 }
 
 void OCCloudPrivisoningStatus::set_OC_CPS_REGISTERED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3905,7 +4122,7 @@ void OCCloudPrivisoningStatus::set_OC_CPS_REGISTERED(const Napi::CallbackInfo& i
 
 Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_FAILED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CPS_FAILED);
+  return Napi::Number::New(info.Env(), OC_CPS_FAILED);
 }
 
 void OCCloudPrivisoningStatus::set_OC_CPS_FAILED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3918,6 +4135,10 @@ Napi::FunctionReference tcpCsmState::constructor;
 
 Napi::Function tcpCsmState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "tcpCsmState", {
+    tcpCsmState::InstanceAccessor("CSM_NONE", &tcpCsmState::get_CSM_NONE, &tcpCsmState::set_CSM_NONE),
+    tcpCsmState::InstanceAccessor("CSM_SENT", &tcpCsmState::get_CSM_SENT, &tcpCsmState::set_CSM_SENT),
+    tcpCsmState::InstanceAccessor("CSM_DONE", &tcpCsmState::get_CSM_DONE, &tcpCsmState::set_CSM_DONE),
+    tcpCsmState::InstanceAccessor("CSM_ERROR", &tcpCsmState::get_CSM_ERROR, &tcpCsmState::set_CSM_ERROR),
 
   });
 
@@ -3941,7 +4162,7 @@ tcpCsmState::tcpCsmState(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value tcpCsmState::get_CSM_NONE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), CSM_NONE);
+  return Napi::Number::New(info.Env(), CSM_NONE);
 }
 
 void tcpCsmState::set_CSM_NONE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3951,7 +4172,7 @@ void tcpCsmState::set_CSM_NONE(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value tcpCsmState::get_CSM_SENT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), CSM_SENT);
+  return Napi::Number::New(info.Env(), CSM_SENT);
 }
 
 void tcpCsmState::set_CSM_SENT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3961,7 +4182,7 @@ void tcpCsmState::set_CSM_SENT(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value tcpCsmState::get_CSM_DONE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), CSM_DONE);
+  return Napi::Number::New(info.Env(), CSM_DONE);
 }
 
 void tcpCsmState::set_CSM_DONE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3971,7 +4192,7 @@ void tcpCsmState::set_CSM_DONE(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value tcpCsmState::get_CSM_ERROR(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), CSM_ERROR);
+  return Napi::Number::New(info.Env(), CSM_ERROR);
 }
 
 void tcpCsmState::set_CSM_ERROR(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3984,6 +4205,9 @@ Napi::FunctionReference OCCredType::constructor;
 
 Napi::Function OCCredType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCredType", {
+    OCCredType::InstanceAccessor("OC_CREDTYPE_NULL", &OCCredType::get_OC_CREDTYPE_NULL, &OCCredType::set_OC_CREDTYPE_NULL),
+    OCCredType::InstanceAccessor("OC_CREDTYPE_PSK", &OCCredType::get_OC_CREDTYPE_PSK, &OCCredType::set_OC_CREDTYPE_PSK),
+    OCCredType::InstanceAccessor("OC_CREDTYPE_CERT", &OCCredType::get_OC_CREDTYPE_CERT, &OCCredType::set_OC_CREDTYPE_CERT),
 
   });
 
@@ -4007,7 +4231,7 @@ OCCredType::OCCredType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCCredType::get_OC_CREDTYPE_NULL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CREDTYPE_NULL);
+  return Napi::Number::New(info.Env(), OC_CREDTYPE_NULL);
 }
 
 void OCCredType::set_OC_CREDTYPE_NULL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4017,7 +4241,7 @@ void OCCredType::set_OC_CREDTYPE_NULL(const Napi::CallbackInfo& info, const Napi
 
 Napi::Value OCCredType::get_OC_CREDTYPE_PSK(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CREDTYPE_PSK);
+  return Napi::Number::New(info.Env(), OC_CREDTYPE_PSK);
 }
 
 void OCCredType::set_OC_CREDTYPE_PSK(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4027,7 +4251,7 @@ void OCCredType::set_OC_CREDTYPE_PSK(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCCredType::get_OC_CREDTYPE_CERT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CREDTYPE_CERT);
+  return Napi::Number::New(info.Env(), OC_CREDTYPE_CERT);
 }
 
 void OCCredType::set_OC_CREDTYPE_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4039,6 +4263,12 @@ Napi::FunctionReference OCCredUsage::constructor;
 
 Napi::Function OCCredUsage::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCredUsage", {
+    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_NULL", &OCCredUsage::get_OC_CREDUSAGE_NULL, &OCCredUsage::set_OC_CREDUSAGE_NULL),
+    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_TRUSTCA", &OCCredUsage::get_OC_CREDUSAGE_TRUSTCA, &OCCredUsage::set_OC_CREDUSAGE_TRUSTCA),
+    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_IDENTITY_CERT", &OCCredUsage::get_OC_CREDUSAGE_IDENTITY_CERT, &OCCredUsage::set_OC_CREDUSAGE_IDENTITY_CERT),
+    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_ROLE_CERT", &OCCredUsage::get_OC_CREDUSAGE_ROLE_CERT, &OCCredUsage::set_OC_CREDUSAGE_ROLE_CERT),
+    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_MFG_TRUSTCA", &OCCredUsage::get_OC_CREDUSAGE_MFG_TRUSTCA, &OCCredUsage::set_OC_CREDUSAGE_MFG_TRUSTCA),
+    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_MFG_CERT", &OCCredUsage::get_OC_CREDUSAGE_MFG_CERT, &OCCredUsage::set_OC_CREDUSAGE_MFG_CERT),
 
   });
 
@@ -4062,7 +4292,7 @@ OCCredUsage::OCCredUsage(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCCredUsage::get_OC_CREDUSAGE_NULL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CREDUSAGE_NULL);
+  return Napi::Number::New(info.Env(), OC_CREDUSAGE_NULL);
 }
 
 void OCCredUsage::set_OC_CREDUSAGE_NULL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4072,7 +4302,7 @@ void OCCredUsage::set_OC_CREDUSAGE_NULL(const Napi::CallbackInfo& info, const Na
 
 Napi::Value OCCredUsage::get_OC_CREDUSAGE_TRUSTCA(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CREDUSAGE_TRUSTCA);
+  return Napi::Number::New(info.Env(), OC_CREDUSAGE_TRUSTCA);
 }
 
 void OCCredUsage::set_OC_CREDUSAGE_TRUSTCA(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4082,7 +4312,7 @@ void OCCredUsage::set_OC_CREDUSAGE_TRUSTCA(const Napi::CallbackInfo& info, const
 
 Napi::Value OCCredUsage::get_OC_CREDUSAGE_IDENTITY_CERT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CREDUSAGE_IDENTITY_CERT);
+  return Napi::Number::New(info.Env(), OC_CREDUSAGE_IDENTITY_CERT);
 }
 
 void OCCredUsage::set_OC_CREDUSAGE_IDENTITY_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4092,7 +4322,7 @@ void OCCredUsage::set_OC_CREDUSAGE_IDENTITY_CERT(const Napi::CallbackInfo& info,
 
 Napi::Value OCCredUsage::get_OC_CREDUSAGE_ROLE_CERT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CREDUSAGE_ROLE_CERT);
+  return Napi::Number::New(info.Env(), OC_CREDUSAGE_ROLE_CERT);
 }
 
 void OCCredUsage::set_OC_CREDUSAGE_ROLE_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4102,7 +4332,7 @@ void OCCredUsage::set_OC_CREDUSAGE_ROLE_CERT(const Napi::CallbackInfo& info, con
 
 Napi::Value OCCredUsage::get_OC_CREDUSAGE_MFG_TRUSTCA(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CREDUSAGE_MFG_TRUSTCA);
+  return Napi::Number::New(info.Env(), OC_CREDUSAGE_MFG_TRUSTCA);
 }
 
 void OCCredUsage::set_OC_CREDUSAGE_MFG_TRUSTCA(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4112,7 +4342,7 @@ void OCCredUsage::set_OC_CREDUSAGE_MFG_TRUSTCA(const Napi::CallbackInfo& info, c
 
 Napi::Value OCCredUsage::get_OC_CREDUSAGE_MFG_CERT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_CREDUSAGE_MFG_CERT);
+  return Napi::Number::New(info.Env(), OC_CREDUSAGE_MFG_CERT);
 }
 
 void OCCredUsage::set_OC_CREDUSAGE_MFG_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4124,6 +4354,11 @@ Napi::FunctionReference OCEncoding::constructor;
 
 Napi::Function OCEncoding::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEncoding", {
+    OCEncoding::InstanceAccessor("OC_ENCODING_UNSUPPORTED", &OCEncoding::get_OC_ENCODING_UNSUPPORTED, &OCEncoding::set_OC_ENCODING_UNSUPPORTED),
+    OCEncoding::InstanceAccessor("OC_ENCODING_BASE64", &OCEncoding::get_OC_ENCODING_BASE64, &OCEncoding::set_OC_ENCODING_BASE64),
+    OCEncoding::InstanceAccessor("OC_ENCODING_RAW", &OCEncoding::get_OC_ENCODING_RAW, &OCEncoding::set_OC_ENCODING_RAW),
+    OCEncoding::InstanceAccessor("OC_ENCODING_PEM", &OCEncoding::get_OC_ENCODING_PEM, &OCEncoding::set_OC_ENCODING_PEM),
+    OCEncoding::InstanceAccessor("OC_ENCODING_HANDLE", &OCEncoding::get_OC_ENCODING_HANDLE, &OCEncoding::set_OC_ENCODING_HANDLE),
 
   });
 
@@ -4147,7 +4382,7 @@ OCEncoding::OCEncoding(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCEncoding::get_OC_ENCODING_UNSUPPORTED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENCODING_UNSUPPORTED);
+  return Napi::Number::New(info.Env(), OC_ENCODING_UNSUPPORTED);
 }
 
 void OCEncoding::set_OC_ENCODING_UNSUPPORTED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4157,7 +4392,7 @@ void OCEncoding::set_OC_ENCODING_UNSUPPORTED(const Napi::CallbackInfo& info, con
 
 Napi::Value OCEncoding::get_OC_ENCODING_BASE64(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENCODING_BASE64);
+  return Napi::Number::New(info.Env(), OC_ENCODING_BASE64);
 }
 
 void OCEncoding::set_OC_ENCODING_BASE64(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4167,7 +4402,7 @@ void OCEncoding::set_OC_ENCODING_BASE64(const Napi::CallbackInfo& info, const Na
 
 Napi::Value OCEncoding::get_OC_ENCODING_RAW(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENCODING_RAW);
+  return Napi::Number::New(info.Env(), OC_ENCODING_RAW);
 }
 
 void OCEncoding::set_OC_ENCODING_RAW(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4177,7 +4412,7 @@ void OCEncoding::set_OC_ENCODING_RAW(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCEncoding::get_OC_ENCODING_PEM(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENCODING_PEM);
+  return Napi::Number::New(info.Env(), OC_ENCODING_PEM);
 }
 
 void OCEncoding::set_OC_ENCODING_PEM(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4187,7 +4422,7 @@ void OCEncoding::set_OC_ENCODING_PEM(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCEncoding::get_OC_ENCODING_HANDLE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENCODING_HANDLE);
+  return Napi::Number::New(info.Env(), OC_ENCODING_HANDLE);
 }
 
 void OCEncoding::set_OC_ENCODING_HANDLE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4199,6 +4434,8 @@ Napi::FunctionReference OCFVersion::constructor;
 
 Napi::Function OCFVersion::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCFVersion", {
+    OCFVersion::InstanceAccessor("OCF_VER_1_0_0", &OCFVersion::get_OCF_VER_1_0_0, &OCFVersion::set_OCF_VER_1_0_0),
+    OCFVersion::InstanceAccessor("OIC_VER_1_1_0", &OCFVersion::get_OIC_VER_1_1_0, &OCFVersion::set_OIC_VER_1_1_0),
 
   });
 
@@ -4222,7 +4459,7 @@ OCFVersion::OCFVersion(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCFVersion::get_OCF_VER_1_0_0(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_VER_1_0_0);
+  return Napi::Number::New(info.Env(), OCF_VER_1_0_0);
 }
 
 void OCFVersion::set_OCF_VER_1_0_0(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4232,7 +4469,7 @@ void OCFVersion::set_OCF_VER_1_0_0(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCFVersion::get_OIC_VER_1_1_0(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OIC_VER_1_1_0);
+  return Napi::Number::New(info.Env(), OIC_VER_1_1_0);
 }
 
 void OCFVersion::set_OIC_VER_1_1_0(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4240,10 +4477,17 @@ void OCFVersion::set_OIC_VER_1_1_0(const Napi::CallbackInfo& info, const Napi::V
 
 }
 
-Napi::FunctionReference transportFlags::constructor;
+Napi::FunctionReference OCTransportFlags::constructor;
 
-Napi::Function transportFlags::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "transportFlags", {
+Napi::Function OCTransportFlags::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCTransportFlags", {
+    OCTransportFlags::InstanceAccessor("DISCOVERY", &OCTransportFlags::get_DISCOVERY, &OCTransportFlags::set_DISCOVERY),
+    OCTransportFlags::InstanceAccessor("SECURED", &OCTransportFlags::get_SECURED, &OCTransportFlags::set_SECURED),
+    OCTransportFlags::InstanceAccessor("IPV4", &OCTransportFlags::get_IPV4, &OCTransportFlags::set_IPV4),
+    OCTransportFlags::InstanceAccessor("IPV6", &OCTransportFlags::get_IPV6, &OCTransportFlags::set_IPV6),
+    OCTransportFlags::InstanceAccessor("TCP", &OCTransportFlags::get_TCP, &OCTransportFlags::set_TCP),
+    OCTransportFlags::InstanceAccessor("GATT", &OCTransportFlags::get_GATT, &OCTransportFlags::set_GATT),
+    OCTransportFlags::InstanceAccessor("MULTICAST", &OCTransportFlags::get_MULTICAST, &OCTransportFlags::set_MULTICAST),
 
   });
 
@@ -4252,7 +4496,7 @@ Napi::Function transportFlags::GetClass(Napi::Env env) {
 
   return func;
 }
-transportFlags::transportFlags(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCTransportFlags::OCTransportFlags(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<transport_flags>(new transport_flags());
@@ -4265,72 +4509,72 @@ transportFlags::transportFlags(const Napi::CallbackInfo& info) : ObjectWrap(info
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value transportFlags::get_DISCOVERY(const Napi::CallbackInfo& info)
+Napi::Value OCTransportFlags::get_DISCOVERY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), DISCOVERY);
+  return Napi::Number::New(info.Env(), DISCOVERY);
 }
 
-void transportFlags::set_DISCOVERY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
-Napi::Value transportFlags::get_SECURED(const Napi::CallbackInfo& info)
-{
-return Napi::Number::New(info.Env(), SECURED);
-}
-
-void transportFlags::set_SECURED(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCTransportFlags::set_DISCOVERY(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value transportFlags::get_IPV4(const Napi::CallbackInfo& info)
+Napi::Value OCTransportFlags::get_SECURED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), IPV4);
+  return Napi::Number::New(info.Env(), SECURED);
 }
 
-void transportFlags::set_IPV4(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
-Napi::Value transportFlags::get_IPV6(const Napi::CallbackInfo& info)
-{
-return Napi::Number::New(info.Env(), IPV6);
-}
-
-void transportFlags::set_IPV6(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCTransportFlags::set_SECURED(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value transportFlags::get_TCP(const Napi::CallbackInfo& info)
+Napi::Value OCTransportFlags::get_IPV4(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), TCP);
+  return Napi::Number::New(info.Env(), IPV4);
 }
 
-void transportFlags::set_TCP(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
-Napi::Value transportFlags::get_GATT(const Napi::CallbackInfo& info)
-{
-return Napi::Number::New(info.Env(), GATT);
-}
-
-void transportFlags::set_GATT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCTransportFlags::set_IPV4(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value transportFlags::get_MULTICAST(const Napi::CallbackInfo& info)
+Napi::Value OCTransportFlags::get_IPV6(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), MULTICAST);
+  return Napi::Number::New(info.Env(), IPV6);
 }
 
-void transportFlags::set_MULTICAST(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCTransportFlags::set_IPV6(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value OCTransportFlags::get_TCP(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), TCP);
+}
+
+void OCTransportFlags::set_TCP(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value OCTransportFlags::get_GATT(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), GATT);
+}
+
+void OCTransportFlags::set_GATT(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value OCTransportFlags::get_MULTICAST(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), MULTICAST);
+}
+
+void OCTransportFlags::set_MULTICAST(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
@@ -4339,6 +4583,79 @@ Napi::FunctionReference OCEnum::constructor;
 
 Napi::Function OCEnum::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEnum", {
+    OCEnum::InstanceAccessor("OC_ENUM_ABORTED", &OCEnum::get_OC_ENUM_ABORTED, &OCEnum::set_OC_ENUM_ABORTED),
+    OCEnum::InstanceAccessor("OC_ENUM_ACTIVE", &OCEnum::get_OC_ENUM_ACTIVE, &OCEnum::set_OC_ENUM_ACTIVE),
+    OCEnum::InstanceAccessor("OC_ENUM_AIRDRY", &OCEnum::get_OC_ENUM_AIRDRY, &OCEnum::set_OC_ENUM_AIRDRY),
+    OCEnum::InstanceAccessor("OC_ENUM_ARMEDAWAY", &OCEnum::get_OC_ENUM_ARMEDAWAY, &OCEnum::set_OC_ENUM_ARMEDAWAY),
+    OCEnum::InstanceAccessor("OC_ENUM_ARMEDINSTANT", &OCEnum::get_OC_ENUM_ARMEDINSTANT, &OCEnum::set_OC_ENUM_ARMEDINSTANT),
+    OCEnum::InstanceAccessor("OC_ENUM_ARMEDMAXIMUM", &OCEnum::get_OC_ENUM_ARMEDMAXIMUM, &OCEnum::set_OC_ENUM_ARMEDMAXIMUM),
+    OCEnum::InstanceAccessor("OC_ENUM_ARMEDNIGHTSTAY", &OCEnum::get_OC_ENUM_ARMEDNIGHTSTAY, &OCEnum::set_OC_ENUM_ARMEDNIGHTSTAY),
+    OCEnum::InstanceAccessor("OC_ENUM_ARMEDSTAY", &OCEnum::get_OC_ENUM_ARMEDSTAY, &OCEnum::set_OC_ENUM_ARMEDSTAY),
+    OCEnum::InstanceAccessor("OC_ENUM_AROMA", &OCEnum::get_OC_ENUM_AROMA, &OCEnum::set_OC_ENUM_AROMA),
+    OCEnum::InstanceAccessor("OC_ENUM_AI", &OCEnum::get_OC_ENUM_AI, &OCEnum::set_OC_ENUM_AI),
+    OCEnum::InstanceAccessor("OC_ENUM_AUTO", &OCEnum::get_OC_ENUM_AUTO, &OCEnum::set_OC_ENUM_AUTO),
+    OCEnum::InstanceAccessor("OC_ENUM_BOILING", &OCEnum::get_OC_ENUM_BOILING, &OCEnum::set_OC_ENUM_BOILING),
+    OCEnum::InstanceAccessor("OC_ENUM_BREWING", &OCEnum::get_OC_ENUM_BREWING, &OCEnum::set_OC_ENUM_BREWING),
+    OCEnum::InstanceAccessor("OC_ENUM_CANCELLED", &OCEnum::get_OC_ENUM_CANCELLED, &OCEnum::set_OC_ENUM_CANCELLED),
+    OCEnum::InstanceAccessor("OC_ENUM_CIRCULATING", &OCEnum::get_OC_ENUM_CIRCULATING, &OCEnum::set_OC_ENUM_CIRCULATING),
+    OCEnum::InstanceAccessor("OC_ENUM_CLEANING", &OCEnum::get_OC_ENUM_CLEANING, &OCEnum::set_OC_ENUM_CLEANING),
+    OCEnum::InstanceAccessor("OC_ENUM_CLOTHES", &OCEnum::get_OC_ENUM_CLOTHES, &OCEnum::set_OC_ENUM_CLOTHES),
+    OCEnum::InstanceAccessor("OC_ENUM_COMPLETED", &OCEnum::get_OC_ENUM_COMPLETED, &OCEnum::set_OC_ENUM_COMPLETED),
+    OCEnum::InstanceAccessor("OC_ENUM_COOL", &OCEnum::get_OC_ENUM_COOL, &OCEnum::set_OC_ENUM_COOL),
+    OCEnum::InstanceAccessor("OC_ENUM_DELICATE", &OCEnum::get_OC_ENUM_DELICATE, &OCEnum::set_OC_ENUM_DELICATE),
+    OCEnum::InstanceAccessor("OC_ENUM_DISABLED", &OCEnum::get_OC_ENUM_DISABLED, &OCEnum::set_OC_ENUM_DISABLED),
+    OCEnum::InstanceAccessor("OC_ENUM_DOWN", &OCEnum::get_OC_ENUM_DOWN, &OCEnum::set_OC_ENUM_DOWN),
+    OCEnum::InstanceAccessor("OC_ENUM_DUAL", &OCEnum::get_OC_ENUM_DUAL, &OCEnum::set_OC_ENUM_DUAL),
+    OCEnum::InstanceAccessor("OC_ENUM_DRY", &OCEnum::get_OC_ENUM_DRY, &OCEnum::set_OC_ENUM_DRY),
+    OCEnum::InstanceAccessor("OC_ENUM_ENABLED", &OCEnum::get_OC_ENUM_ENABLED, &OCEnum::set_OC_ENUM_ENABLED),
+    OCEnum::InstanceAccessor("OC_ENUM_EXTENDED", &OCEnum::get_OC_ENUM_EXTENDED, &OCEnum::set_OC_ENUM_EXTENDED),
+    OCEnum::InstanceAccessor("OC_ENUM_FAN", &OCEnum::get_OC_ENUM_FAN, &OCEnum::set_OC_ENUM_FAN),
+    OCEnum::InstanceAccessor("OC_ENUM_FAST", &OCEnum::get_OC_ENUM_FAST, &OCEnum::set_OC_ENUM_FAST),
+    OCEnum::InstanceAccessor("OC_ENUM_FILTERMATERIAL", &OCEnum::get_OC_ENUM_FILTERMATERIAL, &OCEnum::set_OC_ENUM_FILTERMATERIAL),
+    OCEnum::InstanceAccessor("OC_ENUM_FOCUSED", &OCEnum::get_OC_ENUM_FOCUSED, &OCEnum::set_OC_ENUM_FOCUSED),
+    OCEnum::InstanceAccessor("OC_ENUM_GRINDING", &OCEnum::get_OC_ENUM_GRINDING, &OCEnum::set_OC_ENUM_GRINDING),
+    OCEnum::InstanceAccessor("OC_ENUM_HEATING", &OCEnum::get_OC_ENUM_HEATING, &OCEnum::set_OC_ENUM_HEATING),
+    OCEnum::InstanceAccessor("OC_ENUM_HEAVY", &OCEnum::get_OC_ENUM_HEAVY, &OCEnum::set_OC_ENUM_HEAVY),
+    OCEnum::InstanceAccessor("OC_ENUM_IDLE", &OCEnum::get_OC_ENUM_IDLE, &OCEnum::set_OC_ENUM_IDLE),
+    OCEnum::InstanceAccessor("OC_ENUM_INK", &OCEnum::get_OC_ENUM_INK, &OCEnum::set_OC_ENUM_INK),
+    OCEnum::InstanceAccessor("OC_ENUM_INKBLACK", &OCEnum::get_OC_ENUM_INKBLACK, &OCEnum::set_OC_ENUM_INKBLACK),
+    OCEnum::InstanceAccessor("OC_ENUM_INKCYAN", &OCEnum::get_OC_ENUM_INKCYAN, &OCEnum::set_OC_ENUM_INKCYAN),
+    OCEnum::InstanceAccessor("OC_ENUM_INKMAGENTA", &OCEnum::get_OC_ENUM_INKMAGENTA, &OCEnum::set_OC_ENUM_INKMAGENTA),
+    OCEnum::InstanceAccessor("OC_ENUM_INKTRICOLOUR", &OCEnum::get_OC_ENUM_INKTRICOLOUR, &OCEnum::set_OC_ENUM_INKTRICOLOUR),
+    OCEnum::InstanceAccessor("OC_ENUM_INKYELLOW", &OCEnum::get_OC_ENUM_INKYELLOW, &OCEnum::set_OC_ENUM_INKYELLOW),
+    OCEnum::InstanceAccessor("OC_ENUM_KEEPWARM", &OCEnum::get_OC_ENUM_KEEPWARM, &OCEnum::set_OC_ENUM_KEEPWARM),
+    OCEnum::InstanceAccessor("OC_ENUM_NORMAL", &OCEnum::get_OC_ENUM_NORMAL, &OCEnum::set_OC_ENUM_NORMAL),
+    OCEnum::InstanceAccessor("OC_ENUM_NOTSUPPORTED", &OCEnum::get_OC_ENUM_NOTSUPPORTED, &OCEnum::set_OC_ENUM_NOTSUPPORTED),
+    OCEnum::InstanceAccessor("OC_ENUM_PAUSE", &OCEnum::get_OC_ENUM_PAUSE, &OCEnum::set_OC_ENUM_PAUSE),
+    OCEnum::InstanceAccessor("OC_ENUM_PENDING", &OCEnum::get_OC_ENUM_PENDING, &OCEnum::set_OC_ENUM_PENDING),
+    OCEnum::InstanceAccessor("OC_ENUM_PENDINGHELD", &OCEnum::get_OC_ENUM_PENDINGHELD, &OCEnum::set_OC_ENUM_PENDINGHELD),
+    OCEnum::InstanceAccessor("OC_ENUM_PERMAPRESS", &OCEnum::get_OC_ENUM_PERMAPRESS, &OCEnum::set_OC_ENUM_PERMAPRESS),
+    OCEnum::InstanceAccessor("OC_ENUM_PREWASH", &OCEnum::get_OC_ENUM_PREWASH, &OCEnum::set_OC_ENUM_PREWASH),
+    OCEnum::InstanceAccessor("OC_ENUM_PROCESSING", &OCEnum::get_OC_ENUM_PROCESSING, &OCEnum::set_OC_ENUM_PROCESSING),
+    OCEnum::InstanceAccessor("OC_ENUM_PURE", &OCEnum::get_OC_ENUM_PURE, &OCEnum::set_OC_ENUM_PURE),
+    OCEnum::InstanceAccessor("OC_ENUM_QUICK", &OCEnum::get_OC_ENUM_QUICK, &OCEnum::set_OC_ENUM_QUICK),
+    OCEnum::InstanceAccessor("OC_ENUM_QUIET", &OCEnum::get_OC_ENUM_QUIET, &OCEnum::set_OC_ENUM_QUIET),
+    OCEnum::InstanceAccessor("OC_ENUM_RINSE", &OCEnum::get_OC_ENUM_RINSE, &OCEnum::set_OC_ENUM_RINSE),
+    OCEnum::InstanceAccessor("OC_ENUM_SECTORED", &OCEnum::get_OC_ENUM_SECTORED, &OCEnum::set_OC_ENUM_SECTORED),
+    OCEnum::InstanceAccessor("OC_ENUM_SILENT", &OCEnum::get_OC_ENUM_SILENT, &OCEnum::set_OC_ENUM_SILENT),
+    OCEnum::InstanceAccessor("OC_ENUM_SLEEP", &OCEnum::get_OC_ENUM_SLEEP, &OCEnum::set_OC_ENUM_SLEEP),
+    OCEnum::InstanceAccessor("OC_ENUM_SMART", &OCEnum::get_OC_ENUM_SMART, &OCEnum::set_OC_ENUM_SMART),
+    OCEnum::InstanceAccessor("OC_ENUM_SPOT", &OCEnum::get_OC_ENUM_SPOT, &OCEnum::set_OC_ENUM_SPOT),
+    OCEnum::InstanceAccessor("OC_ENUM_STEAM", &OCEnum::get_OC_ENUM_STEAM, &OCEnum::set_OC_ENUM_STEAM),
+    OCEnum::InstanceAccessor("OC_ENUM_STOPPED", &OCEnum::get_OC_ENUM_STOPPED, &OCEnum::set_OC_ENUM_STOPPED),
+    OCEnum::InstanceAccessor("OC_ENUM_SPIN", &OCEnum::get_OC_ENUM_SPIN, &OCEnum::set_OC_ENUM_SPIN),
+    OCEnum::InstanceAccessor("OC_ENUM_TESTING", &OCEnum::get_OC_ENUM_TESTING, &OCEnum::set_OC_ENUM_TESTING),
+    OCEnum::InstanceAccessor("OC_ENUM_TONER", &OCEnum::get_OC_ENUM_TONER, &OCEnum::set_OC_ENUM_TONER),
+    OCEnum::InstanceAccessor("OC_ENUM_TONERBLACK", &OCEnum::get_OC_ENUM_TONERBLACK, &OCEnum::set_OC_ENUM_TONERBLACK),
+    OCEnum::InstanceAccessor("OC_ENUM_TONERCYAN", &OCEnum::get_OC_ENUM_TONERCYAN, &OCEnum::set_OC_ENUM_TONERCYAN),
+    OCEnum::InstanceAccessor("OC_ENUM_TONERMAGENTA", &OCEnum::get_OC_ENUM_TONERMAGENTA, &OCEnum::set_OC_ENUM_TONERMAGENTA),
+    OCEnum::InstanceAccessor("OC_ENUM_TONERYELLOW", &OCEnum::get_OC_ENUM_TONERYELLOW, &OCEnum::set_OC_ENUM_TONERYELLOW),
+    OCEnum::InstanceAccessor("OC_ENUM_WARM", &OCEnum::get_OC_ENUM_WARM, &OCEnum::set_OC_ENUM_WARM),
+    OCEnum::InstanceAccessor("OC_ENUM_WASH", &OCEnum::get_OC_ENUM_WASH, &OCEnum::set_OC_ENUM_WASH),
+    OCEnum::InstanceAccessor("OC_ENUM_WET", &OCEnum::get_OC_ENUM_WET, &OCEnum::set_OC_ENUM_WET),
+    OCEnum::InstanceAccessor("OC_ENUM_WIND", &OCEnum::get_OC_ENUM_WIND, &OCEnum::set_OC_ENUM_WIND),
+    OCEnum::InstanceAccessor("OC_ENUM_WRINKLEPREVENT", &OCEnum::get_OC_ENUM_WRINKLEPREVENT, &OCEnum::set_OC_ENUM_WRINKLEPREVENT),
+    OCEnum::InstanceAccessor("OC_ENUM_ZIGZAG", &OCEnum::get_OC_ENUM_ZIGZAG, &OCEnum::set_OC_ENUM_ZIGZAG),
 
   });
 
@@ -4362,7 +4679,7 @@ OCEnum::OCEnum(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCEnum::get_OC_ENUM_ABORTED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_ABORTED);
+  return Napi::Number::New(info.Env(), OC_ENUM_ABORTED);
 }
 
 void OCEnum::set_OC_ENUM_ABORTED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4372,7 +4689,7 @@ void OCEnum::set_OC_ENUM_ABORTED(const Napi::CallbackInfo& info, const Napi::Val
 
 Napi::Value OCEnum::get_OC_ENUM_ACTIVE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_ACTIVE);
+  return Napi::Number::New(info.Env(), OC_ENUM_ACTIVE);
 }
 
 void OCEnum::set_OC_ENUM_ACTIVE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4382,7 +4699,7 @@ void OCEnum::set_OC_ENUM_ACTIVE(const Napi::CallbackInfo& info, const Napi::Valu
 
 Napi::Value OCEnum::get_OC_ENUM_AIRDRY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_AIRDRY);
+  return Napi::Number::New(info.Env(), OC_ENUM_AIRDRY);
 }
 
 void OCEnum::set_OC_ENUM_AIRDRY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4392,7 +4709,7 @@ void OCEnum::set_OC_ENUM_AIRDRY(const Napi::CallbackInfo& info, const Napi::Valu
 
 Napi::Value OCEnum::get_OC_ENUM_ARMEDAWAY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_ARMEDAWAY);
+  return Napi::Number::New(info.Env(), OC_ENUM_ARMEDAWAY);
 }
 
 void OCEnum::set_OC_ENUM_ARMEDAWAY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4402,7 +4719,7 @@ void OCEnum::set_OC_ENUM_ARMEDAWAY(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCEnum::get_OC_ENUM_ARMEDINSTANT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_ARMEDINSTANT);
+  return Napi::Number::New(info.Env(), OC_ENUM_ARMEDINSTANT);
 }
 
 void OCEnum::set_OC_ENUM_ARMEDINSTANT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4412,7 +4729,7 @@ void OCEnum::set_OC_ENUM_ARMEDINSTANT(const Napi::CallbackInfo& info, const Napi
 
 Napi::Value OCEnum::get_OC_ENUM_ARMEDMAXIMUM(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_ARMEDMAXIMUM);
+  return Napi::Number::New(info.Env(), OC_ENUM_ARMEDMAXIMUM);
 }
 
 void OCEnum::set_OC_ENUM_ARMEDMAXIMUM(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4422,7 +4739,7 @@ void OCEnum::set_OC_ENUM_ARMEDMAXIMUM(const Napi::CallbackInfo& info, const Napi
 
 Napi::Value OCEnum::get_OC_ENUM_ARMEDNIGHTSTAY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_ARMEDNIGHTSTAY);
+  return Napi::Number::New(info.Env(), OC_ENUM_ARMEDNIGHTSTAY);
 }
 
 void OCEnum::set_OC_ENUM_ARMEDNIGHTSTAY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4432,7 +4749,7 @@ void OCEnum::set_OC_ENUM_ARMEDNIGHTSTAY(const Napi::CallbackInfo& info, const Na
 
 Napi::Value OCEnum::get_OC_ENUM_ARMEDSTAY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_ARMEDSTAY);
+  return Napi::Number::New(info.Env(), OC_ENUM_ARMEDSTAY);
 }
 
 void OCEnum::set_OC_ENUM_ARMEDSTAY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4442,7 +4759,7 @@ void OCEnum::set_OC_ENUM_ARMEDSTAY(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCEnum::get_OC_ENUM_AROMA(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_AROMA);
+  return Napi::Number::New(info.Env(), OC_ENUM_AROMA);
 }
 
 void OCEnum::set_OC_ENUM_AROMA(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4452,7 +4769,7 @@ void OCEnum::set_OC_ENUM_AROMA(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value OCEnum::get_OC_ENUM_AI(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_AI);
+  return Napi::Number::New(info.Env(), OC_ENUM_AI);
 }
 
 void OCEnum::set_OC_ENUM_AI(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4462,7 +4779,7 @@ void OCEnum::set_OC_ENUM_AI(const Napi::CallbackInfo& info, const Napi::Value& v
 
 Napi::Value OCEnum::get_OC_ENUM_AUTO(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_AUTO);
+  return Napi::Number::New(info.Env(), OC_ENUM_AUTO);
 }
 
 void OCEnum::set_OC_ENUM_AUTO(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4472,7 +4789,7 @@ void OCEnum::set_OC_ENUM_AUTO(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCEnum::get_OC_ENUM_BOILING(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_BOILING);
+  return Napi::Number::New(info.Env(), OC_ENUM_BOILING);
 }
 
 void OCEnum::set_OC_ENUM_BOILING(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4482,7 +4799,7 @@ void OCEnum::set_OC_ENUM_BOILING(const Napi::CallbackInfo& info, const Napi::Val
 
 Napi::Value OCEnum::get_OC_ENUM_BREWING(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_BREWING);
+  return Napi::Number::New(info.Env(), OC_ENUM_BREWING);
 }
 
 void OCEnum::set_OC_ENUM_BREWING(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4492,7 +4809,7 @@ void OCEnum::set_OC_ENUM_BREWING(const Napi::CallbackInfo& info, const Napi::Val
 
 Napi::Value OCEnum::get_OC_ENUM_CANCELLED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_CANCELLED);
+  return Napi::Number::New(info.Env(), OC_ENUM_CANCELLED);
 }
 
 void OCEnum::set_OC_ENUM_CANCELLED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4502,7 +4819,7 @@ void OCEnum::set_OC_ENUM_CANCELLED(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCEnum::get_OC_ENUM_CIRCULATING(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_CIRCULATING);
+  return Napi::Number::New(info.Env(), OC_ENUM_CIRCULATING);
 }
 
 void OCEnum::set_OC_ENUM_CIRCULATING(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4512,7 +4829,7 @@ void OCEnum::set_OC_ENUM_CIRCULATING(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCEnum::get_OC_ENUM_CLEANING(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_CLEANING);
+  return Napi::Number::New(info.Env(), OC_ENUM_CLEANING);
 }
 
 void OCEnum::set_OC_ENUM_CLEANING(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4522,7 +4839,7 @@ void OCEnum::set_OC_ENUM_CLEANING(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCEnum::get_OC_ENUM_CLOTHES(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_CLOTHES);
+  return Napi::Number::New(info.Env(), OC_ENUM_CLOTHES);
 }
 
 void OCEnum::set_OC_ENUM_CLOTHES(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4532,7 +4849,7 @@ void OCEnum::set_OC_ENUM_CLOTHES(const Napi::CallbackInfo& info, const Napi::Val
 
 Napi::Value OCEnum::get_OC_ENUM_COMPLETED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_COMPLETED);
+  return Napi::Number::New(info.Env(), OC_ENUM_COMPLETED);
 }
 
 void OCEnum::set_OC_ENUM_COMPLETED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4542,7 +4859,7 @@ void OCEnum::set_OC_ENUM_COMPLETED(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCEnum::get_OC_ENUM_COOL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_COOL);
+  return Napi::Number::New(info.Env(), OC_ENUM_COOL);
 }
 
 void OCEnum::set_OC_ENUM_COOL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4552,7 +4869,7 @@ void OCEnum::set_OC_ENUM_COOL(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCEnum::get_OC_ENUM_DELICATE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_DELICATE);
+  return Napi::Number::New(info.Env(), OC_ENUM_DELICATE);
 }
 
 void OCEnum::set_OC_ENUM_DELICATE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4562,7 +4879,7 @@ void OCEnum::set_OC_ENUM_DELICATE(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCEnum::get_OC_ENUM_DISABLED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_DISABLED);
+  return Napi::Number::New(info.Env(), OC_ENUM_DISABLED);
 }
 
 void OCEnum::set_OC_ENUM_DISABLED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4572,7 +4889,7 @@ void OCEnum::set_OC_ENUM_DISABLED(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCEnum::get_OC_ENUM_DOWN(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_DOWN);
+  return Napi::Number::New(info.Env(), OC_ENUM_DOWN);
 }
 
 void OCEnum::set_OC_ENUM_DOWN(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4582,7 +4899,7 @@ void OCEnum::set_OC_ENUM_DOWN(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCEnum::get_OC_ENUM_DUAL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_DUAL);
+  return Napi::Number::New(info.Env(), OC_ENUM_DUAL);
 }
 
 void OCEnum::set_OC_ENUM_DUAL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4592,7 +4909,7 @@ void OCEnum::set_OC_ENUM_DUAL(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCEnum::get_OC_ENUM_DRY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_DRY);
+  return Napi::Number::New(info.Env(), OC_ENUM_DRY);
 }
 
 void OCEnum::set_OC_ENUM_DRY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4602,7 +4919,7 @@ void OCEnum::set_OC_ENUM_DRY(const Napi::CallbackInfo& info, const Napi::Value& 
 
 Napi::Value OCEnum::get_OC_ENUM_ENABLED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_ENABLED);
+  return Napi::Number::New(info.Env(), OC_ENUM_ENABLED);
 }
 
 void OCEnum::set_OC_ENUM_ENABLED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4612,7 +4929,7 @@ void OCEnum::set_OC_ENUM_ENABLED(const Napi::CallbackInfo& info, const Napi::Val
 
 Napi::Value OCEnum::get_OC_ENUM_EXTENDED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_EXTENDED);
+  return Napi::Number::New(info.Env(), OC_ENUM_EXTENDED);
 }
 
 void OCEnum::set_OC_ENUM_EXTENDED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4622,7 +4939,7 @@ void OCEnum::set_OC_ENUM_EXTENDED(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCEnum::get_OC_ENUM_FAN(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_FAN);
+  return Napi::Number::New(info.Env(), OC_ENUM_FAN);
 }
 
 void OCEnum::set_OC_ENUM_FAN(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4632,7 +4949,7 @@ void OCEnum::set_OC_ENUM_FAN(const Napi::CallbackInfo& info, const Napi::Value& 
 
 Napi::Value OCEnum::get_OC_ENUM_FAST(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_FAST);
+  return Napi::Number::New(info.Env(), OC_ENUM_FAST);
 }
 
 void OCEnum::set_OC_ENUM_FAST(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4642,7 +4959,7 @@ void OCEnum::set_OC_ENUM_FAST(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCEnum::get_OC_ENUM_FILTERMATERIAL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_FILTERMATERIAL);
+  return Napi::Number::New(info.Env(), OC_ENUM_FILTERMATERIAL);
 }
 
 void OCEnum::set_OC_ENUM_FILTERMATERIAL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4652,7 +4969,7 @@ void OCEnum::set_OC_ENUM_FILTERMATERIAL(const Napi::CallbackInfo& info, const Na
 
 Napi::Value OCEnum::get_OC_ENUM_FOCUSED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_FOCUSED);
+  return Napi::Number::New(info.Env(), OC_ENUM_FOCUSED);
 }
 
 void OCEnum::set_OC_ENUM_FOCUSED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4662,7 +4979,7 @@ void OCEnum::set_OC_ENUM_FOCUSED(const Napi::CallbackInfo& info, const Napi::Val
 
 Napi::Value OCEnum::get_OC_ENUM_GRINDING(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_GRINDING);
+  return Napi::Number::New(info.Env(), OC_ENUM_GRINDING);
 }
 
 void OCEnum::set_OC_ENUM_GRINDING(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4672,7 +4989,7 @@ void OCEnum::set_OC_ENUM_GRINDING(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCEnum::get_OC_ENUM_HEATING(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_HEATING);
+  return Napi::Number::New(info.Env(), OC_ENUM_HEATING);
 }
 
 void OCEnum::set_OC_ENUM_HEATING(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4682,7 +4999,7 @@ void OCEnum::set_OC_ENUM_HEATING(const Napi::CallbackInfo& info, const Napi::Val
 
 Napi::Value OCEnum::get_OC_ENUM_HEAVY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_HEAVY);
+  return Napi::Number::New(info.Env(), OC_ENUM_HEAVY);
 }
 
 void OCEnum::set_OC_ENUM_HEAVY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4692,7 +5009,7 @@ void OCEnum::set_OC_ENUM_HEAVY(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value OCEnum::get_OC_ENUM_IDLE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_IDLE);
+  return Napi::Number::New(info.Env(), OC_ENUM_IDLE);
 }
 
 void OCEnum::set_OC_ENUM_IDLE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4702,7 +5019,7 @@ void OCEnum::set_OC_ENUM_IDLE(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCEnum::get_OC_ENUM_INK(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_INK);
+  return Napi::Number::New(info.Env(), OC_ENUM_INK);
 }
 
 void OCEnum::set_OC_ENUM_INK(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4712,7 +5029,7 @@ void OCEnum::set_OC_ENUM_INK(const Napi::CallbackInfo& info, const Napi::Value& 
 
 Napi::Value OCEnum::get_OC_ENUM_INKBLACK(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_INKBLACK);
+  return Napi::Number::New(info.Env(), OC_ENUM_INKBLACK);
 }
 
 void OCEnum::set_OC_ENUM_INKBLACK(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4722,7 +5039,7 @@ void OCEnum::set_OC_ENUM_INKBLACK(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCEnum::get_OC_ENUM_INKCYAN(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_INKCYAN);
+  return Napi::Number::New(info.Env(), OC_ENUM_INKCYAN);
 }
 
 void OCEnum::set_OC_ENUM_INKCYAN(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4732,7 +5049,7 @@ void OCEnum::set_OC_ENUM_INKCYAN(const Napi::CallbackInfo& info, const Napi::Val
 
 Napi::Value OCEnum::get_OC_ENUM_INKMAGENTA(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_INKMAGENTA);
+  return Napi::Number::New(info.Env(), OC_ENUM_INKMAGENTA);
 }
 
 void OCEnum::set_OC_ENUM_INKMAGENTA(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4742,7 +5059,7 @@ void OCEnum::set_OC_ENUM_INKMAGENTA(const Napi::CallbackInfo& info, const Napi::
 
 Napi::Value OCEnum::get_OC_ENUM_INKTRICOLOUR(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_INKTRICOLOUR);
+  return Napi::Number::New(info.Env(), OC_ENUM_INKTRICOLOUR);
 }
 
 void OCEnum::set_OC_ENUM_INKTRICOLOUR(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4752,7 +5069,7 @@ void OCEnum::set_OC_ENUM_INKTRICOLOUR(const Napi::CallbackInfo& info, const Napi
 
 Napi::Value OCEnum::get_OC_ENUM_INKYELLOW(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_INKYELLOW);
+  return Napi::Number::New(info.Env(), OC_ENUM_INKYELLOW);
 }
 
 void OCEnum::set_OC_ENUM_INKYELLOW(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4762,7 +5079,7 @@ void OCEnum::set_OC_ENUM_INKYELLOW(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCEnum::get_OC_ENUM_KEEPWARM(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_KEEPWARM);
+  return Napi::Number::New(info.Env(), OC_ENUM_KEEPWARM);
 }
 
 void OCEnum::set_OC_ENUM_KEEPWARM(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4772,7 +5089,7 @@ void OCEnum::set_OC_ENUM_KEEPWARM(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCEnum::get_OC_ENUM_NORMAL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_NORMAL);
+  return Napi::Number::New(info.Env(), OC_ENUM_NORMAL);
 }
 
 void OCEnum::set_OC_ENUM_NORMAL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4782,7 +5099,7 @@ void OCEnum::set_OC_ENUM_NORMAL(const Napi::CallbackInfo& info, const Napi::Valu
 
 Napi::Value OCEnum::get_OC_ENUM_NOTSUPPORTED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_NOTSUPPORTED);
+  return Napi::Number::New(info.Env(), OC_ENUM_NOTSUPPORTED);
 }
 
 void OCEnum::set_OC_ENUM_NOTSUPPORTED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4792,7 +5109,7 @@ void OCEnum::set_OC_ENUM_NOTSUPPORTED(const Napi::CallbackInfo& info, const Napi
 
 Napi::Value OCEnum::get_OC_ENUM_PAUSE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_PAUSE);
+  return Napi::Number::New(info.Env(), OC_ENUM_PAUSE);
 }
 
 void OCEnum::set_OC_ENUM_PAUSE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4802,7 +5119,7 @@ void OCEnum::set_OC_ENUM_PAUSE(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value OCEnum::get_OC_ENUM_PENDING(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_PENDING);
+  return Napi::Number::New(info.Env(), OC_ENUM_PENDING);
 }
 
 void OCEnum::set_OC_ENUM_PENDING(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4812,7 +5129,7 @@ void OCEnum::set_OC_ENUM_PENDING(const Napi::CallbackInfo& info, const Napi::Val
 
 Napi::Value OCEnum::get_OC_ENUM_PENDINGHELD(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_PENDINGHELD);
+  return Napi::Number::New(info.Env(), OC_ENUM_PENDINGHELD);
 }
 
 void OCEnum::set_OC_ENUM_PENDINGHELD(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4822,7 +5139,7 @@ void OCEnum::set_OC_ENUM_PENDINGHELD(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCEnum::get_OC_ENUM_PERMAPRESS(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_PERMAPRESS);
+  return Napi::Number::New(info.Env(), OC_ENUM_PERMAPRESS);
 }
 
 void OCEnum::set_OC_ENUM_PERMAPRESS(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4832,7 +5149,7 @@ void OCEnum::set_OC_ENUM_PERMAPRESS(const Napi::CallbackInfo& info, const Napi::
 
 Napi::Value OCEnum::get_OC_ENUM_PREWASH(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_PREWASH);
+  return Napi::Number::New(info.Env(), OC_ENUM_PREWASH);
 }
 
 void OCEnum::set_OC_ENUM_PREWASH(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4842,7 +5159,7 @@ void OCEnum::set_OC_ENUM_PREWASH(const Napi::CallbackInfo& info, const Napi::Val
 
 Napi::Value OCEnum::get_OC_ENUM_PROCESSING(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_PROCESSING);
+  return Napi::Number::New(info.Env(), OC_ENUM_PROCESSING);
 }
 
 void OCEnum::set_OC_ENUM_PROCESSING(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4852,7 +5169,7 @@ void OCEnum::set_OC_ENUM_PROCESSING(const Napi::CallbackInfo& info, const Napi::
 
 Napi::Value OCEnum::get_OC_ENUM_PURE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_PURE);
+  return Napi::Number::New(info.Env(), OC_ENUM_PURE);
 }
 
 void OCEnum::set_OC_ENUM_PURE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4862,7 +5179,7 @@ void OCEnum::set_OC_ENUM_PURE(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCEnum::get_OC_ENUM_QUICK(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_QUICK);
+  return Napi::Number::New(info.Env(), OC_ENUM_QUICK);
 }
 
 void OCEnum::set_OC_ENUM_QUICK(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4872,7 +5189,7 @@ void OCEnum::set_OC_ENUM_QUICK(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value OCEnum::get_OC_ENUM_QUIET(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_QUIET);
+  return Napi::Number::New(info.Env(), OC_ENUM_QUIET);
 }
 
 void OCEnum::set_OC_ENUM_QUIET(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4882,7 +5199,7 @@ void OCEnum::set_OC_ENUM_QUIET(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value OCEnum::get_OC_ENUM_RINSE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_RINSE);
+  return Napi::Number::New(info.Env(), OC_ENUM_RINSE);
 }
 
 void OCEnum::set_OC_ENUM_RINSE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4892,7 +5209,7 @@ void OCEnum::set_OC_ENUM_RINSE(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value OCEnum::get_OC_ENUM_SECTORED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_SECTORED);
+  return Napi::Number::New(info.Env(), OC_ENUM_SECTORED);
 }
 
 void OCEnum::set_OC_ENUM_SECTORED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4902,7 +5219,7 @@ void OCEnum::set_OC_ENUM_SECTORED(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCEnum::get_OC_ENUM_SILENT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_SILENT);
+  return Napi::Number::New(info.Env(), OC_ENUM_SILENT);
 }
 
 void OCEnum::set_OC_ENUM_SILENT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4912,7 +5229,7 @@ void OCEnum::set_OC_ENUM_SILENT(const Napi::CallbackInfo& info, const Napi::Valu
 
 Napi::Value OCEnum::get_OC_ENUM_SLEEP(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_SLEEP);
+  return Napi::Number::New(info.Env(), OC_ENUM_SLEEP);
 }
 
 void OCEnum::set_OC_ENUM_SLEEP(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4922,7 +5239,7 @@ void OCEnum::set_OC_ENUM_SLEEP(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value OCEnum::get_OC_ENUM_SMART(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_SMART);
+  return Napi::Number::New(info.Env(), OC_ENUM_SMART);
 }
 
 void OCEnum::set_OC_ENUM_SMART(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4932,7 +5249,7 @@ void OCEnum::set_OC_ENUM_SMART(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value OCEnum::get_OC_ENUM_SPOT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_SPOT);
+  return Napi::Number::New(info.Env(), OC_ENUM_SPOT);
 }
 
 void OCEnum::set_OC_ENUM_SPOT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4942,7 +5259,7 @@ void OCEnum::set_OC_ENUM_SPOT(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCEnum::get_OC_ENUM_STEAM(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_STEAM);
+  return Napi::Number::New(info.Env(), OC_ENUM_STEAM);
 }
 
 void OCEnum::set_OC_ENUM_STEAM(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4952,7 +5269,7 @@ void OCEnum::set_OC_ENUM_STEAM(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value OCEnum::get_OC_ENUM_STOPPED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_STOPPED);
+  return Napi::Number::New(info.Env(), OC_ENUM_STOPPED);
 }
 
 void OCEnum::set_OC_ENUM_STOPPED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4962,7 +5279,7 @@ void OCEnum::set_OC_ENUM_STOPPED(const Napi::CallbackInfo& info, const Napi::Val
 
 Napi::Value OCEnum::get_OC_ENUM_SPIN(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_SPIN);
+  return Napi::Number::New(info.Env(), OC_ENUM_SPIN);
 }
 
 void OCEnum::set_OC_ENUM_SPIN(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4972,7 +5289,7 @@ void OCEnum::set_OC_ENUM_SPIN(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCEnum::get_OC_ENUM_TESTING(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_TESTING);
+  return Napi::Number::New(info.Env(), OC_ENUM_TESTING);
 }
 
 void OCEnum::set_OC_ENUM_TESTING(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4982,7 +5299,7 @@ void OCEnum::set_OC_ENUM_TESTING(const Napi::CallbackInfo& info, const Napi::Val
 
 Napi::Value OCEnum::get_OC_ENUM_TONER(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_TONER);
+  return Napi::Number::New(info.Env(), OC_ENUM_TONER);
 }
 
 void OCEnum::set_OC_ENUM_TONER(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4992,7 +5309,7 @@ void OCEnum::set_OC_ENUM_TONER(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value OCEnum::get_OC_ENUM_TONERBLACK(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_TONERBLACK);
+  return Napi::Number::New(info.Env(), OC_ENUM_TONERBLACK);
 }
 
 void OCEnum::set_OC_ENUM_TONERBLACK(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5002,7 +5319,7 @@ void OCEnum::set_OC_ENUM_TONERBLACK(const Napi::CallbackInfo& info, const Napi::
 
 Napi::Value OCEnum::get_OC_ENUM_TONERCYAN(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_TONERCYAN);
+  return Napi::Number::New(info.Env(), OC_ENUM_TONERCYAN);
 }
 
 void OCEnum::set_OC_ENUM_TONERCYAN(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5012,7 +5329,7 @@ void OCEnum::set_OC_ENUM_TONERCYAN(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCEnum::get_OC_ENUM_TONERMAGENTA(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_TONERMAGENTA);
+  return Napi::Number::New(info.Env(), OC_ENUM_TONERMAGENTA);
 }
 
 void OCEnum::set_OC_ENUM_TONERMAGENTA(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5022,7 +5339,7 @@ void OCEnum::set_OC_ENUM_TONERMAGENTA(const Napi::CallbackInfo& info, const Napi
 
 Napi::Value OCEnum::get_OC_ENUM_TONERYELLOW(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_TONERYELLOW);
+  return Napi::Number::New(info.Env(), OC_ENUM_TONERYELLOW);
 }
 
 void OCEnum::set_OC_ENUM_TONERYELLOW(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5032,7 +5349,7 @@ void OCEnum::set_OC_ENUM_TONERYELLOW(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCEnum::get_OC_ENUM_WARM(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_WARM);
+  return Napi::Number::New(info.Env(), OC_ENUM_WARM);
 }
 
 void OCEnum::set_OC_ENUM_WARM(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5042,7 +5359,7 @@ void OCEnum::set_OC_ENUM_WARM(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCEnum::get_OC_ENUM_WASH(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_WASH);
+  return Napi::Number::New(info.Env(), OC_ENUM_WASH);
 }
 
 void OCEnum::set_OC_ENUM_WASH(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5052,7 +5369,7 @@ void OCEnum::set_OC_ENUM_WASH(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCEnum::get_OC_ENUM_WET(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_WET);
+  return Napi::Number::New(info.Env(), OC_ENUM_WET);
 }
 
 void OCEnum::set_OC_ENUM_WET(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5062,7 +5379,7 @@ void OCEnum::set_OC_ENUM_WET(const Napi::CallbackInfo& info, const Napi::Value& 
 
 Napi::Value OCEnum::get_OC_ENUM_WIND(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_WIND);
+  return Napi::Number::New(info.Env(), OC_ENUM_WIND);
 }
 
 void OCEnum::set_OC_ENUM_WIND(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5072,7 +5389,7 @@ void OCEnum::set_OC_ENUM_WIND(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCEnum::get_OC_ENUM_WRINKLEPREVENT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_WRINKLEPREVENT);
+  return Napi::Number::New(info.Env(), OC_ENUM_WRINKLEPREVENT);
 }
 
 void OCEnum::set_OC_ENUM_WRINKLEPREVENT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5082,7 +5399,7 @@ void OCEnum::set_OC_ENUM_WRINKLEPREVENT(const Napi::CallbackInfo& info, const Na
 
 Napi::Value OCEnum::get_OC_ENUM_ZIGZAG(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_ENUM_ZIGZAG);
+  return Napi::Number::New(info.Env(), OC_ENUM_ZIGZAG);
 }
 
 void OCEnum::set_OC_ENUM_ZIGZAG(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5094,6 +5411,20 @@ Napi::FunctionReference OCPositionDescription::constructor;
 
 Napi::Function OCPositionDescription::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCPositionDescription", {
+    OCPositionDescription::InstanceAccessor("OC_POS_UNKNOWN", &OCPositionDescription::get_OC_POS_UNKNOWN, &OCPositionDescription::set_OC_POS_UNKNOWN),
+    OCPositionDescription::InstanceAccessor("OC_POS_TOP", &OCPositionDescription::get_OC_POS_TOP, &OCPositionDescription::set_OC_POS_TOP),
+    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOM", &OCPositionDescription::get_OC_POS_BOTTOM, &OCPositionDescription::set_OC_POS_BOTTOM),
+    OCPositionDescription::InstanceAccessor("OC_POS_LEFT", &OCPositionDescription::get_OC_POS_LEFT, &OCPositionDescription::set_OC_POS_LEFT),
+    OCPositionDescription::InstanceAccessor("OC_POS_RIGHT", &OCPositionDescription::get_OC_POS_RIGHT, &OCPositionDescription::set_OC_POS_RIGHT),
+    OCPositionDescription::InstanceAccessor("OC_POS_CENTRE", &OCPositionDescription::get_OC_POS_CENTRE, &OCPositionDescription::set_OC_POS_CENTRE),
+    OCPositionDescription::InstanceAccessor("OC_POS_TOPLEFT", &OCPositionDescription::get_OC_POS_TOPLEFT, &OCPositionDescription::set_OC_POS_TOPLEFT),
+    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOMLEFT", &OCPositionDescription::get_OC_POS_BOTTOMLEFT, &OCPositionDescription::set_OC_POS_BOTTOMLEFT),
+    OCPositionDescription::InstanceAccessor("OC_POS_CENTRELEFT", &OCPositionDescription::get_OC_POS_CENTRELEFT, &OCPositionDescription::set_OC_POS_CENTRELEFT),
+    OCPositionDescription::InstanceAccessor("OC_POS_CENTRERIGHT", &OCPositionDescription::get_OC_POS_CENTRERIGHT, &OCPositionDescription::set_OC_POS_CENTRERIGHT),
+    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOMRIGHT", &OCPositionDescription::get_OC_POS_BOTTOMRIGHT, &OCPositionDescription::set_OC_POS_BOTTOMRIGHT),
+    OCPositionDescription::InstanceAccessor("OC_POS_TOPRIGHT", &OCPositionDescription::get_OC_POS_TOPRIGHT, &OCPositionDescription::set_OC_POS_TOPRIGHT),
+    OCPositionDescription::InstanceAccessor("OC_POS_TOPCENTRE", &OCPositionDescription::get_OC_POS_TOPCENTRE, &OCPositionDescription::set_OC_POS_TOPCENTRE),
+    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOMCENTRE", &OCPositionDescription::get_OC_POS_BOTTOMCENTRE, &OCPositionDescription::set_OC_POS_BOTTOMCENTRE),
 
   });
 
@@ -5117,7 +5448,7 @@ OCPositionDescription::OCPositionDescription(const Napi::CallbackInfo& info) : O
 }
 Napi::Value OCPositionDescription::get_OC_POS_UNKNOWN(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POS_UNKNOWN);
+  return Napi::Number::New(info.Env(), OC_POS_UNKNOWN);
 }
 
 void OCPositionDescription::set_OC_POS_UNKNOWN(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5127,7 +5458,7 @@ void OCPositionDescription::set_OC_POS_UNKNOWN(const Napi::CallbackInfo& info, c
 
 Napi::Value OCPositionDescription::get_OC_POS_TOP(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POS_TOP);
+  return Napi::Number::New(info.Env(), OC_POS_TOP);
 }
 
 void OCPositionDescription::set_OC_POS_TOP(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5137,7 +5468,7 @@ void OCPositionDescription::set_OC_POS_TOP(const Napi::CallbackInfo& info, const
 
 Napi::Value OCPositionDescription::get_OC_POS_BOTTOM(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POS_BOTTOM);
+  return Napi::Number::New(info.Env(), OC_POS_BOTTOM);
 }
 
 void OCPositionDescription::set_OC_POS_BOTTOM(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5147,7 +5478,7 @@ void OCPositionDescription::set_OC_POS_BOTTOM(const Napi::CallbackInfo& info, co
 
 Napi::Value OCPositionDescription::get_OC_POS_LEFT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POS_LEFT);
+  return Napi::Number::New(info.Env(), OC_POS_LEFT);
 }
 
 void OCPositionDescription::set_OC_POS_LEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5157,7 +5488,7 @@ void OCPositionDescription::set_OC_POS_LEFT(const Napi::CallbackInfo& info, cons
 
 Napi::Value OCPositionDescription::get_OC_POS_RIGHT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POS_RIGHT);
+  return Napi::Number::New(info.Env(), OC_POS_RIGHT);
 }
 
 void OCPositionDescription::set_OC_POS_RIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5167,7 +5498,7 @@ void OCPositionDescription::set_OC_POS_RIGHT(const Napi::CallbackInfo& info, con
 
 Napi::Value OCPositionDescription::get_OC_POS_CENTRE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POS_CENTRE);
+  return Napi::Number::New(info.Env(), OC_POS_CENTRE);
 }
 
 void OCPositionDescription::set_OC_POS_CENTRE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5177,7 +5508,7 @@ void OCPositionDescription::set_OC_POS_CENTRE(const Napi::CallbackInfo& info, co
 
 Napi::Value OCPositionDescription::get_OC_POS_TOPLEFT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POS_TOPLEFT);
+  return Napi::Number::New(info.Env(), OC_POS_TOPLEFT);
 }
 
 void OCPositionDescription::set_OC_POS_TOPLEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5187,7 +5518,7 @@ void OCPositionDescription::set_OC_POS_TOPLEFT(const Napi::CallbackInfo& info, c
 
 Napi::Value OCPositionDescription::get_OC_POS_BOTTOMLEFT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POS_BOTTOMLEFT);
+  return Napi::Number::New(info.Env(), OC_POS_BOTTOMLEFT);
 }
 
 void OCPositionDescription::set_OC_POS_BOTTOMLEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5197,7 +5528,7 @@ void OCPositionDescription::set_OC_POS_BOTTOMLEFT(const Napi::CallbackInfo& info
 
 Napi::Value OCPositionDescription::get_OC_POS_CENTRELEFT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POS_CENTRELEFT);
+  return Napi::Number::New(info.Env(), OC_POS_CENTRELEFT);
 }
 
 void OCPositionDescription::set_OC_POS_CENTRELEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5207,7 +5538,7 @@ void OCPositionDescription::set_OC_POS_CENTRELEFT(const Napi::CallbackInfo& info
 
 Napi::Value OCPositionDescription::get_OC_POS_CENTRERIGHT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POS_CENTRERIGHT);
+  return Napi::Number::New(info.Env(), OC_POS_CENTRERIGHT);
 }
 
 void OCPositionDescription::set_OC_POS_CENTRERIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5217,7 +5548,7 @@ void OCPositionDescription::set_OC_POS_CENTRERIGHT(const Napi::CallbackInfo& inf
 
 Napi::Value OCPositionDescription::get_OC_POS_BOTTOMRIGHT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POS_BOTTOMRIGHT);
+  return Napi::Number::New(info.Env(), OC_POS_BOTTOMRIGHT);
 }
 
 void OCPositionDescription::set_OC_POS_BOTTOMRIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5227,7 +5558,7 @@ void OCPositionDescription::set_OC_POS_BOTTOMRIGHT(const Napi::CallbackInfo& inf
 
 Napi::Value OCPositionDescription::get_OC_POS_TOPRIGHT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POS_TOPRIGHT);
+  return Napi::Number::New(info.Env(), OC_POS_TOPRIGHT);
 }
 
 void OCPositionDescription::set_OC_POS_TOPRIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5237,7 +5568,7 @@ void OCPositionDescription::set_OC_POS_TOPRIGHT(const Napi::CallbackInfo& info, 
 
 Napi::Value OCPositionDescription::get_OC_POS_TOPCENTRE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POS_TOPCENTRE);
+  return Napi::Number::New(info.Env(), OC_POS_TOPCENTRE);
 }
 
 void OCPositionDescription::set_OC_POS_TOPCENTRE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5247,7 +5578,7 @@ void OCPositionDescription::set_OC_POS_TOPCENTRE(const Napi::CallbackInfo& info,
 
 Napi::Value OCPositionDescription::get_OC_POS_BOTTOMCENTRE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POS_BOTTOMCENTRE);
+  return Napi::Number::New(info.Env(), OC_POS_BOTTOMCENTRE);
 }
 
 void OCPositionDescription::set_OC_POS_BOTTOMCENTRE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5260,6 +5591,8 @@ Napi::FunctionReference OCInterfaceEvent::constructor;
 
 Napi::Function OCInterfaceEvent::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCInterfaceEvent", {
+    OCInterfaceEvent::InstanceAccessor("NETWORK_INTERFACE_DOWN", &OCInterfaceEvent::get_NETWORK_INTERFACE_DOWN, &OCInterfaceEvent::set_NETWORK_INTERFACE_DOWN),
+    OCInterfaceEvent::InstanceAccessor("NETWORK_INTERFACE_UP", &OCInterfaceEvent::get_NETWORK_INTERFACE_UP, &OCInterfaceEvent::set_NETWORK_INTERFACE_UP),
 
   });
 
@@ -5283,7 +5616,7 @@ OCInterfaceEvent::OCInterfaceEvent(const Napi::CallbackInfo& info) : ObjectWrap(
 }
 Napi::Value OCInterfaceEvent::get_NETWORK_INTERFACE_DOWN(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), NETWORK_INTERFACE_DOWN);
+  return Napi::Number::New(info.Env(), NETWORK_INTERFACE_DOWN);
 }
 
 void OCInterfaceEvent::set_NETWORK_INTERFACE_DOWN(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5293,7 +5626,7 @@ void OCInterfaceEvent::set_NETWORK_INTERFACE_DOWN(const Napi::CallbackInfo& info
 
 Napi::Value OCInterfaceEvent::get_NETWORK_INTERFACE_UP(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), NETWORK_INTERFACE_UP);
+  return Napi::Number::New(info.Env(), NETWORK_INTERFACE_UP);
 }
 
 void OCInterfaceEvent::set_NETWORK_INTERFACE_UP(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5305,6 +5638,10 @@ Napi::FunctionReference OCSpTypesMask::constructor;
 
 Napi::Function OCSpTypesMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSpTypesMask", {
+    OCSpTypesMask::InstanceAccessor("OC_SP_BASELINE", &OCSpTypesMask::get_OC_SP_BASELINE, &OCSpTypesMask::set_OC_SP_BASELINE),
+    OCSpTypesMask::InstanceAccessor("OC_SP_BLACK", &OCSpTypesMask::get_OC_SP_BLACK, &OCSpTypesMask::set_OC_SP_BLACK),
+    OCSpTypesMask::InstanceAccessor("OC_SP_BLUE", &OCSpTypesMask::get_OC_SP_BLUE, &OCSpTypesMask::set_OC_SP_BLUE),
+    OCSpTypesMask::InstanceAccessor("OC_SP_PURPLE", &OCSpTypesMask::get_OC_SP_PURPLE, &OCSpTypesMask::set_OC_SP_PURPLE),
 
   });
 
@@ -5328,7 +5665,7 @@ OCSpTypesMask::OCSpTypesMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCSpTypesMask::get_OC_SP_BASELINE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SP_BASELINE);
+  return Napi::Number::New(info.Env(), OC_SP_BASELINE);
 }
 
 void OCSpTypesMask::set_OC_SP_BASELINE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5338,7 +5675,7 @@ void OCSpTypesMask::set_OC_SP_BASELINE(const Napi::CallbackInfo& info, const Nap
 
 Napi::Value OCSpTypesMask::get_OC_SP_BLACK(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SP_BLACK);
+  return Napi::Number::New(info.Env(), OC_SP_BLACK);
 }
 
 void OCSpTypesMask::set_OC_SP_BLACK(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5348,7 +5685,7 @@ void OCSpTypesMask::set_OC_SP_BLACK(const Napi::CallbackInfo& info, const Napi::
 
 Napi::Value OCSpTypesMask::get_OC_SP_BLUE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SP_BLUE);
+  return Napi::Number::New(info.Env(), OC_SP_BLUE);
 }
 
 void OCSpTypesMask::set_OC_SP_BLUE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5358,7 +5695,7 @@ void OCSpTypesMask::set_OC_SP_BLUE(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCSpTypesMask::get_OC_SP_PURPLE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SP_PURPLE);
+  return Napi::Number::New(info.Env(), OC_SP_PURPLE);
 }
 
 void OCSpTypesMask::set_OC_SP_PURPLE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5370,6 +5707,20 @@ Napi::FunctionReference OCRepValueType::constructor;
 
 Napi::Function OCRepValueType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCRepValueType", {
+    OCRepValueType::InstanceAccessor("OC_REP_NIL", &OCRepValueType::get_OC_REP_NIL, &OCRepValueType::set_OC_REP_NIL),
+    OCRepValueType::InstanceAccessor("OC_REP_INT", &OCRepValueType::get_OC_REP_INT, &OCRepValueType::set_OC_REP_INT),
+    OCRepValueType::InstanceAccessor("OC_REP_DOUBLE", &OCRepValueType::get_OC_REP_DOUBLE, &OCRepValueType::set_OC_REP_DOUBLE),
+    OCRepValueType::InstanceAccessor("OC_REP_BOOL", &OCRepValueType::get_OC_REP_BOOL, &OCRepValueType::set_OC_REP_BOOL),
+    OCRepValueType::InstanceAccessor("OC_REP_BYTE_STRING", &OCRepValueType::get_OC_REP_BYTE_STRING, &OCRepValueType::set_OC_REP_BYTE_STRING),
+    OCRepValueType::InstanceAccessor("OC_REP_STRING", &OCRepValueType::get_OC_REP_STRING, &OCRepValueType::set_OC_REP_STRING),
+    OCRepValueType::InstanceAccessor("OC_REP_OBJECT", &OCRepValueType::get_OC_REP_OBJECT, &OCRepValueType::set_OC_REP_OBJECT),
+    OCRepValueType::InstanceAccessor("OC_REP_ARRAY", &OCRepValueType::get_OC_REP_ARRAY, &OCRepValueType::set_OC_REP_ARRAY),
+    OCRepValueType::InstanceAccessor("OC_REP_INT_ARRAY", &OCRepValueType::get_OC_REP_INT_ARRAY, &OCRepValueType::set_OC_REP_INT_ARRAY),
+    OCRepValueType::InstanceAccessor("OC_REP_DOUBLE_ARRAY", &OCRepValueType::get_OC_REP_DOUBLE_ARRAY, &OCRepValueType::set_OC_REP_DOUBLE_ARRAY),
+    OCRepValueType::InstanceAccessor("OC_REP_BOOL_ARRAY", &OCRepValueType::get_OC_REP_BOOL_ARRAY, &OCRepValueType::set_OC_REP_BOOL_ARRAY),
+    OCRepValueType::InstanceAccessor("OC_REP_BYTE_STRING_ARRAY", &OCRepValueType::get_OC_REP_BYTE_STRING_ARRAY, &OCRepValueType::set_OC_REP_BYTE_STRING_ARRAY),
+    OCRepValueType::InstanceAccessor("OC_REP_STRING_ARRAY", &OCRepValueType::get_OC_REP_STRING_ARRAY, &OCRepValueType::set_OC_REP_STRING_ARRAY),
+    OCRepValueType::InstanceAccessor("OC_REP_OBJECT_ARRAY", &OCRepValueType::get_OC_REP_OBJECT_ARRAY, &OCRepValueType::set_OC_REP_OBJECT_ARRAY),
 
   });
 
@@ -5393,7 +5744,7 @@ OCRepValueType::OCRepValueType(const Napi::CallbackInfo& info) : ObjectWrap(info
 }
 Napi::Value OCRepValueType::get_OC_REP_NIL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_REP_NIL);
+  return Napi::Number::New(info.Env(), OC_REP_NIL);
 }
 
 void OCRepValueType::set_OC_REP_NIL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5403,7 +5754,7 @@ void OCRepValueType::set_OC_REP_NIL(const Napi::CallbackInfo& info, const Napi::
 
 Napi::Value OCRepValueType::get_OC_REP_INT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_REP_INT);
+  return Napi::Number::New(info.Env(), OC_REP_INT);
 }
 
 void OCRepValueType::set_OC_REP_INT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5413,7 +5764,7 @@ void OCRepValueType::set_OC_REP_INT(const Napi::CallbackInfo& info, const Napi::
 
 Napi::Value OCRepValueType::get_OC_REP_DOUBLE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_REP_DOUBLE);
+  return Napi::Number::New(info.Env(), OC_REP_DOUBLE);
 }
 
 void OCRepValueType::set_OC_REP_DOUBLE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5423,7 +5774,7 @@ void OCRepValueType::set_OC_REP_DOUBLE(const Napi::CallbackInfo& info, const Nap
 
 Napi::Value OCRepValueType::get_OC_REP_BOOL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_REP_BOOL);
+  return Napi::Number::New(info.Env(), OC_REP_BOOL);
 }
 
 void OCRepValueType::set_OC_REP_BOOL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5433,7 +5784,7 @@ void OCRepValueType::set_OC_REP_BOOL(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCRepValueType::get_OC_REP_BYTE_STRING(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_REP_BYTE_STRING);
+  return Napi::Number::New(info.Env(), OC_REP_BYTE_STRING);
 }
 
 void OCRepValueType::set_OC_REP_BYTE_STRING(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5443,7 +5794,7 @@ void OCRepValueType::set_OC_REP_BYTE_STRING(const Napi::CallbackInfo& info, cons
 
 Napi::Value OCRepValueType::get_OC_REP_STRING(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_REP_STRING);
+  return Napi::Number::New(info.Env(), OC_REP_STRING);
 }
 
 void OCRepValueType::set_OC_REP_STRING(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5453,7 +5804,7 @@ void OCRepValueType::set_OC_REP_STRING(const Napi::CallbackInfo& info, const Nap
 
 Napi::Value OCRepValueType::get_OC_REP_OBJECT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_REP_OBJECT);
+  return Napi::Number::New(info.Env(), OC_REP_OBJECT);
 }
 
 void OCRepValueType::set_OC_REP_OBJECT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5463,7 +5814,7 @@ void OCRepValueType::set_OC_REP_OBJECT(const Napi::CallbackInfo& info, const Nap
 
 Napi::Value OCRepValueType::get_OC_REP_ARRAY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_REP_ARRAY);
+  return Napi::Number::New(info.Env(), OC_REP_ARRAY);
 }
 
 void OCRepValueType::set_OC_REP_ARRAY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5473,7 +5824,7 @@ void OCRepValueType::set_OC_REP_ARRAY(const Napi::CallbackInfo& info, const Napi
 
 Napi::Value OCRepValueType::get_OC_REP_INT_ARRAY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_REP_INT_ARRAY);
+  return Napi::Number::New(info.Env(), OC_REP_INT_ARRAY);
 }
 
 void OCRepValueType::set_OC_REP_INT_ARRAY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5483,7 +5834,7 @@ void OCRepValueType::set_OC_REP_INT_ARRAY(const Napi::CallbackInfo& info, const 
 
 Napi::Value OCRepValueType::get_OC_REP_DOUBLE_ARRAY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_REP_DOUBLE_ARRAY);
+  return Napi::Number::New(info.Env(), OC_REP_DOUBLE_ARRAY);
 }
 
 void OCRepValueType::set_OC_REP_DOUBLE_ARRAY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5493,7 +5844,7 @@ void OCRepValueType::set_OC_REP_DOUBLE_ARRAY(const Napi::CallbackInfo& info, con
 
 Napi::Value OCRepValueType::get_OC_REP_BOOL_ARRAY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_REP_BOOL_ARRAY);
+  return Napi::Number::New(info.Env(), OC_REP_BOOL_ARRAY);
 }
 
 void OCRepValueType::set_OC_REP_BOOL_ARRAY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5503,7 +5854,7 @@ void OCRepValueType::set_OC_REP_BOOL_ARRAY(const Napi::CallbackInfo& info, const
 
 Napi::Value OCRepValueType::get_OC_REP_BYTE_STRING_ARRAY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_REP_BYTE_STRING_ARRAY);
+  return Napi::Number::New(info.Env(), OC_REP_BYTE_STRING_ARRAY);
 }
 
 void OCRepValueType::set_OC_REP_BYTE_STRING_ARRAY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5513,7 +5864,7 @@ void OCRepValueType::set_OC_REP_BYTE_STRING_ARRAY(const Napi::CallbackInfo& info
 
 Napi::Value OCRepValueType::get_OC_REP_STRING_ARRAY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_REP_STRING_ARRAY);
+  return Napi::Number::New(info.Env(), OC_REP_STRING_ARRAY);
 }
 
 void OCRepValueType::set_OC_REP_STRING_ARRAY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5523,7 +5874,7 @@ void OCRepValueType::set_OC_REP_STRING_ARRAY(const Napi::CallbackInfo& info, con
 
 Napi::Value OCRepValueType::get_OC_REP_OBJECT_ARRAY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_REP_OBJECT_ARRAY);
+  return Napi::Number::New(info.Env(), OC_REP_OBJECT_ARRAY);
 }
 
 void OCRepValueType::set_OC_REP_OBJECT_ARRAY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5535,6 +5886,30 @@ Napi::FunctionReference OCContentFormat::constructor;
 
 Napi::Function OCContentFormat::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCContentFormat", {
+    OCContentFormat::InstanceAccessor("TEXT_PLAIN", &OCContentFormat::get_TEXT_PLAIN, &OCContentFormat::set_TEXT_PLAIN),
+    OCContentFormat::InstanceAccessor("TEXT_XML", &OCContentFormat::get_TEXT_XML, &OCContentFormat::set_TEXT_XML),
+    OCContentFormat::InstanceAccessor("TEXT_CSV", &OCContentFormat::get_TEXT_CSV, &OCContentFormat::set_TEXT_CSV),
+    OCContentFormat::InstanceAccessor("TEXT_HTML", &OCContentFormat::get_TEXT_HTML, &OCContentFormat::set_TEXT_HTML),
+    OCContentFormat::InstanceAccessor("IMAGE_GIF", &OCContentFormat::get_IMAGE_GIF, &OCContentFormat::set_IMAGE_GIF),
+    OCContentFormat::InstanceAccessor("IMAGE_JPEG", &OCContentFormat::get_IMAGE_JPEG, &OCContentFormat::set_IMAGE_JPEG),
+    OCContentFormat::InstanceAccessor("IMAGE_PNG", &OCContentFormat::get_IMAGE_PNG, &OCContentFormat::set_IMAGE_PNG),
+    OCContentFormat::InstanceAccessor("IMAGE_TIFF", &OCContentFormat::get_IMAGE_TIFF, &OCContentFormat::set_IMAGE_TIFF),
+    OCContentFormat::InstanceAccessor("AUDIO_RAW", &OCContentFormat::get_AUDIO_RAW, &OCContentFormat::set_AUDIO_RAW),
+    OCContentFormat::InstanceAccessor("VIDEO_RAW", &OCContentFormat::get_VIDEO_RAW, &OCContentFormat::set_VIDEO_RAW),
+    OCContentFormat::InstanceAccessor("APPLICATION_LINK_FORMAT", &OCContentFormat::get_APPLICATION_LINK_FORMAT, &OCContentFormat::set_APPLICATION_LINK_FORMAT),
+    OCContentFormat::InstanceAccessor("APPLICATION_XML", &OCContentFormat::get_APPLICATION_XML, &OCContentFormat::set_APPLICATION_XML),
+    OCContentFormat::InstanceAccessor("APPLICATION_OCTET_STREAM", &OCContentFormat::get_APPLICATION_OCTET_STREAM, &OCContentFormat::set_APPLICATION_OCTET_STREAM),
+    OCContentFormat::InstanceAccessor("APPLICATION_RDF_XML", &OCContentFormat::get_APPLICATION_RDF_XML, &OCContentFormat::set_APPLICATION_RDF_XML),
+    OCContentFormat::InstanceAccessor("APPLICATION_SOAP_XML", &OCContentFormat::get_APPLICATION_SOAP_XML, &OCContentFormat::set_APPLICATION_SOAP_XML),
+    OCContentFormat::InstanceAccessor("APPLICATION_ATOM_XML", &OCContentFormat::get_APPLICATION_ATOM_XML, &OCContentFormat::set_APPLICATION_ATOM_XML),
+    OCContentFormat::InstanceAccessor("APPLICATION_XMPP_XML", &OCContentFormat::get_APPLICATION_XMPP_XML, &OCContentFormat::set_APPLICATION_XMPP_XML),
+    OCContentFormat::InstanceAccessor("APPLICATION_EXI", &OCContentFormat::get_APPLICATION_EXI, &OCContentFormat::set_APPLICATION_EXI),
+    OCContentFormat::InstanceAccessor("APPLICATION_FASTINFOSET", &OCContentFormat::get_APPLICATION_FASTINFOSET, &OCContentFormat::set_APPLICATION_FASTINFOSET),
+    OCContentFormat::InstanceAccessor("APPLICATION_SOAP_FASTINFOSET", &OCContentFormat::get_APPLICATION_SOAP_FASTINFOSET, &OCContentFormat::set_APPLICATION_SOAP_FASTINFOSET),
+    OCContentFormat::InstanceAccessor("APPLICATION_JSON", &OCContentFormat::get_APPLICATION_JSON, &OCContentFormat::set_APPLICATION_JSON),
+    OCContentFormat::InstanceAccessor("APPLICATION_X_OBIX_BINARY", &OCContentFormat::get_APPLICATION_X_OBIX_BINARY, &OCContentFormat::set_APPLICATION_X_OBIX_BINARY),
+    OCContentFormat::InstanceAccessor("APPLICATION_CBOR", &OCContentFormat::get_APPLICATION_CBOR, &OCContentFormat::set_APPLICATION_CBOR),
+    OCContentFormat::InstanceAccessor("APPLICATION_VND_OCF_CBOR", &OCContentFormat::get_APPLICATION_VND_OCF_CBOR, &OCContentFormat::set_APPLICATION_VND_OCF_CBOR),
 
   });
 
@@ -5558,7 +5933,7 @@ OCContentFormat::OCContentFormat(const Napi::CallbackInfo& info) : ObjectWrap(in
 }
 Napi::Value OCContentFormat::get_TEXT_PLAIN(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), TEXT_PLAIN);
+  return Napi::Number::New(info.Env(), TEXT_PLAIN);
 }
 
 void OCContentFormat::set_TEXT_PLAIN(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5568,7 +5943,7 @@ void OCContentFormat::set_TEXT_PLAIN(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCContentFormat::get_TEXT_XML(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), TEXT_XML);
+  return Napi::Number::New(info.Env(), TEXT_XML);
 }
 
 void OCContentFormat::set_TEXT_XML(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5578,7 +5953,7 @@ void OCContentFormat::set_TEXT_XML(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCContentFormat::get_TEXT_CSV(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), TEXT_CSV);
+  return Napi::Number::New(info.Env(), TEXT_CSV);
 }
 
 void OCContentFormat::set_TEXT_CSV(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5588,7 +5963,7 @@ void OCContentFormat::set_TEXT_CSV(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCContentFormat::get_TEXT_HTML(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), TEXT_HTML);
+  return Napi::Number::New(info.Env(), TEXT_HTML);
 }
 
 void OCContentFormat::set_TEXT_HTML(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5598,7 +5973,7 @@ void OCContentFormat::set_TEXT_HTML(const Napi::CallbackInfo& info, const Napi::
 
 Napi::Value OCContentFormat::get_IMAGE_GIF(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), IMAGE_GIF);
+  return Napi::Number::New(info.Env(), IMAGE_GIF);
 }
 
 void OCContentFormat::set_IMAGE_GIF(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5608,7 +5983,7 @@ void OCContentFormat::set_IMAGE_GIF(const Napi::CallbackInfo& info, const Napi::
 
 Napi::Value OCContentFormat::get_IMAGE_JPEG(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), IMAGE_JPEG);
+  return Napi::Number::New(info.Env(), IMAGE_JPEG);
 }
 
 void OCContentFormat::set_IMAGE_JPEG(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5618,7 +5993,7 @@ void OCContentFormat::set_IMAGE_JPEG(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCContentFormat::get_IMAGE_PNG(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), IMAGE_PNG);
+  return Napi::Number::New(info.Env(), IMAGE_PNG);
 }
 
 void OCContentFormat::set_IMAGE_PNG(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5628,7 +6003,7 @@ void OCContentFormat::set_IMAGE_PNG(const Napi::CallbackInfo& info, const Napi::
 
 Napi::Value OCContentFormat::get_IMAGE_TIFF(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), IMAGE_TIFF);
+  return Napi::Number::New(info.Env(), IMAGE_TIFF);
 }
 
 void OCContentFormat::set_IMAGE_TIFF(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5638,7 +6013,7 @@ void OCContentFormat::set_IMAGE_TIFF(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCContentFormat::get_AUDIO_RAW(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), AUDIO_RAW);
+  return Napi::Number::New(info.Env(), AUDIO_RAW);
 }
 
 void OCContentFormat::set_AUDIO_RAW(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5648,7 +6023,7 @@ void OCContentFormat::set_AUDIO_RAW(const Napi::CallbackInfo& info, const Napi::
 
 Napi::Value OCContentFormat::get_VIDEO_RAW(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), VIDEO_RAW);
+  return Napi::Number::New(info.Env(), VIDEO_RAW);
 }
 
 void OCContentFormat::set_VIDEO_RAW(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5658,7 +6033,7 @@ void OCContentFormat::set_VIDEO_RAW(const Napi::CallbackInfo& info, const Napi::
 
 Napi::Value OCContentFormat::get_APPLICATION_LINK_FORMAT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), APPLICATION_LINK_FORMAT);
+  return Napi::Number::New(info.Env(), APPLICATION_LINK_FORMAT);
 }
 
 void OCContentFormat::set_APPLICATION_LINK_FORMAT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5668,7 +6043,7 @@ void OCContentFormat::set_APPLICATION_LINK_FORMAT(const Napi::CallbackInfo& info
 
 Napi::Value OCContentFormat::get_APPLICATION_XML(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), APPLICATION_XML);
+  return Napi::Number::New(info.Env(), APPLICATION_XML);
 }
 
 void OCContentFormat::set_APPLICATION_XML(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5678,7 +6053,7 @@ void OCContentFormat::set_APPLICATION_XML(const Napi::CallbackInfo& info, const 
 
 Napi::Value OCContentFormat::get_APPLICATION_OCTET_STREAM(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), APPLICATION_OCTET_STREAM);
+  return Napi::Number::New(info.Env(), APPLICATION_OCTET_STREAM);
 }
 
 void OCContentFormat::set_APPLICATION_OCTET_STREAM(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5688,7 +6063,7 @@ void OCContentFormat::set_APPLICATION_OCTET_STREAM(const Napi::CallbackInfo& inf
 
 Napi::Value OCContentFormat::get_APPLICATION_RDF_XML(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), APPLICATION_RDF_XML);
+  return Napi::Number::New(info.Env(), APPLICATION_RDF_XML);
 }
 
 void OCContentFormat::set_APPLICATION_RDF_XML(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5698,7 +6073,7 @@ void OCContentFormat::set_APPLICATION_RDF_XML(const Napi::CallbackInfo& info, co
 
 Napi::Value OCContentFormat::get_APPLICATION_SOAP_XML(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), APPLICATION_SOAP_XML);
+  return Napi::Number::New(info.Env(), APPLICATION_SOAP_XML);
 }
 
 void OCContentFormat::set_APPLICATION_SOAP_XML(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5708,7 +6083,7 @@ void OCContentFormat::set_APPLICATION_SOAP_XML(const Napi::CallbackInfo& info, c
 
 Napi::Value OCContentFormat::get_APPLICATION_ATOM_XML(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), APPLICATION_ATOM_XML);
+  return Napi::Number::New(info.Env(), APPLICATION_ATOM_XML);
 }
 
 void OCContentFormat::set_APPLICATION_ATOM_XML(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5718,7 +6093,7 @@ void OCContentFormat::set_APPLICATION_ATOM_XML(const Napi::CallbackInfo& info, c
 
 Napi::Value OCContentFormat::get_APPLICATION_XMPP_XML(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), APPLICATION_XMPP_XML);
+  return Napi::Number::New(info.Env(), APPLICATION_XMPP_XML);
 }
 
 void OCContentFormat::set_APPLICATION_XMPP_XML(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5728,7 +6103,7 @@ void OCContentFormat::set_APPLICATION_XMPP_XML(const Napi::CallbackInfo& info, c
 
 Napi::Value OCContentFormat::get_APPLICATION_EXI(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), APPLICATION_EXI);
+  return Napi::Number::New(info.Env(), APPLICATION_EXI);
 }
 
 void OCContentFormat::set_APPLICATION_EXI(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5738,7 +6113,7 @@ void OCContentFormat::set_APPLICATION_EXI(const Napi::CallbackInfo& info, const 
 
 Napi::Value OCContentFormat::get_APPLICATION_FASTINFOSET(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), APPLICATION_FASTINFOSET);
+  return Napi::Number::New(info.Env(), APPLICATION_FASTINFOSET);
 }
 
 void OCContentFormat::set_APPLICATION_FASTINFOSET(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5748,7 +6123,7 @@ void OCContentFormat::set_APPLICATION_FASTINFOSET(const Napi::CallbackInfo& info
 
 Napi::Value OCContentFormat::get_APPLICATION_SOAP_FASTINFOSET(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), APPLICATION_SOAP_FASTINFOSET);
+  return Napi::Number::New(info.Env(), APPLICATION_SOAP_FASTINFOSET);
 }
 
 void OCContentFormat::set_APPLICATION_SOAP_FASTINFOSET(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5758,7 +6133,7 @@ void OCContentFormat::set_APPLICATION_SOAP_FASTINFOSET(const Napi::CallbackInfo&
 
 Napi::Value OCContentFormat::get_APPLICATION_JSON(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), APPLICATION_JSON);
+  return Napi::Number::New(info.Env(), APPLICATION_JSON);
 }
 
 void OCContentFormat::set_APPLICATION_JSON(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5768,7 +6143,7 @@ void OCContentFormat::set_APPLICATION_JSON(const Napi::CallbackInfo& info, const
 
 Napi::Value OCContentFormat::get_APPLICATION_X_OBIX_BINARY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), APPLICATION_X_OBIX_BINARY);
+  return Napi::Number::New(info.Env(), APPLICATION_X_OBIX_BINARY);
 }
 
 void OCContentFormat::set_APPLICATION_X_OBIX_BINARY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5778,7 +6153,7 @@ void OCContentFormat::set_APPLICATION_X_OBIX_BINARY(const Napi::CallbackInfo& in
 
 Napi::Value OCContentFormat::get_APPLICATION_CBOR(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), APPLICATION_CBOR);
+  return Napi::Number::New(info.Env(), APPLICATION_CBOR);
 }
 
 void OCContentFormat::set_APPLICATION_CBOR(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5788,7 +6163,7 @@ void OCContentFormat::set_APPLICATION_CBOR(const Napi::CallbackInfo& info, const
 
 Napi::Value OCContentFormat::get_APPLICATION_VND_OCF_CBOR(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), APPLICATION_VND_OCF_CBOR);
+  return Napi::Number::New(info.Env(), APPLICATION_VND_OCF_CBOR);
 }
 
 void OCContentFormat::set_APPLICATION_VND_OCF_CBOR(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5800,42 +6175,48 @@ Napi::FunctionReference OCCoreRes::constructor;
 
 Napi::Function OCCoreRes::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCoreRes", {
+    OCCoreRes::InstanceAccessor("OCF_P", &OCCoreRes::get_OCF_P, &OCCoreRes::set_OCF_P),
+    OCCoreRes::InstanceAccessor("OCF_CON", &OCCoreRes::get_OCF_CON, &OCCoreRes::set_OCF_CON),
+    OCCoreRes::InstanceAccessor("OCF_INTROSPECTION_WK", &OCCoreRes::get_OCF_INTROSPECTION_WK, &OCCoreRes::set_OCF_INTROSPECTION_WK),
+    OCCoreRes::InstanceAccessor("OCF_INTROSPECTION_DATA", &OCCoreRes::get_OCF_INTROSPECTION_DATA, &OCCoreRes::set_OCF_INTROSPECTION_DATA),
+    OCCoreRes::InstanceAccessor("OCF_RES", &OCCoreRes::get_OCF_RES, &OCCoreRes::set_OCF_RES),
 #ifdef OC_MNT
-    OCCoreRes::InstanceAccessor("OCF_MNT", &OCCoreRes::get_OCF_MNT, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_MNT", &OCCoreRes::get_OCF_MNT, &OCCoreRes::set_OCF_MNT),
 #endif
 #ifdef OC_CLOUD
-    OCCoreRes::InstanceAccessor("OCF_COAPCLOUDCONF", &OCCoreRes::get_OCF_COAPCLOUDCONF, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_COAPCLOUDCONF", &OCCoreRes::get_OCF_COAPCLOUDCONF, &OCCoreRes::set_OCF_COAPCLOUDCONF),
 #endif
 #ifdef OC_SOFTWARE_UPDATE
-    OCCoreRes::InstanceAccessor("OCF_SW_UPDATE", &OCCoreRes::get_OCF_SW_UPDATE, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SW_UPDATE", &OCCoreRes::get_OCF_SW_UPDATE, &OCCoreRes::set_OCF_SW_UPDATE),
 #endif
 #ifdef OC_SECURITY
-    OCCoreRes::InstanceAccessor("OCF_SEC_DOXM", &OCCoreRes::get_OCF_SEC_DOXM, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_DOXM", &OCCoreRes::get_OCF_SEC_DOXM, &OCCoreRes::set_OCF_SEC_DOXM),
 #endif
 #ifdef OC_SECURITY
-    OCCoreRes::InstanceAccessor("OCF_SEC_PSTAT", &OCCoreRes::get_OCF_SEC_PSTAT, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_PSTAT", &OCCoreRes::get_OCF_SEC_PSTAT, &OCCoreRes::set_OCF_SEC_PSTAT),
 #endif
 #ifdef OC_SECURITY
-    OCCoreRes::InstanceAccessor("OCF_SEC_ACL", &OCCoreRes::get_OCF_SEC_ACL, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_ACL", &OCCoreRes::get_OCF_SEC_ACL, &OCCoreRes::set_OCF_SEC_ACL),
 #endif
 #ifdef OC_SECURITY
-    OCCoreRes::InstanceAccessor("OCF_SEC_AEL", &OCCoreRes::get_OCF_SEC_AEL, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_AEL", &OCCoreRes::get_OCF_SEC_AEL, &OCCoreRes::set_OCF_SEC_AEL),
 #endif
 #ifdef OC_SECURITY
-    OCCoreRes::InstanceAccessor("OCF_SEC_CRED", &OCCoreRes::get_OCF_SEC_CRED, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_CRED", &OCCoreRes::get_OCF_SEC_CRED, &OCCoreRes::set_OCF_SEC_CRED),
 #endif
 #ifdef OC_SECURITY
-    OCCoreRes::InstanceAccessor("OCF_SEC_SDI", &OCCoreRes::get_OCF_SEC_SDI, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_SDI", &OCCoreRes::get_OCF_SEC_SDI, &OCCoreRes::set_OCF_SEC_SDI),
 #endif
 #ifdef OC_SECURITY
-    OCCoreRes::InstanceAccessor("OCF_SEC_SP", &OCCoreRes::get_OCF_SEC_SP, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_SP", &OCCoreRes::get_OCF_SEC_SP, &OCCoreRes::set_OCF_SEC_SP),
 #endif
 #ifdef OC_PKI
-    OCCoreRes::InstanceAccessor("OCF_SEC_CSR", &OCCoreRes::get_OCF_SEC_CSR, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_CSR", &OCCoreRes::get_OCF_SEC_CSR, &OCCoreRes::set_OCF_SEC_CSR),
 #endif
 #ifdef OC_PKI
-    OCCoreRes::InstanceAccessor("OCF_SEC_ROLES", &OCCoreRes::get_OCF_SEC_ROLES, nullptr),
+    OCCoreRes::InstanceAccessor("OCF_SEC_ROLES", &OCCoreRes::get_OCF_SEC_ROLES, &OCCoreRes::set_OCF_SEC_ROLES),
 #endif
+    OCCoreRes::InstanceAccessor("OCF_D", &OCCoreRes::get_OCF_D, &OCCoreRes::set_OCF_D),
 
   });
 
@@ -5859,7 +6240,7 @@ OCCoreRes::OCCoreRes(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCCoreRes::get_OCF_P(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_P);
+  return Napi::Number::New(info.Env(), OCF_P);
 }
 
 void OCCoreRes::set_OCF_P(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5869,7 +6250,7 @@ void OCCoreRes::set_OCF_P(const Napi::CallbackInfo& info, const Napi::Value& val
 
 Napi::Value OCCoreRes::get_OCF_CON(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_CON);
+  return Napi::Number::New(info.Env(), OCF_CON);
 }
 
 void OCCoreRes::set_OCF_CON(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5879,7 +6260,7 @@ void OCCoreRes::set_OCF_CON(const Napi::CallbackInfo& info, const Napi::Value& v
 
 Napi::Value OCCoreRes::get_OCF_INTROSPECTION_WK(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_INTROSPECTION_WK);
+  return Napi::Number::New(info.Env(), OCF_INTROSPECTION_WK);
 }
 
 void OCCoreRes::set_OCF_INTROSPECTION_WK(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5889,7 +6270,7 @@ void OCCoreRes::set_OCF_INTROSPECTION_WK(const Napi::CallbackInfo& info, const N
 
 Napi::Value OCCoreRes::get_OCF_INTROSPECTION_DATA(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_INTROSPECTION_DATA);
+  return Napi::Number::New(info.Env(), OCF_INTROSPECTION_DATA);
 }
 
 void OCCoreRes::set_OCF_INTROSPECTION_DATA(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5899,7 +6280,7 @@ void OCCoreRes::set_OCF_INTROSPECTION_DATA(const Napi::CallbackInfo& info, const
 
 Napi::Value OCCoreRes::get_OCF_RES(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_RES);
+  return Napi::Number::New(info.Env(), OCF_RES);
 }
 
 void OCCoreRes::set_OCF_RES(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5910,7 +6291,7 @@ void OCCoreRes::set_OCF_RES(const Napi::CallbackInfo& info, const Napi::Value& v
 #ifdef OC_MNT
 Napi::Value OCCoreRes::get_OCF_MNT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_MNT);
+  return Napi::Number::New(info.Env(), OCF_MNT);
 }
 
 void OCCoreRes::set_OCF_MNT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5922,7 +6303,7 @@ void OCCoreRes::set_OCF_MNT(const Napi::CallbackInfo& info, const Napi::Value& v
 #ifdef OC_CLOUD
 Napi::Value OCCoreRes::get_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_COAPCLOUDCONF);
+  return Napi::Number::New(info.Env(), OCF_COAPCLOUDCONF);
 }
 
 void OCCoreRes::set_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5934,7 +6315,7 @@ void OCCoreRes::set_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info, const Napi
 #ifdef OC_SOFTWARE_UPDATE
 Napi::Value OCCoreRes::get_OCF_SW_UPDATE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_SW_UPDATE);
+  return Napi::Number::New(info.Env(), OCF_SW_UPDATE);
 }
 
 void OCCoreRes::set_OCF_SW_UPDATE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5946,7 +6327,7 @@ void OCCoreRes::set_OCF_SW_UPDATE(const Napi::CallbackInfo& info, const Napi::Va
 #ifdef OC_SECURITY
 Napi::Value OCCoreRes::get_OCF_SEC_DOXM(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_SEC_DOXM);
+  return Napi::Number::New(info.Env(), OCF_SEC_DOXM);
 }
 
 void OCCoreRes::set_OCF_SEC_DOXM(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5958,7 +6339,7 @@ void OCCoreRes::set_OCF_SEC_DOXM(const Napi::CallbackInfo& info, const Napi::Val
 #ifdef OC_SECURITY
 Napi::Value OCCoreRes::get_OCF_SEC_PSTAT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_SEC_PSTAT);
+  return Napi::Number::New(info.Env(), OCF_SEC_PSTAT);
 }
 
 void OCCoreRes::set_OCF_SEC_PSTAT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5970,7 +6351,7 @@ void OCCoreRes::set_OCF_SEC_PSTAT(const Napi::CallbackInfo& info, const Napi::Va
 #ifdef OC_SECURITY
 Napi::Value OCCoreRes::get_OCF_SEC_ACL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_SEC_ACL);
+  return Napi::Number::New(info.Env(), OCF_SEC_ACL);
 }
 
 void OCCoreRes::set_OCF_SEC_ACL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5982,7 +6363,7 @@ void OCCoreRes::set_OCF_SEC_ACL(const Napi::CallbackInfo& info, const Napi::Valu
 #ifdef OC_SECURITY
 Napi::Value OCCoreRes::get_OCF_SEC_AEL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_SEC_AEL);
+  return Napi::Number::New(info.Env(), OCF_SEC_AEL);
 }
 
 void OCCoreRes::set_OCF_SEC_AEL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5994,7 +6375,7 @@ void OCCoreRes::set_OCF_SEC_AEL(const Napi::CallbackInfo& info, const Napi::Valu
 #ifdef OC_SECURITY
 Napi::Value OCCoreRes::get_OCF_SEC_CRED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_SEC_CRED);
+  return Napi::Number::New(info.Env(), OCF_SEC_CRED);
 }
 
 void OCCoreRes::set_OCF_SEC_CRED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6006,7 +6387,7 @@ void OCCoreRes::set_OCF_SEC_CRED(const Napi::CallbackInfo& info, const Napi::Val
 #ifdef OC_SECURITY
 Napi::Value OCCoreRes::get_OCF_SEC_SDI(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_SEC_SDI);
+  return Napi::Number::New(info.Env(), OCF_SEC_SDI);
 }
 
 void OCCoreRes::set_OCF_SEC_SDI(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6018,7 +6399,7 @@ void OCCoreRes::set_OCF_SEC_SDI(const Napi::CallbackInfo& info, const Napi::Valu
 #ifdef OC_SECURITY
 Napi::Value OCCoreRes::get_OCF_SEC_SP(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_SEC_SP);
+  return Napi::Number::New(info.Env(), OCF_SEC_SP);
 }
 
 void OCCoreRes::set_OCF_SEC_SP(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6030,7 +6411,7 @@ void OCCoreRes::set_OCF_SEC_SP(const Napi::CallbackInfo& info, const Napi::Value
 #ifdef OC_PKI
 Napi::Value OCCoreRes::get_OCF_SEC_CSR(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_SEC_CSR);
+  return Napi::Number::New(info.Env(), OCF_SEC_CSR);
 }
 
 void OCCoreRes::set_OCF_SEC_CSR(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6042,7 +6423,7 @@ void OCCoreRes::set_OCF_SEC_CSR(const Napi::CallbackInfo& info, const Napi::Valu
 #ifdef OC_PKI
 Napi::Value OCCoreRes::get_OCF_SEC_ROLES(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_SEC_ROLES);
+  return Napi::Number::New(info.Env(), OCF_SEC_ROLES);
 }
 
 void OCCoreRes::set_OCF_SEC_ROLES(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6053,7 +6434,7 @@ void OCCoreRes::set_OCF_SEC_ROLES(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCCoreRes::get_OCF_D(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OCF_D);
+  return Napi::Number::New(info.Env(), OCF_D);
 }
 
 void OCCoreRes::set_OCF_D(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6065,6 +6446,8 @@ Napi::FunctionReference OCEventCallbackResult::constructor;
 
 Napi::Function OCEventCallbackResult::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEventCallbackResult", {
+    OCEventCallbackResult::InstanceAccessor("OC_EVENT_DONE", &OCEventCallbackResult::get_OC_EVENT_DONE, &OCEventCallbackResult::set_OC_EVENT_DONE),
+    OCEventCallbackResult::InstanceAccessor("OC_EVENT_CONTINUE", &OCEventCallbackResult::get_OC_EVENT_CONTINUE, &OCEventCallbackResult::set_OC_EVENT_CONTINUE),
 
   });
 
@@ -6088,7 +6471,7 @@ OCEventCallbackResult::OCEventCallbackResult(const Napi::CallbackInfo& info) : O
 }
 Napi::Value OCEventCallbackResult::get_OC_EVENT_DONE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_EVENT_DONE);
+  return Napi::Number::New(info.Env(), OC_EVENT_DONE);
 }
 
 void OCEventCallbackResult::set_OC_EVENT_DONE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6098,7 +6481,7 @@ void OCEventCallbackResult::set_OC_EVENT_DONE(const Napi::CallbackInfo& info, co
 
 Napi::Value OCEventCallbackResult::get_OC_EVENT_CONTINUE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_EVENT_CONTINUE);
+  return Napi::Number::New(info.Env(), OC_EVENT_CONTINUE);
 }
 
 void OCEventCallbackResult::set_OC_EVENT_CONTINUE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6110,6 +6493,14 @@ Napi::FunctionReference OCInterfaceMask::constructor;
 
 Napi::Function OCInterfaceMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCInterfaceMask", {
+    OCInterfaceMask::InstanceAccessor("OC_IF_BASELINE", &OCInterfaceMask::get_OC_IF_BASELINE, &OCInterfaceMask::set_OC_IF_BASELINE),
+    OCInterfaceMask::InstanceAccessor("OC_IF_LL", &OCInterfaceMask::get_OC_IF_LL, &OCInterfaceMask::set_OC_IF_LL),
+    OCInterfaceMask::InstanceAccessor("OC_IF_B", &OCInterfaceMask::get_OC_IF_B, &OCInterfaceMask::set_OC_IF_B),
+    OCInterfaceMask::InstanceAccessor("OC_IF_R", &OCInterfaceMask::get_OC_IF_R, &OCInterfaceMask::set_OC_IF_R),
+    OCInterfaceMask::InstanceAccessor("OC_IF_RW", &OCInterfaceMask::get_OC_IF_RW, &OCInterfaceMask::set_OC_IF_RW),
+    OCInterfaceMask::InstanceAccessor("OC_IF_A", &OCInterfaceMask::get_OC_IF_A, &OCInterfaceMask::set_OC_IF_A),
+    OCInterfaceMask::InstanceAccessor("OC_IF_S", &OCInterfaceMask::get_OC_IF_S, &OCInterfaceMask::set_OC_IF_S),
+    OCInterfaceMask::InstanceAccessor("OC_IF_CREATE", &OCInterfaceMask::get_OC_IF_CREATE, &OCInterfaceMask::set_OC_IF_CREATE),
 
   });
 
@@ -6133,7 +6524,7 @@ OCInterfaceMask::OCInterfaceMask(const Napi::CallbackInfo& info) : ObjectWrap(in
 }
 Napi::Value OCInterfaceMask::get_OC_IF_BASELINE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_IF_BASELINE);
+  return Napi::Number::New(info.Env(), OC_IF_BASELINE);
 }
 
 void OCInterfaceMask::set_OC_IF_BASELINE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6143,7 +6534,7 @@ void OCInterfaceMask::set_OC_IF_BASELINE(const Napi::CallbackInfo& info, const N
 
 Napi::Value OCInterfaceMask::get_OC_IF_LL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_IF_LL);
+  return Napi::Number::New(info.Env(), OC_IF_LL);
 }
 
 void OCInterfaceMask::set_OC_IF_LL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6153,7 +6544,7 @@ void OCInterfaceMask::set_OC_IF_LL(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCInterfaceMask::get_OC_IF_B(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_IF_B);
+  return Napi::Number::New(info.Env(), OC_IF_B);
 }
 
 void OCInterfaceMask::set_OC_IF_B(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6163,7 +6554,7 @@ void OCInterfaceMask::set_OC_IF_B(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCInterfaceMask::get_OC_IF_R(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_IF_R);
+  return Napi::Number::New(info.Env(), OC_IF_R);
 }
 
 void OCInterfaceMask::set_OC_IF_R(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6173,7 +6564,7 @@ void OCInterfaceMask::set_OC_IF_R(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCInterfaceMask::get_OC_IF_RW(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_IF_RW);
+  return Napi::Number::New(info.Env(), OC_IF_RW);
 }
 
 void OCInterfaceMask::set_OC_IF_RW(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6183,7 +6574,7 @@ void OCInterfaceMask::set_OC_IF_RW(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCInterfaceMask::get_OC_IF_A(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_IF_A);
+  return Napi::Number::New(info.Env(), OC_IF_A);
 }
 
 void OCInterfaceMask::set_OC_IF_A(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6193,7 +6584,7 @@ void OCInterfaceMask::set_OC_IF_A(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCInterfaceMask::get_OC_IF_S(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_IF_S);
+  return Napi::Number::New(info.Env(), OC_IF_S);
 }
 
 void OCInterfaceMask::set_OC_IF_S(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6203,7 +6594,7 @@ void OCInterfaceMask::set_OC_IF_S(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCInterfaceMask::get_OC_IF_CREATE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_IF_CREATE);
+  return Napi::Number::New(info.Env(), OC_IF_CREATE);
 }
 
 void OCInterfaceMask::set_OC_IF_CREATE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6215,6 +6606,10 @@ Napi::FunctionReference OCMethod::constructor;
 
 Napi::Function OCMethod::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCMethod", {
+    OCMethod::InstanceAccessor("OC_GET", &OCMethod::get_OC_GET, &OCMethod::set_OC_GET),
+    OCMethod::InstanceAccessor("OC_POST", &OCMethod::get_OC_POST, &OCMethod::set_OC_POST),
+    OCMethod::InstanceAccessor("OC_PUT", &OCMethod::get_OC_PUT, &OCMethod::set_OC_PUT),
+    OCMethod::InstanceAccessor("OC_DELETE", &OCMethod::get_OC_DELETE, &OCMethod::set_OC_DELETE),
 
   });
 
@@ -6238,7 +6633,7 @@ OCMethod::OCMethod(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCMethod::get_OC_GET(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_GET);
+  return Napi::Number::New(info.Env(), OC_GET);
 }
 
 void OCMethod::set_OC_GET(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6248,7 +6643,7 @@ void OCMethod::set_OC_GET(const Napi::CallbackInfo& info, const Napi::Value& val
 
 Napi::Value OCMethod::get_OC_POST(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_POST);
+  return Napi::Number::New(info.Env(), OC_POST);
 }
 
 void OCMethod::set_OC_POST(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6258,7 +6653,7 @@ void OCMethod::set_OC_POST(const Napi::CallbackInfo& info, const Napi::Value& va
 
 Napi::Value OCMethod::get_OC_PUT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_PUT);
+  return Napi::Number::New(info.Env(), OC_PUT);
 }
 
 void OCMethod::set_OC_PUT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6268,7 +6663,7 @@ void OCMethod::set_OC_PUT(const Napi::CallbackInfo& info, const Napi::Value& val
 
 Napi::Value OCMethod::get_OC_DELETE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_DELETE);
+  return Napi::Number::New(info.Env(), OC_DELETE);
 }
 
 void OCMethod::set_OC_DELETE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6280,6 +6675,10 @@ Napi::FunctionReference OCResourcePropertiesMask::constructor;
 
 Napi::Function OCResourcePropertiesMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCResourcePropertiesMask", {
+    OCResourcePropertiesMask::InstanceAccessor("OC_DISCOVERABLE", &OCResourcePropertiesMask::get_OC_DISCOVERABLE, &OCResourcePropertiesMask::set_OC_DISCOVERABLE),
+    OCResourcePropertiesMask::InstanceAccessor("OC_OBSERVABLE", &OCResourcePropertiesMask::get_OC_OBSERVABLE, &OCResourcePropertiesMask::set_OC_OBSERVABLE),
+    OCResourcePropertiesMask::InstanceAccessor("OC_SECURE", &OCResourcePropertiesMask::get_OC_SECURE, &OCResourcePropertiesMask::set_OC_SECURE),
+    OCResourcePropertiesMask::InstanceAccessor("OC_PERIODIC", &OCResourcePropertiesMask::get_OC_PERIODIC, &OCResourcePropertiesMask::set_OC_PERIODIC),
 
   });
 
@@ -6303,7 +6702,7 @@ OCResourcePropertiesMask::OCResourcePropertiesMask(const Napi::CallbackInfo& inf
 }
 Napi::Value OCResourcePropertiesMask::get_OC_DISCOVERABLE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_DISCOVERABLE);
+  return Napi::Number::New(info.Env(), OC_DISCOVERABLE);
 }
 
 void OCResourcePropertiesMask::set_OC_DISCOVERABLE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6313,7 +6712,7 @@ void OCResourcePropertiesMask::set_OC_DISCOVERABLE(const Napi::CallbackInfo& inf
 
 Napi::Value OCResourcePropertiesMask::get_OC_OBSERVABLE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_OBSERVABLE);
+  return Napi::Number::New(info.Env(), OC_OBSERVABLE);
 }
 
 void OCResourcePropertiesMask::set_OC_OBSERVABLE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6323,7 +6722,7 @@ void OCResourcePropertiesMask::set_OC_OBSERVABLE(const Napi::CallbackInfo& info,
 
 Napi::Value OCResourcePropertiesMask::get_OC_SECURE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SECURE);
+  return Napi::Number::New(info.Env(), OC_SECURE);
 }
 
 void OCResourcePropertiesMask::set_OC_SECURE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6333,7 +6732,7 @@ void OCResourcePropertiesMask::set_OC_SECURE(const Napi::CallbackInfo& info, con
 
 Napi::Value OCResourcePropertiesMask::get_OC_PERIODIC(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_PERIODIC);
+  return Napi::Number::New(info.Env(), OC_PERIODIC);
 }
 
 void OCResourcePropertiesMask::set_OC_PERIODIC(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6345,6 +6744,29 @@ Napi::FunctionReference OCStatus::constructor;
 
 Napi::Function OCStatus::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCStatus", {
+    OCStatus::InstanceAccessor("OC_STATUS_OK", &OCStatus::get_OC_STATUS_OK, &OCStatus::set_OC_STATUS_OK),
+    OCStatus::InstanceAccessor("OC_STATUS_CREATED", &OCStatus::get_OC_STATUS_CREATED, &OCStatus::set_OC_STATUS_CREATED),
+    OCStatus::InstanceAccessor("OC_STATUS_CHANGED", &OCStatus::get_OC_STATUS_CHANGED, &OCStatus::set_OC_STATUS_CHANGED),
+    OCStatus::InstanceAccessor("OC_STATUS_DELETED", &OCStatus::get_OC_STATUS_DELETED, &OCStatus::set_OC_STATUS_DELETED),
+    OCStatus::InstanceAccessor("OC_STATUS_NOT_MODIFIED", &OCStatus::get_OC_STATUS_NOT_MODIFIED, &OCStatus::set_OC_STATUS_NOT_MODIFIED),
+    OCStatus::InstanceAccessor("OC_STATUS_BAD_REQUEST", &OCStatus::get_OC_STATUS_BAD_REQUEST, &OCStatus::set_OC_STATUS_BAD_REQUEST),
+    OCStatus::InstanceAccessor("OC_STATUS_UNAUTHORIZED", &OCStatus::get_OC_STATUS_UNAUTHORIZED, &OCStatus::set_OC_STATUS_UNAUTHORIZED),
+    OCStatus::InstanceAccessor("OC_STATUS_BAD_OPTION", &OCStatus::get_OC_STATUS_BAD_OPTION, &OCStatus::set_OC_STATUS_BAD_OPTION),
+    OCStatus::InstanceAccessor("OC_STATUS_FORBIDDEN", &OCStatus::get_OC_STATUS_FORBIDDEN, &OCStatus::set_OC_STATUS_FORBIDDEN),
+    OCStatus::InstanceAccessor("OC_STATUS_NOT_FOUND", &OCStatus::get_OC_STATUS_NOT_FOUND, &OCStatus::set_OC_STATUS_NOT_FOUND),
+    OCStatus::InstanceAccessor("OC_STATUS_METHOD_NOT_ALLOWED", &OCStatus::get_OC_STATUS_METHOD_NOT_ALLOWED, &OCStatus::set_OC_STATUS_METHOD_NOT_ALLOWED),
+    OCStatus::InstanceAccessor("OC_STATUS_NOT_ACCEPTABLE", &OCStatus::get_OC_STATUS_NOT_ACCEPTABLE, &OCStatus::set_OC_STATUS_NOT_ACCEPTABLE),
+    OCStatus::InstanceAccessor("OC_STATUS_REQUEST_ENTITY_TOO_LARGE", &OCStatus::get_OC_STATUS_REQUEST_ENTITY_TOO_LARGE, &OCStatus::set_OC_STATUS_REQUEST_ENTITY_TOO_LARGE),
+    OCStatus::InstanceAccessor("OC_STATUS_UNSUPPORTED_MEDIA_TYPE", &OCStatus::get_OC_STATUS_UNSUPPORTED_MEDIA_TYPE, &OCStatus::set_OC_STATUS_UNSUPPORTED_MEDIA_TYPE),
+    OCStatus::InstanceAccessor("OC_STATUS_INTERNAL_SERVER_ERROR", &OCStatus::get_OC_STATUS_INTERNAL_SERVER_ERROR, &OCStatus::set_OC_STATUS_INTERNAL_SERVER_ERROR),
+    OCStatus::InstanceAccessor("OC_STATUS_NOT_IMPLEMENTED", &OCStatus::get_OC_STATUS_NOT_IMPLEMENTED, &OCStatus::set_OC_STATUS_NOT_IMPLEMENTED),
+    OCStatus::InstanceAccessor("OC_STATUS_BAD_GATEWAY", &OCStatus::get_OC_STATUS_BAD_GATEWAY, &OCStatus::set_OC_STATUS_BAD_GATEWAY),
+    OCStatus::InstanceAccessor("OC_STATUS_SERVICE_UNAVAILABLE", &OCStatus::get_OC_STATUS_SERVICE_UNAVAILABLE, &OCStatus::set_OC_STATUS_SERVICE_UNAVAILABLE),
+    OCStatus::InstanceAccessor("OC_STATUS_GATEWAY_TIMEOUT", &OCStatus::get_OC_STATUS_GATEWAY_TIMEOUT, &OCStatus::set_OC_STATUS_GATEWAY_TIMEOUT),
+    OCStatus::InstanceAccessor("OC_STATUS_PROXYING_NOT_SUPPORTED", &OCStatus::get_OC_STATUS_PROXYING_NOT_SUPPORTED, &OCStatus::set_OC_STATUS_PROXYING_NOT_SUPPORTED),
+    OCStatus::InstanceAccessor("__NUM_OC_STATUS_CODES__", &OCStatus::get___NUM_OC_STATUS_CODES__, &OCStatus::set___NUM_OC_STATUS_CODES__),
+    OCStatus::InstanceAccessor("OC_IGNORE", &OCStatus::get_OC_IGNORE, &OCStatus::set_OC_IGNORE),
+    OCStatus::InstanceAccessor("OC_PING_TIMEOUT", &OCStatus::get_OC_PING_TIMEOUT, &OCStatus::set_OC_PING_TIMEOUT),
 
   });
 
@@ -6368,7 +6790,7 @@ OCStatus::OCStatus(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCStatus::get_OC_STATUS_OK(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_OK);
+  return Napi::Number::New(info.Env(), OC_STATUS_OK);
 }
 
 void OCStatus::set_OC_STATUS_OK(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6378,7 +6800,7 @@ void OCStatus::set_OC_STATUS_OK(const Napi::CallbackInfo& info, const Napi::Valu
 
 Napi::Value OCStatus::get_OC_STATUS_CREATED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_CREATED);
+  return Napi::Number::New(info.Env(), OC_STATUS_CREATED);
 }
 
 void OCStatus::set_OC_STATUS_CREATED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6388,7 +6810,7 @@ void OCStatus::set_OC_STATUS_CREATED(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCStatus::get_OC_STATUS_CHANGED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_CHANGED);
+  return Napi::Number::New(info.Env(), OC_STATUS_CHANGED);
 }
 
 void OCStatus::set_OC_STATUS_CHANGED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6398,7 +6820,7 @@ void OCStatus::set_OC_STATUS_CHANGED(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCStatus::get_OC_STATUS_DELETED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_DELETED);
+  return Napi::Number::New(info.Env(), OC_STATUS_DELETED);
 }
 
 void OCStatus::set_OC_STATUS_DELETED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6408,7 +6830,7 @@ void OCStatus::set_OC_STATUS_DELETED(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCStatus::get_OC_STATUS_NOT_MODIFIED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_NOT_MODIFIED);
+  return Napi::Number::New(info.Env(), OC_STATUS_NOT_MODIFIED);
 }
 
 void OCStatus::set_OC_STATUS_NOT_MODIFIED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6418,7 +6840,7 @@ void OCStatus::set_OC_STATUS_NOT_MODIFIED(const Napi::CallbackInfo& info, const 
 
 Napi::Value OCStatus::get_OC_STATUS_BAD_REQUEST(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_BAD_REQUEST);
+  return Napi::Number::New(info.Env(), OC_STATUS_BAD_REQUEST);
 }
 
 void OCStatus::set_OC_STATUS_BAD_REQUEST(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6428,7 +6850,7 @@ void OCStatus::set_OC_STATUS_BAD_REQUEST(const Napi::CallbackInfo& info, const N
 
 Napi::Value OCStatus::get_OC_STATUS_UNAUTHORIZED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_UNAUTHORIZED);
+  return Napi::Number::New(info.Env(), OC_STATUS_UNAUTHORIZED);
 }
 
 void OCStatus::set_OC_STATUS_UNAUTHORIZED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6438,7 +6860,7 @@ void OCStatus::set_OC_STATUS_UNAUTHORIZED(const Napi::CallbackInfo& info, const 
 
 Napi::Value OCStatus::get_OC_STATUS_BAD_OPTION(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_BAD_OPTION);
+  return Napi::Number::New(info.Env(), OC_STATUS_BAD_OPTION);
 }
 
 void OCStatus::set_OC_STATUS_BAD_OPTION(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6448,7 +6870,7 @@ void OCStatus::set_OC_STATUS_BAD_OPTION(const Napi::CallbackInfo& info, const Na
 
 Napi::Value OCStatus::get_OC_STATUS_FORBIDDEN(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_FORBIDDEN);
+  return Napi::Number::New(info.Env(), OC_STATUS_FORBIDDEN);
 }
 
 void OCStatus::set_OC_STATUS_FORBIDDEN(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6458,7 +6880,7 @@ void OCStatus::set_OC_STATUS_FORBIDDEN(const Napi::CallbackInfo& info, const Nap
 
 Napi::Value OCStatus::get_OC_STATUS_NOT_FOUND(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_NOT_FOUND);
+  return Napi::Number::New(info.Env(), OC_STATUS_NOT_FOUND);
 }
 
 void OCStatus::set_OC_STATUS_NOT_FOUND(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6468,7 +6890,7 @@ void OCStatus::set_OC_STATUS_NOT_FOUND(const Napi::CallbackInfo& info, const Nap
 
 Napi::Value OCStatus::get_OC_STATUS_METHOD_NOT_ALLOWED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_METHOD_NOT_ALLOWED);
+  return Napi::Number::New(info.Env(), OC_STATUS_METHOD_NOT_ALLOWED);
 }
 
 void OCStatus::set_OC_STATUS_METHOD_NOT_ALLOWED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6478,7 +6900,7 @@ void OCStatus::set_OC_STATUS_METHOD_NOT_ALLOWED(const Napi::CallbackInfo& info, 
 
 Napi::Value OCStatus::get_OC_STATUS_NOT_ACCEPTABLE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_NOT_ACCEPTABLE);
+  return Napi::Number::New(info.Env(), OC_STATUS_NOT_ACCEPTABLE);
 }
 
 void OCStatus::set_OC_STATUS_NOT_ACCEPTABLE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6488,7 +6910,7 @@ void OCStatus::set_OC_STATUS_NOT_ACCEPTABLE(const Napi::CallbackInfo& info, cons
 
 Napi::Value OCStatus::get_OC_STATUS_REQUEST_ENTITY_TOO_LARGE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_REQUEST_ENTITY_TOO_LARGE);
+  return Napi::Number::New(info.Env(), OC_STATUS_REQUEST_ENTITY_TOO_LARGE);
 }
 
 void OCStatus::set_OC_STATUS_REQUEST_ENTITY_TOO_LARGE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6498,7 +6920,7 @@ void OCStatus::set_OC_STATUS_REQUEST_ENTITY_TOO_LARGE(const Napi::CallbackInfo& 
 
 Napi::Value OCStatus::get_OC_STATUS_UNSUPPORTED_MEDIA_TYPE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_UNSUPPORTED_MEDIA_TYPE);
+  return Napi::Number::New(info.Env(), OC_STATUS_UNSUPPORTED_MEDIA_TYPE);
 }
 
 void OCStatus::set_OC_STATUS_UNSUPPORTED_MEDIA_TYPE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6508,7 +6930,7 @@ void OCStatus::set_OC_STATUS_UNSUPPORTED_MEDIA_TYPE(const Napi::CallbackInfo& in
 
 Napi::Value OCStatus::get_OC_STATUS_INTERNAL_SERVER_ERROR(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_INTERNAL_SERVER_ERROR);
+  return Napi::Number::New(info.Env(), OC_STATUS_INTERNAL_SERVER_ERROR);
 }
 
 void OCStatus::set_OC_STATUS_INTERNAL_SERVER_ERROR(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6518,7 +6940,7 @@ void OCStatus::set_OC_STATUS_INTERNAL_SERVER_ERROR(const Napi::CallbackInfo& inf
 
 Napi::Value OCStatus::get_OC_STATUS_NOT_IMPLEMENTED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_NOT_IMPLEMENTED);
+  return Napi::Number::New(info.Env(), OC_STATUS_NOT_IMPLEMENTED);
 }
 
 void OCStatus::set_OC_STATUS_NOT_IMPLEMENTED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6528,7 +6950,7 @@ void OCStatus::set_OC_STATUS_NOT_IMPLEMENTED(const Napi::CallbackInfo& info, con
 
 Napi::Value OCStatus::get_OC_STATUS_BAD_GATEWAY(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_BAD_GATEWAY);
+  return Napi::Number::New(info.Env(), OC_STATUS_BAD_GATEWAY);
 }
 
 void OCStatus::set_OC_STATUS_BAD_GATEWAY(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6538,7 +6960,7 @@ void OCStatus::set_OC_STATUS_BAD_GATEWAY(const Napi::CallbackInfo& info, const N
 
 Napi::Value OCStatus::get_OC_STATUS_SERVICE_UNAVAILABLE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_SERVICE_UNAVAILABLE);
+  return Napi::Number::New(info.Env(), OC_STATUS_SERVICE_UNAVAILABLE);
 }
 
 void OCStatus::set_OC_STATUS_SERVICE_UNAVAILABLE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6548,7 +6970,7 @@ void OCStatus::set_OC_STATUS_SERVICE_UNAVAILABLE(const Napi::CallbackInfo& info,
 
 Napi::Value OCStatus::get_OC_STATUS_GATEWAY_TIMEOUT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_GATEWAY_TIMEOUT);
+  return Napi::Number::New(info.Env(), OC_STATUS_GATEWAY_TIMEOUT);
 }
 
 void OCStatus::set_OC_STATUS_GATEWAY_TIMEOUT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6558,7 +6980,7 @@ void OCStatus::set_OC_STATUS_GATEWAY_TIMEOUT(const Napi::CallbackInfo& info, con
 
 Napi::Value OCStatus::get_OC_STATUS_PROXYING_NOT_SUPPORTED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_STATUS_PROXYING_NOT_SUPPORTED);
+  return Napi::Number::New(info.Env(), OC_STATUS_PROXYING_NOT_SUPPORTED);
 }
 
 void OCStatus::set_OC_STATUS_PROXYING_NOT_SUPPORTED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6568,7 +6990,7 @@ void OCStatus::set_OC_STATUS_PROXYING_NOT_SUPPORTED(const Napi::CallbackInfo& in
 
 Napi::Value OCStatus::get___NUM_OC_STATUS_CODES__(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), __NUM_OC_STATUS_CODES__);
+  return Napi::Number::New(info.Env(), __NUM_OC_STATUS_CODES__);
 }
 
 void OCStatus::set___NUM_OC_STATUS_CODES__(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6578,7 +7000,7 @@ void OCStatus::set___NUM_OC_STATUS_CODES__(const Napi::CallbackInfo& info, const
 
 Napi::Value OCStatus::get_OC_IGNORE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_IGNORE);
+  return Napi::Number::New(info.Env(), OC_IGNORE);
 }
 
 void OCStatus::set_OC_IGNORE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6588,7 +7010,7 @@ void OCStatus::set_OC_IGNORE(const Napi::CallbackInfo& info, const Napi::Value& 
 
 Napi::Value OCStatus::get_OC_PING_TIMEOUT(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_PING_TIMEOUT);
+  return Napi::Number::New(info.Env(), OC_PING_TIMEOUT);
 }
 
 void OCStatus::set_OC_PING_TIMEOUT(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6600,6 +7022,8 @@ Napi::FunctionReference OCSessionState::constructor;
 
 Napi::Function OCSessionState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSessionState", {
+    OCSessionState::InstanceAccessor("OC_SESSION_CONNECTED", &OCSessionState::get_OC_SESSION_CONNECTED, &OCSessionState::set_OC_SESSION_CONNECTED),
+    OCSessionState::InstanceAccessor("OC_SESSION_DISCONNECTED", &OCSessionState::get_OC_SESSION_DISCONNECTED, &OCSessionState::set_OC_SESSION_DISCONNECTED),
 
   });
 
@@ -6623,7 +7047,7 @@ OCSessionState::OCSessionState(const Napi::CallbackInfo& info) : ObjectWrap(info
 }
 Napi::Value OCSessionState::get_OC_SESSION_CONNECTED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SESSION_CONNECTED);
+  return Napi::Number::New(info.Env(), OC_SESSION_CONNECTED);
 }
 
 void OCSessionState::set_OC_SESSION_CONNECTED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6633,7 +7057,7 @@ void OCSessionState::set_OC_SESSION_CONNECTED(const Napi::CallbackInfo& info, co
 
 Napi::Value OCSessionState::get_OC_SESSION_DISCONNECTED(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SESSION_DISCONNECTED);
+  return Napi::Number::New(info.Env(), OC_SESSION_DISCONNECTED);
 }
 
 void OCSessionState::set_OC_SESSION_DISCONNECTED(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6645,6 +7069,14 @@ Napi::FunctionReference OCSoftwareUpdateResult::constructor;
 
 Napi::Function OCSoftwareUpdateResult::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSoftwareUpdateResult", {
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_IDLE", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_IDLE, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_IDLE),
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_SUCCESS", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SUCCESS, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SUCCESS),
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_LESS_RAM", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_RAM, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_RAM),
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_LESS_FLASH", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_FLASH, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_FLASH),
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_CONN_FAIL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_CONN_FAIL, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_CONN_FAIL),
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_SVV_FAIL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SVV_FAIL, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SVV_FAIL),
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_INVALID_URL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_INVALID_URL, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_INVALID_URL),
+    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_UPGRADE_FAIL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_UPGRADE_FAIL, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_UPGRADE_FAIL),
 
   });
 
@@ -6668,7 +7100,7 @@ OCSoftwareUpdateResult::OCSoftwareUpdateResult(const Napi::CallbackInfo& info) :
 }
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_IDLE(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_IDLE);
+  return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_IDLE);
 }
 
 void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_IDLE(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6678,7 +7110,7 @@ void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_IDLE(const Napi::CallbackInf
 
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SUCCESS(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_SUCCESS);
+  return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_SUCCESS);
 }
 
 void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SUCCESS(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6688,7 +7120,7 @@ void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SUCCESS(const Napi::Callback
 
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_RAM(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_LESS_RAM);
+  return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_LESS_RAM);
 }
 
 void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_RAM(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6698,7 +7130,7 @@ void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_RAM(const Napi::Callbac
 
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_FLASH(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_LESS_FLASH);
+  return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_LESS_FLASH);
 }
 
 void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_FLASH(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6708,7 +7140,7 @@ void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_FLASH(const Napi::Callb
 
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_CONN_FAIL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_CONN_FAIL);
+  return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_CONN_FAIL);
 }
 
 void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_CONN_FAIL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6718,7 +7150,7 @@ void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_CONN_FAIL(const Napi::Callba
 
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SVV_FAIL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_SVV_FAIL);
+  return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_SVV_FAIL);
 }
 
 void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SVV_FAIL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6728,7 +7160,7 @@ void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SVV_FAIL(const Napi::Callbac
 
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_INVALID_URL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_INVALID_URL);
+  return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_INVALID_URL);
 }
 
 void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_INVALID_URL(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -6738,7 +7170,7 @@ void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_INVALID_URL(const Napi::Call
 
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_UPGRADE_FAIL(const Napi::CallbackInfo& info)
 {
-return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_UPGRADE_FAIL);
+  return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_UPGRADE_FAIL);
 }
 
 void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_UPGRADE_FAIL(const Napi::CallbackInfo& info, const Napi::Value& value)

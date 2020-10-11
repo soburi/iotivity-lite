@@ -137,6 +137,8 @@ IotivityLite::IotivityLite(const Napi::CallbackInfo& info) : ObjectWrap(info) {
 Napi::FunctionReference IotivityLite::callback_helper;
 
 Napi::Value IotivityLite::Callback(const Napi::CallbackInfo& info) {
+	OCIPv4Addr* ipv4 = OCIPv4Addr::Unwrap(info[0].As<Object>());
+printf("Unwrap %p\n", ipv4);
 
 	Napi::Function func = info[0].As<Napi::Function>();
 

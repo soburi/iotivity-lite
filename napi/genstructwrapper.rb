@@ -5,6 +5,16 @@ require 'stringio'
 
 require 'json'
 
+struct_table = open(ARGV[0]) do |io|
+  JSON.load(io)
+end
+enum_table = open(ARGV[1]) do |io|
+  JSON.load(io)
+end
+func_table = open(ARGV[2]) do |io|
+  JSON.load(io)
+end
+
 formatter = REXML::Formatters::Pretty.new
 
 GETSETDECL = <<'GETSETDECL'
@@ -17,7 +27,6 @@ class CLASSNAME : public Napi::ObjectWrap<CLASSNAME>
 {
 public:
   CLASSNAME(const Napi::CallbackInfo&);
-  //CLASSNAME(const napi_env&, const napi_value&) {} //TODO
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator STRUCTNAME*() { return m_pvalue.get(); }
@@ -47,7 +56,7 @@ ACCESSORIMPL = <<'ACCESSORIMPL'
 ACCESSORIMPL
 
 ENUMACCESSORIMPL = <<'ENUMACCESSORIMPL'
-    CLASSNAME::InstanceAccessor("VALNAME", &CLASSNAME::get_VALNAME, nullptr),
+    CLASSNAME::InstanceAccessor("VALNAME", &CLASSNAME::get_VALNAME, &CLASSNAME::set_VALNAME),
 ENUMACCESSORIMPL
 
 GETCLSIMPL = <<'CLSIMPL'
@@ -130,15 +139,6 @@ STRUCT_GET = "\
 ENUM_SET = "  m_pvalue->VALNAME = static_cast<STRUCTNAME>(value.As<Napi::Number>().Uint32Value());"
 ENUM_GET = "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);"
 
-struct_table = open(ARGV[0]) do |io|
-  JSON.load(io)
-end
-enum_table = open(ARGV[1]) do |io|
-  JSON.load(io)
-end
-func_table = open(ARGV[2]) do |io|
-  JSON.load(io)
-end
 
 STRUCTS = struct_table.keys
 
@@ -368,6 +368,7 @@ WRAPPERNAME = { 'oc_ipv4_addr_t' => "OCIPv4Addr",
                 'oc_sec_credusage_t' => 'OCCredUsage',
                 'oc_sec_encoding_t' => 'OCEncoding',
                 'oc_rt_t' => 'OCResourceType',
+                'transport_flags' => 'OCTransportFlags',
 }
 
 TYPEDEFS = {
@@ -448,7 +449,7 @@ IGNORES = {
 
 }
 
-IFDEFS = {
+IFDEF_TYPES = {
   "oc_sec_cred_t" => { "chain" => "OC_PKI",
                        "child" => "OC_PKI",
                        "credusage" => "OC_PKI",
@@ -480,13 +481,14 @@ IFDEF_FUNCS = {
   "oc_send_ping" => "OC_TCP",
   "oc_collections_add_rt_factory" => "OC_COLLECTIONS_IF_CREATE",
   'oc_collections_free_rt_factories' => 'OC_COLLECTIONS_IF_CREATE',
-  "PT_THREAD" => "XXX",
-  "OC_PROCESS_NAME" => "XXX",
   "oc_tcp_get_csm_state" => "OC_TCP",
   "oc_tcp_update_csm_state" => "OC_TCP",
   'oc_ri_alloc_resource' => 'OC_SERVER',
   'oc_ri_add_resource' => 'OC_SERVER',
   'oc_ri_delete_resource' => 'OC_SERVER',
+
+"PT_THREAD" => "XXX",
+"OC_PROCESS_NAME" => "XXX",
 
 'oc_list_add' => "XXX",
 'oc_list_chop' => "XXX",
@@ -553,6 +555,10 @@ PRIMITIVES = [
   /^size_t$/
 ]
 
+FUNC_TYPEMAP = {
+  "oc_clock_time_t" => "uint64_t"
+}
+
 def gen_classname(typename)
   if match_any?(typename, PRIMITIVES_POINTER)
     return typename
@@ -564,19 +570,22 @@ def gen_classname(typename)
   return (typename.gsub(/_t$/,"").gsub(/_t:/,":").gsub(/_t\*$/,"*").gsub(/_s$/,"").gsub(/_s:/,":").gsub(/_([a-z])/){ $1.upcase}).gsub(/^oc/, "OC")
 end
 
-def gen_setget_decl(ftable)
+def gen_setget_decl(type, ftable)
   list = ftable.collect do |k, v|
-    x = GETSETDECL.gsub(/VALNAME/, k)
+    decl = GETSETDECL.gsub(/VALNAME/, k)
 
     v.gsub!(/^enum /,"") if v.start_with?("enum ")
     t = v
     t = TYPEDEFS[v] if TYPEDEFS[v] != nil
 
     if t =~ /\(\*\)/
-      x += "  Napi::Value #{k}_function; Napi::Value #{k}_data;\n\n"
+      decl += "  Napi::Value #{k}_function; Napi::Value #{k}_data;\n\n"
     end
 
-    x
+    if IFDEF_TYPES.has_key?(type) and IFDEF_TYPES[type].is_a?(Hash) and IFDEF_TYPES[type].has_key?(k)
+      decl = "#ifdef #{IFDEF_TYPES[type][k]}\n" + decl + "#endif\n"
+    end
+    decl
   end
   list.join()
 end
@@ -584,9 +593,10 @@ end
 def gen_accessor(type, ftable)
   list = ftable.collect do |k, v|
     accr = ACCESSORIMPL.gsub(/VALNAME/, k)
-    if IFDEFS.has_key?(type) and IFDEFS[type].is_a?(Hash) and IFDEFS[type].has_key?(k)
-      accr = "#ifdef #{IFDEFS[type][k]}\n" + accr+ "#endif\n"
+    if IFDEF_TYPES.has_key?(type) and IFDEF_TYPES[type].is_a?(Hash) and IFDEF_TYPES[type].has_key?(k)
+      accr = "#ifdef #{IFDEF_TYPES[type][k]}\n" + accr+ "#endif\n"
     end
+    accr
   end
   list.join()
 end
@@ -594,9 +604,10 @@ end
 def gen_enumaccessor(type, ftable)
   list = ftable.collect do |k, v|
     accr = ENUMACCESSORIMPL.gsub(/VALNAME/, k)
-    if IFDEFS.has_key?(type) and IFDEFS[type].is_a?(Hash) and IFDEFS[type].has_key?(k)
-      accr = "#ifdef #{IFDEFS[type][k]}\n" + accr+ "#endif\n"
+    if IFDEF_TYPES.has_key?(type) and IFDEF_TYPES[type].is_a?(Hash) and IFDEF_TYPES[type].has_key?(k)
+      accr = "#ifdef #{IFDEF_TYPES[type][k]}\n" + accr+ "#endif\n"
     end
+    accr
   end
   list.join()
 end
@@ -631,9 +642,9 @@ def gen_classdecl(key, h)
   return "" if IGNORES.has_key?(key) and IGNORES[key] == nil
   hh = format_ignore(key, h)
 
-  decl = CLSDECL.gsub(/STRUCTNAME/, key).gsub(/CLASSNAME/, gen_classname(key)).gsub(/\/\* setget \*\//, gen_setget_decl(hh))
-  if IFDEFS.has_key?(key) and IFDEFS[key].is_a?(String)
-    decl = "#ifdef #{IFDEFS[key]}\n" + decl + "#endif\n"
+  decl = CLSDECL.gsub(/STRUCTNAME/, key).gsub(/CLASSNAME/, gen_classname(key)).gsub(/\/\* setget \*\//, gen_setget_decl(key, hh))
+  if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
+    decl = "#ifdef #{IFDEF_TYPES[key]}\n" + decl + "#endif\n"
   end
   decl
 end
@@ -680,8 +691,8 @@ def gen_setget_impl(key, h)
     impl = SETGETIMPL.gsub(/^\#error getter/, gen_getter_impl(key, k, t)).gsub(/^#error setter/, gen_setter_impl(key, k, t)).gsub(/STRUCTNAME/, t).gsub(/CLASSNAME/, gen_classname(key)).gsub(/VALNAME/, k).gsub(/WRAPNAME/, gen_classname(t))
 
 
-    if IFDEFS.has_key?(key) and IFDEFS[key].is_a?(Hash) and IFDEFS[key].has_key?(k)
-      impl = "#ifdef #{IFDEFS[key][k]}\n" + impl + "#endif\n"
+    if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(Hash) and IFDEF_TYPES[key].has_key?(k)
+      impl = "#ifdef #{IFDEF_TYPES[key][k]}\n" + impl + "#endif\n"
     end
     impl
   end
@@ -694,9 +705,9 @@ def gen_enum_entry_impl(key, h)
     t = v
     t = TYPEDEFS[v] if TYPEDEFS[v] != nil
 
-    impl = SETGETIMPL.gsub(/^\#error getter/, "return Napi::Number::New(info.Env(), #{k});").gsub(/^#error setter/, '').gsub(/STRUCTNAME/, t).gsub(/CLASSNAME/, gen_classname(key)).gsub(/VALNAME/, k)
-    if IFDEFS.has_key?(key) and IFDEFS[key].is_a?(Hash) and IFDEFS[key].has_key?(k)
-      impl = "#ifdef #{IFDEFS[key][k]}\n" + impl + "#endif\n"
+    impl = SETGETIMPL.gsub(/^\#error getter/, "  return Napi::Number::New(info.Env(), #{k});").gsub(/^#error setter/, '').gsub(/STRUCTNAME/, t).gsub(/CLASSNAME/, gen_classname(key)).gsub(/VALNAME/, k)
+    if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(Hash) and IFDEF_TYPES[key].has_key?(k)
+      impl = "#ifdef #{IFDEF_TYPES[key][k]}\n" + impl + "#endif\n"
     end
     impl
   end
@@ -711,8 +722,8 @@ def gen_classimpl(type, h)
   impl += CTORIMPL.gsub(/STRUCTNAME/, type).gsub(/CLASSNAME/, gen_classname(type))
   impl += gen_setget_impl(type, hh)
 
-  if IFDEFS.has_key?(type) and IFDEFS[type].is_a?(String)
-    impl = "#ifdef #{IFDEFS[type]}\n" + impl + "#endif\n"
+  if IFDEF_TYPES.has_key?(type) and IFDEF_TYPES[type].is_a?(String)
+    impl = "#ifdef #{IFDEF_TYPES[type]}\n" + impl + "#endif\n"
   end
   return impl
 end
@@ -725,8 +736,8 @@ def gen_enumclassimpl(type, h)
   impl += CTORIMPL.gsub(/STRUCTNAME/, type).gsub(/CLASSNAME/, gen_classname(type))
   impl += gen_enum_entry_impl(type, hh)
 
-  if IFDEFS.has_key?(type) and IFDEFS[type].is_a?(String)
-    impl = "#ifdef #{IFDEFS[type]}\n" + impl + "#endif\n"
+  if IFDEF_TYPES.has_key?(type) and IFDEF_TYPES[type].is_a?(String)
+    impl = "#ifdef #{IFDEF_TYPES[type]}\n" + impl + "#endif\n"
   end
   return impl
 end
@@ -736,8 +747,8 @@ def gen_enum_classdecl(key, h)
   hh = format_ignore(key, h)
 
   decl = ENUMCLSDECL.gsub(/ENUMNAME/, key).gsub(/CLASSNAME/, gen_classname(key)).gsub(/\/\* setget \*\//, gen_enum_entry_decl(hh))
-  if IFDEFS.has_key?(key) and IFDEFS[key].is_a?(String)
-    decl = "#ifdef #{IFDEFS[key]}\n" + decl + "#endif\n"
+  if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
+    decl = "#ifdef #{IFDEF_TYPES[key]}\n" + decl + "#endif\n"
   end
   decl
 end
@@ -748,10 +759,6 @@ def gen_enum_entry_decl(hh)
   end
   list.join()
 end
-
-FUNC_TYPEMAP = {
-  "oc_clock_time_t" => "uint64_t"
-}
 
 def gen_funcdecl(name, param)
   "Napi::Value N_#{name}(const Napi::CallbackInfo&);"
@@ -778,8 +785,6 @@ def gen_funcimpl(name, param)
   check = true
   args = []
   decl = "Napi::Value N_#{name}(const Napi::CallbackInfo& info) {\n"
-  #decl = gen_classname(type) + " N_" + name + "("
-  #decl += param['param'].collect {|n, ty| "#{ty} #{n}" }.join(", ")
   
   param['param'].each.with_index do |(n, ty), i|
     if ty == 'uint8_t' or ty == 'uint16_t' or ty == 'uint32_t' or ty == 'size_t'
@@ -794,7 +799,7 @@ def gen_funcimpl(name, param)
     elsif ty == 'void*'
       decl += "  #{ty} #{n} = info[#{i}];\n"
       args.append(n)
-    elsif ty == 'const char*' # or ty == 'char*'
+    elsif ty == 'const char*'
       decl += "  #{ty} #{n} = info[#{i}].As<Napi::String>().Utf8Value().c_str();\n"
       args.append(n)
     elsif ty == 'char*'
@@ -848,14 +853,13 @@ def gen_funcimpl(name, param)
     elsif match_any?(ty, PRIMITIVES)
       decl += "  #{ty} #{n} = static_cast<#{ty}>(info[#{i}].As<Napi::Number>());\n"
       args.append(n)
-    elsif is_struct_ptr?(ty) #ty =~ /\*$/ and STRUCTS.include?(ty.gsub(/\*$/, ""))
-      p ty
+    elsif is_struct_ptr?(ty)
       raw_ty = ty.gsub(/\*$/, "")
       raw_ty = raw_ty.gsub(/^struct /, "")
       raw_ty = raw_ty.gsub(/^const /, "")
       raw_ty = TYPEDEFS[raw_ty] if TYPEDEFS.keys.include?(raw_ty)
-      #decl += "  #{gen_classname(raw_ty)} #{n} = info[#{i}].As<#{gen_classname(raw_ty)}>();\n"
-      decl += "  #{raw_ty}* #{n};// = dynamic_cast<#{gen_classname(raw_ty)}>(info[#{i}]);\n"
+      decl += "  #{gen_classname(raw_ty)}& #{n} = *#{gen_classname(raw_ty)}::Unwrap(info[#{i}].As<Napi::Object>());\n"
+
       args.append(n)
     elsif ENUMS.include?(ty)
       decl += "  #{ty} #{n} = static_cast<#{ty}>(info[#{i}].As<Napi::Number>().Uint32Value());\n"
@@ -962,7 +966,7 @@ File.open('src/functions.h', 'w') do |f|
   f.print "#include \"structs.h\"\n"
 
   func_table.each do |key, h|
-    if not IFDEF_FUNCS.include?(key)
+    if not IFDEF_FUNCS.include?(key) #TODO
       f.print gen_funcdecl(key, h) + "\n"
     end
   end 
@@ -980,3 +984,31 @@ File.open('src/functions.cc', 'w') do |f|
 end
 
 
+File.open('src/binding.cc', 'w') do |f|
+  f.print "#include \"structs.h\"\n"
+  f.print "#include \"functions.h\"\n"
+  struct_table.each do |key, h|
+    impl = "  exports.Set(\"#{gen_classname(key)}\", #{gen_classname(key)}::GetClass(env);\n"
+    if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
+      impl = "#ifdef #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
+    end
+    f.print "#{impl}"
+  end
+
+
+  enum_table.each do |key, h|
+    impl = "  exports.Set(\"#{gen_classname(key)}\", #{gen_classname(key)}::GetClass(env);\n"
+    if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
+      impl = "#ifdef #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
+    end
+    f.print "#{impl}"
+  end
+
+
+  func_table.each do |key, h|
+    if not IFDEF_FUNCS.include?(key)
+      f.print "  exports.Set(\"#{key}\", Napi::Function::New(env, N_#{key}) );"
+      f.print "\n"
+    end
+  end
+end
