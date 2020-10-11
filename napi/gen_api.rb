@@ -144,7 +144,7 @@ STRUCTS = struct_table.keys
 
 ENUMS = enum_table.keys
 
-MAPPER = {
+SETGET_OVERRIDE = {
   "oc_client_handler_t::discovery"=> {
     "set"=> "discovery_function = value;",
     "get"=> "return discovery_function;"
@@ -343,6 +343,12 @@ MAPPER = {
    "return init_platform_cb_data;"}
 }
 
+FUNC_OVERRIDE = {
+  'oc_init_platform' => {
+    'invoke' => "/**************/\n"
+  }
+}
+
 WRAPPERNAME = { 'oc_ipv4_addr_t' => "OCIPv4Addr",
                 'oc_ipv6_addr_t' => "OCIPv6Addr",
                 'oc_le_addr_t' => "OCLEAddr",
@@ -401,7 +407,7 @@ TYPEDEFS = {
 #'session_event_handler_t' => 'void (*)(const oc_endpoint_t* endpoint, oc_session_state_t state)',
   }
 
-IGNORES = {
+IGNORE_TYPES = {
 # nested type
   "oc_response_t" => [ /response_buffer/, /separate_response/ ],
   "oc_properties_cb_t" => [ /cb/, /get_props/, /set_props/, /user_data/ ],
@@ -622,11 +628,11 @@ def match_any?(str, pats)
 end
 
 def format_ignore(key, h)
-  if IGNORES[key] != nil
+  if IGNORE_TYPES[key] != nil
     hh = {}
     h.each do |k,v|
-      #p "IGNORES #{key} #{k} #{v} #{IGNORES[key]}"
-      if match_any?(k, IGNORES[key])
+      #p "IGNORE_TYPES #{key} #{k} #{v} #{IGNORE_TYPES[key]}"
+      if match_any?(k, IGNORE_TYPES[key])
         #p "match #{k}"
         next
       end
@@ -639,7 +645,7 @@ def format_ignore(key, h)
 end
 
 def gen_classdecl(key, h)
-  return "" if IGNORES.has_key?(key) and IGNORES[key] == nil
+  return "" if IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil
   hh = format_ignore(key, h)
 
   decl = CLSDECL.gsub(/STRUCTNAME/, key).gsub(/CLASSNAME/, gen_classname(key)).gsub(/\/\* setget \*\//, gen_setget_decl(key, hh))
@@ -650,8 +656,8 @@ def gen_classdecl(key, h)
 end
 
 def gen_getter_impl(key, k, v)
-  if MAPPER[key+ "::" +k] != nil
-    MAPPER[key + "::" +k]["get"]
+  if SETGET_OVERRIDE[key+ "::" +k] != nil
+    SETGET_OVERRIDE[key + "::" +k]["get"]
   elsif GENERIC_GET[v] != nil
     GENERIC_GET[v]
   elsif STRUCTS.include?(v)
@@ -666,8 +672,8 @@ def gen_getter_impl(key, k, v)
 end
 
 def gen_setter_impl(key, k, v)
-  if MAPPER[key+ "::" +k] != nil
-    MAPPER[key + "::" +k]["set"]
+  if SETGET_OVERRIDE[key+ "::" +k] != nil
+    SETGET_OVERRIDE[key + "::" +k]["set"]
   elsif GENERIC_SET[v] != nil
     GENERIC_SET[v]
   elsif STRUCTS.include?(v)
@@ -715,7 +721,7 @@ def gen_enum_entry_impl(key, h)
 end
 
 def gen_classimpl(type, h)
-  return "" if IGNORES.has_key?(type) and IGNORES[type] == nil
+  return "" if IGNORE_TYPES.has_key?(type) and IGNORE_TYPES[type] == nil
   hh = format_ignore(type, h)
 
   impl = GETCLASSIMPL.gsub(/\/\* accessor \*\//, gen_accessor(type, hh)).gsub(/CLASSNAME/, gen_classname(type))
@@ -729,7 +735,7 @@ def gen_classimpl(type, h)
 end
 
 def gen_enumclassimpl(type, h)
-  return "" if IGNORES.has_key?(type) and IGNORES[type] == nil
+  return "" if IGNORE_TYPES.has_key?(type) and IGNORE_TYPES[type] == nil
   hh = format_ignore(type, h)
 
   impl = GETCLASSIMPL.gsub(/\/\* accessor \*\//, gen_enumaccessor(type, hh)).gsub(/CLASSNAME/, gen_classname(type))
@@ -743,7 +749,7 @@ def gen_enumclassimpl(type, h)
 end
 
 def gen_enum_classdecl(key, h)
-  return "" if IGNORES.has_key?(key) and IGNORES[key] == nil
+  return "" if IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil
   hh = format_ignore(key, h)
 
   decl = ENUMCLSDECL.gsub(/ENUMNAME/, key).gsub(/CLASSNAME/, gen_classname(key)).gsub(/\/\* setget \*\//, gen_enum_entry_decl(hh))
@@ -786,8 +792,17 @@ def gen_funcimpl(name, param)
   args = []
   decl = "Napi::Value N_#{name}(const Napi::CallbackInfo& info) {\n"
   
+  if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name].is_a?(String)
+    decl += FUNC_OVERRIDE[name]
+    decl += "}\n"
+    return decl
+  end
+
   param['param'].each.with_index do |(n, ty), i|
-    if ty == 'uint8_t' or ty == 'uint16_t' or ty == 'uint32_t' or ty == 'size_t'
+    if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name][i.to_s]
+      decl +=  FUNC_OVERRIDE[name][i.to_s]
+      args.append(n)
+    elsif ty == 'uint8_t' or ty == 'uint16_t' or ty == 'uint32_t' or ty == 'size_t'
       decl += "  #{ty} #{n} = static_cast<#{ty}>(info[#{i}].As<Napi::Number>().Uint32Value());\n"
       args.append(n)
     elsif ty == 'double'
@@ -872,29 +887,35 @@ def gen_funcimpl(name, param)
 
   call_func = "0"
   call_func = name + "(" + args.join(", ") + ")" if check
-
+  invoke = ''
   if type == 'void'
-    decl += "  (void)#{call_func};\n"
-    decl += "  return info.Env().Undefined();\n"
+    invoke += "  (void)#{call_func};\n"
+    invoke += "  return info.Env().Undefined();\n"
   elsif type == 'bool'
-    decl += "  return Napi::Boolean::New(info.Env(), #{call_func});\n"
+    invoke += "  return Napi::Boolean::New(info.Env(), #{call_func});\n"
   elsif type == 'long'
-    decl += "  return Napi::Number::New(info.Env(), #{call_func});\n"
+    invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
   elsif type == 'unsigned long'
-    decl += "  return Napi::Number::New(info.Env(), #{call_func});\n"
+    invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
   elsif type == 'const char*'
   elsif type == 'void*'
   elsif type == 'const void*'
   elsif type == 'const uint8_t*'
   elsif type == 'const char*'
-    decl += "  return Napi::String::New(info.Env(), #{call_func});\n"
+    invoke += "  return Napi::String::New(info.Env(), #{call_func});\n"
   elsif match_any?(type, PRIMITIVES)
-    decl += "  return Napi::Number::New(info.Env(), #{call_func});\n"
+    invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
   elsif type =~ /.*\*$/
     type = type.gsub(/\*$/, "")
-    decl += "  std::shared_ptr<#{type}> sp(#{call_func});\n"
-    decl += "  auto args = Napi::External<std::shared_ptr<#{type}>>::New(info.Env(), &sp);\n"
-    decl += "  return #{gen_classname(type)}::constructor.New({args});\n"
+    invoke += "  std::shared_ptr<#{type}> sp(#{call_func});\n"
+    invoke += "  auto args = Napi::External<std::shared_ptr<#{type}>>::New(info.Env(), &sp);\n"
+    invoke += "  return #{gen_classname(type)}::constructor.New({args});\n"
+  end
+
+  if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name]['invoke']
+    decl +=  FUNC_OVERRIDE[name]['invoke'] + "  /*\n " + invoke + "  */\n"
+  else
+    decl += invoke
   end
   decl += "}\n"
 end
@@ -990,7 +1011,7 @@ File.open('src/binding.cc', 'w') do |f|
 
   f.print "Napi::Object module_init(Napi::Env env, Napi::Object exports) {\n"
   struct_table.each do |key, h|
-    if IGNORES[key] != nil
+    if IGNORE_TYPES[key] != nil
       impl = "  exports.Set(\"#{gen_classname(key)}\", #{gen_classname(key)}::GetClass(env));\n"
       if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
         impl = "#ifdef #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
@@ -1001,7 +1022,7 @@ File.open('src/binding.cc', 'w') do |f|
 
 
   enum_table.each do |key, h|
-    if IGNORES[key] != nil
+    if IGNORE_TYPES[key] != nil
       impl = "  exports.Set(\"#{gen_classname(key)}\", #{gen_classname(key)}::GetClass(env));\n"
       if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
         impl = "#ifdef #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
