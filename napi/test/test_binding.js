@@ -5,7 +5,7 @@ assert(IotivityLite, "The expected module is undefined");
 
 function testBasic()
 {
-    const instance = new IotivityLite();
+    const instance = new IotivityLite.IotivityLite("hoge");
     //assert(instance.greet, "The expected method is not defined");
     //assert.strictEqual(instance.greet("kermit"), "mr-yeoman", "Unexpected value returned");
     console.dir(instance);
@@ -18,11 +18,19 @@ function testBasic()
 
 function testInvalidParams()
 {
-    const instance = new IotivityLite();
+    //const instance = new IotivityLite();
+}
+
+function testConstructOCIPv4Addr()
+{
+    var _ipv4 = new IotivityLite.OCIPv4Addr();
+    console.dir(_ipv4);
+    console.dir(_ipv4.port);
 }
 
 assert.doesNotThrow(testBasic, undefined, "testBasic threw an expection");
-assert.throws(testInvalidParams, undefined, "testInvalidParams didn't throw");
+assert.doesNotThrow(testConstructOCIPv4Addr, undefined, "testConstructOCIPv4Addr threw an expection");
+//assert.throws(testInvalidParams, undefined, "testInvalidParams didn't throw");
 //
 //testBasic();
 

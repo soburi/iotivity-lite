@@ -1029,7 +1029,7 @@ File.open('src/binding.cc', 'w') do |f|
 
   f.print "Napi::Object module_init(Napi::Env env, Napi::Object exports) {\n"
   struct_table.each do |key, h|
-    if IGNORE_TYPES[key] != nil
+    if not (IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil)
       impl = "  exports.Set(\"#{gen_classname(key)}\", #{gen_classname(key)}::GetClass(env));\n"
       if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
         impl = "#ifdef #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
@@ -1040,7 +1040,7 @@ File.open('src/binding.cc', 'w') do |f|
 
 
   enum_table.each do |key, h|
-    if IGNORE_TYPES[key] != nil
+    if not (IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil)
       impl = "  exports.Set(\"#{gen_classname(key)}\", #{gen_classname(key)}::GetClass(env));\n"
       if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
         impl = "#ifdef #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
@@ -1064,21 +1064,21 @@ end
 File.open('lib/iotivity-lite.js', 'w') do |f|
 
   f.print "const addon = require('../build/Release/iotivity-lite-native');\n"
-  f.print "function IotivityLite() {\n"
+  f.print "module.exports = addon;\n"
+=begin
+  f.print "module.exports = [\n"
   struct_table.each do |key, h|
-    if IGNORE_TYPES[key] != nil
-      impl = "  this.#{gen_classname(key)} = addon.#{gen_classname(key)};\n"
-      f.print "#{impl}"
+    if not (IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil)
+      f.print "  addon.#{gen_classname(key)},\n"
     end
   end
   func_table.each do |key, h|
     if not IFDEF_FUNCS.include?(key)
-      f.print "  this.#{key} = addon.#{key};"
-      f.print "\n"
+      f.print "  addon.#{gen_classname(key)},\n"
     end
   end
-  f.print "}\n"
+  f.print "  addon.IotivityLite\n"
+  f.print "];\n"
   f.print "\n"
-  f.print "module.exports = IotivityLite;"
-
+=end
 end
