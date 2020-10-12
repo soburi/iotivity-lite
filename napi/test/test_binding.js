@@ -21,9 +21,9 @@ function testInvalidParams()
     const instance = new IotivityLite();
 }
 
-//assert.doesNotThrow(testBasic, undefined, "testBasic threw an expection");
-//assert.throws(testInvalidParams, undefined, "testInvalidParams didn't throw");
+assert.doesNotThrow(testBasic, undefined, "testBasic threw an expection");
+assert.throws(testInvalidParams, undefined, "testInvalidParams didn't throw");
 //
-testBasic();
+//testBasic();
 
 console.log("Tests passed- everything looks OK!");
