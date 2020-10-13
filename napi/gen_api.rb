@@ -345,7 +345,8 @@ SETGET_OVERRIDE = {
 
 FUNC_OVERRIDE = {
   'oc_init_platform' => {
-    'invoke' => "/**************/\n"
+    '1' => "  oc_init_platform_cb_t init_platform_cb = oc_init_platform_helper;\n",
+    '2' => "  callback_helper_t* data = new callback_helper_t(info[1].As<Napi::Function>(), info[2].As<Napi::Value>());\n",
   }
 }
 
@@ -865,7 +866,7 @@ def gen_funcimpl(name, param)
           ty == 'oc_discovery_handler_t' or
           ty == 'oc_factory_presets_cb_t' or
           ty == 'oc_get_properties_cb_t' or
-          ty == 'oc_init_platform_cb_t' or
+#          ty == 'oc_init_platform_cb_t' or
           ty == 'oc_memb_buffers_avail_callback_t' or
           ty == 'oc_obt_acl_cb_t' or
           ty == 'oc_obt_creds_cb_t' or
@@ -1002,7 +1003,7 @@ File.open('src/structs.cc', 'w') do |f|
 end
 
 File.open('src/functions.h', 'w') do |f|
-  f.print "#include \"structs.h\"\n"
+  f.print "#include \"helper.h\"\n"
 
   func_table.each do |key, h|
     if not IFDEF_FUNCS.include?(key) #TODO

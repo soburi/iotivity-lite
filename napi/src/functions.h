@@ -1,4 +1,4 @@
-#include "structs.h"
+#include "helper.h"
 Napi::Value N_oc_assert_all_roles(const Napi::CallbackInfo&);
 Napi::Value N_oc_assert_role(const Napi::CallbackInfo&);
 Napi::Value N_oc_auto_assert_roles(const Napi::CallbackInfo&);

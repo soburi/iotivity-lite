@@ -549,13 +549,9 @@ Napi::Value N_oc_get_con_res_announced(const Napi::CallbackInfo& info) {
 
 Napi::Value N_oc_init_platform(const Napi::CallbackInfo& info) {
   const char* mfg_name = info[0].As<Napi::String>().Utf8Value().c_str();
-  oc_init_platform_cb_t init_platform_cb = nullptr;
-  Napi::Function init_platform_cb_ = info[1].As<Napi::Function>();
-  void* data = info[2];
-/**************/
-  /*
-   return Napi::Number::New(info.Env(), oc_init_platform(mfg_name, init_platform_cb, data));
-  */
+  oc_init_platform_cb_t init_platform_cb = oc_init_platform_helper;
+  callback_helper_t* data = new callback_helper_t(info[1].As<Napi::Function>(), info[2].As<Napi::Value>());
+  return Napi::Number::New(info.Env(), oc_init_platform(mfg_name, init_platform_cb, data));
 }
 
 Napi::Value N_oc_is_owned_device(const Napi::CallbackInfo& info) {
