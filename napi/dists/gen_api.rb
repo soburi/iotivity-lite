@@ -364,7 +364,7 @@ SETGET_OVERRIDE = {
 
 FUNC_OVERRIDE = {
   'oc_init_platform' => {
-    '1' => "  oc_init_platform_cb_t init_platform_cb = oc_init_platform_helper;\n",
+    '1' => "  oc_init_platform_cb_t init_platform_cb = ((info.Length() > 0) && info[1].IsFunction()) ? oc_init_platform_helper : null;\n",
     '2' => "  callback_helper_t* data = new callback_helper_t(info[1].As<Napi::Function>(), info[2].As<Napi::Value>());\n",
   },
   'oc_main_init' => {
@@ -447,9 +447,9 @@ TYPEDEFS = {
   'oc_request_callback_t' => 'void (*)(oc_request_t*, oc_interface_mask_t, void*)',
   'oc_trigger_t' => 'void (*)(void*)',
   'oc_core_init_platform_cb_t' => 'void (*)(void*)',
-#'interface_event_handler_t' => 'void (*)(oc_interface_event_t event)',
-#'oc_memb_buffers_avail_callback_t' => 'void (*)(int)',
-#'session_event_handler_t' => 'void (*)(const oc_endpoint_t* endpoint, oc_session_state_t state)',
+  'interface_event_handler_t' => 'void (*)(oc_interface_event_t event)',
+  'oc_memb_buffers_avail_callback_t' => 'void (*)(int)',
+  'session_event_handler_t' => 'void (*)(const oc_endpoint_t* endpoint, oc_session_state_t state)',
   }
 
 IGNORE_TYPES = {
@@ -542,6 +542,14 @@ IFDEF_FUNCS = {
   'oc_ri_alloc_resource' => 'OC_SERVER',
   'oc_ri_add_resource' => 'OC_SERVER',
   'oc_ri_delete_resource' => 'OC_SERVER',
+  'oc_swupdate_notify_upgrading' => 'OC_SOFTWARE_UPDATE',
+  'oc_swupdate_notify_downloaded' => 'OC_SOFTWARE_UPDATE',
+  'oc_swupdate_notify_done' => 'OC_SOFTWARE_UPDATE',
+  'oc_swupdate_notify_new_version_available' => 'OC_SOFTWARE_UPDATE',
+  'oc_swupdate_set_impl' => 'OC_SOFTWARE_UPDATE',
+  'oc_mem_trace_add_pace' => 'OC_MEMORY_TRACE',
+  'oc_mem_trace_shutdown' => 'OC_MEMORY_TRACE',
+  'oc_mem_trace_init' => 'OC_MEMORY_TRACE',
 
 "PT_THREAD" => "XXX",
 "OC_PROCESS_NAME" => "XXX",
@@ -596,15 +604,6 @@ IFDEF_FUNCS = {
 '_oc_string_array_add_item'=>'xxx',
 '_oc_copy_string_to_array'=>'xxx',
 'oc_random_value' => 'xxx',
-
-'oc_swupdate_notify_upgrading' => 'OC_SOFTWARE_UPDATE',
-'oc_swupdate_notify_downloaded' => 'OC_SOFTWARE_UPDATE',
-'oc_swupdate_notify_done' => 'OC_SOFTWARE_UPDATE',
-'oc_swupdate_notify_new_version_available' => 'OC_SOFTWARE_UPDATE',
-'oc_swupdate_set_impl' => 'OC_SOFTWARE_UPDATE',
-'oc_mem_trace_add_pace' => 'OC_MEMORY_TRACE',
-'oc_mem_trace_shutdown' => 'OC_MEMORY_TRACE',
-'oc_mem_trace_init' => 'OC_MEMORY_TRACE',
 
 }
 
