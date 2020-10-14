@@ -28,8 +28,30 @@ function testConstructOCIPv4Addr()
     console.dir(_ipv4.port);
 }
 
-assert.doesNotThrow(testBasic, undefined, "testBasic threw an expection");
-assert.doesNotThrow(testConstructOCIPv4Addr, undefined, "testConstructOCIPv4Addr threw an expection");
+function test_oc_set_con_res_announced()
+{
+    IotivityLite.oc_set_con_res_announced(true);
+}
+
+function test_oc_storage_config()
+{
+    return IotivityLite.oc_storage_config("./client_creds");
+}
+
+function test_oc_main_init() 
+{
+	var handler = new IotivityLite.OCHandler();
+	return IotivityLite.oc_main_init(handler);
+}
+
+assert.doesNotThrow(testBasic)
+assert.doesNotThrow(testConstructOCIPv4Addr)
+assert.doesNotThrow(test_oc_set_con_res_announced)
+assert.doesNotThrow(test_oc_storage_config, 0)
+assert.equal(test_oc_storage_config(), 0)
+assert.doesNotThrow(test_oc_main_init, 0)
+assert.equal(test_oc_main_init(), 0)
+
 //assert.throws(testInvalidParams, undefined, "testInvalidParams didn't throw");
 //
 //testBasic();

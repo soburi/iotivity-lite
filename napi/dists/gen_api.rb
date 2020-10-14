@@ -32,6 +32,7 @@ public:
   operator STRUCTNAME*() { return m_pvalue.get(); }
 private:
 /* setget */
+/* extra_value */
   std::shared_ptr<STRUCTNAME> m_pvalue;
 };
 CLSDECL
@@ -144,6 +145,19 @@ STRUCTS = struct_table.keys
 
 ENUMS = enum_table.keys
 
+EXTRA_VALUE= {
+  "oc_handler_t" => "\
+  Napi::FunctionReference init;\n\
+  Napi::FunctionReference signal_event_loop;\n\
+#if defined(OC_SERVER)\n\
+  Napi::FunctionReference register_resources;\n\
+#endif\n\
+#if defined(OC_CLIENT)\n\
+  Napi::FunctionReference requests_entry;\n\
+#endif\
+",
+}
+
 SETGET_OVERRIDE = {
   "oc_client_handler_t::discovery"=> {
     "set"=> "discovery_function = value;",
@@ -158,20 +172,20 @@ SETGET_OVERRIDE = {
     "get"=> "return response_function;"
   },
   "oc_handler_t::init"=> {
-    "set"=> "init_function = value;",
-    "get"=> "return init_function;"
+    "set"=> "  oc_handler_init.Reset(value.As<Napi::Function>());\n  m_pvalue->init = oc_handler_init_helper;\n",
+    "get"=> "  return oc_handler_init.Value();"
   },
   "oc_handler_t::register_resources"=> {
-    "set"=> "register_resources_function = value;",
-    "get"=> "return register_resources_function ;"
+    "set"=> "  oc_handler_register_resources_ref.Reset(value.As<Napi::Function>());\n  m_pvalue->register_resources = oc_handler_register_resources_helper;\n",
+    "get"=> "  return oc_handler_register_resources_ref.Value();"
   },
   "oc_handler_t::requests_entry"=> {
-    "set"=> "requests_entry_function = value;",
-    "get"=> "return requests_entry_function;"
+    "set"=> "  oc_handler_requests_entry_ref.Reset(value.As<Napi::Function>());\n  m_pvalue->requests_entry = oc_handler_requests_entry_helper;\n",
+    "get"=> "  return oc_handler_requests_entry_ref.Value();\n"
   },
   "oc_handler_t::signal_event_loop"=> {
-    "set"=> "signal_event_loop_function = value;",
-    "get"=> "return signal_event_loop_function;"
+    "set"=> "  oc_handler_signal_event_loop_ref.Reset(value.As<Napi::Function>());\n  m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;\n",
+    "get"=> "  return oc_handler_signal_event_loop_ref.Value();\n"
   },
   "oc_swupdate_cb_t::check_new_version"=> {
     "set"=> "check_new_version_function = value;",
@@ -460,6 +474,8 @@ IGNORE_FUNCS = [
 ]
 
 IFDEF_TYPES = {
+  "oc_handler_t" => { "register_resources" => "OC_SERVER",
+                      "requests_entry" => "OC_CLIENT", },
   "oc_sec_cred_t" => { "chain" => "OC_PKI",
                        "child" => "OC_PKI",
                        "credusage" => "OC_PKI",
@@ -602,7 +618,7 @@ def gen_setget_decl(type, ftable)
     t = TYPEDEFS[v] if TYPEDEFS[v] != nil
 
     if t =~ /\(\*\)/
-      decl += "  Napi::Value #{k}_function; Napi::Value #{k}_data;\n\n"
+      decl += "  Napi::Value #{k}_function; Napi::Value #{k}_data;\n\n" #TODO
     end
 
     if IFDEF_TYPES.has_key?(type) and IFDEF_TYPES[type].is_a?(Hash) and IFDEF_TYPES[type].has_key?(k)
@@ -612,6 +628,15 @@ def gen_setget_decl(type, ftable)
   end
   list.join()
 end
+
+def gen_extra_value_decl(type, ftable)
+    if EXTRA_VALUE[type] != nil
+      "#{EXTRA_VALUE[type]}\n"
+    else
+      ""
+    end
+end
+
 
 def gen_accessor(type, ftable)
   list = ftable.collect do |k, v|
@@ -665,7 +690,7 @@ def gen_classdecl(key, h)
   return "" if IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil
   hh = format_ignore(key, h)
 
-  decl = CLSDECL.gsub(/STRUCTNAME/, key).gsub(/CLASSNAME/, gen_classname(key)).gsub(/\/\* setget \*\//, gen_setget_decl(key, hh))
+  decl = CLSDECL.gsub(/STRUCTNAME/, key).gsub(/CLASSNAME/, gen_classname(key)).gsub(/\/\* setget \*\//, gen_setget_decl(key, hh)).gsub(/\/\* extra_value \*\//, gen_extra_value_decl(key, hh))
   if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
     decl = "#ifdef #{IFDEF_TYPES[key]}\n" + decl + "#endif\n"
   end
@@ -832,7 +857,7 @@ def gen_funcimpl(name, param)
       decl += "  #{ty} #{n} = info[#{i}];\n"
       args.append(n)
     elsif ty == 'const char*'
-      decl += "  #{ty} #{n} = info[#{i}].As<Napi::String>().Utf8Value().c_str();\n"
+      decl += "  std::string #{n}_ = info[#{i}].As<Napi::String>().Utf8Value();\n  #{ty} #{n} = #{n}_.c_str();\n"
       args.append(n)
     elsif ty == 'char*'
       decl += "  #{ty} #{n} = const_cast<char*>(info[#{i}].As<Napi::String>().Utf8Value().c_str());\n"
@@ -989,6 +1014,7 @@ end
 
 File.open('src/structs.cc', 'w') do |f|
   f.print "#include \"structs.h\"\n"
+  f.print "#include \"helper.h\"\n"
 
   struct_table.each do |key, h|
     f.print gen_classimpl(key, h)

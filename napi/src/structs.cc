@@ -1,4 +1,5 @@
 #include "structs.h"
+#include "helper.h"
 Napi::FunctionReference OCAceResource::constructor;
 
 Napi::Function OCAceResource::GetClass(Napi::Env env) {
@@ -1579,8 +1580,12 @@ Napi::FunctionReference OCHandler::constructor;
 Napi::Function OCHandler::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCHandler", {
     OCHandler::InstanceAccessor("init", &OCHandler::get_init, &OCHandler::set_init),
+#ifdef OC_SERVER
     OCHandler::InstanceAccessor("register_resources", &OCHandler::get_register_resources, &OCHandler::set_register_resources),
+#endif
+#ifdef OC_CLIENT
     OCHandler::InstanceAccessor("requests_entry", &OCHandler::get_requests_entry, &OCHandler::set_requests_entry),
+#endif
     OCHandler::InstanceAccessor("signal_event_loop", &OCHandler::get_signal_event_loop, &OCHandler::set_signal_event_loop),
 
   });
@@ -1605,42 +1610,56 @@ OCHandler::OCHandler(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCHandler::get_init(const Napi::CallbackInfo& info)
 {
-return init_function;
+  return init.Value();
 }
 
 void OCHandler::set_init(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-init_function = value;
+  init.Reset(value.As<Napi::Function>());
+  m_pvalue->init = oc_handler_init_helper;
+
 }
 
+#ifdef OC_SERVER
 Napi::Value OCHandler::get_register_resources(const Napi::CallbackInfo& info)
 {
-return register_resources_function ;
+  return register_resources.Value();
 }
 
 void OCHandler::set_register_resources(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-register_resources_function = value;
-}
+  register_resources.Reset(value.As<Napi::Function>());
+  m_pvalue->register_resources = oc_handler_register_resources_helper;
 
+}
+#endif
+
+#ifdef OC_CLIENT
 Napi::Value OCHandler::get_requests_entry(const Napi::CallbackInfo& info)
 {
-return requests_entry_function;
+  return requests_entry.Value();
+
 }
 
 void OCHandler::set_requests_entry(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-requests_entry_function = value;
+  requests_entry.Reset(value.As<Napi::Function>());
+  m_pvalue->requests_entry = oc_handler_requests_entry_helper;
+
 }
+#endif
 
 Napi::Value OCHandler::get_signal_event_loop(const Napi::CallbackInfo& info)
 {
-return signal_event_loop_function;
+  return signal_event_loop.Value();
+
 }
 
 void OCHandler::set_signal_event_loop(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-signal_event_loop_function = value;
+  signal_event_loop.Reset(value.As<Napi::Function>());
+  m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
+
 }
 
 Napi::FunctionReference OCIPv4Addr::constructor;

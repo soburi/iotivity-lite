@@ -49,6 +49,7 @@ private:
   Napi::Value get_wildcard(const Napi::CallbackInfo&);
          void set_wildcard(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_ace_res_t> m_pvalue;
 };
 
@@ -62,6 +63,7 @@ public:
 private:
   Napi::Value get_base(const Napi::CallbackInfo&);
          void set_base(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_blockwise_request_state_s> m_pvalue;
 };
@@ -82,6 +84,7 @@ private:
   Napi::Value get_observe_seq(const Napi::CallbackInfo&);
          void set_observe_seq(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
+
 
   std::shared_ptr<oc_blockwise_response_state_s> m_pvalue;
 };
@@ -129,6 +132,7 @@ private:
   Napi::Value get_uri_query(const Napi::CallbackInfo&);
          void set_uri_query(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_blockwise_state_s> m_pvalue;
 };
 
@@ -171,6 +175,7 @@ private:
   Napi::Value get_uri(const Napi::CallbackInfo&);
          void set_uri(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_client_cb_t> m_pvalue;
 };
 
@@ -195,6 +200,7 @@ private:
   Napi::Value response_function; Napi::Value response_data;
 
 
+
   std::shared_ptr<oc_client_handler_t> m_pvalue;
 };
 
@@ -212,6 +218,7 @@ private:
          void set_content_format(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_observe_option(const Napi::CallbackInfo&);
          void set_observe_option(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_client_response_t> m_pvalue;
 };
@@ -247,6 +254,7 @@ private:
   Napi::Value get_user_data(const Napi::CallbackInfo&);
          void set_user_data(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_cloud_context_t> m_pvalue;
 };
 
@@ -276,6 +284,7 @@ private:
          void set_status(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_uid(const Napi::CallbackInfo&);
          void set_uid(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_cloud_store_t> m_pvalue;
 };
@@ -325,6 +334,7 @@ private:
   Napi::Value get_uri(const Napi::CallbackInfo&);
          void set_uri(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_collection_s> m_pvalue;
 };
 
@@ -340,6 +350,7 @@ private:
          void set_data(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_encoding(const Napi::CallbackInfo&);
          void set_encoding(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_cred_data_t> m_pvalue;
 };
@@ -369,6 +380,7 @@ private:
   Napi::Value get_piid(const Napi::CallbackInfo&);
          void set_piid(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_device_info_t> m_pvalue;
 };
 
@@ -397,6 +409,7 @@ private:
   Napi::Value get_version(const Napi::CallbackInfo&);
          void set_version(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_endpoint_t> m_pvalue;
 };
 
@@ -410,6 +423,7 @@ public:
 private:
   Napi::Value get_timer(const Napi::CallbackInfo&);
          void set_timer(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_etimer> m_pvalue;
 };
@@ -431,6 +445,7 @@ private:
   Napi::Value get_timer(const Napi::CallbackInfo&);
          void set_timer(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_event_callback_s> m_pvalue;
 };
 
@@ -446,18 +461,31 @@ private:
          void set_init(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value init_function; Napi::Value init_data;
 
+#ifdef OC_SERVER
   Napi::Value get_register_resources(const Napi::CallbackInfo&);
          void set_register_resources(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value register_resources_function; Napi::Value register_resources_data;
 
+#endif
+#ifdef OC_CLIENT
   Napi::Value get_requests_entry(const Napi::CallbackInfo&);
          void set_requests_entry(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value requests_entry_function; Napi::Value requests_entry_data;
 
+#endif
   Napi::Value get_signal_event_loop(const Napi::CallbackInfo&);
          void set_signal_event_loop(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value signal_event_loop_function; Napi::Value signal_event_loop_data;
 
+
+  Napi::FunctionReference init;
+  Napi::FunctionReference signal_event_loop;
+#if defined(OC_SERVER)
+  Napi::FunctionReference register_resources;
+#endif
+#if defined(OC_CLIENT)
+  Napi::FunctionReference requests_entry;
+#endif
 
   std::shared_ptr<oc_handler_t> m_pvalue;
 };
@@ -474,6 +502,7 @@ private:
          void set_address(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_port(const Napi::CallbackInfo&);
          void set_port(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_ipv4_addr_t> m_pvalue;
 };
@@ -493,6 +522,7 @@ private:
   Napi::Value get_scope(const Napi::CallbackInfo&);
          void set_scope(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_ipv6_addr_t> m_pvalue;
 };
 
@@ -509,6 +539,7 @@ private:
   Napi::Value get_type(const Napi::CallbackInfo&);
          void set_type(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_le_addr_t> m_pvalue;
 };
 
@@ -524,6 +555,7 @@ private:
          void set_key(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_value(const Napi::CallbackInfo&);
          void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_link_params_t> m_pvalue;
 };
@@ -543,6 +575,7 @@ private:
   Napi::Value get_rel(const Napi::CallbackInfo&);
          void set_rel(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_link_s> m_pvalue;
 };
 
@@ -560,6 +593,7 @@ private:
          void set_num(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_size(const Napi::CallbackInfo&);
          void set_size(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_memb> m_pvalue;
 };
@@ -589,6 +623,7 @@ private:
   Napi::Value get_ref_count(const Napi::CallbackInfo&);
          void set_ref_count(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_message_s> m_pvalue;
 };
 
@@ -603,6 +638,7 @@ private:
   Napi::Value get_size(const Napi::CallbackInfo&);
          void set_size(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_mmem> m_pvalue;
 };
 
@@ -614,6 +650,7 @@ public:
   static Napi::FunctionReference constructor;
   operator oc_network_interface_cb*() { return m_pvalue.get(); }
 private:
+
 
   std::shared_ptr<oc_network_interface_cb> m_pvalue;
 };
@@ -637,6 +674,7 @@ private:
   Napi::Value get_pi(const Napi::CallbackInfo&);
          void set_pi(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_platform_info_t> m_pvalue;
 };
 
@@ -655,6 +693,7 @@ private:
   Napi::Value get_state(const Napi::CallbackInfo&);
          void set_state(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_process> m_pvalue;
 };
 
@@ -666,6 +705,7 @@ public:
   static Napi::FunctionReference constructor;
   operator oc_properties_cb_t*() { return m_pvalue.get(); }
 private:
+
 
   std::shared_ptr<oc_properties_cb_t> m_pvalue;
 };
@@ -682,6 +722,7 @@ private:
          void set_name(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_type(const Napi::CallbackInfo&);
          void set_type(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_rep_s> m_pvalue;
 };
@@ -700,6 +741,7 @@ private:
 
   Napi::Value get_user_data(const Napi::CallbackInfo&);
          void set_user_data(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_request_handler_s> m_pvalue;
 };
@@ -722,6 +764,7 @@ private:
          void set_query(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_query_len(const Napi::CallbackInfo&);
          void set_query_len(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_request_t> m_pvalue;
 };
@@ -775,6 +818,7 @@ private:
   Napi::Value get_uri(const Napi::CallbackInfo&);
          void set_uri(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_resource_s> m_pvalue;
 };
 
@@ -786,6 +830,7 @@ public:
   static Napi::FunctionReference constructor;
   operator oc_response_t*() { return m_pvalue.get(); }
 private:
+
 
   std::shared_ptr<oc_response_t> m_pvalue;
 };
@@ -803,6 +848,7 @@ private:
   Napi::Value get_role(const Napi::CallbackInfo&);
          void set_role(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_role_t> m_pvalue;
 };
 
@@ -816,6 +862,7 @@ public:
 private:
   Napi::Value get_rt(const Napi::CallbackInfo&);
          void set_rt(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_rt_t> m_pvalue;
 };
@@ -837,6 +884,7 @@ private:
   Napi::Value get_subject_type(const Napi::CallbackInfo&);
          void set_subject_type(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_sec_ace_t> m_pvalue;
 };
 
@@ -851,6 +899,7 @@ private:
   Napi::Value get_rowneruuid(const Napi::CallbackInfo&);
          void set_rowneruuid(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_sec_acl_s> m_pvalue;
 };
 
@@ -864,6 +913,7 @@ public:
 private:
   Napi::Value get_rowneruuid(const Napi::CallbackInfo&);
          void set_rowneruuid(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_sec_creds_t> m_pvalue;
 };
@@ -903,6 +953,7 @@ private:
   Napi::Value get_subjectuuid(const Napi::CallbackInfo&);
          void set_subjectuuid(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_sec_cred_t> m_pvalue;
 };
 
@@ -914,6 +965,7 @@ public:
   static Napi::FunctionReference constructor;
   operator oc_session_event_cb*() { return m_pvalue.get(); }
 private:
+
 
   std::shared_ptr<oc_session_event_cb> m_pvalue;
 };
@@ -943,6 +995,7 @@ private:
   Napi::Value validate_purl_function; Napi::Value validate_purl_data;
 
 
+
   std::shared_ptr<oc_swupdate_cb_t> m_pvalue;
 };
 
@@ -959,6 +1012,7 @@ private:
   Napi::Value get_start(const Napi::CallbackInfo&);
          void set_start(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_timer> m_pvalue;
 };
 
@@ -972,6 +1026,7 @@ public:
 private:
   Napi::Value get_id(const Napi::CallbackInfo&);
          void set_id(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_uuid_t> m_pvalue;
 };
@@ -988,6 +1043,7 @@ private:
          void set_conn(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_uuid(const Napi::CallbackInfo&);
          void set_uuid(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_ace_subject_t> m_pvalue;
 };
@@ -1007,6 +1063,7 @@ private:
   Napi::Value get_ipv6(const Napi::CallbackInfo&);
          void set_ipv6(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_endpoint_t::dev_addr> m_pvalue;
 };
 
@@ -1023,6 +1080,7 @@ private:
          void set_OC_CONN_AUTH_CRYPT(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_CONN_ANON_CLEAR(const Napi::CallbackInfo&);
          void set_OC_CONN_ANON_CLEAR(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_ace_connection_type_t> m_pvalue;
 };
@@ -1048,6 +1106,7 @@ private:
   Napi::Value get_OC_PERM_NOTIFY(const Napi::CallbackInfo&);
          void set_OC_PERM_NOTIFY(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_ace_permissions_t> m_pvalue;
 };
 
@@ -1065,6 +1124,7 @@ private:
          void set_OC_SUBJECT_ROLE(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_SUBJECT_CONN(const Napi::CallbackInfo&);
          void set_OC_SUBJECT_CONN(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_ace_subject_type_t> m_pvalue;
 };
@@ -1086,6 +1146,7 @@ private:
   Napi::Value get_OC_ACE_WC_ALL_PUBLIC(const Napi::CallbackInfo&);
          void set_OC_ACE_WC_ALL_PUBLIC(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_ace_wildcard_t> m_pvalue;
 };
 
@@ -1101,6 +1162,7 @@ private:
          void set_OC_BLOCKWISE_CLIENT(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_BLOCKWISE_SERVER(const Napi::CallbackInfo&);
          void set_OC_BLOCKWISE_SERVER(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_blockwise_role_t> m_pvalue;
 };
@@ -1118,6 +1180,7 @@ private:
   Napi::Value get_OC_CONTINUE_DISCOVERY(const Napi::CallbackInfo&);
          void set_OC_CONTINUE_DISCOVERY(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_discovery_flags_t> m_pvalue;
 };
 
@@ -1133,6 +1196,7 @@ private:
          void set_HIGH_QOS(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_LOW_QOS(const Napi::CallbackInfo&);
          void set_LOW_QOS(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_qos_t> m_pvalue;
 };
@@ -1153,6 +1217,7 @@ private:
          void set_CLOUD_ERROR_CONNECT(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_CLOUD_ERROR_REFRESH_ACCESS_TOKEN(const Napi::CallbackInfo&);
          void set_CLOUD_ERROR_REFRESH_ACCESS_TOKEN(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_cloud_error_t> m_pvalue;
 };
@@ -1182,6 +1247,7 @@ private:
   Napi::Value get_OC_CLOUD_DEREGISTERED(const Napi::CallbackInfo&);
          void set_OC_CLOUD_DEREGISTERED(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_cloud_status_t> m_pvalue;
 };
 
@@ -1204,6 +1270,7 @@ private:
   Napi::Value get_OC_CPS_FAILED(const Napi::CallbackInfo&);
          void set_OC_CPS_FAILED(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_cps_t> m_pvalue;
 };
 
@@ -1225,6 +1292,7 @@ private:
   Napi::Value get_CSM_ERROR(const Napi::CallbackInfo&);
          void set_CSM_ERROR(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<tcp_csm_state_t> m_pvalue;
 };
 #endif
@@ -1243,6 +1311,7 @@ private:
          void set_OC_CREDTYPE_PSK(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_CREDTYPE_CERT(const Napi::CallbackInfo&);
          void set_OC_CREDTYPE_CERT(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_sec_credtype_t> m_pvalue;
 };
@@ -1268,6 +1337,7 @@ private:
   Napi::Value get_OC_CREDUSAGE_MFG_CERT(const Napi::CallbackInfo&);
          void set_OC_CREDUSAGE_MFG_CERT(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_sec_credusage_t> m_pvalue;
 };
 
@@ -1290,6 +1360,7 @@ private:
   Napi::Value get_OC_ENCODING_HANDLE(const Napi::CallbackInfo&);
          void set_OC_ENCODING_HANDLE(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_sec_encoding_t> m_pvalue;
 };
 
@@ -1305,6 +1376,7 @@ private:
          void set_OCF_VER_1_0_0(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OIC_VER_1_1_0(const Napi::CallbackInfo&);
          void set_OIC_VER_1_1_0(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<ocf_version_t> m_pvalue;
 };
@@ -1331,6 +1403,7 @@ private:
          void set_GATT(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_MULTICAST(const Napi::CallbackInfo&);
          void set_MULTICAST(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<transport_flags> m_pvalue;
 };
@@ -1490,6 +1563,7 @@ private:
   Napi::Value get_OC_ENUM_ZIGZAG(const Napi::CallbackInfo&);
          void set_OC_ENUM_ZIGZAG(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_enum_t> m_pvalue;
 };
 
@@ -1530,6 +1604,7 @@ private:
   Napi::Value get_OC_POS_BOTTOMCENTRE(const Napi::CallbackInfo&);
          void set_OC_POS_BOTTOMCENTRE(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_pos_description_t> m_pvalue;
 };
 
@@ -1546,6 +1621,7 @@ private:
          void set_NETWORK_INTERFACE_DOWN(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_NETWORK_INTERFACE_UP(const Napi::CallbackInfo&);
          void set_NETWORK_INTERFACE_UP(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_interface_event_t> m_pvalue;
 };
@@ -1566,6 +1642,7 @@ private:
          void set_OC_SP_BLUE(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_SP_PURPLE(const Napi::CallbackInfo&);
          void set_OC_SP_PURPLE(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_sp_types_t> m_pvalue;
 };
@@ -1606,6 +1683,7 @@ private:
          void set_OC_REP_STRING_ARRAY(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_REP_OBJECT_ARRAY(const Napi::CallbackInfo&);
          void set_OC_REP_OBJECT_ARRAY(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_rep_value_type_t> m_pvalue;
 };
@@ -1666,6 +1744,7 @@ private:
          void set_APPLICATION_CBOR(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_APPLICATION_VND_OCF_CBOR(const Napi::CallbackInfo&);
          void set_APPLICATION_VND_OCF_CBOR(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_content_format_t> m_pvalue;
 };
@@ -1739,6 +1818,7 @@ private:
   Napi::Value get_OCF_D(const Napi::CallbackInfo&);
          void set_OCF_D(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_core_resource_t> m_pvalue;
 };
 
@@ -1754,6 +1834,7 @@ private:
          void set_OC_EVENT_DONE(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_EVENT_CONTINUE(const Napi::CallbackInfo&);
          void set_OC_EVENT_CONTINUE(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_event_callback_retval_t> m_pvalue;
 };
@@ -1783,6 +1864,7 @@ private:
   Napi::Value get_OC_IF_CREATE(const Napi::CallbackInfo&);
          void set_OC_IF_CREATE(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_interface_mask_t> m_pvalue;
 };
 
@@ -1803,6 +1885,7 @@ private:
   Napi::Value get_OC_DELETE(const Napi::CallbackInfo&);
          void set_OC_DELETE(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_method_t> m_pvalue;
 };
 
@@ -1822,6 +1905,7 @@ private:
          void set_OC_SECURE(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_PERIODIC(const Napi::CallbackInfo&);
          void set_OC_PERIODIC(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_resource_properties_t> m_pvalue;
 };
@@ -1881,6 +1965,7 @@ private:
   Napi::Value get_OC_PING_TIMEOUT(const Napi::CallbackInfo&);
          void set_OC_PING_TIMEOUT(const Napi::CallbackInfo&, const Napi::Value&);
 
+
   std::shared_ptr<oc_status_t> m_pvalue;
 };
 
@@ -1896,6 +1981,7 @@ private:
          void set_OC_SESSION_CONNECTED(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_SESSION_DISCONNECTED(const Napi::CallbackInfo&);
          void set_OC_SESSION_DISCONNECTED(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_session_state_t> m_pvalue;
 };
@@ -1924,6 +2010,7 @@ private:
          void set_OC_SWUPDATE_RESULT_INVALID_URL(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_SWUPDATE_RESULT_UPGRADE_FAIL(const Napi::CallbackInfo&);
          void set_OC_SWUPDATE_RESULT_UPGRADE_FAIL(const Napi::CallbackInfo&, const Napi::Value&);
+
 
   std::shared_ptr<oc_swupdate_result_t> m_pvalue;
 };
