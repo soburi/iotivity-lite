@@ -46,8 +46,12 @@ function test_oc_main_init()
 	handler.register_resources = function() { console.log("-- register_resources --"); };
 	handler.request_entry = function() { console.log("-- request_entry --"); };
 
-
 	return IotivityLite.oc_main_init(handler);
+}
+
+function test_oc_main_shutdown()
+{
+	IotivityLite.oc_main_shutdown();
 }
 
 assert.doesNotThrow(testBasic)
@@ -57,6 +61,7 @@ assert.doesNotThrow(test_oc_storage_config, 0)
 assert.equal(test_oc_storage_config(), 0)
 assert.doesNotThrow(test_oc_main_init, 0)
 assert.equal(test_oc_main_init(), 0)
+assert.doesNotThrow(test_oc_main_shutdown)
 
 //assert.throws(testInvalidParams, undefined, "testInvalidParams didn't throw");
 //
