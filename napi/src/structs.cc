@@ -1623,13 +1623,12 @@ void OCHandler::set_init(const Napi::CallbackInfo& info, const Napi::Value& valu
 #ifdef OC_SERVER
 Napi::Value OCHandler::get_register_resources(const Napi::CallbackInfo& info)
 {
-  return register_resources.Value();
+  return oc_handler_register_resources_ref.Value();
 }
 
 void OCHandler::set_register_resources(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   register_resources.Reset(value.As<Napi::Function>());
-  m_pvalue->register_resources = oc_handler_register_resources_helper;
 
 }
 #endif
@@ -1644,7 +1643,6 @@ Napi::Value OCHandler::get_requests_entry(const Napi::CallbackInfo& info)
 void OCHandler::set_requests_entry(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   requests_entry.Reset(value.As<Napi::Function>());
-  m_pvalue->requests_entry = oc_handler_requests_entry_helper;
 
 }
 #endif
@@ -1658,7 +1656,6 @@ Napi::Value OCHandler::get_signal_event_loop(const Napi::CallbackInfo& info)
 void OCHandler::set_signal_event_loop(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   signal_event_loop.Reset(value.As<Napi::Function>());
-  m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
 
 }
 

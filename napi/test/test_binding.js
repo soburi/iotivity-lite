@@ -41,6 +41,12 @@ function test_oc_storage_config()
 function test_oc_main_init() 
 {
 	var handler = new IotivityLite.OCHandler();
+	handler.init = function() { console.log("-- init --"); };
+	handler.signal_event_loop = function() { console.log("-- signal_event_loop --"); };
+	handler.register_resources = function() { console.log("-- register_resources --"); };
+	handler.request_entry = function() { console.log("-- request_entry --"); };
+
+
 	return IotivityLite.oc_main_init(handler);
 }
 

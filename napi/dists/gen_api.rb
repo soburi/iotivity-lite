@@ -30,7 +30,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator STRUCTNAME*() { return m_pvalue.get(); }
-private:
 /* setget */
 /* extra_value */
   std::shared_ptr<STRUCTNAME> m_pvalue;
@@ -172,20 +171,20 @@ SETGET_OVERRIDE = {
     "get"=> "return response_function;"
   },
   "oc_handler_t::init"=> {
-    "set"=> "  oc_handler_init.Reset(value.As<Napi::Function>());\n  m_pvalue->init = oc_handler_init_helper;\n",
-    "get"=> "  return oc_handler_init.Value();"
+    "set"=> "  init.Reset(value.As<Napi::Function>());\n  m_pvalue->init = oc_handler_init_helper;\n",
+    "get"=> "  return init.Value();"
   },
   "oc_handler_t::register_resources"=> {
-    "set"=> "  oc_handler_register_resources_ref.Reset(value.As<Napi::Function>());\n  m_pvalue->register_resources = oc_handler_register_resources_helper;\n",
+    "set"=> "  register_resources.Reset(value.As<Napi::Function>());\n",#  m_pvalue->register_resources = oc_handler_register_resources_helper;\n",
     "get"=> "  return oc_handler_register_resources_ref.Value();"
   },
   "oc_handler_t::requests_entry"=> {
-    "set"=> "  oc_handler_requests_entry_ref.Reset(value.As<Napi::Function>());\n  m_pvalue->requests_entry = oc_handler_requests_entry_helper;\n",
-    "get"=> "  return oc_handler_requests_entry_ref.Value();\n"
+    "set"=> "  requests_entry.Reset(value.As<Napi::Function>());\n",#  m_pvalue->requests_entry = oc_handler_requests_entry_helper;\n",
+    "get"=> "  return requests_entry.Value();\n"
   },
   "oc_handler_t::signal_event_loop"=> {
-    "set"=> "  oc_handler_signal_event_loop_ref.Reset(value.As<Napi::Function>());\n  m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;\n",
-    "get"=> "  return oc_handler_signal_event_loop_ref.Value();\n"
+    "set"=> "  signal_event_loop.Reset(value.As<Napi::Function>());\n",#  m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;\n",
+    "get"=> "  return signal_event_loop.Value();\n"
   },
   "oc_swupdate_cb_t::check_new_version"=> {
     "set"=> "check_new_version_function = value;",
@@ -361,7 +360,19 @@ FUNC_OVERRIDE = {
   'oc_init_platform' => {
     '1' => "  oc_init_platform_cb_t init_platform_cb = oc_init_platform_helper;\n",
     '2' => "  callback_helper_t* data = new callback_helper_t(info[1].As<Napi::Function>(), info[2].As<Napi::Value>());\n",
-  }
+  },
+  'oc_main_init' => {
+    'invoke' => "\
+  oc_handler_init_ref.Reset(handler.init.Value());\n\
+  oc_handler_signal_event_loop_ref.Reset(handler.signal_event_loop.Value());\n\
+  oc_handler_register_resources_ref.Reset(handler.init.Value());\n\
+  oc_handler_requests_entry_ref.Reset(handler.signal_event_loop.Value());\n\
+  handler.m_pvalue->init = oc_handler_init_helper;\n\
+  handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;\n\
+  handler.m_pvalue->register_resources = oc_handler_register_resources_helper;\n\
+  handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;\n\
+  return Napi::Number::New(info.Env(), oc_main_init(handler));"
+  },
 }
 
 WRAPPERNAME = { 'oc_ipv4_addr_t' => "OCIPv4Addr",

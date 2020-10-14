@@ -602,7 +602,17 @@ Napi::Value N_oc_is_owned_device(const Napi::CallbackInfo& info) {
 
 Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
   OCHandler& handler = *OCHandler::Unwrap(info[0].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_main_init(handler));
+  oc_handler_init_ref.Reset(handler.init.Value());
+  oc_handler_signal_event_loop_ref.Reset(handler.signal_event_loop.Value());
+  oc_handler_register_resources_ref.Reset(handler.init.Value());
+  oc_handler_requests_entry_ref.Reset(handler.signal_event_loop.Value());
+  handler.m_pvalue->init = oc_handler_init_helper;
+  handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
+  handler.m_pvalue->register_resources = oc_handler_register_resources_helper;
+  handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;
+  return Napi::Number::New(info.Env(), oc_main_init(handler));  /*
+   return Napi::Number::New(info.Env(), oc_main_init(handler));
+  */
 }
 
 Napi::Value N_oc_main_poll(const Napi::CallbackInfo& info) {

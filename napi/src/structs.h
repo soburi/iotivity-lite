@@ -39,7 +39,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_ace_res_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_href(const Napi::CallbackInfo&);
          void set_href(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_interfaces(const Napi::CallbackInfo&);
@@ -60,7 +59,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_blockwise_request_state_s*() { return m_pvalue.get(); }
-private:
   Napi::Value get_base(const Napi::CallbackInfo&);
          void set_base(const Napi::CallbackInfo&, const Napi::Value&);
 
@@ -75,7 +73,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_blockwise_response_state_s*() { return m_pvalue.get(); }
-private:
   Napi::Value get_base(const Napi::CallbackInfo&);
          void set_base(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_etag(const Napi::CallbackInfo&);
@@ -96,7 +93,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_blockwise_state_s*() { return m_pvalue.get(); }
-private:
   Napi::Value get_buffer(const Napi::CallbackInfo&);
          void set_buffer(const Napi::CallbackInfo&, const Napi::Value&);
 #ifdef OC_CLEINT
@@ -143,7 +139,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_client_cb_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_discovery(const Napi::CallbackInfo&);
          void set_discovery(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_handler(const Napi::CallbackInfo&);
@@ -186,7 +181,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_client_handler_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_discovery(const Napi::CallbackInfo&);
          void set_discovery(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value discovery_function; Napi::Value discovery_data;
@@ -211,7 +205,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_client_response_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_code(const Napi::CallbackInfo&);
          void set_code(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_content_format(const Napi::CallbackInfo&);
@@ -230,7 +223,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_cloud_context_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_callback(const Napi::CallbackInfo&);
          void set_callback(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value callback_function; Napi::Value callback_data;
@@ -265,7 +257,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_cloud_store_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_access_token(const Napi::CallbackInfo&);
          void set_access_token(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_auth_provider(const Napi::CallbackInfo&);
@@ -296,7 +287,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_collection_s*() { return m_pvalue.get(); }
-private:
   Napi::Value get_default_interface(const Napi::CallbackInfo&);
          void set_default_interface(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_delete_handler(const Napi::CallbackInfo&);
@@ -345,7 +335,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_cred_data_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_data(const Napi::CallbackInfo&);
          void set_data(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_encoding(const Napi::CallbackInfo&);
@@ -362,7 +351,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_device_info_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_add_device_cb(const Napi::CallbackInfo&);
          void set_add_device_cb(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value add_device_cb_function; Napi::Value add_device_cb_data;
@@ -391,7 +379,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_endpoint_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_addr(const Napi::CallbackInfo&);
          void set_addr(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_addr_local(const Napi::CallbackInfo&);
@@ -420,7 +407,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_etimer*() { return m_pvalue.get(); }
-private:
   Napi::Value get_timer(const Napi::CallbackInfo&);
          void set_timer(const Napi::CallbackInfo&, const Napi::Value&);
 
@@ -435,7 +421,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_event_callback_s*() { return m_pvalue.get(); }
-private:
   Napi::Value get_callback(const Napi::CallbackInfo&);
          void set_callback(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value callback_function; Napi::Value callback_data;
@@ -456,7 +441,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_handler_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_init(const Napi::CallbackInfo&);
          void set_init(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value init_function; Napi::Value init_data;
@@ -497,7 +481,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_ipv4_addr_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_address(const Napi::CallbackInfo&);
          void set_address(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_port(const Napi::CallbackInfo&);
@@ -514,7 +497,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_ipv6_addr_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_address(const Napi::CallbackInfo&);
          void set_address(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_port(const Napi::CallbackInfo&);
@@ -533,7 +515,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_le_addr_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_address(const Napi::CallbackInfo&);
          void set_address(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_type(const Napi::CallbackInfo&);
@@ -550,7 +531,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_link_params_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_key(const Napi::CallbackInfo&);
          void set_key(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_value(const Napi::CallbackInfo&);
@@ -567,7 +547,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_link_s*() { return m_pvalue.get(); }
-private:
   Napi::Value get_ins(const Napi::CallbackInfo&);
          void set_ins(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_interfaces(const Napi::CallbackInfo&);
@@ -586,7 +565,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_memb*() { return m_pvalue.get(); }
-private:
   Napi::Value get_count(const Napi::CallbackInfo&);
          void set_count(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_num(const Napi::CallbackInfo&);
@@ -605,7 +583,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_message_s*() { return m_pvalue.get(); }
-private:
   Napi::Value get_data(const Napi::CallbackInfo&);
          void set_data(const Napi::CallbackInfo&, const Napi::Value&);
 #ifdef OC_SECURITY
@@ -634,7 +611,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_mmem*() { return m_pvalue.get(); }
-private:
   Napi::Value get_size(const Napi::CallbackInfo&);
          void set_size(const Napi::CallbackInfo&, const Napi::Value&);
 
@@ -649,7 +625,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_network_interface_cb*() { return m_pvalue.get(); }
-private:
 
 
   std::shared_ptr<oc_network_interface_cb> m_pvalue;
@@ -662,7 +637,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_platform_info_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_data(const Napi::CallbackInfo&);
          void set_data(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_init_platform_cb(const Napi::CallbackInfo&);
@@ -685,7 +659,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_process*() { return m_pvalue.get(); }
-private:
   Napi::Value get_name(const Napi::CallbackInfo&);
          void set_name(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_needspoll(const Napi::CallbackInfo&);
@@ -704,7 +677,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_properties_cb_t*() { return m_pvalue.get(); }
-private:
 
 
   std::shared_ptr<oc_properties_cb_t> m_pvalue;
@@ -717,7 +689,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_rep_s*() { return m_pvalue.get(); }
-private:
   Napi::Value get_name(const Napi::CallbackInfo&);
          void set_name(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_type(const Napi::CallbackInfo&);
@@ -734,7 +705,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_request_handler_s*() { return m_pvalue.get(); }
-private:
   Napi::Value get_cb(const Napi::CallbackInfo&);
          void set_cb(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value cb_function; Napi::Value cb_data;
@@ -753,7 +723,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_request_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get__payload(const Napi::CallbackInfo&);
          void set__payload(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get__payload_len(const Napi::CallbackInfo&);
@@ -776,7 +745,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_resource_s*() { return m_pvalue.get(); }
-private:
   Napi::Value get_default_interface(const Napi::CallbackInfo&);
          void set_default_interface(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_delete_handler(const Napi::CallbackInfo&);
@@ -829,7 +797,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_response_t*() { return m_pvalue.get(); }
-private:
 
 
   std::shared_ptr<oc_response_t> m_pvalue;
@@ -842,7 +809,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_role_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_authority(const Napi::CallbackInfo&);
          void set_authority(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_role(const Napi::CallbackInfo&);
@@ -859,7 +825,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_rt_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_rt(const Napi::CallbackInfo&);
          void set_rt(const Napi::CallbackInfo&, const Napi::Value&);
 
@@ -874,7 +839,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_ace_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_aceid(const Napi::CallbackInfo&);
          void set_aceid(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_permission(const Napi::CallbackInfo&);
@@ -895,7 +859,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_acl_s*() { return m_pvalue.get(); }
-private:
   Napi::Value get_rowneruuid(const Napi::CallbackInfo&);
          void set_rowneruuid(const Napi::CallbackInfo&, const Napi::Value&);
 
@@ -910,7 +873,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_creds_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_rowneruuid(const Napi::CallbackInfo&);
          void set_rowneruuid(const Napi::CallbackInfo&, const Napi::Value&);
 
@@ -925,7 +887,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_cred_t*() { return m_pvalue.get(); }
-private:
 #ifdef OC_PKI
   Napi::Value get_chain(const Napi::CallbackInfo&);
          void set_chain(const Napi::CallbackInfo&, const Napi::Value&);
@@ -964,7 +925,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_session_event_cb*() { return m_pvalue.get(); }
-private:
 
 
   std::shared_ptr<oc_session_event_cb> m_pvalue;
@@ -977,7 +937,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_swupdate_cb_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_check_new_version(const Napi::CallbackInfo&);
          void set_check_new_version(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value check_new_version_function; Napi::Value check_new_version_data;
@@ -1006,7 +965,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_timer*() { return m_pvalue.get(); }
-private:
   Napi::Value get_interval(const Napi::CallbackInfo&);
          void set_interval(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_start(const Napi::CallbackInfo&);
@@ -1023,7 +981,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_uuid_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_id(const Napi::CallbackInfo&);
          void set_id(const Napi::CallbackInfo&, const Napi::Value&);
 
@@ -1038,7 +995,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_ace_subject_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_conn(const Napi::CallbackInfo&);
          void set_conn(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_uuid(const Napi::CallbackInfo&);
@@ -1055,7 +1011,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_endpoint_t::dev_addr*() { return m_pvalue.get(); }
-private:
   Napi::Value get_bt(const Napi::CallbackInfo&);
          void set_bt(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_ipv4(const Napi::CallbackInfo&);
@@ -1075,7 +1030,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_ace_connection_type_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_CONN_AUTH_CRYPT(const Napi::CallbackInfo&);
          void set_OC_CONN_AUTH_CRYPT(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_CONN_ANON_CLEAR(const Napi::CallbackInfo&);
@@ -1092,7 +1046,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_ace_permissions_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_PERM_NONE(const Napi::CallbackInfo&);
          void set_OC_PERM_NONE(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_PERM_CREATE(const Napi::CallbackInfo&);
@@ -1117,7 +1070,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_ace_subject_type_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_SUBJECT_UUID(const Napi::CallbackInfo&);
          void set_OC_SUBJECT_UUID(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_SUBJECT_ROLE(const Napi::CallbackInfo&);
@@ -1136,7 +1088,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_ace_wildcard_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_ACE_NO_WC(const Napi::CallbackInfo&);
          void set_OC_ACE_NO_WC(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_ACE_WC_ALL(const Napi::CallbackInfo&);
@@ -1157,7 +1108,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_blockwise_role_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_BLOCKWISE_CLIENT(const Napi::CallbackInfo&);
          void set_OC_BLOCKWISE_CLIENT(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_BLOCKWISE_SERVER(const Napi::CallbackInfo&);
@@ -1174,7 +1124,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_discovery_flags_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_STOP_DISCOVERY(const Napi::CallbackInfo&);
          void set_OC_STOP_DISCOVERY(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_CONTINUE_DISCOVERY(const Napi::CallbackInfo&);
@@ -1191,7 +1140,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_qos_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_HIGH_QOS(const Napi::CallbackInfo&);
          void set_HIGH_QOS(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_LOW_QOS(const Napi::CallbackInfo&);
@@ -1208,7 +1156,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_cloud_error_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_CLOUD_OK(const Napi::CallbackInfo&);
          void set_CLOUD_OK(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_CLOUD_ERROR_RESPONSE(const Napi::CallbackInfo&);
@@ -1229,7 +1176,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_cloud_status_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_CLOUD_INITIALIZED(const Napi::CallbackInfo&);
          void set_OC_CLOUD_INITIALIZED(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_CLOUD_REGISTERED(const Napi::CallbackInfo&);
@@ -1258,7 +1204,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_cps_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_CPS_UNINITIALIZED(const Napi::CallbackInfo&);
          void set_OC_CPS_UNINITIALIZED(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_CPS_READYTOREGISTER(const Napi::CallbackInfo&);
@@ -1282,7 +1227,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator tcp_csm_state_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_CSM_NONE(const Napi::CallbackInfo&);
          void set_CSM_NONE(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_CSM_SENT(const Napi::CallbackInfo&);
@@ -1304,7 +1248,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_credtype_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_CREDTYPE_NULL(const Napi::CallbackInfo&);
          void set_OC_CREDTYPE_NULL(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_CREDTYPE_PSK(const Napi::CallbackInfo&);
@@ -1323,7 +1266,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_credusage_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_CREDUSAGE_NULL(const Napi::CallbackInfo&);
          void set_OC_CREDUSAGE_NULL(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_CREDUSAGE_TRUSTCA(const Napi::CallbackInfo&);
@@ -1348,7 +1290,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_encoding_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_ENCODING_UNSUPPORTED(const Napi::CallbackInfo&);
          void set_OC_ENCODING_UNSUPPORTED(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_ENCODING_BASE64(const Napi::CallbackInfo&);
@@ -1371,7 +1312,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator ocf_version_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OCF_VER_1_0_0(const Napi::CallbackInfo&);
          void set_OCF_VER_1_0_0(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OIC_VER_1_1_0(const Napi::CallbackInfo&);
@@ -1388,7 +1328,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator transport_flags*() { return m_pvalue.get(); }
-private:
   Napi::Value get_DISCOVERY(const Napi::CallbackInfo&);
          void set_DISCOVERY(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_SECURED(const Napi::CallbackInfo&);
@@ -1415,7 +1354,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_enum_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_ENUM_ABORTED(const Napi::CallbackInfo&);
          void set_OC_ENUM_ABORTED(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_ENUM_ACTIVE(const Napi::CallbackInfo&);
@@ -1574,7 +1512,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_pos_description_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_POS_UNKNOWN(const Napi::CallbackInfo&);
          void set_OC_POS_UNKNOWN(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_POS_TOP(const Napi::CallbackInfo&);
@@ -1616,7 +1553,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_interface_event_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_NETWORK_INTERFACE_DOWN(const Napi::CallbackInfo&);
          void set_NETWORK_INTERFACE_DOWN(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_NETWORK_INTERFACE_UP(const Napi::CallbackInfo&);
@@ -1633,7 +1569,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sp_types_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_SP_BASELINE(const Napi::CallbackInfo&);
          void set_OC_SP_BASELINE(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_SP_BLACK(const Napi::CallbackInfo&);
@@ -1654,7 +1589,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_rep_value_type_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_REP_NIL(const Napi::CallbackInfo&);
          void set_OC_REP_NIL(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_REP_INT(const Napi::CallbackInfo&);
@@ -1695,7 +1629,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_content_format_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_TEXT_PLAIN(const Napi::CallbackInfo&);
          void set_TEXT_PLAIN(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_TEXT_XML(const Napi::CallbackInfo&);
@@ -1756,7 +1689,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_core_resource_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OCF_P(const Napi::CallbackInfo&);
          void set_OCF_P(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OCF_CON(const Napi::CallbackInfo&);
@@ -1829,7 +1761,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_event_callback_retval_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_EVENT_DONE(const Napi::CallbackInfo&);
          void set_OC_EVENT_DONE(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_EVENT_CONTINUE(const Napi::CallbackInfo&);
@@ -1846,7 +1777,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_interface_mask_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_IF_BASELINE(const Napi::CallbackInfo&);
          void set_OC_IF_BASELINE(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_IF_LL(const Napi::CallbackInfo&);
@@ -1875,7 +1805,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_method_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_GET(const Napi::CallbackInfo&);
          void set_OC_GET(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_POST(const Napi::CallbackInfo&);
@@ -1896,7 +1825,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_resource_properties_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_DISCOVERABLE(const Napi::CallbackInfo&);
          void set_OC_DISCOVERABLE(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_OBSERVABLE(const Napi::CallbackInfo&);
@@ -1917,7 +1845,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_status_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_STATUS_OK(const Napi::CallbackInfo&);
          void set_OC_STATUS_OK(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_STATUS_CREATED(const Napi::CallbackInfo&);
@@ -1976,7 +1903,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_session_state_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_SESSION_CONNECTED(const Napi::CallbackInfo&);
          void set_OC_SESSION_CONNECTED(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_SESSION_DISCONNECTED(const Napi::CallbackInfo&);
@@ -1993,7 +1919,6 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_swupdate_result_t*() { return m_pvalue.get(); }
-private:
   Napi::Value get_OC_SWUPDATE_RESULT_IDLE(const Napi::CallbackInfo&);
          void set_OC_SWUPDATE_RESULT_IDLE(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OC_SWUPDATE_RESULT_SUCCESS(const Napi::CallbackInfo&);
