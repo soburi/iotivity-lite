@@ -954,6 +954,11 @@ public:
   Napi::Value validate_purl_function; Napi::Value validate_purl_data;
 
 
+  Napi::FunctionReference validate_purl;
+  Napi::FunctionReference check_new_version;
+  Napi::FunctionReference download_update;
+  Napi::FunctionReference perform_upgrade;
+
 
   std::shared_ptr<oc_swupdate_cb_t> m_pvalue;
 };

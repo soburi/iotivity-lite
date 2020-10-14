@@ -23,6 +23,9 @@ Napi::Value N_oc_do_site_local_ipv6_multicast(const Napi::CallbackInfo&);
 Napi::Value N_oc_free_server_endpoints(const Napi::CallbackInfo&);
 Napi::Value N_oc_init_post(const Napi::CallbackInfo&);
 Napi::Value N_oc_init_put(const Napi::CallbackInfo&);
+#ifdef OC_TCP
+Napi::Value N_oc_send_ping(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_stop_multicast(const Napi::CallbackInfo&);
 Napi::Value N_oc_stop_observe(const Napi::CallbackInfo&);
 Napi::Value N_oc_add_collection(const Napi::CallbackInfo&);
@@ -32,6 +35,9 @@ Napi::Value N_oc_collection_add_supported_rt(const Napi::CallbackInfo&);
 Napi::Value N_oc_collection_get_collections(const Napi::CallbackInfo&);
 Napi::Value N_oc_collection_get_links(const Napi::CallbackInfo&);
 Napi::Value N_oc_collection_remove_link(const Napi::CallbackInfo&);
+#ifdef OC_COLLECTIONS_IF_CREATE
+Napi::Value N_oc_collections_add_rt_factory(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_delete_collection(const Napi::CallbackInfo&);
 Napi::Value N_oc_delete_link(const Napi::CallbackInfo&);
 Napi::Value N_oc_link_add_link_param(const Napi::CallbackInfo&);
@@ -44,8 +50,29 @@ Napi::Value N_oc_set_immutable_device_identifier(const Napi::CallbackInfo&);
 Napi::Value N_oc_add_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_delete_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_device_bind_resource_type(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_get_diagnostic_message(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_get_query_value(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_get_request_payload_raw(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_get_response_payload_raw(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_ignore_request(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_indicate_separate_response(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_init_query_iterator(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_iterate_query(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_iterate_query_get_values(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_new_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_notify_observers(const Napi::CallbackInfo&);
 Napi::Value N_oc_process_baseline_interface(const Napi::CallbackInfo&);
@@ -64,7 +91,19 @@ Napi::Value N_oc_resource_tag_pos_rel(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_diagnostic_message(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_response(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_response_raw(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_send_separate_response(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_set_con_write_cb(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_set_separate_response_buffer(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_OC_PROCESS_NAME(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_PT_THREAD(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_timer_expired(const Napi::CallbackInfo&);
 Napi::Value N_oc_timer_remaining(const Napi::CallbackInfo&);
 Napi::Value N_oc_timer_reset(const Napi::CallbackInfo&);
@@ -92,6 +131,9 @@ Napi::Value N_oc_base64_decode(const Napi::CallbackInfo&);
 Napi::Value N_oc_base64_encode(const Napi::CallbackInfo&);
 Napi::Value N_oc_blockwise_alloc_request_buffer(const Napi::CallbackInfo&);
 Napi::Value N_oc_blockwise_alloc_response_buffer(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_blockwise_dispatch_block(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_blockwise_find_request_buffer(const Napi::CallbackInfo&);
 Napi::Value N_oc_blockwise_find_request_buffer_by_client_cb(const Napi::CallbackInfo&);
 Napi::Value N_oc_blockwise_find_request_buffer_by_mid(const Napi::CallbackInfo&);
@@ -120,12 +162,21 @@ Napi::Value N_oc_get_max_app_data_size(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_mtu_size(const Napi::CallbackInfo&);
 Napi::Value N_oc_set_max_app_data_size(const Napi::CallbackInfo&);
 Napi::Value N_oc_set_mtu_size(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_ri_alloc_client_cb(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_ri_find_client_cb_by_mid(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_find_client_cb_by_token(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_free_client_cbs_by_endpoint(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_free_client_cbs_by_mid(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_get_client_cb(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_ri_invoke_client_cb(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_ri_is_client_cb_valid(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_ri_process_discovery_payload(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_clock_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_clock_seconds(const Napi::CallbackInfo&);
 Napi::Value N_oc_clock_time(const Napi::CallbackInfo&);
@@ -152,6 +203,9 @@ Napi::Value N_oc_collection_add(const Napi::CallbackInfo&);
 Napi::Value N_oc_collection_alloc(const Napi::CallbackInfo&);
 Napi::Value N_oc_collection_free(const Napi::CallbackInfo&);
 Napi::Value N_oc_collection_get_all(const Napi::CallbackInfo&);
+#ifdef OC_COLLECTIONS_IF_CREATE
+Napi::Value N_oc_collections_free_rt_factories(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_get_collection_by_uri(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_link_by_uri(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_next_collection_with_link(const Napi::CallbackInfo&);
@@ -163,9 +217,21 @@ Napi::Value N_oc_connectivity_end_session(const Napi::CallbackInfo&);
 Napi::Value N_oc_connectivity_get_endpoints(const Napi::CallbackInfo&);
 Napi::Value N_oc_connectivity_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_connectivity_shutdown(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_dns_lookup(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_send_buffer(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_discovery_request(const Napi::CallbackInfo&);
+#ifdef OC_TCP
+Napi::Value N_oc_tcp_get_csm_state(const Napi::CallbackInfo&);
+#endif
+#ifdef OC_TCP
+Napi::Value N_oc_tcp_update_csm_state(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_core_add_new_device(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_core_encode_interfaces_mask(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_core_get_device_id(const Napi::CallbackInfo&);
 Napi::Value N_oc_core_get_device_info(const Napi::CallbackInfo&);
 Napi::Value N_oc_core_get_latency(const Napi::CallbackInfo&);
@@ -190,6 +256,9 @@ Napi::Value N_oc_create_discovery_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_endpoint_compare(const Napi::CallbackInfo&);
 Napi::Value N_oc_endpoint_compare_address(const Napi::CallbackInfo&);
 Napi::Value N_oc_endpoint_copy(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_endpoint_list_copy(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_endpoint_set_di(const Napi::CallbackInfo&);
 Napi::Value N_oc_endpoint_set_local_address(const Napi::CallbackInfo&);
 Napi::Value N_oc_endpoint_string_parse_path(const Napi::CallbackInfo&);
@@ -202,19 +271,76 @@ Napi::Value N_oc_enum_pos_desc_to_str(const Napi::CallbackInfo&);
 Napi::Value N_oc_enum_to_str(const Napi::CallbackInfo&);
 Napi::Value N__oc_alloc_string(const Napi::CallbackInfo&);
 Napi::Value N__oc_alloc_string_array(const Napi::CallbackInfo&);
+#ifdef xxx
+Napi::Value N__oc_byte_string_array_add_item(const Napi::CallbackInfo&);
+#endif
+#ifdef xxx
+Napi::Value N__oc_copy_byte_string_to_array(const Napi::CallbackInfo&);
+#endif
+#ifdef xxx
+Napi::Value N__oc_copy_string_to_array(const Napi::CallbackInfo&);
+#endif
 Napi::Value N__oc_free_array(const Napi::CallbackInfo&);
 Napi::Value N__oc_free_string(const Napi::CallbackInfo&);
 Napi::Value N__oc_new_array(const Napi::CallbackInfo&);
 Napi::Value N__oc_new_string(const Napi::CallbackInfo&);
+#ifdef xxx
+Napi::Value N__oc_string_array_add_item(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_concat_strings(const Napi::CallbackInfo&);
 Napi::Value N_oc_join_string_array(const Napi::CallbackInfo&);
 Napi::Value N_oc_set_introspection_data(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_list_add(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_list_chop(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_list_copy(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_list_head(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_list_init(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_list_insert(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_list_item_next(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_list_length(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_list_pop(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_list_push(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_list_remove(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_list_tail(const Napi::CallbackInfo&);
+#endif
 Napi::Value N__oc_memb_alloc(const Napi::CallbackInfo&);
 Napi::Value N__oc_memb_free(const Napi::CallbackInfo&);
 Napi::Value N_oc_memb_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_memb_inmemb(const Napi::CallbackInfo&);
 Napi::Value N_oc_memb_numfree(const Napi::CallbackInfo&);
 Napi::Value N_oc_memb_set_buffers_avail_cb(const Napi::CallbackInfo&);
+#ifdef OC_MEMORY_TRACE
+Napi::Value N_oc_mem_trace_add_pace(const Napi::CallbackInfo&);
+#endif
+#ifdef OC_MEMORY_TRACE
+Napi::Value N_oc_mem_trace_init(const Napi::CallbackInfo&);
+#endif
+#ifdef OC_MEMORY_TRACE
+Napi::Value N_oc_mem_trace_shutdown(const Napi::CallbackInfo&);
+#endif
 Napi::Value N__oc_mmem_alloc(const Napi::CallbackInfo&);
 Napi::Value N__oc_mmem_free(const Napi::CallbackInfo&);
 Napi::Value N_oc_mmem_init(const Napi::CallbackInfo&);
@@ -274,18 +400,75 @@ Napi::Value N_oc_pki_add_trust_anchor(const Napi::CallbackInfo&);
 Napi::Value N_oc_pki_set_security_profile(const Napi::CallbackInfo&);
 Napi::Value N_oc_random_destroy(const Napi::CallbackInfo&);
 Napi::Value N_oc_random_init(const Napi::CallbackInfo&);
+#ifdef xxx
+Napi::Value N_oc_random_value(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_free_rep(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_parse_rep(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_rep_get_bool(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_rep_get_bool_array(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_rep_get_byte_string(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_rep_get_byte_string_array(const Napi::CallbackInfo&);
+#ifdef xxx
+Napi::Value N_oc_rep_get_cbor_errno(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_rep_get_double(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_rep_get_double_array(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_rep_get_encoded_payload_size(const Napi::CallbackInfo&);
+#ifdef xxx
+Napi::Value N_oc_rep_get_encoder_buf(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_rep_get_int(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_rep_get_int_array(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_rep_get_object(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_rep_get_object_array(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_rep_get_string(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_rep_get_string_array(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_new(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_set_pool(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_to_json(const Napi::CallbackInfo&);
+#ifdef OC_SERVER
+Napi::Value N_oc_ri_add_resource(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_ri_add_timed_event_callback_ticks(const Napi::CallbackInfo&);
+#ifdef OC_SERVER
+Napi::Value N_oc_ri_alloc_resource(const Napi::CallbackInfo&);
+#endif
+#ifdef OC_SERVER
+Napi::Value N_oc_ri_delete_resource(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_ri_free_resource_properties(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_get_app_resource_by_uri(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_get_app_resources(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_get_interface_mask(const Napi::CallbackInfo&);
+#ifdef XXX
+Napi::Value N_oc_ri_get_query_nth_key_value(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
+Napi::Value N_oc_ri_get_query_value(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_ri_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_is_app_resource_valid(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_remove_timed_event_callback(const Napi::CallbackInfo&);
@@ -298,6 +481,21 @@ Napi::Value N__oc_signal_event_loop(const Napi::CallbackInfo&);
 Napi::Value N_oc_storage_config(const Napi::CallbackInfo&);
 Napi::Value N_oc_storage_read(const Napi::CallbackInfo&);
 Napi::Value N_oc_storage_write(const Napi::CallbackInfo&);
+#ifdef OC_SOFTWARE_UPDATE
+Napi::Value N_oc_swupdate_notify_done(const Napi::CallbackInfo&);
+#endif
+#ifdef OC_SOFTWARE_UPDATE
+Napi::Value N_oc_swupdate_notify_downloaded(const Napi::CallbackInfo&);
+#endif
+#ifdef OC_SOFTWARE_UPDATE
+Napi::Value N_oc_swupdate_notify_new_version_available(const Napi::CallbackInfo&);
+#endif
+#ifdef OC_SOFTWARE_UPDATE
+Napi::Value N_oc_swupdate_notify_upgrading(const Napi::CallbackInfo&);
+#endif
+#ifdef OC_SOFTWARE_UPDATE
+Napi::Value N_oc_swupdate_set_impl(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_gen_uuid(const Napi::CallbackInfo&);
 Napi::Value N_oc_str_to_uuid(const Napi::CallbackInfo&);
 Napi::Value N_oc_uuid_to_str(const Napi::CallbackInfo&);

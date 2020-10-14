@@ -18,6 +18,11 @@ extern Napi::FunctionReference oc_handler_signal_event_loop_ref;
 extern Napi::FunctionReference oc_handler_register_resources_ref;
 extern Napi::FunctionReference oc_handler_requests_entry_ref;
 
+extern Napi::FunctionReference oc_swupdate_cb_validate_purl_ref;
+extern Napi::FunctionReference oc_swupdate_cb_check_new_version_ref;
+extern Napi::FunctionReference oc_swupdate_cb_download_update_ref;
+extern Napi::FunctionReference oc_swupdate_cb_perform_upgrade_ref;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -28,6 +33,11 @@ int oc_handler_init_helper();
 void oc_handler_signal_event_loop_helper();
 void oc_handler_register_resources_helper();
 void oc_handler_requests_entry_helper();
+
+int oc_swupdate_cb_validate_purl_helper(const char *url);
+int oc_swupdate_cb_check_new_version_helper(size_t device, const char *url, const char *version);
+int oc_swupdate_cb_download_update_helper(size_t device, const char *url);
+int oc_swupdate_cb_perform_upgrade_helper(size_t device, const char *url);
 
 #ifdef __cplusplus
 }

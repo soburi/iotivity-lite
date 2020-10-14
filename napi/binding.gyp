@@ -14,7 +14,7 @@
           "libraries": ['../../port/linux/libiotivity-lite-client-server.a'],
 	 }],
       ],
-      'defines': ['OC_SERVER', 'OC_CLIENT'],
+      'defines': ['OC_SERVER', 'OC_CLIENT', 'OC_SOFTWARE_UPDATE'],
       'dependencies': ["<!(node -p \"require('node-addon-api').gyp\")"],
       'cflags!': [ '-fno-exceptions' ],
       'cflags_cc!': [ '-fno-exceptions' ],

@@ -155,6 +155,12 @@ EXTRA_VALUE= {
   Napi::FunctionReference requests_entry;\n\
 #endif\
 ",
+  "oc_swupdate_cb_t" => "\
+  Napi::FunctionReference validate_purl;\n\
+  Napi::FunctionReference check_new_version;\n\
+  Napi::FunctionReference download_update;\n\
+  Napi::FunctionReference perform_upgrade;\n\
+",
 }
 
 SETGET_OVERRIDE = {
@@ -372,6 +378,19 @@ FUNC_OVERRIDE = {
   handler.m_pvalue->register_resources = oc_handler_register_resources_helper;\n\
   handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;\n\
   return Napi::Number::New(info.Env(), oc_main_init(handler));"
+  },
+  'oc_swupdate_set_impl' => {
+    'invoke' => "\
+  oc_swupdate_cb_validate_purl_ref.Reset(swupdate_impl.validate_purl.Value());\n\
+  oc_swupdate_cb_check_new_version_ref.Reset(swupdate_impl.check_new_version.Value());\n\
+  oc_swupdate_cb_download_update_ref.Reset(swupdate_impl.download_update.Value());\n\
+  oc_swupdate_cb_perform_upgrade_ref.Reset(swupdate_impl.perform_upgrade.Value());\n\
+  swupdate_impl.m_pvalue->validate_purl = oc_swupdate_cb_validate_purl_helper;\n\
+  swupdate_impl.m_pvalue->check_new_version = oc_swupdate_cb_check_new_version_helper;\n\
+  swupdate_impl.m_pvalue->download_update = oc_swupdate_cb_download_update_helper;\n\
+  swupdate_impl.m_pvalue->perform_upgrade = oc_swupdate_cb_perform_upgrade_helper;\n\
+  (void)oc_swupdate_set_impl(swupdate_impl);\n\
+  return info.Env().Undefined();"
   },
 }
 
@@ -1042,22 +1061,38 @@ end
 File.open('src/functions.h', 'w') do |f|
   f.print "#include \"helper.h\"\n"
 
+  #func_table.each do |key, h|
+  #  if not IFDEF_FUNCS.include?(key) #TODO
+  #    f.print gen_funcdecl(key, h) + "\n"
+  #  end
+  #end 
+
   func_table.each do |key, h|
-    if not IFDEF_FUNCS.include?(key) #TODO
-      f.print gen_funcdecl(key, h) + "\n"
+    expset = gen_funcdecl(key, h) + "\n"
+    if IFDEF_FUNCS.include?(key)
+      expset = "#ifdef #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
     end
-  end 
+    f.print "#{expset}"
+  end
+
 end
 
 
 File.open('src/functions.cc', 'w') do |f|
   f.print "#include \"functions.h\"\n"
 
+  #func_table.each do |key, h|
+  #  if not IFDEF_FUNCS.include?(key)
+  #    f.print gen_funcimpl(key, h) + "\n"
+  #  end
+  #end 
   func_table.each do |key, h|
-    if not IFDEF_FUNCS.include?(key)
-      f.print gen_funcimpl(key, h) + "\n"
+    expset = gen_funcimpl(key, h) + "\n"
+    if IFDEF_FUNCS.include?(key)
+      expset = "#ifdef #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
     end
-  end 
+    f.print "#{expset}"
+  end
 end
 
 
@@ -1089,10 +1124,11 @@ File.open('src/binding.cc', 'w') do |f|
 
 
   func_table.each do |key, h|
-    if not IFDEF_FUNCS.include?(key)
-      f.print "  exports.Set(\"#{key}\", Napi::Function::New(env, N_#{key}));"
-      f.print "\n"
+    expset = "  exports.Set(\"#{key}\", Napi::Function::New(env, N_#{key}));\n"
+    if IFDEF_FUNCS.include?(key)
+      expset = "#ifdef #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
     end
+    f.print "#{expset}"
   end
 
   f.print "  return exports;\n"
