@@ -5,13 +5,17 @@
 struct callback_helper_t {
 public:
   Napi::FunctionReference function;
-  Napi::Reference<Napi::Value> value;
-  callback_helper_t(Napi::Function& f, Napi::Value& v)
-  {
-    function.Reset(f);
-    value.Reset(v);
-  }
+  Napi::ObjectReference value;
+  Napi::AsyncContext async_context;
+
+  callback_helper_t(const Napi::CallbackInfo& info) : async_context(info.Env(), "") { }
 };
+
+callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, const Napi::FunctionReference& f);
+callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, int idx_func, int idx_val);
+
+extern callback_helper_t* oc_handler_init_helper_data;
+
 
 extern Napi::FunctionReference oc_handler_init_ref;
 extern Napi::FunctionReference oc_handler_signal_event_loop_ref;
@@ -28,6 +32,7 @@ extern "C" {
 #endif
 
 void oc_init_platform_helper(void* param);
+void oc_add_device_helper(void* param);
 
 int oc_handler_init_helper();
 void oc_handler_signal_event_loop_helper();

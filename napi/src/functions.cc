@@ -679,6 +679,7 @@ Napi::Value N_oc_timer_set(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_add_device(const Napi::CallbackInfo& info) {
+/*
   std::string uri_ = info[0].As<Napi::String>().Utf8Value();
   const char* uri = uri_.c_str();
   std::string rt_ = info[1].As<Napi::String>().Utf8Value();
@@ -689,10 +690,14 @@ Napi::Value N_oc_add_device(const Napi::CallbackInfo& info) {
   const char* spec_version = spec_version_.c_str();
   std::string data_model_version_ = info[4].As<Napi::String>().Utf8Value();
   const char* data_model_version = data_model_version_.c_str();
-  oc_add_device_cb_t add_device_cb = nullptr;
-  Napi::Function add_device_cb_ = info[5].As<Napi::Function>();
-  void* data = info[6];
-  return Napi::Number::New(info.Env(), oc_add_device(uri, rt, name, spec_version, data_model_version, add_device_cb, data));
+*/
+printf("N_oc_add_device\n");
+
+  oc_add_device_cb_t add_device_cb = oc_add_device_helper;
+  callback_helper_t* data = new_callback_helper_t(info, 5, 6);
+  if(!data) add_device_cb = nullptr;
+  printf("data %p\n", data);
+  return Napi::Number::New(info.Env(), oc_add_device("/oic/d", "oic.d.light", "Kishen's light", "ocf.1.0.0", "ocf.res.1.0.0", add_device_cb, data));
 }
 
 Napi::Value N_oc_add_ownership_status_cb(const Napi::CallbackInfo& info) {
@@ -708,10 +713,13 @@ Napi::Value N_oc_get_con_res_announced(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_init_platform(const Napi::CallbackInfo& info) {
+	Napi::HandleScope scope(info.Env() );
   std::string mfg_name_ = info[0].As<Napi::String>().Utf8Value();
   const char* mfg_name = mfg_name_.c_str();
   oc_init_platform_cb_t init_platform_cb = oc_init_platform_helper;
-  callback_helper_t* data = new callback_helper_t(info[1].As<Napi::Function>(), info[2].As<Napi::Value>());
+callback_helper_t* data = new_callback_helper_t(info, 1, 2);
+if(!data) init_platform_cb = nullptr;
+printf("call oc_init_platform %p\n", init_platform_cb);
   return Napi::Number::New(info.Env(), oc_init_platform(mfg_name, init_platform_cb, data));
 }
 
@@ -723,6 +731,8 @@ Napi::Value N_oc_is_owned_device(const Napi::CallbackInfo& info) {
 Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
   OCHandler& handler = *OCHandler::Unwrap(info[0].As<Napi::Object>());
   oc_handler_init_ref.Reset(handler.init.Value());
+
+oc_handler_init_helper_data = new_callback_helper_t(info, handler.init);
   oc_handler_signal_event_loop_ref.Reset(handler.signal_event_loop.Value());
   oc_handler_register_resources_ref.Reset(handler.init.Value());
   oc_handler_requests_entry_ref.Reset(handler.signal_event_loop.Value());
@@ -730,9 +740,10 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
   handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
   handler.m_pvalue->register_resources = oc_handler_register_resources_helper;
   handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;
-  return Napi::Number::New(info.Env(), oc_main_init(handler));  /*
-   return Napi::Number::New(info.Env(), oc_main_init(handler));
-  */
+printf("N_oc_main_init\n");
+Napi::Value ret = Napi::Number::New(info.Env(), oc_main_init(handler));
+printf("end N_oc_main_init\n");
+return ret;
 }
 
 Napi::Value N_oc_main_poll(const Napi::CallbackInfo& info) {
