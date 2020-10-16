@@ -177,19 +177,19 @@ SETGET_OVERRIDE = {
     "get"=> "return response_function;"
   },
   "oc_handler_t::init"=> {
-    "set"=> "  init.Reset(value.As<Napi::Function>());\n  m_pvalue->init = oc_handler_init_helper;\n",
+    "set"=> "  init.Reset(value.As<Napi::Function>());\n",
     "get"=> "  return init.Value();"
   },
   "oc_handler_t::register_resources"=> {
-    "set"=> "  register_resources.Reset(value.As<Napi::Function>());\n",#  m_pvalue->register_resources = oc_handler_register_resources_helper;\n",
+    "set"=> "  register_resources.Reset(value.As<Napi::Function>());\n",
     "get"=> "  return oc_handler_register_resources_ref.Value();"
   },
   "oc_handler_t::requests_entry"=> {
-    "set"=> "  requests_entry.Reset(value.As<Napi::Function>());\n",#  m_pvalue->requests_entry = oc_handler_requests_entry_helper;\n",
+    "set"=> "  requests_entry.Reset(value.As<Napi::Function>());\n",
     "get"=> "  return requests_entry.Value();\n"
   },
   "oc_handler_t::signal_event_loop"=> {
-    "set"=> "  signal_event_loop.Reset(value.As<Napi::Function>());\n",#  m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;\n",
+    "set"=> "  signal_event_loop.Reset(value.As<Napi::Function>());\n",
     "get"=> "  return signal_event_loop.Value();\n"
   },
   "oc_swupdate_cb_t::check_new_version"=> {
@@ -364,8 +364,18 @@ SETGET_OVERRIDE = {
 
 FUNC_OVERRIDE = {
   'oc_init_platform' => {
-    '1' => "  oc_init_platform_cb_t init_platform_cb = ((info.Length() > 0) && info[1].IsFunction()) ? oc_init_platform_helper : null;\n",
-    '2' => "  callback_helper_t* data = new callback_helper_t(info[1].As<Napi::Function>(), info[2].As<Napi::Value>());\n",
+    '1' => "  oc_init_platform_cb_t init_platform_cb = oc_init_platform_helper;\n",
+    '2' => <<~STR
+                   callback_helper_t* data = new_callback_helper_t(info, 1, 2);
+                   if(!data) init_platform_cb = nullptr;
+              STR
+  },
+  'oc_add_device' => {
+    '5' => "  oc_add_device_cb_t add_device_cb = oc_add_device_helper;\n",
+    '6' => <<~STR
+                   callback_helper_t* data = new_callback_helper_t(info, 5, 6);
+                   if(!data) add_device_cb = nullptr;
+              STR
   },
   'oc_main_init' => {
     'invoke' => "\
@@ -911,7 +921,7 @@ def gen_funcimpl(name, param)
       args.append(n)
     elsif ty == 'oc_response_handler_t' or
           ty == 'interface_event_handler_t' or
-          ty == 'oc_add_device_cb_t' or
+#          ty == 'oc_add_device_cb_t' or
           ty == 'oc_cloud_cb_t' or
           ty == 'oc_con_write_cb_t' or
           ty == 'oc_core_add_device_cb_t' or
