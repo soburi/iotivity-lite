@@ -4,7 +4,6 @@ INSTALL = install
 export OS = linux
 ROOT_DIR = ../..
 SWIG_DIR = ${ROOT_DIR}/swig
-NODEJS_DIR = ${ROOT_DIR}/nodejs
 OUT_DIR = $(ROOT_DIR)/port/$(OS)
 CHECK_SCRIPT = ../../tools/check.py
 VERSION_MAJOR = 1
@@ -440,9 +439,6 @@ iotivity-lite-client-server.pc: iotivity-lite-client-server.pc.in
 
 swig: $(CONSTRAINED_LIBS) $(OBJ_COMMON) $(OBJ_CLIENT_SERVER) $(OBJ_CLOUD)
 	${MAKE} -C ${SWIG_DIR}
-
-nodejs: $(CONSTRAINED_LIBS) $(OBJ_COMMON) $(OBJ_CLIENT_SERVER) $(OBJ_CLOUD)
-	${MAKE} -C ${NODEJS_DIR}
 
 ifneq ($(SECURE),0)
 MBEDTLS_PATCHES ?= $(sort $(wildcard ../../patches/*.patch))
