@@ -350,20 +350,20 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_enum_to_str", Napi::Function::New(env, N_oc_enum_to_str));
   exports.Set("_oc_alloc_string", Napi::Function::New(env, N__oc_alloc_string));
   exports.Set("_oc_alloc_string_array", Napi::Function::New(env, N__oc_alloc_string_array));
-#ifdef xxx
+#ifdef XXX
   exports.Set("_oc_byte_string_array_add_item", Napi::Function::New(env, N__oc_byte_string_array_add_item));
 #endif
-#ifdef xxx
+#ifdef XXX
   exports.Set("_oc_copy_byte_string_to_array", Napi::Function::New(env, N__oc_copy_byte_string_to_array));
 #endif
-#ifdef xxx
+#ifdef XXX
   exports.Set("_oc_copy_string_to_array", Napi::Function::New(env, N__oc_copy_string_to_array));
 #endif
   exports.Set("_oc_free_array", Napi::Function::New(env, N__oc_free_array));
   exports.Set("_oc_free_string", Napi::Function::New(env, N__oc_free_string));
   exports.Set("_oc_new_array", Napi::Function::New(env, N__oc_new_array));
   exports.Set("_oc_new_string", Napi::Function::New(env, N__oc_new_string));
-#ifdef xxx
+#ifdef XXX
   exports.Set("_oc_string_array_add_item", Napi::Function::New(env, N__oc_string_array_add_item));
 #endif
   exports.Set("oc_concat_strings", Napi::Function::New(env, N_oc_concat_strings));
@@ -405,8 +405,12 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
 #ifdef XXX
   exports.Set("oc_list_tail", Napi::Function::New(env, N_oc_list_tail));
 #endif
+#ifdef XXX
   exports.Set("_oc_memb_alloc", Napi::Function::New(env, N__oc_memb_alloc));
+#endif
+#ifdef XXX
   exports.Set("_oc_memb_free", Napi::Function::New(env, N__oc_memb_free));
+#endif
   exports.Set("oc_memb_init", Napi::Function::New(env, N_oc_memb_init));
   exports.Set("oc_memb_inmemb", Napi::Function::New(env, N_oc_memb_inmemb));
   exports.Set("oc_memb_numfree", Napi::Function::New(env, N_oc_memb_numfree));
@@ -479,9 +483,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_pki_set_security_profile", Napi::Function::New(env, N_oc_pki_set_security_profile));
   exports.Set("oc_random_destroy", Napi::Function::New(env, N_oc_random_destroy));
   exports.Set("oc_random_init", Napi::Function::New(env, N_oc_random_init));
-#ifdef xxx
   exports.Set("oc_random_value", Napi::Function::New(env, N_oc_random_value));
-#endif
   exports.Set("oc_free_rep", Napi::Function::New(env, N_oc_free_rep));
 #ifdef XXX
   exports.Set("oc_parse_rep", Napi::Function::New(env, N_oc_parse_rep));
@@ -496,7 +498,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_rep_get_byte_string", Napi::Function::New(env, N_oc_rep_get_byte_string));
 #endif
   exports.Set("oc_rep_get_byte_string_array", Napi::Function::New(env, N_oc_rep_get_byte_string_array));
-#ifdef xxx
+#ifdef XXX
   exports.Set("oc_rep_get_cbor_errno", Napi::Function::New(env, N_oc_rep_get_cbor_errno));
 #endif
 #ifdef XXX
@@ -506,7 +508,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_rep_get_double_array", Napi::Function::New(env, N_oc_rep_get_double_array));
 #endif
   exports.Set("oc_rep_get_encoded_payload_size", Napi::Function::New(env, N_oc_rep_get_encoded_payload_size));
-#ifdef xxx
+#ifdef XXX
   exports.Set("oc_rep_get_encoder_buf", Napi::Function::New(env, N_oc_rep_get_encoder_buf));
 #endif
 #ifdef XXX

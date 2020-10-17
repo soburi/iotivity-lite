@@ -510,7 +510,8 @@ IGNORE_TYPES = {
 }
 
 IGNORE_FUNCS = [
-
+  'oc_memb_alloc',
+  'oc_memb_free',
 ]
 
 IFDEF_TYPES = {
@@ -577,6 +578,10 @@ IFDEF_FUNCS = {
 'oc_list_remove' => "XXX",
 'oc_list_tail' => "XXX",
 
+'_oc_copy_byte_string_to_array'=>'XXX',
+'_oc_byte_string_array_add_item'=>'XXX',
+'_oc_string_array_add_item'=>'XXX',
+'_oc_copy_string_to_array'=>'XXX',
 
 'oc_get_diagnostic_message'=>'XXX',
 'oc_get_query_value'=>'XXX',
@@ -590,6 +595,8 @@ IFDEF_FUNCS = {
 'oc_ri_alloc_client_cb'=>'XXX',
 'oc_ri_invoke_client_cb'=>'XXX',
 'oc_ri_process_discovery_payload'=>'XXX',
+'oc_ri_get_query_nth_key_value'=>'XXX',
+'oc_ri_get_query_value'=>'XXX',
 'oc_dns_lookup'=>'XXX',
 'oc_core_encode_interfaces_mask'=>'XXX',
 'oc_endpoint_list_copy'=>'XXX',
@@ -604,16 +611,12 @@ IFDEF_FUNCS = {
 'oc_rep_get_object'=>'XXX',
 'oc_rep_get_object_array'=>'XXX',
 'oc_rep_get_string'=>'XXX',
-'oc_rep_get_encoder_buf' => 'xxx',
-'oc_rep_get_cbor_errno' => 'xxx',
-'oc_ri_get_query_nth_key_value'=>'XXX',
-'oc_ri_get_query_value'=>'XXX',
+'oc_rep_get_encoder_buf' => 'XXX',
+'oc_rep_get_cbor_errno' => 'XXX',
 'oc_indicate_separate_response'=>'XXX',
-'_oc_copy_byte_string_to_array'=>'xxx',
-'_oc_byte_string_array_add_item'=>'xxx',
-'_oc_string_array_add_item'=>'xxx',
-'_oc_copy_string_to_array'=>'xxx',
-'oc_random_value' => 'xxx',
+
+'_oc_memb_alloc' => 'XXX',
+'_oc_memb_free' => 'XXX',
 
 }
 
@@ -743,6 +746,8 @@ def gen_getter_impl(key, k, v)
     GENERIC_GET[v]
   elsif STRUCTS.include?(v)
     STRUCT_GET
+  elsif STRUCTS.include?(v.gsub(/\*$/,""))
+    STRUCT_GET
   elsif ENUMS.include?(v)
     ENUM_GET 
   elsif v =~ /\(\*\)/
@@ -759,6 +764,8 @@ def gen_setter_impl(key, k, v)
     GENERIC_SET[v]
   elsif STRUCTS.include?(v)
     STRUCT_SET
+  elsif STRUCTS.include?(v.gsub(/\*$/,""))
+    STRUCT_SET
   elsif ENUMS.include?(v)
     ENUM_SET 
   elsif v =~ /\(\*\)/
@@ -770,6 +777,8 @@ end
 
 def gen_setget_impl(key, h)
   list = h.collect do |k, v|
+
+    p v + " " + k if k == "chain"
 
     v.gsub!(/^enum /,"") if v.start_with?("enum ")
     t = v
@@ -880,7 +889,9 @@ def gen_funcimpl(name, param)
   end
 
   param['param'].each.with_index do |(n, ty), i|
+    #p ty
     if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name][i.to_s]
+      #p ty + " OVERRIDE"
       decl +=  FUNC_OVERRIDE[name][i.to_s]
       args.append(n)
     elsif ty == 'uint8_t' or ty == 'uint16_t' or ty == 'uint32_t' or ty == 'size_t'
@@ -947,9 +958,11 @@ def gen_funcimpl(name, param)
       decl += "  Napi::Function #{n}_ = info[#{i}].As<Napi::Function>();\n"
       args.append(n)
     elsif match_any?(ty, PRIMITIVES)
+      #p ty + " PRIMITIVES"
       decl += "  #{ty} #{n} = static_cast<#{ty}>(info[#{i}].As<Napi::Number>());\n"
       args.append(n)
     elsif is_struct_ptr?(ty)
+      #p ty + " struct_ptr"
       raw_ty = ty.gsub(/\*$/, "")
       raw_ty = raw_ty.gsub(/^struct /, "")
       raw_ty = raw_ty.gsub(/^const /, "")
@@ -976,21 +989,32 @@ def gen_funcimpl(name, param)
     invoke += "  return Napi::Boolean::New(info.Env(), #{call_func});\n"
   elsif type == 'long'
     invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
+  elsif type == 'unsigned int'
+    invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
   elsif type == 'unsigned long'
     invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
   elsif type == 'const char*'
+    invoke += "  return Napi::String::New(info.Env(), #{call_func});\n"
   elsif type == 'void*'
+    invoke += "  //func return void*\n"
   elsif type == 'const void*'
+    invoke += "  //func return const void*\n"
   elsif type == 'const uint8_t*'
+    invoke += "  //func return const uint8_t*\n"
   elsif type == 'const char*'
     invoke += "  return Napi::String::New(info.Env(), #{call_func});\n"
   elsif match_any?(type, PRIMITIVES)
     invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
   elsif type =~ /.*\*$/
+    #p type
     type = type.gsub(/\*$/, "")
     invoke += "  std::shared_ptr<#{type}> sp(#{call_func});\n"
     invoke += "  auto args = Napi::External<std::shared_ptr<#{type}>>::New(info.Env(), &sp);\n"
     invoke += "  return #{gen_classname(type)}::constructor.New({args});\n"
+  elsif ENUMS.include?(type)
+    invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
+  else
+    invoke += "  //func return unknown #{type}\n"
   end
 
   if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name]['invoke']

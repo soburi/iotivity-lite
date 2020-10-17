@@ -271,20 +271,20 @@ Napi::Value N_oc_enum_pos_desc_to_str(const Napi::CallbackInfo&);
 Napi::Value N_oc_enum_to_str(const Napi::CallbackInfo&);
 Napi::Value N__oc_alloc_string(const Napi::CallbackInfo&);
 Napi::Value N__oc_alloc_string_array(const Napi::CallbackInfo&);
-#ifdef xxx
+#ifdef XXX
 Napi::Value N__oc_byte_string_array_add_item(const Napi::CallbackInfo&);
 #endif
-#ifdef xxx
+#ifdef XXX
 Napi::Value N__oc_copy_byte_string_to_array(const Napi::CallbackInfo&);
 #endif
-#ifdef xxx
+#ifdef XXX
 Napi::Value N__oc_copy_string_to_array(const Napi::CallbackInfo&);
 #endif
 Napi::Value N__oc_free_array(const Napi::CallbackInfo&);
 Napi::Value N__oc_free_string(const Napi::CallbackInfo&);
 Napi::Value N__oc_new_array(const Napi::CallbackInfo&);
 Napi::Value N__oc_new_string(const Napi::CallbackInfo&);
-#ifdef xxx
+#ifdef XXX
 Napi::Value N__oc_string_array_add_item(const Napi::CallbackInfo&);
 #endif
 Napi::Value N_oc_concat_strings(const Napi::CallbackInfo&);
@@ -326,8 +326,12 @@ Napi::Value N_oc_list_remove(const Napi::CallbackInfo&);
 #ifdef XXX
 Napi::Value N_oc_list_tail(const Napi::CallbackInfo&);
 #endif
+#ifdef XXX
 Napi::Value N__oc_memb_alloc(const Napi::CallbackInfo&);
+#endif
+#ifdef XXX
 Napi::Value N__oc_memb_free(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_memb_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_memb_inmemb(const Napi::CallbackInfo&);
 Napi::Value N_oc_memb_numfree(const Napi::CallbackInfo&);
@@ -400,9 +404,7 @@ Napi::Value N_oc_pki_add_trust_anchor(const Napi::CallbackInfo&);
 Napi::Value N_oc_pki_set_security_profile(const Napi::CallbackInfo&);
 Napi::Value N_oc_random_destroy(const Napi::CallbackInfo&);
 Napi::Value N_oc_random_init(const Napi::CallbackInfo&);
-#ifdef xxx
 Napi::Value N_oc_random_value(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_free_rep(const Napi::CallbackInfo&);
 #ifdef XXX
 Napi::Value N_oc_parse_rep(const Napi::CallbackInfo&);
@@ -417,7 +419,7 @@ Napi::Value N_oc_rep_get_bool_array(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_byte_string(const Napi::CallbackInfo&);
 #endif
 Napi::Value N_oc_rep_get_byte_string_array(const Napi::CallbackInfo&);
-#ifdef xxx
+#ifdef XXX
 Napi::Value N_oc_rep_get_cbor_errno(const Napi::CallbackInfo&);
 #endif
 #ifdef XXX
@@ -427,7 +429,7 @@ Napi::Value N_oc_rep_get_double(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_double_array(const Napi::CallbackInfo&);
 #endif
 Napi::Value N_oc_rep_get_encoded_payload_size(const Napi::CallbackInfo&);
-#ifdef xxx
+#ifdef XXX
 Napi::Value N_oc_rep_get_encoder_buf(const Napi::CallbackInfo&);
 #endif
 #ifdef XXX

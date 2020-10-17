@@ -640,12 +640,14 @@ Napi::Value N_oc_set_separate_response_buffer(const Napi::CallbackInfo& info) {
 #endif
 #ifdef XXX
 Napi::Value N_OC_PROCESS_NAME(const Napi::CallbackInfo& info) {
+  //func return unknown 
 }
 
 #endif
 #ifdef XXX
 Napi::Value N_PT_THREAD(const Napi::CallbackInfo& info) {
 // 0 thread, (*)(struct pt*, oc_process_event_t, oc_process_data_t)
+  //func return unknown 
 }
 
 #endif
@@ -864,6 +866,7 @@ Napi::Value N_oc_blockwise_dispatch_block(const Napi::CallbackInfo& info) {
   uint32_t block_offset = static_cast<uint32_t>(info[1].As<Napi::Number>().Uint32Value());
   uint32_t requested_block_size = static_cast<uint32_t>(info[2].As<Napi::Number>().Uint32Value());
 // 3 payload_size, uint32_t*
+  //func return const void*
 }
 
 #endif
@@ -1135,6 +1138,7 @@ Napi::Value N_oc_ri_process_discovery_payload(const Napi::CallbackInfo& info) {
 // 2 handler, oc_client_handler_t
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[3].As<Napi::Object>());
   void* user_data = info[4];
+  return Napi::Number::New(info.Env(), 0);
 }
 
 #endif
@@ -1419,6 +1423,7 @@ Napi::Value N_oc_send_discovery_request(const Napi::CallbackInfo& info) {
 #ifdef OC_TCP
 Napi::Value N_oc_tcp_get_csm_state(const Napi::CallbackInfo& info) {
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_tcp_get_csm_state(endpoint));
 }
 
 #endif
@@ -1573,22 +1578,27 @@ Napi::Value N_oc_store_uri(const Napi::CallbackInfo& info) {
 
 Napi::Value N_oc_cred_credtype_string(const Napi::CallbackInfo& info) {
   oc_sec_credtype_t credtype = static_cast<oc_sec_credtype_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::String::New(info.Env(), oc_cred_credtype_string(credtype));
 }
 
 Napi::Value N_oc_cred_parse_credusage(const Napi::CallbackInfo& info) {
   OCMmem& credusage_string = *OCMmem::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_cred_parse_credusage(credusage_string));
 }
 
 Napi::Value N_oc_cred_parse_encoding(const Napi::CallbackInfo& info) {
   OCMmem& encoding_string = *OCMmem::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_cred_parse_encoding(encoding_string));
 }
 
 Napi::Value N_oc_cred_read_credusage(const Napi::CallbackInfo& info) {
   oc_sec_credusage_t credusage = static_cast<oc_sec_credusage_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::String::New(info.Env(), oc_cred_read_credusage(credusage));
 }
 
 Napi::Value N_oc_cred_read_encoding(const Napi::CallbackInfo& info) {
   oc_sec_encoding_t encoding = static_cast<oc_sec_encoding_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::String::New(info.Env(), oc_cred_read_encoding(encoding));
 }
 
 Napi::Value N_oc_create_discovery_resource(const Napi::CallbackInfo& info) {
@@ -1678,10 +1688,12 @@ Napi::Value N_oc_string_to_endpoint(const Napi::CallbackInfo& info) {
 
 Napi::Value N_oc_enum_pos_desc_to_str(const Napi::CallbackInfo& info) {
   oc_pos_description_t pos = static_cast<oc_pos_description_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::String::New(info.Env(), oc_enum_pos_desc_to_str(pos));
 }
 
 Napi::Value N_oc_enum_to_str(const Napi::CallbackInfo& info) {
   oc_enum_t val = static_cast<oc_enum_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::String::New(info.Env(), oc_enum_to_str(val));
 }
 
 Napi::Value N__oc_alloc_string(const Napi::CallbackInfo& info) {
@@ -1698,7 +1710,7 @@ Napi::Value N__oc_alloc_string_array(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-#ifdef xxx
+#ifdef XXX
 Napi::Value N__oc_byte_string_array_add_item(const Napi::CallbackInfo& info) {
   OCMmem& ocstringarray = *OCMmem::Unwrap(info[0].As<Napi::Object>());
   const char str = static_cast<uint8_t>(info[1].As<Napi::Number>().Uint32Value());
@@ -1707,7 +1719,7 @@ Napi::Value N__oc_byte_string_array_add_item(const Napi::CallbackInfo& info) {
 }
 
 #endif
-#ifdef xxx
+#ifdef XXX
 Napi::Value N__oc_copy_byte_string_to_array(const Napi::CallbackInfo& info) {
   OCMmem& ocstringarray = *OCMmem::Unwrap(info[0].As<Napi::Object>());
   const char str = static_cast<uint8_t>(info[1].As<Napi::Number>().Uint32Value());
@@ -1717,7 +1729,7 @@ Napi::Value N__oc_copy_byte_string_to_array(const Napi::CallbackInfo& info) {
 }
 
 #endif
-#ifdef xxx
+#ifdef XXX
 Napi::Value N__oc_copy_string_to_array(const Napi::CallbackInfo& info) {
   OCMmem& ocstringarray = *OCMmem::Unwrap(info[0].As<Napi::Object>());
   const char str = static_cast<uint8_t>(info[1].As<Napi::Number>().Uint32Value());
@@ -1756,7 +1768,7 @@ Napi::Value N__oc_new_string(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-#ifdef xxx
+#ifdef XXX
 Napi::Value N__oc_string_array_add_item(const Napi::CallbackInfo& info) {
   OCMmem& ocstringarray = *OCMmem::Unwrap(info[0].As<Napi::Object>());
   const char str = static_cast<uint8_t>(info[1].As<Napi::Number>().Uint32Value());
@@ -1801,6 +1813,7 @@ Napi::Value N_oc_list_add(const Napi::CallbackInfo& info) {
 #ifdef XXX
 Napi::Value N_oc_list_chop(const Napi::CallbackInfo& info) {
 // 0 list, oc_list_t
+  //func return void*
 }
 
 #endif
@@ -1816,6 +1829,7 @@ Napi::Value N_oc_list_copy(const Napi::CallbackInfo& info) {
 #ifdef XXX
 Napi::Value N_oc_list_head(const Napi::CallbackInfo& info) {
 // 0 list, oc_list_t
+  //func return void*
 }
 
 #endif
@@ -1840,6 +1854,7 @@ Napi::Value N_oc_list_insert(const Napi::CallbackInfo& info) {
 #ifdef XXX
 Napi::Value N_oc_list_item_next(const Napi::CallbackInfo& info) {
   void* item = info[0];
+  //func return void*
 }
 
 #endif
@@ -1853,6 +1868,7 @@ Napi::Value N_oc_list_length(const Napi::CallbackInfo& info) {
 #ifdef XXX
 Napi::Value N_oc_list_pop(const Napi::CallbackInfo& info) {
 // 0 list, oc_list_t
+  //func return void*
 }
 
 #endif
@@ -1877,18 +1893,25 @@ Napi::Value N_oc_list_remove(const Napi::CallbackInfo& info) {
 #ifdef XXX
 Napi::Value N_oc_list_tail(const Napi::CallbackInfo& info) {
 // 0 list, oc_list_t
+  //func return void*
 }
 
 #endif
+#ifdef XXX
 Napi::Value N__oc_memb_alloc(const Napi::CallbackInfo& info) {
   OCMemb& m = *OCMemb::Unwrap(info[0].As<Napi::Object>());
+  //func return void*
 }
 
+#endif
+#ifdef XXX
 Napi::Value N__oc_memb_free(const Napi::CallbackInfo& info) {
   OCMemb& m = *OCMemb::Unwrap(info[0].As<Napi::Object>());
   void* ptr = info[1];
+  //func return unknown char
 }
 
+#endif
 Napi::Value N_oc_memb_init(const Napi::CallbackInfo& info) {
   OCMemb& m = *OCMemb::Unwrap(info[0].As<Napi::Object>());
   (void)oc_memb_init(m);
@@ -2361,11 +2384,10 @@ Napi::Value N_oc_random_init(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-#ifdef xxx
 Napi::Value N_oc_random_value(const Napi::CallbackInfo& info) {
+  return Napi::Number::New(info.Env(), oc_random_value());
 }
 
-#endif
 Napi::Value N_oc_free_rep(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
   (void)oc_free_rep(rep);
@@ -2422,8 +2444,9 @@ Napi::Value N_oc_rep_get_byte_string_array(const Napi::CallbackInfo& info) {
   return Napi::Boolean::New(info.Env(), oc_rep_get_byte_string_array(rep, key, value, size));
 }
 
-#ifdef xxx
+#ifdef XXX
 Napi::Value N_oc_rep_get_cbor_errno(const Napi::CallbackInfo& info) {
+  //func return unknown CborError
 }
 
 #endif
@@ -2452,8 +2475,9 @@ Napi::Value N_oc_rep_get_encoded_payload_size(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_rep_get_encoded_payload_size());
 }
 
-#ifdef xxx
+#ifdef XXX
 Napi::Value N_oc_rep_get_encoder_buf(const Napi::CallbackInfo& info) {
+  //func return const uint8_t*
 }
 
 #endif
@@ -2595,6 +2619,7 @@ Napi::Value N_oc_ri_get_app_resources(const Napi::CallbackInfo& info) {
 Napi::Value N_oc_ri_get_interface_mask(const Napi::CallbackInfo& info) {
   char* iface = const_cast<char*>(info[0].As<Napi::String>().Utf8Value().c_str());
   size_t if_len = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), oc_ri_get_interface_mask(iface, if_len));
 }
 
 #ifdef XXX
