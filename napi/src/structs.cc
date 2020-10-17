@@ -1616,6 +1616,7 @@ Napi::Value OCHandler::get_init(const Napi::CallbackInfo& info)
 void OCHandler::set_init(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   init.Reset(value.As<Napi::Function>());
+
 }
 
 #ifdef OC_SERVER
@@ -3079,30 +3080,28 @@ OCCred::OCCred(const Napi::CallbackInfo& info) : ObjectWrap(info)
 #ifdef OC_PKI
 Napi::Value OCCred::get_chain(const Napi::CallbackInfo& info)
 {
-  return info[0];
-  //std::shared_ptr<oc_sec_cred_t> sp(&m_pvalue->chain);
-  //auto accessor = Napi::External<std::shared_ptr<oc_sec_cred_t>>::New(info.Env(), &sp);
-  //return OCCred::constructor.New({accessor});
+  std::shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->chain);
+  auto accessor = Napi::External<std::shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
+  return OCCred::constructor.New({accessor});
 }
 
 void OCCred::set_chain(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-  //m_pvalue->chain = *(*(value.As<Napi::External<std::shared_ptr<oc_sec_cred_t>>>().Data()));
+  m_pvalue->chain = *(*(value.As<Napi::External<std::shared_ptr<oc_sec_cred_t*>>>().Data()));
 }
 #endif
 
 #ifdef OC_PKI
 Napi::Value OCCred::get_child(const Napi::CallbackInfo& info)
 {
-  return info[0];
-  //std::shared_ptr<oc_sec_cred_t> sp(&m_pvalue->child);
-  //auto accessor = Napi::External<std::shared_ptr<oc_sec_cred_t>>::New(info.Env(), &sp);
-  //return OCCred::constructor.New({accessor});
+  std::shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->child);
+  auto accessor = Napi::External<std::shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
+  return OCCred::constructor.New({accessor});
 }
 
 void OCCred::set_child(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-  //m_pvalue->child = *(*(value.As<Napi::External<std::shared_ptr<oc_sec_cred_t>>>().Data()));
+  m_pvalue->child = *(*(value.As<Napi::External<std::shared_ptr<oc_sec_cred_t*>>>().Data()));
 }
 #endif
 
