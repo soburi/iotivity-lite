@@ -148,14 +148,6 @@
         '../util/oc_mmem.c',
         '../util/oc_process.c',
         '../util/oc_timer.c',
-        '../port/windows/abort.c',
-        '../port/windows/clock.c',
-        '../port/windows/ipadapter.c',
-        '../port/windows/mutex.c',
-        '../port/windows/network_addresses.c',
-        '../port/windows/random.c',
-        '../port/windows/storage.c',
-        '../port/windows/tcpadapter.c',
       ],
       'include_dirs': [
         '.',
@@ -172,6 +164,16 @@
       'conditions': [
         ['OS=="win"', {
           'include_dirs': [ '../port/windows' ],
+          'sources': [
+            '../port/windows/abort.c',
+            '../port/windows/clock.c',
+            '../port/windows/ipadapter.c',
+            '../port/windows/mutex.c',
+            '../port/windows/network_addresses.c',
+            '../port/windows/random.c',
+            '../port/windows/storage.c',
+            '../port/windows/tcpadapter.c',
+          ],
           'libraries': ['ws2_32.lib', 'iphlpapi.lib'],
           'defines': [
             'WIN32',
@@ -180,7 +182,15 @@
           ]
          }],
         ['OS=="linux"', {
-          "libraries": ['../../port/linux/libiotivity-lite-client-server.a'],
+          'include_dirs': [ '../port/linux' ],
+          'sources': [
+            '../port/linux/ipadapter.c',
+            '../port/linux/tcpadapter.c',
+            '../port/linux/storage.c',
+            '../port/linux/abort.c',
+            '../port/linux/clock.c',
+            '../port/linux/random.c',
+          ]
          }],
       ],
       'defines': ['OC_SERVER',
