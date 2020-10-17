@@ -184,7 +184,6 @@ oc_shutdown_all_devices(void)
 int
 oc_main_init(const oc_handler_t *handler)
 {
-  printf("oc_main_init %x\n", handler);
   int ret;
 
   if (initialized == true)
