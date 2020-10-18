@@ -768,6 +768,7 @@ void threadEntry(void *context) {
   };
 
   for (size_t index = 0; index < ARRAY_LENGTH; ++index) {
+    printf("for\n");
     // Perform a call into JavaScript.
     napi_status status =
         //context->tsfn.BlockingCall(&context->ints[index], callback);
@@ -793,16 +794,10 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
     handler.m_pvalue->init = oc_handler_init_helper;
   }
   if(handler.signal_event_loop.Value().IsFunction() ) {
-
-    //oc_handler_signal_event_loop_ref.Reset(handler.signal_event_loop.Value());
-    OC_DBG("oc_handler_signal_event_loop_ref");
-
     oc_handler_signal_event_loop_ref = Napi::ThreadSafeFunction::New(info.Env(),
                               handler.signal_event_loop.Value().As<Napi::Function>(),
                               "oc_handler_signal_event_loop_ref", 0, 1);
-    /*
     handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
-    */
   }
   if(handler.register_resources.Value().IsFunction() ) {
     oc_handler_register_resources_ref.Reset(handler.register_resources.Value());
@@ -813,9 +808,10 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
     handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;
   }
 
-  HANDLE h = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)threadEntry, nullptr, 0, nullptr);
 
-  return Napi::Number::New(info.Env(), (uint32_t)h);//oc_main_init(handler));  
+  
+
+  return Napi::Number::New(info.Env(), oc_main_init(handler));//(uint32_t)-1);//oc_main_init(handler));  
   /*
    return Napi::Number::New(info.Env(), oc_main_init(handler));
   */

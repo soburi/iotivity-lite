@@ -121,10 +121,9 @@ function register_resources()
   oc_add_resource(res);
 */
 }
-//function signal_event_loop()
-const signal_event_loop = (...args) => 
+function signal_event_loop()
 {
-  console.log(new Date, ...args);
+  console.log(new Date);
   var stack = new Error().stack
   console.log( stack )
   console.log("---- signal_event_loop ---");
@@ -150,14 +149,11 @@ function handle_signal()
   handler.init = app_init;
   handler.signal_event_loop = signal_event_loop;
   handler.register_resources = register_resources;
-//  handler.request_entry = function() { console.log("-- request_entry --"); };
+  handler.request_entry = function() { console.log("-- request_entry --"); };
 
   console.log("IotivityLite.oc_main_init(handler)");
-
-//  var init = IotivityLite.oc_main_init(handler);
-  //void async function() {
-    console.log(IotivityLite.oc_main_init(handler));
-  //}();
+  var init = IotivityLite.oc_main_init(handler);
+  console.log("end IotivityLite.oc_main_init(handler)");
 /*
   while (quit != 1) {
     next_event = IotivityLite.oc_main_poll();

@@ -1,4 +1,6 @@
 #include "helper.h"
+#include <thread>
+
 
 Napi::FunctionReference oc_handler_init_ref;
 //Napi::FunctionReference oc_handler_signal_event_loop_ref;
@@ -42,24 +44,13 @@ int oc_handler_init_helper()
   return 0;
 }
 
-void helper(Napi::Env env, Napi::Function callback, int* data) {
-OC_DBG("exit");
-}
-
 void oc_handler_signal_event_loop_helper()
 {
-OC_DBG("enter");
-  //Napi::HandleScope scope(oc_handler_signal_event_loop_ref.Env());
-  auto callback = [](Napi::Env env, Napi::Function jsCallback, int *data) {
-OC_DBG("exit");
-    jsCallback.Call({Napi::Number::New(env, *data)});
-  };
+  napi_status status = oc_handler_signal_event_loop_ref.NonBlockingCall();
 
-  int i=0;
-
-  napi_status status = oc_handler_signal_event_loop_ref.BlockingCall(&i, callback);
-
-OC_DBG("exit %d", stat);
+  if (status != napi_ok) {
+    Napi::Error::Fatal("ThreadEntry", "Napi::ThreadSafeNapi::Function.BlockingCall() failed");
+  }
 }
 
 void oc_handler_register_resources_helper()

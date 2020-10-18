@@ -199,7 +199,7 @@
                   'OC_IPV4',
                   'OC_TCP',
                   'OC_CLOUD',
-                  #'OC_SECURITY',
+                  'OC_SECURITY',
                   'OC_PKI',
                   'OC_DYNAMIC_ALLOCATION',
                   'OC_IDD_API',
