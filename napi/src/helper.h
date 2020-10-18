@@ -18,7 +18,8 @@ extern callback_helper_t* oc_handler_init_helper_data;
 
 
 extern Napi::FunctionReference oc_handler_init_ref;
-extern Napi::FunctionReference oc_handler_signal_event_loop_ref;
+//extern Napi::FunctionReference oc_handler_signal_event_loop_ref;
+extern Napi::ThreadSafeFunction oc_handler_signal_event_loop_ref;
 extern Napi::FunctionReference oc_handler_register_resources_ref;
 extern Napi::FunctionReference oc_handler_requests_entry_ref;
 

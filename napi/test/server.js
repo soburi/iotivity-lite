@@ -121,15 +121,16 @@ function register_resources()
   oc_add_resource(res);
 */
 }
-
-function signal_event_loop()
+//function signal_event_loop()
+const signal_event_loop = (...args) => 
 {
+  console.log(new Date, ...args);
+  var stack = new Error().stack
+  console.log( stack )
   console.log("---- signal_event_loop ---");
   //pthread_mutex_lock(&mutex);
   //pthread_cond_signal(&cv);
   //pthread_mutex_unlock(&mutex);
-  var stack = new Error().stack
-  console.log( stack )
 }
 
 function handle_signal()
@@ -152,12 +153,12 @@ function handle_signal()
 //  handler.request_entry = function() { console.log("-- request_entry --"); };
 
   console.log("IotivityLite.oc_main_init(handler)");
-  var init = IotivityLite.oc_main_init(handler);
-  console.log("end IotivityLite.oc_main_init(handler): " + init);
 
-  if (init < 0)
-    return init;
-
+//  var init = IotivityLite.oc_main_init(handler);
+  void async function() {
+    console.log(await IotivityLite.oc_main_init(handler));
+  }();
+/*
   while (quit != 1) {
     next_event = IotivityLite.oc_main_poll();
     //pthread_mutex_lock(&mutex);
@@ -172,3 +173,4 @@ function handle_signal()
   }
 
   IotivityLite.oc_main_shutdown();
+*/
