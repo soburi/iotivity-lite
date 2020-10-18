@@ -1,4 +1,530 @@
 {
+  "coap_get_header_accept": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "accept": "unsigned int*"
+    }
+  },
+  "coap_get_header_block1": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "num": "uint32_t*",
+      "more": "uint8_t*",
+      "size": "uint16_t*",
+      "offset": "uint32_t*"
+    }
+  },
+  "coap_get_header_block2": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "num": "uint32_t*",
+      "more": "uint8_t*",
+      "size": "uint16_t*",
+      "offset": "uint32_t*"
+    }
+  },
+  "coap_get_header_content_format": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "format": "unsigned int*"
+    }
+  },
+  "coap_get_header_etag": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "etag": "const uint8_t**"
+    }
+  },
+  "coap_get_header_if_match": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "etag": "const uint8_t**"
+    }
+  },
+  "coap_get_header_if_none_match": {
+    "type": "int",
+    "param": {
+      "packet": "void*"
+    }
+  },
+  "coap_get_header_location_path": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "path": "const char**"
+    }
+  },
+  "coap_get_header_location_query": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "query": "const char**"
+    }
+  },
+  "coap_get_header_max_age": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "age": "uint32_t*"
+    }
+  },
+  "coap_get_header_observe": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "observe": "uint32_t*"
+    }
+  },
+  "coap_get_header_proxy_scheme": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "scheme": "const char**"
+    }
+  },
+  "coap_get_header_proxy_uri": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "uri": "const char**"
+    }
+  },
+  "coap_get_header_size1": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "size": "uint32_t*"
+    }
+  },
+  "coap_get_header_size2": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "size": "uint32_t*"
+    }
+  },
+  "coap_get_header_uri_host": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "host": "const char**"
+    }
+  },
+  "coap_get_header_uri_path": {
+    "type": "size_t",
+    "param": {
+      "packet": "void*",
+      "path": "const char**"
+    }
+  },
+  "coap_get_header_uri_query": {
+    "type": "size_t",
+    "param": {
+      "packet": "void*",
+      "query": "const char**"
+    }
+  },
+  "coap_get_mid": {
+    "type": "uint16_t",
+    "param": {
+    }
+  },
+  "coap_get_payload": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "payload": "const uint8_t**"
+    }
+  },
+  "coap_get_post_variable": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "name": "const char*",
+      "output": "const char**"
+    }
+  },
+  "coap_get_query_variable": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "name": "const char*",
+      "output": "const char**"
+    }
+  },
+  "coap_init_connection": {
+    "type": "void",
+    "param": {
+    }
+  },
+  "coap_send_message": {
+    "type": "void",
+    "param": {
+      "message": "oc_message_t*"
+    }
+  },
+  "coap_serialize_message": {
+    "type": "size_t",
+    "param": {
+      "packet": "void*",
+      "buffer": "uint8_t*"
+    }
+  },
+  "coap_set_header_accept": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "accept": "unsigned int"
+    }
+  },
+  "coap_set_header_block1": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "num": "uint32_t",
+      "more": "uint8_t",
+      "size": "uint16_t"
+    }
+  },
+  "coap_set_header_block2": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "num": "uint32_t",
+      "more": "uint8_t",
+      "size": "uint16_t"
+    }
+  },
+  "coap_set_header_content_format": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "format": "unsigned int"
+    }
+  },
+  "coap_set_header_etag": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "etag": "const uint8_t*",
+      "etag_len": "size_t"
+    }
+  },
+  "coap_set_header_if_match": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "etag": "const uint8_t*",
+      "etag_len": "size_t"
+    }
+  },
+  "coap_set_header_if_none_match": {
+    "type": "int",
+    "param": {
+      "packet": "void*"
+    }
+  },
+  "coap_set_header_location_path": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "path": "const char*"
+    }
+  },
+  "coap_set_header_location_query": {
+    "type": "size_t",
+    "param": {
+      "packet": "void*",
+      "query": "const char*"
+    }
+  },
+  "coap_set_header_max_age": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "age": "uint32_t"
+    }
+  },
+  "coap_set_header_observe": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "observe": "uint32_t"
+    }
+  },
+  "coap_set_header_proxy_scheme": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "scheme": "const char*"
+    }
+  },
+  "coap_set_header_proxy_uri": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "uri": "const char*"
+    }
+  },
+  "coap_set_header_size1": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "size": "uint32_t"
+    }
+  },
+  "coap_set_header_size2": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "size": "uint32_t"
+    }
+  },
+  "coap_set_header_uri_host": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "host": "const char*"
+    }
+  },
+  "coap_set_header_uri_path": {
+    "type": "size_t",
+    "param": {
+      "packet": "void*",
+      "path": "const char*",
+      "path_len": "size_t"
+    }
+  },
+  "coap_set_header_uri_query": {
+    "type": "size_t",
+    "param": {
+      "packet": "void*",
+      "query": "const char*"
+    }
+  },
+  "coap_set_payload": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "payload": "const void*",
+      "length": "size_t"
+    }
+  },
+  "coap_set_status_code": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "code": "unsigned int"
+    }
+  },
+  "coap_set_token": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "token": "const uint8_t*",
+      "token_len": "size_t"
+    }
+  },
+  "coap_tcp_get_packet_size": {
+    "type": "size_t",
+    "param": {
+      "data": "const uint8_t*"
+    }
+  },
+  "coap_tcp_init_message": {
+    "type": "void",
+    "param": {
+      "packet": "void*",
+      "code": "uint8_t"
+    }
+  },
+  "coap_tcp_parse_message": {
+    "type": "coap_status_t",
+    "param": {
+      "packet": "void*",
+      "data": "uint8_t*",
+      "data_len": "uint32_t"
+    }
+  },
+  "coap_udp_init_message": {
+    "type": "void",
+    "param": {
+      "packet": "void*",
+      "type": "coap_message_type_t",
+      "code": "uint8_t",
+      "mid": "uint16_t"
+    }
+  },
+  "coap_udp_parse_message": {
+    "type": "coap_status_t",
+    "param": {
+      "request": "void*",
+      "data": "uint8_t*",
+      "data_len": "uint16_t"
+    }
+  },
+  "coap_check_signal_message": {
+    "type": "int",
+    "param": {
+      "packet": "void*"
+    }
+  },
+  "coap_send_abort_message": {
+    "type": "int",
+    "param": {
+      "endpoint": "oc_endpoint_t*",
+      "opt": "uint16_t",
+      "diagnostic": "const char*",
+      "diagnostic_len": "size_t"
+    }
+  },
+  "coap_send_csm_message": {
+    "type": "int",
+    "param": {
+      "endpoint": "oc_endpoint_t*",
+      "max_message_size": "uint32_t",
+      "blockwise_transfer_option": "uint8_t"
+    }
+  },
+  "coap_send_ping_message": {
+    "type": "int",
+    "param": {
+      "endpoint": "oc_endpoint_t*",
+      "custody_option": "uint8_t",
+      "token": "uint8_t*",
+      "token_len": "uint8_t"
+    }
+  },
+  "coap_send_pong_message": {
+    "type": "int",
+    "param": {
+      "endpoint": "oc_endpoint_t*",
+      "packet": "void*"
+    }
+  },
+  "coap_send_release_message": {
+    "type": "int",
+    "param": {
+      "endpoint": "oc_endpoint_t*",
+      "alt_addr": "const char*",
+      "alt_addr_len": "size_t",
+      "hold_off": "uint32_t"
+    }
+  },
+  "coap_signal_get_alt_addr": {
+    "type": "size_t",
+    "param": {
+      "packet": "void*",
+      "addr": "const char**"
+    }
+  },
+  "coap_signal_get_bad_csm": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "opt": "uint16_t*"
+    }
+  },
+  "coap_signal_get_blockwise_transfer": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "blockwise_transfer": "uint8_t*"
+    }
+  },
+  "coap_signal_get_custody": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "custody": "uint8_t*"
+    }
+  },
+  "coap_signal_get_hold_off": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "time_seconds": "uint32_t*"
+    }
+  },
+  "coap_signal_get_max_msg_size": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "size": "uint32_t*"
+    }
+  },
+  "coap_signal_set_alt_addr": {
+    "type": "size_t",
+    "param": {
+      "packet": "void*",
+      "addr": "const char*",
+      "addr_len": "size_t"
+    }
+  },
+  "coap_signal_set_bad_csm": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "opt": "uint16_t"
+    }
+  },
+  "coap_signal_set_blockwise_transfer": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "blockwise_transfer": "uint8_t"
+    }
+  },
+  "coap_signal_set_custody": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "custody": "uint8_t"
+    }
+  },
+  "coap_signal_set_hold_off": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "time_seconds": "uint32_t"
+    }
+  },
+  "coap_signal_set_max_msg_size": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "size": "uint32_t"
+    }
+  },
+  "handle_coap_signal_message": {
+    "type": "int",
+    "param": {
+      "packet": "void*",
+      "endpoint": "oc_endpoint_t*"
+    }
+  },
+  "coap_init_engine": {
+    "type": "void",
+    "param": {
+    }
+  },
+  "coap_receive": {
+    "type": "int",
+    "param": {
+      "message": "oc_message_t*"
+    }
+  },
+  "OC_PROCESS_NAME": {
+    "type": "",
+    "param": {
+    }
+  },
   "oc_assert_all_roles": {
     "type": "void",
     "param": {
@@ -580,11 +1106,6 @@
       "handle": "oc_separate_response_t*"
     }
   },
-  "OC_PROCESS_NAME": {
-    "type": "",
-    "param": {
-    }
-  },
   "PT_THREAD": {
     "type": "",
     "param": {
@@ -620,6 +1141,101 @@
     "param": {
       "t": "struct oc_timer*",
       "interval": "oc_clock_time_t"
+    }
+  },
+  "coap_free_all_observers": {
+    "type": "void",
+    "param": {
+    }
+  },
+  "coap_get_observers": {
+    "type": "oc_list_t",
+    "param": {
+    }
+  },
+  "coap_notify_collection_baseline": {
+    "type": "int",
+    "param": {
+      "collection": "oc_collection_t*"
+    }
+  },
+  "coap_notify_collection_batch": {
+    "type": "int",
+    "param": {
+      "collection": "oc_collection_t*"
+    }
+  },
+  "coap_notify_collection_links_list": {
+    "type": "int",
+    "param": {
+      "collection": "oc_collection_t*"
+    }
+  },
+  "coap_notify_collection_observers": {
+    "type": "int",
+    "param": {
+      "resource": "oc_resource_t*",
+      "response_buf": "oc_response_buffer_t*",
+      "iface_mask": "oc_interface_mask_t"
+    }
+  },
+  "coap_notify_observers": {
+    "type": "int",
+    "param": {
+      "resource": "oc_resource_t*",
+      "response_buf": "oc_response_buffer_t*",
+      "endpoint": "oc_endpoint_t*"
+    }
+  },
+  "coap_observe_handler": {
+    "type": "int",
+    "param": {
+      "request": "void*",
+      "response": "void*",
+      "resource": "oc_resource_t*",
+      "block2_size": "uint16_t",
+      "endpoint": "oc_endpoint_t*",
+      "iface_mask": "oc_interface_mask_t"
+    }
+  },
+  "coap_remove_observer": {
+    "type": "void",
+    "param": {
+      "o": "coap_observer_t*"
+    }
+  },
+  "coap_remove_observer_by_client": {
+    "type": "int",
+    "param": {
+      "endpoint": "oc_endpoint_t*"
+    }
+  },
+  "coap_remove_observer_by_mid": {
+    "type": "int",
+    "param": {
+      "endpoint": "oc_endpoint_t*",
+      "mid": "uint16_t"
+    }
+  },
+  "coap_remove_observer_by_resource": {
+    "type": "int",
+    "param": {
+      "rsc": "const oc_resource_t*"
+    }
+  },
+  "coap_remove_observer_by_token": {
+    "type": "int",
+    "param": {
+      "endpoint": "oc_endpoint_t*",
+      "token": "uint8_t*",
+      "token_len": "size_t"
+    }
+  },
+  "coap_remove_observers_on_dos_change": {
+    "type": "int",
+    "param": {
+      "device": "size_t",
+      "reset": "bool"
     }
   },
   "oc_add_device": {
@@ -2582,6 +3198,78 @@
       "uuid": "const oc_uuid_t*",
       "buffer": "char*",
       "buflen": "int"
+    }
+  },
+  "coap_separate_accept": {
+    "type": "int",
+    "param": {
+      "request": "void*",
+      "separate_response": "oc_separate_response_t*",
+      "endpoint": "oc_endpoint_t*",
+      "observe": "int",
+      "block2_size": "uint16_t"
+    }
+  },
+  "coap_separate_clear": {
+    "type": "void",
+    "param": {
+      "separate_response": "oc_separate_response_t*",
+      "separate_store": "coap_separate_t*"
+    }
+  },
+  "coap_separate_resume": {
+    "type": "void",
+    "param": {
+      "response": "void*",
+      "separate_store": "coap_separate_t*",
+      "code": "uint8_t",
+      "mid": "uint16_t"
+    }
+  },
+  "coap_check_transactions": {
+    "type": "void",
+    "param": {
+    }
+  },
+  "coap_clear_transaction": {
+    "type": "void",
+    "param": {
+      "t": "coap_transaction_t*"
+    }
+  },
+  "coap_free_all_transactions": {
+    "type": "void",
+    "param": {
+    }
+  },
+  "coap_free_transactions_by_endpoint": {
+    "type": "void",
+    "param": {
+      "endpoint": "oc_endpoint_t*"
+    }
+  },
+  "coap_get_transaction_by_mid": {
+    "type": "coap_transaction_t*",
+    "param": {
+      "mid": "uint16_t"
+    }
+  },
+  "coap_new_transaction": {
+    "type": "coap_transaction_t*",
+    "param": {
+      "mid": "uint16_t",
+      "endpoint": "oc_endpoint_t*"
+    }
+  },
+  "coap_register_as_transaction_handler": {
+    "type": "void",
+    "param": {
+    }
+  },
+  "coap_send_transaction": {
+    "type": "void",
+    "param": {
+      "t": "coap_transaction_t*"
     }
   }
 }

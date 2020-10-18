@@ -1,4 +1,91 @@
 {
+  "@3": {
+    "OPTION_MAP_SIZE": ""
+  },
+  "coap_transport_type_t": {
+    "COAP_TRANSPORT_UDP": "",
+    "COAP_TRANSPORT_TCP": ""
+  },
+  "coap_signal_code_t": {
+    "CSM_7_01": "",
+    "PING_7_02": "",
+    "PONG_7_03": "",
+    "RELEASE_7_04": "",
+    "ABORT_7_05": ""
+  },
+  "coap_signal_option_t": {
+    "COAP_SIGNAL_OPTION_MAX_MSG_SIZE": "",
+    "COAP_SIGNAL_OPTION_BLOCKWISE_TRANSFER": "",
+    "COAP_SIGNAL_OPTION_CUSTODY": "",
+    "COAP_SIGNAL_OPTION_ALT_ADDR": "",
+    "COAP_SIGNAL_OPTION_HOLD_OFF": "",
+    "COAP_SIGNAL_OPTION_BAD_CSM": ""
+  },
+  "coap_message_type_t": {
+    "COAP_TYPE_CON": "",
+    "COAP_TYPE_NON": "",
+    "COAP_TYPE_ACK": "",
+    "COAP_TYPE_RST": ""
+  },
+  "coap_method_t": {
+    "COAP_GET": "",
+    "COAP_POST": "",
+    "COAP_PUT": "",
+    "COAP_DELETE": ""
+  },
+  "coap_option_t": {
+    "COAP_OPTION_IF_MATCH": "",
+    "COAP_OPTION_URI_HOST": "",
+    "COAP_OPTION_ETAG": "",
+    "COAP_OPTION_IF_NONE_MATCH": "",
+    "COAP_OPTION_OBSERVE": "",
+    "COAP_OPTION_URI_PORT": "",
+    "COAP_OPTION_LOCATION_PATH": "",
+    "COAP_OPTION_URI_PATH": "",
+    "COAP_OPTION_CONTENT_FORMAT": "",
+    "COAP_OPTION_MAX_AGE": "",
+    "COAP_OPTION_URI_QUERY": "",
+    "COAP_OPTION_ACCEPT": "",
+    "COAP_OPTION_LOCATION_QUERY": "",
+    "COAP_OPTION_BLOCK2": "",
+    "COAP_OPTION_BLOCK1": "",
+    "COAP_OPTION_SIZE2": "",
+    "COAP_OPTION_PROXY_URI": "",
+    "COAP_OPTION_PROXY_SCHEME": "",
+    "COAP_OPTION_SIZE1": "",
+    "OCF_OPTION_ACCEPT_CONTENT_FORMAT_VER": "",
+    "OCF_OPTION_CONTENT_FORMAT_VER": ""
+  },
+  "coap_status_t": {
+    "COAP_NO_ERROR": "",
+    "CREATED_2_01": "",
+    "DELETED_2_02": "",
+    "VALID_2_03": "",
+    "CHANGED_2_04": "",
+    "CONTENT_2_05": "",
+    "CONTINUE_2_31": "",
+    "BAD_REQUEST_4_00": "",
+    "UNAUTHORIZED_4_01": "",
+    "BAD_OPTION_4_02": "",
+    "FORBIDDEN_4_03": "",
+    "NOT_FOUND_4_04": "",
+    "METHOD_NOT_ALLOWED_4_05": "",
+    "NOT_ACCEPTABLE_4_06": "",
+    "PRECONDITION_FAILED_4_12": "",
+    "REQUEST_ENTITY_TOO_LARGE_4_13": "",
+    "UNSUPPORTED_MEDIA_TYPE_4_15": "",
+    "INTERNAL_SERVER_ERROR_5_00": "",
+    "NOT_IMPLEMENTED_5_01": "",
+    "BAD_GATEWAY_5_02": "",
+    "SERVICE_UNAVAILABLE_5_03": "",
+    "GATEWAY_TIMEOUT_5_04": "",
+    "PROXYING_NOT_SUPPORTED_5_05": "",
+    "MEMORY_ALLOCATION_ERROR": "",
+    "PACKET_SERIALIZATION_ERROR": "",
+    "CLEAR_TRANSACTION": "",
+    "EMPTY_ACK_RESPONSE": "",
+    "CLOSE_ALL_TLS_SESSIONS": ""
+  },
   "oc_ace_connection_type_t": {
     "OC_CONN_AUTH_CRYPT": "",
     "OC_CONN_ANON_CLEAR": ""
