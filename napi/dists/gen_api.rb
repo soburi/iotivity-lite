@@ -588,25 +588,6 @@ IGNORE_FUNCS = [
   '_oc_memb_free',
   'PT_THREAD',
   'OC_PROCESS_NAME',
-  'coap_set_header_if_match',
-  'coap_set_header_proxy_scheme',
-  'coap_set_header_proxy_uri',
-  'coap_get_header_if_none_match',
-  'coap_set_header_location_path',
-  'coap_set_header_proxy_uri',
-  'coap_get_header_if_none_match',
-  'coap_set_header_location_path',
-  'coap_set_header_proxy_scheme',
-  'coap_set_header_proxy_uri',
-  'coap_get_header_if_none_match',
-  'coap_set_header_location_path',
-  'coap_set_header_proxy_scheme',
-  'coap_set_header_proxy_uri',
-  'coap_get_header_if_none_match',
-  'coap_set_header_location_path',
-  'coap_set_header_uri_host',
-  'coap_set_header_if_none_match',
-  'coap_get_observers',
 
 'oc_list_add',
 'oc_list_chop',
@@ -755,6 +736,14 @@ IFDEF_FUNCS = {
   'oc_connectivity_end_session' => 'defined(OC_TCP)',
   'oc_set_introspection_data' => 'defined(OC_IDD_API)',
 
+  'coap_set_header_if_match'=>'defined(XXX)',
+  'coap_set_header_proxy_scheme'=>'defined(XXX)',
+  'coap_set_header_proxy_uri'=>'defined(XXX)',
+  'coap_get_header_if_none_match'=>'defined(XXX)',
+  'coap_set_header_location_path'=>'defined(XXX)',
+  'coap_set_header_uri_host'=>'defined(XXX)',
+  'coap_set_header_if_none_match'=>'defined(XXX)',
+  'coap_get_observers'=>'defined(XXX)',
 
 '_oc_copy_byte_string_to_array'=>'defined(XXX)',
 '_oc_byte_string_array_add_item'=>'defined(XXX)',
@@ -1303,11 +1292,11 @@ File.open('src/functions.cc', 'w') do |f|
   #end 
   func_table.each do |key, h|
     next if IGNORE_FUNCS.include?(key)
-    expset = gen_funcimpl(key, h) + "\n"
+    expset = gen_funcimpl(key, h)
     if IFDEF_FUNCS.include?(key)
       expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
     end
-    f.print "#{expset}"
+    f.print "#{expset}\n"
   end
 end
 

@@ -5,6 +5,9 @@ Napi::Value N_coap_get_header_block2(const Napi::CallbackInfo&);
 Napi::Value N_coap_get_header_content_format(const Napi::CallbackInfo&);
 Napi::Value N_coap_get_header_etag(const Napi::CallbackInfo&);
 Napi::Value N_coap_get_header_if_match(const Napi::CallbackInfo&);
+#if defined(XXX)
+Napi::Value N_coap_get_header_if_none_match(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_coap_get_header_location_path(const Napi::CallbackInfo&);
 Napi::Value N_coap_get_header_location_query(const Napi::CallbackInfo&);
 Napi::Value N_coap_get_header_max_age(const Napi::CallbackInfo&);
@@ -28,11 +31,29 @@ Napi::Value N_coap_set_header_block1(const Napi::CallbackInfo&);
 Napi::Value N_coap_set_header_block2(const Napi::CallbackInfo&);
 Napi::Value N_coap_set_header_content_format(const Napi::CallbackInfo&);
 Napi::Value N_coap_set_header_etag(const Napi::CallbackInfo&);
+#if defined(XXX)
+Napi::Value N_coap_set_header_if_match(const Napi::CallbackInfo&);
+#endif
+#if defined(XXX)
+Napi::Value N_coap_set_header_if_none_match(const Napi::CallbackInfo&);
+#endif
+#if defined(XXX)
+Napi::Value N_coap_set_header_location_path(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_coap_set_header_location_query(const Napi::CallbackInfo&);
 Napi::Value N_coap_set_header_max_age(const Napi::CallbackInfo&);
 Napi::Value N_coap_set_header_observe(const Napi::CallbackInfo&);
+#if defined(XXX)
+Napi::Value N_coap_set_header_proxy_scheme(const Napi::CallbackInfo&);
+#endif
+#if defined(XXX)
+Napi::Value N_coap_set_header_proxy_uri(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_coap_set_header_size1(const Napi::CallbackInfo&);
 Napi::Value N_coap_set_header_size2(const Napi::CallbackInfo&);
+#if defined(XXX)
+Napi::Value N_coap_set_header_uri_host(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_coap_set_header_uri_path(const Napi::CallbackInfo&);
 Napi::Value N_coap_set_header_uri_query(const Napi::CallbackInfo&);
 Napi::Value N_coap_set_payload(const Napi::CallbackInfo&);
@@ -173,6 +194,9 @@ Napi::Value N_oc_timer_reset(const Napi::CallbackInfo&);
 Napi::Value N_oc_timer_restart(const Napi::CallbackInfo&);
 Napi::Value N_oc_timer_set(const Napi::CallbackInfo&);
 Napi::Value N_coap_free_all_observers(const Napi::CallbackInfo&);
+#if defined(XXX)
+Napi::Value N_coap_get_observers(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_coap_notify_collection_baseline(const Napi::CallbackInfo&);
 Napi::Value N_coap_notify_collection_batch(const Napi::CallbackInfo&);
 Napi::Value N_coap_notify_collection_links_list(const Napi::CallbackInfo&);

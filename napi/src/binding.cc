@@ -97,6 +97,9 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("coap_get_header_content_format", Napi::Function::New(env, N_coap_get_header_content_format));
   exports.Set("coap_get_header_etag", Napi::Function::New(env, N_coap_get_header_etag));
   exports.Set("coap_get_header_if_match", Napi::Function::New(env, N_coap_get_header_if_match));
+#if defined(XXX)
+  exports.Set("coap_get_header_if_none_match", Napi::Function::New(env, N_coap_get_header_if_none_match));
+#endif
   exports.Set("coap_get_header_location_path", Napi::Function::New(env, N_coap_get_header_location_path));
   exports.Set("coap_get_header_location_query", Napi::Function::New(env, N_coap_get_header_location_query));
   exports.Set("coap_get_header_max_age", Napi::Function::New(env, N_coap_get_header_max_age));
@@ -120,11 +123,29 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("coap_set_header_block2", Napi::Function::New(env, N_coap_set_header_block2));
   exports.Set("coap_set_header_content_format", Napi::Function::New(env, N_coap_set_header_content_format));
   exports.Set("coap_set_header_etag", Napi::Function::New(env, N_coap_set_header_etag));
+#if defined(XXX)
+  exports.Set("coap_set_header_if_match", Napi::Function::New(env, N_coap_set_header_if_match));
+#endif
+#if defined(XXX)
+  exports.Set("coap_set_header_if_none_match", Napi::Function::New(env, N_coap_set_header_if_none_match));
+#endif
+#if defined(XXX)
+  exports.Set("coap_set_header_location_path", Napi::Function::New(env, N_coap_set_header_location_path));
+#endif
   exports.Set("coap_set_header_location_query", Napi::Function::New(env, N_coap_set_header_location_query));
   exports.Set("coap_set_header_max_age", Napi::Function::New(env, N_coap_set_header_max_age));
   exports.Set("coap_set_header_observe", Napi::Function::New(env, N_coap_set_header_observe));
+#if defined(XXX)
+  exports.Set("coap_set_header_proxy_scheme", Napi::Function::New(env, N_coap_set_header_proxy_scheme));
+#endif
+#if defined(XXX)
+  exports.Set("coap_set_header_proxy_uri", Napi::Function::New(env, N_coap_set_header_proxy_uri));
+#endif
   exports.Set("coap_set_header_size1", Napi::Function::New(env, N_coap_set_header_size1));
   exports.Set("coap_set_header_size2", Napi::Function::New(env, N_coap_set_header_size2));
+#if defined(XXX)
+  exports.Set("coap_set_header_uri_host", Napi::Function::New(env, N_coap_set_header_uri_host));
+#endif
   exports.Set("coap_set_header_uri_path", Napi::Function::New(env, N_coap_set_header_uri_path));
   exports.Set("coap_set_header_uri_query", Napi::Function::New(env, N_coap_set_header_uri_query));
   exports.Set("coap_set_payload", Napi::Function::New(env, N_coap_set_payload));
@@ -265,6 +286,9 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_timer_restart", Napi::Function::New(env, N_oc_timer_restart));
   exports.Set("oc_timer_set", Napi::Function::New(env, N_oc_timer_set));
   exports.Set("coap_free_all_observers", Napi::Function::New(env, N_coap_free_all_observers));
+#if defined(XXX)
+  exports.Set("coap_get_observers", Napi::Function::New(env, N_coap_get_observers));
+#endif
   exports.Set("coap_notify_collection_baseline", Napi::Function::New(env, N_coap_notify_collection_baseline));
   exports.Set("coap_notify_collection_batch", Napi::Function::New(env, N_coap_notify_collection_batch));
   exports.Set("coap_notify_collection_links_list", Napi::Function::New(env, N_coap_notify_collection_links_list));
