@@ -176,7 +176,9 @@ oc_swupdate_notify_new_version_available(size_t device, const char *version,
 {
   (void)version;
   OC_DBG("new software version %s available for device %zd", version, device);
+#ifdef OC_SECURITY
   oc_sec_pstat_set_current_mode(device, OC_DPM_NSA);
+#endif
   oc_swupdate_t *s = &sw[device];
   s->swupdatestate = OC_SWUPDATE_STATE_NSA;
   s->swupdateresult = result;
@@ -193,7 +195,9 @@ oc_swupdate_notify_downloaded(size_t device, const char *version,
   (void)version;
   OC_DBG("software version %s downloaded and validated for device %zd", version,
          device);
+#ifdef OC_SECURITY
   oc_sec_pstat_set_current_mode(device, OC_DPM_NSA | OC_DPM_SVV);
+#endif
   oc_swupdate_t *s = &sw[device];
   s->swupdatestate = OC_SWUPDATE_STATE_SVV;
   s->swupdateresult = result;
@@ -214,7 +218,9 @@ oc_swupdate_notify_upgrading(size_t device, const char *version,
                              oc_swupdate_result_t result)
 {
   OC_DBG("upgrading to software version %s on device %zd", version, device);
+#ifdef OC_SECURITY
   oc_sec_pstat_set_current_mode(device, OC_DPM_NSA | OC_DPM_SVV | OC_DPM_SSV);
+#endif
   oc_swupdate_t *s = &sw[device];
   s->swupdatestate = OC_SWUPDATE_STATE_UPGRADING;
   s->swupdateresult = result;
@@ -231,7 +237,9 @@ oc_swupdate_notify_upgrading(size_t device, const char *version,
 void
 oc_swupdate_notify_done(size_t device, oc_swupdate_result_t result)
 {
+#ifdef OC_SECURITY
   oc_sec_pstat_set_current_mode(device, 0);
+#endif
   oc_swupdate_t *s = &sw[device];
   s->swupdateaction = OC_SWUPDATE_IDLE;
   s->swupdatestate = OC_SWUPDATE_STATE_IDLE;
