@@ -136,9 +136,7 @@ Napi::Value N_oc_get_request_payload_raw(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_response_payload_raw(const Napi::CallbackInfo&);
 #endif
 Napi::Value N_oc_ignore_request(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_indicate_separate_response(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_init_query_iterator(const Napi::CallbackInfo&);
 #if defined(XXX)
 Napi::Value N_oc_iterate_query(const Napi::CallbackInfo&);
@@ -166,13 +164,9 @@ Napi::Value N_oc_resource_tag_pos_rel(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_diagnostic_message(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_response(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_response_raw(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_send_separate_response(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_set_con_write_cb(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_set_separate_response_buffer(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_timer_expired(const Napi::CallbackInfo&);
 Napi::Value N_oc_timer_remaining(const Napi::CallbackInfo&);
 Napi::Value N_oc_timer_reset(const Napi::CallbackInfo&);
@@ -345,9 +339,7 @@ Napi::Value N_oc_connectivity_end_session(const Napi::CallbackInfo&);
 Napi::Value N_oc_connectivity_get_endpoints(const Napi::CallbackInfo&);
 Napi::Value N_oc_connectivity_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_connectivity_shutdown(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_dns_lookup(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_send_buffer(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_discovery_request(const Napi::CallbackInfo&);
 #if defined(OC_TCP)
@@ -429,42 +421,6 @@ Napi::Value N_oc_concat_strings(const Napi::CallbackInfo&);
 Napi::Value N_oc_join_string_array(const Napi::CallbackInfo&);
 #if defined(OC_IDD_API)
 Napi::Value N_oc_set_introspection_data(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_add(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_chop(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_copy(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_head(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_init(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_insert(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_item_next(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_length(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_pop(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_push(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_remove(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_tail(const Napi::CallbackInfo&);
 #endif
 #if defined(XXX)
 Napi::Value N__oc_memb_alloc(const Napi::CallbackInfo&);

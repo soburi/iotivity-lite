@@ -586,6 +586,20 @@ IGNORE_FUNCS = [
   'coap_set_header_uri_host',
   'coap_set_header_if_none_match',
   'coap_get_observers',
+
+'oc_list_add',
+'oc_list_chop',
+'oc_list_copy',
+'oc_list_head',
+'oc_list_init',
+'oc_list_insert',
+'oc_list_item_next',
+'oc_list_length',
+'oc_list_pop',
+'oc_list_push',
+'oc_list_remove',
+'oc_list_tail',
+
 ]
 
 IFDEF_TYPES = {
@@ -720,18 +734,6 @@ IFDEF_FUNCS = {
   'oc_connectivity_end_session' => 'defined(OC_TCP)',
   'oc_set_introspection_data' => 'defined(OC_IDD_API)',
 
-'oc_list_add' => "defined(XXX)",
-'oc_list_chop' => "defined(XXX)",
-'oc_list_copy' => "defined(XXX)",
-'oc_list_head' => "defined(XXX)",
-'oc_list_init' => "defined(XXX)",
-'oc_list_insert' => "defined(XXX)",
-'oc_list_item_next' => "defined(XXX)",
-'oc_list_length' => "defined(XXX)",
-'oc_list_pop' => "defined(XXX)",
-'oc_list_push' => "defined(XXX)",
-'oc_list_remove' => "defined(XXX)",
-'oc_list_tail' => "defined(XXX)",
 
 '_oc_copy_byte_string_to_array'=>'defined(XXX)',
 '_oc_byte_string_array_add_item'=>'defined(XXX)',
@@ -744,16 +746,12 @@ IFDEF_FUNCS = {
 'oc_get_response_payload_raw'=>'defined(XXX)',
 'oc_iterate_query'=>'defined(XXX)',
 'oc_iterate_query_get_values'=>'defined(XXX)',
-'oc_send_separate_response'=>'defined(XXX)',
-'oc_set_separate_response_buffer'=>'defined(XXX)',
-'oc_indicate_separate_response'=>'defined(XXX)',
 'oc_blockwise_dispatch_block'=>'defined(XXX)',
 'oc_ri_alloc_client_cb'=>'defined(XXX)',
 'oc_ri_invoke_client_cb'=>'defined(XXX)',
 'oc_ri_process_discovery_payload'=>'defined(XXX)',
 'oc_ri_get_query_nth_key_value'=>'defined(XXX)',
 'oc_ri_get_query_value'=>'defined(XXX)',
-'oc_dns_lookup'=>'defined(XXX)',
 'oc_core_encode_interfaces_mask'=>'defined(XXX)',
 'oc_endpoint_list_copy'=>'defined(XXX)',
 'oc_parse_rep'=>'defined(XXX)',
@@ -1132,7 +1130,7 @@ def gen_funcimpl(name, param)
       decl += "  #{gen_classname(raw_ty)}& #{n} = *#{gen_classname(raw_ty)}::Unwrap(info[#{i}].As<Napi::Object>());\n"
 
       args.append(n)
-    elsif ENUMS.include?(ty)
+    elsif ENUMS.include?(typedef_map(ty.gsub(/^enum /,'') ) )
       decl += "  #{ty} #{n} = static_cast<#{ty}>(info[#{i}].As<Napi::Number>().Uint32Value());\n"
       args.append(n)
     else

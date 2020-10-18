@@ -228,9 +228,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_get_response_payload_raw", Napi::Function::New(env, N_oc_get_response_payload_raw));
 #endif
   exports.Set("oc_ignore_request", Napi::Function::New(env, N_oc_ignore_request));
-#if defined(XXX)
   exports.Set("oc_indicate_separate_response", Napi::Function::New(env, N_oc_indicate_separate_response));
-#endif
   exports.Set("oc_init_query_iterator", Napi::Function::New(env, N_oc_init_query_iterator));
 #if defined(XXX)
   exports.Set("oc_iterate_query", Napi::Function::New(env, N_oc_iterate_query));
@@ -258,13 +256,9 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_send_diagnostic_message", Napi::Function::New(env, N_oc_send_diagnostic_message));
   exports.Set("oc_send_response", Napi::Function::New(env, N_oc_send_response));
   exports.Set("oc_send_response_raw", Napi::Function::New(env, N_oc_send_response_raw));
-#if defined(XXX)
   exports.Set("oc_send_separate_response", Napi::Function::New(env, N_oc_send_separate_response));
-#endif
   exports.Set("oc_set_con_write_cb", Napi::Function::New(env, N_oc_set_con_write_cb));
-#if defined(XXX)
   exports.Set("oc_set_separate_response_buffer", Napi::Function::New(env, N_oc_set_separate_response_buffer));
-#endif
   exports.Set("oc_timer_expired", Napi::Function::New(env, N_oc_timer_expired));
   exports.Set("oc_timer_remaining", Napi::Function::New(env, N_oc_timer_remaining));
   exports.Set("oc_timer_reset", Napi::Function::New(env, N_oc_timer_reset));
@@ -437,9 +431,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_connectivity_get_endpoints", Napi::Function::New(env, N_oc_connectivity_get_endpoints));
   exports.Set("oc_connectivity_init", Napi::Function::New(env, N_oc_connectivity_init));
   exports.Set("oc_connectivity_shutdown", Napi::Function::New(env, N_oc_connectivity_shutdown));
-#if defined(XXX)
   exports.Set("oc_dns_lookup", Napi::Function::New(env, N_oc_dns_lookup));
-#endif
   exports.Set("oc_send_buffer", Napi::Function::New(env, N_oc_send_buffer));
   exports.Set("oc_send_discovery_request", Napi::Function::New(env, N_oc_send_discovery_request));
 #if defined(OC_TCP)
@@ -521,42 +513,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_join_string_array", Napi::Function::New(env, N_oc_join_string_array));
 #if defined(OC_IDD_API)
   exports.Set("oc_set_introspection_data", Napi::Function::New(env, N_oc_set_introspection_data));
-#endif
-#if defined(XXX)
-  exports.Set("oc_list_add", Napi::Function::New(env, N_oc_list_add));
-#endif
-#if defined(XXX)
-  exports.Set("oc_list_chop", Napi::Function::New(env, N_oc_list_chop));
-#endif
-#if defined(XXX)
-  exports.Set("oc_list_copy", Napi::Function::New(env, N_oc_list_copy));
-#endif
-#if defined(XXX)
-  exports.Set("oc_list_head", Napi::Function::New(env, N_oc_list_head));
-#endif
-#if defined(XXX)
-  exports.Set("oc_list_init", Napi::Function::New(env, N_oc_list_init));
-#endif
-#if defined(XXX)
-  exports.Set("oc_list_insert", Napi::Function::New(env, N_oc_list_insert));
-#endif
-#if defined(XXX)
-  exports.Set("oc_list_item_next", Napi::Function::New(env, N_oc_list_item_next));
-#endif
-#if defined(XXX)
-  exports.Set("oc_list_length", Napi::Function::New(env, N_oc_list_length));
-#endif
-#if defined(XXX)
-  exports.Set("oc_list_pop", Napi::Function::New(env, N_oc_list_pop));
-#endif
-#if defined(XXX)
-  exports.Set("oc_list_push", Napi::Function::New(env, N_oc_list_push));
-#endif
-#if defined(XXX)
-  exports.Set("oc_list_remove", Napi::Function::New(env, N_oc_list_remove));
-#endif
-#if defined(XXX)
-  exports.Set("oc_list_tail", Napi::Function::New(env, N_oc_list_tail));
 #endif
 #if defined(XXX)
   exports.Set("_oc_memb_alloc", Napi::Function::New(env, N__oc_memb_alloc));

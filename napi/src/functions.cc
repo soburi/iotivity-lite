@@ -863,7 +863,6 @@ Napi::Value N_oc_ignore_request(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-#if defined(XXX)
 Napi::Value N_oc_indicate_separate_response(const Napi::CallbackInfo& info) {
   OCRequest& request = *OCRequest::Unwrap(info[0].As<Napi::Object>());
   OCSeparateResponse& response = *OCSeparateResponse::Unwrap(info[1].As<Napi::Object>());
@@ -871,7 +870,6 @@ Napi::Value N_oc_indicate_separate_response(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-#endif
 Napi::Value N_oc_init_query_iterator(const Napi::CallbackInfo& info) {
   (void)oc_init_query_iterator();
   return info.Env().Undefined();
@@ -1045,7 +1043,6 @@ Napi::Value N_oc_send_response_raw(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-#if defined(XXX)
 Napi::Value N_oc_send_separate_response(const Napi::CallbackInfo& info) {
   OCSeparateResponse& handle = *OCSeparateResponse::Unwrap(info[0].As<Napi::Object>());
   oc_status_t response_code = static_cast<oc_status_t>(info[1].As<Napi::Number>().Uint32Value());
@@ -1053,7 +1050,6 @@ Napi::Value N_oc_send_separate_response(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-#endif
 Napi::Value N_oc_set_con_write_cb(const Napi::CallbackInfo& info) {
   oc_con_write_cb_t callback = nullptr;
   Napi::Function callback_ = info[0].As<Napi::Function>();
@@ -1061,14 +1057,12 @@ Napi::Value N_oc_set_con_write_cb(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-#if defined(XXX)
 Napi::Value N_oc_set_separate_response_buffer(const Napi::CallbackInfo& info) {
   OCSeparateResponse& handle = *OCSeparateResponse::Unwrap(info[0].As<Napi::Object>());
   (void)oc_set_separate_response_buffer(handle);
   return info.Env().Undefined();
 }
 
-#endif
 Napi::Value N_oc_timer_expired(const Napi::CallbackInfo& info) {
   OCTimer& t = *OCTimer::Unwrap(info[0].As<Napi::Object>());
   return Napi::Number::New(info.Env(), oc_timer_expired(t));
@@ -1947,16 +1941,14 @@ Napi::Value N_oc_connectivity_shutdown(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-#if defined(XXX)
 Napi::Value N_oc_dns_lookup(const Napi::CallbackInfo& info) {
   std::string domain_ = info[0].As<Napi::String>().Utf8Value();
   const char* domain = domain_.c_str();
   OCMmem& addr = *OCMmem::Unwrap(info[1].As<Napi::Object>());
-// 2 flags, enum transport_flags
-  return Napi::Number::New(info.Env(), 0);
+  enum transport_flags flags = static_cast<enum transport_flags>(info[2].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), oc_dns_lookup(domain, addr, flags));
 }
 
-#endif
 Napi::Value N_oc_send_buffer(const Napi::CallbackInfo& info) {
   OCMessage& message = *OCMessage::Unwrap(info[0].As<Napi::Object>());
   return Napi::Number::New(info.Env(), oc_send_buffer(message));
@@ -2358,102 +2350,6 @@ Napi::Value N_oc_set_introspection_data(const Napi::CallbackInfo& info) {
   size_t IDD_size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
   (void)oc_set_introspection_data(device, IDD, IDD_size);
   return info.Env().Undefined();
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_add(const Napi::CallbackInfo& info) {
-// 0 list, oc_list_t
-  void* item = info[1];
-  (void)0;
-  return info.Env().Undefined();
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_chop(const Napi::CallbackInfo& info) {
-// 0 list, oc_list_t
-  //func return void*
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_copy(const Napi::CallbackInfo& info) {
-// 0 dest, oc_list_t
-// 1 src, oc_list_t
-  (void)0;
-  return info.Env().Undefined();
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_head(const Napi::CallbackInfo& info) {
-// 0 list, oc_list_t
-  //func return void*
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_init(const Napi::CallbackInfo& info) {
-// 0 list, oc_list_t
-  (void)0;
-  return info.Env().Undefined();
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_insert(const Napi::CallbackInfo& info) {
-// 0 list, oc_list_t
-  void* previtem = info[1];
-  void* newitem = info[2];
-  (void)0;
-  return info.Env().Undefined();
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_item_next(const Napi::CallbackInfo& info) {
-  void* item = info[0];
-  //func return void*
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_length(const Napi::CallbackInfo& info) {
-// 0 list, oc_list_t
-  return Napi::Number::New(info.Env(), 0);
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_pop(const Napi::CallbackInfo& info) {
-// 0 list, oc_list_t
-  //func return void*
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_push(const Napi::CallbackInfo& info) {
-// 0 list, oc_list_t
-  void* item = info[1];
-  (void)0;
-  return info.Env().Undefined();
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_remove(const Napi::CallbackInfo& info) {
-// 0 list, oc_list_t
-  void* item = info[1];
-  (void)0;
-  return info.Env().Undefined();
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N_oc_list_tail(const Napi::CallbackInfo& info) {
-// 0 list, oc_list_t
-  //func return void*
 }
 
 #endif
