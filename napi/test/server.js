@@ -107,7 +107,7 @@ put_light(oc_request_t *request, oc_interface_mask_t iface_mask,
 function register_resources()
 {
 //  oc_resource_t *res = oc_new_resource("lightbulb", "/light/1", 1, 0);
-  console.log("register_resources");
+  console.log("---- register_resources ----");
 /*
   var res = new IotivityLite.OCResource();
   oc_resource_bind_resource_type(res, "oic.r.light");

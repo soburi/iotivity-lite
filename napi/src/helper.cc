@@ -32,18 +32,6 @@ callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, int idx
   return helper;
 }
 
-void oc_init_platform_helper(void* param)
-{
-printf("oc_init_platform_helper");
-/*
-  callback_helper_t* helper = (callback_helper_t*)param;
-//  Napi::HandleScope(helper->function.Env());
-//  Napi::CallbackScope scope(helper->function.Env(), helper->async_context);
-  helper->function.MakeCallback(helper->function.Env().Null(), {helper->value.Value()});
-printf("end oc_init_platform_helper\n");
-*/
-}
-
 int oc_handler_init_helper()
 {
   Napi::Value ret = oc_handler_init_ref.Call({});
@@ -66,7 +54,20 @@ void oc_handler_register_resources_helper()
 
 void oc_handler_requests_entry_helper()
 {
-  //oc_handler_requests_entry_ref.Call({});
+  oc_handler_requests_entry_ref.Call({});
+}
+
+
+void oc_init_platform_helper(void* param)
+{
+printf("oc_init_platform_helper");
+/*
+  callback_helper_t* helper = (callback_helper_t*)param;
+//  Napi::HandleScope(helper->function.Env());
+//  Napi::CallbackScope scope(helper->function.Env(), helper->async_context);
+  helper->function.MakeCallback(helper->function.Env().Null(), {helper->value.Value()});
+printf("end oc_init_platform_helper\n");
+*/
 }
 
 void oc_add_device_helper(void* param)

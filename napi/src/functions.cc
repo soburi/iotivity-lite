@@ -739,17 +739,29 @@ Napi::Value N_oc_is_owned_device(const Napi::CallbackInfo& info) {
 #endif
 Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
   OCHandler& handler = *OCHandler::Unwrap(info[0].As<Napi::Object>());
-  oc_handler_init_ref.Reset(handler.init.Value());
-  oc_handler_signal_event_loop_ref.Reset(handler.signal_event_loop.Value());
-  oc_handler_register_resources_ref.Reset(handler.register_resources.Value());
-  oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());
-  handler.m_pvalue->init = oc_handler_init_helper;
-  handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
-  handler.m_pvalue->register_resources = oc_handler_register_resources_helper;
-  handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;
-  int ret = oc_main_init(handler);
-  OC_DBG("N_oc_main_init %d\n", ret);
-  return Napi::Number::New(info.Env(), ret);
+  handler.m_pvalue->init = nullptr;
+  handler.m_pvalue->signal_event_loop = nullptr;
+  handler.m_pvalue->register_resources = nullptr;
+  handler.m_pvalue->requests_entry = nullptr;
+  if(handler.init.Value().IsFunction() ) {
+    oc_handler_init_ref.Reset(handler.init.Value());
+    handler.m_pvalue->init = oc_handler_init_helper;
+  }
+  if(handler.signal_event_loop.Value().IsFunction() ) {
+    oc_handler_signal_event_loop_ref.Reset(handler.signal_event_loop.Value());
+    handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
+  }
+  if(handler.register_resources.Value().IsFunction() ) {
+    oc_handler_register_resources_ref.Reset(handler.register_resources.Value());
+    handler.m_pvalue->register_resources = oc_handler_register_resources_helper;
+  }
+  if(handler.requests_entry.Value().IsFunction() ) {
+    oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());
+    handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;
+  }
+  return Napi::Number::New(info.Env(), oc_main_init(handler));  /*
+   return Napi::Number::New(info.Env(), oc_main_init(handler));
+  */
 }
 
 Napi::Value N_oc_main_poll(const Napi::CallbackInfo& info) {
