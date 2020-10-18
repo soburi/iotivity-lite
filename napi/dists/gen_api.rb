@@ -386,6 +386,27 @@ SETGET_OVERRIDE = {
 }
 
 FUNC_OVERRIDE = {
+  'oc_resource_set_request_handler' => {
+    '2' => "  oc_request_callback_t callback = oc_resource_set_request_handler_helper;\n",
+    '3' => <<~STR
+                   callback_helper_t* user_data = new_callback_helper_t(info, 2, 3);
+                   if(!user_data) callback = nullptr;
+              STR
+  },
+  'oc_resource_set_properties_cbs' => {
+    '1' => "  oc_get_properties_cb_t get_properties = oc_resource_set_properties_cbs_get_helper;\n",
+    '3' => "  oc_set_properties_cb_t set_properties = oc_resource_set_properties_cbs_set_helper;\n",
+    '2' => <<~STR,
+                 //
+                   callback_helper_t* get_propr_user_data = new_callback_helper_t(info, 1, 2);
+                   if(!get_propr_user_data) get_properties = nullptr;
+              STR
+    '4' => <<~STR,
+                 //
+                   callback_helper_t* set_props_user_data = new_callback_helper_t(info, 3, 4);
+                   if(!set_props_user_data) set_properties = nullptr;
+              STR
+  },
   'oc_init_platform' => {
     '1' => "  oc_init_platform_cb_t init_platform_cb = oc_init_platform_helper;\n",
     '2' => <<~STR
@@ -563,8 +584,8 @@ IGNORE_TYPES = {
 }
 
 IGNORE_FUNCS = [
-  'oc_memb_alloc',
-  'oc_memb_free',
+  '_oc_memb_alloc',
+  '_oc_memb_free',
   'PT_THREAD',
   'OC_PROCESS_NAME',
   'coap_set_header_if_match',
@@ -739,6 +760,7 @@ IFDEF_FUNCS = {
 '_oc_byte_string_array_add_item'=>'defined(XXX)',
 '_oc_string_array_add_item'=>'defined(XXX)',
 '_oc_copy_string_to_array'=>'defined(XXX)',
+'oc_endpoint_list_copy'=>'defined(XXX)',
 
 'oc_get_diagnostic_message'=>'defined(XXX)',
 'oc_get_query_value'=>'defined(XXX)',
@@ -753,7 +775,7 @@ IFDEF_FUNCS = {
 'oc_ri_get_query_nth_key_value'=>'defined(XXX)',
 'oc_ri_get_query_value'=>'defined(XXX)',
 'oc_core_encode_interfaces_mask'=>'defined(XXX)',
-'oc_endpoint_list_copy'=>'defined(XXX)',
+
 'oc_parse_rep'=>'defined(XXX)',
 'oc_rep_get_bool'=>'defined(XXX)',
 'oc_rep_get_bool_array'=>'defined(XXX)',
@@ -767,9 +789,6 @@ IFDEF_FUNCS = {
 'oc_rep_get_string'=>'defined(XXX)',
 'oc_rep_get_encoder_buf' => 'defined(XXX)',
 'oc_rep_get_cbor_errno' => 'defined(XXX)',
-
-'_oc_memb_alloc' => 'defined(XXX)',
-'_oc_memb_free' => 'defined(XXX)',
 
 }
 
@@ -926,7 +945,6 @@ def gen_setter_impl(key, k, v)
   elsif STRUCTS.include?( typedef_map(v) )
     STRUCT_SET
   elsif STRUCTS.include?( typedef_map(v.gsub(/\*$/,""))  )
-    p "Xxx"
     STRUCT_SET
   elsif ENUMS.include?( typedef_map(v) )
     ENUM_SET 
@@ -1100,7 +1118,7 @@ def gen_funcimpl(name, param)
           ty == 'oc_discovery_all_handler_t' or
           ty == 'oc_discovery_handler_t' or
           ty == 'oc_factory_presets_cb_t' or
-          ty == 'oc_get_properties_cb_t' or
+#          ty == 'oc_get_properties_cb_t' or
 #          ty == 'oc_init_platform_cb_t' or
           ty == 'oc_memb_buffers_avail_callback_t' or
           ty == 'oc_obt_acl_cb_t' or
@@ -1111,7 +1129,7 @@ def gen_funcimpl(name, param)
           ty == 'oc_ownership_status_cb_t' or
           ty == 'oc_random_pin_cb_t' or
           ty == 'oc_request_callback_t' or
-          ty == 'oc_set_properties_cb_t' or
+#          ty == 'oc_set_properties_cb_t' or
           ty == 'oc_trigger_t' or
           ty == 'session_event_handler_t'
       decl += "  #{ty} #{n} = nullptr;\n"

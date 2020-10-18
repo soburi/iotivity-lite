@@ -514,12 +514,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
 #if defined(OC_IDD_API)
   exports.Set("oc_set_introspection_data", Napi::Function::New(env, N_oc_set_introspection_data));
 #endif
-#if defined(XXX)
-  exports.Set("_oc_memb_alloc", Napi::Function::New(env, N__oc_memb_alloc));
-#endif
-#if defined(XXX)
-  exports.Set("_oc_memb_free", Napi::Function::New(env, N__oc_memb_free));
-#endif
   exports.Set("oc_memb_init", Napi::Function::New(env, N_oc_memb_init));
   exports.Set("oc_memb_inmemb", Napi::Function::New(env, N_oc_memb_inmemb));
   exports.Set("oc_memb_numfree", Napi::Function::New(env, N_oc_memb_numfree));

@@ -129,4 +129,7 @@ int oc_swupdate_cb_perform_upgrade_helper(size_t device, const char *url)
   return 0;
 }
 
+void oc_resource_set_properties_cbs_get_helper(oc_resource_t* res, oc_interface_mask_t mask, void* data) { }
+bool oc_resource_set_properties_cbs_set_helper(oc_resource_t* res, oc_rep_t* rep, void* data) { return true; }
+void oc_resource_set_request_handler_helper(oc_request_t* req, oc_interface_mask_t mask, void* data) { }
 

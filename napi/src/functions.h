@@ -422,12 +422,6 @@ Napi::Value N_oc_join_string_array(const Napi::CallbackInfo&);
 #if defined(OC_IDD_API)
 Napi::Value N_oc_set_introspection_data(const Napi::CallbackInfo&);
 #endif
-#if defined(XXX)
-Napi::Value N__oc_memb_alloc(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N__oc_memb_free(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_memb_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_memb_inmemb(const Napi::CallbackInfo&);
 Napi::Value N_oc_memb_numfree(const Napi::CallbackInfo&);

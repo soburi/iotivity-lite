@@ -973,12 +973,14 @@ Napi::Value N_oc_resource_set_periodic_observable(const Napi::CallbackInfo& info
 
 Napi::Value N_oc_resource_set_properties_cbs(const Napi::CallbackInfo& info) {
   OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  oc_get_properties_cb_t get_properties = nullptr;
-  Napi::Function get_properties_ = info[1].As<Napi::Function>();
-  void* get_propr_user_data = info[2];
-  oc_set_properties_cb_t set_properties = nullptr;
-  Napi::Function set_properties_ = info[3].As<Napi::Function>();
-  void* set_props_user_data = info[4];
+  oc_get_properties_cb_t get_properties = oc_resource_set_properties_cbs_get_helper;
+//
+  callback_helper_t* get_propr_user_data = new_callback_helper_t(info, 1, 2);
+  if(!get_propr_user_data) get_properties = nullptr;
+  oc_set_properties_cb_t set_properties = oc_resource_set_properties_cbs_set_helper;
+//
+  callback_helper_t* set_props_user_data = new_callback_helper_t(info, 3, 4);
+  if(!set_props_user_data) set_properties = nullptr;
   (void)oc_resource_set_properties_cbs(resource, get_properties, get_propr_user_data, set_properties, set_props_user_data);
   return info.Env().Undefined();
 }
@@ -986,9 +988,9 @@ Napi::Value N_oc_resource_set_properties_cbs(const Napi::CallbackInfo& info) {
 Napi::Value N_oc_resource_set_request_handler(const Napi::CallbackInfo& info) {
   OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
   oc_method_t method = static_cast<oc_method_t>(info[1].As<Napi::Number>().Uint32Value());
-  oc_request_callback_t callback = nullptr;
-  Napi::Function callback_ = info[2].As<Napi::Function>();
-  void* user_data = info[3];
+  oc_request_callback_t callback = oc_resource_set_request_handler_helper;
+callback_helper_t* user_data = new_callback_helper_t(info, 2, 3);
+if(!user_data) callback = nullptr;
   (void)oc_resource_set_request_handler(resource, method, callback, user_data);
   return info.Env().Undefined();
 }
@@ -2350,21 +2352,6 @@ Napi::Value N_oc_set_introspection_data(const Napi::CallbackInfo& info) {
   size_t IDD_size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
   (void)oc_set_introspection_data(device, IDD, IDD_size);
   return info.Env().Undefined();
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N__oc_memb_alloc(const Napi::CallbackInfo& info) {
-  OCMemb& m = *OCMemb::Unwrap(info[0].As<Napi::Object>());
-  //func return void*
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N__oc_memb_free(const Napi::CallbackInfo& info) {
-  OCMemb& m = *OCMemb::Unwrap(info[0].As<Napi::Object>());
-  void* ptr = info[1];
-  //func return unknown char
 }
 
 #endif

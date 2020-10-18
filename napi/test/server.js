@@ -1,8 +1,7 @@
 const IotivityLite = require("../lib/iotivity-lite.js");
 const assert = require("assert");
 
-var quit = 0;
-
+//var quit = 0;
 //static pthread_mutex_t mutex;
 //static pthread_cond_t cv;
 //static struct timespec ts;
