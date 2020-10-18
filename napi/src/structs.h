@@ -77,7 +77,7 @@ public:
          void set_base(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_etag(const Napi::CallbackInfo&);
          void set_etag(const Napi::CallbackInfo&, const Napi::Value&);
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
   Napi::Value get_observe_seq(const Napi::CallbackInfo&);
          void set_observe_seq(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
@@ -95,7 +95,7 @@ public:
   operator oc_blockwise_state_s*() { return m_pvalue.get(); }
   Napi::Value get_buffer(const Napi::CallbackInfo&);
          void set_buffer(const Napi::CallbackInfo&, const Napi::Value&);
-#ifdef OC_CLEINT
+#if defined(OC_CLEINT)
   Napi::Value get_client_cb(const Napi::CallbackInfo&);
          void set_client_cb(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
@@ -105,7 +105,7 @@ public:
          void set_href(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_method(const Napi::CallbackInfo&);
          void set_method(const Napi::CallbackInfo&, const Napi::Value&);
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
   Napi::Value get_mid(const Napi::CallbackInfo&);
          void set_mid(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
@@ -117,11 +117,11 @@ public:
          void set_ref_count(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_role(const Napi::CallbackInfo&);
          void set_role(const Napi::CallbackInfo&, const Napi::Value&);
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
   Napi::Value get_token(const Napi::CallbackInfo&);
          void set_token(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
   Napi::Value get_token_len(const Napi::CallbackInfo&);
          void set_token_len(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
@@ -445,13 +445,13 @@ public:
          void set_init(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value init_function; Napi::Value init_data;
 
-#ifdef OC_SERVER
+#if defined(OC_SERVER)
   Napi::Value get_register_resources(const Napi::CallbackInfo&);
          void set_register_resources(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value register_resources_function; Napi::Value register_resources_data;
 
 #endif
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
   Napi::Value get_requests_entry(const Napi::CallbackInfo&);
          void set_requests_entry(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value requests_entry_function; Napi::Value requests_entry_data;
@@ -585,7 +585,7 @@ public:
   operator oc_message_s*() { return m_pvalue.get(); }
   Napi::Value get_data(const Napi::CallbackInfo&);
          void set_data(const Napi::CallbackInfo&, const Napi::Value&);
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
   Napi::Value get_encrypted(const Napi::CallbackInfo&);
          void set_encrypted(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
@@ -593,7 +593,7 @@ public:
          void set_endpoint(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_length(const Napi::CallbackInfo&);
          void set_length(const Napi::CallbackInfo&, const Napi::Value&);
-#ifdef OC_TCP
+#if defined(OC_TCP)
   Napi::Value get_read_offset(const Napi::CallbackInfo&);
          void set_read_offset(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
@@ -759,7 +759,7 @@ public:
          void set_interfaces(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_name(const Napi::CallbackInfo&);
          void set_name(const Napi::CallbackInfo&, const Napi::Value&);
-#ifdef OC_COLLECTIONS
+#if defined(OC_COLLECTIONS)
   Napi::Value get_num_links(const Napi::CallbackInfo&);
          void set_num_links(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
@@ -887,11 +887,11 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_sec_cred_t*() { return m_pvalue.get(); }
-#ifdef OC_PKI
+#if defined(OC_PKI)
   Napi::Value get_chain(const Napi::CallbackInfo&);
          void set_chain(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#ifdef OC_PKI
+#if defined(OC_PKI)
   Napi::Value get_child(const Napi::CallbackInfo&);
          void set_child(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
@@ -899,7 +899,7 @@ public:
          void set_credid(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_credtype(const Napi::CallbackInfo&);
          void set_credtype(const Napi::CallbackInfo&, const Napi::Value&);
-#ifdef OC_PKI
+#if defined(OC_PKI)
   Napi::Value get_credusage(const Napi::CallbackInfo&);
          void set_credusage(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
@@ -907,7 +907,7 @@ public:
          void set_owner_cred(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_privatedata(const Napi::CallbackInfo&);
          void set_privatedata(const Napi::CallbackInfo&, const Napi::Value&);
-#ifdef OC_PKI
+#if defined(OC_PKI)
   Napi::Value get_publicdata(const Napi::CallbackInfo&);
          void set_publicdata(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
@@ -1224,7 +1224,7 @@ public:
   std::shared_ptr<oc_cps_t> m_pvalue;
 };
 
-#ifdef OC_TCP
+#if defined(OC_TCP)
 class tcpCsmState : public Napi::ObjectWrap<tcpCsmState>
 {
 public:
@@ -1704,51 +1704,51 @@ public:
          void set_OCF_INTROSPECTION_DATA(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_OCF_RES(const Napi::CallbackInfo&);
          void set_OCF_RES(const Napi::CallbackInfo&, const Napi::Value&);
-#ifdef OC_MNT
+#if defined(OC_MNT)
   Napi::Value get_OCF_MNT(const Napi::CallbackInfo&);
          void set_OCF_MNT(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#ifdef OC_CLOUD
+#if defined(OC_CLOUD)
   Napi::Value get_OCF_COAPCLOUDCONF(const Napi::CallbackInfo&);
          void set_OCF_COAPCLOUDCONF(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#ifdef OC_SOFTWARE_UPDATE
+#if defined(OC_SOFTWARE_UPDATE)
   Napi::Value get_OCF_SW_UPDATE(const Napi::CallbackInfo&);
          void set_OCF_SW_UPDATE(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
   Napi::Value get_OCF_SEC_DOXM(const Napi::CallbackInfo&);
          void set_OCF_SEC_DOXM(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
   Napi::Value get_OCF_SEC_PSTAT(const Napi::CallbackInfo&);
          void set_OCF_SEC_PSTAT(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
   Napi::Value get_OCF_SEC_ACL(const Napi::CallbackInfo&);
          void set_OCF_SEC_ACL(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
   Napi::Value get_OCF_SEC_AEL(const Napi::CallbackInfo&);
          void set_OCF_SEC_AEL(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
   Napi::Value get_OCF_SEC_CRED(const Napi::CallbackInfo&);
          void set_OCF_SEC_CRED(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
   Napi::Value get_OCF_SEC_SDI(const Napi::CallbackInfo&);
          void set_OCF_SEC_SDI(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
   Napi::Value get_OCF_SEC_SP(const Napi::CallbackInfo&);
          void set_OCF_SEC_SP(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#ifdef OC_PKI
+#if defined(OC_PKI)
   Napi::Value get_OCF_SEC_CSR(const Napi::CallbackInfo&);
          void set_OCF_SEC_CSR(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#ifdef OC_PKI
+#if defined(OC_PKI)
   Napi::Value get_OCF_SEC_ROLES(const Napi::CallbackInfo&);
          void set_OCF_SEC_ROLES(const Napi::CallbackInfo&, const Napi::Value&);
 #endif

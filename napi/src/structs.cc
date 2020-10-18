@@ -117,7 +117,7 @@ Napi::Function OCBlockwiseResponseState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCBlockwiseResponseState", {
     OCBlockwiseResponseState::InstanceAccessor("base", &OCBlockwiseResponseState::get_base, &OCBlockwiseResponseState::set_base),
     OCBlockwiseResponseState::InstanceAccessor("etag", &OCBlockwiseResponseState::get_etag, &OCBlockwiseResponseState::set_etag),
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
     OCBlockwiseResponseState::InstanceAccessor("observe_seq", &OCBlockwiseResponseState::get_observe_seq, &OCBlockwiseResponseState::set_observe_seq),
 #endif
 
@@ -163,7 +163,7 @@ void OCBlockwiseResponseState::set_etag(const Napi::CallbackInfo& info, const Na
 for(uint32_t i=0; i<COAP_ETAG_LEN; i++) { m_pvalue->etag[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }
 }
 
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
 Napi::Value OCBlockwiseResponseState::get_observe_seq(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->observe_seq);
@@ -180,23 +180,23 @@ Napi::FunctionReference OCBlockwiseState::constructor;
 Napi::Function OCBlockwiseState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCBlockwiseState", {
     OCBlockwiseState::InstanceAccessor("buffer", &OCBlockwiseState::get_buffer, &OCBlockwiseState::set_buffer),
-#ifdef OC_CLEINT
+#if defined(OC_CLEINT)
     OCBlockwiseState::InstanceAccessor("client_cb", &OCBlockwiseState::get_client_cb, &OCBlockwiseState::set_client_cb),
 #endif
     OCBlockwiseState::InstanceAccessor("endpoint", &OCBlockwiseState::get_endpoint, &OCBlockwiseState::set_endpoint),
     OCBlockwiseState::InstanceAccessor("href", &OCBlockwiseState::get_href, &OCBlockwiseState::set_href),
     OCBlockwiseState::InstanceAccessor("method", &OCBlockwiseState::get_method, &OCBlockwiseState::set_method),
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
     OCBlockwiseState::InstanceAccessor("mid", &OCBlockwiseState::get_mid, &OCBlockwiseState::set_mid),
 #endif
     OCBlockwiseState::InstanceAccessor("next_block_offset", &OCBlockwiseState::get_next_block_offset, &OCBlockwiseState::set_next_block_offset),
     OCBlockwiseState::InstanceAccessor("payload_size", &OCBlockwiseState::get_payload_size, &OCBlockwiseState::set_payload_size),
     OCBlockwiseState::InstanceAccessor("ref_count", &OCBlockwiseState::get_ref_count, &OCBlockwiseState::set_ref_count),
     OCBlockwiseState::InstanceAccessor("role", &OCBlockwiseState::get_role, &OCBlockwiseState::set_role),
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
     OCBlockwiseState::InstanceAccessor("token", &OCBlockwiseState::get_token, &OCBlockwiseState::set_token),
 #endif
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
     OCBlockwiseState::InstanceAccessor("token_len", &OCBlockwiseState::get_token_len, &OCBlockwiseState::set_token_len),
 #endif
     OCBlockwiseState::InstanceAccessor("uri_query", &OCBlockwiseState::get_uri_query, &OCBlockwiseState::set_uri_query),
@@ -231,7 +231,7 @@ void OCBlockwiseState::set_buffer(const Napi::CallbackInfo& info, const Napi::Va
 for(uint32_t i=0; i<value.As<Napi::Buffer<uint8_t>>().Length(); i++) { m_pvalue->buffer[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }
 }
 
-#ifdef OC_CLEINT
+#if defined(OC_CLEINT)
 Napi::Value OCBlockwiseState::get_client_cb(const Napi::CallbackInfo& info)
 {
 #error void* OCBlockwiseState::client_cb
@@ -277,7 +277,7 @@ void OCBlockwiseState::set_method(const Napi::CallbackInfo& info, const Napi::Va
   m_pvalue->method = static_cast<oc_method_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
 Napi::Value OCBlockwiseState::get_mid(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->mid);
@@ -329,7 +329,7 @@ void OCBlockwiseState::set_role(const Napi::CallbackInfo& info, const Napi::Valu
   m_pvalue->role = static_cast<oc_blockwise_role_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
 Napi::Value OCBlockwiseState::get_token(const Napi::CallbackInfo& info)
 {
 return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->token, COAP_TOKEN_LEN);
@@ -341,7 +341,7 @@ for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) { m_pvalue->token[i] = value.As<Napi::B
 }
 #endif
 
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
 Napi::Value OCBlockwiseState::get_token_len(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->token_len);
@@ -1580,10 +1580,10 @@ Napi::FunctionReference OCHandler::constructor;
 Napi::Function OCHandler::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCHandler", {
     OCHandler::InstanceAccessor("init", &OCHandler::get_init, &OCHandler::set_init),
-#ifdef OC_SERVER
+#if defined(OC_SERVER)
     OCHandler::InstanceAccessor("register_resources", &OCHandler::get_register_resources, &OCHandler::set_register_resources),
 #endif
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
     OCHandler::InstanceAccessor("requests_entry", &OCHandler::get_requests_entry, &OCHandler::set_requests_entry),
 #endif
     OCHandler::InstanceAccessor("signal_event_loop", &OCHandler::get_signal_event_loop, &OCHandler::set_signal_event_loop),
@@ -1619,7 +1619,7 @@ void OCHandler::set_init(const Napi::CallbackInfo& info, const Napi::Value& valu
 
 }
 
-#ifdef OC_SERVER
+#if defined(OC_SERVER)
 Napi::Value OCHandler::get_register_resources(const Napi::CallbackInfo& info)
 {
   return oc_handler_register_resources_ref.Value();
@@ -1632,7 +1632,7 @@ void OCHandler::set_register_resources(const Napi::CallbackInfo& info, const Nap
 }
 #endif
 
-#ifdef OC_CLIENT
+#if defined(OC_CLIENT)
 Napi::Value OCHandler::get_requests_entry(const Napi::CallbackInfo& info)
 {
   return requests_entry.Value();
@@ -2020,12 +2020,12 @@ Napi::FunctionReference OCMessage::constructor;
 Napi::Function OCMessage::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCMessage", {
     OCMessage::InstanceAccessor("data", &OCMessage::get_data, &OCMessage::set_data),
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
     OCMessage::InstanceAccessor("encrypted", &OCMessage::get_encrypted, &OCMessage::set_encrypted),
 #endif
     OCMessage::InstanceAccessor("endpoint", &OCMessage::get_endpoint, &OCMessage::set_endpoint),
     OCMessage::InstanceAccessor("length", &OCMessage::get_length, &OCMessage::set_length),
-#ifdef OC_TCP
+#if defined(OC_TCP)
     OCMessage::InstanceAccessor("read_offset", &OCMessage::get_read_offset, &OCMessage::set_read_offset),
 #endif
     OCMessage::InstanceAccessor("ref_count", &OCMessage::get_ref_count, &OCMessage::set_ref_count),
@@ -2060,7 +2060,7 @@ void OCMessage::set_data(const Napi::CallbackInfo& info, const Napi::Value& valu
 for(uint32_t i=0; i<value.As<Napi::Buffer<uint8_t>>().Length(); i++) { m_pvalue->data[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }
 }
 
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
 Napi::Value OCMessage::get_encrypted(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->encrypted);
@@ -2094,7 +2094,7 @@ void OCMessage::set_length(const Napi::CallbackInfo& info, const Napi::Value& va
   m_pvalue->length = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-#ifdef OC_TCP
+#if defined(OC_TCP)
 Napi::Value OCMessage::get_read_offset(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->read_offset);
@@ -2522,7 +2522,7 @@ Napi::Function OCResource::GetClass(Napi::Env env) {
     OCResource::InstanceAccessor("get_properties", &OCResource::get_get_properties, &OCResource::set_get_properties),
     OCResource::InstanceAccessor("interfaces", &OCResource::get_interfaces, &OCResource::set_interfaces),
     OCResource::InstanceAccessor("name", &OCResource::get_name, &OCResource::set_name),
-#ifdef OC_COLLECTIONS
+#if defined(OC_COLLECTIONS)
     OCResource::InstanceAccessor("num_links", &OCResource::get_num_links, &OCResource::set_num_links),
 #endif
     OCResource::InstanceAccessor("num_observers", &OCResource::get_num_observers, &OCResource::set_num_observers),
@@ -2635,7 +2635,7 @@ void OCResource::set_name(const Napi::CallbackInfo& info, const Napi::Value& val
   m_pvalue->name = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
-#ifdef OC_COLLECTIONS
+#if defined(OC_COLLECTIONS)
 Napi::Value OCResource::get_num_links(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->num_links);
@@ -3039,20 +3039,20 @@ Napi::FunctionReference OCCred::constructor;
 
 Napi::Function OCCred::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCred", {
-#ifdef OC_PKI
+#if defined(OC_PKI)
     OCCred::InstanceAccessor("chain", &OCCred::get_chain, &OCCred::set_chain),
 #endif
-#ifdef OC_PKI
+#if defined(OC_PKI)
     OCCred::InstanceAccessor("child", &OCCred::get_child, &OCCred::set_child),
 #endif
     OCCred::InstanceAccessor("credid", &OCCred::get_credid, &OCCred::set_credid),
     OCCred::InstanceAccessor("credtype", &OCCred::get_credtype, &OCCred::set_credtype),
-#ifdef OC_PKI
+#if defined(OC_PKI)
     OCCred::InstanceAccessor("credusage", &OCCred::get_credusage, &OCCred::set_credusage),
 #endif
     OCCred::InstanceAccessor("owner_cred", &OCCred::get_owner_cred, &OCCred::set_owner_cred),
     OCCred::InstanceAccessor("privatedata", &OCCred::get_privatedata, &OCCred::set_privatedata),
-#ifdef OC_PKI
+#if defined(OC_PKI)
     OCCred::InstanceAccessor("publicdata", &OCCred::get_publicdata, &OCCred::set_publicdata),
 #endif
     OCCred::InstanceAccessor("subjectuuid", &OCCred::get_subjectuuid, &OCCred::set_subjectuuid),
@@ -3077,7 +3077,7 @@ OCCred::OCCred(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-#ifdef OC_PKI
+#if defined(OC_PKI)
 Napi::Value OCCred::get_chain(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->chain);
@@ -3091,7 +3091,7 @@ void OCCred::set_chain(const Napi::CallbackInfo& info, const Napi::Value& value)
 }
 #endif
 
-#ifdef OC_PKI
+#if defined(OC_PKI)
 Napi::Value OCCred::get_child(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->child);
@@ -3125,7 +3125,7 @@ void OCCred::set_credtype(const Napi::CallbackInfo& info, const Napi::Value& val
   m_pvalue->credtype = static_cast<oc_sec_credtype_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-#ifdef OC_PKI
+#if defined(OC_PKI)
 Napi::Value OCCred::get_credusage(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->credusage);
@@ -3159,7 +3159,7 @@ void OCCred::set_privatedata(const Napi::CallbackInfo& info, const Napi::Value& 
   m_pvalue->privatedata = *(*(value.As<Napi::External<std::shared_ptr<oc_cred_data_t>>>().Data()));
 }
 
-#ifdef OC_PKI
+#if defined(OC_PKI)
 Napi::Value OCCred::get_publicdata(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_cred_data_t> sp(&m_pvalue->publicdata);
@@ -4145,7 +4145,7 @@ void OCCloudPrivisoningStatus::set_OC_CPS_FAILED(const Napi::CallbackInfo& info,
 
 }
 
-#ifdef OC_TCP
+#if defined(OC_TCP)
 Napi::FunctionReference tcpCsmState::constructor;
 
 Napi::Function tcpCsmState::GetClass(Napi::Env env) {
@@ -6195,40 +6195,40 @@ Napi::Function OCCoreRes::GetClass(Napi::Env env) {
     OCCoreRes::InstanceAccessor("OCF_INTROSPECTION_WK", &OCCoreRes::get_OCF_INTROSPECTION_WK, &OCCoreRes::set_OCF_INTROSPECTION_WK),
     OCCoreRes::InstanceAccessor("OCF_INTROSPECTION_DATA", &OCCoreRes::get_OCF_INTROSPECTION_DATA, &OCCoreRes::set_OCF_INTROSPECTION_DATA),
     OCCoreRes::InstanceAccessor("OCF_RES", &OCCoreRes::get_OCF_RES, &OCCoreRes::set_OCF_RES),
-#ifdef OC_MNT
+#if defined(OC_MNT)
     OCCoreRes::InstanceAccessor("OCF_MNT", &OCCoreRes::get_OCF_MNT, &OCCoreRes::set_OCF_MNT),
 #endif
-#ifdef OC_CLOUD
+#if defined(OC_CLOUD)
     OCCoreRes::InstanceAccessor("OCF_COAPCLOUDCONF", &OCCoreRes::get_OCF_COAPCLOUDCONF, &OCCoreRes::set_OCF_COAPCLOUDCONF),
 #endif
-#ifdef OC_SOFTWARE_UPDATE
+#if defined(OC_SOFTWARE_UPDATE)
     OCCoreRes::InstanceAccessor("OCF_SW_UPDATE", &OCCoreRes::get_OCF_SW_UPDATE, &OCCoreRes::set_OCF_SW_UPDATE),
 #endif
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
     OCCoreRes::InstanceAccessor("OCF_SEC_DOXM", &OCCoreRes::get_OCF_SEC_DOXM, &OCCoreRes::set_OCF_SEC_DOXM),
 #endif
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
     OCCoreRes::InstanceAccessor("OCF_SEC_PSTAT", &OCCoreRes::get_OCF_SEC_PSTAT, &OCCoreRes::set_OCF_SEC_PSTAT),
 #endif
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
     OCCoreRes::InstanceAccessor("OCF_SEC_ACL", &OCCoreRes::get_OCF_SEC_ACL, &OCCoreRes::set_OCF_SEC_ACL),
 #endif
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
     OCCoreRes::InstanceAccessor("OCF_SEC_AEL", &OCCoreRes::get_OCF_SEC_AEL, &OCCoreRes::set_OCF_SEC_AEL),
 #endif
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
     OCCoreRes::InstanceAccessor("OCF_SEC_CRED", &OCCoreRes::get_OCF_SEC_CRED, &OCCoreRes::set_OCF_SEC_CRED),
 #endif
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
     OCCoreRes::InstanceAccessor("OCF_SEC_SDI", &OCCoreRes::get_OCF_SEC_SDI, &OCCoreRes::set_OCF_SEC_SDI),
 #endif
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
     OCCoreRes::InstanceAccessor("OCF_SEC_SP", &OCCoreRes::get_OCF_SEC_SP, &OCCoreRes::set_OCF_SEC_SP),
 #endif
-#ifdef OC_PKI
+#if defined(OC_PKI)
     OCCoreRes::InstanceAccessor("OCF_SEC_CSR", &OCCoreRes::get_OCF_SEC_CSR, &OCCoreRes::set_OCF_SEC_CSR),
 #endif
-#ifdef OC_PKI
+#if defined(OC_PKI)
     OCCoreRes::InstanceAccessor("OCF_SEC_ROLES", &OCCoreRes::get_OCF_SEC_ROLES, &OCCoreRes::set_OCF_SEC_ROLES),
 #endif
     OCCoreRes::InstanceAccessor("OCF_D", &OCCoreRes::get_OCF_D, &OCCoreRes::set_OCF_D),
@@ -6303,7 +6303,7 @@ void OCCoreRes::set_OCF_RES(const Napi::CallbackInfo& info, const Napi::Value& v
 
 }
 
-#ifdef OC_MNT
+#if defined(OC_MNT)
 Napi::Value OCCoreRes::get_OCF_MNT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_MNT);
@@ -6315,7 +6315,7 @@ void OCCoreRes::set_OCF_MNT(const Napi::CallbackInfo& info, const Napi::Value& v
 }
 #endif
 
-#ifdef OC_CLOUD
+#if defined(OC_CLOUD)
 Napi::Value OCCoreRes::get_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_COAPCLOUDCONF);
@@ -6327,7 +6327,7 @@ void OCCoreRes::set_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info, const Napi
 }
 #endif
 
-#ifdef OC_SOFTWARE_UPDATE
+#if defined(OC_SOFTWARE_UPDATE)
 Napi::Value OCCoreRes::get_OCF_SW_UPDATE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SW_UPDATE);
@@ -6339,7 +6339,7 @@ void OCCoreRes::set_OCF_SW_UPDATE(const Napi::CallbackInfo& info, const Napi::Va
 }
 #endif
 
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
 Napi::Value OCCoreRes::get_OCF_SEC_DOXM(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_DOXM);
@@ -6351,7 +6351,7 @@ void OCCoreRes::set_OCF_SEC_DOXM(const Napi::CallbackInfo& info, const Napi::Val
 }
 #endif
 
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
 Napi::Value OCCoreRes::get_OCF_SEC_PSTAT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_PSTAT);
@@ -6363,7 +6363,7 @@ void OCCoreRes::set_OCF_SEC_PSTAT(const Napi::CallbackInfo& info, const Napi::Va
 }
 #endif
 
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
 Napi::Value OCCoreRes::get_OCF_SEC_ACL(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_ACL);
@@ -6375,7 +6375,7 @@ void OCCoreRes::set_OCF_SEC_ACL(const Napi::CallbackInfo& info, const Napi::Valu
 }
 #endif
 
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
 Napi::Value OCCoreRes::get_OCF_SEC_AEL(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_AEL);
@@ -6387,7 +6387,7 @@ void OCCoreRes::set_OCF_SEC_AEL(const Napi::CallbackInfo& info, const Napi::Valu
 }
 #endif
 
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
 Napi::Value OCCoreRes::get_OCF_SEC_CRED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_CRED);
@@ -6399,7 +6399,7 @@ void OCCoreRes::set_OCF_SEC_CRED(const Napi::CallbackInfo& info, const Napi::Val
 }
 #endif
 
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
 Napi::Value OCCoreRes::get_OCF_SEC_SDI(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_SDI);
@@ -6411,7 +6411,7 @@ void OCCoreRes::set_OCF_SEC_SDI(const Napi::CallbackInfo& info, const Napi::Valu
 }
 #endif
 
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY)
 Napi::Value OCCoreRes::get_OCF_SEC_SP(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_SP);
@@ -6423,7 +6423,7 @@ void OCCoreRes::set_OCF_SEC_SP(const Napi::CallbackInfo& info, const Napi::Value
 }
 #endif
 
-#ifdef OC_PKI
+#if defined(OC_PKI)
 Napi::Value OCCoreRes::get_OCF_SEC_CSR(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_CSR);
@@ -6435,7 +6435,7 @@ void OCCoreRes::set_OCF_SEC_CSR(const Napi::CallbackInfo& info, const Napi::Valu
 }
 #endif
 
-#ifdef OC_PKI
+#if defined(OC_PKI)
 Napi::Value OCCoreRes::get_OCF_SEC_ROLES(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_ROLES);

@@ -515,108 +515,108 @@ IGNORE_FUNCS = [
 ]
 
 IFDEF_TYPES = {
-  "oc_handler_t" => { "register_resources" => "OC_SERVER",
-                      "requests_entry" => "OC_CLIENT", },
-  "oc_sec_cred_t" => { "chain" => "OC_PKI",
-                       "child" => "OC_PKI",
-                       "credusage" => "OC_PKI",
-                       "publicdata" => "OC_PKI", },
-  "oc_resource_s"  => { "num_links" => "OC_COLLECTIONS" },
-  "oc_message_s"  => { "read_offset" => "OC_TCP",
-                       "encrypted" => "OC_SECURITY", },
-  "oc_blockwise_state_s"  => { "token_len" => "OC_CLIENT",
-                               "token" => "OC_CLIENT",
-                               "mid" => "OC_CLIENT",
-                               "client_cb" => "OC_CLEINT",},
-  "oc_blockwise_response_state_s"  => { "observe_seq" => "OC_CLIENT",},
-  "oc_core_resource_t" => { "OCF_MNT" => "OC_MNT",
-                            "OCF_COAPCLOUDCONF" => "OC_CLOUD",
-                            "OCF_SW_UPDATE" => "OC_SOFTWARE_UPDATE",
-                            "OCF_SEC_DOXM" => "OC_SECURITY",
-                            "OCF_SEC_PSTAT" => "OC_SECURITY",
-                            "OCF_SEC_ACL" => "OC_SECURITY",
-                            "OCF_SEC_AEL" => "OC_SECURITY",
-                            "OCF_SEC_CRED" => "OC_SECURITY",
-                            "OCF_SEC_SDI" => "OC_SECURITY",
-                            "OCF_SEC_SP" => "OC_SECURITY",
-                            "OCF_SEC_CSR" => "OC_PKI",
-                            "OCF_SEC_ROLES" => "OC_PKI", },
-  "tcp_csm_state_t" => "OC_TCP",
+  'oc_handler_t' => { 'register_resources' => 'defined(OC_SERVER)',
+                      'requests_entry' => 'defined(OC_CLIENT)', },
+  'oc_sec_cred_t' => { 'chain' => 'defined(OC_PKI)',
+                       'child' => 'defined(OC_PKI)',
+                       'credusage' => 'defined(OC_PKI)',
+                       'publicdata' => 'defined(OC_PKI)', },
+  'oc_resource_s'  => { 'num_links' => 'defined(OC_COLLECTIONS)' },
+  'oc_message_s'  => { 'read_offset' => 'defined(OC_TCP)',
+                       'encrypted' => 'defined(OC_SECURITY)', },
+  'oc_blockwise_state_s'  => { 'token_len' => 'defined(OC_CLIENT)',
+                               'token' => 'defined(OC_CLIENT)',
+                               'mid' => 'defined(OC_CLIENT)',
+                               'client_cb' => 'defined(OC_CLEINT)',},
+  'oc_blockwise_response_state_s'  => { 'observe_seq' => 'defined(OC_CLIENT)',},
+  'oc_core_resource_t' => { 'OCF_MNT' => 'defined(OC_MNT)',
+                            'OCF_COAPCLOUDCONF' => 'defined(OC_CLOUD)',
+                            'OCF_SW_UPDATE' => 'defined(OC_SOFTWARE_UPDATE)',
+                            'OCF_SEC_DOXM' => 'defined(OC_SECURITY)',
+                            'OCF_SEC_PSTAT' => 'defined(OC_SECURITY)',
+                            'OCF_SEC_ACL' => 'defined(OC_SECURITY)',
+                            'OCF_SEC_AEL' => 'defined(OC_SECURITY)',
+                            'OCF_SEC_CRED' => 'defined(OC_SECURITY)',
+                            'OCF_SEC_SDI' => 'defined(OC_SECURITY)',
+                            'OCF_SEC_SP' => 'defined(OC_SECURITY)',
+                            'OCF_SEC_CSR' => 'defined(OC_PKI)',
+                            'OCF_SEC_ROLES' => 'defined(OC_PKI)', },
+  'tcp_csm_state_t' => 'defined(OC_TCP)',
 }
 
 IFDEF_FUNCS = {
-  "oc_send_ping" => "OC_TCP",
-  "oc_collections_add_rt_factory" => "OC_COLLECTIONS_IF_CREATE",
-  'oc_collections_free_rt_factories' => 'OC_COLLECTIONS_IF_CREATE',
-  "oc_tcp_get_csm_state" => "OC_TCP",
-  "oc_tcp_update_csm_state" => "OC_TCP",
-  'oc_ri_alloc_resource' => 'OC_SERVER',
-  'oc_ri_add_resource' => 'OC_SERVER',
-  'oc_ri_delete_resource' => 'OC_SERVER',
-  'oc_swupdate_notify_upgrading' => 'OC_SOFTWARE_UPDATE',
-  'oc_swupdate_notify_downloaded' => 'OC_SOFTWARE_UPDATE',
-  'oc_swupdate_notify_done' => 'OC_SOFTWARE_UPDATE',
-  'oc_swupdate_notify_new_version_available' => 'OC_SOFTWARE_UPDATE',
-  'oc_swupdate_set_impl' => 'OC_SOFTWARE_UPDATE',
-  'oc_mem_trace_add_pace' => 'OC_MEMORY_TRACE',
-  'oc_mem_trace_shutdown' => 'OC_MEMORY_TRACE',
-  'oc_mem_trace_init' => 'OC_MEMORY_TRACE',
+  'oc_send_ping' => 'defined(OC_TCP)',
+  'oc_collections_add_rt_factory' => 'defined(OC_COLLECTIONS_IF_CREATE)',
+  'oc_collections_free_rt_factories' => 'defined(OC_COLLECTIONS_IF_CREATE)',
+  'oc_tcp_get_csm_state' => 'defined(OC_TCP)',
+  'oc_tcp_update_csm_state' => 'defined(OC_TCP)',
+  'oc_ri_alloc_resource' => 'defined(OC_SERVER)',
+  'oc_ri_add_resource' => 'defined(OC_SERVER)',
+  'oc_ri_delete_resource' => 'defined(OC_SERVER)',
+  'oc_swupdate_notify_upgrading' => 'defined(OC_SOFTWARE_UPDATE)',
+  'oc_swupdate_notify_downloaded' => 'defined(OC_SOFTWARE_UPDATE)',
+  'oc_swupdate_notify_done' => 'defined(OC_SOFTWARE_UPDATE)',
+  'oc_swupdate_notify_new_version_available' => 'defined(OC_SOFTWARE_UPDATE)',
+  'oc_swupdate_set_impl' => 'defined(OC_SOFTWARE_UPDATE)',
+  'oc_mem_trace_add_pace' => 'defined(OC_MEMORY_TRACE)',
+  'oc_mem_trace_shutdown' => 'defined(OC_MEMORY_TRACE)',
+  'oc_mem_trace_init' => 'defined(OC_MEMORY_TRACE)',
 
-"PT_THREAD" => "XXX",
-"OC_PROCESS_NAME" => "XXX",
+"PT_THREAD" => "defined(XXX)",
+"OC_PROCESS_NAME" => "defined(XXX)",
 
-'oc_list_add' => "XXX",
-'oc_list_chop' => "XXX",
-'oc_list_copy' => "XXX",
-'oc_list_head' => "XXX",
-'oc_list_init' => "XXX",
-'oc_list_insert' => "XXX",
-'oc_list_item_next' => "XXX",
-'oc_list_length' => "XXX",
-'oc_list_pop' => "XXX",
-'oc_list_push' => "XXX",
-'oc_list_remove' => "XXX",
-'oc_list_tail' => "XXX",
+'oc_list_add' => "defined(XXX)",
+'oc_list_chop' => "defined(XXX)",
+'oc_list_copy' => "defined(XXX)",
+'oc_list_head' => "defined(XXX)",
+'oc_list_init' => "defined(XXX)",
+'oc_list_insert' => "defined(XXX)",
+'oc_list_item_next' => "defined(XXX)",
+'oc_list_length' => "defined(XXX)",
+'oc_list_pop' => "defined(XXX)",
+'oc_list_push' => "defined(XXX)",
+'oc_list_remove' => "defined(XXX)",
+'oc_list_tail' => "defined(XXX)",
 
-'_oc_copy_byte_string_to_array'=>'XXX',
-'_oc_byte_string_array_add_item'=>'XXX',
-'_oc_string_array_add_item'=>'XXX',
-'_oc_copy_string_to_array'=>'XXX',
+'_oc_copy_byte_string_to_array'=>'defined(XXX)',
+'_oc_byte_string_array_add_item'=>'defined(XXX)',
+'_oc_string_array_add_item'=>'defined(XXX)',
+'_oc_copy_string_to_array'=>'defined(XXX)',
 
-'oc_get_diagnostic_message'=>'XXX',
-'oc_get_query_value'=>'XXX',
-'oc_get_request_payload_raw'=>'XXX',
-'oc_get_response_payload_raw'=>'XXX',
-'oc_iterate_query'=>'XXX',
-'oc_iterate_query_get_values'=>'XXX',
-'oc_send_separate_response'=>'XXX',
-'oc_set_separate_response_buffer'=>'XXX',
-'oc_blockwise_dispatch_block'=>'XXX',
-'oc_ri_alloc_client_cb'=>'XXX',
-'oc_ri_invoke_client_cb'=>'XXX',
-'oc_ri_process_discovery_payload'=>'XXX',
-'oc_ri_get_query_nth_key_value'=>'XXX',
-'oc_ri_get_query_value'=>'XXX',
-'oc_dns_lookup'=>'XXX',
-'oc_core_encode_interfaces_mask'=>'XXX',
-'oc_endpoint_list_copy'=>'XXX',
-'oc_parse_rep'=>'XXX',
-'oc_rep_get_bool'=>'XXX',
-'oc_rep_get_bool_array'=>'XXX',
-'oc_rep_get_byte_string'=>'XXX',
-'oc_rep_get_double'=>'XXX',
-'oc_rep_get_double_array'=>'XXX',
-'oc_rep_get_int'=>'XXX',
-'oc_rep_get_int_array'=>'XXX',
-'oc_rep_get_object'=>'XXX',
-'oc_rep_get_object_array'=>'XXX',
-'oc_rep_get_string'=>'XXX',
-'oc_rep_get_encoder_buf' => 'XXX',
-'oc_rep_get_cbor_errno' => 'XXX',
-'oc_indicate_separate_response'=>'XXX',
+'oc_get_diagnostic_message'=>'defined(XXX)',
+'oc_get_query_value'=>'defined(XXX)',
+'oc_get_request_payload_raw'=>'defined(XXX)',
+'oc_get_response_payload_raw'=>'defined(XXX)',
+'oc_iterate_query'=>'defined(XXX)',
+'oc_iterate_query_get_values'=>'defined(XXX)',
+'oc_send_separate_response'=>'defined(XXX)',
+'oc_set_separate_response_buffer'=>'defined(XXX)',
+'oc_blockwise_dispatch_block'=>'defined(XXX)',
+'oc_ri_alloc_client_cb'=>'defined(XXX)',
+'oc_ri_invoke_client_cb'=>'defined(XXX)',
+'oc_ri_process_discovery_payload'=>'defined(XXX)',
+'oc_ri_get_query_nth_key_value'=>'defined(XXX)',
+'oc_ri_get_query_value'=>'defined(XXX)',
+'oc_dns_lookup'=>'defined(XXX)',
+'oc_core_encode_interfaces_mask'=>'defined(XXX)',
+'oc_endpoint_list_copy'=>'defined(XXX)',
+'oc_parse_rep'=>'defined(XXX)',
+'oc_rep_get_bool'=>'defined(XXX)',
+'oc_rep_get_bool_array'=>'defined(XXX)',
+'oc_rep_get_byte_string'=>'defined(XXX)',
+'oc_rep_get_double'=>'defined(XXX)',
+'oc_rep_get_double_array'=>'defined(XXX)',
+'oc_rep_get_int'=>'defined(XXX)',
+'oc_rep_get_int_array'=>'defined(XXX)',
+'oc_rep_get_object'=>'defined(XXX)',
+'oc_rep_get_object_array'=>'defined(XXX)',
+'oc_rep_get_string'=>'defined(XXX)',
+'oc_rep_get_encoder_buf' => 'defined(XXX)',
+'oc_rep_get_cbor_errno' => 'defined(XXX)',
+'oc_indicate_separate_response'=>'defined(XXX)',
 
-'_oc_memb_alloc' => 'XXX',
-'_oc_memb_free' => 'XXX',
+'_oc_memb_alloc' => 'defined(XXX)',
+'_oc_memb_free' => 'defined(XXX)',
 
 }
 
@@ -664,7 +664,7 @@ def gen_setget_decl(type, ftable)
     end
 
     if IFDEF_TYPES.has_key?(type) and IFDEF_TYPES[type].is_a?(Hash) and IFDEF_TYPES[type].has_key?(k)
-      decl = "#ifdef #{IFDEF_TYPES[type][k]}\n" + decl + "#endif\n"
+      decl = "#if #{IFDEF_TYPES[type][k]}\n" + decl + "#endif\n"
     end
     decl
   end
@@ -684,7 +684,7 @@ def gen_accessor(type, ftable)
   list = ftable.collect do |k, v|
     accr = ACCESSORIMPL.gsub(/VALNAME/, k)
     if IFDEF_TYPES.has_key?(type) and IFDEF_TYPES[type].is_a?(Hash) and IFDEF_TYPES[type].has_key?(k)
-      accr = "#ifdef #{IFDEF_TYPES[type][k]}\n" + accr+ "#endif\n"
+      accr = "#if #{IFDEF_TYPES[type][k]}\n" + accr+ "#endif\n"
     end
     accr
   end
@@ -695,7 +695,7 @@ def gen_enumaccessor(type, ftable)
   list = ftable.collect do |k, v|
     accr = ENUMACCESSORIMPL.gsub(/VALNAME/, k)
     if IFDEF_TYPES.has_key?(type) and IFDEF_TYPES[type].is_a?(Hash) and IFDEF_TYPES[type].has_key?(k)
-      accr = "#ifdef #{IFDEF_TYPES[type][k]}\n" + accr+ "#endif\n"
+      accr = "#if #{IFDEF_TYPES[type][k]}\n" + accr+ "#endif\n"
     end
     accr
   end
@@ -734,7 +734,7 @@ def gen_classdecl(key, h)
 
   decl = CLSDECL.gsub(/STRUCTNAME/, key).gsub(/CLASSNAME/, gen_classname(key)).gsub(/\/\* setget \*\//, gen_setget_decl(key, hh)).gsub(/\/\* extra_value \*\//, gen_extra_value_decl(key, hh))
   if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
-    decl = "#ifdef #{IFDEF_TYPES[key]}\n" + decl + "#endif\n"
+    decl = "#if #{IFDEF_TYPES[key]}\n" + decl + "#endif\n"
   end
   decl
 end
@@ -788,7 +788,7 @@ def gen_setget_impl(key, h)
 
 
     if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(Hash) and IFDEF_TYPES[key].has_key?(k)
-      impl = "#ifdef #{IFDEF_TYPES[key][k]}\n" + impl + "#endif\n"
+      impl = "#if #{IFDEF_TYPES[key][k]}\n" + impl + "#endif\n"
     end
     impl
   end
@@ -803,7 +803,7 @@ def gen_enum_entry_impl(key, h)
 
     impl = SETGETIMPL.gsub(/^\#error getter/, "  return Napi::Number::New(info.Env(), #{k});").gsub(/^#error setter/, '').gsub(/STRUCTNAME/, t).gsub(/CLASSNAME/, gen_classname(key)).gsub(/VALNAME/, k)
     if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(Hash) and IFDEF_TYPES[key].has_key?(k)
-      impl = "#ifdef #{IFDEF_TYPES[key][k]}\n" + impl + "#endif\n"
+      impl = "#if #{IFDEF_TYPES[key][k]}\n" + impl + "#endif\n"
     end
     impl
   end
@@ -819,7 +819,7 @@ def gen_classimpl(type, h)
   impl += gen_setget_impl(type, hh)
 
   if IFDEF_TYPES.has_key?(type) and IFDEF_TYPES[type].is_a?(String)
-    impl = "#ifdef #{IFDEF_TYPES[type]}\n" + impl + "#endif\n"
+    impl = "#if #{IFDEF_TYPES[type]}\n" + impl + "#endif\n"
   end
   return impl
 end
@@ -833,7 +833,7 @@ def gen_enumclassimpl(type, h)
   impl += gen_enum_entry_impl(type, hh)
 
   if IFDEF_TYPES.has_key?(type) and IFDEF_TYPES[type].is_a?(String)
-    impl = "#ifdef #{IFDEF_TYPES[type]}\n" + impl + "#endif\n"
+    impl = "#if #{IFDEF_TYPES[type]}\n" + impl + "#endif\n"
   end
   return impl
 end
@@ -844,7 +844,7 @@ def gen_enum_classdecl(key, h)
 
   decl = ENUMCLSDECL.gsub(/ENUMNAME/, key).gsub(/CLASSNAME/, gen_classname(key)).gsub(/\/\* setget \*\//, gen_enum_entry_decl(hh))
   if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
-    decl = "#ifdef #{IFDEF_TYPES[key]}\n" + decl + "#endif\n"
+    decl = "#if #{IFDEF_TYPES[key]}\n" + decl + "#endif\n"
   end
   decl
 end
@@ -1103,7 +1103,7 @@ File.open('src/functions.h', 'w') do |f|
   func_table.each do |key, h|
     expset = gen_funcdecl(key, h) + "\n"
     if IFDEF_FUNCS.include?(key)
-      expset = "#ifdef #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
+      expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
     end
     f.print "#{expset}"
   end
@@ -1122,7 +1122,7 @@ File.open('src/functions.cc', 'w') do |f|
   func_table.each do |key, h|
     expset = gen_funcimpl(key, h) + "\n"
     if IFDEF_FUNCS.include?(key)
-      expset = "#ifdef #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
+      expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
     end
     f.print "#{expset}"
   end
@@ -1149,7 +1149,7 @@ File.open('src/binding.cc', 'w') do |f|
     if not (IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil)
       impl = "  exports.Set(\"#{gen_classname(key)}\", #{gen_classname(key)}::GetClass(env));\n"
       if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
-        impl = "#ifdef #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
+        impl = "#if #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
       end
       f.print "#{impl}"
     end
@@ -1159,7 +1159,7 @@ File.open('src/binding.cc', 'w') do |f|
   func_table.each do |key, h|
     expset = "  exports.Set(\"#{key}\", Napi::Function::New(env, N_#{key}));\n"
     if IFDEF_FUNCS.include?(key)
-      expset = "#ifdef #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
+      expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
     end
     f.print "#{expset}"
   end
