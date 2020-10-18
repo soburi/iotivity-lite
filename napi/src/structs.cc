@@ -1,5 +1,744 @@
 #include "structs.h"
 #include "helper.h"
+Napi::FunctionReference coapObserver::constructor;
+
+Napi::Function coapObserver::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "coapObserver", {
+    coapObserver::InstanceAccessor("block2_size", &coapObserver::get_block2_size, &coapObserver::set_block2_size),
+    coapObserver::InstanceAccessor("endpoint", &coapObserver::get_endpoint, &coapObserver::set_endpoint),
+    coapObserver::InstanceAccessor("iface_mask", &coapObserver::get_iface_mask, &coapObserver::set_iface_mask),
+    coapObserver::InstanceAccessor("last_mid", &coapObserver::get_last_mid, &coapObserver::set_last_mid),
+    coapObserver::InstanceAccessor("obs_counter", &coapObserver::get_obs_counter, &coapObserver::set_obs_counter),
+    coapObserver::InstanceAccessor("retrans_counter", &coapObserver::get_retrans_counter, &coapObserver::set_retrans_counter),
+    coapObserver::InstanceAccessor("retrans_timer", &coapObserver::get_retrans_timer, &coapObserver::set_retrans_timer),
+    coapObserver::InstanceAccessor("token_len", &coapObserver::get_token_len, &coapObserver::set_token_len),
+    coapObserver::InstanceAccessor("url", &coapObserver::get_url, &coapObserver::set_url),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+coapObserver::coapObserver(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<coap_observer>(new coap_observer());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<coap_observer>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value coapObserver::get_block2_size(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->block2_size);
+}
+
+void coapObserver::set_block2_size(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->block2_size = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapObserver::get_endpoint(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_endpoint_t> sp(&m_pvalue->endpoint);
+  auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+  return OCEndpoint::constructor.New({accessor});
+}
+
+void coapObserver::set_endpoint(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->endpoint = *(*(value.As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data()));
+}
+
+Napi::Value coapObserver::get_iface_mask(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->iface_mask);
+}
+
+void coapObserver::set_iface_mask(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->iface_mask = static_cast<oc_interface_mask_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapObserver::get_last_mid(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->last_mid);
+}
+
+void coapObserver::set_last_mid(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->last_mid = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapObserver::get_obs_counter(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->obs_counter);
+}
+
+void coapObserver::set_obs_counter(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->obs_counter = value.As<Napi::Number>().Int32Value();
+}
+
+Napi::Value coapObserver::get_retrans_counter(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->retrans_counter);
+}
+
+void coapObserver::set_retrans_counter(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->retrans_counter = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapObserver::get_retrans_timer(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_etimer> sp(&m_pvalue->retrans_timer);
+  auto accessor = Napi::External<std::shared_ptr<oc_etimer>>::New(info.Env(), &sp);
+  return OCEtimer::constructor.New({accessor});
+}
+
+void coapObserver::set_retrans_timer(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->retrans_timer = *(*(value.As<Napi::External<std::shared_ptr<oc_etimer>>>().Data()));
+}
+
+Napi::Value coapObserver::get_token_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->token_len);
+}
+
+void coapObserver::set_token_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->token_len = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapObserver::get_url(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_mmem> sp(&m_pvalue->url);
+  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+  return OCMmem::constructor.New({accessor});
+}
+
+void coapObserver::set_url(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->url = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+}
+
+Napi::FunctionReference coapPacket::constructor;
+
+Napi::Function coapPacket::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "coapPacket", {
+    coapPacket::InstanceAccessor("accept", &coapPacket::get_accept, &coapPacket::set_accept),
+    coapPacket::InstanceAccessor("alt_addr_len", &coapPacket::get_alt_addr_len, &coapPacket::set_alt_addr_len),
+    coapPacket::InstanceAccessor("bad_csm_opt", &coapPacket::get_bad_csm_opt, &coapPacket::set_bad_csm_opt),
+    coapPacket::InstanceAccessor("block1_more", &coapPacket::get_block1_more, &coapPacket::set_block1_more),
+    coapPacket::InstanceAccessor("block1_num", &coapPacket::get_block1_num, &coapPacket::set_block1_num),
+    coapPacket::InstanceAccessor("block1_offset", &coapPacket::get_block1_offset, &coapPacket::set_block1_offset),
+    coapPacket::InstanceAccessor("block1_size", &coapPacket::get_block1_size, &coapPacket::set_block1_size),
+    coapPacket::InstanceAccessor("block2_more", &coapPacket::get_block2_more, &coapPacket::set_block2_more),
+    coapPacket::InstanceAccessor("block2_num", &coapPacket::get_block2_num, &coapPacket::set_block2_num),
+    coapPacket::InstanceAccessor("block2_offset", &coapPacket::get_block2_offset, &coapPacket::set_block2_offset),
+    coapPacket::InstanceAccessor("block2_size", &coapPacket::get_block2_size, &coapPacket::set_block2_size),
+    coapPacket::InstanceAccessor("blockwise_transfer", &coapPacket::get_blockwise_transfer, &coapPacket::set_blockwise_transfer),
+    coapPacket::InstanceAccessor("code", &coapPacket::get_code, &coapPacket::set_code),
+    coapPacket::InstanceAccessor("content_format", &coapPacket::get_content_format, &coapPacket::set_content_format),
+    coapPacket::InstanceAccessor("custody", &coapPacket::get_custody, &coapPacket::set_custody),
+    coapPacket::InstanceAccessor("etag_len", &coapPacket::get_etag_len, &coapPacket::set_etag_len),
+    coapPacket::InstanceAccessor("hold_off", &coapPacket::get_hold_off, &coapPacket::set_hold_off),
+    coapPacket::InstanceAccessor("if_match_len", &coapPacket::get_if_match_len, &coapPacket::set_if_match_len),
+    coapPacket::InstanceAccessor("if_none_match", &coapPacket::get_if_none_match, &coapPacket::set_if_none_match),
+    coapPacket::InstanceAccessor("location_path_len", &coapPacket::get_location_path_len, &coapPacket::set_location_path_len),
+    coapPacket::InstanceAccessor("location_query_len", &coapPacket::get_location_query_len, &coapPacket::set_location_query_len),
+    coapPacket::InstanceAccessor("max_age", &coapPacket::get_max_age, &coapPacket::set_max_age),
+    coapPacket::InstanceAccessor("max_msg_size", &coapPacket::get_max_msg_size, &coapPacket::set_max_msg_size),
+    coapPacket::InstanceAccessor("mid", &coapPacket::get_mid, &coapPacket::set_mid),
+    coapPacket::InstanceAccessor("observe", &coapPacket::get_observe, &coapPacket::set_observe),
+    coapPacket::InstanceAccessor("payload_len", &coapPacket::get_payload_len, &coapPacket::set_payload_len),
+    coapPacket::InstanceAccessor("proxy_scheme_len", &coapPacket::get_proxy_scheme_len, &coapPacket::set_proxy_scheme_len),
+    coapPacket::InstanceAccessor("proxy_uri_len", &coapPacket::get_proxy_uri_len, &coapPacket::set_proxy_uri_len),
+    coapPacket::InstanceAccessor("size1", &coapPacket::get_size1, &coapPacket::set_size1),
+    coapPacket::InstanceAccessor("size2", &coapPacket::get_size2, &coapPacket::set_size2),
+    coapPacket::InstanceAccessor("token_len", &coapPacket::get_token_len, &coapPacket::set_token_len),
+    coapPacket::InstanceAccessor("transport_type", &coapPacket::get_transport_type, &coapPacket::set_transport_type),
+    coapPacket::InstanceAccessor("type", &coapPacket::get_type, &coapPacket::set_type),
+    coapPacket::InstanceAccessor("uri_host_len", &coapPacket::get_uri_host_len, &coapPacket::set_uri_host_len),
+    coapPacket::InstanceAccessor("uri_path_len", &coapPacket::get_uri_path_len, &coapPacket::set_uri_path_len),
+    coapPacket::InstanceAccessor("uri_port", &coapPacket::get_uri_port, &coapPacket::set_uri_port),
+    coapPacket::InstanceAccessor("uri_query_len", &coapPacket::get_uri_query_len, &coapPacket::set_uri_query_len),
+    coapPacket::InstanceAccessor("version", &coapPacket::get_version, &coapPacket::set_version),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+coapPacket::coapPacket(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<coap_packet_t>(new coap_packet_t());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<coap_packet_t>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value coapPacket::get_accept(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->accept);
+}
+
+void coapPacket::set_accept(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->accept = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_alt_addr_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->alt_addr_len);
+}
+
+void coapPacket::set_alt_addr_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->alt_addr_len = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_bad_csm_opt(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->bad_csm_opt);
+}
+
+void coapPacket::set_bad_csm_opt(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->bad_csm_opt = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_block1_more(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->block1_more);
+}
+
+void coapPacket::set_block1_more(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->block1_more = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_block1_num(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->block1_num);
+}
+
+void coapPacket::set_block1_num(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->block1_num = static_cast<uint32_t>(value.As<Napi::Number>());
+}
+
+Napi::Value coapPacket::get_block1_offset(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->block1_offset);
+}
+
+void coapPacket::set_block1_offset(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->block1_offset = static_cast<uint32_t>(value.As<Napi::Number>());
+}
+
+Napi::Value coapPacket::get_block1_size(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->block1_size);
+}
+
+void coapPacket::set_block1_size(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->block1_size = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_block2_more(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->block2_more);
+}
+
+void coapPacket::set_block2_more(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->block2_more = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_block2_num(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->block2_num);
+}
+
+void coapPacket::set_block2_num(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->block2_num = static_cast<uint32_t>(value.As<Napi::Number>());
+}
+
+Napi::Value coapPacket::get_block2_offset(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->block2_offset);
+}
+
+void coapPacket::set_block2_offset(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->block2_offset = static_cast<uint32_t>(value.As<Napi::Number>());
+}
+
+Napi::Value coapPacket::get_block2_size(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->block2_size);
+}
+
+void coapPacket::set_block2_size(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->block2_size = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_blockwise_transfer(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->blockwise_transfer);
+}
+
+void coapPacket::set_blockwise_transfer(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->blockwise_transfer = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_code(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->code);
+}
+
+void coapPacket::set_code(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->code = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_content_format(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->content_format);
+}
+
+void coapPacket::set_content_format(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->content_format = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_custody(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->custody);
+}
+
+void coapPacket::set_custody(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->custody = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_etag_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->etag_len);
+}
+
+void coapPacket::set_etag_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->etag_len = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_hold_off(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->hold_off);
+}
+
+void coapPacket::set_hold_off(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->hold_off = static_cast<uint32_t>(value.As<Napi::Number>());
+}
+
+Napi::Value coapPacket::get_if_match_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->if_match_len);
+}
+
+void coapPacket::set_if_match_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->if_match_len = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_if_none_match(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->if_none_match);
+}
+
+void coapPacket::set_if_none_match(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->if_none_match = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_location_path_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->location_path_len);
+}
+
+void coapPacket::set_location_path_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->location_path_len = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_location_query_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->location_query_len);
+}
+
+void coapPacket::set_location_query_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->location_query_len = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_max_age(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->max_age);
+}
+
+void coapPacket::set_max_age(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->max_age = static_cast<uint32_t>(value.As<Napi::Number>());
+}
+
+Napi::Value coapPacket::get_max_msg_size(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->max_msg_size);
+}
+
+void coapPacket::set_max_msg_size(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->max_msg_size = static_cast<uint32_t>(value.As<Napi::Number>());
+}
+
+Napi::Value coapPacket::get_mid(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->mid);
+}
+
+void coapPacket::set_mid(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->mid = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_observe(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->observe);
+}
+
+void coapPacket::set_observe(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->observe = value.As<Napi::Number>().Int32Value();
+}
+
+Napi::Value coapPacket::get_payload_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->payload_len);
+}
+
+void coapPacket::set_payload_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->payload_len = static_cast<uint32_t>(value.As<Napi::Number>());
+}
+
+Napi::Value coapPacket::get_proxy_scheme_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->proxy_scheme_len);
+}
+
+void coapPacket::set_proxy_scheme_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->proxy_scheme_len = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_proxy_uri_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->proxy_uri_len);
+}
+
+void coapPacket::set_proxy_uri_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->proxy_uri_len = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_size1(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->size1);
+}
+
+void coapPacket::set_size1(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->size1 = static_cast<uint32_t>(value.As<Napi::Number>());
+}
+
+Napi::Value coapPacket::get_size2(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->size2);
+}
+
+void coapPacket::set_size2(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->size2 = static_cast<uint32_t>(value.As<Napi::Number>());
+}
+
+Napi::Value coapPacket::get_token_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->token_len);
+}
+
+void coapPacket::set_token_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->token_len = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_transport_type(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->transport_type);
+}
+
+void coapPacket::set_transport_type(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->transport_type = static_cast<coap_transport_type_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_type(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->type);
+}
+
+void coapPacket::set_type(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->type = static_cast<coap_message_type_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_uri_host_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->uri_host_len);
+}
+
+void coapPacket::set_uri_host_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->uri_host_len = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_uri_path_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->uri_path_len);
+}
+
+void coapPacket::set_uri_path_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->uri_path_len = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_uri_port(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->uri_port);
+}
+
+void coapPacket::set_uri_port(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->uri_port = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_uri_query_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->uri_query_len);
+}
+
+void coapPacket::set_uri_query_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->uri_query_len = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapPacket::get_version(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->version);
+}
+
+void coapPacket::set_version(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->version = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::FunctionReference coapSeparate::constructor;
+
+Napi::Function coapSeparate::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "coapSeparate", {
+    coapSeparate::InstanceAccessor("block2_size", &coapSeparate::get_block2_size, &coapSeparate::set_block2_size),
+    coapSeparate::InstanceAccessor("endpoint", &coapSeparate::get_endpoint, &coapSeparate::set_endpoint),
+    coapSeparate::InstanceAccessor("method", &coapSeparate::get_method, &coapSeparate::set_method),
+    coapSeparate::InstanceAccessor("observe", &coapSeparate::get_observe, &coapSeparate::set_observe),
+    coapSeparate::InstanceAccessor("token_len", &coapSeparate::get_token_len, &coapSeparate::set_token_len),
+    coapSeparate::InstanceAccessor("type", &coapSeparate::get_type, &coapSeparate::set_type),
+    coapSeparate::InstanceAccessor("uri", &coapSeparate::get_uri, &coapSeparate::set_uri),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+coapSeparate::coapSeparate(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<coap_separate>(new coap_separate());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<coap_separate>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value coapSeparate::get_block2_size(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->block2_size);
+}
+
+void coapSeparate::set_block2_size(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->block2_size = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapSeparate::get_endpoint(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_endpoint_t> sp(&m_pvalue->endpoint);
+  auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+  return OCEndpoint::constructor.New({accessor});
+}
+
+void coapSeparate::set_endpoint(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->endpoint = *(*(value.As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data()));
+}
+
+Napi::Value coapSeparate::get_method(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->method);
+}
+
+void coapSeparate::set_method(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->method = static_cast<oc_method_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapSeparate::get_observe(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->observe);
+}
+
+void coapSeparate::set_observe(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->observe = value.As<Napi::Number>().Int32Value();
+}
+
+Napi::Value coapSeparate::get_token_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->token_len);
+}
+
+void coapSeparate::set_token_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->token_len = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapSeparate::get_type(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->type);
+}
+
+void coapSeparate::set_type(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->type = static_cast<coap_message_type_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapSeparate::get_uri(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_mmem> sp(&m_pvalue->uri);
+  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+  return OCMmem::constructor.New({accessor});
+}
+
+void coapSeparate::set_uri(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->uri = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+}
+
+Napi::FunctionReference coapTransaction::constructor;
+
+Napi::Function coapTransaction::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "coapTransaction", {
+    coapTransaction::InstanceAccessor("mid", &coapTransaction::get_mid, &coapTransaction::set_mid),
+    coapTransaction::InstanceAccessor("retrans_counter", &coapTransaction::get_retrans_counter, &coapTransaction::set_retrans_counter),
+    coapTransaction::InstanceAccessor("retrans_timer", &coapTransaction::get_retrans_timer, &coapTransaction::set_retrans_timer),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+coapTransaction::coapTransaction(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<coap_transaction>(new coap_transaction());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<coap_transaction>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value coapTransaction::get_mid(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->mid);
+}
+
+void coapTransaction::set_mid(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->mid = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapTransaction::get_retrans_counter(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->retrans_counter);
+}
+
+void coapTransaction::set_retrans_counter(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->retrans_counter = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value coapTransaction::get_retrans_timer(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_etimer> sp(&m_pvalue->retrans_timer);
+  auto accessor = Napi::External<std::shared_ptr<oc_etimer>>::New(info.Env(), &sp);
+  return OCEtimer::constructor.New({accessor});
+}
+
+void coapTransaction::set_retrans_timer(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->retrans_timer = *(*(value.As<Napi::External<std::shared_ptr<oc_etimer>>>().Data()));
+}
+
 Napi::FunctionReference OCAceResource::constructor;
 
 Napi::Function OCAceResource::GetClass(Napi::Env env) {
@@ -180,9 +919,6 @@ Napi::FunctionReference OCBlockwiseState::constructor;
 Napi::Function OCBlockwiseState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCBlockwiseState", {
     OCBlockwiseState::InstanceAccessor("buffer", &OCBlockwiseState::get_buffer, &OCBlockwiseState::set_buffer),
-#if defined(OC_CLEINT)
-    OCBlockwiseState::InstanceAccessor("client_cb", &OCBlockwiseState::get_client_cb, &OCBlockwiseState::set_client_cb),
-#endif
     OCBlockwiseState::InstanceAccessor("endpoint", &OCBlockwiseState::get_endpoint, &OCBlockwiseState::set_endpoint),
     OCBlockwiseState::InstanceAccessor("href", &OCBlockwiseState::get_href, &OCBlockwiseState::set_href),
     OCBlockwiseState::InstanceAccessor("method", &OCBlockwiseState::get_method, &OCBlockwiseState::set_method),
@@ -230,18 +966,6 @@ void OCBlockwiseState::set_buffer(const Napi::CallbackInfo& info, const Napi::Va
 {
 for(uint32_t i=0; i<value.As<Napi::Buffer<uint8_t>>().Length(); i++) { m_pvalue->buffer[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }
 }
-
-#if defined(OC_CLEINT)
-Napi::Value OCBlockwiseState::get_client_cb(const Napi::CallbackInfo& info)
-{
-#error void* OCBlockwiseState::client_cb
-}
-
-void OCBlockwiseState::set_client_cb(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-#error void* OCBlockwiseState::client_cb
-}
-#endif
 
 Napi::Value OCBlockwiseState::get_endpoint(const Napi::CallbackInfo& info)
 {
@@ -2773,6 +3497,75 @@ void OCResource::set_uri(const Napi::CallbackInfo& info, const Napi::Value& valu
   m_pvalue->uri = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
+Napi::FunctionReference OCResponseBuffer::constructor;
+
+Napi::Function OCResponseBuffer::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCResponseBuffer", {
+    OCResponseBuffer::InstanceAccessor("buffer_size", &OCResponseBuffer::get_buffer_size, &OCResponseBuffer::set_buffer_size),
+    OCResponseBuffer::InstanceAccessor("code", &OCResponseBuffer::get_code, &OCResponseBuffer::set_code),
+    OCResponseBuffer::InstanceAccessor("content_format", &OCResponseBuffer::get_content_format, &OCResponseBuffer::set_content_format),
+    OCResponseBuffer::InstanceAccessor("response_length", &OCResponseBuffer::get_response_length, &OCResponseBuffer::set_response_length),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+OCResponseBuffer::OCResponseBuffer(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<oc_response_buffer_s>(new oc_response_buffer_s());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_response_buffer_s>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value OCResponseBuffer::get_buffer_size(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->buffer_size);
+}
+
+void OCResponseBuffer::set_buffer_size(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->buffer_size = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value OCResponseBuffer::get_code(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->code);
+}
+
+void OCResponseBuffer::set_code(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->code = static_cast<int>(value.As<Napi::Number>());
+}
+
+Napi::Value OCResponseBuffer::get_content_format(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->content_format);
+}
+
+void OCResponseBuffer::set_content_format(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->content_format = static_cast<oc_content_format_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value OCResponseBuffer::get_response_length(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->response_length);
+}
+
+void OCResponseBuffer::set_response_length(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->response_length = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+
 Napi::FunctionReference OCResponse::constructor;
 
 Napi::Function OCResponse::GetClass(Napi::Env env) {
@@ -3189,6 +3982,42 @@ void OCCred::set_subjectuuid(const Napi::CallbackInfo& info, const Napi::Value& 
   m_pvalue->subjectuuid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
 }
 
+Napi::FunctionReference OCSeparateResponse::constructor;
+
+Napi::Function OCSeparateResponse::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCSeparateResponse", {
+    OCSeparateResponse::InstanceAccessor("active", &OCSeparateResponse::get_active, &OCSeparateResponse::set_active),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+OCSeparateResponse::OCSeparateResponse(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<oc_separate_response_s>(new oc_separate_response_s());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_separate_response_s>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value OCSeparateResponse::get_active(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->active);
+}
+
+void OCSeparateResponse::set_active(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->active = static_cast<int>(value.As<Napi::Number>());
+}
+
 Napi::FunctionReference OCSessionEventCb::constructor;
 
 Napi::Function OCSessionEventCb::GetClass(Napi::Env env) {
@@ -3480,6 +4309,952 @@ void DevAddr::set_ipv6(const Napi::CallbackInfo& info, const Napi::Value& value)
   m_pvalue->ipv6 = *(*(value.As<Napi::External<std::shared_ptr<oc_ipv6_addr_t>>>().Data()));
 }
 
+
+
+Napi::FunctionReference coapTransportType::constructor;
+
+Napi::Function coapTransportType::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "coapTransportType", {
+    coapTransportType::StaticAccessor("COAP_TRANSPORT_UDP", coapTransportType::get_COAP_TRANSPORT_UDP, coapTransportType::set_COAP_TRANSPORT_UDP),
+    coapTransportType::StaticAccessor("COAP_TRANSPORT_TCP", coapTransportType::get_COAP_TRANSPORT_TCP, coapTransportType::set_COAP_TRANSPORT_TCP),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+coapTransportType::coapTransportType(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<coap_transport_type_t>(new coap_transport_type_t());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<coap_transport_type_t>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value coapTransportType::get_COAP_TRANSPORT_UDP(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_TRANSPORT_UDP);
+}
+
+void coapTransportType::set_COAP_TRANSPORT_UDP(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapTransportType::get_COAP_TRANSPORT_TCP(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_TRANSPORT_TCP);
+}
+
+void coapTransportType::set_COAP_TRANSPORT_TCP(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::FunctionReference coapSignalCode::constructor;
+
+Napi::Function coapSignalCode::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "coapSignalCode", {
+    coapSignalCode::StaticAccessor("CSM_7_01", coapSignalCode::get_CSM_7_01, coapSignalCode::set_CSM_7_01),
+    coapSignalCode::StaticAccessor("PING_7_02", coapSignalCode::get_PING_7_02, coapSignalCode::set_PING_7_02),
+    coapSignalCode::StaticAccessor("PONG_7_03", coapSignalCode::get_PONG_7_03, coapSignalCode::set_PONG_7_03),
+    coapSignalCode::StaticAccessor("RELEASE_7_04", coapSignalCode::get_RELEASE_7_04, coapSignalCode::set_RELEASE_7_04),
+    coapSignalCode::StaticAccessor("ABORT_7_05", coapSignalCode::get_ABORT_7_05, coapSignalCode::set_ABORT_7_05),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+coapSignalCode::coapSignalCode(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<coap_signal_code_t>(new coap_signal_code_t());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<coap_signal_code_t>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value coapSignalCode::get_CSM_7_01(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), CSM_7_01);
+}
+
+void coapSignalCode::set_CSM_7_01(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapSignalCode::get_PING_7_02(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), PING_7_02);
+}
+
+void coapSignalCode::set_PING_7_02(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapSignalCode::get_PONG_7_03(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), PONG_7_03);
+}
+
+void coapSignalCode::set_PONG_7_03(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapSignalCode::get_RELEASE_7_04(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), RELEASE_7_04);
+}
+
+void coapSignalCode::set_RELEASE_7_04(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapSignalCode::get_ABORT_7_05(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), ABORT_7_05);
+}
+
+void coapSignalCode::set_ABORT_7_05(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::FunctionReference coapSignalOption::constructor;
+
+Napi::Function coapSignalOption::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "coapSignalOption", {
+    coapSignalOption::StaticAccessor("COAP_SIGNAL_OPTION_MAX_MSG_SIZE", coapSignalOption::get_COAP_SIGNAL_OPTION_MAX_MSG_SIZE, coapSignalOption::set_COAP_SIGNAL_OPTION_MAX_MSG_SIZE),
+    coapSignalOption::StaticAccessor("COAP_SIGNAL_OPTION_BLOCKWISE_TRANSFER", coapSignalOption::get_COAP_SIGNAL_OPTION_BLOCKWISE_TRANSFER, coapSignalOption::set_COAP_SIGNAL_OPTION_BLOCKWISE_TRANSFER),
+    coapSignalOption::StaticAccessor("COAP_SIGNAL_OPTION_CUSTODY", coapSignalOption::get_COAP_SIGNAL_OPTION_CUSTODY, coapSignalOption::set_COAP_SIGNAL_OPTION_CUSTODY),
+    coapSignalOption::StaticAccessor("COAP_SIGNAL_OPTION_ALT_ADDR", coapSignalOption::get_COAP_SIGNAL_OPTION_ALT_ADDR, coapSignalOption::set_COAP_SIGNAL_OPTION_ALT_ADDR),
+    coapSignalOption::StaticAccessor("COAP_SIGNAL_OPTION_HOLD_OFF", coapSignalOption::get_COAP_SIGNAL_OPTION_HOLD_OFF, coapSignalOption::set_COAP_SIGNAL_OPTION_HOLD_OFF),
+    coapSignalOption::StaticAccessor("COAP_SIGNAL_OPTION_BAD_CSM", coapSignalOption::get_COAP_SIGNAL_OPTION_BAD_CSM, coapSignalOption::set_COAP_SIGNAL_OPTION_BAD_CSM),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+coapSignalOption::coapSignalOption(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<coap_signal_option_t>(new coap_signal_option_t());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<coap_signal_option_t>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value coapSignalOption::get_COAP_SIGNAL_OPTION_MAX_MSG_SIZE(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_SIGNAL_OPTION_MAX_MSG_SIZE);
+}
+
+void coapSignalOption::set_COAP_SIGNAL_OPTION_MAX_MSG_SIZE(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapSignalOption::get_COAP_SIGNAL_OPTION_BLOCKWISE_TRANSFER(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_SIGNAL_OPTION_BLOCKWISE_TRANSFER);
+}
+
+void coapSignalOption::set_COAP_SIGNAL_OPTION_BLOCKWISE_TRANSFER(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapSignalOption::get_COAP_SIGNAL_OPTION_CUSTODY(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_SIGNAL_OPTION_CUSTODY);
+}
+
+void coapSignalOption::set_COAP_SIGNAL_OPTION_CUSTODY(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapSignalOption::get_COAP_SIGNAL_OPTION_ALT_ADDR(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_SIGNAL_OPTION_ALT_ADDR);
+}
+
+void coapSignalOption::set_COAP_SIGNAL_OPTION_ALT_ADDR(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapSignalOption::get_COAP_SIGNAL_OPTION_HOLD_OFF(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_SIGNAL_OPTION_HOLD_OFF);
+}
+
+void coapSignalOption::set_COAP_SIGNAL_OPTION_HOLD_OFF(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapSignalOption::get_COAP_SIGNAL_OPTION_BAD_CSM(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_SIGNAL_OPTION_BAD_CSM);
+}
+
+void coapSignalOption::set_COAP_SIGNAL_OPTION_BAD_CSM(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::FunctionReference coapMessageType::constructor;
+
+Napi::Function coapMessageType::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "coapMessageType", {
+    coapMessageType::StaticAccessor("COAP_TYPE_CON", coapMessageType::get_COAP_TYPE_CON, coapMessageType::set_COAP_TYPE_CON),
+    coapMessageType::StaticAccessor("COAP_TYPE_NON", coapMessageType::get_COAP_TYPE_NON, coapMessageType::set_COAP_TYPE_NON),
+    coapMessageType::StaticAccessor("COAP_TYPE_ACK", coapMessageType::get_COAP_TYPE_ACK, coapMessageType::set_COAP_TYPE_ACK),
+    coapMessageType::StaticAccessor("COAP_TYPE_RST", coapMessageType::get_COAP_TYPE_RST, coapMessageType::set_COAP_TYPE_RST),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+coapMessageType::coapMessageType(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<coap_message_type_t>(new coap_message_type_t());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<coap_message_type_t>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value coapMessageType::get_COAP_TYPE_CON(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_TYPE_CON);
+}
+
+void coapMessageType::set_COAP_TYPE_CON(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapMessageType::get_COAP_TYPE_NON(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_TYPE_NON);
+}
+
+void coapMessageType::set_COAP_TYPE_NON(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapMessageType::get_COAP_TYPE_ACK(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_TYPE_ACK);
+}
+
+void coapMessageType::set_COAP_TYPE_ACK(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapMessageType::get_COAP_TYPE_RST(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_TYPE_RST);
+}
+
+void coapMessageType::set_COAP_TYPE_RST(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::FunctionReference coapMethod::constructor;
+
+Napi::Function coapMethod::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "coapMethod", {
+    coapMethod::StaticAccessor("COAP_GET", coapMethod::get_COAP_GET, coapMethod::set_COAP_GET),
+    coapMethod::StaticAccessor("COAP_POST", coapMethod::get_COAP_POST, coapMethod::set_COAP_POST),
+    coapMethod::StaticAccessor("COAP_PUT", coapMethod::get_COAP_PUT, coapMethod::set_COAP_PUT),
+    coapMethod::StaticAccessor("COAP_DELETE", coapMethod::get_COAP_DELETE, coapMethod::set_COAP_DELETE),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+coapMethod::coapMethod(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<coap_method_t>(new coap_method_t());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<coap_method_t>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value coapMethod::get_COAP_GET(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_GET);
+}
+
+void coapMethod::set_COAP_GET(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapMethod::get_COAP_POST(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_POST);
+}
+
+void coapMethod::set_COAP_POST(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapMethod::get_COAP_PUT(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_PUT);
+}
+
+void coapMethod::set_COAP_PUT(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapMethod::get_COAP_DELETE(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_DELETE);
+}
+
+void coapMethod::set_COAP_DELETE(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::FunctionReference coapOption::constructor;
+
+Napi::Function coapOption::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "coapOption", {
+    coapOption::StaticAccessor("COAP_OPTION_IF_MATCH", coapOption::get_COAP_OPTION_IF_MATCH, coapOption::set_COAP_OPTION_IF_MATCH),
+    coapOption::StaticAccessor("COAP_OPTION_URI_HOST", coapOption::get_COAP_OPTION_URI_HOST, coapOption::set_COAP_OPTION_URI_HOST),
+    coapOption::StaticAccessor("COAP_OPTION_ETAG", coapOption::get_COAP_OPTION_ETAG, coapOption::set_COAP_OPTION_ETAG),
+    coapOption::StaticAccessor("COAP_OPTION_IF_NONE_MATCH", coapOption::get_COAP_OPTION_IF_NONE_MATCH, coapOption::set_COAP_OPTION_IF_NONE_MATCH),
+    coapOption::StaticAccessor("COAP_OPTION_OBSERVE", coapOption::get_COAP_OPTION_OBSERVE, coapOption::set_COAP_OPTION_OBSERVE),
+    coapOption::StaticAccessor("COAP_OPTION_URI_PORT", coapOption::get_COAP_OPTION_URI_PORT, coapOption::set_COAP_OPTION_URI_PORT),
+    coapOption::StaticAccessor("COAP_OPTION_LOCATION_PATH", coapOption::get_COAP_OPTION_LOCATION_PATH, coapOption::set_COAP_OPTION_LOCATION_PATH),
+    coapOption::StaticAccessor("COAP_OPTION_URI_PATH", coapOption::get_COAP_OPTION_URI_PATH, coapOption::set_COAP_OPTION_URI_PATH),
+    coapOption::StaticAccessor("COAP_OPTION_CONTENT_FORMAT", coapOption::get_COAP_OPTION_CONTENT_FORMAT, coapOption::set_COAP_OPTION_CONTENT_FORMAT),
+    coapOption::StaticAccessor("COAP_OPTION_MAX_AGE", coapOption::get_COAP_OPTION_MAX_AGE, coapOption::set_COAP_OPTION_MAX_AGE),
+    coapOption::StaticAccessor("COAP_OPTION_URI_QUERY", coapOption::get_COAP_OPTION_URI_QUERY, coapOption::set_COAP_OPTION_URI_QUERY),
+    coapOption::StaticAccessor("COAP_OPTION_ACCEPT", coapOption::get_COAP_OPTION_ACCEPT, coapOption::set_COAP_OPTION_ACCEPT),
+    coapOption::StaticAccessor("COAP_OPTION_LOCATION_QUERY", coapOption::get_COAP_OPTION_LOCATION_QUERY, coapOption::set_COAP_OPTION_LOCATION_QUERY),
+    coapOption::StaticAccessor("COAP_OPTION_BLOCK2", coapOption::get_COAP_OPTION_BLOCK2, coapOption::set_COAP_OPTION_BLOCK2),
+    coapOption::StaticAccessor("COAP_OPTION_BLOCK1", coapOption::get_COAP_OPTION_BLOCK1, coapOption::set_COAP_OPTION_BLOCK1),
+    coapOption::StaticAccessor("COAP_OPTION_SIZE2", coapOption::get_COAP_OPTION_SIZE2, coapOption::set_COAP_OPTION_SIZE2),
+    coapOption::StaticAccessor("COAP_OPTION_PROXY_URI", coapOption::get_COAP_OPTION_PROXY_URI, coapOption::set_COAP_OPTION_PROXY_URI),
+    coapOption::StaticAccessor("COAP_OPTION_PROXY_SCHEME", coapOption::get_COAP_OPTION_PROXY_SCHEME, coapOption::set_COAP_OPTION_PROXY_SCHEME),
+    coapOption::StaticAccessor("COAP_OPTION_SIZE1", coapOption::get_COAP_OPTION_SIZE1, coapOption::set_COAP_OPTION_SIZE1),
+    coapOption::StaticAccessor("OCF_OPTION_ACCEPT_CONTENT_FORMAT_VER", coapOption::get_OCF_OPTION_ACCEPT_CONTENT_FORMAT_VER, coapOption::set_OCF_OPTION_ACCEPT_CONTENT_FORMAT_VER),
+    coapOption::StaticAccessor("OCF_OPTION_CONTENT_FORMAT_VER", coapOption::get_OCF_OPTION_CONTENT_FORMAT_VER, coapOption::set_OCF_OPTION_CONTENT_FORMAT_VER),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+coapOption::coapOption(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<coap_option_t>(new coap_option_t());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<coap_option_t>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value coapOption::get_COAP_OPTION_IF_MATCH(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_IF_MATCH);
+}
+
+void coapOption::set_COAP_OPTION_IF_MATCH(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_URI_HOST(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_URI_HOST);
+}
+
+void coapOption::set_COAP_OPTION_URI_HOST(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_ETAG(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_ETAG);
+}
+
+void coapOption::set_COAP_OPTION_ETAG(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_IF_NONE_MATCH(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_IF_NONE_MATCH);
+}
+
+void coapOption::set_COAP_OPTION_IF_NONE_MATCH(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_OBSERVE(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_OBSERVE);
+}
+
+void coapOption::set_COAP_OPTION_OBSERVE(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_URI_PORT(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_URI_PORT);
+}
+
+void coapOption::set_COAP_OPTION_URI_PORT(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_LOCATION_PATH(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_LOCATION_PATH);
+}
+
+void coapOption::set_COAP_OPTION_LOCATION_PATH(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_URI_PATH(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_URI_PATH);
+}
+
+void coapOption::set_COAP_OPTION_URI_PATH(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_CONTENT_FORMAT(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_CONTENT_FORMAT);
+}
+
+void coapOption::set_COAP_OPTION_CONTENT_FORMAT(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_MAX_AGE(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_MAX_AGE);
+}
+
+void coapOption::set_COAP_OPTION_MAX_AGE(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_URI_QUERY(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_URI_QUERY);
+}
+
+void coapOption::set_COAP_OPTION_URI_QUERY(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_ACCEPT(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_ACCEPT);
+}
+
+void coapOption::set_COAP_OPTION_ACCEPT(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_LOCATION_QUERY(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_LOCATION_QUERY);
+}
+
+void coapOption::set_COAP_OPTION_LOCATION_QUERY(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_BLOCK2(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_BLOCK2);
+}
+
+void coapOption::set_COAP_OPTION_BLOCK2(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_BLOCK1(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_BLOCK1);
+}
+
+void coapOption::set_COAP_OPTION_BLOCK1(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_SIZE2(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_SIZE2);
+}
+
+void coapOption::set_COAP_OPTION_SIZE2(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_PROXY_URI(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_PROXY_URI);
+}
+
+void coapOption::set_COAP_OPTION_PROXY_URI(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_PROXY_SCHEME(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_PROXY_SCHEME);
+}
+
+void coapOption::set_COAP_OPTION_PROXY_SCHEME(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_COAP_OPTION_SIZE1(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_OPTION_SIZE1);
+}
+
+void coapOption::set_COAP_OPTION_SIZE1(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_OCF_OPTION_ACCEPT_CONTENT_FORMAT_VER(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), OCF_OPTION_ACCEPT_CONTENT_FORMAT_VER);
+}
+
+void coapOption::set_OCF_OPTION_ACCEPT_CONTENT_FORMAT_VER(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapOption::get_OCF_OPTION_CONTENT_FORMAT_VER(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), OCF_OPTION_CONTENT_FORMAT_VER);
+}
+
+void coapOption::set_OCF_OPTION_CONTENT_FORMAT_VER(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::FunctionReference coapStatus::constructor;
+
+Napi::Function coapStatus::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "coapStatus", {
+    coapStatus::StaticAccessor("COAP_NO_ERROR", coapStatus::get_COAP_NO_ERROR, coapStatus::set_COAP_NO_ERROR),
+    coapStatus::StaticAccessor("CREATED_2_01", coapStatus::get_CREATED_2_01, coapStatus::set_CREATED_2_01),
+    coapStatus::StaticAccessor("DELETED_2_02", coapStatus::get_DELETED_2_02, coapStatus::set_DELETED_2_02),
+    coapStatus::StaticAccessor("VALID_2_03", coapStatus::get_VALID_2_03, coapStatus::set_VALID_2_03),
+    coapStatus::StaticAccessor("CHANGED_2_04", coapStatus::get_CHANGED_2_04, coapStatus::set_CHANGED_2_04),
+    coapStatus::StaticAccessor("CONTENT_2_05", coapStatus::get_CONTENT_2_05, coapStatus::set_CONTENT_2_05),
+    coapStatus::StaticAccessor("CONTINUE_2_31", coapStatus::get_CONTINUE_2_31, coapStatus::set_CONTINUE_2_31),
+    coapStatus::StaticAccessor("BAD_REQUEST_4_00", coapStatus::get_BAD_REQUEST_4_00, coapStatus::set_BAD_REQUEST_4_00),
+    coapStatus::StaticAccessor("UNAUTHORIZED_4_01", coapStatus::get_UNAUTHORIZED_4_01, coapStatus::set_UNAUTHORIZED_4_01),
+    coapStatus::StaticAccessor("BAD_OPTION_4_02", coapStatus::get_BAD_OPTION_4_02, coapStatus::set_BAD_OPTION_4_02),
+    coapStatus::StaticAccessor("FORBIDDEN_4_03", coapStatus::get_FORBIDDEN_4_03, coapStatus::set_FORBIDDEN_4_03),
+    coapStatus::StaticAccessor("NOT_FOUND_4_04", coapStatus::get_NOT_FOUND_4_04, coapStatus::set_NOT_FOUND_4_04),
+    coapStatus::StaticAccessor("METHOD_NOT_ALLOWED_4_05", coapStatus::get_METHOD_NOT_ALLOWED_4_05, coapStatus::set_METHOD_NOT_ALLOWED_4_05),
+    coapStatus::StaticAccessor("NOT_ACCEPTABLE_4_06", coapStatus::get_NOT_ACCEPTABLE_4_06, coapStatus::set_NOT_ACCEPTABLE_4_06),
+    coapStatus::StaticAccessor("PRECONDITION_FAILED_4_12", coapStatus::get_PRECONDITION_FAILED_4_12, coapStatus::set_PRECONDITION_FAILED_4_12),
+    coapStatus::StaticAccessor("REQUEST_ENTITY_TOO_LARGE_4_13", coapStatus::get_REQUEST_ENTITY_TOO_LARGE_4_13, coapStatus::set_REQUEST_ENTITY_TOO_LARGE_4_13),
+    coapStatus::StaticAccessor("UNSUPPORTED_MEDIA_TYPE_4_15", coapStatus::get_UNSUPPORTED_MEDIA_TYPE_4_15, coapStatus::set_UNSUPPORTED_MEDIA_TYPE_4_15),
+    coapStatus::StaticAccessor("INTERNAL_SERVER_ERROR_5_00", coapStatus::get_INTERNAL_SERVER_ERROR_5_00, coapStatus::set_INTERNAL_SERVER_ERROR_5_00),
+    coapStatus::StaticAccessor("NOT_IMPLEMENTED_5_01", coapStatus::get_NOT_IMPLEMENTED_5_01, coapStatus::set_NOT_IMPLEMENTED_5_01),
+    coapStatus::StaticAccessor("BAD_GATEWAY_5_02", coapStatus::get_BAD_GATEWAY_5_02, coapStatus::set_BAD_GATEWAY_5_02),
+    coapStatus::StaticAccessor("SERVICE_UNAVAILABLE_5_03", coapStatus::get_SERVICE_UNAVAILABLE_5_03, coapStatus::set_SERVICE_UNAVAILABLE_5_03),
+    coapStatus::StaticAccessor("GATEWAY_TIMEOUT_5_04", coapStatus::get_GATEWAY_TIMEOUT_5_04, coapStatus::set_GATEWAY_TIMEOUT_5_04),
+    coapStatus::StaticAccessor("PROXYING_NOT_SUPPORTED_5_05", coapStatus::get_PROXYING_NOT_SUPPORTED_5_05, coapStatus::set_PROXYING_NOT_SUPPORTED_5_05),
+    coapStatus::StaticAccessor("MEMORY_ALLOCATION_ERROR", coapStatus::get_MEMORY_ALLOCATION_ERROR, coapStatus::set_MEMORY_ALLOCATION_ERROR),
+    coapStatus::StaticAccessor("PACKET_SERIALIZATION_ERROR", coapStatus::get_PACKET_SERIALIZATION_ERROR, coapStatus::set_PACKET_SERIALIZATION_ERROR),
+    coapStatus::StaticAccessor("CLEAR_TRANSACTION", coapStatus::get_CLEAR_TRANSACTION, coapStatus::set_CLEAR_TRANSACTION),
+    coapStatus::StaticAccessor("EMPTY_ACK_RESPONSE", coapStatus::get_EMPTY_ACK_RESPONSE, coapStatus::set_EMPTY_ACK_RESPONSE),
+    coapStatus::StaticAccessor("CLOSE_ALL_TLS_SESSIONS", coapStatus::get_CLOSE_ALL_TLS_SESSIONS, coapStatus::set_CLOSE_ALL_TLS_SESSIONS),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+coapStatus::coapStatus(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<coap_status_t>(new coap_status_t());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<coap_status_t>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value coapStatus::get_COAP_NO_ERROR(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), COAP_NO_ERROR);
+}
+
+void coapStatus::set_COAP_NO_ERROR(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_CREATED_2_01(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), CREATED_2_01);
+}
+
+void coapStatus::set_CREATED_2_01(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_DELETED_2_02(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), DELETED_2_02);
+}
+
+void coapStatus::set_DELETED_2_02(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_VALID_2_03(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), VALID_2_03);
+}
+
+void coapStatus::set_VALID_2_03(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_CHANGED_2_04(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), CHANGED_2_04);
+}
+
+void coapStatus::set_CHANGED_2_04(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_CONTENT_2_05(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), CONTENT_2_05);
+}
+
+void coapStatus::set_CONTENT_2_05(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_CONTINUE_2_31(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), CONTINUE_2_31);
+}
+
+void coapStatus::set_CONTINUE_2_31(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_BAD_REQUEST_4_00(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), BAD_REQUEST_4_00);
+}
+
+void coapStatus::set_BAD_REQUEST_4_00(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_UNAUTHORIZED_4_01(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), UNAUTHORIZED_4_01);
+}
+
+void coapStatus::set_UNAUTHORIZED_4_01(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_BAD_OPTION_4_02(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), BAD_OPTION_4_02);
+}
+
+void coapStatus::set_BAD_OPTION_4_02(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_FORBIDDEN_4_03(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), FORBIDDEN_4_03);
+}
+
+void coapStatus::set_FORBIDDEN_4_03(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_NOT_FOUND_4_04(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), NOT_FOUND_4_04);
+}
+
+void coapStatus::set_NOT_FOUND_4_04(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_METHOD_NOT_ALLOWED_4_05(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), METHOD_NOT_ALLOWED_4_05);
+}
+
+void coapStatus::set_METHOD_NOT_ALLOWED_4_05(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_NOT_ACCEPTABLE_4_06(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), NOT_ACCEPTABLE_4_06);
+}
+
+void coapStatus::set_NOT_ACCEPTABLE_4_06(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_PRECONDITION_FAILED_4_12(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), PRECONDITION_FAILED_4_12);
+}
+
+void coapStatus::set_PRECONDITION_FAILED_4_12(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_REQUEST_ENTITY_TOO_LARGE_4_13(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), REQUEST_ENTITY_TOO_LARGE_4_13);
+}
+
+void coapStatus::set_REQUEST_ENTITY_TOO_LARGE_4_13(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_UNSUPPORTED_MEDIA_TYPE_4_15(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), UNSUPPORTED_MEDIA_TYPE_4_15);
+}
+
+void coapStatus::set_UNSUPPORTED_MEDIA_TYPE_4_15(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_INTERNAL_SERVER_ERROR_5_00(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), INTERNAL_SERVER_ERROR_5_00);
+}
+
+void coapStatus::set_INTERNAL_SERVER_ERROR_5_00(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_NOT_IMPLEMENTED_5_01(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), NOT_IMPLEMENTED_5_01);
+}
+
+void coapStatus::set_NOT_IMPLEMENTED_5_01(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_BAD_GATEWAY_5_02(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), BAD_GATEWAY_5_02);
+}
+
+void coapStatus::set_BAD_GATEWAY_5_02(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_SERVICE_UNAVAILABLE_5_03(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), SERVICE_UNAVAILABLE_5_03);
+}
+
+void coapStatus::set_SERVICE_UNAVAILABLE_5_03(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_GATEWAY_TIMEOUT_5_04(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), GATEWAY_TIMEOUT_5_04);
+}
+
+void coapStatus::set_GATEWAY_TIMEOUT_5_04(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_PROXYING_NOT_SUPPORTED_5_05(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), PROXYING_NOT_SUPPORTED_5_05);
+}
+
+void coapStatus::set_PROXYING_NOT_SUPPORTED_5_05(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_MEMORY_ALLOCATION_ERROR(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), MEMORY_ALLOCATION_ERROR);
+}
+
+void coapStatus::set_MEMORY_ALLOCATION_ERROR(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_PACKET_SERIALIZATION_ERROR(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), PACKET_SERIALIZATION_ERROR);
+}
+
+void coapStatus::set_PACKET_SERIALIZATION_ERROR(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_CLEAR_TRANSACTION(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), CLEAR_TRANSACTION);
+}
+
+void coapStatus::set_CLEAR_TRANSACTION(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_EMPTY_ACK_RESPONSE(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), EMPTY_ACK_RESPONSE);
+}
+
+void coapStatus::set_EMPTY_ACK_RESPONSE(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value coapStatus::get_CLOSE_ALL_TLS_SESSIONS(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), CLOSE_ALL_TLS_SESSIONS);
+}
+
+void coapStatus::set_CLOSE_ALL_TLS_SESSIONS(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
 
 Napi::FunctionReference OCAceConnectionType::constructor;
 

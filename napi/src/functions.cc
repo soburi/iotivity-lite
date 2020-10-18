@@ -1,4 +1,425 @@
 #include "functions.h"
+Napi::Value N_coap_get_header_accept(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 accept, unsigned int*
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_block1(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 num, uint32_t*
+  uint8_t* more = info[2].As<Napi::Buffer<uint8_t>>().Data();
+// 3 size, uint16_t*
+// 4 offset, uint32_t*
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_block2(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 num, uint32_t*
+  uint8_t* more = info[2].As<Napi::Buffer<uint8_t>>().Data();
+// 3 size, uint16_t*
+// 4 offset, uint32_t*
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_content_format(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 format, unsigned int*
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_etag(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 etag, const uint8_t**
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_if_match(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 etag, const uint8_t**
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_location_path(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 path, const char**
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_location_query(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 query, const char**
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_max_age(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 age, uint32_t*
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_observe(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 observe, uint32_t*
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_proxy_scheme(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 scheme, const char**
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_proxy_uri(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 uri, const char**
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_size1(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 size, uint32_t*
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_size2(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 size, uint32_t*
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_uri_host(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 host, const char**
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_uri_path(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 path, const char**
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_header_uri_query(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 query, const char**
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_mid(const Napi::CallbackInfo& info) {
+  return Napi::Number::New(info.Env(), coap_get_mid());
+}
+
+Napi::Value N_coap_get_payload(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 payload, const uint8_t**
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_post_variable(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  std::string name_ = info[1].As<Napi::String>().Utf8Value();
+  const char* name = name_.c_str();
+// 2 output, const char**
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_get_query_variable(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  std::string name_ = info[1].As<Napi::String>().Utf8Value();
+  const char* name = name_.c_str();
+// 2 output, const char**
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_init_connection(const Napi::CallbackInfo& info) {
+  (void)coap_init_connection();
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_send_message(const Napi::CallbackInfo& info) {
+  OCMessage& message = *OCMessage::Unwrap(info[0].As<Napi::Object>());
+  (void)coap_send_message(message);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_serialize_message(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint8_t* buffer = info[1].As<Napi::Buffer<uint8_t>>().Data();
+  return Napi::Number::New(info.Env(), coap_serialize_message(packet, buffer));
+}
+
+Napi::Value N_coap_set_header_accept(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 accept, unsigned int
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_set_header_block1(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint32_t num = static_cast<uint32_t>(info[1].As<Napi::Number>().Uint32Value());
+  uint8_t more = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
+  uint16_t size = static_cast<uint16_t>(info[3].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_set_header_block1(packet, num, more, size));
+}
+
+Napi::Value N_coap_set_header_block2(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint32_t num = static_cast<uint32_t>(info[1].As<Napi::Number>().Uint32Value());
+  uint8_t more = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
+  uint16_t size = static_cast<uint16_t>(info[3].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_set_header_block2(packet, num, more, size));
+}
+
+Napi::Value N_coap_set_header_content_format(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 format, unsigned int
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_set_header_etag(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  const uint8_t* etag = info[1].As<Napi::Buffer<const uint8_t>>().Data();
+  size_t etag_len = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_set_header_etag(packet, etag, etag_len));
+}
+
+Napi::Value N_coap_set_header_location_query(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  std::string query_ = info[1].As<Napi::String>().Utf8Value();
+  const char* query = query_.c_str();
+  return Napi::Number::New(info.Env(), coap_set_header_location_query(packet, query));
+}
+
+Napi::Value N_coap_set_header_max_age(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint32_t age = static_cast<uint32_t>(info[1].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_set_header_max_age(packet, age));
+}
+
+Napi::Value N_coap_set_header_observe(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint32_t observe = static_cast<uint32_t>(info[1].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_set_header_observe(packet, observe));
+}
+
+Napi::Value N_coap_set_header_size1(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint32_t size = static_cast<uint32_t>(info[1].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_set_header_size1(packet, size));
+}
+
+Napi::Value N_coap_set_header_size2(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint32_t size = static_cast<uint32_t>(info[1].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_set_header_size2(packet, size));
+}
+
+Napi::Value N_coap_set_header_uri_path(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  std::string path_ = info[1].As<Napi::String>().Utf8Value();
+  const char* path = path_.c_str();
+  size_t path_len = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_set_header_uri_path(packet, path, path_len));
+}
+
+Napi::Value N_coap_set_header_uri_query(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  std::string query_ = info[1].As<Napi::String>().Utf8Value();
+  const char* query = query_.c_str();
+  return Napi::Number::New(info.Env(), coap_set_header_uri_query(packet, query));
+}
+
+Napi::Value N_coap_set_payload(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 payload, const void*
+  size_t length = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_set_status_code(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 code, unsigned int
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_set_token(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  const uint8_t* token = info[1].As<Napi::Buffer<const uint8_t>>().Data();
+  size_t token_len = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_set_token(packet, token, token_len));
+}
+
+Napi::Value N_coap_tcp_get_packet_size(const Napi::CallbackInfo& info) {
+  const uint8_t* data = info[0].As<Napi::Buffer<const uint8_t>>().Data();
+  return Napi::Number::New(info.Env(), coap_tcp_get_packet_size(data));
+}
+
+Napi::Value N_coap_tcp_init_message(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint8_t code = static_cast<uint8_t>(info[1].As<Napi::Number>().Uint32Value());
+  (void)coap_tcp_init_message(packet, code);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_tcp_parse_message(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint8_t* data = info[1].As<Napi::Buffer<uint8_t>>().Data();
+  uint32_t data_len = static_cast<uint32_t>(info[2].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_tcp_parse_message(packet, data, data_len));
+}
+
+Napi::Value N_coap_udp_init_message(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  coap_message_type_t type = static_cast<coap_message_type_t>(info[1].As<Napi::Number>().Uint32Value());
+  uint8_t code = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
+  uint16_t mid = static_cast<uint16_t>(info[3].As<Napi::Number>().Uint32Value());
+  (void)coap_udp_init_message(packet, type, code, mid);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_udp_parse_message(const Napi::CallbackInfo& info) {
+  void* request = info[0];
+  uint8_t* data = info[1].As<Napi::Buffer<uint8_t>>().Data();
+  uint16_t data_len = static_cast<uint16_t>(info[2].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_udp_parse_message(request, data, data_len));
+}
+
+Napi::Value N_coap_check_signal_message(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  return Napi::Number::New(info.Env(), coap_check_signal_message(packet));
+}
+
+Napi::Value N_coap_send_abort_message(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  uint16_t opt = static_cast<uint16_t>(info[1].As<Napi::Number>().Uint32Value());
+  std::string diagnostic_ = info[2].As<Napi::String>().Utf8Value();
+  const char* diagnostic = diagnostic_.c_str();
+  size_t diagnostic_len = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_send_abort_message(endpoint, opt, diagnostic, diagnostic_len));
+}
+
+Napi::Value N_coap_send_csm_message(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  uint32_t max_message_size = static_cast<uint32_t>(info[1].As<Napi::Number>().Uint32Value());
+  uint8_t blockwise_transfer_option = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_send_csm_message(endpoint, max_message_size, blockwise_transfer_option));
+}
+
+Napi::Value N_coap_send_ping_message(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  uint8_t custody_option = static_cast<uint8_t>(info[1].As<Napi::Number>().Uint32Value());
+  uint8_t* token = info[2].As<Napi::Buffer<uint8_t>>().Data();
+  uint8_t token_len = static_cast<uint8_t>(info[3].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_send_ping_message(endpoint, custody_option, token, token_len));
+}
+
+Napi::Value N_coap_send_pong_message(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  void* packet = info[1];
+  return Napi::Number::New(info.Env(), coap_send_pong_message(endpoint, packet));
+}
+
+Napi::Value N_coap_send_release_message(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  std::string alt_addr_ = info[1].As<Napi::String>().Utf8Value();
+  const char* alt_addr = alt_addr_.c_str();
+  size_t alt_addr_len = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
+  uint32_t hold_off = static_cast<uint32_t>(info[3].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_send_release_message(endpoint, alt_addr, alt_addr_len, hold_off));
+}
+
+Napi::Value N_coap_signal_get_alt_addr(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 addr, const char**
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_signal_get_bad_csm(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 opt, uint16_t*
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_signal_get_blockwise_transfer(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint8_t* blockwise_transfer = info[1].As<Napi::Buffer<uint8_t>>().Data();
+  return Napi::Number::New(info.Env(), coap_signal_get_blockwise_transfer(packet, blockwise_transfer));
+}
+
+Napi::Value N_coap_signal_get_custody(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint8_t* custody = info[1].As<Napi::Buffer<uint8_t>>().Data();
+  return Napi::Number::New(info.Env(), coap_signal_get_custody(packet, custody));
+}
+
+Napi::Value N_coap_signal_get_hold_off(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 time_seconds, uint32_t*
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_signal_get_max_msg_size(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+// 1 size, uint32_t*
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_coap_signal_set_alt_addr(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  std::string addr_ = info[1].As<Napi::String>().Utf8Value();
+  const char* addr = addr_.c_str();
+  size_t addr_len = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_signal_set_alt_addr(packet, addr, addr_len));
+}
+
+Napi::Value N_coap_signal_set_bad_csm(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint16_t opt = static_cast<uint16_t>(info[1].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_signal_set_bad_csm(packet, opt));
+}
+
+Napi::Value N_coap_signal_set_blockwise_transfer(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint8_t blockwise_transfer = static_cast<uint8_t>(info[1].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_signal_set_blockwise_transfer(packet, blockwise_transfer));
+}
+
+Napi::Value N_coap_signal_set_custody(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint8_t custody = static_cast<uint8_t>(info[1].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_signal_set_custody(packet, custody));
+}
+
+Napi::Value N_coap_signal_set_hold_off(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint32_t time_seconds = static_cast<uint32_t>(info[1].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_signal_set_hold_off(packet, time_seconds));
+}
+
+Napi::Value N_coap_signal_set_max_msg_size(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  uint32_t size = static_cast<uint32_t>(info[1].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_signal_set_max_msg_size(packet, size));
+}
+
+Napi::Value N_handle_coap_signal_message(const Napi::CallbackInfo& info) {
+  void* packet = info[0];
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), handle_coap_signal_message(packet, endpoint));
+}
+
+Napi::Value N_coap_init_engine(const Napi::CallbackInfo& info) {
+  (void)coap_init_engine();
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_receive(const Napi::CallbackInfo& info) {
+  OCMessage& message = *OCMessage::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), coap_receive(message));
+}
+
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_assert_all_roles(const Napi::CallbackInfo& info) {
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
@@ -445,8 +866,8 @@ Napi::Value N_oc_ignore_request(const Napi::CallbackInfo& info) {
 #if defined(XXX)
 Napi::Value N_oc_indicate_separate_response(const Napi::CallbackInfo& info) {
   OCRequest& request = *OCRequest::Unwrap(info[0].As<Napi::Object>());
-// 1 response, oc_separate_response_t*
-  (void)0;
+  OCSeparateResponse& response = *OCSeparateResponse::Unwrap(info[1].As<Napi::Object>());
+  (void)oc_indicate_separate_response(request, response);
   return info.Env().Undefined();
 }
 
@@ -626,9 +1047,9 @@ Napi::Value N_oc_send_response_raw(const Napi::CallbackInfo& info) {
 
 #if defined(XXX)
 Napi::Value N_oc_send_separate_response(const Napi::CallbackInfo& info) {
-// 0 handle, oc_separate_response_t*
+  OCSeparateResponse& handle = *OCSeparateResponse::Unwrap(info[0].As<Napi::Object>());
   oc_status_t response_code = static_cast<oc_status_t>(info[1].As<Napi::Number>().Uint32Value());
-  (void)0;
+  (void)oc_send_separate_response(handle, response_code);
   return info.Env().Undefined();
 }
 
@@ -642,8 +1063,8 @@ Napi::Value N_oc_set_con_write_cb(const Napi::CallbackInfo& info) {
 
 #if defined(XXX)
 Napi::Value N_oc_set_separate_response_buffer(const Napi::CallbackInfo& info) {
-// 0 handle, oc_separate_response_t*
-  (void)0;
+  OCSeparateResponse& handle = *OCSeparateResponse::Unwrap(info[0].As<Napi::Object>());
+  (void)oc_set_separate_response_buffer(handle);
   return info.Env().Undefined();
 }
 
@@ -675,6 +1096,85 @@ Napi::Value N_oc_timer_set(const Napi::CallbackInfo& info) {
   oc_clock_time_t interval = static_cast<uint64_t>(info[1].As<Napi::Number>().Int64Value());
   (void)oc_timer_set(t, interval);
   return info.Env().Undefined();
+}
+
+Napi::Value N_coap_free_all_observers(const Napi::CallbackInfo& info) {
+  (void)coap_free_all_observers();
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_notify_collection_baseline(const Napi::CallbackInfo& info) {
+  OCCollection& collection = *OCCollection::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), coap_notify_collection_baseline(collection));
+}
+
+Napi::Value N_coap_notify_collection_batch(const Napi::CallbackInfo& info) {
+  OCCollection& collection = *OCCollection::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), coap_notify_collection_batch(collection));
+}
+
+Napi::Value N_coap_notify_collection_links_list(const Napi::CallbackInfo& info) {
+  OCCollection& collection = *OCCollection::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), coap_notify_collection_links_list(collection));
+}
+
+Napi::Value N_coap_notify_collection_observers(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  OCResponseBuffer& response_buf = *OCResponseBuffer::Unwrap(info[1].As<Napi::Object>());
+  oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[2].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_notify_collection_observers(resource, response_buf, iface_mask));
+}
+
+Napi::Value N_coap_notify_observers(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  OCResponseBuffer& response_buf = *OCResponseBuffer::Unwrap(info[1].As<Napi::Object>());
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[2].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), coap_notify_observers(resource, response_buf, endpoint));
+}
+
+Napi::Value N_coap_observe_handler(const Napi::CallbackInfo& info) {
+  void* request = info[0];
+  void* response = info[1];
+  OCResource& resource = *OCResource::Unwrap(info[2].As<Napi::Object>());
+  uint16_t block2_size = static_cast<uint16_t>(info[3].As<Napi::Number>().Uint32Value());
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[4].As<Napi::Object>());
+  oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[5].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_observe_handler(request, response, resource, block2_size, endpoint, iface_mask));
+}
+
+Napi::Value N_coap_remove_observer(const Napi::CallbackInfo& info) {
+// 0 o, coap_observer_t*
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_remove_observer_by_client(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), coap_remove_observer_by_client(endpoint));
+}
+
+Napi::Value N_coap_remove_observer_by_mid(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  uint16_t mid = static_cast<uint16_t>(info[1].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_remove_observer_by_mid(endpoint, mid));
+}
+
+Napi::Value N_coap_remove_observer_by_resource(const Napi::CallbackInfo& info) {
+  OCResource& rsc = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), coap_remove_observer_by_resource(rsc));
+}
+
+Napi::Value N_coap_remove_observer_by_token(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  uint8_t* token = info[1].As<Napi::Buffer<uint8_t>>().Data();
+  size_t token_len = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_remove_observer_by_token(endpoint, token, token_len));
+}
+
+Napi::Value N_coap_remove_observers_on_dos_change(const Napi::CallbackInfo& info) {
+  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
+  bool reset = info[1].As<Napi::Boolean>().Value();
+  return Napi::Number::New(info.Env(), coap_remove_observers_on_dos_change(device, reset));
 }
 
 Napi::Value N_oc_add_device(const Napi::CallbackInfo& info) {
@@ -2953,6 +3453,79 @@ Napi::Value N_oc_uuid_to_str(const Napi::CallbackInfo& info) {
   char* buffer = const_cast<char*>(info[1].As<Napi::String>().Utf8Value().c_str());
   int buflen = static_cast<int>(info[2].As<Napi::Number>());
   (void)oc_uuid_to_str(uuid, buffer, buflen);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_separate_accept(const Napi::CallbackInfo& info) {
+  void* request = info[0];
+  OCSeparateResponse& separate_response = *OCSeparateResponse::Unwrap(info[1].As<Napi::Object>());
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[2].As<Napi::Object>());
+  int observe = static_cast<int>(info[3].As<Napi::Number>());
+  uint16_t block2_size = static_cast<uint16_t>(info[4].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), coap_separate_accept(request, separate_response, endpoint, observe, block2_size));
+}
+
+Napi::Value N_coap_separate_clear(const Napi::CallbackInfo& info) {
+  OCSeparateResponse& separate_response = *OCSeparateResponse::Unwrap(info[0].As<Napi::Object>());
+// 1 separate_store, coap_separate_t*
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_separate_resume(const Napi::CallbackInfo& info) {
+  void* response = info[0];
+// 1 separate_store, coap_separate_t*
+  uint8_t code = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
+  uint16_t mid = static_cast<uint16_t>(info[3].As<Napi::Number>().Uint32Value());
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_check_transactions(const Napi::CallbackInfo& info) {
+  (void)coap_check_transactions();
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_clear_transaction(const Napi::CallbackInfo& info) {
+// 0 t, coap_transaction_t*
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_free_all_transactions(const Napi::CallbackInfo& info) {
+  (void)coap_free_all_transactions();
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_free_transactions_by_endpoint(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  (void)coap_free_transactions_by_endpoint(endpoint);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_get_transaction_by_mid(const Napi::CallbackInfo& info) {
+  uint16_t mid = static_cast<uint16_t>(info[0].As<Napi::Number>().Uint32Value());
+  std::shared_ptr<coap_transaction_t> sp(coap_get_transaction_by_mid(mid));
+  auto args = Napi::External<std::shared_ptr<coap_transaction_t>>::New(info.Env(), &sp);
+  return coapTransaction::constructor.New({args});
+}
+
+Napi::Value N_coap_new_transaction(const Napi::CallbackInfo& info) {
+  uint16_t mid = static_cast<uint16_t>(info[0].As<Napi::Number>().Uint32Value());
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
+  std::shared_ptr<coap_transaction_t> sp(coap_new_transaction(mid, endpoint));
+  auto args = Napi::External<std::shared_ptr<coap_transaction_t>>::New(info.Env(), &sp);
+  return coapTransaction::constructor.New({args});
+}
+
+Napi::Value N_coap_register_as_transaction_handler(const Napi::CallbackInfo& info) {
+  (void)coap_register_as_transaction_handler();
+  return info.Env().Undefined();
+}
+
+Napi::Value N_coap_send_transaction(const Napi::CallbackInfo& info) {
+// 0 t, coap_transaction_t*
+  (void)0;
   return info.Env().Undefined();
 }
 

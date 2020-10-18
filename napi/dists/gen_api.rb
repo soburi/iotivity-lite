@@ -508,7 +508,7 @@ TYPEDEFS = {
 
 IGNORE_TYPES = {
 # nested type
-  "oc_response_t" => [ /response_buffer/, /separate_response/ ],
+  "oc_response_t" => [ /response_buffer/, /^separate_response$/ ],
   "oc_properties_cb_t" => [ /cb/, /get_props/, /set_props/, /user_data/ ],
   "oc_ace_subject_t" => [ /role/, /^authority$/ ],
   "oc_sec_cred_t" => [ /^role$/, /^authority$/, /ctx/, /^next$/],
@@ -529,8 +529,14 @@ IGNORE_TYPES = {
   "oc_message_s" => [/^next$/, /^pool$/],
   "oc_resource_s" => [/^next$/],
   "oc_role_t" => [/^next$/],
+  "coap_observer" => [/^next$/, /^resource$/, /^token$/,],
+  "coap_packet_t" => [/^alt_addr$/, /^buffer$/, /^etag$/, /^if_match$/, /^location_path$/, /^location_query$/, /^options$/, /^payload$/, /^proxy_scheme$/, /^proxy_uri$/, /^token$/, /^uri_host$/, /^uri_path$/, /^uri_query$/, ],
+  "coap_separate" => [/^token$/, /^next$/],
+  "coap_transaction" => [/^message$/, /^next$/],
+  "oc_response_buffer_s" => [/^buffer$/,],
+  "oc_separate_response_s" => [/^buffer$/, /.*OC_LIST_STRUCT.*/ ],
 # void pointer
-  "oc_blockwise_state_s" => [ /^next$/ ],
+  "oc_blockwise_state_s" => [ /^next$/, /^client_cb$/ ],
   "oc_client_cb_t" => [ /endpoint/, /user_data/, /^next$/],
   "oc_memb" => [/mem/, /buffers_avail_cb/],
   "oc_mmem" => [/ptr/, /^next$/],
@@ -543,6 +549,7 @@ IGNORE_TYPES = {
   "oc_request_t" => [/^origin$/, /^request_payload$/, /^resource$/, /^response$/], 
 
   "pool" => nil,
+  "@3" => nil,
 #  "oc_blockwise_request_state_s" => nil,
 #  "oc_blockwise_response_state_s" => nil,
 #  "oc_blockwise_role_t" => nil,
@@ -558,6 +565,25 @@ IGNORE_FUNCS = [
   'oc_memb_free',
   'PT_THREAD',
   'OC_PROCESS_NAME',
+  'coap_set_header_if_match',
+  'coap_set_header_proxy_scheme',
+  'coap_set_header_proxy_uri',
+  'coap_get_header_if_none_match',
+  'coap_set_header_location_path',
+  'coap_set_header_proxy_uri',
+  'coap_get_header_if_none_match',
+  'coap_set_header_location_path',
+  'coap_set_header_proxy_scheme',
+  'coap_set_header_proxy_uri',
+  'coap_get_header_if_none_match',
+  'coap_set_header_location_path',
+  'coap_set_header_proxy_scheme',
+  'coap_set_header_proxy_uri',
+  'coap_get_header_if_none_match',
+  'coap_set_header_location_path',
+  'coap_set_header_uri_host',
+  'coap_set_header_if_none_match',
+  'coap_get_observers',
 ]
 
 IFDEF_TYPES = {
@@ -718,6 +744,7 @@ IFDEF_FUNCS = {
 'oc_iterate_query_get_values'=>'defined(XXX)',
 'oc_send_separate_response'=>'defined(XXX)',
 'oc_set_separate_response_buffer'=>'defined(XXX)',
+'oc_indicate_separate_response'=>'defined(XXX)',
 'oc_blockwise_dispatch_block'=>'defined(XXX)',
 'oc_ri_alloc_client_cb'=>'defined(XXX)',
 'oc_ri_invoke_client_cb'=>'defined(XXX)',
@@ -740,7 +767,6 @@ IFDEF_FUNCS = {
 'oc_rep_get_string'=>'defined(XXX)',
 'oc_rep_get_encoder_buf' => 'defined(XXX)',
 'oc_rep_get_cbor_errno' => 'defined(XXX)',
-'oc_indicate_separate_response'=>'defined(XXX)',
 
 '_oc_memb_alloc' => 'defined(XXX)',
 '_oc_memb_free' => 'defined(XXX)',
@@ -880,7 +906,16 @@ def gen_getter_impl(key, k, v)
   elsif v =~ /\(\*\)/
     "  return #{k}_function;"
   else
-    "#error #{v} CLASSNAME::#{k}"
+    "#error #{v} CLASSNAME::#{k} gen_getter_impl"
+  end
+end
+
+def typedef_map(ty)
+  if TYPEDEFS[ty] != nil
+    p TYPEDEFS[ty]
+    TYPEDEFS[ty] 
+  else
+    ty
   end
 end
 
@@ -889,16 +924,16 @@ def gen_setter_impl(key, k, v)
     SETGET_OVERRIDE[key + "::" +k]["set"]
   elsif GENERIC_SET[v] != nil
     GENERIC_SET[v]
-  elsif STRUCTS.include?(v)
+  elsif STRUCTS.include?( typedef_map(v) )
     STRUCT_SET
-  elsif STRUCTS.include?(v.gsub(/\*$/,""))
+  elsif STRUCTS.include?( typedef_map(v.gsub(/\*$/,""))  )
     STRUCT_SET
-  elsif ENUMS.include?(v)
+  elsif ENUMS.include?( typedef_map(v) )
     ENUM_SET 
   elsif v =~ /\(\*\)/
     "  #{k}_function = value;"
   else
-    "#error #{v} CLASSNAME::#{k}"
+    "#error #{v} CLASSNAME::#{k} gen_setter_impl"
   end
 end
 
@@ -1187,6 +1222,14 @@ File.open('src/structs.h', 'w') do |f|
   f.print "#include <oc_connectivity.h>\n"
   f.print "#include <oc_assert.h>\n"
   f.print "#include <oc_mem_trace.h>\n"
+  f.print "#include <coap.h>\n"
+  f.print "#include <coap_signal.h>\n"
+  f.print "#include <constants.h>\n"
+  f.print "#include <engine.h>\n"
+  f.print "#include <observe.h>\n"
+  f.print "#include <oc_coap.h>\n"
+  f.print "#include <separate.h>\n"
+  f.print "#include <transactions.h>\n"
   f.print "}\n"
 
   struct_table.each do |key, h|
