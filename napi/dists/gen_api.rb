@@ -396,28 +396,32 @@ FUNC_OVERRIDE = {
               STR
   },
   'oc_main_init' => {
-    'invoke' => "\
-  handler.m_pvalue->init = nullptr;\n\
-  handler.m_pvalue->signal_event_loop = nullptr;\n\
-  handler.m_pvalue->register_resources = nullptr;\n\
-  handler.m_pvalue->requests_entry = nullptr;\n\
-  if(handler.init.Value().IsFunction() ) {\n\
-    oc_handler_init_ref.Reset(handler.init.Value());\n\
-    handler.m_pvalue->init = oc_handler_init_helper;\n\
-  }\n\
-  if(handler.signal_event_loop.Value().IsFunction() ) {\n\
-    oc_handler_signal_event_loop_ref.Reset(handler.signal_event_loop.Value());\n\
-    handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;\n\
-  }\n\
-  if(handler.register_resources.Value().IsFunction() ) {\n\
-    oc_handler_register_resources_ref.Reset(handler.register_resources.Value());\n\
-    handler.m_pvalue->register_resources = oc_handler_register_resources_helper;\n\
-  }\n\
-  if(handler.requests_entry.Value().IsFunction() ) {\n\
-    oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());\n\
-    handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;\n\
-  }\n\
-  return Napi::Number::New(info.Env(), oc_main_init(handler));"
+    'invoke' => <<~STR
+//
+  handler.m_pvalue->init = nullptr;
+  handler.m_pvalue->signal_event_loop = nullptr;
+  handler.m_pvalue->register_resources = nullptr;
+  handler.m_pvalue->requests_entry = nullptr;
+  if(handler.init.Value().IsFunction() ) {
+    oc_handler_init_ref.Reset(handler.init.Value());
+    handler.m_pvalue->init = oc_handler_init_helper;
+  }
+  if(handler.signal_event_loop.Value().IsFunction() ) {
+    oc_handler_signal_event_loop_ref = Napi::ThreadSafeFunction::New(info.Env(),
+                              handler.signal_event_loop.Value().As<Napi::Function>(),
+                              "oc_handler_signal_event_loop_ref", 0, 1);
+    handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
+  }
+  if(handler.register_resources.Value().IsFunction() ) {
+    oc_handler_register_resources_ref.Reset(handler.register_resources.Value());
+    handler.m_pvalue->register_resources = oc_handler_register_resources_helper;
+  }
+  if(handler.requests_entry.Value().IsFunction() ) {
+    oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());
+    handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;
+  }
+  return Napi::Number::New(info.Env(), oc_main_init(handler));
+STR
   },
   'oc_swupdate_set_impl' => {
     'invoke' => "\
@@ -1131,7 +1135,7 @@ def gen_funcimpl(name, param)
   end
 
   if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name]['invoke']
-    decl +=  FUNC_OVERRIDE[name]['invoke'] + "  /*\n " + invoke + "  */\n"
+    decl +=  FUNC_OVERRIDE[name]['invoke'] + "\n" #+ "  /*\n " + invoke + "  */\n"
   else
     decl += invoke
   end

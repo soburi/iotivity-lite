@@ -1,20 +1,4 @@
 #include "functions.h"
-#include <thread>
-
-
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <WinSock2.h>
-#include <Mswsock.h>
-#include <iphlpapi.h>
-#include <ws2tcpip.h>
-#ifdef OC_DYNAMIC_ALLOCATION
-#include <malloc.h>
-#endif /* OC_DYNAMIC_ALLOCATION */
-#ifdef OC_TCP
-#include "tcpadapter.h"
-#endif
-
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_assert_all_roles(const Napi::CallbackInfo& info) {
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
@@ -753,38 +737,9 @@ Napi::Value N_oc_is_owned_device(const Napi::CallbackInfo& info) {
 }
 
 #endif
-
-constexpr size_t ARRAY_LENGTH = 10;
-
-void threadEntry(void *context) {
-  // This callback transforms the native addon data (int *data) to JavaScript
-  // values. It also receives the treadsafe-function's registered callback, and
-  // may choose to call it.
-  //auto callback = [](Napi::Env env, Napi::Function jsCallback, int *data) {
-  auto callback = [](Napi::Env env, Napi::Function jsCallback) {
-    printf("callback\n");
-    //jsCallback.Call({Napi::Number::New(env, *data)});
-    jsCallback.Call({});
-  };
-
-  for (size_t index = 0; index < ARRAY_LENGTH; ++index) {
-    printf("for\n");
-    // Perform a call into JavaScript.
-    napi_status status =
-        //context->tsfn.BlockingCall(&context->ints[index], callback);
-	oc_handler_signal_event_loop_ref.BlockingCall(callback);
-
-    if (status != napi_ok) {
-      Napi::Error::Fatal("ThreadEntry", "Napi::ThreadSafeNapi::Function.BlockingCall() failed");
-    }
-    // Sleep for some time.
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
-  }
-}
-
 Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
-
   OCHandler& handler = *OCHandler::Unwrap(info[0].As<Napi::Object>());
+//
   handler.m_pvalue->init = nullptr;
   handler.m_pvalue->signal_event_loop = nullptr;
   handler.m_pvalue->register_resources = nullptr;
@@ -807,14 +762,8 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
     oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());
     handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;
   }
+  return Napi::Number::New(info.Env(), oc_main_init(handler));
 
-
-  
-
-  return Napi::Number::New(info.Env(), oc_main_init(handler));//(uint32_t)-1);//oc_main_init(handler));  
-  /*
-   return Napi::Number::New(info.Env(), oc_main_init(handler));
-  */
 }
 
 Napi::Value N_oc_main_poll(const Napi::CallbackInfo& info) {
@@ -2993,10 +2942,7 @@ Napi::Value N_oc_swupdate_set_impl(const Napi::CallbackInfo& info) {
   swupdate_impl.m_pvalue->download_update = oc_swupdate_cb_download_update_helper;
   swupdate_impl.m_pvalue->perform_upgrade = oc_swupdate_cb_perform_upgrade_helper;
   (void)oc_swupdate_set_impl(swupdate_impl);
-  return info.Env().Undefined();  /*
-   (void)oc_swupdate_set_impl(swupdate_impl);
   return info.Env().Undefined();
-  */
 }
 
 #endif
