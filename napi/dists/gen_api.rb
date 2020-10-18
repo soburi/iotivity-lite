@@ -397,14 +397,26 @@ FUNC_OVERRIDE = {
   },
   'oc_main_init' => {
     'invoke' => "\
-  oc_handler_init_ref.Reset(handler.init.Value());\n\
-  oc_handler_signal_event_loop_ref.Reset(handler.signal_event_loop.Value());\n\
-  oc_handler_register_resources_ref.Reset(handler.init.Value());\n\
-  oc_handler_requests_entry_ref.Reset(handler.signal_event_loop.Value());\n\
-  handler.m_pvalue->init = oc_handler_init_helper;\n\
-  handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;\n\
-  handler.m_pvalue->register_resources = oc_handler_register_resources_helper;\n\
-  handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;\n\
+  handler.m_pvalue->init = nullptr;\n\
+  handler.m_pvalue->signal_event_loop = nullptr;\n\
+  handler.m_pvalue->register_resources = nullptr;\n\
+  handler.m_pvalue->requests_entry = nullptr;\n\
+  if(handler.init.Value().IsFunction() ) {\n\
+    oc_handler_init_ref.Reset(handler.init.Value());\n\
+    handler.m_pvalue->init = oc_handler_init_helper;\n\
+  }\n\
+  if(handler.signal_event_loop.Value().IsFunction() ) {\n\
+    oc_handler_signal_event_loop_ref.Reset(handler.signal_event_loop.Value());\n\
+    handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;\n\
+  }\n\
+  if(handler.register_resources.Value().IsFunction() ) {\n\
+    oc_handler_register_resources_ref.Reset(handler.register_resources.Value());\n\
+    handler.m_pvalue->register_resources = oc_handler_register_resources_helper;\n\
+  }\n\
+  if(handler.requests_entry.Value().IsFunction() ) {\n\
+    oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());\n\
+    handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;\n\
+  }\n\
   return Napi::Number::New(info.Env(), oc_main_init(handler));"
   },
   'oc_swupdate_set_impl' => {
@@ -583,7 +595,7 @@ IFDEF_FUNCS = {
   'oc_obt_ace_new_resource' => 'defined(OC_SECURITY)',
   'oc_obt_ace_resource_set_href' => 'defined(OC_SECURITY)',
   'oc_obt_ace_resource_set_wc' => 'defined(OC_SECURITY)',
-  'oc_obt_add_roleid' => 'defined(OC_SECURITY)',
+  'oc_obt_add_roleid' => 'defined(OC_SECURITY) && defined(OC_PKI)',
   'oc_obt_delete_ace_by_aceid' => 'defined(OC_SECURITY)',
   'oc_obt_delete_cred_by_credid' => 'defined(OC_SECURITY)',
   'oc_obt_delete_own_cred_by_credid' => 'defined(OC_SECURITY)',
@@ -598,19 +610,19 @@ IFDEF_FUNCS = {
   'oc_obt_free_ace' => 'defined(OC_SECURITY)',
   'oc_obt_free_acl' => 'defined(OC_SECURITY)',
   'oc_obt_free_creds' => 'defined(OC_SECURITY)',
-  'oc_obt_free_roleid' => 'defined(OC_SECURITY)',
+  'oc_obt_free_roleid' => 'defined(OC_SECURITY) && defined(OC_PKI)',
   'oc_obt_init' => 'defined(OC_SECURITY)',
   'oc_obt_new_ace_for_connection' => 'defined(OC_SECURITY)',
   'oc_obt_new_ace_for_role' => 'defined(OC_SECURITY)',
   'oc_obt_new_ace_for_subject' => 'defined(OC_SECURITY)',
-  'oc_obt_perform_cert_otm' => 'defined(OC_SECURITY)',
+  'oc_obt_perform_cert_otm' => 'defined(OC_SECURITY) && defined(OC_PKI)',
   'oc_obt_perform_just_works_otm' => 'defined(OC_SECURITY)',
   'oc_obt_perform_random_pin_otm' => 'defined(OC_SECURITY)',
   'oc_obt_provision_ace' => 'defined(OC_SECURITY)',
   'oc_obt_provision_auth_wildcard_ace' => 'defined(OC_SECURITY)',
-  'oc_obt_provision_identity_certificate' => 'defined(OC_SECURITY)',
+  'oc_obt_provision_identity_certificate' => 'defined(OC_SECURITY) && defined(OC_PKI)',
   'oc_obt_provision_pairwise_credentials' => 'defined(OC_SECURITY)',
-  'oc_obt_provision_role_certificate' => 'defined(OC_SECURITY)',
+  'oc_obt_provision_role_certificate' => 'defined(OC_SECURITY) && defined(OC_PKI)',
   'oc_obt_provision_role_wildcard_ace' => 'defined(OC_SECURITY)',
   'oc_obt_request_random_pin' => 'defined(OC_SECURITY)',
   'oc_obt_retrieve_acl' => 'defined(OC_SECURITY)',
@@ -620,20 +632,20 @@ IFDEF_FUNCS = {
   'oc_obt_shutdown' => 'defined(OC_SECURITY)',
   'oc_assert_all_roles' => 'defined(OC_SECURITY) && defined(OC_PKI)',
   'oc_assert_role' => 'defined(OC_SECURITY) && defined(OC_PKI)',
-  'oc_auto_assert_roles' => 'defined(OC_SECURITY)',
+  'oc_auto_assert_roles' => 'defined(OC_SECURITY) && defined(OC_PKI)',
   'oc_close_all_tls_sessions' => 'defined(OC_SECURITY)',
   'oc_close_all_tls_sessions_for_device' => 'defined(OC_SECURITY)',
   'oc_cred_credtype_string' => 'defined(OC_SECURITY)',
-  'oc_cred_parse_credusage' => 'defined(OC_SECURITY)',
+  'oc_cred_parse_credusage' => 'defined(OC_SECURITY) && defined(OC_PKI)',
   'oc_cred_parse_encoding' => 'defined(OC_SECURITY)',
-  'oc_cred_read_credusage' => 'defined(OC_SECURITY)',
+  'oc_cred_read_credusage' => 'defined(OC_SECURITY) && defined(OC_PKI)',
   'oc_cred_read_encoding' => 'defined(OC_SECURITY)',
   'oc_get_all_roles' => 'defined(OC_SECURITY) && defined(OC_PKI)',
   'oc_is_owned_device' => 'defined(OC_SECURITY)',
-  'oc_pki_add_mfg_cert' => 'defined(OC_SECURITY)',
-  'oc_pki_add_mfg_intermediate_cert' => 'defined(OC_SECURITY)',
-  'oc_pki_add_mfg_trust_anchor' => 'defined(OC_SECURITY)',
-  'oc_pki_add_trust_anchor' => 'defined(OC_SECURITY)',
+  'oc_pki_add_mfg_cert' => 'defined(OC_SECURITY) && defined(OC_PKI)',
+  'oc_pki_add_mfg_intermediate_cert' => 'defined(OC_SECURITY) && defined(OC_PKI)',
+  'oc_pki_add_mfg_trust_anchor' => 'defined(OC_SECURITY) && defined(OC_PKI)',
+  'oc_pki_add_trust_anchor' => 'defined(OC_SECURITY) && defined(OC_PKI)',
   'oc_pki_set_security_profile' => 'defined(OC_SECURITY)',
   'oc_remove_ownership_status_cb' => 'defined(OC_SECURITY)',
   'oc_reset' => 'defined(OC_SECURITY)',
@@ -642,7 +654,27 @@ IFDEF_FUNCS = {
   'oc_sec_pstat_set_current_mode' => 'defined(OC_SECURITY) && defined(OC_SOFTWARE_UPDATE)',
   'oc_set_random_pin_callback' => 'defined(OC_SECURITY)',
   'oc_add_ownership_status_cb' => 'defined(OC_SECURITY)',
-
+  'oc_cloud_add_resource' => 'defined(OC_CLOUD)',
+  'oc_cloud_delete_resource' => 'defined(OC_CLOUD)',
+  'oc_cloud_deregister' => 'defined(OC_CLOUD)',
+  'oc_cloud_discover_resources' => 'defined(OC_CLOUD)',
+  'oc_cloud_get_context' => 'defined(OC_CLOUD)',
+  'oc_cloud_get_token_expiry' => 'defined(OC_CLOUD)',
+  'oc_cloud_login' => 'defined(OC_CLOUD)',
+  'oc_cloud_logout' => 'defined(OC_CLOUD)',
+  'oc_cloud_manager_start' => 'defined(OC_CLOUD)',
+  'oc_cloud_manager_stop' => 'defined(OC_CLOUD)',
+  'oc_cloud_provision_conf_resource' => 'defined(OC_CLOUD)',
+  'oc_cloud_publish_resources' => 'defined(OC_CLOUD)',
+  'oc_cloud_refresh_token' => 'defined(OC_CLOUD)',
+  'oc_cloud_register' => 'defined(OC_CLOUD)',
+  'oc_session_start_event' => 'defined(OC_TCP)',
+  'oc_session_end_event' => 'defined(OC_TCP)',
+  'oc_session_events_is_ongoing' => 'defined(OC_TCP)',
+  'oc_session_events_set_event_delay' => 'defined(OC_TCP)',
+  'oc_remove_ping_handler' => 'defined(OC_TCP)',
+  'oc_connectivity_end_session' => 'defined(OC_TCP)',
+  'oc_set_introspection_data' => 'defined(OC_IDD_API)',
 "PT_THREAD" => "defined(XXX)",
 "OC_PROCESS_NAME" => "defined(XXX)",
 

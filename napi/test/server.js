@@ -18,24 +18,34 @@ function init_platform_cb(parm) {
   console.log("init_platform_cb");
   console.log(param);
 
+  var stack = new Error().stack
+  console.log( stack )
 }
 
 function add_device_cb(param) {
   console.log("add_device_cb");
   console.log(param);
+  var stack = new Error().stack
+  console.log( stack )
 
 }
 
 function app_init()
 {
+  var stack = new Error().stack
+  console.log( stack )
+
   console.log("app_init");
   var ret;
   console.log("call oc_init_platform");
   ret = IotivityLite.oc_init_platform("Intel", init_platform_cb, "init_platform_cb_param");
   console.log("end call oc_init_platform");
+  console.log("call oc_add_device");
   ret = IotivityLite.oc_add_device("/oic/d", "oic.d.light", "Kishen's light", "ocf.1.0.0",
                        "ocf.res.1.0.0", add_device_cb, "add_device_cb_param");
-  console.log("end app_init");
+  console.log("end oc_add_device");
+  var stack = new Error().stack
+  console.log( stack )
   return ret;
 }
 
@@ -114,10 +124,12 @@ function register_resources()
 
 function signal_event_loop()
 {
-  console.log("signal_event_loop");
+  console.log("---- signal_event_loop ---");
   //pthread_mutex_lock(&mutex);
   //pthread_cond_signal(&cv);
   //pthread_mutex_unlock(&mutex);
+  var stack = new Error().stack
+  console.log( stack )
 }
 
 function handle_signal()
@@ -136,7 +148,7 @@ function handle_signal()
   var handler = new IotivityLite.OCHandler();
   handler.init = app_init;
   handler.signal_event_loop = signal_event_loop;
-//  handler.register_resources = function() { console.log("-- register_resources --"); };//register_resources;
+  handler.register_resources = register_resources;
 //  handler.request_entry = function() { console.log("-- request_entry --"); };
 
   console.log("IotivityLite.oc_main_init(handler)");

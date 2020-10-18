@@ -5,7 +5,7 @@ Napi::Value N_oc_assert_all_roles(const Napi::CallbackInfo&);
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_assert_role(const Napi::CallbackInfo&);
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_auto_assert_roles(const Napi::CallbackInfo&);
 #endif
 #if defined(OC_SECURITY) && defined(OC_PKI)
@@ -210,20 +210,48 @@ Napi::Value N_oc_clock_wait(const Napi::CallbackInfo&);
 Napi::Value N_oc_clock_encode_time_rfc3339(const Napi::CallbackInfo&);
 Napi::Value N_oc_clock_parse_time_rfc3339(const Napi::CallbackInfo&);
 Napi::Value N_oc_clock_time_rfc3339(const Napi::CallbackInfo&);
+#if defined(OC_CLOUD)
 Napi::Value N_oc_cloud_add_resource(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_CLOUD)
 Napi::Value N_oc_cloud_delete_resource(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_CLOUD)
 Napi::Value N_oc_cloud_deregister(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_CLOUD)
 Napi::Value N_oc_cloud_discover_resources(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_CLOUD)
 Napi::Value N_oc_cloud_get_context(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_CLOUD)
 Napi::Value N_oc_cloud_get_token_expiry(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_CLOUD)
 Napi::Value N_oc_cloud_login(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_CLOUD)
 Napi::Value N_oc_cloud_logout(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_CLOUD)
 Napi::Value N_oc_cloud_manager_start(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_CLOUD)
 Napi::Value N_oc_cloud_manager_stop(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_CLOUD)
 Napi::Value N_oc_cloud_provision_conf_resource(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_CLOUD)
 Napi::Value N_oc_cloud_publish_resources(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_CLOUD)
 Napi::Value N_oc_cloud_refresh_token(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_CLOUD)
 Napi::Value N_oc_cloud_register(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_check_if_collection(const Napi::CallbackInfo&);
 Napi::Value N_oc_collection_add(const Napi::CallbackInfo&);
 Napi::Value N_oc_collection_alloc(const Napi::CallbackInfo&);
@@ -239,7 +267,9 @@ Napi::Value N_oc_handle_collection_request(const Napi::CallbackInfo&);
 Napi::Value N_oc_link_set_interfaces(const Napi::CallbackInfo&);
 Napi::Value N_handle_network_interface_event_callback(const Napi::CallbackInfo&);
 Napi::Value N_handle_session_event_callback(const Napi::CallbackInfo&);
+#if defined(OC_TCP)
 Napi::Value N_oc_connectivity_end_session(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_connectivity_get_endpoints(const Napi::CallbackInfo&);
 Napi::Value N_oc_connectivity_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_connectivity_shutdown(const Napi::CallbackInfo&);
@@ -276,13 +306,13 @@ Napi::Value N_oc_store_uri(const Napi::CallbackInfo&);
 #if defined(OC_SECURITY)
 Napi::Value N_oc_cred_credtype_string(const Napi::CallbackInfo&);
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_cred_parse_credusage(const Napi::CallbackInfo&);
 #endif
 #if defined(OC_SECURITY)
 Napi::Value N_oc_cred_parse_encoding(const Napi::CallbackInfo&);
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_cred_read_credusage(const Napi::CallbackInfo&);
 #endif
 #if defined(OC_SECURITY)
@@ -325,7 +355,9 @@ Napi::Value N__oc_string_array_add_item(const Napi::CallbackInfo&);
 #endif
 Napi::Value N_oc_concat_strings(const Napi::CallbackInfo&);
 Napi::Value N_oc_join_string_array(const Napi::CallbackInfo&);
+#if defined(OC_IDD_API)
 Napi::Value N_oc_set_introspection_data(const Napi::CallbackInfo&);
+#endif
 #if defined(XXX)
 Napi::Value N_oc_list_add(const Napi::CallbackInfo&);
 #endif
@@ -406,7 +438,7 @@ Napi::Value N_oc_obt_ace_resource_set_href(const Napi::CallbackInfo&);
 #if defined(OC_SECURITY)
 Napi::Value N_oc_obt_ace_resource_set_wc(const Napi::CallbackInfo&);
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_obt_add_roleid(const Napi::CallbackInfo&);
 #endif
 #if defined(OC_SECURITY)
@@ -451,7 +483,7 @@ Napi::Value N_oc_obt_free_acl(const Napi::CallbackInfo&);
 #if defined(OC_SECURITY)
 Napi::Value N_oc_obt_free_creds(const Napi::CallbackInfo&);
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_obt_free_roleid(const Napi::CallbackInfo&);
 #endif
 #if defined(OC_SECURITY)
@@ -466,7 +498,7 @@ Napi::Value N_oc_obt_new_ace_for_role(const Napi::CallbackInfo&);
 #if defined(OC_SECURITY)
 Napi::Value N_oc_obt_new_ace_for_subject(const Napi::CallbackInfo&);
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_obt_perform_cert_otm(const Napi::CallbackInfo&);
 #endif
 #if defined(OC_SECURITY)
@@ -481,13 +513,13 @@ Napi::Value N_oc_obt_provision_ace(const Napi::CallbackInfo&);
 #if defined(OC_SECURITY)
 Napi::Value N_oc_obt_provision_auth_wildcard_ace(const Napi::CallbackInfo&);
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_obt_provision_identity_certificate(const Napi::CallbackInfo&);
 #endif
 #if defined(OC_SECURITY)
 Napi::Value N_oc_obt_provision_pairwise_credentials(const Napi::CallbackInfo&);
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_obt_provision_role_certificate(const Napi::CallbackInfo&);
 #endif
 #if defined(OC_SECURITY)
@@ -511,16 +543,16 @@ Napi::Value N_oc_obt_set_sd_info(const Napi::CallbackInfo&);
 #if defined(OC_SECURITY)
 Napi::Value N_oc_obt_shutdown(const Napi::CallbackInfo&);
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_pki_add_mfg_cert(const Napi::CallbackInfo&);
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_pki_add_mfg_intermediate_cert(const Napi::CallbackInfo&);
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_pki_add_mfg_trust_anchor(const Napi::CallbackInfo&);
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_pki_add_trust_anchor(const Napi::CallbackInfo&);
 #endif
 #if defined(OC_SECURITY)
@@ -600,9 +632,15 @@ Napi::Value N_oc_ri_is_app_resource_valid(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_remove_timed_event_callback(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_shutdown(const Napi::CallbackInfo&);
 Napi::Value N_oc_status_code(const Napi::CallbackInfo&);
+#if defined(OC_TCP)
 Napi::Value N_oc_session_end_event(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_TCP)
 Napi::Value N_oc_session_events_set_event_delay(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_TCP)
 Napi::Value N_oc_session_start_event(const Napi::CallbackInfo&);
+#endif
 Napi::Value N__oc_signal_event_loop(const Napi::CallbackInfo&);
 Napi::Value N_oc_storage_config(const Napi::CallbackInfo&);
 Napi::Value N_oc_storage_read(const Napi::CallbackInfo&);

@@ -34,44 +34,29 @@ callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, int idx
 
 void oc_init_platform_helper(void* param)
 {
-printf("oc_init_platform_helper\n");
+printf("oc_init_platform_helper");
+/*
   callback_helper_t* helper = (callback_helper_t*)param;
 //  Napi::HandleScope(helper->function.Env());
 //  Napi::CallbackScope scope(helper->function.Env(), helper->async_context);
   helper->function.MakeCallback(helper->function.Env().Null(), {helper->value.Value()});
 printf("end oc_init_platform_helper\n");
+*/
 }
 
 int oc_handler_init_helper()
 {
-printf("oc_handler_init_helper()\n");
-  //Napi::CallbackScope scope(oc_handler_init_ref.Env(), nullptr);
-  callback_helper_t* helper = oc_handler_init_helper_data;
-//  Napi::CallbackScope scope(helper->function.Env(), helper->async_context);
   Napi::Value ret = oc_handler_init_ref.Call({});
-printf("end call oc_handler_init_ref\n");
-  //Napi::Value ret = helper->function.MakeCallback(helper->function.Env().Null(), {});
   if(ret.IsNumber()) {
     return ret.As<Napi::Number>().Int32Value();
   }
   return 0;
 }
 
-void oc_add_device_helper(void* param)
-{
-printf("oc_add_device_helper\n");
-  callback_helper_t* helper = (callback_helper_t*)param;
-  Napi::CallbackScope scope(helper->function.Env(), helper->async_context);
-  helper->function.MakeCallback(helper->function.Env().Null(), {helper->value.Value()});
-printf("end oc_add_device_helper\n");
-}
-
-
-
-
 void oc_handler_signal_event_loop_helper()
 {
-  oc_handler_signal_event_loop_ref.Call({});
+  //oc_handler_signal_event_loop_ref.Call({});
+OC_DBG("exit\n");
 }
 
 void oc_handler_register_resources_helper()
@@ -81,7 +66,16 @@ void oc_handler_register_resources_helper()
 
 void oc_handler_requests_entry_helper()
 {
-  oc_handler_requests_entry_ref.Call({});
+  //oc_handler_requests_entry_ref.Call({});
+}
+
+void oc_add_device_helper(void* param)
+{
+printf("oc_add_device_helper\n");
+  callback_helper_t* helper = (callback_helper_t*)param;
+  Napi::CallbackScope scope(helper->function.Env(), helper->async_context);
+  helper->function.MakeCallback(helper->function.Env().Null(), {helper->value.Value()});
+printf("end oc_add_device_helper\n");
 }
 
 int oc_swupdate_cb_validate_purl_helper(const char *url)

@@ -84,7 +84,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
 #if defined(OC_SECURITY) && defined(OC_PKI)
   exports.Set("oc_assert_role", Napi::Function::New(env, N_oc_assert_role));
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
   exports.Set("oc_auto_assert_roles", Napi::Function::New(env, N_oc_auto_assert_roles));
 #endif
 #if defined(OC_SECURITY) && defined(OC_PKI)
@@ -289,20 +289,48 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_clock_encode_time_rfc3339", Napi::Function::New(env, N_oc_clock_encode_time_rfc3339));
   exports.Set("oc_clock_parse_time_rfc3339", Napi::Function::New(env, N_oc_clock_parse_time_rfc3339));
   exports.Set("oc_clock_time_rfc3339", Napi::Function::New(env, N_oc_clock_time_rfc3339));
+#if defined(OC_CLOUD)
   exports.Set("oc_cloud_add_resource", Napi::Function::New(env, N_oc_cloud_add_resource));
+#endif
+#if defined(OC_CLOUD)
   exports.Set("oc_cloud_delete_resource", Napi::Function::New(env, N_oc_cloud_delete_resource));
+#endif
+#if defined(OC_CLOUD)
   exports.Set("oc_cloud_deregister", Napi::Function::New(env, N_oc_cloud_deregister));
+#endif
+#if defined(OC_CLOUD)
   exports.Set("oc_cloud_discover_resources", Napi::Function::New(env, N_oc_cloud_discover_resources));
+#endif
+#if defined(OC_CLOUD)
   exports.Set("oc_cloud_get_context", Napi::Function::New(env, N_oc_cloud_get_context));
+#endif
+#if defined(OC_CLOUD)
   exports.Set("oc_cloud_get_token_expiry", Napi::Function::New(env, N_oc_cloud_get_token_expiry));
+#endif
+#if defined(OC_CLOUD)
   exports.Set("oc_cloud_login", Napi::Function::New(env, N_oc_cloud_login));
+#endif
+#if defined(OC_CLOUD)
   exports.Set("oc_cloud_logout", Napi::Function::New(env, N_oc_cloud_logout));
+#endif
+#if defined(OC_CLOUD)
   exports.Set("oc_cloud_manager_start", Napi::Function::New(env, N_oc_cloud_manager_start));
+#endif
+#if defined(OC_CLOUD)
   exports.Set("oc_cloud_manager_stop", Napi::Function::New(env, N_oc_cloud_manager_stop));
+#endif
+#if defined(OC_CLOUD)
   exports.Set("oc_cloud_provision_conf_resource", Napi::Function::New(env, N_oc_cloud_provision_conf_resource));
+#endif
+#if defined(OC_CLOUD)
   exports.Set("oc_cloud_publish_resources", Napi::Function::New(env, N_oc_cloud_publish_resources));
+#endif
+#if defined(OC_CLOUD)
   exports.Set("oc_cloud_refresh_token", Napi::Function::New(env, N_oc_cloud_refresh_token));
+#endif
+#if defined(OC_CLOUD)
   exports.Set("oc_cloud_register", Napi::Function::New(env, N_oc_cloud_register));
+#endif
   exports.Set("oc_check_if_collection", Napi::Function::New(env, N_oc_check_if_collection));
   exports.Set("oc_collection_add", Napi::Function::New(env, N_oc_collection_add));
   exports.Set("oc_collection_alloc", Napi::Function::New(env, N_oc_collection_alloc));
@@ -318,7 +346,9 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_link_set_interfaces", Napi::Function::New(env, N_oc_link_set_interfaces));
   exports.Set("handle_network_interface_event_callback", Napi::Function::New(env, N_handle_network_interface_event_callback));
   exports.Set("handle_session_event_callback", Napi::Function::New(env, N_handle_session_event_callback));
+#if defined(OC_TCP)
   exports.Set("oc_connectivity_end_session", Napi::Function::New(env, N_oc_connectivity_end_session));
+#endif
   exports.Set("oc_connectivity_get_endpoints", Napi::Function::New(env, N_oc_connectivity_get_endpoints));
   exports.Set("oc_connectivity_init", Napi::Function::New(env, N_oc_connectivity_init));
   exports.Set("oc_connectivity_shutdown", Napi::Function::New(env, N_oc_connectivity_shutdown));
@@ -355,13 +385,13 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
 #if defined(OC_SECURITY)
   exports.Set("oc_cred_credtype_string", Napi::Function::New(env, N_oc_cred_credtype_string));
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
   exports.Set("oc_cred_parse_credusage", Napi::Function::New(env, N_oc_cred_parse_credusage));
 #endif
 #if defined(OC_SECURITY)
   exports.Set("oc_cred_parse_encoding", Napi::Function::New(env, N_oc_cred_parse_encoding));
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
   exports.Set("oc_cred_read_credusage", Napi::Function::New(env, N_oc_cred_read_credusage));
 #endif
 #if defined(OC_SECURITY)
@@ -404,7 +434,9 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
 #endif
   exports.Set("oc_concat_strings", Napi::Function::New(env, N_oc_concat_strings));
   exports.Set("oc_join_string_array", Napi::Function::New(env, N_oc_join_string_array));
+#if defined(OC_IDD_API)
   exports.Set("oc_set_introspection_data", Napi::Function::New(env, N_oc_set_introspection_data));
+#endif
 #if defined(XXX)
   exports.Set("oc_list_add", Napi::Function::New(env, N_oc_list_add));
 #endif
@@ -485,7 +517,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
 #if defined(OC_SECURITY)
   exports.Set("oc_obt_ace_resource_set_wc", Napi::Function::New(env, N_oc_obt_ace_resource_set_wc));
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
   exports.Set("oc_obt_add_roleid", Napi::Function::New(env, N_oc_obt_add_roleid));
 #endif
 #if defined(OC_SECURITY)
@@ -530,7 +562,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
 #if defined(OC_SECURITY)
   exports.Set("oc_obt_free_creds", Napi::Function::New(env, N_oc_obt_free_creds));
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
   exports.Set("oc_obt_free_roleid", Napi::Function::New(env, N_oc_obt_free_roleid));
 #endif
 #if defined(OC_SECURITY)
@@ -545,7 +577,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
 #if defined(OC_SECURITY)
   exports.Set("oc_obt_new_ace_for_subject", Napi::Function::New(env, N_oc_obt_new_ace_for_subject));
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
   exports.Set("oc_obt_perform_cert_otm", Napi::Function::New(env, N_oc_obt_perform_cert_otm));
 #endif
 #if defined(OC_SECURITY)
@@ -560,13 +592,13 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
 #if defined(OC_SECURITY)
   exports.Set("oc_obt_provision_auth_wildcard_ace", Napi::Function::New(env, N_oc_obt_provision_auth_wildcard_ace));
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
   exports.Set("oc_obt_provision_identity_certificate", Napi::Function::New(env, N_oc_obt_provision_identity_certificate));
 #endif
 #if defined(OC_SECURITY)
   exports.Set("oc_obt_provision_pairwise_credentials", Napi::Function::New(env, N_oc_obt_provision_pairwise_credentials));
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
   exports.Set("oc_obt_provision_role_certificate", Napi::Function::New(env, N_oc_obt_provision_role_certificate));
 #endif
 #if defined(OC_SECURITY)
@@ -590,16 +622,16 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
 #if defined(OC_SECURITY)
   exports.Set("oc_obt_shutdown", Napi::Function::New(env, N_oc_obt_shutdown));
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
   exports.Set("oc_pki_add_mfg_cert", Napi::Function::New(env, N_oc_pki_add_mfg_cert));
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
   exports.Set("oc_pki_add_mfg_intermediate_cert", Napi::Function::New(env, N_oc_pki_add_mfg_intermediate_cert));
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
   exports.Set("oc_pki_add_mfg_trust_anchor", Napi::Function::New(env, N_oc_pki_add_mfg_trust_anchor));
 #endif
-#if defined(OC_SECURITY)
+#if defined(OC_SECURITY) && defined(OC_PKI)
   exports.Set("oc_pki_add_trust_anchor", Napi::Function::New(env, N_oc_pki_add_trust_anchor));
 #endif
 #if defined(OC_SECURITY)
@@ -679,9 +711,15 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_ri_remove_timed_event_callback", Napi::Function::New(env, N_oc_ri_remove_timed_event_callback));
   exports.Set("oc_ri_shutdown", Napi::Function::New(env, N_oc_ri_shutdown));
   exports.Set("oc_status_code", Napi::Function::New(env, N_oc_status_code));
+#if defined(OC_TCP)
   exports.Set("oc_session_end_event", Napi::Function::New(env, N_oc_session_end_event));
+#endif
+#if defined(OC_TCP)
   exports.Set("oc_session_events_set_event_delay", Napi::Function::New(env, N_oc_session_events_set_event_delay));
+#endif
+#if defined(OC_TCP)
   exports.Set("oc_session_start_event", Napi::Function::New(env, N_oc_session_start_event));
+#endif
   exports.Set("_oc_signal_event_loop", Napi::Function::New(env, N__oc_signal_event_loop));
   exports.Set("oc_storage_config", Napi::Function::New(env, N_oc_storage_config));
   exports.Set("oc_storage_read", Napi::Function::New(env, N_oc_storage_read));
