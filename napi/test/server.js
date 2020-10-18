@@ -167,6 +167,8 @@ function handle_signal()
     }
     //pthread_mutex_unlock(&mutex);
   }
-
-  IotivityLite.oc_main_shutdown();
 */
+
+  console.log("IotivityLite.oc_main_shutdown(handler)");
+  IotivityLite.oc_main_shutdown();
+  console.log("end IotivityLite.oc_main_shutdown(handler)");

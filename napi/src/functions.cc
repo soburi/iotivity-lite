@@ -771,6 +771,7 @@ Napi::Value N_oc_main_poll(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_main_shutdown(const Napi::CallbackInfo& info) {
+  oc_handler_signal_event_loop_ref.Release();
   (void)oc_main_shutdown();
   return info.Env().Undefined();
 }

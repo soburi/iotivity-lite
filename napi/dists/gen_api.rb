@@ -423,6 +423,10 @@ FUNC_OVERRIDE = {
   return Napi::Number::New(info.Env(), oc_main_init(handler));
 STR
   },
+  'oc_main_shutdown' => "\
+  oc_handler_signal_event_loop_ref.Release();\n\
+  (void)oc_main_shutdown();\n\
+  return info.Env().Undefined();\n" ,
   'oc_swupdate_set_impl' => {
     'invoke' => "\
   oc_swupdate_cb_validate_purl_ref.Reset(swupdate_impl.validate_purl.Value());\n\
