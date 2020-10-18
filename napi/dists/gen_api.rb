@@ -788,7 +788,6 @@ IFDEF_FUNCS = {
 'oc_rep_get_object_array'=>'defined(XXX)',
 'oc_rep_get_string'=>'defined(XXX)',
 'oc_rep_get_encoder_buf' => 'defined(XXX)',
-'oc_rep_get_cbor_errno' => 'defined(XXX)',
 
 }
 
@@ -1165,11 +1164,11 @@ def gen_funcimpl(name, param)
     invoke += "  return info.Env().Undefined();\n"
   elsif type == 'bool'
     invoke += "  return Napi::Boolean::New(info.Env(), #{call_func});\n"
-  elsif type == 'long'
-    invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
-  elsif type == 'unsigned int'
-    invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
-  elsif type == 'unsigned long'
+  elsif type == 'long' or
+        type == 'unsigned int' or
+        type == 'unsigned long' or
+        type == 'CborError' or
+        match_any?(type, PRIMITIVES)
     invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
   elsif type == 'const char*'
     invoke += "  return Napi::String::New(info.Env(), #{call_func});\n"
@@ -1179,10 +1178,6 @@ def gen_funcimpl(name, param)
     invoke += "  //func return const void*\n"
   elsif type == 'const uint8_t*'
     invoke += "  //func return const uint8_t*\n"
-  elsif type == 'const char*'
-    invoke += "  return Napi::String::New(info.Env(), #{call_func});\n"
-  elsif match_any?(type, PRIMITIVES)
-    invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
   elsif type =~ /.*\*$/
     #p type
     type = type.gsub(/\*$/, "")

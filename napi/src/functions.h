@@ -597,9 +597,7 @@ Napi::Value N_oc_rep_get_bool_array(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_byte_string(const Napi::CallbackInfo&);
 #endif
 Napi::Value N_oc_rep_get_byte_string_array(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_rep_get_cbor_errno(const Napi::CallbackInfo&);
-#endif
 #if defined(XXX)
 Napi::Value N_oc_rep_get_double(const Napi::CallbackInfo&);
 #endif

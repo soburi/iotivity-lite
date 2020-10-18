@@ -2975,12 +2975,10 @@ Napi::Value N_oc_rep_get_byte_string_array(const Napi::CallbackInfo& info) {
   return Napi::Boolean::New(info.Env(), oc_rep_get_byte_string_array(rep, key, value, size));
 }
 
-#if defined(XXX)
 Napi::Value N_oc_rep_get_cbor_errno(const Napi::CallbackInfo& info) {
-  //func return unknown CborError
+  return Napi::Number::New(info.Env(), oc_rep_get_cbor_errno());
 }
 
-#endif
 #if defined(XXX)
 Napi::Value N_oc_rep_get_double(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());

@@ -689,9 +689,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_rep_get_byte_string", Napi::Function::New(env, N_oc_rep_get_byte_string));
 #endif
   exports.Set("oc_rep_get_byte_string_array", Napi::Function::New(env, N_oc_rep_get_byte_string_array));
-#if defined(XXX)
   exports.Set("oc_rep_get_cbor_errno", Napi::Function::New(env, N_oc_rep_get_cbor_errno));
-#endif
 #if defined(XXX)
   exports.Set("oc_rep_get_double", Napi::Function::New(env, N_oc_rep_get_double));
 #endif
