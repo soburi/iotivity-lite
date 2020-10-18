@@ -78,7 +78,9 @@ cloud_manager_stop(oc_cloud_context_t *ctx)
   OC_DBG("[CM] cloud_manager_stop\n");
   oc_remove_delayed_callback(ctx, cloud_register);
   oc_remove_delayed_callback(ctx, cloud_login);
+#ifdef OC_TCP
   oc_remove_delayed_callback(ctx, send_ping);
+#endif
   oc_remove_delayed_callback(ctx, refresh_token);
   oc_remove_delayed_callback(ctx, callback_handler);
 }
@@ -331,7 +333,9 @@ cloud_login_handler(oc_client_response_t *data)
   if (ret == 0) {
     oc_remove_delayed_callback(ctx, cloud_login);
     oc_set_delayed_callback(ctx, callback_handler, 0);
+#ifdef OC_TCP
     oc_set_delayed_callback(ctx, send_ping, PING_DELAY);
+#endif
     if (ctx->store.status & OC_CLOUD_TOKEN_EXPIRY) {
       oc_set_delayed_callback(ctx, refresh_token, ctx->expires_in);
     }
@@ -459,7 +463,9 @@ refresh_token_handler(oc_client_response_t *data)
   oc_cloud_context_t *ctx = (oc_cloud_context_t *)data->user_data;
   int ret = _refresh_token_handler(ctx, data);
   if (ret == 0) {
+#ifdef OC_TCP
     oc_remove_delayed_callback(ctx, send_ping);
+#endif
     oc_remove_delayed_callback(ctx, refresh_token);
     ctx->retry_refresh_token_count = 0;
     oc_set_delayed_callback(ctx, cloud_login,
@@ -504,6 +510,7 @@ refresh_token(void *data)
   return OC_EVENT_DONE;
 }
 
+#ifdef OC_TCP
 static void
 send_ping_handler(oc_client_response_t *data)
 {
@@ -548,6 +555,8 @@ send_ping(void *data)
 
   return OC_EVENT_DONE;
 }
+#endif /* OC_TCP */
+
 #else  /* OC_CLOUD*/
 typedef int dummy_declaration;
 #endif /* !OC_CLOUD */
