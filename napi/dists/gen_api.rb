@@ -22,6 +22,11 @@ GETSETDECL = <<'GETSETDECL'
          void set_VALNAME(const Napi::CallbackInfo&, const Napi::Value&);
 GETSETDECL
 
+ENUMENTRYDECL = <<'ENUMENTRYDECL'
+  static Napi::Value get_VALNAME(const Napi::CallbackInfo&);
+  static        void set_VALNAME(const Napi::CallbackInfo&, const Napi::Value&);
+ENUMENTRYDECL
+
 CLSDECL = <<'CLSDECL'
 class CLASSNAME : public Napi::ObjectWrap<CLASSNAME>
 {
@@ -56,7 +61,7 @@ ACCESSORIMPL = <<'ACCESSORIMPL'
 ACCESSORIMPL
 
 ENUMACCESSORIMPL = <<'ENUMACCESSORIMPL'
-    CLASSNAME::InstanceAccessor("VALNAME", &CLASSNAME::get_VALNAME, &CLASSNAME::set_VALNAME),
+    CLASSNAME::StaticAccessor("VALNAME", CLASSNAME::get_VALNAME, CLASSNAME::set_VALNAME),
 ENUMACCESSORIMPL
 
 GETCLSIMPL = <<'CLSIMPL'
@@ -963,7 +968,7 @@ def gen_enum_classdecl(key, h)
   return "" if IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil
   hh = format_ignore(key, h)
 
-  decl = ENUMCLSDECL.gsub(/ENUMNAME/, key).gsub(/CLASSNAME/, gen_classname(key)).gsub(/\/\* setget \*\//, gen_enum_entry_decl(hh))
+  decl = CLSDECL.gsub(/STRUCTNAME/, key).gsub(/ENUMNAME/, key).gsub(/CLASSNAME/, gen_classname(key)).gsub(/\/\* setget \*\//, gen_enum_entry_decl(hh)).gsub(/\/\* extra_value \*\//, gen_extra_value_decl(key, hh))
   if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
     decl = "#if #{IFDEF_TYPES[key]}\n" + decl + "#endif\n"
   end
@@ -971,7 +976,7 @@ def gen_enum_classdecl(key, h)
 end
 
 def gen_enum_entry_decl(hh)
-  list = ftable.collect do |k, v|
+  list = hh .collect do |k, v|
     ENUMENTRYDECL.gsub(/VALNAME/, k)
   end
   list.join()
@@ -1191,7 +1196,7 @@ File.open('src/structs.h', 'w') do |f|
   end
 
   enum_table.each do |key, h|
-    f.print gen_classdecl(key, h)
+    f.print gen_enum_classdecl(key, h)
     f.print "\n"
   end
 end

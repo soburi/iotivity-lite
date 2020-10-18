@@ -108,18 +108,18 @@ function register_resources()
 {
 //  oc_resource_t *res = oc_new_resource("lightbulb", "/light/1", 1, 0);
   console.log("---- register_resources ----");
-/*
-  var res = new IotivityLite.OCResource();
-  oc_resource_bind_resource_type(res, "oic.r.light");
-  oc_resource_bind_resource_interface(res, OC_IF_RW);
-  oc_resource_set_default_interface(res, OC_IF_RW);
-  oc_resource_set_discoverable(res, true);
-  oc_resource_set_periodic_observable(res, 1);
+
+  var res = IotivityLite.oc_new_resource("lightbulb", "/light/1", 1, 0);//new IotivityLite.OCResource();
+  console.dir(res);
+  IotivityLite.oc_resource_bind_resource_type(res, "oic.r.light");
+  IotivityLite.oc_resource_bind_resource_interface(res, IotivityLite.OCInterfaceMask.OC_IF_RW);
+  IotivityLite.oc_resource_set_default_interface(res, IotivityLite.OCInterfaceMask.OC_IF_RW);
+  IotivityLite.oc_resource_set_discoverable(res, true);
+  IotivityLite.oc_resource_set_periodic_observable(res, 1);
 //  oc_resource_set_request_handler(res, OC_GET, get_light, NULL);
 //  oc_resource_set_request_handler(res, OC_POST, post_light, NULL);
 //  oc_resource_set_request_handler(res, OC_PUT, put_light, NULL);
-  oc_add_resource(res);
-*/
+  IotivityLite.oc_add_resource(res);
 }
 function signal_event_loop()
 {

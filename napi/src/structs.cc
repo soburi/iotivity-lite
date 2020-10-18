@@ -3485,8 +3485,8 @@ Napi::FunctionReference OCAceConnectionType::constructor;
 
 Napi::Function OCAceConnectionType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceConnectionType", {
-    OCAceConnectionType::InstanceAccessor("OC_CONN_AUTH_CRYPT", &OCAceConnectionType::get_OC_CONN_AUTH_CRYPT, &OCAceConnectionType::set_OC_CONN_AUTH_CRYPT),
-    OCAceConnectionType::InstanceAccessor("OC_CONN_ANON_CLEAR", &OCAceConnectionType::get_OC_CONN_ANON_CLEAR, &OCAceConnectionType::set_OC_CONN_ANON_CLEAR),
+    OCAceConnectionType::StaticAccessor("OC_CONN_AUTH_CRYPT", OCAceConnectionType::get_OC_CONN_AUTH_CRYPT, OCAceConnectionType::set_OC_CONN_AUTH_CRYPT),
+    OCAceConnectionType::StaticAccessor("OC_CONN_ANON_CLEAR", OCAceConnectionType::get_OC_CONN_ANON_CLEAR, OCAceConnectionType::set_OC_CONN_ANON_CLEAR),
 
   });
 
@@ -3532,12 +3532,12 @@ Napi::FunctionReference OCAcePermissionsMask::constructor;
 
 Napi::Function OCAcePermissionsMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAcePermissionsMask", {
-    OCAcePermissionsMask::InstanceAccessor("OC_PERM_NONE", &OCAcePermissionsMask::get_OC_PERM_NONE, &OCAcePermissionsMask::set_OC_PERM_NONE),
-    OCAcePermissionsMask::InstanceAccessor("OC_PERM_CREATE", &OCAcePermissionsMask::get_OC_PERM_CREATE, &OCAcePermissionsMask::set_OC_PERM_CREATE),
-    OCAcePermissionsMask::InstanceAccessor("OC_PERM_RETRIEVE", &OCAcePermissionsMask::get_OC_PERM_RETRIEVE, &OCAcePermissionsMask::set_OC_PERM_RETRIEVE),
-    OCAcePermissionsMask::InstanceAccessor("OC_PERM_UPDATE", &OCAcePermissionsMask::get_OC_PERM_UPDATE, &OCAcePermissionsMask::set_OC_PERM_UPDATE),
-    OCAcePermissionsMask::InstanceAccessor("OC_PERM_DELETE", &OCAcePermissionsMask::get_OC_PERM_DELETE, &OCAcePermissionsMask::set_OC_PERM_DELETE),
-    OCAcePermissionsMask::InstanceAccessor("OC_PERM_NOTIFY", &OCAcePermissionsMask::get_OC_PERM_NOTIFY, &OCAcePermissionsMask::set_OC_PERM_NOTIFY),
+    OCAcePermissionsMask::StaticAccessor("OC_PERM_NONE", OCAcePermissionsMask::get_OC_PERM_NONE, OCAcePermissionsMask::set_OC_PERM_NONE),
+    OCAcePermissionsMask::StaticAccessor("OC_PERM_CREATE", OCAcePermissionsMask::get_OC_PERM_CREATE, OCAcePermissionsMask::set_OC_PERM_CREATE),
+    OCAcePermissionsMask::StaticAccessor("OC_PERM_RETRIEVE", OCAcePermissionsMask::get_OC_PERM_RETRIEVE, OCAcePermissionsMask::set_OC_PERM_RETRIEVE),
+    OCAcePermissionsMask::StaticAccessor("OC_PERM_UPDATE", OCAcePermissionsMask::get_OC_PERM_UPDATE, OCAcePermissionsMask::set_OC_PERM_UPDATE),
+    OCAcePermissionsMask::StaticAccessor("OC_PERM_DELETE", OCAcePermissionsMask::get_OC_PERM_DELETE, OCAcePermissionsMask::set_OC_PERM_DELETE),
+    OCAcePermissionsMask::StaticAccessor("OC_PERM_NOTIFY", OCAcePermissionsMask::get_OC_PERM_NOTIFY, OCAcePermissionsMask::set_OC_PERM_NOTIFY),
 
   });
 
@@ -3623,9 +3623,9 @@ Napi::FunctionReference OCAceSubjectType::constructor;
 
 Napi::Function OCAceSubjectType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceSubjectType", {
-    OCAceSubjectType::InstanceAccessor("OC_SUBJECT_UUID", &OCAceSubjectType::get_OC_SUBJECT_UUID, &OCAceSubjectType::set_OC_SUBJECT_UUID),
-    OCAceSubjectType::InstanceAccessor("OC_SUBJECT_ROLE", &OCAceSubjectType::get_OC_SUBJECT_ROLE, &OCAceSubjectType::set_OC_SUBJECT_ROLE),
-    OCAceSubjectType::InstanceAccessor("OC_SUBJECT_CONN", &OCAceSubjectType::get_OC_SUBJECT_CONN, &OCAceSubjectType::set_OC_SUBJECT_CONN),
+    OCAceSubjectType::StaticAccessor("OC_SUBJECT_UUID", OCAceSubjectType::get_OC_SUBJECT_UUID, OCAceSubjectType::set_OC_SUBJECT_UUID),
+    OCAceSubjectType::StaticAccessor("OC_SUBJECT_ROLE", OCAceSubjectType::get_OC_SUBJECT_ROLE, OCAceSubjectType::set_OC_SUBJECT_ROLE),
+    OCAceSubjectType::StaticAccessor("OC_SUBJECT_CONN", OCAceSubjectType::get_OC_SUBJECT_CONN, OCAceSubjectType::set_OC_SUBJECT_CONN),
 
   });
 
@@ -3681,10 +3681,10 @@ Napi::FunctionReference OCAceWildcard::constructor;
 
 Napi::Function OCAceWildcard::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceWildcard", {
-    OCAceWildcard::InstanceAccessor("OC_ACE_NO_WC", &OCAceWildcard::get_OC_ACE_NO_WC, &OCAceWildcard::set_OC_ACE_NO_WC),
-    OCAceWildcard::InstanceAccessor("OC_ACE_WC_ALL", &OCAceWildcard::get_OC_ACE_WC_ALL, &OCAceWildcard::set_OC_ACE_WC_ALL),
-    OCAceWildcard::InstanceAccessor("OC_ACE_WC_ALL_SECURED", &OCAceWildcard::get_OC_ACE_WC_ALL_SECURED, &OCAceWildcard::set_OC_ACE_WC_ALL_SECURED),
-    OCAceWildcard::InstanceAccessor("OC_ACE_WC_ALL_PUBLIC", &OCAceWildcard::get_OC_ACE_WC_ALL_PUBLIC, &OCAceWildcard::set_OC_ACE_WC_ALL_PUBLIC),
+    OCAceWildcard::StaticAccessor("OC_ACE_NO_WC", OCAceWildcard::get_OC_ACE_NO_WC, OCAceWildcard::set_OC_ACE_NO_WC),
+    OCAceWildcard::StaticAccessor("OC_ACE_WC_ALL", OCAceWildcard::get_OC_ACE_WC_ALL, OCAceWildcard::set_OC_ACE_WC_ALL),
+    OCAceWildcard::StaticAccessor("OC_ACE_WC_ALL_SECURED", OCAceWildcard::get_OC_ACE_WC_ALL_SECURED, OCAceWildcard::set_OC_ACE_WC_ALL_SECURED),
+    OCAceWildcard::StaticAccessor("OC_ACE_WC_ALL_PUBLIC", OCAceWildcard::get_OC_ACE_WC_ALL_PUBLIC, OCAceWildcard::set_OC_ACE_WC_ALL_PUBLIC),
 
   });
 
@@ -3750,8 +3750,8 @@ Napi::FunctionReference OCBlockwiseRole::constructor;
 
 Napi::Function OCBlockwiseRole::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCBlockwiseRole", {
-    OCBlockwiseRole::InstanceAccessor("OC_BLOCKWISE_CLIENT", &OCBlockwiseRole::get_OC_BLOCKWISE_CLIENT, &OCBlockwiseRole::set_OC_BLOCKWISE_CLIENT),
-    OCBlockwiseRole::InstanceAccessor("OC_BLOCKWISE_SERVER", &OCBlockwiseRole::get_OC_BLOCKWISE_SERVER, &OCBlockwiseRole::set_OC_BLOCKWISE_SERVER),
+    OCBlockwiseRole::StaticAccessor("OC_BLOCKWISE_CLIENT", OCBlockwiseRole::get_OC_BLOCKWISE_CLIENT, OCBlockwiseRole::set_OC_BLOCKWISE_CLIENT),
+    OCBlockwiseRole::StaticAccessor("OC_BLOCKWISE_SERVER", OCBlockwiseRole::get_OC_BLOCKWISE_SERVER, OCBlockwiseRole::set_OC_BLOCKWISE_SERVER),
 
   });
 
@@ -3797,8 +3797,8 @@ Napi::FunctionReference OCDiscoveryFlags::constructor;
 
 Napi::Function OCDiscoveryFlags::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCDiscoveryFlags", {
-    OCDiscoveryFlags::InstanceAccessor("OC_STOP_DISCOVERY", &OCDiscoveryFlags::get_OC_STOP_DISCOVERY, &OCDiscoveryFlags::set_OC_STOP_DISCOVERY),
-    OCDiscoveryFlags::InstanceAccessor("OC_CONTINUE_DISCOVERY", &OCDiscoveryFlags::get_OC_CONTINUE_DISCOVERY, &OCDiscoveryFlags::set_OC_CONTINUE_DISCOVERY),
+    OCDiscoveryFlags::StaticAccessor("OC_STOP_DISCOVERY", OCDiscoveryFlags::get_OC_STOP_DISCOVERY, OCDiscoveryFlags::set_OC_STOP_DISCOVERY),
+    OCDiscoveryFlags::StaticAccessor("OC_CONTINUE_DISCOVERY", OCDiscoveryFlags::get_OC_CONTINUE_DISCOVERY, OCDiscoveryFlags::set_OC_CONTINUE_DISCOVERY),
 
   });
 
@@ -3844,8 +3844,8 @@ Napi::FunctionReference OCQos::constructor;
 
 Napi::Function OCQos::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCQos", {
-    OCQos::InstanceAccessor("HIGH_QOS", &OCQos::get_HIGH_QOS, &OCQos::set_HIGH_QOS),
-    OCQos::InstanceAccessor("LOW_QOS", &OCQos::get_LOW_QOS, &OCQos::set_LOW_QOS),
+    OCQos::StaticAccessor("HIGH_QOS", OCQos::get_HIGH_QOS, OCQos::set_HIGH_QOS),
+    OCQos::StaticAccessor("LOW_QOS", OCQos::get_LOW_QOS, OCQos::set_LOW_QOS),
 
   });
 
@@ -3891,10 +3891,10 @@ Napi::FunctionReference OCCloudError::constructor;
 
 Napi::Function OCCloudError::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudError", {
-    OCCloudError::InstanceAccessor("CLOUD_OK", &OCCloudError::get_CLOUD_OK, &OCCloudError::set_CLOUD_OK),
-    OCCloudError::InstanceAccessor("CLOUD_ERROR_RESPONSE", &OCCloudError::get_CLOUD_ERROR_RESPONSE, &OCCloudError::set_CLOUD_ERROR_RESPONSE),
-    OCCloudError::InstanceAccessor("CLOUD_ERROR_CONNECT", &OCCloudError::get_CLOUD_ERROR_CONNECT, &OCCloudError::set_CLOUD_ERROR_CONNECT),
-    OCCloudError::InstanceAccessor("CLOUD_ERROR_REFRESH_ACCESS_TOKEN", &OCCloudError::get_CLOUD_ERROR_REFRESH_ACCESS_TOKEN, &OCCloudError::set_CLOUD_ERROR_REFRESH_ACCESS_TOKEN),
+    OCCloudError::StaticAccessor("CLOUD_OK", OCCloudError::get_CLOUD_OK, OCCloudError::set_CLOUD_OK),
+    OCCloudError::StaticAccessor("CLOUD_ERROR_RESPONSE", OCCloudError::get_CLOUD_ERROR_RESPONSE, OCCloudError::set_CLOUD_ERROR_RESPONSE),
+    OCCloudError::StaticAccessor("CLOUD_ERROR_CONNECT", OCCloudError::get_CLOUD_ERROR_CONNECT, OCCloudError::set_CLOUD_ERROR_CONNECT),
+    OCCloudError::StaticAccessor("CLOUD_ERROR_REFRESH_ACCESS_TOKEN", OCCloudError::get_CLOUD_ERROR_REFRESH_ACCESS_TOKEN, OCCloudError::set_CLOUD_ERROR_REFRESH_ACCESS_TOKEN),
 
   });
 
@@ -3960,14 +3960,14 @@ Napi::FunctionReference OCCloudStatusMask::constructor;
 
 Napi::Function OCCloudStatusMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudStatusMask", {
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_INITIALIZED", &OCCloudStatusMask::get_OC_CLOUD_INITIALIZED, &OCCloudStatusMask::set_OC_CLOUD_INITIALIZED),
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_REGISTERED", &OCCloudStatusMask::get_OC_CLOUD_REGISTERED, &OCCloudStatusMask::set_OC_CLOUD_REGISTERED),
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_LOGGED_IN", &OCCloudStatusMask::get_OC_CLOUD_LOGGED_IN, &OCCloudStatusMask::set_OC_CLOUD_LOGGED_IN),
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_TOKEN_EXPIRY", &OCCloudStatusMask::get_OC_CLOUD_TOKEN_EXPIRY, &OCCloudStatusMask::set_OC_CLOUD_TOKEN_EXPIRY),
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_REFRESHED_TOKEN", &OCCloudStatusMask::get_OC_CLOUD_REFRESHED_TOKEN, &OCCloudStatusMask::set_OC_CLOUD_REFRESHED_TOKEN),
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_LOGGED_OUT", &OCCloudStatusMask::get_OC_CLOUD_LOGGED_OUT, &OCCloudStatusMask::set_OC_CLOUD_LOGGED_OUT),
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_FAILURE", &OCCloudStatusMask::get_OC_CLOUD_FAILURE, &OCCloudStatusMask::set_OC_CLOUD_FAILURE),
-    OCCloudStatusMask::InstanceAccessor("OC_CLOUD_DEREGISTERED", &OCCloudStatusMask::get_OC_CLOUD_DEREGISTERED, &OCCloudStatusMask::set_OC_CLOUD_DEREGISTERED),
+    OCCloudStatusMask::StaticAccessor("OC_CLOUD_INITIALIZED", OCCloudStatusMask::get_OC_CLOUD_INITIALIZED, OCCloudStatusMask::set_OC_CLOUD_INITIALIZED),
+    OCCloudStatusMask::StaticAccessor("OC_CLOUD_REGISTERED", OCCloudStatusMask::get_OC_CLOUD_REGISTERED, OCCloudStatusMask::set_OC_CLOUD_REGISTERED),
+    OCCloudStatusMask::StaticAccessor("OC_CLOUD_LOGGED_IN", OCCloudStatusMask::get_OC_CLOUD_LOGGED_IN, OCCloudStatusMask::set_OC_CLOUD_LOGGED_IN),
+    OCCloudStatusMask::StaticAccessor("OC_CLOUD_TOKEN_EXPIRY", OCCloudStatusMask::get_OC_CLOUD_TOKEN_EXPIRY, OCCloudStatusMask::set_OC_CLOUD_TOKEN_EXPIRY),
+    OCCloudStatusMask::StaticAccessor("OC_CLOUD_REFRESHED_TOKEN", OCCloudStatusMask::get_OC_CLOUD_REFRESHED_TOKEN, OCCloudStatusMask::set_OC_CLOUD_REFRESHED_TOKEN),
+    OCCloudStatusMask::StaticAccessor("OC_CLOUD_LOGGED_OUT", OCCloudStatusMask::get_OC_CLOUD_LOGGED_OUT, OCCloudStatusMask::set_OC_CLOUD_LOGGED_OUT),
+    OCCloudStatusMask::StaticAccessor("OC_CLOUD_FAILURE", OCCloudStatusMask::get_OC_CLOUD_FAILURE, OCCloudStatusMask::set_OC_CLOUD_FAILURE),
+    OCCloudStatusMask::StaticAccessor("OC_CLOUD_DEREGISTERED", OCCloudStatusMask::get_OC_CLOUD_DEREGISTERED, OCCloudStatusMask::set_OC_CLOUD_DEREGISTERED),
 
   });
 
@@ -4073,11 +4073,11 @@ Napi::FunctionReference OCCloudPrivisoningStatus::constructor;
 
 Napi::Function OCCloudPrivisoningStatus::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudPrivisoningStatus", {
-    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_UNINITIALIZED", &OCCloudPrivisoningStatus::get_OC_CPS_UNINITIALIZED, &OCCloudPrivisoningStatus::set_OC_CPS_UNINITIALIZED),
-    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_READYTOREGISTER", &OCCloudPrivisoningStatus::get_OC_CPS_READYTOREGISTER, &OCCloudPrivisoningStatus::set_OC_CPS_READYTOREGISTER),
-    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_REGISTERING", &OCCloudPrivisoningStatus::get_OC_CPS_REGISTERING, &OCCloudPrivisoningStatus::set_OC_CPS_REGISTERING),
-    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_REGISTERED", &OCCloudPrivisoningStatus::get_OC_CPS_REGISTERED, &OCCloudPrivisoningStatus::set_OC_CPS_REGISTERED),
-    OCCloudPrivisoningStatus::InstanceAccessor("OC_CPS_FAILED", &OCCloudPrivisoningStatus::get_OC_CPS_FAILED, &OCCloudPrivisoningStatus::set_OC_CPS_FAILED),
+    OCCloudPrivisoningStatus::StaticAccessor("OC_CPS_UNINITIALIZED", OCCloudPrivisoningStatus::get_OC_CPS_UNINITIALIZED, OCCloudPrivisoningStatus::set_OC_CPS_UNINITIALIZED),
+    OCCloudPrivisoningStatus::StaticAccessor("OC_CPS_READYTOREGISTER", OCCloudPrivisoningStatus::get_OC_CPS_READYTOREGISTER, OCCloudPrivisoningStatus::set_OC_CPS_READYTOREGISTER),
+    OCCloudPrivisoningStatus::StaticAccessor("OC_CPS_REGISTERING", OCCloudPrivisoningStatus::get_OC_CPS_REGISTERING, OCCloudPrivisoningStatus::set_OC_CPS_REGISTERING),
+    OCCloudPrivisoningStatus::StaticAccessor("OC_CPS_REGISTERED", OCCloudPrivisoningStatus::get_OC_CPS_REGISTERED, OCCloudPrivisoningStatus::set_OC_CPS_REGISTERED),
+    OCCloudPrivisoningStatus::StaticAccessor("OC_CPS_FAILED", OCCloudPrivisoningStatus::get_OC_CPS_FAILED, OCCloudPrivisoningStatus::set_OC_CPS_FAILED),
 
   });
 
@@ -4154,10 +4154,10 @@ Napi::FunctionReference tcpCsmState::constructor;
 
 Napi::Function tcpCsmState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "tcpCsmState", {
-    tcpCsmState::InstanceAccessor("CSM_NONE", &tcpCsmState::get_CSM_NONE, &tcpCsmState::set_CSM_NONE),
-    tcpCsmState::InstanceAccessor("CSM_SENT", &tcpCsmState::get_CSM_SENT, &tcpCsmState::set_CSM_SENT),
-    tcpCsmState::InstanceAccessor("CSM_DONE", &tcpCsmState::get_CSM_DONE, &tcpCsmState::set_CSM_DONE),
-    tcpCsmState::InstanceAccessor("CSM_ERROR", &tcpCsmState::get_CSM_ERROR, &tcpCsmState::set_CSM_ERROR),
+    tcpCsmState::StaticAccessor("CSM_NONE", tcpCsmState::get_CSM_NONE, tcpCsmState::set_CSM_NONE),
+    tcpCsmState::StaticAccessor("CSM_SENT", tcpCsmState::get_CSM_SENT, tcpCsmState::set_CSM_SENT),
+    tcpCsmState::StaticAccessor("CSM_DONE", tcpCsmState::get_CSM_DONE, tcpCsmState::set_CSM_DONE),
+    tcpCsmState::StaticAccessor("CSM_ERROR", tcpCsmState::get_CSM_ERROR, tcpCsmState::set_CSM_ERROR),
 
   });
 
@@ -4224,9 +4224,9 @@ Napi::FunctionReference OCCredType::constructor;
 
 Napi::Function OCCredType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCredType", {
-    OCCredType::InstanceAccessor("OC_CREDTYPE_NULL", &OCCredType::get_OC_CREDTYPE_NULL, &OCCredType::set_OC_CREDTYPE_NULL),
-    OCCredType::InstanceAccessor("OC_CREDTYPE_PSK", &OCCredType::get_OC_CREDTYPE_PSK, &OCCredType::set_OC_CREDTYPE_PSK),
-    OCCredType::InstanceAccessor("OC_CREDTYPE_CERT", &OCCredType::get_OC_CREDTYPE_CERT, &OCCredType::set_OC_CREDTYPE_CERT),
+    OCCredType::StaticAccessor("OC_CREDTYPE_NULL", OCCredType::get_OC_CREDTYPE_NULL, OCCredType::set_OC_CREDTYPE_NULL),
+    OCCredType::StaticAccessor("OC_CREDTYPE_PSK", OCCredType::get_OC_CREDTYPE_PSK, OCCredType::set_OC_CREDTYPE_PSK),
+    OCCredType::StaticAccessor("OC_CREDTYPE_CERT", OCCredType::get_OC_CREDTYPE_CERT, OCCredType::set_OC_CREDTYPE_CERT),
 
   });
 
@@ -4282,12 +4282,12 @@ Napi::FunctionReference OCCredUsage::constructor;
 
 Napi::Function OCCredUsage::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCredUsage", {
-    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_NULL", &OCCredUsage::get_OC_CREDUSAGE_NULL, &OCCredUsage::set_OC_CREDUSAGE_NULL),
-    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_TRUSTCA", &OCCredUsage::get_OC_CREDUSAGE_TRUSTCA, &OCCredUsage::set_OC_CREDUSAGE_TRUSTCA),
-    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_IDENTITY_CERT", &OCCredUsage::get_OC_CREDUSAGE_IDENTITY_CERT, &OCCredUsage::set_OC_CREDUSAGE_IDENTITY_CERT),
-    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_ROLE_CERT", &OCCredUsage::get_OC_CREDUSAGE_ROLE_CERT, &OCCredUsage::set_OC_CREDUSAGE_ROLE_CERT),
-    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_MFG_TRUSTCA", &OCCredUsage::get_OC_CREDUSAGE_MFG_TRUSTCA, &OCCredUsage::set_OC_CREDUSAGE_MFG_TRUSTCA),
-    OCCredUsage::InstanceAccessor("OC_CREDUSAGE_MFG_CERT", &OCCredUsage::get_OC_CREDUSAGE_MFG_CERT, &OCCredUsage::set_OC_CREDUSAGE_MFG_CERT),
+    OCCredUsage::StaticAccessor("OC_CREDUSAGE_NULL", OCCredUsage::get_OC_CREDUSAGE_NULL, OCCredUsage::set_OC_CREDUSAGE_NULL),
+    OCCredUsage::StaticAccessor("OC_CREDUSAGE_TRUSTCA", OCCredUsage::get_OC_CREDUSAGE_TRUSTCA, OCCredUsage::set_OC_CREDUSAGE_TRUSTCA),
+    OCCredUsage::StaticAccessor("OC_CREDUSAGE_IDENTITY_CERT", OCCredUsage::get_OC_CREDUSAGE_IDENTITY_CERT, OCCredUsage::set_OC_CREDUSAGE_IDENTITY_CERT),
+    OCCredUsage::StaticAccessor("OC_CREDUSAGE_ROLE_CERT", OCCredUsage::get_OC_CREDUSAGE_ROLE_CERT, OCCredUsage::set_OC_CREDUSAGE_ROLE_CERT),
+    OCCredUsage::StaticAccessor("OC_CREDUSAGE_MFG_TRUSTCA", OCCredUsage::get_OC_CREDUSAGE_MFG_TRUSTCA, OCCredUsage::set_OC_CREDUSAGE_MFG_TRUSTCA),
+    OCCredUsage::StaticAccessor("OC_CREDUSAGE_MFG_CERT", OCCredUsage::get_OC_CREDUSAGE_MFG_CERT, OCCredUsage::set_OC_CREDUSAGE_MFG_CERT),
 
   });
 
@@ -4373,11 +4373,11 @@ Napi::FunctionReference OCEncoding::constructor;
 
 Napi::Function OCEncoding::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEncoding", {
-    OCEncoding::InstanceAccessor("OC_ENCODING_UNSUPPORTED", &OCEncoding::get_OC_ENCODING_UNSUPPORTED, &OCEncoding::set_OC_ENCODING_UNSUPPORTED),
-    OCEncoding::InstanceAccessor("OC_ENCODING_BASE64", &OCEncoding::get_OC_ENCODING_BASE64, &OCEncoding::set_OC_ENCODING_BASE64),
-    OCEncoding::InstanceAccessor("OC_ENCODING_RAW", &OCEncoding::get_OC_ENCODING_RAW, &OCEncoding::set_OC_ENCODING_RAW),
-    OCEncoding::InstanceAccessor("OC_ENCODING_PEM", &OCEncoding::get_OC_ENCODING_PEM, &OCEncoding::set_OC_ENCODING_PEM),
-    OCEncoding::InstanceAccessor("OC_ENCODING_HANDLE", &OCEncoding::get_OC_ENCODING_HANDLE, &OCEncoding::set_OC_ENCODING_HANDLE),
+    OCEncoding::StaticAccessor("OC_ENCODING_UNSUPPORTED", OCEncoding::get_OC_ENCODING_UNSUPPORTED, OCEncoding::set_OC_ENCODING_UNSUPPORTED),
+    OCEncoding::StaticAccessor("OC_ENCODING_BASE64", OCEncoding::get_OC_ENCODING_BASE64, OCEncoding::set_OC_ENCODING_BASE64),
+    OCEncoding::StaticAccessor("OC_ENCODING_RAW", OCEncoding::get_OC_ENCODING_RAW, OCEncoding::set_OC_ENCODING_RAW),
+    OCEncoding::StaticAccessor("OC_ENCODING_PEM", OCEncoding::get_OC_ENCODING_PEM, OCEncoding::set_OC_ENCODING_PEM),
+    OCEncoding::StaticAccessor("OC_ENCODING_HANDLE", OCEncoding::get_OC_ENCODING_HANDLE, OCEncoding::set_OC_ENCODING_HANDLE),
 
   });
 
@@ -4453,8 +4453,8 @@ Napi::FunctionReference OCFVersion::constructor;
 
 Napi::Function OCFVersion::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCFVersion", {
-    OCFVersion::InstanceAccessor("OCF_VER_1_0_0", &OCFVersion::get_OCF_VER_1_0_0, &OCFVersion::set_OCF_VER_1_0_0),
-    OCFVersion::InstanceAccessor("OIC_VER_1_1_0", &OCFVersion::get_OIC_VER_1_1_0, &OCFVersion::set_OIC_VER_1_1_0),
+    OCFVersion::StaticAccessor("OCF_VER_1_0_0", OCFVersion::get_OCF_VER_1_0_0, OCFVersion::set_OCF_VER_1_0_0),
+    OCFVersion::StaticAccessor("OIC_VER_1_1_0", OCFVersion::get_OIC_VER_1_1_0, OCFVersion::set_OIC_VER_1_1_0),
 
   });
 
@@ -4500,13 +4500,13 @@ Napi::FunctionReference OCTransportFlags::constructor;
 
 Napi::Function OCTransportFlags::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCTransportFlags", {
-    OCTransportFlags::InstanceAccessor("DISCOVERY", &OCTransportFlags::get_DISCOVERY, &OCTransportFlags::set_DISCOVERY),
-    OCTransportFlags::InstanceAccessor("SECURED", &OCTransportFlags::get_SECURED, &OCTransportFlags::set_SECURED),
-    OCTransportFlags::InstanceAccessor("IPV4", &OCTransportFlags::get_IPV4, &OCTransportFlags::set_IPV4),
-    OCTransportFlags::InstanceAccessor("IPV6", &OCTransportFlags::get_IPV6, &OCTransportFlags::set_IPV6),
-    OCTransportFlags::InstanceAccessor("TCP", &OCTransportFlags::get_TCP, &OCTransportFlags::set_TCP),
-    OCTransportFlags::InstanceAccessor("GATT", &OCTransportFlags::get_GATT, &OCTransportFlags::set_GATT),
-    OCTransportFlags::InstanceAccessor("MULTICAST", &OCTransportFlags::get_MULTICAST, &OCTransportFlags::set_MULTICAST),
+    OCTransportFlags::StaticAccessor("DISCOVERY", OCTransportFlags::get_DISCOVERY, OCTransportFlags::set_DISCOVERY),
+    OCTransportFlags::StaticAccessor("SECURED", OCTransportFlags::get_SECURED, OCTransportFlags::set_SECURED),
+    OCTransportFlags::StaticAccessor("IPV4", OCTransportFlags::get_IPV4, OCTransportFlags::set_IPV4),
+    OCTransportFlags::StaticAccessor("IPV6", OCTransportFlags::get_IPV6, OCTransportFlags::set_IPV6),
+    OCTransportFlags::StaticAccessor("TCP", OCTransportFlags::get_TCP, OCTransportFlags::set_TCP),
+    OCTransportFlags::StaticAccessor("GATT", OCTransportFlags::get_GATT, OCTransportFlags::set_GATT),
+    OCTransportFlags::StaticAccessor("MULTICAST", OCTransportFlags::get_MULTICAST, OCTransportFlags::set_MULTICAST),
 
   });
 
@@ -4602,79 +4602,79 @@ Napi::FunctionReference OCEnum::constructor;
 
 Napi::Function OCEnum::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEnum", {
-    OCEnum::InstanceAccessor("OC_ENUM_ABORTED", &OCEnum::get_OC_ENUM_ABORTED, &OCEnum::set_OC_ENUM_ABORTED),
-    OCEnum::InstanceAccessor("OC_ENUM_ACTIVE", &OCEnum::get_OC_ENUM_ACTIVE, &OCEnum::set_OC_ENUM_ACTIVE),
-    OCEnum::InstanceAccessor("OC_ENUM_AIRDRY", &OCEnum::get_OC_ENUM_AIRDRY, &OCEnum::set_OC_ENUM_AIRDRY),
-    OCEnum::InstanceAccessor("OC_ENUM_ARMEDAWAY", &OCEnum::get_OC_ENUM_ARMEDAWAY, &OCEnum::set_OC_ENUM_ARMEDAWAY),
-    OCEnum::InstanceAccessor("OC_ENUM_ARMEDINSTANT", &OCEnum::get_OC_ENUM_ARMEDINSTANT, &OCEnum::set_OC_ENUM_ARMEDINSTANT),
-    OCEnum::InstanceAccessor("OC_ENUM_ARMEDMAXIMUM", &OCEnum::get_OC_ENUM_ARMEDMAXIMUM, &OCEnum::set_OC_ENUM_ARMEDMAXIMUM),
-    OCEnum::InstanceAccessor("OC_ENUM_ARMEDNIGHTSTAY", &OCEnum::get_OC_ENUM_ARMEDNIGHTSTAY, &OCEnum::set_OC_ENUM_ARMEDNIGHTSTAY),
-    OCEnum::InstanceAccessor("OC_ENUM_ARMEDSTAY", &OCEnum::get_OC_ENUM_ARMEDSTAY, &OCEnum::set_OC_ENUM_ARMEDSTAY),
-    OCEnum::InstanceAccessor("OC_ENUM_AROMA", &OCEnum::get_OC_ENUM_AROMA, &OCEnum::set_OC_ENUM_AROMA),
-    OCEnum::InstanceAccessor("OC_ENUM_AI", &OCEnum::get_OC_ENUM_AI, &OCEnum::set_OC_ENUM_AI),
-    OCEnum::InstanceAccessor("OC_ENUM_AUTO", &OCEnum::get_OC_ENUM_AUTO, &OCEnum::set_OC_ENUM_AUTO),
-    OCEnum::InstanceAccessor("OC_ENUM_BOILING", &OCEnum::get_OC_ENUM_BOILING, &OCEnum::set_OC_ENUM_BOILING),
-    OCEnum::InstanceAccessor("OC_ENUM_BREWING", &OCEnum::get_OC_ENUM_BREWING, &OCEnum::set_OC_ENUM_BREWING),
-    OCEnum::InstanceAccessor("OC_ENUM_CANCELLED", &OCEnum::get_OC_ENUM_CANCELLED, &OCEnum::set_OC_ENUM_CANCELLED),
-    OCEnum::InstanceAccessor("OC_ENUM_CIRCULATING", &OCEnum::get_OC_ENUM_CIRCULATING, &OCEnum::set_OC_ENUM_CIRCULATING),
-    OCEnum::InstanceAccessor("OC_ENUM_CLEANING", &OCEnum::get_OC_ENUM_CLEANING, &OCEnum::set_OC_ENUM_CLEANING),
-    OCEnum::InstanceAccessor("OC_ENUM_CLOTHES", &OCEnum::get_OC_ENUM_CLOTHES, &OCEnum::set_OC_ENUM_CLOTHES),
-    OCEnum::InstanceAccessor("OC_ENUM_COMPLETED", &OCEnum::get_OC_ENUM_COMPLETED, &OCEnum::set_OC_ENUM_COMPLETED),
-    OCEnum::InstanceAccessor("OC_ENUM_COOL", &OCEnum::get_OC_ENUM_COOL, &OCEnum::set_OC_ENUM_COOL),
-    OCEnum::InstanceAccessor("OC_ENUM_DELICATE", &OCEnum::get_OC_ENUM_DELICATE, &OCEnum::set_OC_ENUM_DELICATE),
-    OCEnum::InstanceAccessor("OC_ENUM_DISABLED", &OCEnum::get_OC_ENUM_DISABLED, &OCEnum::set_OC_ENUM_DISABLED),
-    OCEnum::InstanceAccessor("OC_ENUM_DOWN", &OCEnum::get_OC_ENUM_DOWN, &OCEnum::set_OC_ENUM_DOWN),
-    OCEnum::InstanceAccessor("OC_ENUM_DUAL", &OCEnum::get_OC_ENUM_DUAL, &OCEnum::set_OC_ENUM_DUAL),
-    OCEnum::InstanceAccessor("OC_ENUM_DRY", &OCEnum::get_OC_ENUM_DRY, &OCEnum::set_OC_ENUM_DRY),
-    OCEnum::InstanceAccessor("OC_ENUM_ENABLED", &OCEnum::get_OC_ENUM_ENABLED, &OCEnum::set_OC_ENUM_ENABLED),
-    OCEnum::InstanceAccessor("OC_ENUM_EXTENDED", &OCEnum::get_OC_ENUM_EXTENDED, &OCEnum::set_OC_ENUM_EXTENDED),
-    OCEnum::InstanceAccessor("OC_ENUM_FAN", &OCEnum::get_OC_ENUM_FAN, &OCEnum::set_OC_ENUM_FAN),
-    OCEnum::InstanceAccessor("OC_ENUM_FAST", &OCEnum::get_OC_ENUM_FAST, &OCEnum::set_OC_ENUM_FAST),
-    OCEnum::InstanceAccessor("OC_ENUM_FILTERMATERIAL", &OCEnum::get_OC_ENUM_FILTERMATERIAL, &OCEnum::set_OC_ENUM_FILTERMATERIAL),
-    OCEnum::InstanceAccessor("OC_ENUM_FOCUSED", &OCEnum::get_OC_ENUM_FOCUSED, &OCEnum::set_OC_ENUM_FOCUSED),
-    OCEnum::InstanceAccessor("OC_ENUM_GRINDING", &OCEnum::get_OC_ENUM_GRINDING, &OCEnum::set_OC_ENUM_GRINDING),
-    OCEnum::InstanceAccessor("OC_ENUM_HEATING", &OCEnum::get_OC_ENUM_HEATING, &OCEnum::set_OC_ENUM_HEATING),
-    OCEnum::InstanceAccessor("OC_ENUM_HEAVY", &OCEnum::get_OC_ENUM_HEAVY, &OCEnum::set_OC_ENUM_HEAVY),
-    OCEnum::InstanceAccessor("OC_ENUM_IDLE", &OCEnum::get_OC_ENUM_IDLE, &OCEnum::set_OC_ENUM_IDLE),
-    OCEnum::InstanceAccessor("OC_ENUM_INK", &OCEnum::get_OC_ENUM_INK, &OCEnum::set_OC_ENUM_INK),
-    OCEnum::InstanceAccessor("OC_ENUM_INKBLACK", &OCEnum::get_OC_ENUM_INKBLACK, &OCEnum::set_OC_ENUM_INKBLACK),
-    OCEnum::InstanceAccessor("OC_ENUM_INKCYAN", &OCEnum::get_OC_ENUM_INKCYAN, &OCEnum::set_OC_ENUM_INKCYAN),
-    OCEnum::InstanceAccessor("OC_ENUM_INKMAGENTA", &OCEnum::get_OC_ENUM_INKMAGENTA, &OCEnum::set_OC_ENUM_INKMAGENTA),
-    OCEnum::InstanceAccessor("OC_ENUM_INKTRICOLOUR", &OCEnum::get_OC_ENUM_INKTRICOLOUR, &OCEnum::set_OC_ENUM_INKTRICOLOUR),
-    OCEnum::InstanceAccessor("OC_ENUM_INKYELLOW", &OCEnum::get_OC_ENUM_INKYELLOW, &OCEnum::set_OC_ENUM_INKYELLOW),
-    OCEnum::InstanceAccessor("OC_ENUM_KEEPWARM", &OCEnum::get_OC_ENUM_KEEPWARM, &OCEnum::set_OC_ENUM_KEEPWARM),
-    OCEnum::InstanceAccessor("OC_ENUM_NORMAL", &OCEnum::get_OC_ENUM_NORMAL, &OCEnum::set_OC_ENUM_NORMAL),
-    OCEnum::InstanceAccessor("OC_ENUM_NOTSUPPORTED", &OCEnum::get_OC_ENUM_NOTSUPPORTED, &OCEnum::set_OC_ENUM_NOTSUPPORTED),
-    OCEnum::InstanceAccessor("OC_ENUM_PAUSE", &OCEnum::get_OC_ENUM_PAUSE, &OCEnum::set_OC_ENUM_PAUSE),
-    OCEnum::InstanceAccessor("OC_ENUM_PENDING", &OCEnum::get_OC_ENUM_PENDING, &OCEnum::set_OC_ENUM_PENDING),
-    OCEnum::InstanceAccessor("OC_ENUM_PENDINGHELD", &OCEnum::get_OC_ENUM_PENDINGHELD, &OCEnum::set_OC_ENUM_PENDINGHELD),
-    OCEnum::InstanceAccessor("OC_ENUM_PERMAPRESS", &OCEnum::get_OC_ENUM_PERMAPRESS, &OCEnum::set_OC_ENUM_PERMAPRESS),
-    OCEnum::InstanceAccessor("OC_ENUM_PREWASH", &OCEnum::get_OC_ENUM_PREWASH, &OCEnum::set_OC_ENUM_PREWASH),
-    OCEnum::InstanceAccessor("OC_ENUM_PROCESSING", &OCEnum::get_OC_ENUM_PROCESSING, &OCEnum::set_OC_ENUM_PROCESSING),
-    OCEnum::InstanceAccessor("OC_ENUM_PURE", &OCEnum::get_OC_ENUM_PURE, &OCEnum::set_OC_ENUM_PURE),
-    OCEnum::InstanceAccessor("OC_ENUM_QUICK", &OCEnum::get_OC_ENUM_QUICK, &OCEnum::set_OC_ENUM_QUICK),
-    OCEnum::InstanceAccessor("OC_ENUM_QUIET", &OCEnum::get_OC_ENUM_QUIET, &OCEnum::set_OC_ENUM_QUIET),
-    OCEnum::InstanceAccessor("OC_ENUM_RINSE", &OCEnum::get_OC_ENUM_RINSE, &OCEnum::set_OC_ENUM_RINSE),
-    OCEnum::InstanceAccessor("OC_ENUM_SECTORED", &OCEnum::get_OC_ENUM_SECTORED, &OCEnum::set_OC_ENUM_SECTORED),
-    OCEnum::InstanceAccessor("OC_ENUM_SILENT", &OCEnum::get_OC_ENUM_SILENT, &OCEnum::set_OC_ENUM_SILENT),
-    OCEnum::InstanceAccessor("OC_ENUM_SLEEP", &OCEnum::get_OC_ENUM_SLEEP, &OCEnum::set_OC_ENUM_SLEEP),
-    OCEnum::InstanceAccessor("OC_ENUM_SMART", &OCEnum::get_OC_ENUM_SMART, &OCEnum::set_OC_ENUM_SMART),
-    OCEnum::InstanceAccessor("OC_ENUM_SPOT", &OCEnum::get_OC_ENUM_SPOT, &OCEnum::set_OC_ENUM_SPOT),
-    OCEnum::InstanceAccessor("OC_ENUM_STEAM", &OCEnum::get_OC_ENUM_STEAM, &OCEnum::set_OC_ENUM_STEAM),
-    OCEnum::InstanceAccessor("OC_ENUM_STOPPED", &OCEnum::get_OC_ENUM_STOPPED, &OCEnum::set_OC_ENUM_STOPPED),
-    OCEnum::InstanceAccessor("OC_ENUM_SPIN", &OCEnum::get_OC_ENUM_SPIN, &OCEnum::set_OC_ENUM_SPIN),
-    OCEnum::InstanceAccessor("OC_ENUM_TESTING", &OCEnum::get_OC_ENUM_TESTING, &OCEnum::set_OC_ENUM_TESTING),
-    OCEnum::InstanceAccessor("OC_ENUM_TONER", &OCEnum::get_OC_ENUM_TONER, &OCEnum::set_OC_ENUM_TONER),
-    OCEnum::InstanceAccessor("OC_ENUM_TONERBLACK", &OCEnum::get_OC_ENUM_TONERBLACK, &OCEnum::set_OC_ENUM_TONERBLACK),
-    OCEnum::InstanceAccessor("OC_ENUM_TONERCYAN", &OCEnum::get_OC_ENUM_TONERCYAN, &OCEnum::set_OC_ENUM_TONERCYAN),
-    OCEnum::InstanceAccessor("OC_ENUM_TONERMAGENTA", &OCEnum::get_OC_ENUM_TONERMAGENTA, &OCEnum::set_OC_ENUM_TONERMAGENTA),
-    OCEnum::InstanceAccessor("OC_ENUM_TONERYELLOW", &OCEnum::get_OC_ENUM_TONERYELLOW, &OCEnum::set_OC_ENUM_TONERYELLOW),
-    OCEnum::InstanceAccessor("OC_ENUM_WARM", &OCEnum::get_OC_ENUM_WARM, &OCEnum::set_OC_ENUM_WARM),
-    OCEnum::InstanceAccessor("OC_ENUM_WASH", &OCEnum::get_OC_ENUM_WASH, &OCEnum::set_OC_ENUM_WASH),
-    OCEnum::InstanceAccessor("OC_ENUM_WET", &OCEnum::get_OC_ENUM_WET, &OCEnum::set_OC_ENUM_WET),
-    OCEnum::InstanceAccessor("OC_ENUM_WIND", &OCEnum::get_OC_ENUM_WIND, &OCEnum::set_OC_ENUM_WIND),
-    OCEnum::InstanceAccessor("OC_ENUM_WRINKLEPREVENT", &OCEnum::get_OC_ENUM_WRINKLEPREVENT, &OCEnum::set_OC_ENUM_WRINKLEPREVENT),
-    OCEnum::InstanceAccessor("OC_ENUM_ZIGZAG", &OCEnum::get_OC_ENUM_ZIGZAG, &OCEnum::set_OC_ENUM_ZIGZAG),
+    OCEnum::StaticAccessor("OC_ENUM_ABORTED", OCEnum::get_OC_ENUM_ABORTED, OCEnum::set_OC_ENUM_ABORTED),
+    OCEnum::StaticAccessor("OC_ENUM_ACTIVE", OCEnum::get_OC_ENUM_ACTIVE, OCEnum::set_OC_ENUM_ACTIVE),
+    OCEnum::StaticAccessor("OC_ENUM_AIRDRY", OCEnum::get_OC_ENUM_AIRDRY, OCEnum::set_OC_ENUM_AIRDRY),
+    OCEnum::StaticAccessor("OC_ENUM_ARMEDAWAY", OCEnum::get_OC_ENUM_ARMEDAWAY, OCEnum::set_OC_ENUM_ARMEDAWAY),
+    OCEnum::StaticAccessor("OC_ENUM_ARMEDINSTANT", OCEnum::get_OC_ENUM_ARMEDINSTANT, OCEnum::set_OC_ENUM_ARMEDINSTANT),
+    OCEnum::StaticAccessor("OC_ENUM_ARMEDMAXIMUM", OCEnum::get_OC_ENUM_ARMEDMAXIMUM, OCEnum::set_OC_ENUM_ARMEDMAXIMUM),
+    OCEnum::StaticAccessor("OC_ENUM_ARMEDNIGHTSTAY", OCEnum::get_OC_ENUM_ARMEDNIGHTSTAY, OCEnum::set_OC_ENUM_ARMEDNIGHTSTAY),
+    OCEnum::StaticAccessor("OC_ENUM_ARMEDSTAY", OCEnum::get_OC_ENUM_ARMEDSTAY, OCEnum::set_OC_ENUM_ARMEDSTAY),
+    OCEnum::StaticAccessor("OC_ENUM_AROMA", OCEnum::get_OC_ENUM_AROMA, OCEnum::set_OC_ENUM_AROMA),
+    OCEnum::StaticAccessor("OC_ENUM_AI", OCEnum::get_OC_ENUM_AI, OCEnum::set_OC_ENUM_AI),
+    OCEnum::StaticAccessor("OC_ENUM_AUTO", OCEnum::get_OC_ENUM_AUTO, OCEnum::set_OC_ENUM_AUTO),
+    OCEnum::StaticAccessor("OC_ENUM_BOILING", OCEnum::get_OC_ENUM_BOILING, OCEnum::set_OC_ENUM_BOILING),
+    OCEnum::StaticAccessor("OC_ENUM_BREWING", OCEnum::get_OC_ENUM_BREWING, OCEnum::set_OC_ENUM_BREWING),
+    OCEnum::StaticAccessor("OC_ENUM_CANCELLED", OCEnum::get_OC_ENUM_CANCELLED, OCEnum::set_OC_ENUM_CANCELLED),
+    OCEnum::StaticAccessor("OC_ENUM_CIRCULATING", OCEnum::get_OC_ENUM_CIRCULATING, OCEnum::set_OC_ENUM_CIRCULATING),
+    OCEnum::StaticAccessor("OC_ENUM_CLEANING", OCEnum::get_OC_ENUM_CLEANING, OCEnum::set_OC_ENUM_CLEANING),
+    OCEnum::StaticAccessor("OC_ENUM_CLOTHES", OCEnum::get_OC_ENUM_CLOTHES, OCEnum::set_OC_ENUM_CLOTHES),
+    OCEnum::StaticAccessor("OC_ENUM_COMPLETED", OCEnum::get_OC_ENUM_COMPLETED, OCEnum::set_OC_ENUM_COMPLETED),
+    OCEnum::StaticAccessor("OC_ENUM_COOL", OCEnum::get_OC_ENUM_COOL, OCEnum::set_OC_ENUM_COOL),
+    OCEnum::StaticAccessor("OC_ENUM_DELICATE", OCEnum::get_OC_ENUM_DELICATE, OCEnum::set_OC_ENUM_DELICATE),
+    OCEnum::StaticAccessor("OC_ENUM_DISABLED", OCEnum::get_OC_ENUM_DISABLED, OCEnum::set_OC_ENUM_DISABLED),
+    OCEnum::StaticAccessor("OC_ENUM_DOWN", OCEnum::get_OC_ENUM_DOWN, OCEnum::set_OC_ENUM_DOWN),
+    OCEnum::StaticAccessor("OC_ENUM_DUAL", OCEnum::get_OC_ENUM_DUAL, OCEnum::set_OC_ENUM_DUAL),
+    OCEnum::StaticAccessor("OC_ENUM_DRY", OCEnum::get_OC_ENUM_DRY, OCEnum::set_OC_ENUM_DRY),
+    OCEnum::StaticAccessor("OC_ENUM_ENABLED", OCEnum::get_OC_ENUM_ENABLED, OCEnum::set_OC_ENUM_ENABLED),
+    OCEnum::StaticAccessor("OC_ENUM_EXTENDED", OCEnum::get_OC_ENUM_EXTENDED, OCEnum::set_OC_ENUM_EXTENDED),
+    OCEnum::StaticAccessor("OC_ENUM_FAN", OCEnum::get_OC_ENUM_FAN, OCEnum::set_OC_ENUM_FAN),
+    OCEnum::StaticAccessor("OC_ENUM_FAST", OCEnum::get_OC_ENUM_FAST, OCEnum::set_OC_ENUM_FAST),
+    OCEnum::StaticAccessor("OC_ENUM_FILTERMATERIAL", OCEnum::get_OC_ENUM_FILTERMATERIAL, OCEnum::set_OC_ENUM_FILTERMATERIAL),
+    OCEnum::StaticAccessor("OC_ENUM_FOCUSED", OCEnum::get_OC_ENUM_FOCUSED, OCEnum::set_OC_ENUM_FOCUSED),
+    OCEnum::StaticAccessor("OC_ENUM_GRINDING", OCEnum::get_OC_ENUM_GRINDING, OCEnum::set_OC_ENUM_GRINDING),
+    OCEnum::StaticAccessor("OC_ENUM_HEATING", OCEnum::get_OC_ENUM_HEATING, OCEnum::set_OC_ENUM_HEATING),
+    OCEnum::StaticAccessor("OC_ENUM_HEAVY", OCEnum::get_OC_ENUM_HEAVY, OCEnum::set_OC_ENUM_HEAVY),
+    OCEnum::StaticAccessor("OC_ENUM_IDLE", OCEnum::get_OC_ENUM_IDLE, OCEnum::set_OC_ENUM_IDLE),
+    OCEnum::StaticAccessor("OC_ENUM_INK", OCEnum::get_OC_ENUM_INK, OCEnum::set_OC_ENUM_INK),
+    OCEnum::StaticAccessor("OC_ENUM_INKBLACK", OCEnum::get_OC_ENUM_INKBLACK, OCEnum::set_OC_ENUM_INKBLACK),
+    OCEnum::StaticAccessor("OC_ENUM_INKCYAN", OCEnum::get_OC_ENUM_INKCYAN, OCEnum::set_OC_ENUM_INKCYAN),
+    OCEnum::StaticAccessor("OC_ENUM_INKMAGENTA", OCEnum::get_OC_ENUM_INKMAGENTA, OCEnum::set_OC_ENUM_INKMAGENTA),
+    OCEnum::StaticAccessor("OC_ENUM_INKTRICOLOUR", OCEnum::get_OC_ENUM_INKTRICOLOUR, OCEnum::set_OC_ENUM_INKTRICOLOUR),
+    OCEnum::StaticAccessor("OC_ENUM_INKYELLOW", OCEnum::get_OC_ENUM_INKYELLOW, OCEnum::set_OC_ENUM_INKYELLOW),
+    OCEnum::StaticAccessor("OC_ENUM_KEEPWARM", OCEnum::get_OC_ENUM_KEEPWARM, OCEnum::set_OC_ENUM_KEEPWARM),
+    OCEnum::StaticAccessor("OC_ENUM_NORMAL", OCEnum::get_OC_ENUM_NORMAL, OCEnum::set_OC_ENUM_NORMAL),
+    OCEnum::StaticAccessor("OC_ENUM_NOTSUPPORTED", OCEnum::get_OC_ENUM_NOTSUPPORTED, OCEnum::set_OC_ENUM_NOTSUPPORTED),
+    OCEnum::StaticAccessor("OC_ENUM_PAUSE", OCEnum::get_OC_ENUM_PAUSE, OCEnum::set_OC_ENUM_PAUSE),
+    OCEnum::StaticAccessor("OC_ENUM_PENDING", OCEnum::get_OC_ENUM_PENDING, OCEnum::set_OC_ENUM_PENDING),
+    OCEnum::StaticAccessor("OC_ENUM_PENDINGHELD", OCEnum::get_OC_ENUM_PENDINGHELD, OCEnum::set_OC_ENUM_PENDINGHELD),
+    OCEnum::StaticAccessor("OC_ENUM_PERMAPRESS", OCEnum::get_OC_ENUM_PERMAPRESS, OCEnum::set_OC_ENUM_PERMAPRESS),
+    OCEnum::StaticAccessor("OC_ENUM_PREWASH", OCEnum::get_OC_ENUM_PREWASH, OCEnum::set_OC_ENUM_PREWASH),
+    OCEnum::StaticAccessor("OC_ENUM_PROCESSING", OCEnum::get_OC_ENUM_PROCESSING, OCEnum::set_OC_ENUM_PROCESSING),
+    OCEnum::StaticAccessor("OC_ENUM_PURE", OCEnum::get_OC_ENUM_PURE, OCEnum::set_OC_ENUM_PURE),
+    OCEnum::StaticAccessor("OC_ENUM_QUICK", OCEnum::get_OC_ENUM_QUICK, OCEnum::set_OC_ENUM_QUICK),
+    OCEnum::StaticAccessor("OC_ENUM_QUIET", OCEnum::get_OC_ENUM_QUIET, OCEnum::set_OC_ENUM_QUIET),
+    OCEnum::StaticAccessor("OC_ENUM_RINSE", OCEnum::get_OC_ENUM_RINSE, OCEnum::set_OC_ENUM_RINSE),
+    OCEnum::StaticAccessor("OC_ENUM_SECTORED", OCEnum::get_OC_ENUM_SECTORED, OCEnum::set_OC_ENUM_SECTORED),
+    OCEnum::StaticAccessor("OC_ENUM_SILENT", OCEnum::get_OC_ENUM_SILENT, OCEnum::set_OC_ENUM_SILENT),
+    OCEnum::StaticAccessor("OC_ENUM_SLEEP", OCEnum::get_OC_ENUM_SLEEP, OCEnum::set_OC_ENUM_SLEEP),
+    OCEnum::StaticAccessor("OC_ENUM_SMART", OCEnum::get_OC_ENUM_SMART, OCEnum::set_OC_ENUM_SMART),
+    OCEnum::StaticAccessor("OC_ENUM_SPOT", OCEnum::get_OC_ENUM_SPOT, OCEnum::set_OC_ENUM_SPOT),
+    OCEnum::StaticAccessor("OC_ENUM_STEAM", OCEnum::get_OC_ENUM_STEAM, OCEnum::set_OC_ENUM_STEAM),
+    OCEnum::StaticAccessor("OC_ENUM_STOPPED", OCEnum::get_OC_ENUM_STOPPED, OCEnum::set_OC_ENUM_STOPPED),
+    OCEnum::StaticAccessor("OC_ENUM_SPIN", OCEnum::get_OC_ENUM_SPIN, OCEnum::set_OC_ENUM_SPIN),
+    OCEnum::StaticAccessor("OC_ENUM_TESTING", OCEnum::get_OC_ENUM_TESTING, OCEnum::set_OC_ENUM_TESTING),
+    OCEnum::StaticAccessor("OC_ENUM_TONER", OCEnum::get_OC_ENUM_TONER, OCEnum::set_OC_ENUM_TONER),
+    OCEnum::StaticAccessor("OC_ENUM_TONERBLACK", OCEnum::get_OC_ENUM_TONERBLACK, OCEnum::set_OC_ENUM_TONERBLACK),
+    OCEnum::StaticAccessor("OC_ENUM_TONERCYAN", OCEnum::get_OC_ENUM_TONERCYAN, OCEnum::set_OC_ENUM_TONERCYAN),
+    OCEnum::StaticAccessor("OC_ENUM_TONERMAGENTA", OCEnum::get_OC_ENUM_TONERMAGENTA, OCEnum::set_OC_ENUM_TONERMAGENTA),
+    OCEnum::StaticAccessor("OC_ENUM_TONERYELLOW", OCEnum::get_OC_ENUM_TONERYELLOW, OCEnum::set_OC_ENUM_TONERYELLOW),
+    OCEnum::StaticAccessor("OC_ENUM_WARM", OCEnum::get_OC_ENUM_WARM, OCEnum::set_OC_ENUM_WARM),
+    OCEnum::StaticAccessor("OC_ENUM_WASH", OCEnum::get_OC_ENUM_WASH, OCEnum::set_OC_ENUM_WASH),
+    OCEnum::StaticAccessor("OC_ENUM_WET", OCEnum::get_OC_ENUM_WET, OCEnum::set_OC_ENUM_WET),
+    OCEnum::StaticAccessor("OC_ENUM_WIND", OCEnum::get_OC_ENUM_WIND, OCEnum::set_OC_ENUM_WIND),
+    OCEnum::StaticAccessor("OC_ENUM_WRINKLEPREVENT", OCEnum::get_OC_ENUM_WRINKLEPREVENT, OCEnum::set_OC_ENUM_WRINKLEPREVENT),
+    OCEnum::StaticAccessor("OC_ENUM_ZIGZAG", OCEnum::get_OC_ENUM_ZIGZAG, OCEnum::set_OC_ENUM_ZIGZAG),
 
   });
 
@@ -5430,20 +5430,20 @@ Napi::FunctionReference OCPositionDescription::constructor;
 
 Napi::Function OCPositionDescription::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCPositionDescription", {
-    OCPositionDescription::InstanceAccessor("OC_POS_UNKNOWN", &OCPositionDescription::get_OC_POS_UNKNOWN, &OCPositionDescription::set_OC_POS_UNKNOWN),
-    OCPositionDescription::InstanceAccessor("OC_POS_TOP", &OCPositionDescription::get_OC_POS_TOP, &OCPositionDescription::set_OC_POS_TOP),
-    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOM", &OCPositionDescription::get_OC_POS_BOTTOM, &OCPositionDescription::set_OC_POS_BOTTOM),
-    OCPositionDescription::InstanceAccessor("OC_POS_LEFT", &OCPositionDescription::get_OC_POS_LEFT, &OCPositionDescription::set_OC_POS_LEFT),
-    OCPositionDescription::InstanceAccessor("OC_POS_RIGHT", &OCPositionDescription::get_OC_POS_RIGHT, &OCPositionDescription::set_OC_POS_RIGHT),
-    OCPositionDescription::InstanceAccessor("OC_POS_CENTRE", &OCPositionDescription::get_OC_POS_CENTRE, &OCPositionDescription::set_OC_POS_CENTRE),
-    OCPositionDescription::InstanceAccessor("OC_POS_TOPLEFT", &OCPositionDescription::get_OC_POS_TOPLEFT, &OCPositionDescription::set_OC_POS_TOPLEFT),
-    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOMLEFT", &OCPositionDescription::get_OC_POS_BOTTOMLEFT, &OCPositionDescription::set_OC_POS_BOTTOMLEFT),
-    OCPositionDescription::InstanceAccessor("OC_POS_CENTRELEFT", &OCPositionDescription::get_OC_POS_CENTRELEFT, &OCPositionDescription::set_OC_POS_CENTRELEFT),
-    OCPositionDescription::InstanceAccessor("OC_POS_CENTRERIGHT", &OCPositionDescription::get_OC_POS_CENTRERIGHT, &OCPositionDescription::set_OC_POS_CENTRERIGHT),
-    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOMRIGHT", &OCPositionDescription::get_OC_POS_BOTTOMRIGHT, &OCPositionDescription::set_OC_POS_BOTTOMRIGHT),
-    OCPositionDescription::InstanceAccessor("OC_POS_TOPRIGHT", &OCPositionDescription::get_OC_POS_TOPRIGHT, &OCPositionDescription::set_OC_POS_TOPRIGHT),
-    OCPositionDescription::InstanceAccessor("OC_POS_TOPCENTRE", &OCPositionDescription::get_OC_POS_TOPCENTRE, &OCPositionDescription::set_OC_POS_TOPCENTRE),
-    OCPositionDescription::InstanceAccessor("OC_POS_BOTTOMCENTRE", &OCPositionDescription::get_OC_POS_BOTTOMCENTRE, &OCPositionDescription::set_OC_POS_BOTTOMCENTRE),
+    OCPositionDescription::StaticAccessor("OC_POS_UNKNOWN", OCPositionDescription::get_OC_POS_UNKNOWN, OCPositionDescription::set_OC_POS_UNKNOWN),
+    OCPositionDescription::StaticAccessor("OC_POS_TOP", OCPositionDescription::get_OC_POS_TOP, OCPositionDescription::set_OC_POS_TOP),
+    OCPositionDescription::StaticAccessor("OC_POS_BOTTOM", OCPositionDescription::get_OC_POS_BOTTOM, OCPositionDescription::set_OC_POS_BOTTOM),
+    OCPositionDescription::StaticAccessor("OC_POS_LEFT", OCPositionDescription::get_OC_POS_LEFT, OCPositionDescription::set_OC_POS_LEFT),
+    OCPositionDescription::StaticAccessor("OC_POS_RIGHT", OCPositionDescription::get_OC_POS_RIGHT, OCPositionDescription::set_OC_POS_RIGHT),
+    OCPositionDescription::StaticAccessor("OC_POS_CENTRE", OCPositionDescription::get_OC_POS_CENTRE, OCPositionDescription::set_OC_POS_CENTRE),
+    OCPositionDescription::StaticAccessor("OC_POS_TOPLEFT", OCPositionDescription::get_OC_POS_TOPLEFT, OCPositionDescription::set_OC_POS_TOPLEFT),
+    OCPositionDescription::StaticAccessor("OC_POS_BOTTOMLEFT", OCPositionDescription::get_OC_POS_BOTTOMLEFT, OCPositionDescription::set_OC_POS_BOTTOMLEFT),
+    OCPositionDescription::StaticAccessor("OC_POS_CENTRELEFT", OCPositionDescription::get_OC_POS_CENTRELEFT, OCPositionDescription::set_OC_POS_CENTRELEFT),
+    OCPositionDescription::StaticAccessor("OC_POS_CENTRERIGHT", OCPositionDescription::get_OC_POS_CENTRERIGHT, OCPositionDescription::set_OC_POS_CENTRERIGHT),
+    OCPositionDescription::StaticAccessor("OC_POS_BOTTOMRIGHT", OCPositionDescription::get_OC_POS_BOTTOMRIGHT, OCPositionDescription::set_OC_POS_BOTTOMRIGHT),
+    OCPositionDescription::StaticAccessor("OC_POS_TOPRIGHT", OCPositionDescription::get_OC_POS_TOPRIGHT, OCPositionDescription::set_OC_POS_TOPRIGHT),
+    OCPositionDescription::StaticAccessor("OC_POS_TOPCENTRE", OCPositionDescription::get_OC_POS_TOPCENTRE, OCPositionDescription::set_OC_POS_TOPCENTRE),
+    OCPositionDescription::StaticAccessor("OC_POS_BOTTOMCENTRE", OCPositionDescription::get_OC_POS_BOTTOMCENTRE, OCPositionDescription::set_OC_POS_BOTTOMCENTRE),
 
   });
 
@@ -5610,8 +5610,8 @@ Napi::FunctionReference OCInterfaceEvent::constructor;
 
 Napi::Function OCInterfaceEvent::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCInterfaceEvent", {
-    OCInterfaceEvent::InstanceAccessor("NETWORK_INTERFACE_DOWN", &OCInterfaceEvent::get_NETWORK_INTERFACE_DOWN, &OCInterfaceEvent::set_NETWORK_INTERFACE_DOWN),
-    OCInterfaceEvent::InstanceAccessor("NETWORK_INTERFACE_UP", &OCInterfaceEvent::get_NETWORK_INTERFACE_UP, &OCInterfaceEvent::set_NETWORK_INTERFACE_UP),
+    OCInterfaceEvent::StaticAccessor("NETWORK_INTERFACE_DOWN", OCInterfaceEvent::get_NETWORK_INTERFACE_DOWN, OCInterfaceEvent::set_NETWORK_INTERFACE_DOWN),
+    OCInterfaceEvent::StaticAccessor("NETWORK_INTERFACE_UP", OCInterfaceEvent::get_NETWORK_INTERFACE_UP, OCInterfaceEvent::set_NETWORK_INTERFACE_UP),
 
   });
 
@@ -5657,10 +5657,10 @@ Napi::FunctionReference OCSpTypesMask::constructor;
 
 Napi::Function OCSpTypesMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSpTypesMask", {
-    OCSpTypesMask::InstanceAccessor("OC_SP_BASELINE", &OCSpTypesMask::get_OC_SP_BASELINE, &OCSpTypesMask::set_OC_SP_BASELINE),
-    OCSpTypesMask::InstanceAccessor("OC_SP_BLACK", &OCSpTypesMask::get_OC_SP_BLACK, &OCSpTypesMask::set_OC_SP_BLACK),
-    OCSpTypesMask::InstanceAccessor("OC_SP_BLUE", &OCSpTypesMask::get_OC_SP_BLUE, &OCSpTypesMask::set_OC_SP_BLUE),
-    OCSpTypesMask::InstanceAccessor("OC_SP_PURPLE", &OCSpTypesMask::get_OC_SP_PURPLE, &OCSpTypesMask::set_OC_SP_PURPLE),
+    OCSpTypesMask::StaticAccessor("OC_SP_BASELINE", OCSpTypesMask::get_OC_SP_BASELINE, OCSpTypesMask::set_OC_SP_BASELINE),
+    OCSpTypesMask::StaticAccessor("OC_SP_BLACK", OCSpTypesMask::get_OC_SP_BLACK, OCSpTypesMask::set_OC_SP_BLACK),
+    OCSpTypesMask::StaticAccessor("OC_SP_BLUE", OCSpTypesMask::get_OC_SP_BLUE, OCSpTypesMask::set_OC_SP_BLUE),
+    OCSpTypesMask::StaticAccessor("OC_SP_PURPLE", OCSpTypesMask::get_OC_SP_PURPLE, OCSpTypesMask::set_OC_SP_PURPLE),
 
   });
 
@@ -5726,20 +5726,20 @@ Napi::FunctionReference OCRepValueType::constructor;
 
 Napi::Function OCRepValueType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCRepValueType", {
-    OCRepValueType::InstanceAccessor("OC_REP_NIL", &OCRepValueType::get_OC_REP_NIL, &OCRepValueType::set_OC_REP_NIL),
-    OCRepValueType::InstanceAccessor("OC_REP_INT", &OCRepValueType::get_OC_REP_INT, &OCRepValueType::set_OC_REP_INT),
-    OCRepValueType::InstanceAccessor("OC_REP_DOUBLE", &OCRepValueType::get_OC_REP_DOUBLE, &OCRepValueType::set_OC_REP_DOUBLE),
-    OCRepValueType::InstanceAccessor("OC_REP_BOOL", &OCRepValueType::get_OC_REP_BOOL, &OCRepValueType::set_OC_REP_BOOL),
-    OCRepValueType::InstanceAccessor("OC_REP_BYTE_STRING", &OCRepValueType::get_OC_REP_BYTE_STRING, &OCRepValueType::set_OC_REP_BYTE_STRING),
-    OCRepValueType::InstanceAccessor("OC_REP_STRING", &OCRepValueType::get_OC_REP_STRING, &OCRepValueType::set_OC_REP_STRING),
-    OCRepValueType::InstanceAccessor("OC_REP_OBJECT", &OCRepValueType::get_OC_REP_OBJECT, &OCRepValueType::set_OC_REP_OBJECT),
-    OCRepValueType::InstanceAccessor("OC_REP_ARRAY", &OCRepValueType::get_OC_REP_ARRAY, &OCRepValueType::set_OC_REP_ARRAY),
-    OCRepValueType::InstanceAccessor("OC_REP_INT_ARRAY", &OCRepValueType::get_OC_REP_INT_ARRAY, &OCRepValueType::set_OC_REP_INT_ARRAY),
-    OCRepValueType::InstanceAccessor("OC_REP_DOUBLE_ARRAY", &OCRepValueType::get_OC_REP_DOUBLE_ARRAY, &OCRepValueType::set_OC_REP_DOUBLE_ARRAY),
-    OCRepValueType::InstanceAccessor("OC_REP_BOOL_ARRAY", &OCRepValueType::get_OC_REP_BOOL_ARRAY, &OCRepValueType::set_OC_REP_BOOL_ARRAY),
-    OCRepValueType::InstanceAccessor("OC_REP_BYTE_STRING_ARRAY", &OCRepValueType::get_OC_REP_BYTE_STRING_ARRAY, &OCRepValueType::set_OC_REP_BYTE_STRING_ARRAY),
-    OCRepValueType::InstanceAccessor("OC_REP_STRING_ARRAY", &OCRepValueType::get_OC_REP_STRING_ARRAY, &OCRepValueType::set_OC_REP_STRING_ARRAY),
-    OCRepValueType::InstanceAccessor("OC_REP_OBJECT_ARRAY", &OCRepValueType::get_OC_REP_OBJECT_ARRAY, &OCRepValueType::set_OC_REP_OBJECT_ARRAY),
+    OCRepValueType::StaticAccessor("OC_REP_NIL", OCRepValueType::get_OC_REP_NIL, OCRepValueType::set_OC_REP_NIL),
+    OCRepValueType::StaticAccessor("OC_REP_INT", OCRepValueType::get_OC_REP_INT, OCRepValueType::set_OC_REP_INT),
+    OCRepValueType::StaticAccessor("OC_REP_DOUBLE", OCRepValueType::get_OC_REP_DOUBLE, OCRepValueType::set_OC_REP_DOUBLE),
+    OCRepValueType::StaticAccessor("OC_REP_BOOL", OCRepValueType::get_OC_REP_BOOL, OCRepValueType::set_OC_REP_BOOL),
+    OCRepValueType::StaticAccessor("OC_REP_BYTE_STRING", OCRepValueType::get_OC_REP_BYTE_STRING, OCRepValueType::set_OC_REP_BYTE_STRING),
+    OCRepValueType::StaticAccessor("OC_REP_STRING", OCRepValueType::get_OC_REP_STRING, OCRepValueType::set_OC_REP_STRING),
+    OCRepValueType::StaticAccessor("OC_REP_OBJECT", OCRepValueType::get_OC_REP_OBJECT, OCRepValueType::set_OC_REP_OBJECT),
+    OCRepValueType::StaticAccessor("OC_REP_ARRAY", OCRepValueType::get_OC_REP_ARRAY, OCRepValueType::set_OC_REP_ARRAY),
+    OCRepValueType::StaticAccessor("OC_REP_INT_ARRAY", OCRepValueType::get_OC_REP_INT_ARRAY, OCRepValueType::set_OC_REP_INT_ARRAY),
+    OCRepValueType::StaticAccessor("OC_REP_DOUBLE_ARRAY", OCRepValueType::get_OC_REP_DOUBLE_ARRAY, OCRepValueType::set_OC_REP_DOUBLE_ARRAY),
+    OCRepValueType::StaticAccessor("OC_REP_BOOL_ARRAY", OCRepValueType::get_OC_REP_BOOL_ARRAY, OCRepValueType::set_OC_REP_BOOL_ARRAY),
+    OCRepValueType::StaticAccessor("OC_REP_BYTE_STRING_ARRAY", OCRepValueType::get_OC_REP_BYTE_STRING_ARRAY, OCRepValueType::set_OC_REP_BYTE_STRING_ARRAY),
+    OCRepValueType::StaticAccessor("OC_REP_STRING_ARRAY", OCRepValueType::get_OC_REP_STRING_ARRAY, OCRepValueType::set_OC_REP_STRING_ARRAY),
+    OCRepValueType::StaticAccessor("OC_REP_OBJECT_ARRAY", OCRepValueType::get_OC_REP_OBJECT_ARRAY, OCRepValueType::set_OC_REP_OBJECT_ARRAY),
 
   });
 
@@ -5905,30 +5905,30 @@ Napi::FunctionReference OCContentFormat::constructor;
 
 Napi::Function OCContentFormat::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCContentFormat", {
-    OCContentFormat::InstanceAccessor("TEXT_PLAIN", &OCContentFormat::get_TEXT_PLAIN, &OCContentFormat::set_TEXT_PLAIN),
-    OCContentFormat::InstanceAccessor("TEXT_XML", &OCContentFormat::get_TEXT_XML, &OCContentFormat::set_TEXT_XML),
-    OCContentFormat::InstanceAccessor("TEXT_CSV", &OCContentFormat::get_TEXT_CSV, &OCContentFormat::set_TEXT_CSV),
-    OCContentFormat::InstanceAccessor("TEXT_HTML", &OCContentFormat::get_TEXT_HTML, &OCContentFormat::set_TEXT_HTML),
-    OCContentFormat::InstanceAccessor("IMAGE_GIF", &OCContentFormat::get_IMAGE_GIF, &OCContentFormat::set_IMAGE_GIF),
-    OCContentFormat::InstanceAccessor("IMAGE_JPEG", &OCContentFormat::get_IMAGE_JPEG, &OCContentFormat::set_IMAGE_JPEG),
-    OCContentFormat::InstanceAccessor("IMAGE_PNG", &OCContentFormat::get_IMAGE_PNG, &OCContentFormat::set_IMAGE_PNG),
-    OCContentFormat::InstanceAccessor("IMAGE_TIFF", &OCContentFormat::get_IMAGE_TIFF, &OCContentFormat::set_IMAGE_TIFF),
-    OCContentFormat::InstanceAccessor("AUDIO_RAW", &OCContentFormat::get_AUDIO_RAW, &OCContentFormat::set_AUDIO_RAW),
-    OCContentFormat::InstanceAccessor("VIDEO_RAW", &OCContentFormat::get_VIDEO_RAW, &OCContentFormat::set_VIDEO_RAW),
-    OCContentFormat::InstanceAccessor("APPLICATION_LINK_FORMAT", &OCContentFormat::get_APPLICATION_LINK_FORMAT, &OCContentFormat::set_APPLICATION_LINK_FORMAT),
-    OCContentFormat::InstanceAccessor("APPLICATION_XML", &OCContentFormat::get_APPLICATION_XML, &OCContentFormat::set_APPLICATION_XML),
-    OCContentFormat::InstanceAccessor("APPLICATION_OCTET_STREAM", &OCContentFormat::get_APPLICATION_OCTET_STREAM, &OCContentFormat::set_APPLICATION_OCTET_STREAM),
-    OCContentFormat::InstanceAccessor("APPLICATION_RDF_XML", &OCContentFormat::get_APPLICATION_RDF_XML, &OCContentFormat::set_APPLICATION_RDF_XML),
-    OCContentFormat::InstanceAccessor("APPLICATION_SOAP_XML", &OCContentFormat::get_APPLICATION_SOAP_XML, &OCContentFormat::set_APPLICATION_SOAP_XML),
-    OCContentFormat::InstanceAccessor("APPLICATION_ATOM_XML", &OCContentFormat::get_APPLICATION_ATOM_XML, &OCContentFormat::set_APPLICATION_ATOM_XML),
-    OCContentFormat::InstanceAccessor("APPLICATION_XMPP_XML", &OCContentFormat::get_APPLICATION_XMPP_XML, &OCContentFormat::set_APPLICATION_XMPP_XML),
-    OCContentFormat::InstanceAccessor("APPLICATION_EXI", &OCContentFormat::get_APPLICATION_EXI, &OCContentFormat::set_APPLICATION_EXI),
-    OCContentFormat::InstanceAccessor("APPLICATION_FASTINFOSET", &OCContentFormat::get_APPLICATION_FASTINFOSET, &OCContentFormat::set_APPLICATION_FASTINFOSET),
-    OCContentFormat::InstanceAccessor("APPLICATION_SOAP_FASTINFOSET", &OCContentFormat::get_APPLICATION_SOAP_FASTINFOSET, &OCContentFormat::set_APPLICATION_SOAP_FASTINFOSET),
-    OCContentFormat::InstanceAccessor("APPLICATION_JSON", &OCContentFormat::get_APPLICATION_JSON, &OCContentFormat::set_APPLICATION_JSON),
-    OCContentFormat::InstanceAccessor("APPLICATION_X_OBIX_BINARY", &OCContentFormat::get_APPLICATION_X_OBIX_BINARY, &OCContentFormat::set_APPLICATION_X_OBIX_BINARY),
-    OCContentFormat::InstanceAccessor("APPLICATION_CBOR", &OCContentFormat::get_APPLICATION_CBOR, &OCContentFormat::set_APPLICATION_CBOR),
-    OCContentFormat::InstanceAccessor("APPLICATION_VND_OCF_CBOR", &OCContentFormat::get_APPLICATION_VND_OCF_CBOR, &OCContentFormat::set_APPLICATION_VND_OCF_CBOR),
+    OCContentFormat::StaticAccessor("TEXT_PLAIN", OCContentFormat::get_TEXT_PLAIN, OCContentFormat::set_TEXT_PLAIN),
+    OCContentFormat::StaticAccessor("TEXT_XML", OCContentFormat::get_TEXT_XML, OCContentFormat::set_TEXT_XML),
+    OCContentFormat::StaticAccessor("TEXT_CSV", OCContentFormat::get_TEXT_CSV, OCContentFormat::set_TEXT_CSV),
+    OCContentFormat::StaticAccessor("TEXT_HTML", OCContentFormat::get_TEXT_HTML, OCContentFormat::set_TEXT_HTML),
+    OCContentFormat::StaticAccessor("IMAGE_GIF", OCContentFormat::get_IMAGE_GIF, OCContentFormat::set_IMAGE_GIF),
+    OCContentFormat::StaticAccessor("IMAGE_JPEG", OCContentFormat::get_IMAGE_JPEG, OCContentFormat::set_IMAGE_JPEG),
+    OCContentFormat::StaticAccessor("IMAGE_PNG", OCContentFormat::get_IMAGE_PNG, OCContentFormat::set_IMAGE_PNG),
+    OCContentFormat::StaticAccessor("IMAGE_TIFF", OCContentFormat::get_IMAGE_TIFF, OCContentFormat::set_IMAGE_TIFF),
+    OCContentFormat::StaticAccessor("AUDIO_RAW", OCContentFormat::get_AUDIO_RAW, OCContentFormat::set_AUDIO_RAW),
+    OCContentFormat::StaticAccessor("VIDEO_RAW", OCContentFormat::get_VIDEO_RAW, OCContentFormat::set_VIDEO_RAW),
+    OCContentFormat::StaticAccessor("APPLICATION_LINK_FORMAT", OCContentFormat::get_APPLICATION_LINK_FORMAT, OCContentFormat::set_APPLICATION_LINK_FORMAT),
+    OCContentFormat::StaticAccessor("APPLICATION_XML", OCContentFormat::get_APPLICATION_XML, OCContentFormat::set_APPLICATION_XML),
+    OCContentFormat::StaticAccessor("APPLICATION_OCTET_STREAM", OCContentFormat::get_APPLICATION_OCTET_STREAM, OCContentFormat::set_APPLICATION_OCTET_STREAM),
+    OCContentFormat::StaticAccessor("APPLICATION_RDF_XML", OCContentFormat::get_APPLICATION_RDF_XML, OCContentFormat::set_APPLICATION_RDF_XML),
+    OCContentFormat::StaticAccessor("APPLICATION_SOAP_XML", OCContentFormat::get_APPLICATION_SOAP_XML, OCContentFormat::set_APPLICATION_SOAP_XML),
+    OCContentFormat::StaticAccessor("APPLICATION_ATOM_XML", OCContentFormat::get_APPLICATION_ATOM_XML, OCContentFormat::set_APPLICATION_ATOM_XML),
+    OCContentFormat::StaticAccessor("APPLICATION_XMPP_XML", OCContentFormat::get_APPLICATION_XMPP_XML, OCContentFormat::set_APPLICATION_XMPP_XML),
+    OCContentFormat::StaticAccessor("APPLICATION_EXI", OCContentFormat::get_APPLICATION_EXI, OCContentFormat::set_APPLICATION_EXI),
+    OCContentFormat::StaticAccessor("APPLICATION_FASTINFOSET", OCContentFormat::get_APPLICATION_FASTINFOSET, OCContentFormat::set_APPLICATION_FASTINFOSET),
+    OCContentFormat::StaticAccessor("APPLICATION_SOAP_FASTINFOSET", OCContentFormat::get_APPLICATION_SOAP_FASTINFOSET, OCContentFormat::set_APPLICATION_SOAP_FASTINFOSET),
+    OCContentFormat::StaticAccessor("APPLICATION_JSON", OCContentFormat::get_APPLICATION_JSON, OCContentFormat::set_APPLICATION_JSON),
+    OCContentFormat::StaticAccessor("APPLICATION_X_OBIX_BINARY", OCContentFormat::get_APPLICATION_X_OBIX_BINARY, OCContentFormat::set_APPLICATION_X_OBIX_BINARY),
+    OCContentFormat::StaticAccessor("APPLICATION_CBOR", OCContentFormat::get_APPLICATION_CBOR, OCContentFormat::set_APPLICATION_CBOR),
+    OCContentFormat::StaticAccessor("APPLICATION_VND_OCF_CBOR", OCContentFormat::get_APPLICATION_VND_OCF_CBOR, OCContentFormat::set_APPLICATION_VND_OCF_CBOR),
 
   });
 
@@ -6194,48 +6194,48 @@ Napi::FunctionReference OCCoreRes::constructor;
 
 Napi::Function OCCoreRes::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCoreRes", {
-    OCCoreRes::InstanceAccessor("OCF_P", &OCCoreRes::get_OCF_P, &OCCoreRes::set_OCF_P),
-    OCCoreRes::InstanceAccessor("OCF_CON", &OCCoreRes::get_OCF_CON, &OCCoreRes::set_OCF_CON),
-    OCCoreRes::InstanceAccessor("OCF_INTROSPECTION_WK", &OCCoreRes::get_OCF_INTROSPECTION_WK, &OCCoreRes::set_OCF_INTROSPECTION_WK),
-    OCCoreRes::InstanceAccessor("OCF_INTROSPECTION_DATA", &OCCoreRes::get_OCF_INTROSPECTION_DATA, &OCCoreRes::set_OCF_INTROSPECTION_DATA),
-    OCCoreRes::InstanceAccessor("OCF_RES", &OCCoreRes::get_OCF_RES, &OCCoreRes::set_OCF_RES),
+    OCCoreRes::StaticAccessor("OCF_P", OCCoreRes::get_OCF_P, OCCoreRes::set_OCF_P),
+    OCCoreRes::StaticAccessor("OCF_CON", OCCoreRes::get_OCF_CON, OCCoreRes::set_OCF_CON),
+    OCCoreRes::StaticAccessor("OCF_INTROSPECTION_WK", OCCoreRes::get_OCF_INTROSPECTION_WK, OCCoreRes::set_OCF_INTROSPECTION_WK),
+    OCCoreRes::StaticAccessor("OCF_INTROSPECTION_DATA", OCCoreRes::get_OCF_INTROSPECTION_DATA, OCCoreRes::set_OCF_INTROSPECTION_DATA),
+    OCCoreRes::StaticAccessor("OCF_RES", OCCoreRes::get_OCF_RES, OCCoreRes::set_OCF_RES),
 #if defined(OC_MNT)
-    OCCoreRes::InstanceAccessor("OCF_MNT", &OCCoreRes::get_OCF_MNT, &OCCoreRes::set_OCF_MNT),
+    OCCoreRes::StaticAccessor("OCF_MNT", OCCoreRes::get_OCF_MNT, OCCoreRes::set_OCF_MNT),
 #endif
 #if defined(OC_CLOUD)
-    OCCoreRes::InstanceAccessor("OCF_COAPCLOUDCONF", &OCCoreRes::get_OCF_COAPCLOUDCONF, &OCCoreRes::set_OCF_COAPCLOUDCONF),
+    OCCoreRes::StaticAccessor("OCF_COAPCLOUDCONF", OCCoreRes::get_OCF_COAPCLOUDCONF, OCCoreRes::set_OCF_COAPCLOUDCONF),
 #endif
 #if defined(OC_SOFTWARE_UPDATE)
-    OCCoreRes::InstanceAccessor("OCF_SW_UPDATE", &OCCoreRes::get_OCF_SW_UPDATE, &OCCoreRes::set_OCF_SW_UPDATE),
+    OCCoreRes::StaticAccessor("OCF_SW_UPDATE", OCCoreRes::get_OCF_SW_UPDATE, OCCoreRes::set_OCF_SW_UPDATE),
 #endif
 #if defined(OC_SECURITY)
-    OCCoreRes::InstanceAccessor("OCF_SEC_DOXM", &OCCoreRes::get_OCF_SEC_DOXM, &OCCoreRes::set_OCF_SEC_DOXM),
+    OCCoreRes::StaticAccessor("OCF_SEC_DOXM", OCCoreRes::get_OCF_SEC_DOXM, OCCoreRes::set_OCF_SEC_DOXM),
 #endif
 #if defined(OC_SECURITY)
-    OCCoreRes::InstanceAccessor("OCF_SEC_PSTAT", &OCCoreRes::get_OCF_SEC_PSTAT, &OCCoreRes::set_OCF_SEC_PSTAT),
+    OCCoreRes::StaticAccessor("OCF_SEC_PSTAT", OCCoreRes::get_OCF_SEC_PSTAT, OCCoreRes::set_OCF_SEC_PSTAT),
 #endif
 #if defined(OC_SECURITY)
-    OCCoreRes::InstanceAccessor("OCF_SEC_ACL", &OCCoreRes::get_OCF_SEC_ACL, &OCCoreRes::set_OCF_SEC_ACL),
+    OCCoreRes::StaticAccessor("OCF_SEC_ACL", OCCoreRes::get_OCF_SEC_ACL, OCCoreRes::set_OCF_SEC_ACL),
 #endif
 #if defined(OC_SECURITY)
-    OCCoreRes::InstanceAccessor("OCF_SEC_AEL", &OCCoreRes::get_OCF_SEC_AEL, &OCCoreRes::set_OCF_SEC_AEL),
+    OCCoreRes::StaticAccessor("OCF_SEC_AEL", OCCoreRes::get_OCF_SEC_AEL, OCCoreRes::set_OCF_SEC_AEL),
 #endif
 #if defined(OC_SECURITY)
-    OCCoreRes::InstanceAccessor("OCF_SEC_CRED", &OCCoreRes::get_OCF_SEC_CRED, &OCCoreRes::set_OCF_SEC_CRED),
+    OCCoreRes::StaticAccessor("OCF_SEC_CRED", OCCoreRes::get_OCF_SEC_CRED, OCCoreRes::set_OCF_SEC_CRED),
 #endif
 #if defined(OC_SECURITY)
-    OCCoreRes::InstanceAccessor("OCF_SEC_SDI", &OCCoreRes::get_OCF_SEC_SDI, &OCCoreRes::set_OCF_SEC_SDI),
+    OCCoreRes::StaticAccessor("OCF_SEC_SDI", OCCoreRes::get_OCF_SEC_SDI, OCCoreRes::set_OCF_SEC_SDI),
 #endif
 #if defined(OC_SECURITY)
-    OCCoreRes::InstanceAccessor("OCF_SEC_SP", &OCCoreRes::get_OCF_SEC_SP, &OCCoreRes::set_OCF_SEC_SP),
+    OCCoreRes::StaticAccessor("OCF_SEC_SP", OCCoreRes::get_OCF_SEC_SP, OCCoreRes::set_OCF_SEC_SP),
 #endif
 #if defined(OC_SECURITY) && defined(OC_PKI)
-    OCCoreRes::InstanceAccessor("OCF_SEC_CSR", &OCCoreRes::get_OCF_SEC_CSR, &OCCoreRes::set_OCF_SEC_CSR),
+    OCCoreRes::StaticAccessor("OCF_SEC_CSR", OCCoreRes::get_OCF_SEC_CSR, OCCoreRes::set_OCF_SEC_CSR),
 #endif
 #if defined(OC_SECURITY) && defined(OC_PKI)
-    OCCoreRes::InstanceAccessor("OCF_SEC_ROLES", &OCCoreRes::get_OCF_SEC_ROLES, &OCCoreRes::set_OCF_SEC_ROLES),
+    OCCoreRes::StaticAccessor("OCF_SEC_ROLES", OCCoreRes::get_OCF_SEC_ROLES, OCCoreRes::set_OCF_SEC_ROLES),
 #endif
-    OCCoreRes::InstanceAccessor("OCF_D", &OCCoreRes::get_OCF_D, &OCCoreRes::set_OCF_D),
+    OCCoreRes::StaticAccessor("OCF_D", OCCoreRes::get_OCF_D, OCCoreRes::set_OCF_D),
 
   });
 
@@ -6465,8 +6465,8 @@ Napi::FunctionReference OCEventCallbackResult::constructor;
 
 Napi::Function OCEventCallbackResult::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEventCallbackResult", {
-    OCEventCallbackResult::InstanceAccessor("OC_EVENT_DONE", &OCEventCallbackResult::get_OC_EVENT_DONE, &OCEventCallbackResult::set_OC_EVENT_DONE),
-    OCEventCallbackResult::InstanceAccessor("OC_EVENT_CONTINUE", &OCEventCallbackResult::get_OC_EVENT_CONTINUE, &OCEventCallbackResult::set_OC_EVENT_CONTINUE),
+    OCEventCallbackResult::StaticAccessor("OC_EVENT_DONE", OCEventCallbackResult::get_OC_EVENT_DONE, OCEventCallbackResult::set_OC_EVENT_DONE),
+    OCEventCallbackResult::StaticAccessor("OC_EVENT_CONTINUE", OCEventCallbackResult::get_OC_EVENT_CONTINUE, OCEventCallbackResult::set_OC_EVENT_CONTINUE),
 
   });
 
@@ -6512,14 +6512,14 @@ Napi::FunctionReference OCInterfaceMask::constructor;
 
 Napi::Function OCInterfaceMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCInterfaceMask", {
-    OCInterfaceMask::InstanceAccessor("OC_IF_BASELINE", &OCInterfaceMask::get_OC_IF_BASELINE, &OCInterfaceMask::set_OC_IF_BASELINE),
-    OCInterfaceMask::InstanceAccessor("OC_IF_LL", &OCInterfaceMask::get_OC_IF_LL, &OCInterfaceMask::set_OC_IF_LL),
-    OCInterfaceMask::InstanceAccessor("OC_IF_B", &OCInterfaceMask::get_OC_IF_B, &OCInterfaceMask::set_OC_IF_B),
-    OCInterfaceMask::InstanceAccessor("OC_IF_R", &OCInterfaceMask::get_OC_IF_R, &OCInterfaceMask::set_OC_IF_R),
-    OCInterfaceMask::InstanceAccessor("OC_IF_RW", &OCInterfaceMask::get_OC_IF_RW, &OCInterfaceMask::set_OC_IF_RW),
-    OCInterfaceMask::InstanceAccessor("OC_IF_A", &OCInterfaceMask::get_OC_IF_A, &OCInterfaceMask::set_OC_IF_A),
-    OCInterfaceMask::InstanceAccessor("OC_IF_S", &OCInterfaceMask::get_OC_IF_S, &OCInterfaceMask::set_OC_IF_S),
-    OCInterfaceMask::InstanceAccessor("OC_IF_CREATE", &OCInterfaceMask::get_OC_IF_CREATE, &OCInterfaceMask::set_OC_IF_CREATE),
+    OCInterfaceMask::StaticAccessor("OC_IF_BASELINE", OCInterfaceMask::get_OC_IF_BASELINE, OCInterfaceMask::set_OC_IF_BASELINE),
+    OCInterfaceMask::StaticAccessor("OC_IF_LL", OCInterfaceMask::get_OC_IF_LL, OCInterfaceMask::set_OC_IF_LL),
+    OCInterfaceMask::StaticAccessor("OC_IF_B", OCInterfaceMask::get_OC_IF_B, OCInterfaceMask::set_OC_IF_B),
+    OCInterfaceMask::StaticAccessor("OC_IF_R", OCInterfaceMask::get_OC_IF_R, OCInterfaceMask::set_OC_IF_R),
+    OCInterfaceMask::StaticAccessor("OC_IF_RW", OCInterfaceMask::get_OC_IF_RW, OCInterfaceMask::set_OC_IF_RW),
+    OCInterfaceMask::StaticAccessor("OC_IF_A", OCInterfaceMask::get_OC_IF_A, OCInterfaceMask::set_OC_IF_A),
+    OCInterfaceMask::StaticAccessor("OC_IF_S", OCInterfaceMask::get_OC_IF_S, OCInterfaceMask::set_OC_IF_S),
+    OCInterfaceMask::StaticAccessor("OC_IF_CREATE", OCInterfaceMask::get_OC_IF_CREATE, OCInterfaceMask::set_OC_IF_CREATE),
 
   });
 
@@ -6625,10 +6625,10 @@ Napi::FunctionReference OCMethod::constructor;
 
 Napi::Function OCMethod::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCMethod", {
-    OCMethod::InstanceAccessor("OC_GET", &OCMethod::get_OC_GET, &OCMethod::set_OC_GET),
-    OCMethod::InstanceAccessor("OC_POST", &OCMethod::get_OC_POST, &OCMethod::set_OC_POST),
-    OCMethod::InstanceAccessor("OC_PUT", &OCMethod::get_OC_PUT, &OCMethod::set_OC_PUT),
-    OCMethod::InstanceAccessor("OC_DELETE", &OCMethod::get_OC_DELETE, &OCMethod::set_OC_DELETE),
+    OCMethod::StaticAccessor("OC_GET", OCMethod::get_OC_GET, OCMethod::set_OC_GET),
+    OCMethod::StaticAccessor("OC_POST", OCMethod::get_OC_POST, OCMethod::set_OC_POST),
+    OCMethod::StaticAccessor("OC_PUT", OCMethod::get_OC_PUT, OCMethod::set_OC_PUT),
+    OCMethod::StaticAccessor("OC_DELETE", OCMethod::get_OC_DELETE, OCMethod::set_OC_DELETE),
 
   });
 
@@ -6694,10 +6694,10 @@ Napi::FunctionReference OCResourcePropertiesMask::constructor;
 
 Napi::Function OCResourcePropertiesMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCResourcePropertiesMask", {
-    OCResourcePropertiesMask::InstanceAccessor("OC_DISCOVERABLE", &OCResourcePropertiesMask::get_OC_DISCOVERABLE, &OCResourcePropertiesMask::set_OC_DISCOVERABLE),
-    OCResourcePropertiesMask::InstanceAccessor("OC_OBSERVABLE", &OCResourcePropertiesMask::get_OC_OBSERVABLE, &OCResourcePropertiesMask::set_OC_OBSERVABLE),
-    OCResourcePropertiesMask::InstanceAccessor("OC_SECURE", &OCResourcePropertiesMask::get_OC_SECURE, &OCResourcePropertiesMask::set_OC_SECURE),
-    OCResourcePropertiesMask::InstanceAccessor("OC_PERIODIC", &OCResourcePropertiesMask::get_OC_PERIODIC, &OCResourcePropertiesMask::set_OC_PERIODIC),
+    OCResourcePropertiesMask::StaticAccessor("OC_DISCOVERABLE", OCResourcePropertiesMask::get_OC_DISCOVERABLE, OCResourcePropertiesMask::set_OC_DISCOVERABLE),
+    OCResourcePropertiesMask::StaticAccessor("OC_OBSERVABLE", OCResourcePropertiesMask::get_OC_OBSERVABLE, OCResourcePropertiesMask::set_OC_OBSERVABLE),
+    OCResourcePropertiesMask::StaticAccessor("OC_SECURE", OCResourcePropertiesMask::get_OC_SECURE, OCResourcePropertiesMask::set_OC_SECURE),
+    OCResourcePropertiesMask::StaticAccessor("OC_PERIODIC", OCResourcePropertiesMask::get_OC_PERIODIC, OCResourcePropertiesMask::set_OC_PERIODIC),
 
   });
 
@@ -6763,29 +6763,29 @@ Napi::FunctionReference OCStatus::constructor;
 
 Napi::Function OCStatus::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCStatus", {
-    OCStatus::InstanceAccessor("OC_STATUS_OK", &OCStatus::get_OC_STATUS_OK, &OCStatus::set_OC_STATUS_OK),
-    OCStatus::InstanceAccessor("OC_STATUS_CREATED", &OCStatus::get_OC_STATUS_CREATED, &OCStatus::set_OC_STATUS_CREATED),
-    OCStatus::InstanceAccessor("OC_STATUS_CHANGED", &OCStatus::get_OC_STATUS_CHANGED, &OCStatus::set_OC_STATUS_CHANGED),
-    OCStatus::InstanceAccessor("OC_STATUS_DELETED", &OCStatus::get_OC_STATUS_DELETED, &OCStatus::set_OC_STATUS_DELETED),
-    OCStatus::InstanceAccessor("OC_STATUS_NOT_MODIFIED", &OCStatus::get_OC_STATUS_NOT_MODIFIED, &OCStatus::set_OC_STATUS_NOT_MODIFIED),
-    OCStatus::InstanceAccessor("OC_STATUS_BAD_REQUEST", &OCStatus::get_OC_STATUS_BAD_REQUEST, &OCStatus::set_OC_STATUS_BAD_REQUEST),
-    OCStatus::InstanceAccessor("OC_STATUS_UNAUTHORIZED", &OCStatus::get_OC_STATUS_UNAUTHORIZED, &OCStatus::set_OC_STATUS_UNAUTHORIZED),
-    OCStatus::InstanceAccessor("OC_STATUS_BAD_OPTION", &OCStatus::get_OC_STATUS_BAD_OPTION, &OCStatus::set_OC_STATUS_BAD_OPTION),
-    OCStatus::InstanceAccessor("OC_STATUS_FORBIDDEN", &OCStatus::get_OC_STATUS_FORBIDDEN, &OCStatus::set_OC_STATUS_FORBIDDEN),
-    OCStatus::InstanceAccessor("OC_STATUS_NOT_FOUND", &OCStatus::get_OC_STATUS_NOT_FOUND, &OCStatus::set_OC_STATUS_NOT_FOUND),
-    OCStatus::InstanceAccessor("OC_STATUS_METHOD_NOT_ALLOWED", &OCStatus::get_OC_STATUS_METHOD_NOT_ALLOWED, &OCStatus::set_OC_STATUS_METHOD_NOT_ALLOWED),
-    OCStatus::InstanceAccessor("OC_STATUS_NOT_ACCEPTABLE", &OCStatus::get_OC_STATUS_NOT_ACCEPTABLE, &OCStatus::set_OC_STATUS_NOT_ACCEPTABLE),
-    OCStatus::InstanceAccessor("OC_STATUS_REQUEST_ENTITY_TOO_LARGE", &OCStatus::get_OC_STATUS_REQUEST_ENTITY_TOO_LARGE, &OCStatus::set_OC_STATUS_REQUEST_ENTITY_TOO_LARGE),
-    OCStatus::InstanceAccessor("OC_STATUS_UNSUPPORTED_MEDIA_TYPE", &OCStatus::get_OC_STATUS_UNSUPPORTED_MEDIA_TYPE, &OCStatus::set_OC_STATUS_UNSUPPORTED_MEDIA_TYPE),
-    OCStatus::InstanceAccessor("OC_STATUS_INTERNAL_SERVER_ERROR", &OCStatus::get_OC_STATUS_INTERNAL_SERVER_ERROR, &OCStatus::set_OC_STATUS_INTERNAL_SERVER_ERROR),
-    OCStatus::InstanceAccessor("OC_STATUS_NOT_IMPLEMENTED", &OCStatus::get_OC_STATUS_NOT_IMPLEMENTED, &OCStatus::set_OC_STATUS_NOT_IMPLEMENTED),
-    OCStatus::InstanceAccessor("OC_STATUS_BAD_GATEWAY", &OCStatus::get_OC_STATUS_BAD_GATEWAY, &OCStatus::set_OC_STATUS_BAD_GATEWAY),
-    OCStatus::InstanceAccessor("OC_STATUS_SERVICE_UNAVAILABLE", &OCStatus::get_OC_STATUS_SERVICE_UNAVAILABLE, &OCStatus::set_OC_STATUS_SERVICE_UNAVAILABLE),
-    OCStatus::InstanceAccessor("OC_STATUS_GATEWAY_TIMEOUT", &OCStatus::get_OC_STATUS_GATEWAY_TIMEOUT, &OCStatus::set_OC_STATUS_GATEWAY_TIMEOUT),
-    OCStatus::InstanceAccessor("OC_STATUS_PROXYING_NOT_SUPPORTED", &OCStatus::get_OC_STATUS_PROXYING_NOT_SUPPORTED, &OCStatus::set_OC_STATUS_PROXYING_NOT_SUPPORTED),
-    OCStatus::InstanceAccessor("__NUM_OC_STATUS_CODES__", &OCStatus::get___NUM_OC_STATUS_CODES__, &OCStatus::set___NUM_OC_STATUS_CODES__),
-    OCStatus::InstanceAccessor("OC_IGNORE", &OCStatus::get_OC_IGNORE, &OCStatus::set_OC_IGNORE),
-    OCStatus::InstanceAccessor("OC_PING_TIMEOUT", &OCStatus::get_OC_PING_TIMEOUT, &OCStatus::set_OC_PING_TIMEOUT),
+    OCStatus::StaticAccessor("OC_STATUS_OK", OCStatus::get_OC_STATUS_OK, OCStatus::set_OC_STATUS_OK),
+    OCStatus::StaticAccessor("OC_STATUS_CREATED", OCStatus::get_OC_STATUS_CREATED, OCStatus::set_OC_STATUS_CREATED),
+    OCStatus::StaticAccessor("OC_STATUS_CHANGED", OCStatus::get_OC_STATUS_CHANGED, OCStatus::set_OC_STATUS_CHANGED),
+    OCStatus::StaticAccessor("OC_STATUS_DELETED", OCStatus::get_OC_STATUS_DELETED, OCStatus::set_OC_STATUS_DELETED),
+    OCStatus::StaticAccessor("OC_STATUS_NOT_MODIFIED", OCStatus::get_OC_STATUS_NOT_MODIFIED, OCStatus::set_OC_STATUS_NOT_MODIFIED),
+    OCStatus::StaticAccessor("OC_STATUS_BAD_REQUEST", OCStatus::get_OC_STATUS_BAD_REQUEST, OCStatus::set_OC_STATUS_BAD_REQUEST),
+    OCStatus::StaticAccessor("OC_STATUS_UNAUTHORIZED", OCStatus::get_OC_STATUS_UNAUTHORIZED, OCStatus::set_OC_STATUS_UNAUTHORIZED),
+    OCStatus::StaticAccessor("OC_STATUS_BAD_OPTION", OCStatus::get_OC_STATUS_BAD_OPTION, OCStatus::set_OC_STATUS_BAD_OPTION),
+    OCStatus::StaticAccessor("OC_STATUS_FORBIDDEN", OCStatus::get_OC_STATUS_FORBIDDEN, OCStatus::set_OC_STATUS_FORBIDDEN),
+    OCStatus::StaticAccessor("OC_STATUS_NOT_FOUND", OCStatus::get_OC_STATUS_NOT_FOUND, OCStatus::set_OC_STATUS_NOT_FOUND),
+    OCStatus::StaticAccessor("OC_STATUS_METHOD_NOT_ALLOWED", OCStatus::get_OC_STATUS_METHOD_NOT_ALLOWED, OCStatus::set_OC_STATUS_METHOD_NOT_ALLOWED),
+    OCStatus::StaticAccessor("OC_STATUS_NOT_ACCEPTABLE", OCStatus::get_OC_STATUS_NOT_ACCEPTABLE, OCStatus::set_OC_STATUS_NOT_ACCEPTABLE),
+    OCStatus::StaticAccessor("OC_STATUS_REQUEST_ENTITY_TOO_LARGE", OCStatus::get_OC_STATUS_REQUEST_ENTITY_TOO_LARGE, OCStatus::set_OC_STATUS_REQUEST_ENTITY_TOO_LARGE),
+    OCStatus::StaticAccessor("OC_STATUS_UNSUPPORTED_MEDIA_TYPE", OCStatus::get_OC_STATUS_UNSUPPORTED_MEDIA_TYPE, OCStatus::set_OC_STATUS_UNSUPPORTED_MEDIA_TYPE),
+    OCStatus::StaticAccessor("OC_STATUS_INTERNAL_SERVER_ERROR", OCStatus::get_OC_STATUS_INTERNAL_SERVER_ERROR, OCStatus::set_OC_STATUS_INTERNAL_SERVER_ERROR),
+    OCStatus::StaticAccessor("OC_STATUS_NOT_IMPLEMENTED", OCStatus::get_OC_STATUS_NOT_IMPLEMENTED, OCStatus::set_OC_STATUS_NOT_IMPLEMENTED),
+    OCStatus::StaticAccessor("OC_STATUS_BAD_GATEWAY", OCStatus::get_OC_STATUS_BAD_GATEWAY, OCStatus::set_OC_STATUS_BAD_GATEWAY),
+    OCStatus::StaticAccessor("OC_STATUS_SERVICE_UNAVAILABLE", OCStatus::get_OC_STATUS_SERVICE_UNAVAILABLE, OCStatus::set_OC_STATUS_SERVICE_UNAVAILABLE),
+    OCStatus::StaticAccessor("OC_STATUS_GATEWAY_TIMEOUT", OCStatus::get_OC_STATUS_GATEWAY_TIMEOUT, OCStatus::set_OC_STATUS_GATEWAY_TIMEOUT),
+    OCStatus::StaticAccessor("OC_STATUS_PROXYING_NOT_SUPPORTED", OCStatus::get_OC_STATUS_PROXYING_NOT_SUPPORTED, OCStatus::set_OC_STATUS_PROXYING_NOT_SUPPORTED),
+    OCStatus::StaticAccessor("__NUM_OC_STATUS_CODES__", OCStatus::get___NUM_OC_STATUS_CODES__, OCStatus::set___NUM_OC_STATUS_CODES__),
+    OCStatus::StaticAccessor("OC_IGNORE", OCStatus::get_OC_IGNORE, OCStatus::set_OC_IGNORE),
+    OCStatus::StaticAccessor("OC_PING_TIMEOUT", OCStatus::get_OC_PING_TIMEOUT, OCStatus::set_OC_PING_TIMEOUT),
 
   });
 
@@ -7041,8 +7041,8 @@ Napi::FunctionReference OCSessionState::constructor;
 
 Napi::Function OCSessionState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSessionState", {
-    OCSessionState::InstanceAccessor("OC_SESSION_CONNECTED", &OCSessionState::get_OC_SESSION_CONNECTED, &OCSessionState::set_OC_SESSION_CONNECTED),
-    OCSessionState::InstanceAccessor("OC_SESSION_DISCONNECTED", &OCSessionState::get_OC_SESSION_DISCONNECTED, &OCSessionState::set_OC_SESSION_DISCONNECTED),
+    OCSessionState::StaticAccessor("OC_SESSION_CONNECTED", OCSessionState::get_OC_SESSION_CONNECTED, OCSessionState::set_OC_SESSION_CONNECTED),
+    OCSessionState::StaticAccessor("OC_SESSION_DISCONNECTED", OCSessionState::get_OC_SESSION_DISCONNECTED, OCSessionState::set_OC_SESSION_DISCONNECTED),
 
   });
 
@@ -7088,14 +7088,14 @@ Napi::FunctionReference OCSoftwareUpdateResult::constructor;
 
 Napi::Function OCSoftwareUpdateResult::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSoftwareUpdateResult", {
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_IDLE", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_IDLE, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_IDLE),
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_SUCCESS", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SUCCESS, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SUCCESS),
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_LESS_RAM", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_RAM, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_RAM),
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_LESS_FLASH", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_FLASH, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_FLASH),
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_CONN_FAIL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_CONN_FAIL, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_CONN_FAIL),
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_SVV_FAIL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SVV_FAIL, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SVV_FAIL),
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_INVALID_URL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_INVALID_URL, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_INVALID_URL),
-    OCSoftwareUpdateResult::InstanceAccessor("OC_SWUPDATE_RESULT_UPGRADE_FAIL", &OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_UPGRADE_FAIL, &OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_UPGRADE_FAIL),
+    OCSoftwareUpdateResult::StaticAccessor("OC_SWUPDATE_RESULT_IDLE", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_IDLE, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_IDLE),
+    OCSoftwareUpdateResult::StaticAccessor("OC_SWUPDATE_RESULT_SUCCESS", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SUCCESS, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SUCCESS),
+    OCSoftwareUpdateResult::StaticAccessor("OC_SWUPDATE_RESULT_LESS_RAM", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_RAM, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_RAM),
+    OCSoftwareUpdateResult::StaticAccessor("OC_SWUPDATE_RESULT_LESS_FLASH", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_FLASH, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_FLASH),
+    OCSoftwareUpdateResult::StaticAccessor("OC_SWUPDATE_RESULT_CONN_FAIL", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_CONN_FAIL, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_CONN_FAIL),
+    OCSoftwareUpdateResult::StaticAccessor("OC_SWUPDATE_RESULT_SVV_FAIL", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SVV_FAIL, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SVV_FAIL),
+    OCSoftwareUpdateResult::StaticAccessor("OC_SWUPDATE_RESULT_INVALID_URL", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_INVALID_URL, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_INVALID_URL),
+    OCSoftwareUpdateResult::StaticAccessor("OC_SWUPDATE_RESULT_UPGRADE_FAIL", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_UPGRADE_FAIL, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_UPGRADE_FAIL),
 
   });
 
