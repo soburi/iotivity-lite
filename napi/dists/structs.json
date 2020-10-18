@@ -2,7 +2,7 @@
   "oc_ace_res_t": {
     "href": "oc_string_t",
     "interfaces": "oc_interface_mask_t",
-    "next": "oc_ace_res_t",
+    "next": "oc_ace_res_t*",
     "types": "oc_string_array_t",
     "wildcard": "oc_ace_wildcard_t"
   },
@@ -21,7 +21,7 @@
     "href": "oc_string_t",
     "method": "oc_method_t",
     "mid": "uint16_t",
-    "next": "oc_blockwise_state_s",
+    "next": "oc_blockwise_state_s*",
     "next_block_offset": "uint32_t",
     "payload_size": "uint32_t",
     "ref_count": "uint8_t",
@@ -32,12 +32,12 @@
   },
   "oc_client_cb_t": {
     "discovery": "bool",
-    "endpoint": "oc_endpoint_t*",
+    "endpoint": "oc_endpoint_t",
     "handler": "oc_client_handler_t",
     "method": "oc_method_t",
     "mid": "uint16_t",
     "multicast": "bool",
-    "next": "oc_client_cb_t",
+    "next": "oc_client_cb_t*",
     "observe_seq": "int32_t",
     "qos": "oc_qos_t",
     "query": "oc_string_t",
@@ -61,25 +61,25 @@
     "client_cb": "void*",
     "code": "oc_status_t",
     "content_format": "oc_content_format_t",
-    "endpoint": "oc_endpoint_t",
+    "endpoint": "oc_endpoint_t*",
     "observe_option": "int",
-    "payload": "oc_rep_t",
+    "payload": "oc_rep_t*",
     "user_data": "void*"
   },
   "oc_cloud_context_t": {
     "callback": "oc_cloud_cb_t",
-    "cloud_conf": "oc_resource_t",
-    "cloud_ep": "oc_endpoint_t",
+    "cloud_conf": "oc_resource_t*",
+    "cloud_ep": "oc_endpoint_t*",
     "cloud_ep_state": "oc_session_state_t",
     "cloud_manager": "bool",
     "device": "size_t",
     "expires_in": "uint16_t",
     "last_error": "oc_cloud_error_t",
-    "next": "oc_cloud_context_t",
+    "next": "oc_cloud_context_t*",
     "rd_delete_all": "bool",
-    "rd_delete_resources": "oc_link_t",
-    "rd_publish_resources": "oc_link_t",
-    "rd_published_resources": "oc_link_t",
+    "rd_delete_resources": "oc_link_t*",
+    "rd_publish_resources": "oc_link_t*",
+    "rd_published_resources": "oc_link_t*",
     "retry_count": "uint8_t",
     "retry_refresh_token_count": "uint8_t",
     "store": "oc_cloud_store_t",
@@ -104,7 +104,7 @@
     "get_properties": "oc_properties_cb_t",
     "interfaces": "oc_interface_mask_t",
     "name": "oc_string_t",
-    "next": "oc_collection_s",
+    "next": "oc_collection_s*",
     "num_links": "uint8_t",
     "num_observers": "uint8_t",
     "post_handler": "oc_request_handler_t",
@@ -116,7 +116,7 @@
     "tag_pos_rel": "double[3]",
     "types": "oc_string_array_t",
     "uri": "oc_string_t",
-    "UNKNOWN_OC_LIST_STRUCT": "UNKNOWN"
+    "OC_LIST_STRUCT": "(supported_rts)"
   },
   "oc_cred_data_t": {
     "data": "oc_string_t",
@@ -132,25 +132,25 @@
     "piid": "oc_uuid_t"
   },
   "oc_endpoint_t": {
-    "addr": "oc_endpoint_t::dev_addr",
-    "addr_local": "oc_endpoint_t::dev_addr",
+    "addr": "union oc_endpoint_t::dev_addr",
+    "addr_local": "union oc_endpoint_t::dev_addr",
     "device": "size_t",
     "di": "oc_uuid_t",
     "flags": "enum transport_flags",
     "interface_index": "int",
-    "next": "oc_endpoint_t",
+    "next": "oc_endpoint_t*",
     "priority": "uint8_t",
     "version": "ocf_version_t"
   },
   "oc_etimer": {
-    "next": "oc_etimer",
-    "p": "oc_process",
+    "next": "oc_etimer*",
+    "p": "oc_process*",
     "timer": "oc_timer"
   },
   "oc_event_callback_s": {
     "callback": "oc_trigger_t",
     "data": "void*",
-    "next": "oc_event_callback_s",
+    "next": "oc_event_callback_s*",
     "timer": "oc_etimer"
   },
   "oc_handler_t": {
@@ -174,16 +174,16 @@
   },
   "oc_link_params_t": {
     "key": "oc_string_t",
-    "next": "oc_link_params_t",
+    "next": "oc_link_params_t*",
     "value": "oc_string_t"
   },
   "oc_link_s": {
     "ins": "int64_t",
     "interfaces": "oc_interface_mask_t",
-    "next": "oc_link_s",
+    "next": "oc_link_s*",
     "rel": "oc_string_array_t",
-    "resource": "oc_resource_t",
-    "UNKNOWN_OC_LIST_STRUCT": "UNKNOWN"
+    "resource": "oc_resource_t*",
+    "OC_LIST_STRUCT": "(params)"
   },
   "oc_memb": {
     "buffers_avail_cb": "oc_memb_buffers_avail_callback_t",
@@ -197,19 +197,19 @@
     "encrypted": "uint8_t",
     "endpoint": "oc_endpoint_t",
     "length": "size_t",
-    "next": "oc_message_s",
-    "pool": "oc_memb",
+    "next": "oc_message_s*",
+    "pool": "oc_memb*",
     "read_offset": "size_t",
     "ref_count": "uint8_t"
   },
   "oc_mmem": {
-    "next": "oc_mmem",
+    "next": "oc_mmem*",
     "ptr": "void*",
     "size": "size_t"
   },
   "oc_network_interface_cb": {
     "handler": "interface_event_handler_t",
-    "next": "oc_network_interface_cb"
+    "next": "oc_network_interface_cb*"
   },
   "oc_platform_info_t": {
     "data": "void*",
@@ -220,10 +220,10 @@
   "oc_process": {
     "name": "const char*",
     "needspoll": "unsigned char",
-    "next": "oc_process",
-    "pt": "struct pt",
+    "next": "oc_process*",
+    "pt": "pt",
     "state": "unsigned char",
-    "UNKNOWN_PT_THREAD": "UNKNOWN"
+    "PT_THREAD": "((*)(struct pt*,,))"
   },
   "oc_properties_cb_t": {
     "cb": "union oc_properties_cb_t::@2",
@@ -233,9 +233,9 @@
   },
   "oc_rep_s": {
     "name": "oc_string_t",
-    "next": "oc_rep_s",
+    "next": "oc_rep_s*",
     "type": "oc_rep_value_type_t",
-    "value": "oc_rep_s::oc_rep_value"
+    "value": "union oc_rep_s::oc_rep_value"
   },
   "oc_request_handler_s": {
     "cb": "oc_request_callback_t",
@@ -245,12 +245,12 @@
     "_payload": "const uint8_t*",
     "_payload_len": "size_t",
     "content_format": "oc_content_format_t",
-    "origin": "oc_endpoint_t",
+    "origin": "oc_endpoint_t*",
     "query": "const char*",
     "query_len": "size_t",
-    "request_payload": "oc_rep_t",
-    "resource": "oc_resource_t",
-    "response": "oc_response_t"
+    "request_payload": "oc_rep_t*",
+    "resource": "oc_resource_t*",
+    "response": "oc_response_t*"
   },
   "oc_resource_s": {
     "default_interface": "oc_interface_mask_t",
@@ -260,7 +260,7 @@
     "get_properties": "oc_properties_cb_t",
     "interfaces": "oc_interface_mask_t",
     "name": "oc_string_t",
-    "next": "oc_resource_s",
+    "next": "oc_resource_s*",
     "num_links": "uint8_t",
     "num_observers": "uint8_t",
     "observe_period_seconds": "uint16_t",
@@ -280,47 +280,47 @@
   },
   "oc_role_t": {
     "authority": "oc_string_t",
-    "next": "oc_role_t",
+    "next": "oc_role_t*",
     "role": "oc_string_t"
   },
   "oc_rt_t": {
-    "next": "oc_rt_t",
+    "next": "oc_rt_t*",
     "rt": "oc_string_t"
   },
   "oc_sec_ace_t": {
     "aceid": "int",
-    "next": "oc_sec_ace_t",
+    "next": "oc_sec_ace_t*",
     "permission": "oc_ace_permissions_t",
     "subject": "oc_ace_subject_t",
     "subject_type": "oc_ace_subject_type_t",
-    "UNKNOWN_OC_LIST_STRUCT": "UNKNOWN"
+    "OC_LIST_STRUCT": "(resources)"
   },
   "oc_sec_acl_s": {
     "rowneruuid": "oc_uuid_t",
-    "UNKNOWN_OC_LIST_STRUCT": "UNKNOWN"
+    "OC_LIST_STRUCT": "(subjects)"
   },
   "oc_sec_creds_t": {
     "rowneruuid": "oc_uuid_t",
-    "UNKNOWN_OC_LIST_STRUCT": "UNKNOWN"
+    "OC_LIST_STRUCT": "(creds)"
   },
   "oc_sec_cred_t": {
     "authority": "oc_string_t",
-    "chain": "oc_sec_cred_t",
-    "child": "oc_sec_cred_t",
+    "chain": "oc_sec_cred_t*",
+    "child": "oc_sec_cred_t*",
     "credid": "int",
     "credtype": "oc_sec_credtype_t",
     "credusage": "oc_sec_credusage_t",
     "ctx": "void*",
-    "next": "oc_sec_cred_t",
+    "next": "oc_sec_cred_t*",
     "owner_cred": "bool",
     "privatedata": "oc_cred_data_t",
     "publicdata": "oc_cred_data_t",
-    "role": "struct oc_sec_cred_t::@1",
+    "role": "oc_sec_cred_t::@1",
     "subjectuuid": "oc_uuid_t"
   },
   "oc_session_event_cb": {
     "handler": "session_event_handler_t",
-    "next": "oc_session_event_cb"
+    "next": "oc_session_event_cb*"
   },
   "oc_swupdate_cb_t": {
     "check_new_version": "int(*)(size_t, const char*, const char*)",
@@ -338,7 +338,7 @@
   "oc_ace_subject_t": {
     "authority": "oc_string_t",
     "conn": "oc_ace_connection_type_t",
-    "role": "struct oc_ace_subject_t::@0",
+    "role": "oc_ace_subject_t::@0",
     "uuid": "oc_uuid_t"
   },
   "oc_endpoint_t::dev_addr": {
@@ -351,8 +351,8 @@
     "boolean": "bool",
     "double_p": "double",
     "integer": "int64_t",
-    "object": "oc_rep_s",
-    "object_array": "oc_rep_s",
+    "object": "oc_rep_s*",
+    "object_array": "oc_rep_s*",
     "string": "oc_string_t"
   }
 }
