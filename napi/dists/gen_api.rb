@@ -508,7 +508,7 @@ TYPEDEFS = {
 
 IGNORE_TYPES = {
 # nested type
-  "oc_response_t" => [ /response_buffer/, /^separate_response$/ ],
+  "oc_response_t" => [ /response_buffer/, ],
   "oc_properties_cb_t" => [ /cb/, /get_props/, /set_props/, /user_data/ ],
   "oc_ace_subject_t" => [ /role/, /^authority$/ ],
   "oc_sec_cred_t" => [ /^role$/, /^authority$/, /ctx/, /^next$/],
@@ -892,30 +892,29 @@ def gen_classdecl(key, h)
   decl
 end
 
+def typedef_map(ty)
+  if TYPEDEFS[ty] != nil
+    TYPEDEFS[ty] 
+  else
+    ty
+  end
+end
+
 def gen_getter_impl(key, k, v)
   if SETGET_OVERRIDE[key+ "::" +k] != nil
     SETGET_OVERRIDE[key + "::" +k]["get"]
   elsif GENERIC_GET[v] != nil
     GENERIC_GET[v]
-  elsif STRUCTS.include?(v)
+  elsif STRUCTS.include?( typedef_map(v) )
     STRUCT_GET
-  elsif STRUCTS.include?(v.gsub(/\*$/,""))
+  elsif STRUCTS.include?( typedef_map(v.gsub(/\*$/,"")) )
     STRUCT_GET
-  elsif ENUMS.include?(v)
+  elsif ENUMS.include?( typedef_map(v) )
     ENUM_GET 
   elsif v =~ /\(\*\)/
     "  return #{k}_function;"
   else
     "#error #{v} CLASSNAME::#{k} gen_getter_impl"
-  end
-end
-
-def typedef_map(ty)
-  if TYPEDEFS[ty] != nil
-    p TYPEDEFS[ty]
-    TYPEDEFS[ty] 
-  else
-    ty
   end
 end
 
@@ -927,6 +926,7 @@ def gen_setter_impl(key, k, v)
   elsif STRUCTS.include?( typedef_map(v) )
     STRUCT_SET
   elsif STRUCTS.include?( typedef_map(v.gsub(/\*$/,""))  )
+    p "Xxx"
     STRUCT_SET
   elsif ENUMS.include?( typedef_map(v) )
     ENUM_SET 
@@ -944,7 +944,7 @@ def gen_setget_impl(key, h)
     t = v
     t = TYPEDEFS[v] if TYPEDEFS[v] != nil
 
-    impl = SETGETIMPL.gsub(/^\#error getter/, gen_getter_impl(key, k, t)).gsub(/^#error setter/, gen_setter_impl(key, k, t)).gsub(/STRUCTNAME/, t).gsub(/CLASSNAME/, gen_classname(key)).gsub(/VALNAME/, k).gsub(/WRAPNAME/, gen_classname(t))
+    impl = SETGETIMPL.gsub(/^\#error getter/, gen_getter_impl(key, k, t)).gsub(/^#error setter/, gen_setter_impl(key, k, t)).gsub(/STRUCTNAME/, t).gsub(/CLASSNAME/, gen_classname(key)).gsub(/VALNAME/, k).gsub(/WRAPNAME/, gen_classname(t).gsub(/\*+$/, '') )
 
 
     if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(Hash) and IFDEF_TYPES[key].has_key?(k)
@@ -1170,7 +1170,7 @@ def gen_funcimpl(name, param)
     type = type.gsub(/\*$/, "")
     invoke += "  std::shared_ptr<#{type}> sp(#{call_func});\n"
     invoke += "  auto args = Napi::External<std::shared_ptr<#{type}>>::New(info.Env(), &sp);\n"
-    invoke += "  return #{gen_classname(type)}::constructor.New({args});\n"
+    invoke += "  return #{gen_classname(type).gsub(/\*+$/,'')}::constructor.New({args});\n"
   elsif ENUMS.include?(type)
     invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
   else

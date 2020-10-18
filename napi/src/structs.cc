@@ -3570,6 +3570,7 @@ Napi::FunctionReference OCResponse::constructor;
 
 Napi::Function OCResponse::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCResponse", {
+    OCResponse::InstanceAccessor("separate_response", &OCResponse::get_separate_response, &OCResponse::set_separate_response),
 
   });
 
@@ -3590,6 +3591,17 @@ OCResponse::OCResponse(const Napi::CallbackInfo& info) : ObjectWrap(info)
         Napi::TypeError::New(info.Env(), "You need to name yourself")
           .ThrowAsJavaScriptException();
   }
+}
+Napi::Value OCResponse::get_separate_response(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_separate_response_t*> sp(&m_pvalue->separate_response);
+  auto accessor = Napi::External<std::shared_ptr<oc_separate_response_t*>>::New(info.Env(), &sp);
+  return OCSeparateResponse::constructor.New({accessor});
+}
+
+void OCResponse::set_separate_response(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->separate_response = *(*(value.As<Napi::External<std::shared_ptr<oc_separate_response_t*>>>().Data()));
 }
 
 Napi::FunctionReference OCRole::constructor;

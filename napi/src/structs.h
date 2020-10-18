@@ -983,6 +983,8 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_response_t*() { return m_pvalue.get(); }
+  Napi::Value get_separate_response(const Napi::CallbackInfo&);
+         void set_separate_response(const Napi::CallbackInfo&, const Napi::Value&);
 
 
   std::shared_ptr<oc_response_t> m_pvalue;
