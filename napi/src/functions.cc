@@ -753,51 +753,10 @@ Napi::Value N_oc_is_owned_device(const Napi::CallbackInfo& info) {
 }
 
 #endif
-/*
-extern "C" {
-void FinalizerCallback(Napi::Env env, void *finalizeData, void* context) {
-    OC_DBG("FinalizerCallback");
-}
-}
-*/
+
 constexpr size_t ARRAY_LENGTH = 10;
-#if 0
-// Data structure representing our thread-safe function context.
-struct TsfnContext {
 
-  TsfnContext(Napi::Env env) /*: deferred(Napi::Promise::Deferred::New(env))*/ {
-    //for (size_t i = 0; i < ARRAY_LENGTH; ++i)
-    //  ints[i] = i;
-  };
-
-  // Native Promise returned to JavaScript
-  //Napi::Promise::Deferred deferred;
-
-  // Native thread
-  //std::thread nativeThread;
-  HANDLE nativeThread;
-
-
-  // Some data to pass around
-  //int ints[ARRAY_LENGTH];
-
-  //Napi::ThreadSafeFunction tsfn;
-};
-#endif
-extern "C" {
-// The thread entry point. This takes as its arguments the specific
-// threadsafe-function context created inside the main thread.
-//void threadEntry(TsfnContext *context);
-
-// The thread-safe function finalizer callback. This callback executes
-// at destruction of thread-safe function, taking as arguments the finalizer
-// data and threadsafe-function context.
-//void FinalizerCallback(Napi::Env env, void *finalizeData, TsfnContext *context);
-}
-// The thread entry point. This takes as its arguments the specific
-// threadsafe-function context created inside the main thread.
 void threadEntry(void *context) {
-
   // This callback transforms the native addon data (int *data) to JavaScript
   // values. It also receives the treadsafe-function's registered callback, and
   // may choose to call it.
@@ -820,23 +779,8 @@ void threadEntry(void *context) {
     // Sleep for some time.
     std::this_thread::sleep_for(std::chrono::milliseconds(200));
   }
+}
 
-  // Release the thread-safe function. This decrements the internal thread
-  // count, and will perform finalization since the count will reach 0.
-  //context->tsfn.Release();
-  //oc_handler_signal_event_loop_ref.Release();
-}
-/*
-void FinalizerCallback(Napi::Env env, void *finalizeData,
-                       TsfnContext *context) {
-  // Join the thread
-  //context->nativeThread.join();
-  //WaitForSingleObject(context->nativeThread, INFINITE);
-  // Resolve the Promise previously returned to JS via the CreateTSFN method.
-  //context->deferred.Resolve(Napi::Boolean::New(env, true));
-  //delete context;
-}
-*/
 Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
 
   OCHandler& handler = *OCHandler::Unwrap(info[0].As<Napi::Object>());
@@ -848,18 +792,18 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
     oc_handler_init_ref.Reset(handler.init.Value());
     handler.m_pvalue->init = oc_handler_init_helper;
   }
-/*
   if(handler.signal_event_loop.Value().IsFunction() ) {
+
     //oc_handler_signal_event_loop_ref.Reset(handler.signal_event_loop.Value());
     OC_DBG("oc_handler_signal_event_loop_ref");
-    void** context;
-    oc_handler_signal_event_loop_ref = 
-	     Napi::ThreadSafeFunction::New(info.Env(), handler.signal_event_loop.Value().As<Napi::Function>(),
-	    "oc_handler_signal_event_loop_ref", 0, 1, (void*)nullptr, FinalizerCallback, (void*)nullptr);
 
+    oc_handler_signal_event_loop_ref = Napi::ThreadSafeFunction::New(info.Env(),
+                              handler.signal_event_loop.Value().As<Napi::Function>(),
+                              "oc_handler_signal_event_loop_ref", 0, 1);
+    /*
     handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
+    */
   }
-*/
   if(handler.register_resources.Value().IsFunction() ) {
     oc_handler_register_resources_ref.Reset(handler.register_resources.Value());
     handler.m_pvalue->register_resources = oc_handler_register_resources_helper;
@@ -869,34 +813,7 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
     handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;
   }
 
-
-  //Napi::Env env = info.Env();
-
-  // Construct context data
-  //auto testData = new TsfnContext(env);
-
-  // Create a new ThreadSafeFunction.
-  //testData->tsfn =
-  oc_handler_signal_event_loop_ref = 
-      Napi::ThreadSafeFunction::New(info.Env(),                    // Environment
-                              handler.signal_event_loop.Value().As<Napi::Function>(), // JS function from caller
-			      //info[0].As<Napi::Function>(),
-                              "TSFN",                 // Resource name
-                              0,        // Max queue size (0 = unlimited).
-                              1//,        // Initial thread count
-                              //testData//, // Context,
-                              //FinalizerCallback, // Finalizer
-                              //(void *)nullptr    // Finalizer data
-      );
-  //testData->nativeThread = //std::thread(threadEntry, testData);
   HANDLE h = CreateThread(0, 0, (LPTHREAD_START_ROUTINE)threadEntry, nullptr, 0, nullptr);
-//printf("threadhandle %d", testData->nativeThread);
-
-  // Return the deferred's Promise. This Promise is resolved in the thread-safe
-  // function's finalizer callback.
-  //return testData->deferred.Promise();
-
-
 
   return Napi::Number::New(info.Env(), (uint32_t)h);//oc_main_init(handler));  
   /*

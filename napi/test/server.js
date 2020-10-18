@@ -155,9 +155,9 @@ function handle_signal()
   console.log("IotivityLite.oc_main_init(handler)");
 
 //  var init = IotivityLite.oc_main_init(handler);
-  void async function() {
-    console.log(await IotivityLite.oc_main_init(handler));
-  }();
+  //void async function() {
+    console.log(IotivityLite.oc_main_init(handler));
+  //}();
 /*
   while (quit != 1) {
     next_event = IotivityLite.oc_main_poll();
