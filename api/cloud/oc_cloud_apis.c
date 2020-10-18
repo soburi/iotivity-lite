@@ -361,7 +361,7 @@ cloud_access_register(oc_endpoint_t *endpoint, const char *auth_provider,
     return false;
   }
 
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY) && defined(OC_PKI)
   if (!oc_tls_connected(endpoint)) {
     oc_tls_select_cloud_ciphersuite();
   }
@@ -422,7 +422,7 @@ cloud_access_deregister(oc_endpoint_t *endpoint, const char *uid,
   oc_concat_strings(&di, "&di=", uuid);
   oc_string_t at_uid_di;
   oc_concat_strings(&at_uid_di, oc_string(at_uid), oc_string(di));
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY) && defined(OC_PKI)
   if (!oc_tls_connected(endpoint)) {
     oc_tls_select_cloud_ciphersuite();
   }
@@ -455,7 +455,7 @@ cloud_access_login_out(oc_endpoint_t *endpoint, const char *uid,
     return false;
   }
 
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY) && defined(OC_PKI)
   if (!oc_tls_connected(endpoint)) {
     oc_tls_select_cloud_ciphersuite();
   }
@@ -516,7 +516,7 @@ cloud_access_refresh_access_token(oc_endpoint_t *endpoint, const char *uid,
     return false;
   }
 
-#ifdef OC_SECURITY
+#if defined(OC_SECURITY) && defined(OC_PKI)
   if (!oc_tls_connected(endpoint)) {
     oc_tls_select_cloud_ciphersuite();
   }
