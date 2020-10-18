@@ -191,6 +191,8 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator coap_transaction*() { return m_pvalue.get(); }
+  Napi::Value get_message(const Napi::CallbackInfo&);
+         void set_message(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_mid(const Napi::CallbackInfo&);
          void set_mid(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_retrans_counter(const Napi::CallbackInfo&);
@@ -265,6 +267,10 @@ public:
   operator oc_blockwise_state_s*() { return m_pvalue.get(); }
   Napi::Value get_buffer(const Napi::CallbackInfo&);
          void set_buffer(const Napi::CallbackInfo&, const Napi::Value&);
+#if defined(OC_CLEINT)
+  Napi::Value get_client_cb(const Napi::CallbackInfo&);
+         void set_client_cb(const Napi::CallbackInfo&, const Napi::Value&);
+#endif
   Napi::Value get_endpoint(const Napi::CallbackInfo&);
          void set_endpoint(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_href(const Napi::CallbackInfo&);
@@ -307,6 +313,8 @@ public:
   operator oc_client_cb_t*() { return m_pvalue.get(); }
   Napi::Value get_discovery(const Napi::CallbackInfo&);
          void set_discovery(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_endpoint(const Napi::CallbackInfo&);
+         void set_endpoint(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_handler(const Napi::CallbackInfo&);
          void set_handler(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_method(const Napi::CallbackInfo&);
@@ -375,6 +383,8 @@ public:
          void set_code(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_content_format(const Napi::CallbackInfo&);
          void set_content_format(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_endpoint(const Napi::CallbackInfo&);
+         void set_endpoint(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_observe_option(const Napi::CallbackInfo&);
          void set_observe_option(const Napi::CallbackInfo&, const Napi::Value&);
 
@@ -393,6 +403,12 @@ public:
          void set_callback(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value callback_function; Napi::Value callback_data;
 
+  Napi::Value get_cloud_conf(const Napi::CallbackInfo&);
+         void set_cloud_conf(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_cloud_ep(const Napi::CallbackInfo&);
+         void set_cloud_ep(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_cloud_ep_state(const Napi::CallbackInfo&);
+         void set_cloud_ep_state(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_cloud_manager(const Napi::CallbackInfo&);
          void set_cloud_manager(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_device(const Napi::CallbackInfo&);
@@ -403,6 +419,12 @@ public:
          void set_last_error(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_rd_delete_all(const Napi::CallbackInfo&);
          void set_rd_delete_all(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_rd_delete_resources(const Napi::CallbackInfo&);
+         void set_rd_delete_resources(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_rd_publish_resources(const Napi::CallbackInfo&);
+         void set_rd_publish_resources(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_rd_published_resources(const Napi::CallbackInfo&);
+         void set_rd_published_resources(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_retry_count(const Napi::CallbackInfo&);
          void set_retry_count(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_retry_refresh_token_count(const Napi::CallbackInfo&);
@@ -573,6 +595,8 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_etimer*() { return m_pvalue.get(); }
+  Napi::Value get_p(const Napi::CallbackInfo&);
+         void set_p(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_timer(const Napi::CallbackInfo&);
          void set_timer(const Napi::CallbackInfo&, const Napi::Value&);
 
@@ -719,6 +743,8 @@ public:
          void set_interfaces(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_rel(const Napi::CallbackInfo&);
          void set_rel(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_resource(const Napi::CallbackInfo&);
+         void set_resource(const Napi::CallbackInfo&, const Napi::Value&);
 
 
   std::shared_ptr<oc_link_s> m_pvalue;
@@ -759,6 +785,8 @@ public:
          void set_endpoint(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_length(const Napi::CallbackInfo&);
          void set_length(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_pool(const Napi::CallbackInfo&);
+         void set_pool(const Napi::CallbackInfo&, const Napi::Value&);
 #if defined(OC_TCP)
   Napi::Value get_read_offset(const Napi::CallbackInfo&);
          void set_read_offset(const Napi::CallbackInfo&, const Napi::Value&);
@@ -791,6 +819,10 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_network_interface_cb*() { return m_pvalue.get(); }
+  Napi::Value get_handler(const Napi::CallbackInfo&);
+         void set_handler(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value handler_function; Napi::Value handler_data;
+
 
 
   std::shared_ptr<oc_network_interface_cb> m_pvalue;
@@ -895,10 +927,18 @@ public:
          void set__payload_len(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_content_format(const Napi::CallbackInfo&);
          void set_content_format(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_origin(const Napi::CallbackInfo&);
+         void set_origin(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_query(const Napi::CallbackInfo&);
          void set_query(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_query_len(const Napi::CallbackInfo&);
          void set_query_len(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_request_payload(const Napi::CallbackInfo&);
+         void set_request_payload(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_resource(const Napi::CallbackInfo&);
+         void set_resource(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_response(const Napi::CallbackInfo&);
+         void set_response(const Napi::CallbackInfo&, const Napi::Value&);
 
 
   std::shared_ptr<oc_request_t> m_pvalue;
@@ -983,6 +1023,8 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_response_t*() { return m_pvalue.get(); }
+  Napi::Value get_response_buffer(const Napi::CallbackInfo&);
+         void set_response_buffer(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_separate_response(const Napi::CallbackInfo&);
          void set_separate_response(const Napi::CallbackInfo&, const Napi::Value&);
 
@@ -1127,6 +1169,10 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_session_event_cb*() { return m_pvalue.get(); }
+  Napi::Value get_handler(const Napi::CallbackInfo&);
+         void set_handler(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value handler_function; Napi::Value handler_data;
+
 
 
   std::shared_ptr<oc_session_event_cb> m_pvalue;
