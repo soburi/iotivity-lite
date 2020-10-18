@@ -359,7 +359,25 @@ SETGET_OVERRIDE = {
   {"set"=>
    "init_platform_cb_data = value;",
    "get"=>
-   "return init_platform_cb_data;"}
+   "return init_platform_cb_data;"},
+  "oc_sec_cred_t::chain"=>
+  {"set"=> "  m_pvalue->chain = *(*(value.As<Napi::External<std::shared_ptr<oc_sec_cred_t*>>>().Data()));",
+   "get"=> <<~STR
+    //
+      std::shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->chain);
+      auto accessor = Napi::External<std::shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
+      return OCCred::constructor.New({accessor});
+   STR
+  },
+  "oc_sec_cred_t::child"=>
+  {"set"=> "  m_pvalue->child = *(*(value.As<Napi::External<std::shared_ptr<oc_sec_cred_t*>>>().Data()));",
+   "get"=> <<~STR
+    //
+      std::shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->child);
+      auto accessor = Napi::External<std::shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
+      return OCCred::constructor.New({accessor});
+   STR
+  }
 }
 
 FUNC_OVERRIDE = {

@@ -27,7 +27,7 @@ ARGV.each do |file|
       e.elements.each('sectiondef/memberdef') do |member|
         name = member.elements['name'].text
 
-        type = member.elements['type'].inner_text.gsub(/^struct /, '')
+        type = member.elements['type'].inner_text.gsub(/^struct /, '').gsub(/^union /, '')
 
         #if type =~ /\([^\)]*$/
         if member.elements['argsstring'].text != nil

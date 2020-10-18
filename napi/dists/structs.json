@@ -132,8 +132,8 @@
     "piid": "oc_uuid_t"
   },
   "oc_endpoint_t": {
-    "addr": "union oc_endpoint_t::dev_addr",
-    "addr_local": "union oc_endpoint_t::dev_addr",
+    "addr": "oc_endpoint_t::dev_addr",
+    "addr_local": "oc_endpoint_t::dev_addr",
     "device": "size_t",
     "di": "oc_uuid_t",
     "flags": "enum transport_flags",
@@ -226,7 +226,7 @@
     "PT_THREAD": "((*)(struct pt*,,))"
   },
   "oc_properties_cb_t": {
-    "cb": "union oc_properties_cb_t::@2",
+    "cb": "oc_properties_cb_t::@2",
     "get_props": "oc_get_properties_cb_t",
     "set_props": "oc_set_properties_cb_t",
     "user_data": "void*"
@@ -235,7 +235,7 @@
     "name": "oc_string_t",
     "next": "oc_rep_s*",
     "type": "oc_rep_value_type_t",
-    "value": "union oc_rep_s::oc_rep_value"
+    "value": "oc_rep_s::oc_rep_value"
   },
   "oc_request_handler_s": {
     "cb": "oc_request_callback_t",
