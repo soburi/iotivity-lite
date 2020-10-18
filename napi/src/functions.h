@@ -1,8 +1,16 @@
 #include "helper.h"
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_assert_all_roles(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_assert_role(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_auto_assert_roles(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_get_all_roles(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_close_session(const Napi::CallbackInfo&);
 Napi::Value N_oc_do_delete(const Napi::CallbackInfo&);
 Napi::Value N_oc_do_get(const Napi::CallbackInfo&);
@@ -78,7 +86,9 @@ Napi::Value N_oc_notify_observers(const Napi::CallbackInfo&);
 Napi::Value N_oc_process_baseline_interface(const Napi::CallbackInfo&);
 Napi::Value N_oc_resource_bind_resource_interface(const Napi::CallbackInfo&);
 Napi::Value N_oc_resource_bind_resource_type(const Napi::CallbackInfo&);
+#if defined(OC_SECURITY)
 Napi::Value N_oc_resource_make_public(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_resource_set_default_interface(const Napi::CallbackInfo&);
 Napi::Value N_oc_resource_set_discoverable(const Napi::CallbackInfo&);
 Napi::Value N_oc_resource_set_observable(const Napi::CallbackInfo&);
@@ -110,19 +120,31 @@ Napi::Value N_oc_timer_reset(const Napi::CallbackInfo&);
 Napi::Value N_oc_timer_restart(const Napi::CallbackInfo&);
 Napi::Value N_oc_timer_set(const Napi::CallbackInfo&);
 Napi::Value N_oc_add_device(const Napi::CallbackInfo&);
+#if defined(OC_SECURITY)
 Napi::Value N_oc_add_ownership_status_cb(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_get_con_res_announced(const Napi::CallbackInfo&);
 Napi::Value N_oc_init_platform(const Napi::CallbackInfo&);
+#if defined(OC_SECURITY)
 Napi::Value N_oc_is_owned_device(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_main_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_main_poll(const Napi::CallbackInfo&);
 Napi::Value N_oc_main_shutdown(const Napi::CallbackInfo&);
+#if defined(OC_SECURITY)
 Napi::Value N_oc_remove_ownership_status_cb(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_reset(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_reset_device(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_set_con_res_announced(const Napi::CallbackInfo&);
 Napi::Value N_oc_set_factory_presets_cb(const Napi::CallbackInfo&);
+#if defined(OC_SECURITY)
 Napi::Value N_oc_set_random_pin_callback(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_abort_impl(const Napi::CallbackInfo&);
 Napi::Value N_exit_impl(const Napi::CallbackInfo&);
 Napi::Value N_oc_abort(const Napi::CallbackInfo&);
@@ -149,8 +171,12 @@ Napi::Value N_oc_blockwise_scrub_buffers(const Napi::CallbackInfo&);
 Napi::Value N_oc_blockwise_scrub_buffers_for_client_cb(const Napi::CallbackInfo&);
 Napi::Value N_oc_allocate_message(const Napi::CallbackInfo&);
 Napi::Value N_oc_allocate_message_from_pool(const Napi::CallbackInfo&);
+#if defined(OC_SECURITY)
 Napi::Value N_oc_close_all_tls_sessions(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_close_all_tls_sessions_for_device(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_internal_allocate_outgoing_message(const Napi::CallbackInfo&);
 Napi::Value N_oc_message_add_ref(const Napi::CallbackInfo&);
 Napi::Value N_oc_message_unref(const Napi::CallbackInfo&);
@@ -247,11 +273,21 @@ Napi::Value N_oc_core_set_latency(const Napi::CallbackInfo&);
 Napi::Value N_oc_core_shutdown(const Napi::CallbackInfo&);
 Napi::Value N_oc_filter_resource_by_rt(const Napi::CallbackInfo&);
 Napi::Value N_oc_store_uri(const Napi::CallbackInfo&);
+#if defined(OC_SECURITY)
 Napi::Value N_oc_cred_credtype_string(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_cred_parse_credusage(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_cred_parse_encoding(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_cred_read_credusage(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_cred_read_encoding(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_create_discovery_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_endpoint_compare(const Napi::CallbackInfo&);
 Napi::Value N_oc_endpoint_compare_address(const Napi::CallbackInfo&);
@@ -358,50 +394,138 @@ Napi::Value N_oc_add_network_interface_event_callback(const Napi::CallbackInfo&)
 Napi::Value N_oc_add_session_event_callback(const Napi::CallbackInfo&);
 Napi::Value N_oc_remove_network_interface_event_callback(const Napi::CallbackInfo&);
 Napi::Value N_oc_remove_session_event_callback(const Napi::CallbackInfo&);
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_ace_add_permission(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_ace_new_resource(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_ace_resource_set_href(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_ace_resource_set_wc(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_add_roleid(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_delete_ace_by_aceid(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_delete_cred_by_credid(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_delete_own_cred_by_credid(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_device_hard_reset(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_discover_all_resources(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_discover_owned_devices(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_discover_owned_devices_realm_local_ipv6(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_discover_owned_devices_site_local_ipv6(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_discover_unowned_devices(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_discover_unowned_devices_realm_local_ipv6(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_discover_unowned_devices_site_local_ipv6(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_free_ace(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_free_acl(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_free_creds(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_free_roleid(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_init(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_new_ace_for_connection(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_new_ace_for_role(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_new_ace_for_subject(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_perform_cert_otm(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_perform_just_works_otm(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_perform_random_pin_otm(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_provision_ace(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_provision_auth_wildcard_ace(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_provision_identity_certificate(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_provision_pairwise_credentials(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_provision_role_certificate(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_provision_role_wildcard_ace(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_request_random_pin(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_retrieve_acl(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_retrieve_creds(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_retrieve_own_creds(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_set_sd_info(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_shutdown(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_pki_add_mfg_cert(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_pki_add_mfg_intermediate_cert(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_pki_add_mfg_trust_anchor(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_pki_add_trust_anchor(const Napi::CallbackInfo&);
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_pki_set_security_profile(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_random_destroy(const Napi::CallbackInfo&);
 Napi::Value N_oc_random_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_random_value(const Napi::CallbackInfo&);

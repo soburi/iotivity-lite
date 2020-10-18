@@ -1744,11 +1744,11 @@ public:
   Napi::Value get_OCF_SEC_SP(const Napi::CallbackInfo&);
          void set_OCF_SEC_SP(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#if defined(OC_PKI)
+#if defined(OC_SECURITY) && defined(OC_PKI)
   Napi::Value get_OCF_SEC_CSR(const Napi::CallbackInfo&);
          void set_OCF_SEC_CSR(const Napi::CallbackInfo&, const Napi::Value&);
 #endif
-#if defined(OC_PKI)
+#if defined(OC_SECURITY) && defined(OC_PKI)
   Napi::Value get_OCF_SEC_ROLES(const Napi::CallbackInfo&);
          void set_OCF_SEC_ROLES(const Napi::CallbackInfo&, const Napi::Value&);
 #endif

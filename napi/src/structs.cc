@@ -6225,10 +6225,10 @@ Napi::Function OCCoreRes::GetClass(Napi::Env env) {
 #if defined(OC_SECURITY)
     OCCoreRes::InstanceAccessor("OCF_SEC_SP", &OCCoreRes::get_OCF_SEC_SP, &OCCoreRes::set_OCF_SEC_SP),
 #endif
-#if defined(OC_PKI)
+#if defined(OC_SECURITY) && defined(OC_PKI)
     OCCoreRes::InstanceAccessor("OCF_SEC_CSR", &OCCoreRes::get_OCF_SEC_CSR, &OCCoreRes::set_OCF_SEC_CSR),
 #endif
-#if defined(OC_PKI)
+#if defined(OC_SECURITY) && defined(OC_PKI)
     OCCoreRes::InstanceAccessor("OCF_SEC_ROLES", &OCCoreRes::get_OCF_SEC_ROLES, &OCCoreRes::set_OCF_SEC_ROLES),
 #endif
     OCCoreRes::InstanceAccessor("OCF_D", &OCCoreRes::get_OCF_D, &OCCoreRes::set_OCF_D),
@@ -6423,7 +6423,7 @@ void OCCoreRes::set_OCF_SEC_SP(const Napi::CallbackInfo& info, const Napi::Value
 }
 #endif
 
-#if defined(OC_PKI)
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value OCCoreRes::get_OCF_SEC_CSR(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_CSR);
@@ -6435,7 +6435,7 @@ void OCCoreRes::set_OCF_SEC_CSR(const Napi::CallbackInfo& info, const Napi::Valu
 }
 #endif
 
-#if defined(OC_PKI)
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value OCCoreRes::get_OCF_SEC_ROLES(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_ROLES);

@@ -1,4 +1,5 @@
 #include "functions.h"
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_assert_all_roles(const Napi::CallbackInfo& info) {
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
   oc_response_handler_t handler = nullptr;
@@ -8,6 +9,8 @@ Napi::Value N_oc_assert_all_roles(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_assert_role(const Napi::CallbackInfo& info) {
   std::string role_ = info[0].As<Napi::String>().Utf8Value();
   const char* role = role_.c_str();
@@ -20,18 +23,23 @@ Napi::Value N_oc_assert_role(const Napi::CallbackInfo& info) {
   return Napi::Boolean::New(info.Env(), oc_assert_role(role, authority, endpoint, handler, user_data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_auto_assert_roles(const Napi::CallbackInfo& info) {
   bool auto_assert = info[0].As<Napi::Boolean>().Value();
   (void)oc_auto_assert_roles(auto_assert);
   return info.Env().Undefined();
 }
 
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_get_all_roles(const Napi::CallbackInfo& info) {
   std::shared_ptr<oc_role_t> sp(oc_get_all_roles());
   auto args = Napi::External<std::shared_ptr<oc_role_t>>::New(info.Env(), &sp);
   return OCRole::constructor.New({args});
 }
 
+#endif
 Napi::Value N_oc_close_session(const Napi::CallbackInfo& info) {
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
   (void)oc_close_session(endpoint);
@@ -508,12 +516,14 @@ Napi::Value N_oc_resource_bind_resource_type(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+#if defined(OC_SECURITY)
 Napi::Value N_oc_resource_make_public(const Napi::CallbackInfo& info) {
   OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
   (void)oc_resource_make_public(resource);
   return info.Env().Undefined();
 }
 
+#endif
 Napi::Value N_oc_resource_set_default_interface(const Napi::CallbackInfo& info) {
   OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
   oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[1].As<Napi::Number>().Uint32Value());
@@ -697,6 +707,7 @@ if(!data) add_device_cb = nullptr;
   return Napi::Number::New(info.Env(), oc_add_device(uri, rt, name, spec_version, data_model_version, add_device_cb, data));
 }
 
+#if defined(OC_SECURITY)
 Napi::Value N_oc_add_ownership_status_cb(const Napi::CallbackInfo& info) {
   oc_ownership_status_cb_t cb = nullptr;
   Napi::Function cb_ = info[0].As<Napi::Function>();
@@ -705,6 +716,7 @@ Napi::Value N_oc_add_ownership_status_cb(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+#endif
 Napi::Value N_oc_get_con_res_announced(const Napi::CallbackInfo& info) {
   return Napi::Boolean::New(info.Env(), oc_get_con_res_announced());
 }
@@ -718,11 +730,13 @@ if(!data) init_platform_cb = nullptr;
   return Napi::Number::New(info.Env(), oc_init_platform(mfg_name, init_platform_cb, data));
 }
 
+#if defined(OC_SECURITY)
 Napi::Value N_oc_is_owned_device(const Napi::CallbackInfo& info) {
   size_t device_index = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
   return Napi::Boolean::New(info.Env(), oc_is_owned_device(device_index));
 }
 
+#endif
 Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
   OCHandler& handler = *OCHandler::Unwrap(info[0].As<Napi::Object>());
   oc_handler_init_ref.Reset(handler.init.Value());
@@ -747,6 +761,7 @@ Napi::Value N_oc_main_shutdown(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+#if defined(OC_SECURITY)
 Napi::Value N_oc_remove_ownership_status_cb(const Napi::CallbackInfo& info) {
   oc_ownership_status_cb_t cb = nullptr;
   Napi::Function cb_ = info[0].As<Napi::Function>();
@@ -755,17 +770,22 @@ Napi::Value N_oc_remove_ownership_status_cb(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_reset(const Napi::CallbackInfo& info) {
   (void)oc_reset();
   return info.Env().Undefined();
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_reset_device(const Napi::CallbackInfo& info) {
   size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
   (void)oc_reset_device(device);
   return info.Env().Undefined();
 }
 
+#endif
 Napi::Value N_oc_set_con_res_announced(const Napi::CallbackInfo& info) {
   bool announce = info[0].As<Napi::Boolean>().Value();
   (void)oc_set_con_res_announced(announce);
@@ -780,6 +800,7 @@ Napi::Value N_oc_set_factory_presets_cb(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+#if defined(OC_SECURITY)
 Napi::Value N_oc_set_random_pin_callback(const Napi::CallbackInfo& info) {
   oc_random_pin_cb_t cb = nullptr;
   Napi::Function cb_ = info[0].As<Napi::Function>();
@@ -788,6 +809,7 @@ Napi::Value N_oc_set_random_pin_callback(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+#endif
 Napi::Value N_abort_impl(const Napi::CallbackInfo& info) {
   (void)abort_impl();
   return info.Env().Undefined();
@@ -981,17 +1003,21 @@ Napi::Value N_oc_allocate_message_from_pool(const Napi::CallbackInfo& info) {
   return OCMessage::constructor.New({args});
 }
 
+#if defined(OC_SECURITY)
 Napi::Value N_oc_close_all_tls_sessions(const Napi::CallbackInfo& info) {
   (void)oc_close_all_tls_sessions();
   return info.Env().Undefined();
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_close_all_tls_sessions_for_device(const Napi::CallbackInfo& info) {
   size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
   (void)oc_close_all_tls_sessions_for_device(device);
   return info.Env().Undefined();
 }
 
+#endif
 Napi::Value N_oc_internal_allocate_outgoing_message(const Napi::CallbackInfo& info) {
   std::shared_ptr<oc_message_t> sp(oc_internal_allocate_outgoing_message());
   auto args = Napi::External<std::shared_ptr<oc_message_t>>::New(info.Env(), &sp);
@@ -1566,31 +1592,41 @@ Napi::Value N_oc_store_uri(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+#if defined(OC_SECURITY)
 Napi::Value N_oc_cred_credtype_string(const Napi::CallbackInfo& info) {
   oc_sec_credtype_t credtype = static_cast<oc_sec_credtype_t>(info[0].As<Napi::Number>().Uint32Value());
   return Napi::String::New(info.Env(), oc_cred_credtype_string(credtype));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_cred_parse_credusage(const Napi::CallbackInfo& info) {
   OCMmem& credusage_string = *OCMmem::Unwrap(info[0].As<Napi::Object>());
   return Napi::Number::New(info.Env(), oc_cred_parse_credusage(credusage_string));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_cred_parse_encoding(const Napi::CallbackInfo& info) {
   OCMmem& encoding_string = *OCMmem::Unwrap(info[0].As<Napi::Object>());
   return Napi::Number::New(info.Env(), oc_cred_parse_encoding(encoding_string));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_cred_read_credusage(const Napi::CallbackInfo& info) {
   oc_sec_credusage_t credusage = static_cast<oc_sec_credusage_t>(info[0].As<Napi::Number>().Uint32Value());
   return Napi::String::New(info.Env(), oc_cred_read_credusage(credusage));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_cred_read_encoding(const Napi::CallbackInfo& info) {
   oc_sec_encoding_t encoding = static_cast<oc_sec_encoding_t>(info[0].As<Napi::Number>().Uint32Value());
   return Napi::String::New(info.Env(), oc_cred_read_encoding(encoding));
 }
 
+#endif
 Napi::Value N_oc_create_discovery_resource(const Napi::CallbackInfo& info) {
   int resource_idx = static_cast<int>(info[0].As<Napi::Number>());
   size_t device = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
@@ -2028,6 +2064,7 @@ Napi::Value N_oc_remove_session_event_callback(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_remove_session_event_callback(cb));
 }
 
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_ace_add_permission(const Napi::CallbackInfo& info) {
   OCSecurityAce& ace = *OCSecurityAce::Unwrap(info[0].As<Napi::Object>());
   oc_ace_permissions_t permission = static_cast<oc_ace_permissions_t>(info[1].As<Napi::Number>().Uint32Value());
@@ -2035,6 +2072,8 @@ Napi::Value N_oc_obt_ace_add_permission(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_ace_new_resource(const Napi::CallbackInfo& info) {
   OCSecurityAce& ace = *OCSecurityAce::Unwrap(info[0].As<Napi::Object>());
   std::shared_ptr<oc_ace_res_t> sp(oc_obt_ace_new_resource(ace));
@@ -2042,6 +2081,8 @@ Napi::Value N_oc_obt_ace_new_resource(const Napi::CallbackInfo& info) {
   return OCAceResource::constructor.New({args});
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_ace_resource_set_href(const Napi::CallbackInfo& info) {
   OCAceResource& resource = *OCAceResource::Unwrap(info[0].As<Napi::Object>());
   std::string href_ = info[1].As<Napi::String>().Utf8Value();
@@ -2050,6 +2091,8 @@ Napi::Value N_oc_obt_ace_resource_set_href(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_ace_resource_set_wc(const Napi::CallbackInfo& info) {
   OCAceResource& resource = *OCAceResource::Unwrap(info[0].As<Napi::Object>());
   oc_ace_wildcard_t wc = static_cast<oc_ace_wildcard_t>(info[1].As<Napi::Number>().Uint32Value());
@@ -2057,6 +2100,8 @@ Napi::Value N_oc_obt_ace_resource_set_wc(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_add_roleid(const Napi::CallbackInfo& info) {
   OCRole& roles = *OCRole::Unwrap(info[0].As<Napi::Object>());
   std::string role_ = info[1].As<Napi::String>().Utf8Value();
@@ -2068,6 +2113,8 @@ Napi::Value N_oc_obt_add_roleid(const Napi::CallbackInfo& info) {
   return OCRole::constructor.New({args});
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_delete_ace_by_aceid(const Napi::CallbackInfo& info) {
   OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   int aceid = static_cast<int>(info[1].As<Napi::Number>());
@@ -2077,6 +2124,8 @@ Napi::Value N_oc_obt_delete_ace_by_aceid(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_obt_delete_ace_by_aceid(uuid, aceid, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_delete_cred_by_credid(const Napi::CallbackInfo& info) {
   OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   int credid = static_cast<int>(info[1].As<Napi::Number>());
@@ -2086,11 +2135,15 @@ Napi::Value N_oc_obt_delete_cred_by_credid(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_obt_delete_cred_by_credid(uuid, credid, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_delete_own_cred_by_credid(const Napi::CallbackInfo& info) {
   int credid = static_cast<int>(info[0].As<Napi::Number>());
   return Napi::Number::New(info.Env(), oc_obt_delete_own_cred_by_credid(credid));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_device_hard_reset(const Napi::CallbackInfo& info) {
   OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   oc_obt_device_status_cb_t cb = nullptr;
@@ -2099,6 +2152,8 @@ Napi::Value N_oc_obt_device_hard_reset(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_obt_device_hard_reset(uuid, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_discover_all_resources(const Napi::CallbackInfo& info) {
   OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   oc_discovery_all_handler_t handler = nullptr;
@@ -2107,6 +2162,8 @@ Napi::Value N_oc_obt_discover_all_resources(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_obt_discover_all_resources(uuid, handler, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_discover_owned_devices(const Napi::CallbackInfo& info) {
   oc_obt_discovery_cb_t cb = nullptr;
   Napi::Function cb_ = info[0].As<Napi::Function>();
@@ -2114,6 +2171,8 @@ Napi::Value N_oc_obt_discover_owned_devices(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_obt_discover_owned_devices(cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_discover_owned_devices_realm_local_ipv6(const Napi::CallbackInfo& info) {
   oc_obt_discovery_cb_t cb = nullptr;
   Napi::Function cb_ = info[0].As<Napi::Function>();
@@ -2121,6 +2180,8 @@ Napi::Value N_oc_obt_discover_owned_devices_realm_local_ipv6(const Napi::Callbac
   return Napi::Number::New(info.Env(), oc_obt_discover_owned_devices_realm_local_ipv6(cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_discover_owned_devices_site_local_ipv6(const Napi::CallbackInfo& info) {
   oc_obt_discovery_cb_t cb = nullptr;
   Napi::Function cb_ = info[0].As<Napi::Function>();
@@ -2128,6 +2189,8 @@ Napi::Value N_oc_obt_discover_owned_devices_site_local_ipv6(const Napi::Callback
   return Napi::Number::New(info.Env(), oc_obt_discover_owned_devices_site_local_ipv6(cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_discover_unowned_devices(const Napi::CallbackInfo& info) {
   oc_obt_discovery_cb_t cb = nullptr;
   Napi::Function cb_ = info[0].As<Napi::Function>();
@@ -2135,6 +2198,8 @@ Napi::Value N_oc_obt_discover_unowned_devices(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_obt_discover_unowned_devices(cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_discover_unowned_devices_realm_local_ipv6(const Napi::CallbackInfo& info) {
   oc_obt_discovery_cb_t cb = nullptr;
   Napi::Function cb_ = info[0].As<Napi::Function>();
@@ -2142,6 +2207,8 @@ Napi::Value N_oc_obt_discover_unowned_devices_realm_local_ipv6(const Napi::Callb
   return Napi::Number::New(info.Env(), oc_obt_discover_unowned_devices_realm_local_ipv6(cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_discover_unowned_devices_site_local_ipv6(const Napi::CallbackInfo& info) {
   oc_obt_discovery_cb_t cb = nullptr;
   Napi::Function cb_ = info[0].As<Napi::Function>();
@@ -2149,34 +2216,46 @@ Napi::Value N_oc_obt_discover_unowned_devices_site_local_ipv6(const Napi::Callba
   return Napi::Number::New(info.Env(), oc_obt_discover_unowned_devices_site_local_ipv6(cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_free_ace(const Napi::CallbackInfo& info) {
   OCSecurityAce& ace = *OCSecurityAce::Unwrap(info[0].As<Napi::Object>());
   (void)oc_obt_free_ace(ace);
   return info.Env().Undefined();
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_free_acl(const Napi::CallbackInfo& info) {
   OCSecurityAcl& acl = *OCSecurityAcl::Unwrap(info[0].As<Napi::Object>());
   (void)oc_obt_free_acl(acl);
   return info.Env().Undefined();
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_free_creds(const Napi::CallbackInfo& info) {
   OCCreds& creds = *OCCreds::Unwrap(info[0].As<Napi::Object>());
   (void)oc_obt_free_creds(creds);
   return info.Env().Undefined();
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_free_roleid(const Napi::CallbackInfo& info) {
   OCRole& roles = *OCRole::Unwrap(info[0].As<Napi::Object>());
   (void)oc_obt_free_roleid(roles);
   return info.Env().Undefined();
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_init(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_obt_init());
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_new_ace_for_connection(const Napi::CallbackInfo& info) {
   oc_ace_connection_type_t conn = static_cast<oc_ace_connection_type_t>(info[0].As<Napi::Number>().Uint32Value());
   std::shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_connection(conn));
@@ -2184,6 +2263,8 @@ Napi::Value N_oc_obt_new_ace_for_connection(const Napi::CallbackInfo& info) {
   return OCSecurityAce::constructor.New({args});
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_new_ace_for_role(const Napi::CallbackInfo& info) {
   std::string role_ = info[0].As<Napi::String>().Utf8Value();
   const char* role = role_.c_str();
@@ -2194,6 +2275,8 @@ Napi::Value N_oc_obt_new_ace_for_role(const Napi::CallbackInfo& info) {
   return OCSecurityAce::constructor.New({args});
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_new_ace_for_subject(const Napi::CallbackInfo& info) {
   OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   std::shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_subject(uuid));
@@ -2201,6 +2284,8 @@ Napi::Value N_oc_obt_new_ace_for_subject(const Napi::CallbackInfo& info) {
   return OCSecurityAce::constructor.New({args});
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_perform_cert_otm(const Napi::CallbackInfo& info) {
   OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   oc_obt_device_status_cb_t cb = nullptr;
@@ -2209,6 +2294,8 @@ Napi::Value N_oc_obt_perform_cert_otm(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_obt_perform_cert_otm(uuid, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_perform_just_works_otm(const Napi::CallbackInfo& info) {
   OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   oc_obt_device_status_cb_t cb = nullptr;
@@ -2217,6 +2304,8 @@ Napi::Value N_oc_obt_perform_just_works_otm(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_obt_perform_just_works_otm(uuid, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_perform_random_pin_otm(const Napi::CallbackInfo& info) {
   OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   const unsigned char* pin = info[1].As<Napi::Buffer<const uint8_t>>().Data();
@@ -2227,6 +2316,8 @@ Napi::Value N_oc_obt_perform_random_pin_otm(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_obt_perform_random_pin_otm(uuid, pin, pin_len, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_provision_ace(const Napi::CallbackInfo& info) {
   OCUuid& subject = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   OCSecurityAce& ace = *OCSecurityAce::Unwrap(info[1].As<Napi::Object>());
@@ -2236,6 +2327,8 @@ Napi::Value N_oc_obt_provision_ace(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_obt_provision_ace(subject, ace, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_provision_auth_wildcard_ace(const Napi::CallbackInfo& info) {
   OCUuid& subject = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   oc_obt_device_status_cb_t cb = nullptr;
@@ -2244,6 +2337,8 @@ Napi::Value N_oc_obt_provision_auth_wildcard_ace(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), oc_obt_provision_auth_wildcard_ace(subject, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_provision_identity_certificate(const Napi::CallbackInfo& info) {
   OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   oc_obt_status_cb_t cb = nullptr;
@@ -2252,6 +2347,8 @@ Napi::Value N_oc_obt_provision_identity_certificate(const Napi::CallbackInfo& in
   return Napi::Number::New(info.Env(), oc_obt_provision_identity_certificate(uuid, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_provision_pairwise_credentials(const Napi::CallbackInfo& info) {
   OCUuid& uuid1 = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   OCUuid& uuid2 = *OCUuid::Unwrap(info[1].As<Napi::Object>());
@@ -2261,6 +2358,8 @@ Napi::Value N_oc_obt_provision_pairwise_credentials(const Napi::CallbackInfo& in
   return Napi::Number::New(info.Env(), oc_obt_provision_pairwise_credentials(uuid1, uuid2, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_provision_role_certificate(const Napi::CallbackInfo& info) {
   OCRole& roles = *OCRole::Unwrap(info[0].As<Napi::Object>());
   OCUuid& uuid = *OCUuid::Unwrap(info[1].As<Napi::Object>());
@@ -2270,6 +2369,8 @@ Napi::Value N_oc_obt_provision_role_certificate(const Napi::CallbackInfo& info) 
   return Napi::Number::New(info.Env(), oc_obt_provision_role_certificate(roles, uuid, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_provision_role_wildcard_ace(const Napi::CallbackInfo& info) {
   OCUuid& subject = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   std::string role_ = info[1].As<Napi::String>().Utf8Value();
@@ -2282,6 +2383,8 @@ Napi::Value N_oc_obt_provision_role_wildcard_ace(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), oc_obt_provision_role_wildcard_ace(subject, role, authority, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_request_random_pin(const Napi::CallbackInfo& info) {
   OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   oc_obt_device_status_cb_t cb = nullptr;
@@ -2290,6 +2393,8 @@ Napi::Value N_oc_obt_request_random_pin(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_obt_request_random_pin(uuid, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_retrieve_acl(const Napi::CallbackInfo& info) {
   OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   oc_obt_acl_cb_t cb = nullptr;
@@ -2298,6 +2403,8 @@ Napi::Value N_oc_obt_retrieve_acl(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_obt_retrieve_acl(uuid, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_retrieve_creds(const Napi::CallbackInfo& info) {
   OCUuid& subject = *OCUuid::Unwrap(info[0].As<Napi::Object>());
   oc_obt_creds_cb_t cb = nullptr;
@@ -2306,12 +2413,16 @@ Napi::Value N_oc_obt_retrieve_creds(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_obt_retrieve_creds(subject, cb, data));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_retrieve_own_creds(const Napi::CallbackInfo& info) {
   std::shared_ptr<oc_sec_creds_t> sp(oc_obt_retrieve_own_creds());
   auto args = Napi::External<std::shared_ptr<oc_sec_creds_t>>::New(info.Env(), &sp);
   return OCCreds::constructor.New({args});
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_set_sd_info(const Napi::CallbackInfo& info) {
   char* name = const_cast<char*>(info[0].As<Napi::String>().Utf8Value().c_str());
   bool priv = info[1].As<Napi::Boolean>().Value();
@@ -2319,11 +2430,15 @@ Napi::Value N_oc_obt_set_sd_info(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_obt_shutdown(const Napi::CallbackInfo& info) {
   (void)oc_obt_shutdown();
   return info.Env().Undefined();
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_pki_add_mfg_cert(const Napi::CallbackInfo& info) {
   size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
   const unsigned char* cert = info[1].As<Napi::Buffer<const uint8_t>>().Data();
@@ -2333,6 +2448,8 @@ Napi::Value N_oc_pki_add_mfg_cert(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_pki_add_mfg_cert(device, cert, cert_size, key, key_size));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_pki_add_mfg_intermediate_cert(const Napi::CallbackInfo& info) {
   size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
   int credid = static_cast<int>(info[1].As<Napi::Number>());
@@ -2341,6 +2458,8 @@ Napi::Value N_oc_pki_add_mfg_intermediate_cert(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_pki_add_mfg_intermediate_cert(device, credid, cert, cert_size));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_pki_add_mfg_trust_anchor(const Napi::CallbackInfo& info) {
   size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
   const unsigned char* cert = info[1].As<Napi::Buffer<const uint8_t>>().Data();
@@ -2348,6 +2467,8 @@ Napi::Value N_oc_pki_add_mfg_trust_anchor(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_pki_add_mfg_trust_anchor(device, cert, cert_size));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_pki_add_trust_anchor(const Napi::CallbackInfo& info) {
   size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
   const unsigned char* cert = info[1].As<Napi::Buffer<const uint8_t>>().Data();
@@ -2355,6 +2476,8 @@ Napi::Value N_oc_pki_add_trust_anchor(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_pki_add_trust_anchor(device, cert, cert_size));
 }
 
+#endif
+#if defined(OC_SECURITY)
 Napi::Value N_oc_pki_set_security_profile(const Napi::CallbackInfo& info) {
   size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
   oc_sp_types_t supported_profiles = static_cast<oc_sp_types_t>(info[1].As<Napi::Number>().Uint32Value());
@@ -2364,6 +2487,7 @@ Napi::Value N_oc_pki_set_security_profile(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+#endif
 Napi::Value N_oc_random_destroy(const Napi::CallbackInfo& info) {
   (void)oc_random_destroy();
   return info.Env().Undefined();
