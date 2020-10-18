@@ -473,6 +473,7 @@ WRAPPERNAME = { 'oc_ipv4_addr_t' => "OCIPv4Addr",
                 'oc_sec_encoding_t' => 'OCEncoding',
                 'oc_rt_t' => 'OCResourceType',
                 'transport_flags' => 'OCTransportFlags',
+                'enum transport_flags' => 'OCTransportFlags',
 }
 
 TYPEDEFS = {
@@ -555,6 +556,8 @@ IGNORE_TYPES = {
 IGNORE_FUNCS = [
   'oc_memb_alloc',
   'oc_memb_free',
+  'PT_THREAD',
+  'OC_PROCESS_NAME',
 ]
 
 IFDEF_TYPES = {
@@ -688,8 +691,6 @@ IFDEF_FUNCS = {
   'oc_remove_ping_handler' => 'defined(OC_TCP)',
   'oc_connectivity_end_session' => 'defined(OC_TCP)',
   'oc_set_introspection_data' => 'defined(OC_IDD_API)',
-"PT_THREAD" => "defined(XXX)",
-"OC_PROCESS_NAME" => "defined(XXX)",
 
 'oc_list_add' => "defined(XXX)",
 'oc_list_chop' => "defined(XXX)",
@@ -903,8 +904,6 @@ end
 
 def gen_setget_impl(key, h)
   list = h.collect do |k, v|
-
-    p v + " " + k if k == "chain"
 
     v.gsub!(/^enum /,"") if v.start_with?("enum ")
     t = v
@@ -1227,6 +1226,7 @@ File.open('src/functions.h', 'w') do |f|
   #end 
 
   func_table.each do |key, h|
+    next if IGNORE_FUNCS.include?(key)
     expset = gen_funcdecl(key, h) + "\n"
     if IFDEF_FUNCS.include?(key)
       expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
@@ -1246,6 +1246,7 @@ File.open('src/functions.cc', 'w') do |f|
   #  end
   #end 
   func_table.each do |key, h|
+    next if IGNORE_FUNCS.include?(key)
     expset = gen_funcimpl(key, h) + "\n"
     if IFDEF_FUNCS.include?(key)
       expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
@@ -1283,6 +1284,7 @@ File.open('src/binding.cc', 'w') do |f|
 
 
   func_table.each do |key, h|
+    next if IGNORE_FUNCS.include?(key)
     expset = "  exports.Set(\"#{key}\", Napi::Function::New(env, N_#{key}));\n"
     if IFDEF_FUNCS.include?(key)
       expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"

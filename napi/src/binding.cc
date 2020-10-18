@@ -187,12 +187,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
 #if defined(XXX)
   exports.Set("oc_set_separate_response_buffer", Napi::Function::New(env, N_oc_set_separate_response_buffer));
 #endif
-#if defined(XXX)
-  exports.Set("OC_PROCESS_NAME", Napi::Function::New(env, N_OC_PROCESS_NAME));
-#endif
-#if defined(XXX)
-  exports.Set("PT_THREAD", Napi::Function::New(env, N_PT_THREAD));
-#endif
   exports.Set("oc_timer_expired", Napi::Function::New(env, N_oc_timer_expired));
   exports.Set("oc_timer_remaining", Napi::Function::New(env, N_oc_timer_remaining));
   exports.Set("oc_timer_reset", Napi::Function::New(env, N_oc_timer_reset));

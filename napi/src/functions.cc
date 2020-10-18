@@ -648,19 +648,6 @@ Napi::Value N_oc_set_separate_response_buffer(const Napi::CallbackInfo& info) {
 }
 
 #endif
-#if defined(XXX)
-Napi::Value N_OC_PROCESS_NAME(const Napi::CallbackInfo& info) {
-  //func return unknown 
-}
-
-#endif
-#if defined(XXX)
-Napi::Value N_PT_THREAD(const Napi::CallbackInfo& info) {
-// 0 thread, (*)(struct pt*, oc_process_event_t, oc_process_data_t)
-  //func return unknown 
-}
-
-#endif
 Napi::Value N_oc_timer_expired(const Napi::CallbackInfo& info) {
   OCTimer& t = *OCTimer::Unwrap(info[0].As<Napi::Object>());
   return Napi::Number::New(info.Env(), oc_timer_expired(t));

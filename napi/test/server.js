@@ -6,7 +6,7 @@ var quit = 0;
 //static pthread_mutex_t mutex;
 //static pthread_cond_t cv;
 //static struct timespec ts;
-//static bool light_state = false;
+var light_state = false;
 /*
 function set_device_custom_property(data)
 {
@@ -49,30 +49,34 @@ function app_init()
   return ret;
 }
 
-/*
-static void
-get_light(oc_request_t *request, oc_interface_mask_t iface_mask, void *user_data)
+function get_light(request, iface_mask, user_data)
 {
-  (void)user_data;
-  PRINT("GET_light:\n");
-  oc_rep_start_root_object();
+  console.log("GET_light:\n");
+  console.log(request);
+  console.log(iface_mask);
+  console.log(user_data);
+  var root = IotivityLite.oc_rep_start_root_object();
   switch (iface_mask) {
-  case OC_IF_BASELINE:
-    oc_process_baseline_interface(request->resource);
-  case OC_IF_RW:
-    oc_rep_set_boolean(root, state, light_state);
+  case OCInterfaceMask.OC_IF_BASELINE:
+    IotivityLite.oc_process_baseline_interface(request.resource);
+  case OCInterfaceMask.OC_IF_RW:
+    IotivityLite.oc_rep_set_boolean(root, state, light_state);
     break;
   default:
     break;
   }
-  oc_rep_end_root_object();
-  oc_send_response(request, OC_STATUS_OK);
-  PRINT("Light state %d\n", light_state);
+  IotivityLite.oc_rep_end_root_object();
+  IotivityLite.oc_send_response(request, OCStatus.OC_STATUS_OK);
+  console.log("Light state " + light_state);
 }
 
-static void
-post_light(oc_request_t *request, oc_interface_mask_t iface_mask, void *user_data)
+function post_light(request, iface_mask, user_data)
 {
+  console.log("POST_light:\n");
+  console.log(request);
+  console.log(iface_mask);
+  console.log(user_data);
+/*
   (void)user_data;
   (void)iface_mask;
   PRINT("POST_light:\n");
@@ -94,15 +98,13 @@ post_light(oc_request_t *request, oc_interface_mask_t iface_mask, void *user_dat
   }
   oc_send_response(request, OC_STATUS_CHANGED);
   light_state = state;
+*/
 }
 
-static void
-put_light(oc_request_t *request, oc_interface_mask_t iface_mask,
-           void *user_data)
+function put_light(request, iface_mask, user_data)
 {
   post_light(request, iface_mask, user_data);
 }
-*/
 
 function register_resources()
 {
@@ -116,9 +118,9 @@ function register_resources()
   IotivityLite.oc_resource_set_default_interface(res, IotivityLite.OCInterfaceMask.OC_IF_RW);
   IotivityLite.oc_resource_set_discoverable(res, true);
   IotivityLite.oc_resource_set_periodic_observable(res, 1);
-//  oc_resource_set_request_handler(res, OC_GET, get_light, NULL);
-//  oc_resource_set_request_handler(res, OC_POST, post_light, NULL);
-//  oc_resource_set_request_handler(res, OC_PUT, put_light, NULL);
+  IotivityLite.oc_resource_set_request_handler(res, IotivityLite.OCMethod.OC_GET, get_light, null);
+  IotivityLite.oc_resource_set_request_handler(res, IotivityLite.OCMethod.OC_POST, post_light, null);
+  IotivityLite.oc_resource_set_request_handler(res, IotivityLite.OCMethod.OC_PUT, put_light, null);
   IotivityLite.oc_add_resource(res);
 }
 function signal_event_loop()
@@ -134,14 +136,17 @@ function signal_event_loop()
 
 function handle_signal()
 {
-  signal_event_loop();
-  quit = 1;
+  console.log("IotivityLite.oc_main_shutdown(handler)");
+  IotivityLite.oc_main_shutdown();
+  console.log("end IotivityLite.oc_main_shutdown(handler)");
+  //signal_event_loop();
+  //quit = 1;
 }
 
 /*
   oc_clock_time_t next_event;
 */
-  //process.on('SIGINT', handle_signal);
+  process.on('SIGINT', handle_signal);
 
   IotivityLite.oc_storage_config("./server_creds");
 
@@ -169,6 +174,3 @@ function handle_signal()
   }
 */
 
-  console.log("IotivityLite.oc_main_shutdown(handler)");
-  IotivityLite.oc_main_shutdown();
-  console.log("end IotivityLite.oc_main_shutdown(handler)");

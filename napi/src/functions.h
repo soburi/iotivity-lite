@@ -108,12 +108,6 @@ Napi::Value N_oc_set_con_write_cb(const Napi::CallbackInfo&);
 #if defined(XXX)
 Napi::Value N_oc_set_separate_response_buffer(const Napi::CallbackInfo&);
 #endif
-#if defined(XXX)
-Napi::Value N_OC_PROCESS_NAME(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N_PT_THREAD(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_timer_expired(const Napi::CallbackInfo&);
 Napi::Value N_oc_timer_remaining(const Napi::CallbackInfo&);
 Napi::Value N_oc_timer_reset(const Napi::CallbackInfo&);
