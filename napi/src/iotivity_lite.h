@@ -28,3 +28,14 @@ private:
     std::string _greeterName;
     oc_endpoint_t endpoint;
 };
+
+class OCMain : public Napi::ObjectWrap<OCMain>
+{
+public:
+    OCMain(const Napi::CallbackInfo&);
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::Value OCMain::main_init(const Napi::CallbackInfo& info);
+    static Napi::Value OCMain::main_shutdown(const Napi::CallbackInfo& info);
+};
+
+

@@ -31,9 +31,6 @@ function add_device_cb(param) {
 
 function app_init()
 {
-  var stack = new Error().stack
-  console.log( stack )
-
   console.log("app_init");
   var ret;
   console.log("call oc_init_platform");
@@ -43,8 +40,6 @@ function app_init()
   ret = IotivityLite.oc_add_device("/oic/d", "oic.d.light", "Kishen's light", "ocf.1.0.0",
                        "ocf.res.1.0.0", add_device_cb, "add_device_cb_param");
   console.log("end oc_add_device");
-  var stack = new Error().stack
-  console.log( stack )
   return ret;
 }
 
@@ -75,17 +70,18 @@ function post_light(request, iface_mask, user_data)
   console.log(request);
   console.log(iface_mask);
   console.log(user_data);
+  //(void)user_data;
+  //(void)iface_mask;
+  console.log("POST_light:\n");
+
+  var state = false;
+  var rep = request.request_payload;
 /*
-  (void)user_data;
-  (void)iface_mask;
-  PRINT("POST_light:\n");
-  bool state = false;
-  oc_rep_t *rep = request->request_payload;
-  while (rep != NULL) {
-    PRINT("key: %s ", oc_string(rep->name));
-    switch (rep->type) {
+  while (rep != null) {
+    console.log("key: %s ", oc_string(rep.name));
+    switch (rep.type) {
     case OC_REP_BOOL:
-      state = rep->value.boolean;
+      state = rep.value.boolean;
       PRINT("value: %d\n", state);
       break;
     default:
@@ -93,7 +89,7 @@ function post_light(request, iface_mask, user_data)
       return;
       break;
     }
-    rep = rep->next;
+    rep = rep.next;
   }
   oc_send_response(request, OC_STATUS_CHANGED);
   light_state = state;
@@ -138,7 +134,7 @@ function handle_signal()
   console.log("IotivityLite.oc_main_shutdown(handler)");
   IotivityLite.oc_main_shutdown();
   console.log("end IotivityLite.oc_main_shutdown(handler)");
-  //signal_event_loop();
+  signal_event_loop();
   //quit = 1;
 }
 
@@ -156,7 +152,7 @@ function handle_signal()
   handler.request_entry = function() { console.log("-- request_entry --"); };
 
   console.log("IotivityLite.oc_main_init(handler)");
-  var init = IotivityLite.oc_main_init(handler);
+  var init = IotivityLite.OCMain.main_init(handler);
   console.log("end IotivityLite.oc_main_init(handler)");
 /*
   while (quit != 1) {
