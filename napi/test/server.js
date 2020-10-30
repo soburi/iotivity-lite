@@ -132,7 +132,7 @@ function signal_event_loop()
 function handle_signal()
 {
   console.log("IotivityLite.oc_main_shutdown(handler)");
-  IotivityLite.oc_main_shutdown();
+  IotivityLite.OCMain.main_shutdown();
   console.log("end IotivityLite.oc_main_shutdown(handler)");
   signal_event_loop();
   //quit = 1;
