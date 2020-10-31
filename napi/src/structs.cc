@@ -4757,6 +4757,32 @@ void OCValue::set_string(const Napi::CallbackInfo& info, const Napi::Value& valu
   m_pvalue->string = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
+Napi::FunctionReference OCCborEncoder::constructor;
+
+Napi::Function OCCborEncoder::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCCborEncoder", {
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+OCCborEncoder::OCCborEncoder(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<CborEncoder>(new CborEncoder());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<CborEncoder>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+
 
 Napi::FunctionReference coapTransportType::constructor;
 

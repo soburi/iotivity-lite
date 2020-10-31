@@ -1313,6 +1313,18 @@ public:
   std::shared_ptr<oc_rep_s::oc_rep_value> m_pvalue;
 };
 
+class OCCborEncoder : public Napi::ObjectWrap<OCCborEncoder>
+{
+public:
+  OCCborEncoder(const Napi::CallbackInfo&);
+  static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
+  operator CborEncoder*() { return m_pvalue.get(); }
+
+
+  std::shared_ptr<CborEncoder> m_pvalue;
+};
+
 
 class coapTransportType : public Napi::ObjectWrap<coapTransportType>
 {

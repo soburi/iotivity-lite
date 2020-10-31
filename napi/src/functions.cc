@@ -2063,9 +2063,9 @@ Napi::Value N_oc_core_add_new_device(const Napi::CallbackInfo& info) {
 
 #if defined(XXX)
 Napi::Value N_oc_core_encode_interfaces_mask(const Napi::CallbackInfo& info) {
-// 0 parent, CborEncoder*
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
   oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[1].As<Napi::Number>().Uint32Value());
-  (void)0;
+  (void)oc_core_encode_interfaces_mask(parent, iface_mask);
   return info.Env().Undefined();
 }
 #endif

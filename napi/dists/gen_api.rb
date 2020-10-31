@@ -515,6 +515,7 @@ WRAPPERNAME = { 'oc_ipv4_addr_t' => "OCIPv4Addr",
                 'enum transport_flags' => 'OCTransportFlags',
                 'oc_rep_s::oc_rep_value' => 'OCValue',
                 'oc_rep_s*' => 'OCRep',
+                'CborEncoder' => 'OCCborEncoder',
 }
 
 TYPEDEFS = {
