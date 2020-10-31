@@ -3780,10 +3780,6 @@ Napi::Value N_helper_rep_get_object_array(const Napi::CallbackInfo& info) {
 
 
 
-Napi::Value N_helper_rep_add_long(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
 Napi::Value N_helper_rep_begin_array(const Napi::CallbackInfo& info)
 {
   return info.Env().Undefined();
