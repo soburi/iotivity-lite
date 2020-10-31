@@ -2197,10 +2197,10 @@ public:
   std::shared_ptr<oc_content_format_t> m_pvalue;
 };
 
-class OCCoreRes : public Napi::ObjectWrap<OCCoreRes>
+class OCCoreResource : public Napi::ObjectWrap<OCCoreResource>
 {
 public:
-  OCCoreRes(const Napi::CallbackInfo&);
+  OCCoreResource(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_core_resource_t*() { return m_pvalue.get(); }

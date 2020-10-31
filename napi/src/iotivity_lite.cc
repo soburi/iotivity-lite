@@ -23,6 +23,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("OCSoftwareUpdate", OCSoftwareUpdate::GetClass(env));
     exports.Set("OCStorage", OCStorage::GetClass(env));
     exports.Set("OCUuidUtil", OCUuidUtil::GetClass(env));
+    exports.Set("OCCoreRes", OCCoreRes::GetClass(env));
     return module_init(env, exports);
 }
 OCMain::OCMain(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
@@ -514,5 +515,40 @@ Napi::Function OCUuidUtil::GetClass(Napi::Env env) {
 Napi::Value OCUuidUtil::str_to_uuid(const Napi::CallbackInfo& info) { return N_oc_str_to_uuid(info); };
 Napi::Value OCUuidUtil::uuid_to_str(const Napi::CallbackInfo& info) { return N_oc_uuid_to_str(info); };
 Napi::Value OCUuidUtil::gen_uuid(const Napi::CallbackInfo& info) { return N_oc_gen_uuid(info); };
+
+
+OCCoreRes::OCCoreRes(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCCoreRes::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCCoreRes", {
+        OCCoreRes::StaticMethod("init", &OCCoreRes::init),
+        OCCoreRes::StaticMethod("init_platform", &OCCoreRes::init_platform),
+        OCCoreRes::StaticMethod("shutdown", &OCCoreRes::shutdown),
+        OCCoreRes::StaticMethod("get_num_devices", &OCCoreRes::get_num_devices),
+        OCCoreRes::StaticMethod("get_device_id", &OCCoreRes::get_device_id),
+        OCCoreRes::StaticMethod("get_device_info", &OCCoreRes::get_device_info),
+        OCCoreRes::StaticMethod("get_platform_info", &OCCoreRes::get_platform_info),
+        OCCoreRes::StaticMethod("get_resource_by_uri", &OCCoreRes::get_resource_by_uri),
+        OCCoreRes::StaticMethod("filter_resource_by_rt", &OCCoreRes::filter_resource_by_rt),
+        OCCoreRes::StaticMethod("is_DCR", &OCCoreRes::is_DCR),
+        OCCoreRes::StaticMethod("set_latency", &OCCoreRes::set_latency),
+        OCCoreRes::StaticMethod("get_latency", &OCCoreRes::get_latency),
+        OCCoreRes::StaticMethod("add_new_device", &OCCoreRes::add_new_device),
+    });
+}
+
+Napi::Value OCCoreRes::init(const Napi::CallbackInfo& info) { return N_oc_core_init(info); };
+Napi::Value OCCoreRes::init_platform(const Napi::CallbackInfo& info) { return N_oc_core_init_platform(info); };
+Napi::Value OCCoreRes::shutdown(const Napi::CallbackInfo& info) { return N_oc_core_shutdown(info); };
+Napi::Value OCCoreRes::get_num_devices(const Napi::CallbackInfo& info) { return N_oc_core_get_num_devices(info); };
+Napi::Value OCCoreRes::get_device_id(const Napi::CallbackInfo& info) { return N_oc_core_get_device_id(info); };
+Napi::Value OCCoreRes::get_device_info(const Napi::CallbackInfo& info) { return N_oc_core_get_device_info(info); };
+Napi::Value OCCoreRes::get_platform_info(const Napi::CallbackInfo& info) { return N_oc_core_get_platform_info(info); };
+Napi::Value OCCoreRes::get_resource_by_uri(const Napi::CallbackInfo& info) { return N_oc_core_get_resource_by_uri(info); };
+Napi::Value OCCoreRes::filter_resource_by_rt(const Napi::CallbackInfo& info) { return N_oc_filter_resource_by_rt(info); };
+Napi::Value OCCoreRes::is_DCR(const Napi::CallbackInfo& info) { return N_oc_core_is_DCR(info); };
+Napi::Value OCCoreRes::set_latency(const Napi::CallbackInfo& info) { return N_oc_core_set_latency(info); };
+Napi::Value OCCoreRes::get_latency(const Napi::CallbackInfo& info) { return N_oc_core_get_latency(info); };
+Napi::Value OCCoreRes::add_new_device(const Napi::CallbackInfo& info) { return N_oc_core_add_new_device(info); };
 
 

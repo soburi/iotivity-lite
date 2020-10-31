@@ -84,7 +84,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("OCSpTypesMask", OCSpTypesMask::GetClass(env));
   exports.Set("OCRepValueType", OCRepValueType::GetClass(env));
   exports.Set("OCContentFormat", OCContentFormat::GetClass(env));
-  exports.Set("OCCoreRes", OCCoreRes::GetClass(env));
+  exports.Set("OCCoreResource", OCCoreResource::GetClass(env));
   exports.Set("OCEventCallbackResult", OCEventCallbackResult::GetClass(env));
   exports.Set("OCInterfaceMask", OCInterfaceMask::GetClass(env));
   exports.Set("OCMethod", OCMethod::GetClass(env));

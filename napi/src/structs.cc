@@ -8412,52 +8412,52 @@ void OCContentFormat::set_APPLICATION_VND_OCF_CBOR(const Napi::CallbackInfo& inf
 
 }
 
-Napi::FunctionReference OCCoreRes::constructor;
+Napi::FunctionReference OCCoreResource::constructor;
 
-Napi::Function OCCoreRes::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCCoreRes", {
-    OCCoreRes::StaticAccessor("OCF_P", OCCoreRes::get_OCF_P, OCCoreRes::set_OCF_P),
-    OCCoreRes::StaticAccessor("OCF_CON", OCCoreRes::get_OCF_CON, OCCoreRes::set_OCF_CON),
-    OCCoreRes::StaticAccessor("OCF_INTROSPECTION_WK", OCCoreRes::get_OCF_INTROSPECTION_WK, OCCoreRes::set_OCF_INTROSPECTION_WK),
-    OCCoreRes::StaticAccessor("OCF_INTROSPECTION_DATA", OCCoreRes::get_OCF_INTROSPECTION_DATA, OCCoreRes::set_OCF_INTROSPECTION_DATA),
-    OCCoreRes::StaticAccessor("OCF_RES", OCCoreRes::get_OCF_RES, OCCoreRes::set_OCF_RES),
+Napi::Function OCCoreResource::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCCoreResource", {
+    OCCoreResource::StaticAccessor("OCF_P", OCCoreResource::get_OCF_P, OCCoreResource::set_OCF_P),
+    OCCoreResource::StaticAccessor("OCF_CON", OCCoreResource::get_OCF_CON, OCCoreResource::set_OCF_CON),
+    OCCoreResource::StaticAccessor("OCF_INTROSPECTION_WK", OCCoreResource::get_OCF_INTROSPECTION_WK, OCCoreResource::set_OCF_INTROSPECTION_WK),
+    OCCoreResource::StaticAccessor("OCF_INTROSPECTION_DATA", OCCoreResource::get_OCF_INTROSPECTION_DATA, OCCoreResource::set_OCF_INTROSPECTION_DATA),
+    OCCoreResource::StaticAccessor("OCF_RES", OCCoreResource::get_OCF_RES, OCCoreResource::set_OCF_RES),
 #if defined(OC_MNT)
-    OCCoreRes::StaticAccessor("OCF_MNT", OCCoreRes::get_OCF_MNT, OCCoreRes::set_OCF_MNT),
+    OCCoreResource::StaticAccessor("OCF_MNT", OCCoreResource::get_OCF_MNT, OCCoreResource::set_OCF_MNT),
 #endif
 #if defined(OC_CLOUD)
-    OCCoreRes::StaticAccessor("OCF_COAPCLOUDCONF", OCCoreRes::get_OCF_COAPCLOUDCONF, OCCoreRes::set_OCF_COAPCLOUDCONF),
+    OCCoreResource::StaticAccessor("OCF_COAPCLOUDCONF", OCCoreResource::get_OCF_COAPCLOUDCONF, OCCoreResource::set_OCF_COAPCLOUDCONF),
 #endif
 #if defined(OC_SOFTWARE_UPDATE)
-    OCCoreRes::StaticAccessor("OCF_SW_UPDATE", OCCoreRes::get_OCF_SW_UPDATE, OCCoreRes::set_OCF_SW_UPDATE),
+    OCCoreResource::StaticAccessor("OCF_SW_UPDATE", OCCoreResource::get_OCF_SW_UPDATE, OCCoreResource::set_OCF_SW_UPDATE),
 #endif
 #if defined(OC_SECURITY)
-    OCCoreRes::StaticAccessor("OCF_SEC_DOXM", OCCoreRes::get_OCF_SEC_DOXM, OCCoreRes::set_OCF_SEC_DOXM),
+    OCCoreResource::StaticAccessor("OCF_SEC_DOXM", OCCoreResource::get_OCF_SEC_DOXM, OCCoreResource::set_OCF_SEC_DOXM),
 #endif
 #if defined(OC_SECURITY)
-    OCCoreRes::StaticAccessor("OCF_SEC_PSTAT", OCCoreRes::get_OCF_SEC_PSTAT, OCCoreRes::set_OCF_SEC_PSTAT),
+    OCCoreResource::StaticAccessor("OCF_SEC_PSTAT", OCCoreResource::get_OCF_SEC_PSTAT, OCCoreResource::set_OCF_SEC_PSTAT),
 #endif
 #if defined(OC_SECURITY)
-    OCCoreRes::StaticAccessor("OCF_SEC_ACL", OCCoreRes::get_OCF_SEC_ACL, OCCoreRes::set_OCF_SEC_ACL),
+    OCCoreResource::StaticAccessor("OCF_SEC_ACL", OCCoreResource::get_OCF_SEC_ACL, OCCoreResource::set_OCF_SEC_ACL),
 #endif
 #if defined(OC_SECURITY)
-    OCCoreRes::StaticAccessor("OCF_SEC_AEL", OCCoreRes::get_OCF_SEC_AEL, OCCoreRes::set_OCF_SEC_AEL),
+    OCCoreResource::StaticAccessor("OCF_SEC_AEL", OCCoreResource::get_OCF_SEC_AEL, OCCoreResource::set_OCF_SEC_AEL),
 #endif
 #if defined(OC_SECURITY)
-    OCCoreRes::StaticAccessor("OCF_SEC_CRED", OCCoreRes::get_OCF_SEC_CRED, OCCoreRes::set_OCF_SEC_CRED),
+    OCCoreResource::StaticAccessor("OCF_SEC_CRED", OCCoreResource::get_OCF_SEC_CRED, OCCoreResource::set_OCF_SEC_CRED),
 #endif
 #if defined(OC_SECURITY)
-    OCCoreRes::StaticAccessor("OCF_SEC_SDI", OCCoreRes::get_OCF_SEC_SDI, OCCoreRes::set_OCF_SEC_SDI),
+    OCCoreResource::StaticAccessor("OCF_SEC_SDI", OCCoreResource::get_OCF_SEC_SDI, OCCoreResource::set_OCF_SEC_SDI),
 #endif
 #if defined(OC_SECURITY)
-    OCCoreRes::StaticAccessor("OCF_SEC_SP", OCCoreRes::get_OCF_SEC_SP, OCCoreRes::set_OCF_SEC_SP),
+    OCCoreResource::StaticAccessor("OCF_SEC_SP", OCCoreResource::get_OCF_SEC_SP, OCCoreResource::set_OCF_SEC_SP),
 #endif
 #if defined(OC_SECURITY) && defined(OC_PKI)
-    OCCoreRes::StaticAccessor("OCF_SEC_CSR", OCCoreRes::get_OCF_SEC_CSR, OCCoreRes::set_OCF_SEC_CSR),
+    OCCoreResource::StaticAccessor("OCF_SEC_CSR", OCCoreResource::get_OCF_SEC_CSR, OCCoreResource::set_OCF_SEC_CSR),
 #endif
 #if defined(OC_SECURITY) && defined(OC_PKI)
-    OCCoreRes::StaticAccessor("OCF_SEC_ROLES", OCCoreRes::get_OCF_SEC_ROLES, OCCoreRes::set_OCF_SEC_ROLES),
+    OCCoreResource::StaticAccessor("OCF_SEC_ROLES", OCCoreResource::get_OCF_SEC_ROLES, OCCoreResource::set_OCF_SEC_ROLES),
 #endif
-    OCCoreRes::StaticAccessor("OCF_D", OCCoreRes::get_OCF_D, OCCoreRes::set_OCF_D),
+    OCCoreResource::StaticAccessor("OCF_D", OCCoreResource::get_OCF_D, OCCoreResource::set_OCF_D),
 
   });
 
@@ -8466,7 +8466,7 @@ Napi::Function OCCoreRes::GetClass(Napi::Env env) {
 
   return func;
 }
-OCCoreRes::OCCoreRes(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCCoreResource::OCCoreResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_core_resource_t>(new oc_core_resource_t());
@@ -8479,206 +8479,206 @@ OCCoreRes::OCCoreRes(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCCoreRes::get_OCF_P(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_P(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_P);
 }
 
-void OCCoreRes::set_OCF_P(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_P(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCoreRes::get_OCF_CON(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_CON(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_CON);
 }
 
-void OCCoreRes::set_OCF_CON(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_CON(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCoreRes::get_OCF_INTROSPECTION_WK(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_INTROSPECTION_WK(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_INTROSPECTION_WK);
 }
 
-void OCCoreRes::set_OCF_INTROSPECTION_WK(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_INTROSPECTION_WK(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCoreRes::get_OCF_INTROSPECTION_DATA(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_INTROSPECTION_DATA(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_INTROSPECTION_DATA);
 }
 
-void OCCoreRes::set_OCF_INTROSPECTION_DATA(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_INTROSPECTION_DATA(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCCoreRes::get_OCF_RES(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_RES(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_RES);
 }
 
-void OCCoreRes::set_OCF_RES(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_RES(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
 #if defined(OC_MNT)
-Napi::Value OCCoreRes::get_OCF_MNT(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_MNT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_MNT);
 }
 
-void OCCoreRes::set_OCF_MNT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_MNT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #if defined(OC_CLOUD)
-Napi::Value OCCoreRes::get_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_COAPCLOUDCONF);
 }
 
-void OCCoreRes::set_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #if defined(OC_SOFTWARE_UPDATE)
-Napi::Value OCCoreRes::get_OCF_SW_UPDATE(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_SW_UPDATE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SW_UPDATE);
 }
 
-void OCCoreRes::set_OCF_SW_UPDATE(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_SW_UPDATE(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #if defined(OC_SECURITY)
-Napi::Value OCCoreRes::get_OCF_SEC_DOXM(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_SEC_DOXM(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_DOXM);
 }
 
-void OCCoreRes::set_OCF_SEC_DOXM(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_SEC_DOXM(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #if defined(OC_SECURITY)
-Napi::Value OCCoreRes::get_OCF_SEC_PSTAT(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_SEC_PSTAT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_PSTAT);
 }
 
-void OCCoreRes::set_OCF_SEC_PSTAT(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_SEC_PSTAT(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #if defined(OC_SECURITY)
-Napi::Value OCCoreRes::get_OCF_SEC_ACL(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_SEC_ACL(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_ACL);
 }
 
-void OCCoreRes::set_OCF_SEC_ACL(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_SEC_ACL(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #if defined(OC_SECURITY)
-Napi::Value OCCoreRes::get_OCF_SEC_AEL(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_SEC_AEL(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_AEL);
 }
 
-void OCCoreRes::set_OCF_SEC_AEL(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_SEC_AEL(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #if defined(OC_SECURITY)
-Napi::Value OCCoreRes::get_OCF_SEC_CRED(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_SEC_CRED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_CRED);
 }
 
-void OCCoreRes::set_OCF_SEC_CRED(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_SEC_CRED(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #if defined(OC_SECURITY)
-Napi::Value OCCoreRes::get_OCF_SEC_SDI(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_SEC_SDI(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_SDI);
 }
 
-void OCCoreRes::set_OCF_SEC_SDI(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_SEC_SDI(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #if defined(OC_SECURITY)
-Napi::Value OCCoreRes::get_OCF_SEC_SP(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_SEC_SP(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_SP);
 }
 
-void OCCoreRes::set_OCF_SEC_SP(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_SEC_SP(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
-Napi::Value OCCoreRes::get_OCF_SEC_CSR(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_SEC_CSR(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_CSR);
 }
 
-void OCCoreRes::set_OCF_SEC_CSR(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_SEC_CSR(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
-Napi::Value OCCoreRes::get_OCF_SEC_ROLES(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_SEC_ROLES(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_ROLES);
 }
 
-void OCCoreRes::set_OCF_SEC_ROLES(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_SEC_ROLES(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 #endif
 
-Napi::Value OCCoreRes::get_OCF_D(const Napi::CallbackInfo& info)
+Napi::Value OCCoreResource::get_OCF_D(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_D);
 }
 
-void OCCoreRes::set_OCF_D(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCCoreResource::set_OCF_D(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }

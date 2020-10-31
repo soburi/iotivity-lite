@@ -206,5 +206,20 @@
 	"str_to_uuid": "oc_",
 	"uuid_to_str": "oc_",
 	"gen_uuid": "oc_"
+  },
+  "OCCoreRes": {
+	"init": "oc_core_",
+	"init_platform": "oc_core_",
+	"shutdown": "oc_core_",
+	"get_num_devices": "oc_core_",
+	"get_device_id": "oc_core_",
+	"get_device_info": "oc_core_",
+	"get_platform_info": "oc_core_",
+	"get_resource_by_uri": "oc_core_",
+	"filter_resource_by_rt": "oc_",
+	"is_DCR": "oc_core_",
+	"set_latency": "oc_core_",
+	"get_latency": "oc_core_",
+	"add_new_device": "oc_core_"
   }
 }

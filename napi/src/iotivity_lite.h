@@ -275,3 +275,22 @@ public:
   static Napi::Value OCUuidUtil::uuid_to_str(const Napi::CallbackInfo& info);
   static Napi::Value OCUuidUtil::gen_uuid(const Napi::CallbackInfo& info);
 };
+class OCCoreRes : public Napi::ObjectWrap<OCCoreRes>
+{
+public:
+  OCCoreRes(const Napi::CallbackInfo&);
+  static Napi::Function GetClass(Napi::Env);
+  static Napi::Value OCCoreRes::init(const Napi::CallbackInfo& info);
+  static Napi::Value OCCoreRes::init_platform(const Napi::CallbackInfo& info);
+  static Napi::Value OCCoreRes::shutdown(const Napi::CallbackInfo& info);
+  static Napi::Value OCCoreRes::get_num_devices(const Napi::CallbackInfo& info);
+  static Napi::Value OCCoreRes::get_device_id(const Napi::CallbackInfo& info);
+  static Napi::Value OCCoreRes::get_device_info(const Napi::CallbackInfo& info);
+  static Napi::Value OCCoreRes::get_platform_info(const Napi::CallbackInfo& info);
+  static Napi::Value OCCoreRes::get_resource_by_uri(const Napi::CallbackInfo& info);
+  static Napi::Value OCCoreRes::filter_resource_by_rt(const Napi::CallbackInfo& info);
+  static Napi::Value OCCoreRes::is_DCR(const Napi::CallbackInfo& info);
+  static Napi::Value OCCoreRes::set_latency(const Napi::CallbackInfo& info);
+  static Napi::Value OCCoreRes::get_latency(const Napi::CallbackInfo& info);
+  static Napi::Value OCCoreRes::add_new_device(const Napi::CallbackInfo& info);
+};
