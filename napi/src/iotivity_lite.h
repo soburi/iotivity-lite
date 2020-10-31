@@ -344,7 +344,7 @@ public:
   static Napi::Value OCRep::get_long_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::get_object(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::get_object_array(const Napi::CallbackInfo& info);
-  static Napi::Value OCRep::get_o_c_representaion_from_root_object(const Napi::CallbackInfo& info);
+  static Napi::Value OCRep::get_rep_from_root_object(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::get_string(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::get_string_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::new_buffer(const Napi::CallbackInfo& info);

@@ -586,7 +586,7 @@ Napi::Function OCRep::GetClass(Napi::Env env) {
         OCRep::StaticMethod("get_long_array", &OCRep::get_long_array),
         OCRep::StaticMethod("get_object", &OCRep::get_object),
         OCRep::StaticMethod("get_object_array", &OCRep::get_object_array),
-        OCRep::StaticMethod("get_o_c_representaion_from_root_object", &OCRep::get_o_c_representaion_from_root_object),
+        OCRep::StaticMethod("get_rep_from_root_object", &OCRep::get_rep_from_root_object),
         OCRep::StaticMethod("get_string", &OCRep::get_string),
         OCRep::StaticMethod("get_string_array", &OCRep::get_string_array),
         OCRep::StaticMethod("new_buffer", &OCRep::new_buffer),
@@ -641,7 +641,7 @@ Napi::Value OCRep::get_long(const Napi::CallbackInfo& info) { return N_helper_re
 Napi::Value OCRep::get_long_array(const Napi::CallbackInfo& info) { return N_helper_rep_get_long_array(info); };
 Napi::Value OCRep::get_object(const Napi::CallbackInfo& info) { return N_helper_rep_get_object(info); };
 Napi::Value OCRep::get_object_array(const Napi::CallbackInfo& info) { return N_helper_rep_get_object_array(info); };
-Napi::Value OCRep::get_o_c_representaion_from_root_object(const Napi::CallbackInfo& info) { return N_helper_rep_get_o_c_representaion_from_root_object(info); };
+Napi::Value OCRep::get_rep_from_root_object(const Napi::CallbackInfo& info) { return N_helper_rep_get_rep_from_root_object(info); };
 Napi::Value OCRep::get_string(const Napi::CallbackInfo& info) { return N_helper_rep_get_string(info); };
 Napi::Value OCRep::get_string_array(const Napi::CallbackInfo& info) { return N_helper_rep_get_string_array(info); };
 Napi::Value OCRep::new_buffer(const Napi::CallbackInfo& info) { return N_helper_rep_new_buffer(info); };

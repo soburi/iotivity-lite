@@ -3800,10 +3800,6 @@ Napi::Value N_helper_rep_delete_buffer(const Napi::CallbackInfo& info)
 {
   return info.Env().Undefined();
 }
-Napi::Value N_helper_rep_get_o_c_representaion_from_root_object(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
 Napi::Value N_helper_rep_new_buffer(const Napi::CallbackInfo& info)
 {
   return info.Env().Undefined();
