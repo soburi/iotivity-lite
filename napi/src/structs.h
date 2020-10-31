@@ -1292,6 +1292,10 @@ public:
          void set_double_p(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_integer(const Napi::CallbackInfo&);
          void set_integer(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_object(const Napi::CallbackInfo&);
+         void set_object(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_object_array(const Napi::CallbackInfo&);
+         void set_object_array(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_string(const Napi::CallbackInfo&);
          void set_string(const Napi::CallbackInfo&, const Napi::Value&);
 

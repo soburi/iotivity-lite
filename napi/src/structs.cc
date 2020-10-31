@@ -4596,6 +4596,8 @@ Napi::Function OCValue::GetClass(Napi::Env env) {
     OCValue::InstanceAccessor("boolean", &OCValue::get_boolean, &OCValue::set_boolean),
     OCValue::InstanceAccessor("double_p", &OCValue::get_double_p, &OCValue::set_double_p),
     OCValue::InstanceAccessor("integer", &OCValue::get_integer, &OCValue::set_integer),
+    OCValue::InstanceAccessor("object", &OCValue::get_object, &OCValue::set_object),
+    OCValue::InstanceAccessor("object_array", &OCValue::get_object_array, &OCValue::set_object_array),
     OCValue::InstanceAccessor("string", &OCValue::get_string, &OCValue::set_string),
 
   });
@@ -4658,6 +4660,30 @@ Napi::Value OCValue::get_integer(const Napi::CallbackInfo& info)
 void OCValue::set_integer(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->integer = value.As<Napi::Number>().Int64Value();
+}
+
+Napi::Value OCValue::get_object(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_rep_s*> sp(&m_pvalue->object);
+  auto accessor = Napi::External<std::shared_ptr<oc_rep_s*>>::New(info.Env(), &sp);
+  return OCRep::constructor.New({accessor});
+}
+
+void OCValue::set_object(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->object = *(*(value.As<Napi::External<std::shared_ptr<oc_rep_s*>>>().Data()));
+}
+
+Napi::Value OCValue::get_object_array(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_rep_s*> sp(&m_pvalue->object_array);
+  auto accessor = Napi::External<std::shared_ptr<oc_rep_s*>>::New(info.Env(), &sp);
+  return OCRep::constructor.New({accessor});
+}
+
+void OCValue::set_object_array(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->object_array = *(*(value.As<Napi::External<std::shared_ptr<oc_rep_s*>>>().Data()));
 }
 
 Napi::Value OCValue::get_string(const Napi::CallbackInfo& info)
