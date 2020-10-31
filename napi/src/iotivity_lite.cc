@@ -11,6 +11,18 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("OCMain", OCMain::GetClass(env));
     exports.Set("OCObt", OCObt::GetClass(env));
     exports.Set("OCBufferSettings", OCBufferSettings::GetClass(env));
+    exports.Set("OCClock", OCClock::GetClass(env));
+    exports.Set("OCCloud", OCCloud::GetClass(env));
+    exports.Set("OCCredUtil", OCCredUtil::GetClass(env));
+    exports.Set("OCEndpointUtil", OCEndpointUtil::GetClass(env));
+    exports.Set("OCEnumUtil", OCEnumUtil::GetClass(env));
+    exports.Set("OCIntrospection", OCIntrospection::GetClass(env));
+    exports.Set("OCPki", OCPki::GetClass(env));
+    exports.Set("OCRandom", OCRandom::GetClass(env));
+    exports.Set("OCSessionEvents", OCSessionEvents::GetClass(env));
+    exports.Set("OCSoftwareUpdate", OCSoftwareUpdate::GetClass(env));
+    exports.Set("OCStorage", OCStorage::GetClass(env));
+    exports.Set("OCUuidUtil", OCUuidUtil::GetClass(env));
     return module_init(env, exports);
 }
 OCMain::OCMain(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
@@ -284,5 +296,223 @@ Napi::Value OCBufferSettings::get_mtu_size(const Napi::CallbackInfo& info) { ret
 Napi::Value OCBufferSettings::set_max_app_data_size(const Napi::CallbackInfo& info) { return N_oc_set_max_app_data_size(info); };
 Napi::Value OCBufferSettings::get_max_app_data_size(const Napi::CallbackInfo& info) { return N_oc_get_max_app_data_size(info); };
 Napi::Value OCBufferSettings::get_block_size(const Napi::CallbackInfo& info) { return N_oc_get_block_size(info); };
+
+
+OCClock::OCClock(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCClock::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCClock", {
+        OCClock::StaticMethod("clock_init", &OCClock::clock_init),
+        OCClock::StaticMethod("clock_time", &OCClock::clock_time),
+        OCClock::StaticMethod("clock_seconds", &OCClock::clock_seconds),
+        OCClock::StaticMethod("clock_wait", &OCClock::clock_wait),
+    });
+}
+
+Napi::Value OCClock::clock_init(const Napi::CallbackInfo& info) { return N_oc_clock_init(info); };
+Napi::Value OCClock::clock_time(const Napi::CallbackInfo& info) { return N_oc_clock_time(info); };
+Napi::Value OCClock::clock_seconds(const Napi::CallbackInfo& info) { return N_oc_clock_seconds(info); };
+Napi::Value OCClock::clock_wait(const Napi::CallbackInfo& info) { return N_oc_clock_wait(info); };
+
+
+OCCloud::OCCloud(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCCloud::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCCloud", {
+        OCCloud::StaticMethod("get_context", &OCCloud::get_context),
+        OCCloud::StaticMethod("manager_start", &OCCloud::manager_start),
+        OCCloud::StaticMethod("manager_stop", &OCCloud::manager_stop),
+        OCCloud::StaticMethod("login", &OCCloud::login),
+        OCCloud::StaticMethod("logout", &OCCloud::logout),
+        OCCloud::StaticMethod("refresh_token", &OCCloud::refresh_token),
+        OCCloud::StaticMethod("get_token_expiry", &OCCloud::get_token_expiry),
+        OCCloud::StaticMethod("add_resource", &OCCloud::add_resource),
+        OCCloud::StaticMethod("delete_resource", &OCCloud::delete_resource),
+        OCCloud::StaticMethod("publish_resources", &OCCloud::publish_resources),
+        OCCloud::StaticMethod("discover_resources", &OCCloud::discover_resources),
+        OCCloud::StaticMethod("provision_conf_resource", &OCCloud::provision_conf_resource),
+    });
+}
+
+Napi::Value OCCloud::get_context(const Napi::CallbackInfo& info) { return N_oc_cloud_get_context(info); };
+Napi::Value OCCloud::manager_start(const Napi::CallbackInfo& info) { return N_oc_cloud_manager_start(info); };
+Napi::Value OCCloud::manager_stop(const Napi::CallbackInfo& info) { return N_oc_cloud_manager_stop(info); };
+Napi::Value OCCloud::login(const Napi::CallbackInfo& info) { return N_oc_cloud_login(info); };
+Napi::Value OCCloud::logout(const Napi::CallbackInfo& info) { return N_oc_cloud_logout(info); };
+Napi::Value OCCloud::refresh_token(const Napi::CallbackInfo& info) { return N_oc_cloud_refresh_token(info); };
+Napi::Value OCCloud::get_token_expiry(const Napi::CallbackInfo& info) { return N_oc_cloud_get_token_expiry(info); };
+Napi::Value OCCloud::add_resource(const Napi::CallbackInfo& info) { return N_oc_cloud_add_resource(info); };
+Napi::Value OCCloud::delete_resource(const Napi::CallbackInfo& info) { return N_oc_cloud_delete_resource(info); };
+Napi::Value OCCloud::publish_resources(const Napi::CallbackInfo& info) { return N_oc_cloud_publish_resources(info); };
+Napi::Value OCCloud::discover_resources(const Napi::CallbackInfo& info) { return N_oc_cloud_discover_resources(info); };
+Napi::Value OCCloud::provision_conf_resource(const Napi::CallbackInfo& info) { return N_oc_cloud_provision_conf_resource(info); };
+
+
+OCCredUtil::OCCredUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCCredUtil::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCCredUtil", {
+        OCCredUtil::StaticMethod("read_credusage", &OCCredUtil::read_credusage),
+        OCCredUtil::StaticMethod("read_encoding", &OCCredUtil::read_encoding),
+        OCCredUtil::StaticMethod("parse_credusage", &OCCredUtil::parse_credusage),
+        OCCredUtil::StaticMethod("parse_encoding", &OCCredUtil::parse_encoding),
+        OCCredUtil::StaticMethod("credtype_string", &OCCredUtil::credtype_string),
+    });
+}
+
+Napi::Value OCCredUtil::read_credusage(const Napi::CallbackInfo& info) { return N_oc_cred_read_credusage(info); };
+Napi::Value OCCredUtil::read_encoding(const Napi::CallbackInfo& info) { return N_oc_cred_read_encoding(info); };
+Napi::Value OCCredUtil::parse_credusage(const Napi::CallbackInfo& info) { return N_oc_cred_parse_credusage(info); };
+Napi::Value OCCredUtil::parse_encoding(const Napi::CallbackInfo& info) { return N_oc_cred_parse_encoding(info); };
+Napi::Value OCCredUtil::credtype_string(const Napi::CallbackInfo& info) { return N_oc_cred_credtype_string(info); };
+
+
+OCEndpointUtil::OCEndpointUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCEndpointUtil::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCEndpointUtil", {
+        OCEndpointUtil::StaticMethod("to_string", &OCEndpointUtil::to_string),
+        OCEndpointUtil::StaticMethod("compare", &OCEndpointUtil::compare),
+        OCEndpointUtil::StaticMethod("copy", &OCEndpointUtil::copy),
+        OCEndpointUtil::StaticMethod("free_endpoint", &OCEndpointUtil::free_endpoint),
+        OCEndpointUtil::StaticMethod("string_to_endpoint", &OCEndpointUtil::string_to_endpoint),
+        OCEndpointUtil::StaticMethod("new_endpoint", &OCEndpointUtil::new_endpoint),
+        OCEndpointUtil::StaticMethod("endpoint_string_parse_path", &OCEndpointUtil::endpoint_string_parse_path),
+        OCEndpointUtil::StaticMethod("set_di", &OCEndpointUtil::set_di),
+        OCEndpointUtil::StaticMethod("ipv6_endpoint_is_link_local", &OCEndpointUtil::ipv6_endpoint_is_link_local),
+        OCEndpointUtil::StaticMethod("compare_address", &OCEndpointUtil::compare_address),
+        OCEndpointUtil::StaticMethod("set_local_address", &OCEndpointUtil::set_local_address),
+    });
+}
+
+Napi::Value OCEndpointUtil::to_string(const Napi::CallbackInfo& info) { return N_oc_endpoint_to_string(info); };
+Napi::Value OCEndpointUtil::compare(const Napi::CallbackInfo& info) { return N_oc_endpoint_compare(info); };
+Napi::Value OCEndpointUtil::copy(const Napi::CallbackInfo& info) { return N_oc_endpoint_copy(info); };
+Napi::Value OCEndpointUtil::free_endpoint(const Napi::CallbackInfo& info) { return N_oc_free_endpoint(info); };
+Napi::Value OCEndpointUtil::string_to_endpoint(const Napi::CallbackInfo& info) { return N_oc_string_to_endpoint(info); };
+Napi::Value OCEndpointUtil::new_endpoint(const Napi::CallbackInfo& info) { return N_oc_new_endpoint(info); };
+Napi::Value OCEndpointUtil::endpoint_string_parse_path(const Napi::CallbackInfo& info) { return N_oc_endpoint_string_parse_path(info); };
+Napi::Value OCEndpointUtil::set_di(const Napi::CallbackInfo& info) { return N_oc_endpoint_set_di(info); };
+Napi::Value OCEndpointUtil::ipv6_endpoint_is_link_local(const Napi::CallbackInfo& info) { return N_oc_ipv6_endpoint_is_link_local(info); };
+Napi::Value OCEndpointUtil::compare_address(const Napi::CallbackInfo& info) { return N_oc_endpoint_compare_address(info); };
+Napi::Value OCEndpointUtil::set_local_address(const Napi::CallbackInfo& info) { return N_oc_endpoint_set_local_address(info); };
+
+
+OCEnumUtil::OCEnumUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCEnumUtil::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCEnumUtil", {
+        OCEnumUtil::StaticMethod("enum_to_str", &OCEnumUtil::enum_to_str),
+        OCEnumUtil::StaticMethod("pos_desc_to_str", &OCEnumUtil::pos_desc_to_str),
+    });
+}
+
+Napi::Value OCEnumUtil::enum_to_str(const Napi::CallbackInfo& info) { return N_oc_enum_to_str(info); };
+Napi::Value OCEnumUtil::pos_desc_to_str(const Napi::CallbackInfo& info) { return N_oc_enum_pos_desc_to_str(info); };
+
+
+OCIntrospection::OCIntrospection(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCIntrospection::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCIntrospection", {
+        OCIntrospection::StaticMethod("set_introspection_data", &OCIntrospection::set_introspection_data),
+    });
+}
+
+Napi::Value OCIntrospection::set_introspection_data(const Napi::CallbackInfo& info) { return N_oc_set_introspection_data(info); };
+
+
+OCPki::OCPki(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCPki::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCPki", {
+        OCPki::StaticMethod("add_mfg_cert", &OCPki::add_mfg_cert),
+        OCPki::StaticMethod("add_mfg_trust_anchor", &OCPki::add_mfg_trust_anchor),
+        OCPki::StaticMethod("add_mfg_intermediate_cert", &OCPki::add_mfg_intermediate_cert),
+        OCPki::StaticMethod("add_trust_anchor", &OCPki::add_trust_anchor),
+        OCPki::StaticMethod("set_security_profile", &OCPki::set_security_profile),
+    });
+}
+
+Napi::Value OCPki::add_mfg_cert(const Napi::CallbackInfo& info) { return N_oc_pki_add_mfg_cert(info); };
+Napi::Value OCPki::add_mfg_trust_anchor(const Napi::CallbackInfo& info) { return N_oc_pki_add_mfg_trust_anchor(info); };
+Napi::Value OCPki::add_mfg_intermediate_cert(const Napi::CallbackInfo& info) { return N_oc_pki_add_mfg_intermediate_cert(info); };
+Napi::Value OCPki::add_trust_anchor(const Napi::CallbackInfo& info) { return N_oc_pki_add_trust_anchor(info); };
+Napi::Value OCPki::set_security_profile(const Napi::CallbackInfo& info) { return N_oc_pki_set_security_profile(info); };
+
+
+OCRandom::OCRandom(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCRandom::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCRandom", {
+        OCRandom::StaticMethod("init", &OCRandom::init),
+        OCRandom::StaticMethod("destroy", &OCRandom::destroy),
+        OCRandom::StaticMethod("random_value", &OCRandom::random_value),
+    });
+}
+
+Napi::Value OCRandom::init(const Napi::CallbackInfo& info) { return N_oc_random_init(info); };
+Napi::Value OCRandom::destroy(const Napi::CallbackInfo& info) { return N_oc_random_destroy(info); };
+Napi::Value OCRandom::random_value(const Napi::CallbackInfo& info) { return N_oc_random_value(info); };
+
+
+OCSessionEvents::OCSessionEvents(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCSessionEvents::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCSessionEvents", {
+        OCSessionEvents::StaticMethod("start_event", &OCSessionEvents::start_event),
+        OCSessionEvents::StaticMethod("end_event", &OCSessionEvents::end_event),
+        OCSessionEvents::StaticMethod("set_event_delay", &OCSessionEvents::set_event_delay),
+    });
+}
+
+Napi::Value OCSessionEvents::start_event(const Napi::CallbackInfo& info) { return N_oc_session_start_event(info); };
+Napi::Value OCSessionEvents::end_event(const Napi::CallbackInfo& info) { return N_oc_session_end_event(info); };
+Napi::Value OCSessionEvents::set_event_delay(const Napi::CallbackInfo& info) { return N_oc_session_events_set_event_delay(info); };
+
+
+OCSoftwareUpdate::OCSoftwareUpdate(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCSoftwareUpdate::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCSoftwareUpdate", {
+        OCSoftwareUpdate::StaticMethod("notify_downloaded", &OCSoftwareUpdate::notify_downloaded),
+        OCSoftwareUpdate::StaticMethod("notify_upgrading", &OCSoftwareUpdate::notify_upgrading),
+        OCSoftwareUpdate::StaticMethod("notify_done", &OCSoftwareUpdate::notify_done),
+        OCSoftwareUpdate::StaticMethod("notify_new_version_available", &OCSoftwareUpdate::notify_new_version_available),
+        OCSoftwareUpdate::StaticMethod("set_impl", &OCSoftwareUpdate::set_impl),
+    });
+}
+
+Napi::Value OCSoftwareUpdate::notify_downloaded(const Napi::CallbackInfo& info) { return N_oc_swupdate_notify_downloaded(info); };
+Napi::Value OCSoftwareUpdate::notify_upgrading(const Napi::CallbackInfo& info) { return N_oc_swupdate_notify_upgrading(info); };
+Napi::Value OCSoftwareUpdate::notify_done(const Napi::CallbackInfo& info) { return N_oc_swupdate_notify_done(info); };
+Napi::Value OCSoftwareUpdate::notify_new_version_available(const Napi::CallbackInfo& info) { return N_oc_swupdate_notify_new_version_available(info); };
+Napi::Value OCSoftwareUpdate::set_impl(const Napi::CallbackInfo& info) { return N_oc_swupdate_set_impl(info); };
+
+
+OCStorage::OCStorage(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCStorage::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCStorage", {
+        OCStorage::StaticMethod("storage_config", &OCStorage::storage_config),
+    });
+}
+
+Napi::Value OCStorage::storage_config(const Napi::CallbackInfo& info) { return N_oc_storage_config(info); };
+
+
+OCUuidUtil::OCUuidUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCUuidUtil::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCUuidUtil", {
+        OCUuidUtil::StaticMethod("str_to_uuid", &OCUuidUtil::str_to_uuid),
+        OCUuidUtil::StaticMethod("uuid_to_str", &OCUuidUtil::uuid_to_str),
+        OCUuidUtil::StaticMethod("gen_uuid", &OCUuidUtil::gen_uuid),
+    });
+}
+
+Napi::Value OCUuidUtil::str_to_uuid(const Napi::CallbackInfo& info) { return N_oc_str_to_uuid(info); };
+Napi::Value OCUuidUtil::uuid_to_str(const Napi::CallbackInfo& info) { return N_oc_uuid_to_str(info); };
+Napi::Value OCUuidUtil::gen_uuid(const Napi::CallbackInfo& info) { return N_oc_gen_uuid(info); };
 
 
