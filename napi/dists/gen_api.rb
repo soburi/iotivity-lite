@@ -1284,6 +1284,8 @@ end
 
 File.open('src/functions.cc', 'w') do |f|
   f.print "#include \"functions.h\"\n"
+  f.print "#include \"iotivity_lite.h\"\n"
+  f.print "#include \"helper.h\"\n"
 
   #func_table.each do |key, h|
   #  if not IFDEF_FUNCS.include?(key)

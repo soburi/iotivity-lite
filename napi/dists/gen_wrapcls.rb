@@ -15,6 +15,7 @@ class CLASS : public Napi::ObjectWrap<CLASS>
 public:
   CLASS(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
 CLSDECL
 MTDDECL = <<MTDDECL
   static Napi::Value CLASS::METHOD(const Napi::CallbackInfo& info);

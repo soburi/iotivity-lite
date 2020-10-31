@@ -1,4 +1,7 @@
 #include "functions.h"
+#include "iotivity_lite.h"
+#include "helper.h"
+
 Napi::Value N_coap_get_header_accept(const Napi::CallbackInfo& info) {
   void* packet = info[0];
 // 1 accept, unsigned int*
@@ -3711,7 +3714,7 @@ Napi::Value N_helper_rep_get_string(const Napi::CallbackInfo& info) {
   const char* key = key_.c_str();
   std::shared_ptr<char> sp(helper_rep_get_string(rep, key));
   auto args = Napi::External<std::shared_ptr<char>>::New(info.Env(), &sp);
-  return char::constructor.New({args});
+  //return char::constructor.New({args});
 }
 
 Napi::Value N_helper_rep_get_long_array(const Napi::CallbackInfo& info) {
@@ -3721,7 +3724,7 @@ Napi::Value N_helper_rep_get_long_array(const Napi::CallbackInfo& info) {
   size_t* int_array_size = reinterpret_cast<size_t*>(info[2].As<Napi::Uint32Array>().Data());
   std::shared_ptr<const int64_t> sp(helper_rep_get_long_array(rep, key, int_array_size));
   auto args = Napi::External<std::shared_ptr<const int64_t>>::New(info.Env(), &sp);
-  return const int64_t::constructor.New({args});
+  //return const int64_t::constructor.New({args});
 }
 
 Napi::Value N_helper_rep_get_bool_array(const Napi::CallbackInfo& info) {
@@ -3731,7 +3734,7 @@ Napi::Value N_helper_rep_get_bool_array(const Napi::CallbackInfo& info) {
   size_t* bool_array_size = reinterpret_cast<size_t*>(info[2].As<Napi::Uint32Array>().Data());
   std::shared_ptr<const bool> sp(helper_rep_get_bool_array(rep, key, bool_array_size));
   auto args = Napi::External<std::shared_ptr<const bool>>::New(info.Env(), &sp);
-  return const bool::constructor.New({args});
+  //return const bool::constructor.New({args});
 }
 
 Napi::Value N_helper_rep_get_double_array(const Napi::CallbackInfo& info) {
@@ -3741,7 +3744,7 @@ Napi::Value N_helper_rep_get_double_array(const Napi::CallbackInfo& info) {
   size_t* double_array_size = reinterpret_cast<size_t*>(info[2].As<Napi::Uint32Array>().Data());
   std::shared_ptr<const double> sp(helper_rep_get_double_array(rep, key, double_array_size));
   auto args = Napi::External<std::shared_ptr<const double>>::New(info.Env(), &sp);
-  return const double::constructor.New({args});
+  //return const double::constructor.New({args});
 }
 
 Napi::Value N_helper_rep_get_byte_string_array(const Napi::CallbackInfo& info) {
@@ -3751,7 +3754,7 @@ Napi::Value N_helper_rep_get_byte_string_array(const Napi::CallbackInfo& info) {
   size_t* byte_string_array_size = reinterpret_cast<size_t*>(info[2].As<Napi::Uint32Array>().Data());
   std::shared_ptr<const oc_string_array_t> sp(helper_rep_get_byte_string_array(rep, key, byte_string_array_size));
   auto args = Napi::External<std::shared_ptr<const oc_string_array_t>>::New(info.Env(), &sp);
-  return const ocStringArray::constructor.New({args});
+  //return const ocStringArray::constructor.New({args});
 }
 
 Napi::Value N_helper_rep_get_string_array(const Napi::CallbackInfo& info) {
@@ -3761,7 +3764,7 @@ Napi::Value N_helper_rep_get_string_array(const Napi::CallbackInfo& info) {
   size_t* string_array_size = reinterpret_cast<size_t*>(info[2].As<Napi::Uint32Array>().Data());
   std::shared_ptr<const oc_string_array_t> sp(helper_rep_get_string_array(rep, key, string_array_size));
   auto args = Napi::External<std::shared_ptr<const oc_string_array_t>>::New(info.Env(), &sp);
-  return const ocStringArray::constructor.New({args});
+  //return const ocStringArray::constructor.New({args});
 }
 
 Napi::Value N_helper_rep_get_object(const Napi::CallbackInfo& info) {

@@ -12,6 +12,7 @@ class OCMain : public Napi::ObjectWrap<OCMain>
 public:
   OCMain(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCMain::add_collection(const Napi::CallbackInfo& info);
   static Napi::Value OCMain::add_device(const Napi::CallbackInfo& info);
   static Napi::Value OCMain::add_ownership_status_cb(const Napi::CallbackInfo& info);
@@ -97,6 +98,7 @@ class OCObt : public Napi::ObjectWrap<OCObt>
 public:
   OCObt(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCObt::ace_add_permission(const Napi::CallbackInfo& info);
   static Napi::Value OCObt::ace_new_resource(const Napi::CallbackInfo& info);
   static Napi::Value OCObt::ace_resource_set_href(const Napi::CallbackInfo& info);
@@ -142,6 +144,7 @@ class OCBufferSettings : public Napi::ObjectWrap<OCBufferSettings>
 public:
   OCBufferSettings(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCBufferSettings::set_mtu_size(const Napi::CallbackInfo& info);
   static Napi::Value OCBufferSettings::get_mtu_size(const Napi::CallbackInfo& info);
   static Napi::Value OCBufferSettings::set_max_app_data_size(const Napi::CallbackInfo& info);
@@ -153,6 +156,7 @@ class OCClock : public Napi::ObjectWrap<OCClock>
 public:
   OCClock(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCClock::clock_init(const Napi::CallbackInfo& info);
   static Napi::Value OCClock::clock_time(const Napi::CallbackInfo& info);
   static Napi::Value OCClock::clock_seconds(const Napi::CallbackInfo& info);
@@ -163,6 +167,7 @@ class OCCloud : public Napi::ObjectWrap<OCCloud>
 public:
   OCCloud(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCCloud::get_context(const Napi::CallbackInfo& info);
   static Napi::Value OCCloud::manager_start(const Napi::CallbackInfo& info);
   static Napi::Value OCCloud::manager_stop(const Napi::CallbackInfo& info);
@@ -181,6 +186,7 @@ class OCCredUtil : public Napi::ObjectWrap<OCCredUtil>
 public:
   OCCredUtil(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCCredUtil::read_credusage(const Napi::CallbackInfo& info);
   static Napi::Value OCCredUtil::read_encoding(const Napi::CallbackInfo& info);
   static Napi::Value OCCredUtil::parse_credusage(const Napi::CallbackInfo& info);
@@ -192,6 +198,7 @@ class OCEndpointUtil : public Napi::ObjectWrap<OCEndpointUtil>
 public:
   OCEndpointUtil(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCEndpointUtil::to_string(const Napi::CallbackInfo& info);
   static Napi::Value OCEndpointUtil::compare(const Napi::CallbackInfo& info);
   static Napi::Value OCEndpointUtil::copy(const Napi::CallbackInfo& info);
@@ -209,6 +216,7 @@ class OCEnumUtil : public Napi::ObjectWrap<OCEnumUtil>
 public:
   OCEnumUtil(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCEnumUtil::enum_to_str(const Napi::CallbackInfo& info);
   static Napi::Value OCEnumUtil::pos_desc_to_str(const Napi::CallbackInfo& info);
 };
@@ -217,6 +225,7 @@ class OCIntrospection : public Napi::ObjectWrap<OCIntrospection>
 public:
   OCIntrospection(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCIntrospection::set_introspection_data(const Napi::CallbackInfo& info);
 };
 class OCPki : public Napi::ObjectWrap<OCPki>
@@ -224,6 +233,7 @@ class OCPki : public Napi::ObjectWrap<OCPki>
 public:
   OCPki(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCPki::add_mfg_cert(const Napi::CallbackInfo& info);
   static Napi::Value OCPki::add_mfg_trust_anchor(const Napi::CallbackInfo& info);
   static Napi::Value OCPki::add_mfg_intermediate_cert(const Napi::CallbackInfo& info);
@@ -235,6 +245,7 @@ class OCRandom : public Napi::ObjectWrap<OCRandom>
 public:
   OCRandom(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCRandom::init(const Napi::CallbackInfo& info);
   static Napi::Value OCRandom::destroy(const Napi::CallbackInfo& info);
   static Napi::Value OCRandom::random_value(const Napi::CallbackInfo& info);
@@ -244,6 +255,7 @@ class OCSessionEvents : public Napi::ObjectWrap<OCSessionEvents>
 public:
   OCSessionEvents(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCSessionEvents::start_event(const Napi::CallbackInfo& info);
   static Napi::Value OCSessionEvents::end_event(const Napi::CallbackInfo& info);
   static Napi::Value OCSessionEvents::set_event_delay(const Napi::CallbackInfo& info);
@@ -253,6 +265,7 @@ class OCSoftwareUpdate : public Napi::ObjectWrap<OCSoftwareUpdate>
 public:
   OCSoftwareUpdate(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCSoftwareUpdate::notify_downloaded(const Napi::CallbackInfo& info);
   static Napi::Value OCSoftwareUpdate::notify_upgrading(const Napi::CallbackInfo& info);
   static Napi::Value OCSoftwareUpdate::notify_done(const Napi::CallbackInfo& info);
@@ -264,6 +277,7 @@ class OCStorage : public Napi::ObjectWrap<OCStorage>
 public:
   OCStorage(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCStorage::storage_config(const Napi::CallbackInfo& info);
 };
 class OCUuidUtil : public Napi::ObjectWrap<OCUuidUtil>
@@ -271,6 +285,7 @@ class OCUuidUtil : public Napi::ObjectWrap<OCUuidUtil>
 public:
   OCUuidUtil(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCUuidUtil::str_to_uuid(const Napi::CallbackInfo& info);
   static Napi::Value OCUuidUtil::uuid_to_str(const Napi::CallbackInfo& info);
   static Napi::Value OCUuidUtil::gen_uuid(const Napi::CallbackInfo& info);
@@ -280,6 +295,7 @@ class OCCoreRes : public Napi::ObjectWrap<OCCoreRes>
 public:
   OCCoreRes(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
   static Napi::Value OCCoreRes::init(const Napi::CallbackInfo& info);
   static Napi::Value OCCoreRes::init_platform(const Napi::CallbackInfo& info);
   static Napi::Value OCCoreRes::shutdown(const Napi::CallbackInfo& info);
@@ -300,7 +316,6 @@ public:
   OCRep(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
-
   static Napi::Value OCRep::add_boolean(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::add_byte_string(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::add_double(const Napi::CallbackInfo& info);
