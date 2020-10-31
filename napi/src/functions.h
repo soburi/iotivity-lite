@@ -594,7 +594,6 @@ Napi::Value N_oc_rep_get_bool_array(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_byte_string(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_byte_string_array(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_cbor_errno(const Napi::CallbackInfo&);
-Napi::Value N_oc_rep_clear_cbor_errno(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_double(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_double_array(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_encoded_payload_size(const Napi::CallbackInfo&);
