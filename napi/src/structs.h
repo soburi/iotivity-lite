@@ -891,6 +891,8 @@ public:
          void set_name(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_type(const Napi::CallbackInfo&);
          void set_type(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_value(const Napi::CallbackInfo&);
+         void set_value(const Napi::CallbackInfo&, const Napi::Value&);
 
 
   std::shared_ptr<oc_rep_s> m_pvalue;
@@ -1275,6 +1277,27 @@ public:
   std::shared_ptr<oc_endpoint_t::dev_addr> m_pvalue;
 };
 
+class OCValue : public Napi::ObjectWrap<OCValue>
+{
+public:
+  OCValue(const Napi::CallbackInfo&);
+  static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
+  operator oc_rep_s::oc_rep_value*() { return m_pvalue.get(); }
+  Napi::Value get_array(const Napi::CallbackInfo&);
+         void set_array(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_boolean(const Napi::CallbackInfo&);
+         void set_boolean(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_double_p(const Napi::CallbackInfo&);
+         void set_double_p(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_integer(const Napi::CallbackInfo&);
+         void set_integer(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_string(const Napi::CallbackInfo&);
+         void set_string(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+  std::shared_ptr<oc_rep_s::oc_rep_value> m_pvalue;
+};
 
 
 class coapTransportType : public Napi::ObjectWrap<coapTransportType>

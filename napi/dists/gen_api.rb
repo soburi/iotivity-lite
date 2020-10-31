@@ -495,6 +495,7 @@ WRAPPERNAME = { 'oc_ipv4_addr_t' => "OCIPv4Addr",
                 'oc_rt_t' => 'OCResourceType',
                 'transport_flags' => 'OCTransportFlags',
                 'enum transport_flags' => 'OCTransportFlags',
+                'oc_rep_s::oc_rep_value' => 'OCValue',
 }
 
 TYPEDEFS = {
@@ -565,10 +566,10 @@ IGNORE_TYPES = {
   "oc_memb" => [/mem/, /buffers_avail_cb/],
   "oc_mmem" => [/ptr/, /^next$/],
 # internal
-  "oc_rep_s" => [/value/, /^next$/ ],
+  "oc_rep_s" => [/^next$/ ],
   "oc_client_response_t" => [/payload/, /client_cb/, /user_data/],
 
-  "oc_rep_s::oc_rep_value" => nil,
+  "oc_rep_s::oc_rep_value" => [/^object$/, /^object_array$/],
   "pool" => nil,
   "@3" => nil,
   #"oc_response_t" => [ /response_buffer/, ],

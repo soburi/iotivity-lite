@@ -3244,6 +3244,7 @@ Napi::Function OCRep::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCRep", {
     OCRep::InstanceAccessor("name", &OCRep::get_name, &OCRep::set_name),
     OCRep::InstanceAccessor("type", &OCRep::get_type, &OCRep::set_type),
+    OCRep::InstanceAccessor("value", &OCRep::get_value, &OCRep::set_value),
 
   });
 
@@ -3285,6 +3286,18 @@ Napi::Value OCRep::get_type(const Napi::CallbackInfo& info)
 void OCRep::set_type(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->type = static_cast<oc_rep_value_type_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value OCRep::get_value(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_rep_s::oc_rep_value> sp(&m_pvalue->value);
+  auto accessor = Napi::External<std::shared_ptr<oc_rep_s::oc_rep_value>>::New(info.Env(), &sp);
+  return OCValue::constructor.New({accessor});
+}
+
+void OCRep::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->value = *(*(value.As<Napi::External<std::shared_ptr<oc_rep_s::oc_rep_value>>>().Data()));
 }
 
 Napi::FunctionReference OCRequestHandler::constructor;
@@ -4575,6 +4588,89 @@ void DevAddr::set_ipv6(const Napi::CallbackInfo& info, const Napi::Value& value)
   m_pvalue->ipv6 = *(*(value.As<Napi::External<std::shared_ptr<oc_ipv6_addr_t>>>().Data()));
 }
 
+Napi::FunctionReference OCValue::constructor;
+
+Napi::Function OCValue::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCValue", {
+    OCValue::InstanceAccessor("array", &OCValue::get_array, &OCValue::set_array),
+    OCValue::InstanceAccessor("boolean", &OCValue::get_boolean, &OCValue::set_boolean),
+    OCValue::InstanceAccessor("double_p", &OCValue::get_double_p, &OCValue::set_double_p),
+    OCValue::InstanceAccessor("integer", &OCValue::get_integer, &OCValue::set_integer),
+    OCValue::InstanceAccessor("string", &OCValue::get_string, &OCValue::set_string),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+OCValue::OCValue(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<oc_rep_s::oc_rep_value>(new oc_rep_s::oc_rep_value());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_rep_s::oc_rep_value>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+Napi::Value OCValue::get_array(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_mmem> sp(&m_pvalue->array);
+  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+  return OCMmem::constructor.New({accessor});
+}
+
+void OCValue::set_array(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->array = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+}
+
+Napi::Value OCValue::get_boolean(const Napi::CallbackInfo& info)
+{
+  return Napi::Boolean::New(info.Env(), m_pvalue->boolean);
+}
+
+void OCValue::set_boolean(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->boolean = value.As<Napi::Boolean>().Value();
+}
+
+Napi::Value OCValue::get_double_p(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->double_p);
+}
+
+void OCValue::set_double_p(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->double_p = value.As<Napi::Number>().DoubleValue();
+}
+
+Napi::Value OCValue::get_integer(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->integer);
+}
+
+void OCValue::set_integer(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->integer = value.As<Napi::Number>().Int64Value();
+}
+
+Napi::Value OCValue::get_string(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_mmem> sp(&m_pvalue->string);
+  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+  return OCMmem::constructor.New({accessor});
+}
+
+void OCValue::set_string(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->string = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+}
 
 
 Napi::FunctionReference coapTransportType::constructor;

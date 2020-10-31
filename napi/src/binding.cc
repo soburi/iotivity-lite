@@ -52,6 +52,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("OCUuid", OCUuid::GetClass(env));
   exports.Set("OCAceSubject", OCAceSubject::GetClass(env));
   exports.Set("DevAddr", DevAddr::GetClass(env));
+  exports.Set("OCValue", OCValue::GetClass(env));
   exports.Set("coapTransportType", coapTransportType::GetClass(env));
   exports.Set("coapSignalCode", coapSignalCode::GetClass(env));
   exports.Set("coapSignalOption", coapSignalOption::GetClass(env));
