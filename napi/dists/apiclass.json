@@ -226,7 +226,6 @@
 	"add_boolean": "helper_rep_",
 	"add_byte_string": "helper_rep_",
 	"add_double": "helper_rep_",
-	"add_long": "helper_rep_",
 	"add_text_string": "helper_rep_",
 	"start_array": "helper_rep_",
 	"start_links_array": "helper_rep_",

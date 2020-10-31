@@ -83,19 +83,9 @@ void helper_rep_rep_set_string_array(CborEncoder *object, const char* key, oc_st
 oc_rep_t * helper_rep_get_rep_from_root_object();
 int helper_rep_get_cbor_errno();
 void helper_rep_clear_cbor_errno();
-int64_t helper_rep_get_long(oc_rep_t *rep, const char *key, bool *jni_rep_get_error_flag);
-bool helper_rep_get_bool(oc_rep_t *rep, const char *key, bool *jni_rep_get_error_flag);
-double helper_rep_get_double(oc_rep_t *rep, const char *key, bool *jni_rep_get_error_flag);
-const char * helper_rep_get_byte_string(oc_rep_t *rep, const char *key, size_t *byte_string_size);
-char * helper_rep_get_string(oc_rep_t *rep, const char *key);
-const int64_t* helper_rep_get_long_array(oc_rep_t *rep, const char *key, size_t *int_array_size);
-const bool* helper_rep_get_bool_array(oc_rep_t *rep, const char *key, size_t *bool_array_size);
-const double* helper_rep_get_double_array(oc_rep_t *rep, const char *key, size_t *double_array_size);
-const oc_string_array_t * helper_rep_get_byte_string_array(oc_rep_t *rep, const char *key, size_t *byte_string_array_size);
-const oc_string_array_t * helper_rep_get_string_array(oc_rep_t *rep, const char *key, size_t *string_array_size);
-oc_rep_t * helper_rep_get_object(oc_rep_t* rep, const char *key);
-oc_rep_t * helper_rep_get_object_array(oc_rep_t* rep, const char *key);
-char *helper_rep_to_json(oc_rep_t *rep, bool prettyPrint);
+void helper_rep_delete_buffer();
+void helper_rep_new_buffer(int size);
+
 #ifdef __cplusplus
 }
 #endif

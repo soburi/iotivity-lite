@@ -319,7 +319,6 @@ public:
   static Napi::Value OCRep::add_boolean(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::add_byte_string(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::add_double(const Napi::CallbackInfo& info);
-  static Napi::Value OCRep::add_long(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::add_text_string(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::start_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::start_links_array(const Napi::CallbackInfo& info);

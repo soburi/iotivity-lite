@@ -3500,5 +3500,16 @@
 	"type": "void",
 	"param": {
 	}
+},
+"helper_rep_delete_buffer": {
+	"type": "void",
+	"param": {
+	}
+},
+"helper_rep_new_buffer": {
+	"type": "void",
+	"param": {
+		"size": "int"
+	}
 }
 }

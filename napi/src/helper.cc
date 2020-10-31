@@ -151,8 +151,29 @@ void oc_resource_set_request_handler_helper(oc_request_t* req, oc_interface_mask
 #include "port/oc_log.h"
 
 
+uint8_t *g_new_rep_buffer = NULL;
+struct oc_memb g_rep_objects;
 
 int g_err;
+
+void helper_rep_delete_buffer() {
+  free(g_new_rep_buffer);
+  g_new_rep_buffer = NULL;
+}
+
+void helper_rep_new_buffer(int size) {
+  if (g_new_rep_buffer) {
+    helper_rep_delete_buffer();
+  }
+  g_new_rep_buffer = (uint8_t *)malloc(size);
+  oc_rep_new(g_new_rep_buffer, size);
+  g_rep_objects.size = sizeof(oc_rep_t);
+  g_rep_objects.num = 0;
+  g_rep_objects.count = NULL;
+  g_rep_objects.mem = NULL;
+  g_rep_objects.buffers_avail_cb = NULL;
+  oc_rep_set_pool(&g_rep_objects);
+}
 
 
 /* Alt implementation of oc_rep_set_double macro*/

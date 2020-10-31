@@ -797,5 +797,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("helper_rep_get_rep_from_root_object", Napi::Function::New(env, N_helper_rep_get_rep_from_root_object));
   exports.Set("helper_rep_get_cbor_errno", Napi::Function::New(env, N_helper_rep_get_cbor_errno));
   exports.Set("helper_rep_clear_cbor_errno", Napi::Function::New(env, N_helper_rep_clear_cbor_errno));
+  exports.Set("helper_rep_delete_buffer", Napi::Function::New(env, N_helper_rep_delete_buffer));
+  exports.Set("helper_rep_new_buffer", Napi::Function::New(env, N_helper_rep_new_buffer));
   return exports;
 }

@@ -3680,16 +3680,14 @@ Napi::Value N_helper_rep_clear_cbor_errno(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-Napi::Value N_helper_rep_add_long(const Napi::CallbackInfo& info)
-{
+Napi::Value N_helper_rep_delete_buffer(const Napi::CallbackInfo& info) {
+  (void)helper_rep_delete_buffer();
   return info.Env().Undefined();
 }
-Napi::Value N_helper_rep_delete_buffer(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_new_buffer(const Napi::CallbackInfo& info)
-{
+
+Napi::Value N_helper_rep_new_buffer(const Napi::CallbackInfo& info) {
+  int size = static_cast<int>(info[0].As<Napi::Number>());
+  (void)helper_rep_new_buffer(size);
   return info.Env().Undefined();
 }
 Napi::Value N_helper_rep_oc_array_to_boolean_array(const Napi::CallbackInfo& info)

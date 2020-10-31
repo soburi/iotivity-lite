@@ -561,7 +561,6 @@ Napi::Function OCRep::GetClass(Napi::Env env) {
         OCRep::StaticMethod("add_boolean", &OCRep::add_boolean),
         OCRep::StaticMethod("add_byte_string", &OCRep::add_byte_string),
         OCRep::StaticMethod("add_double", &OCRep::add_double),
-        OCRep::StaticMethod("add_long", &OCRep::add_long),
         OCRep::StaticMethod("add_text_string", &OCRep::add_text_string),
         OCRep::StaticMethod("start_array", &OCRep::start_array),
         OCRep::StaticMethod("start_links_array", &OCRep::start_links_array),
@@ -614,7 +613,6 @@ Napi::Function OCRep::GetClass(Napi::Env env) {
 Napi::Value OCRep::add_boolean(const Napi::CallbackInfo& info) { return N_helper_rep_add_boolean(info); };
 Napi::Value OCRep::add_byte_string(const Napi::CallbackInfo& info) { return N_helper_rep_add_byte_string(info); };
 Napi::Value OCRep::add_double(const Napi::CallbackInfo& info) { return N_helper_rep_add_double(info); };
-Napi::Value OCRep::add_long(const Napi::CallbackInfo& info) { return N_helper_rep_add_long(info); };
 Napi::Value OCRep::add_text_string(const Napi::CallbackInfo& info) { return N_helper_rep_add_text_string(info); };
 Napi::Value OCRep::start_array(const Napi::CallbackInfo& info) { return N_helper_rep_start_array(info); };
 Napi::Value OCRep::start_links_array(const Napi::CallbackInfo& info) { return N_helper_rep_start_links_array(info); };
