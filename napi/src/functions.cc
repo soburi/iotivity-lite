@@ -1,4 +1,6 @@
 #include "functions.h"
+#include "iotivity_lite.h"
+
 Napi::Value N_coap_get_header_accept(const Napi::CallbackInfo& info) {
   void* packet = info[0];
 // 1 accept, unsigned int*
@@ -3425,5 +3427,360 @@ Napi::Value N_coap_send_transaction(const Napi::CallbackInfo& info) {
 // 0 t, coap_transaction_t*
   (void)0;
   return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_set_double(const Napi::CallbackInfo& info) {
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  double value = info[2].As<Napi::Number>().DoubleValue();
+  (void)helper_rep_set_double(object, key, value);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_set_long(const Napi::CallbackInfo& info) {
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  int64_t value = static_cast<int64_t>(info[2].As<Napi::Number>());
+  (void)helper_rep_set_long(object, key, value);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_set_uint(const Napi::CallbackInfo& info) {
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+// 2 value, unsigned int
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_set_boolean(const Napi::CallbackInfo& info) {
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  bool value = info[2].As<Napi::Boolean>().Value();
+  (void)helper_rep_set_boolean(object, key, value);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_set_text_string(const Napi::CallbackInfo& info) {
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  std::string value_ = info[2].As<Napi::String>().Utf8Value();
+  const char* value = value_.c_str();
+  (void)helper_rep_set_text_string(object, key, value);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_set_byte_string(const Napi::CallbackInfo& info) {
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  const unsigned char* value = info[2].As<Napi::Buffer<const uint8_t>>().Data();
+  size_t length = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
+  (void)helper_rep_set_byte_string(object, key, value, length);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_start_array(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::shared_ptr<CborEncoder> sp(helper_rep_start_array(parent));
+  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+  return OCCborEncoder::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_end_array(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[1].As<Napi::Object>());
+  (void)helper_rep_end_array(parent, arrayObject);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_start_links_array(const Napi::CallbackInfo& info) {
+  std::shared_ptr<CborEncoder> sp(helper_rep_start_links_array());
+  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+  return OCCborEncoder::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_end_links_array(const Napi::CallbackInfo& info) {
+  (void)helper_rep_end_links_array();
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_begin_root_object(const Napi::CallbackInfo& info) {
+  std::shared_ptr<CborEncoder> sp(helper_rep_begin_root_object());
+  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+  return OCCborEncoder::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_end_root_object(const Napi::CallbackInfo& info) {
+  (void)helper_rep_end_root_object();
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_add_byte_string(const Napi::CallbackInfo& info) {
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  const unsigned char* value = info[1].As<Napi::Buffer<const uint8_t>>().Data();
+// 2 length, const size_t
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_add_text_string(const Napi::CallbackInfo& info) {
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string value_ = info[1].As<Napi::String>().Utf8Value();
+  const char* value = value_.c_str();
+  (void)helper_rep_add_text_string(arrayObject, value);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_add_double(const Napi::CallbackInfo& info) {
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+// 1 value, const double
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_add_int(const Napi::CallbackInfo& info) {
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  const int64_t value = static_cast<const int64_t>(info[1].As<Napi::Number>());
+  (void)helper_rep_add_int(arrayObject, value);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_add_boolean(const Napi::CallbackInfo& info) {
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+// 1 value, const bool
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_set_key(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  (void)helper_rep_set_key(parent, key);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_set_array(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  std::shared_ptr<CborEncoder> sp(helper_rep_set_array(parent, key));
+  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+  return OCCborEncoder::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_close_array(const Napi::CallbackInfo& info) {
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[1].As<Napi::Object>());
+  (void)helper_rep_close_array(object, arrayObject);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_start_object(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::shared_ptr<CborEncoder> sp(helper_rep_start_object(parent));
+  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+  return OCCborEncoder::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_end_object(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[1].As<Napi::Object>());
+  (void)helper_rep_end_object(parent, object);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_object_array_start_item(const Napi::CallbackInfo& info) {
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::shared_ptr<CborEncoder> sp(helper_rep_object_array_start_item(arrayObject));
+  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+  return OCCborEncoder::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_object_array_end_item(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parentArrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[1].As<Napi::Object>());
+  (void)helper_rep_object_array_end_item(parentArrayObject, arrayObject);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_open_object(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  std::shared_ptr<CborEncoder> sp(helper_rep_open_object(parent, key));
+  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+  return OCCborEncoder::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_close_object(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[1].As<Napi::Object>());
+  (void)helper_rep_close_object(parent, object);
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_set_long_array(const Napi::CallbackInfo& info) {
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+// 2 values, int64_t*
+  int length = static_cast<int>(info[3].As<Napi::Number>());
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_set_bool_array(const Napi::CallbackInfo& info) {
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+// 2 values, bool*
+  int length = static_cast<int>(info[3].As<Napi::Number>());
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_set_double_array(const Napi::CallbackInfo& info) {
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+// 2 values, double*
+  int length = static_cast<int>(info[3].As<Napi::Number>());
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_rep_set_string_array(const Napi::CallbackInfo& info) {
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+// 2 values, oc_string_array_t
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_get_rep_from_root_object(const Napi::CallbackInfo& info) {
+  std::shared_ptr<oc_rep_t> sp(helper_rep_get_rep_from_root_object());
+  auto args = Napi::External<std::shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+  return OCRep::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_get_cbor_errno(const Napi::CallbackInfo& info) {
+  return Napi::Number::New(info.Env(), helper_rep_get_cbor_errno());
+}
+
+Napi::Value N_helper_rep_get_long(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+// 2 jni_rep_get_error_flag, bool*
+  return Napi::Number::New(info.Env(), 0);
+}
+
+Napi::Value N_helper_rep_get_bool(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+// 2 jni_rep_get_error_flag, bool*
+  return Napi::Boolean::New(info.Env(), 0);
+}
+
+Napi::Value N_helper_rep_get_double(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+// 2 jni_rep_get_error_flag, bool*
+  //func return unknown double
+}
+
+Napi::Value N_helper_rep_get_byte_string(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  size_t* byte_string_size = reinterpret_cast<size_t*>(info[2].As<Napi::Uint32Array>().Data());
+  return Napi::String::New(info.Env(), helper_rep_get_byte_string(rep, key, byte_string_size));
+}
+
+Napi::Value N_helper_rep_get_string(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  std::shared_ptr<char> sp(helper_rep_get_string(rep, key));
+  auto args = Napi::External<std::shared_ptr<char>>::New(info.Env(), &sp);
+  //return char::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_get_long_array(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  size_t* int_array_size = reinterpret_cast<size_t*>(info[2].As<Napi::Uint32Array>().Data());
+  std::shared_ptr<const int64_t> sp(helper_rep_get_long_array(rep, key, int_array_size));
+  auto args = Napi::External<std::shared_ptr<const int64_t>>::New(info.Env(), &sp);
+  //return const int64_t::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_get_bool_array(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  size_t* bool_array_size = reinterpret_cast<size_t*>(info[2].As<Napi::Uint32Array>().Data());
+  std::shared_ptr<const bool> sp(helper_rep_get_bool_array(rep, key, bool_array_size));
+  auto args = Napi::External<std::shared_ptr<const bool>>::New(info.Env(), &sp);
+  //return const bool::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_get_double_array(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  size_t* double_array_size = reinterpret_cast<size_t*>(info[2].As<Napi::Uint32Array>().Data());
+  std::shared_ptr<const double> sp(helper_rep_get_double_array(rep, key, double_array_size));
+  auto args = Napi::External<std::shared_ptr<const double>>::New(info.Env(), &sp);
+  //return const double::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_get_byte_string_array(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  size_t* byte_string_array_size = reinterpret_cast<size_t*>(info[2].As<Napi::Uint32Array>().Data());
+  std::shared_ptr<const oc_string_array_t> sp(helper_rep_get_byte_string_array(rep, key, byte_string_array_size));
+  auto args = Napi::External<std::shared_ptr<const oc_string_array_t>>::New(info.Env(), &sp);
+  //return const ocStringArray::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_get_string_array(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  size_t* string_array_size = reinterpret_cast<size_t*>(info[2].As<Napi::Uint32Array>().Data());
+  std::shared_ptr<const oc_string_array_t> sp(helper_rep_get_string_array(rep, key, string_array_size));
+  auto args = Napi::External<std::shared_ptr<const oc_string_array_t>>::New(info.Env(), &sp);
+  //return const ocStringArray::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_get_object(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  std::shared_ptr<oc_rep_t> sp(helper_rep_get_object(rep, key));
+  auto args = Napi::External<std::shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+  return OCRep::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_get_object_array(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  std::shared_ptr<oc_rep_t> sp(helper_rep_get_object_array(rep, key));
+  auto args = Napi::External<std::shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+  return OCRep::constructor.New({args});
 }
 

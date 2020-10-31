@@ -49,6 +49,52 @@ void oc_resource_set_properties_cbs_get_helper(oc_resource_t *, oc_interface_mas
 bool oc_resource_set_properties_cbs_set_helper(oc_resource_t *, oc_rep_t *, void *);
 void oc_resource_set_request_handler_helper(oc_request_t *, oc_interface_mask_t, void *);
 
+
+void helper_rep_set_double(CborEncoder * object, const char* key, double value);
+void helper_rep_set_long(CborEncoder * object, const char* key, int64_t value);
+void helper_rep_set_uint(CborEncoder * object, const char* key, unsigned int value);
+void helper_rep_set_boolean(CborEncoder * object, const char* key, bool value);
+void helper_rep_set_text_string(CborEncoder * object, const char* key, const char* value);
+void helper_rep_set_byte_string(CborEncoder * object, const char* key, const unsigned char *value, size_t length);
+CborEncoder * helper_rep_start_array(CborEncoder *parent);
+void helper_rep_end_array(CborEncoder *parent, CborEncoder *arrayObject);
+CborEncoder * helper_rep_start_links_array();
+void helper_rep_end_links_array();
+CborEncoder * helper_rep_begin_root_object();
+void helper_rep_end_root_object();
+void helper_rep_add_byte_string(CborEncoder *arrayObject, const unsigned char* value, const size_t length);
+void helper_rep_add_text_string(CborEncoder *arrayObject, const char* value);
+void helper_rep_add_double(CborEncoder *arrayObject, const double value);
+void helper_rep_add_int(CborEncoder *arrayObject, const int64_t value);
+void helper_rep_add_boolean(CborEncoder *arrayObject, const bool value);
+void helper_rep_set_key(CborEncoder *parent, const char* key);
+CborEncoder * helper_rep_set_array(CborEncoder *parent, const char* key);
+void helper_rep_close_array(CborEncoder *object, CborEncoder *arrayObject);
+CborEncoder * helper_rep_start_object(CborEncoder *parent);
+void helper_rep_end_object(CborEncoder *parent, CborEncoder *object);
+CborEncoder * helper_rep_object_array_start_item(CborEncoder *arrayObject);
+void helper_rep_object_array_end_item(CborEncoder *parentArrayObject, CborEncoder *arrayObject);
+CborEncoder * helper_rep_open_object(CborEncoder *parent, const char* key);
+void helper_rep_close_object(CborEncoder *parent, CborEncoder *object);
+void helper_rep_set_long_array(CborEncoder *object, const char* key, int64_t *values, int length);
+void helper_rep_set_bool_array(CborEncoder *object, const char* key, bool *values, int length);
+void helper_rep_set_double_array(CborEncoder *object, const char* key, double *values, int length);
+void helper_rep_rep_set_string_array(CborEncoder *object, const char* key, oc_string_array_t values);
+oc_rep_t * helper_rep_get_rep_from_root_object();
+int helper_rep_get_cbor_errno();
+int64_t helper_rep_get_long(oc_rep_t *rep, const char *key, bool *jni_rep_get_error_flag);
+bool helper_rep_get_bool(oc_rep_t *rep, const char *key, bool *jni_rep_get_error_flag);
+double helper_rep_get_double(oc_rep_t *rep, const char *key, bool *jni_rep_get_error_flag);
+const char * helper_rep_get_byte_string(oc_rep_t *rep, const char *key, size_t *byte_string_size);
+char * helper_rep_get_string(oc_rep_t *rep, const char *key);
+const int64_t* helper_rep_get_long_array(oc_rep_t *rep, const char *key, size_t *int_array_size);
+const bool* helper_rep_get_bool_array(oc_rep_t *rep, const char *key, size_t *bool_array_size);
+const double* helper_rep_get_double_array(oc_rep_t *rep, const char *key, size_t *double_array_size);
+const oc_string_array_t * helper_rep_get_byte_string_array(oc_rep_t *rep, const char *key, size_t *byte_string_array_size);
+const oc_string_array_t * helper_rep_get_string_array(oc_rep_t *rep, const char *key, size_t *string_array_size);
+oc_rep_t * helper_rep_get_object(oc_rep_t* rep, const char *key);
+oc_rep_t * helper_rep_get_object_array(oc_rep_t* rep, const char *key);
+
 #ifdef __cplusplus
 }
 #endif

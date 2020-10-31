@@ -1,6 +1,7 @@
 #include "iotivity_lite.h"
 #include "structs.h"
 #include "functions.h"
+#include "helper.h"
 using namespace Napi;
 
 Napi::Object module_init(Napi::Env env, Napi::Object exports);
@@ -24,6 +25,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("OCStorage", OCStorage::GetClass(env));
     exports.Set("OCUuidUtil", OCUuidUtil::GetClass(env));
     exports.Set("OCCoreRes", OCCoreRes::GetClass(env));
+    exports.Set("OCRep", OCRep::GetClass(env));
     return module_init(env, exports);
 }
 OCMain::OCMain(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
@@ -550,5 +552,118 @@ Napi::Value OCCoreRes::is_DCR(const Napi::CallbackInfo& info) { return N_oc_core
 Napi::Value OCCoreRes::set_latency(const Napi::CallbackInfo& info) { return N_oc_core_set_latency(info); };
 Napi::Value OCCoreRes::get_latency(const Napi::CallbackInfo& info) { return N_oc_core_get_latency(info); };
 Napi::Value OCCoreRes::add_new_device(const Napi::CallbackInfo& info) { return N_oc_core_add_new_device(info); };
+
+
+OCRep::OCRep(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCRep::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCRep", {
+        OCRep::StaticMethod("add_boolean", &OCRep::add_boolean),
+        OCRep::StaticMethod("add_byte_string", &OCRep::add_byte_string),
+        OCRep::StaticMethod("add_double", &OCRep::add_double),
+        OCRep::StaticMethod("add_long", &OCRep::add_long),
+        OCRep::StaticMethod("add_text_string", &OCRep::add_text_string),
+        OCRep::StaticMethod("begin_array", &OCRep::begin_array),
+        OCRep::StaticMethod("begin_links_array", &OCRep::begin_links_array),
+        OCRep::StaticMethod("begin_object", &OCRep::begin_object),
+        OCRep::StaticMethod("begin_root_object", &OCRep::begin_root_object),
+        OCRep::StaticMethod("clear_cbor_errno", &OCRep::clear_cbor_errno),
+        OCRep::StaticMethod("close_array", &OCRep::close_array),
+        OCRep::StaticMethod("close_object", &OCRep::close_object),
+        OCRep::StaticMethod("delete_buffer", &OCRep::delete_buffer),
+        OCRep::StaticMethod("end_array", &OCRep::end_array),
+        OCRep::StaticMethod("end_links_array", &OCRep::end_links_array),
+        OCRep::StaticMethod("end_object", &OCRep::end_object),
+        OCRep::StaticMethod("end_root_object", &OCRep::end_root_object),
+        OCRep::StaticMethod("get_boolean", &OCRep::get_boolean),
+        OCRep::StaticMethod("get_boolean_array", &OCRep::get_boolean_array),
+        OCRep::StaticMethod("get_byte_string", &OCRep::get_byte_string),
+        OCRep::StaticMethod("get_byte_string_array", &OCRep::get_byte_string_array),
+        OCRep::StaticMethod("get_cbor_errno", &OCRep::get_cbor_errno),
+        OCRep::StaticMethod("get_double", &OCRep::get_double),
+        OCRep::StaticMethod("get_double_array", &OCRep::get_double_array),
+        OCRep::StaticMethod("get_long", &OCRep::get_long),
+        OCRep::StaticMethod("get_long_array", &OCRep::get_long_array),
+        OCRep::StaticMethod("get_object", &OCRep::get_object),
+        OCRep::StaticMethod("get_object_array", &OCRep::get_object_array),
+        OCRep::StaticMethod("get_o_c_representaion_from_root_object", &OCRep::get_o_c_representaion_from_root_object),
+        OCRep::StaticMethod("get_string", &OCRep::get_string),
+        OCRep::StaticMethod("get_string_array", &OCRep::get_string_array),
+        OCRep::StaticMethod("new_buffer", &OCRep::new_buffer),
+        OCRep::StaticMethod("object_array_begin_item", &OCRep::object_array_begin_item),
+        OCRep::StaticMethod("object_array_end_item", &OCRep::object_array_end_item),
+        OCRep::StaticMethod("oc_array_to_boolean_array", &OCRep::oc_array_to_boolean_array),
+        OCRep::StaticMethod("oc_array_to_double_array", &OCRep::oc_array_to_double_array),
+        OCRep::StaticMethod("oc_array_to_long_array", &OCRep::oc_array_to_long_array),
+        OCRep::StaticMethod("oc_array_to_string_array", &OCRep::oc_array_to_string_array),
+        OCRep::StaticMethod("open_array", &OCRep::open_array),
+        OCRep::StaticMethod("open_object", &OCRep::open_object),
+        OCRep::StaticMethod("set_boolean", &OCRep::set_boolean),
+        OCRep::StaticMethod("set_boolean_array", &OCRep::set_boolean_array),
+        OCRep::StaticMethod("set_byte_string", &OCRep::set_byte_string),
+        OCRep::StaticMethod("set_double", &OCRep::set_double),
+        OCRep::StaticMethod("set_double_array", &OCRep::set_double_array),
+        OCRep::StaticMethod("set_key", &OCRep::set_key),
+        OCRep::StaticMethod("set_long", &OCRep::set_long),
+        OCRep::StaticMethod("set_long_array", &OCRep::set_long_array),
+        OCRep::StaticMethod("set_string_array", &OCRep::set_string_array),
+        OCRep::StaticMethod("set_text_string", &OCRep::set_text_string),
+        OCRep::StaticMethod("set_unsigned_int", &OCRep::set_unsigned_int),
+        OCRep::StaticMethod("to_json", &OCRep::to_json),
+    });
+}
+
+Napi::Value OCRep::add_boolean(const Napi::CallbackInfo& info) { return N_helper_rep_add_boolean(info); };
+Napi::Value OCRep::add_byte_string(const Napi::CallbackInfo& info) { return N_helper_rep_add_byte_string(info); };
+Napi::Value OCRep::add_double(const Napi::CallbackInfo& info) { return N_helper_rep_add_double(info); };
+//Napi::Value OCRep::add_long(const Napi::CallbackInfo& info) { return N_helper_rep_add_long(info); };
+Napi::Value OCRep::add_text_string(const Napi::CallbackInfo& info) { return N_helper_rep_add_text_string(info); };
+//Napi::Value OCRep::begin_array(const Napi::CallbackInfo& info) { return N_helper_rep_begin_array(info); };
+//Napi::Value OCRep::begin_links_array(const Napi::CallbackInfo& info) { return N_helper_rep_begin_links_array(info); };
+//Napi::Value OCRep::begin_object(const Napi::CallbackInfo& info) { return N_helper_rep_begin_object(info); };
+//Napi::Value OCRep::begin_root_object(const Napi::CallbackInfo& info) { return N_helper_rep_begin_root_object(info); };
+//Napi::Value OCRep::clear_cbor_errno(const Napi::CallbackInfo& info) { return N_helper_rep_clear_cbor_errno(info); };
+//Napi::Value OCRep::close_array(const Napi::CallbackInfo& info) { return N_helper_rep_close_array(info); };
+Napi::Value OCRep::close_object(const Napi::CallbackInfo& info) { return N_helper_rep_close_object(info); };
+//Napi::Value OCRep::delete_buffer(const Napi::CallbackInfo& info) { return N_helper_rep_delete_buffer(info); };
+Napi::Value OCRep::end_array(const Napi::CallbackInfo& info) { return N_helper_rep_end_array(info); };
+Napi::Value OCRep::end_links_array(const Napi::CallbackInfo& info) { return N_helper_rep_end_links_array(info); };
+Napi::Value OCRep::end_object(const Napi::CallbackInfo& info) { return N_helper_rep_end_object(info); };
+Napi::Value OCRep::end_root_object(const Napi::CallbackInfo& info) { return N_helper_rep_end_root_object(info); };
+//Napi::Value OCRep::get_boolean(const Napi::CallbackInfo& info) { return N_helper_rep_get_boolean(info); };
+//Napi::Value OCRep::get_boolean_array(const Napi::CallbackInfo& info) { return N_helper_rep_get_boolean_array(info); };
+Napi::Value OCRep::get_byte_string(const Napi::CallbackInfo& info) { return N_helper_rep_get_byte_string(info); };
+Napi::Value OCRep::get_byte_string_array(const Napi::CallbackInfo& info) { return N_helper_rep_get_byte_string_array(info); };
+Napi::Value OCRep::get_cbor_errno(const Napi::CallbackInfo& info) { return N_helper_rep_get_cbor_errno(info); };
+Napi::Value OCRep::get_double(const Napi::CallbackInfo& info) { return N_helper_rep_get_double(info); };
+Napi::Value OCRep::get_double_array(const Napi::CallbackInfo& info) { return N_helper_rep_get_double_array(info); };
+Napi::Value OCRep::get_long(const Napi::CallbackInfo& info) { return N_helper_rep_get_long(info); };
+Napi::Value OCRep::get_long_array(const Napi::CallbackInfo& info) { return N_helper_rep_get_long_array(info); };
+Napi::Value OCRep::get_object(const Napi::CallbackInfo& info) { return N_helper_rep_get_object(info); };
+Napi::Value OCRep::get_object_array(const Napi::CallbackInfo& info) { return N_helper_rep_get_object_array(info); };
+//Napi::Value OCRep::get_o_c_representaion_from_root_object(const Napi::CallbackInfo& info) { return N_helper_rep_get_o_c_representaion_from_root_object(info); };
+Napi::Value OCRep::get_string(const Napi::CallbackInfo& info) { return N_helper_rep_get_string(info); };
+Napi::Value OCRep::get_string_array(const Napi::CallbackInfo& info) { return N_helper_rep_get_string_array(info); };
+//Napi::Value OCRep::new_buffer(const Napi::CallbackInfo& info) { return N_helper_rep_new_buffer(info); };
+//Napi::Value OCRep::object_array_begin_item(const Napi::CallbackInfo& info) { return N_helper_rep_object_array_begin_item(info); };
+//Napi::Value OCRep::object_array_end_item(const Napi::CallbackInfo& info) { return N_helper_rep_object_array_end_item(info); };
+//Napi::Value OCRep::oc_array_to_boolean_array(const Napi::CallbackInfo& info) { return N_helper_rep_oc_array_to_boolean_array(info); };
+//Napi::Value OCRep::oc_array_to_double_array(const Napi::CallbackInfo& info) { return N_helper_rep_oc_array_to_double_array(info); };
+//Napi::Value OCRep::oc_array_to_long_array(const Napi::CallbackInfo& info) { return N_helper_rep_oc_array_to_long_array(info); };
+//Napi::Value OCRep::oc_array_to_string_array(const Napi::CallbackInfo& info) { return N_helper_rep_oc_array_to_string_array(info); };
+//Napi::Value OCRep::open_array(const Napi::CallbackInfo& info) { return N_helper_rep_open_array(info); };
+Napi::Value OCRep::open_object(const Napi::CallbackInfo& info) { return N_helper_rep_open_object(info); };
+Napi::Value OCRep::set_boolean(const Napi::CallbackInfo& info) { return N_helper_rep_set_boolean(info); };
+//Napi::Value OCRep::set_boolean_array(const Napi::CallbackInfo& info) { return N_helper_rep_set_boolean_array(info); };
+Napi::Value OCRep::set_byte_string(const Napi::CallbackInfo& info) { return N_helper_rep_set_byte_string(info); };
+Napi::Value OCRep::set_double(const Napi::CallbackInfo& info) { return N_helper_rep_set_double(info); };
+Napi::Value OCRep::set_double_array(const Napi::CallbackInfo& info) { return N_helper_rep_set_double_array(info); };
+Napi::Value OCRep::set_key(const Napi::CallbackInfo& info) { return N_helper_rep_set_key(info); };
+Napi::Value OCRep::set_long(const Napi::CallbackInfo& info) { return N_helper_rep_set_long(info); };
+Napi::Value OCRep::set_long_array(const Napi::CallbackInfo& info) { return N_helper_rep_set_long_array(info); };
+//Napi::Value OCRep::set_string_array(const Napi::CallbackInfo& info) { return N_helper_rep_set_string_array(info); };
+Napi::Value OCRep::set_text_string(const Napi::CallbackInfo& info) { return N_helper_rep_set_text_string(info); };
+//Napi::Value OCRep::set_unsigned_int(const Napi::CallbackInfo& info) { return N_helper_rep_set_unsigned_int(info); };
+//Napi::Value OCRep::to_json(const Napi::CallbackInfo& info) { return N_helper_rep_to_json(info); };
 
 

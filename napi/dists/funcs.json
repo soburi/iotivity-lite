@@ -3271,5 +3271,323 @@
     "param": {
       "t": "coap_transaction_t*"
     }
-  }
+  },
+"helper_rep_set_double": {
+	"type": "void",
+	"param": {
+		"object": "CborEncoder*",
+		"key": "const char*",
+		"value": "double"
+	}
+},
+"helper_rep_set_long": {
+	"type": "void",
+	"param": {
+		"object": "CborEncoder*",
+		"key": "const char*",
+		"value": "int64_t"
+	}
+},
+"helper_rep_set_uint": {
+	"type": "void",
+	"param": {
+		"object": "CborEncoder*",
+		"key": "const char*",
+		"value": "unsigned int"
+	}
+},
+"helper_rep_set_boolean": {
+	"type": "void",
+	"param": {
+		"object": "CborEncoder*",
+		"key": "const char*",
+		"value": "bool"
+	}
+},
+"helper_rep_set_text_string": {
+	"type": "void",
+	"param": {
+		"object": "CborEncoder*",
+		"key": "const char*",
+		"value": "const char*"
+	}
+},
+"helper_rep_set_byte_string": {
+	"type": "void",
+	"param": {
+		"object": "CborEncoder*",
+		"key": "const char*",
+		"value": "const unsigned char*",
+		"length": "size_t"
+	}
+},
+"helper_rep_start_array": {
+	"type": "CborEncoder*",
+	"param": {
+		"parent": "CborEncoder*"
+	}
+},
+"helper_rep_end_array": {
+	"type": "void",
+	"param": {
+		"parent": "CborEncoder*",
+		"arrayObject": "CborEncoder*"
+	}
+},
+"helper_rep_start_links_array": {
+	"type": "CborEncoder*", 
+	"param": {
+	}
+},
+"helper_rep_end_links_array": {
+	"type": "void",
+	"param": {
+	}
+},
+"helper_begin_root_object": {
+	"type": "CborEncoder*", 
+	"param": {
+	}
+},
+"helper_rep_end_root_object": {
+	"type": "void",
+	"param": {
+	}
+},
+"helper_rep_add_byte_string": {
+	"type": "void",
+	"param": {
+		"arrayObject": "CborEncoder*",
+		"value": "const unsigned char*",
+		"length": "const size_t"
+	}
+},
+"helper_rep_add_text_string": {
+	"type": "void",
+	"param": {
+		"arrayObject": "CborEncoder*",
+		"value": "const char*"
+	}
+},
+"helper_rep_add_double": {
+	"type": "void",
+	"param": {
+		"arrayObject": "CborEncoder*",
+		"value": "const double"
+	}
+},
+"helper_rep_add_int": {
+	"type": "void",
+	"param": {
+		"arrayObject": "CborEncoder*",
+		"value": "const int64_t"
+	}
+},
+"helper_rep_add_boolean": {
+	"type": "void",
+	"param": {
+		"arrayObject": "CborEncoder*",
+		"value": "const bool"
+	}
+},
+"helper_rep_set_key": {
+	"type": "void",
+	"param": {
+		"parent": "CborEncoder*",
+		"key": "const char*"
+	}
+},
+"helper_rep_set_array": {
+	"type": "CborEncoder*",
+	"param": {
+		"parent": "CborEncoder*",
+		"key": "const char*"
+	}
+},
+"helper_rep_close_array": {
+	"type": "void",
+	"param": {
+		"object": "CborEncoder*",
+		"arrayObject": "CborEncoder*"
+	}
+},
+"helper_rep_start_object": {
+	"type": "CborEncoder*",
+	"param": {
+		"parent": "CborEncoder*"
+	}
+},
+"helper_rep_end_object": {
+	"type": "void",
+	"param": {
+		"parent": "CborEncoder*",
+		"object": "CborEncoder*"
+	}
+},
+"helper_rep_object_array_start_item": {
+	"type": "CborEncoder*",
+	"param": {
+		"arrayObject": "CborEncoder*"
+	}
+},
+"helper_rep_object_array_end_item": {
+	"type": "void",
+	"param": {
+		"parentArrayObject": "CborEncoder*",
+		"arrayObject": "CborEncoder*"
+	}
+},
+"helper_rep_open_object": {
+	"type": "CborEncoder*",
+	"param": {
+		"parent": "CborEncoder*",
+		"key": "const char*"
+	}
+},
+"helper_rep_close_object": {
+	"type": "void",
+	"param": {
+		"parent": "CborEncoder*",
+		"object": "CborEncoder*"
+	}
+},
+"helper_rep_set_long_array": {
+	"type": "void",
+	"param": {
+		"object": "CborEncoder*",
+		"key": "const char*",
+		"values": "int64_t*",
+		"length": "int"
+	}
+},
+"helper_rep_set_bool_array": {
+	"type": "void",
+	"param": {
+		"object": "CborEncoder*",
+		"key": "const char*",
+		"values": "bool*",
+		"length": "int"
+	}
+},
+"helper_rep_set_double_array": {
+	"type": "void",
+	"param": {
+		"object": "CborEncoder*",
+		"key": "const char*",
+		"values": "double*",
+		"length": "int"
+	}
+},
+"helper_rep_rep_set_string_array": {
+	"type": "void",
+	"param": {
+		"object": "CborEncoder*",
+		"key": "const char*",
+		"values": "oc_string_array_t"
+	}
+},
+"helper_rep_get_rep_from_root_object": {
+	"type": "oc_rep_t*",
+	"param": {
+	}
+},
+"helper_rep_get_cbor_errno": {
+	"type": "int",
+	"param": {
+	}
+},
+"helper_rep_get_long": {
+	"type": "int64_t",
+	"param": {
+		"rep": "oc_rep_t*",
+		"key": "const char*",
+		"jni_rep_get_error_flag": "bool*"
+	}
+},
+"helper_rep_get_bool": {
+	"type": "bool",
+	"param": {
+		"rep": "oc_rep_t*",
+		"key": "const char*",
+		"jni_rep_get_error_flag": "bool*"
+	}
+},
+"helper_rep_get_double": {
+	"type": "double",
+	"param": {
+		"rep": "oc_rep_t*",
+		"key": "const char*",
+		"jni_rep_get_error_flag": "bool*"
+	}
+},
+"helper_rep_get_byte_string": {
+	"type": "const char*",
+	"param": {
+		"rep": "oc_rep_t*",
+		"key": "const char*",
+		"byte_string_size": "size_t*"
+	}
+},
+"helper_rep_get_string": {
+	"type": "char*",
+	"param": {
+		"rep": "oc_rep_t*",
+		"key": "const char*"
+	}
+},
+"helper_rep_get_long_array": {
+	"type": "const int64_t*",
+	"param": {
+		"rep": "oc_rep_t*",
+		"key": "const char*",
+		"int_array_size": "size_t*"
+	}
+},
+"helper_rep_get_bool_array": {
+	"type": "const bool*",
+	"param": {
+		"rep": "oc_rep_t*",
+		"key": "const char*",
+		"bool_array_size": "size_t*"
+	}
+},
+"helper_rep_get_double_array": {
+	"type": "const double*",
+	"param": {
+		"rep": "oc_rep_t*",
+		"key": "const char*",
+		"double_array_size": "size_t*"
+	}
+},
+"helper_rep_get_byte_string_array": {
+	"type": "const oc_string_array_t*",
+	"param": {
+		"rep": "oc_rep_t*",
+		"key": "const char*",
+		"byte_string_array_size": "size_t*"
+	}
+},
+"helper_rep_get_string_array": {
+	"type": "const oc_string_array_t*",
+	"param": {
+		"rep": "oc_rep_t*",
+		"key": "const char*",
+		"string_array_size": "size_t*"
+	}
+},
+"helper_rep_get_object": {
+	"type": "oc_rep_t*",
+	"param": {
+		"rep": "oc_rep_t*",
+		"key": "const char*"
+	}
+},
+"helper_rep_get_object_array": {
+	"type": "oc_rep_t*",
+	"param": {
+		"rep": "oc_rep_t*",
+		"key": "const char*"
+	}
+
+}
 }
