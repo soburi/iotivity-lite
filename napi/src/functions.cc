@@ -41,7 +41,7 @@ Napi::Value N_coap_get_header_if_match(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), 0);
 }
 
-#if defined(XXX)
+#if 0
 Napi::Value N_coap_get_header_if_none_match(const Napi::CallbackInfo& info) {
   void* packet = info[0];
   return Napi::Number::New(info.Env(), coap_get_header_if_none_match(packet));
@@ -192,7 +192,7 @@ Napi::Value N_coap_set_header_etag(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), coap_set_header_etag(packet, etag, etag_len));
 }
 
-#if defined(XXX)
+#if 0
 Napi::Value N_coap_set_header_if_match(const Napi::CallbackInfo& info) {
   void* packet = info[0];
   const uint8_t* etag = info[1].As<Napi::Buffer<const uint8_t>>().Data();
@@ -201,14 +201,14 @@ Napi::Value N_coap_set_header_if_match(const Napi::CallbackInfo& info) {
 }
 #endif
 
-#if defined(XXX)
+#if 0
 Napi::Value N_coap_set_header_if_none_match(const Napi::CallbackInfo& info) {
   void* packet = info[0];
   return Napi::Number::New(info.Env(), coap_set_header_if_none_match(packet));
 }
 #endif
 
-#if defined(XXX)
+#if 0
 Napi::Value N_coap_set_header_location_path(const Napi::CallbackInfo& info) {
   void* packet = info[0];
   std::string path_ = info[1].As<Napi::String>().Utf8Value();
@@ -236,7 +236,7 @@ Napi::Value N_coap_set_header_observe(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), coap_set_header_observe(packet, observe));
 }
 
-#if defined(XXX)
+#if 0
 Napi::Value N_coap_set_header_proxy_scheme(const Napi::CallbackInfo& info) {
   void* packet = info[0];
   std::string scheme_ = info[1].As<Napi::String>().Utf8Value();
@@ -245,7 +245,7 @@ Napi::Value N_coap_set_header_proxy_scheme(const Napi::CallbackInfo& info) {
 }
 #endif
 
-#if defined(XXX)
+#if 0
 Napi::Value N_coap_set_header_proxy_uri(const Napi::CallbackInfo& info) {
   void* packet = info[0];
   std::string uri_ = info[1].As<Napi::String>().Utf8Value();
@@ -266,7 +266,7 @@ Napi::Value N_coap_set_header_size2(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), coap_set_header_size2(packet, size));
 }
 
-#if defined(XXX)
+#if 0
 Napi::Value N_coap_set_header_uri_host(const Napi::CallbackInfo& info) {
   void* packet = info[0];
   std::string host_ = info[1].As<Napi::String>().Utf8Value();
@@ -877,16 +877,13 @@ Napi::Value N_oc_device_bind_resource_type(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-#if defined(XXX)
 Napi::Value N_oc_get_diagnostic_message(const Napi::CallbackInfo& info) {
   OCClientResponse& response = *OCClientResponse::Unwrap(info[0].As<Napi::Object>());
 // 1 msg, const char**
   size_t* size = reinterpret_cast<size_t*>(info[2].As<Napi::Uint32Array>().Data());
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
-#if defined(XXX)
 Napi::Value N_oc_get_query_value(const Napi::CallbackInfo& info) {
   OCRequest& request = *OCRequest::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
@@ -894,9 +891,7 @@ Napi::Value N_oc_get_query_value(const Napi::CallbackInfo& info) {
 // 2 value, char**
   return Napi::Number::New(info.Env(), 0);
 }
-#endif
 
-#if defined(XXX)
 Napi::Value N_oc_get_request_payload_raw(const Napi::CallbackInfo& info) {
   OCRequest& request = *OCRequest::Unwrap(info[0].As<Napi::Object>());
 // 1 payload, const uint8_t**
@@ -904,9 +899,7 @@ Napi::Value N_oc_get_request_payload_raw(const Napi::CallbackInfo& info) {
 // 3 content_format, oc_content_format_t*
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
-#if defined(XXX)
 Napi::Value N_oc_get_response_payload_raw(const Napi::CallbackInfo& info) {
   OCClientResponse& response = *OCClientResponse::Unwrap(info[0].As<Napi::Object>());
 // 1 payload, const uint8_t**
@@ -914,7 +907,6 @@ Napi::Value N_oc_get_response_payload_raw(const Napi::CallbackInfo& info) {
 // 3 content_format, oc_content_format_t*
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
 Napi::Value N_oc_ignore_request(const Napi::CallbackInfo& info) {
   OCRequest& request = *OCRequest::Unwrap(info[0].As<Napi::Object>());
@@ -934,7 +926,6 @@ Napi::Value N_oc_init_query_iterator(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-#if defined(XXX)
 Napi::Value N_oc_iterate_query(const Napi::CallbackInfo& info) {
   OCRequest& request = *OCRequest::Unwrap(info[0].As<Napi::Object>());
 // 1 key, char**
@@ -943,9 +934,7 @@ Napi::Value N_oc_iterate_query(const Napi::CallbackInfo& info) {
   size_t* value_len = reinterpret_cast<size_t*>(info[4].As<Napi::Uint32Array>().Data());
   return Napi::Number::New(info.Env(), 0);
 }
-#endif
 
-#if defined(XXX)
 Napi::Value N_oc_iterate_query_get_values(const Napi::CallbackInfo& info) {
   OCRequest& request = *OCRequest::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
@@ -954,7 +943,6 @@ Napi::Value N_oc_iterate_query_get_values(const Napi::CallbackInfo& info) {
 // 3 value_len, int*
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
 Napi::Value N_oc_new_resource(const Napi::CallbackInfo& info) {
   std::string name_ = info[0].As<Napi::String>().Utf8Value();

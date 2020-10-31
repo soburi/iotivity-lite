@@ -758,14 +758,16 @@ IFDEF_FUNCS = {
   'oc_connectivity_end_session' => 'defined(OC_TCP)',
   'oc_set_introspection_data' => 'defined(OC_IDD_API)',
 
-  'coap_set_header_if_match'=>'defined(XXX)',
-  'coap_set_header_proxy_scheme'=>'defined(XXX)',
-  'coap_set_header_proxy_uri'=>'defined(XXX)',
-  'coap_get_header_if_none_match'=>'defined(XXX)',
-  'coap_set_header_location_path'=>'defined(XXX)',
-  'coap_set_header_uri_host'=>'defined(XXX)',
-  'coap_set_header_if_none_match'=>'defined(XXX)',
+  'coap_set_header_if_match'=>'0',
+  'coap_set_header_proxy_scheme'=>'0',
+  'coap_set_header_proxy_uri'=>'0',
+  'coap_get_header_if_none_match'=>'0',
+  'coap_set_header_location_path'=>'0',
+  'coap_set_header_uri_host'=>'0',
+  'coap_set_header_if_none_match'=>'0',
+
   'coap_get_observers'=>'defined(XXX)',
+  'oc_blockwise_dispatch_block'=>'defined(XXX)',
 
 '_oc_copy_byte_string_to_array'=>'defined(XXX)',
 '_oc_byte_string_array_add_item'=>'defined(XXX)',
@@ -773,20 +775,6 @@ IFDEF_FUNCS = {
 '_oc_copy_string_to_array'=>'defined(XXX)',
 'oc_endpoint_list_copy'=>'defined(XXX)',
 
-'oc_get_diagnostic_message'=>'defined(XXX)',
-'oc_get_query_value'=>'defined(XXX)',
-'oc_get_request_payload_raw'=>'defined(XXX)',
-'oc_get_response_payload_raw'=>'defined(XXX)',
-'oc_iterate_query'=>'defined(XXX)',
-'oc_iterate_query_get_values'=>'defined(XXX)',
-'oc_blockwise_dispatch_block'=>'defined(XXX)',
-#'oc_ri_alloc_client_cb'=>'defined(XXX)',
-#'oc_ri_invoke_client_cb'=>'defined(XXX)',
-#'oc_ri_process_discovery_payload'=>'defined(XXX)',
-#'oc_ri_get_query_nth_key_value'=>'defined(XXX)',
-#'oc_ri_get_query_value'=>'defined(XXX)',
-
-#'oc_rep_get_encoder_buf' => 'defined(XXX)',
 
 }
 

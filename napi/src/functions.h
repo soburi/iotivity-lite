@@ -5,7 +5,7 @@ Napi::Value N_coap_get_header_block2(const Napi::CallbackInfo&);
 Napi::Value N_coap_get_header_content_format(const Napi::CallbackInfo&);
 Napi::Value N_coap_get_header_etag(const Napi::CallbackInfo&);
 Napi::Value N_coap_get_header_if_match(const Napi::CallbackInfo&);
-#if defined(XXX)
+#if 0
 Napi::Value N_coap_get_header_if_none_match(const Napi::CallbackInfo&);
 #endif
 Napi::Value N_coap_get_header_location_path(const Napi::CallbackInfo&);
@@ -31,27 +31,27 @@ Napi::Value N_coap_set_header_block1(const Napi::CallbackInfo&);
 Napi::Value N_coap_set_header_block2(const Napi::CallbackInfo&);
 Napi::Value N_coap_set_header_content_format(const Napi::CallbackInfo&);
 Napi::Value N_coap_set_header_etag(const Napi::CallbackInfo&);
-#if defined(XXX)
+#if 0
 Napi::Value N_coap_set_header_if_match(const Napi::CallbackInfo&);
 #endif
-#if defined(XXX)
+#if 0
 Napi::Value N_coap_set_header_if_none_match(const Napi::CallbackInfo&);
 #endif
-#if defined(XXX)
+#if 0
 Napi::Value N_coap_set_header_location_path(const Napi::CallbackInfo&);
 #endif
 Napi::Value N_coap_set_header_location_query(const Napi::CallbackInfo&);
 Napi::Value N_coap_set_header_max_age(const Napi::CallbackInfo&);
 Napi::Value N_coap_set_header_observe(const Napi::CallbackInfo&);
-#if defined(XXX)
+#if 0
 Napi::Value N_coap_set_header_proxy_scheme(const Napi::CallbackInfo&);
 #endif
-#if defined(XXX)
+#if 0
 Napi::Value N_coap_set_header_proxy_uri(const Napi::CallbackInfo&);
 #endif
 Napi::Value N_coap_set_header_size1(const Napi::CallbackInfo&);
 Napi::Value N_coap_set_header_size2(const Napi::CallbackInfo&);
-#if defined(XXX)
+#if 0
 Napi::Value N_coap_set_header_uri_host(const Napi::CallbackInfo&);
 #endif
 Napi::Value N_coap_set_header_uri_path(const Napi::CallbackInfo&);
@@ -144,27 +144,15 @@ Napi::Value N_oc_set_immutable_device_identifier(const Napi::CallbackInfo&);
 Napi::Value N_oc_add_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_delete_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_device_bind_resource_type(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_get_diagnostic_message(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
 Napi::Value N_oc_get_query_value(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
 Napi::Value N_oc_get_request_payload_raw(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
 Napi::Value N_oc_get_response_payload_raw(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_ignore_request(const Napi::CallbackInfo&);
 Napi::Value N_oc_indicate_separate_response(const Napi::CallbackInfo&);
 Napi::Value N_oc_init_query_iterator(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_iterate_query(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
 Napi::Value N_oc_iterate_query_get_values(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_new_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_notify_observers(const Napi::CallbackInfo&);
 Napi::Value N_oc_process_baseline_interface(const Napi::CallbackInfo&);
