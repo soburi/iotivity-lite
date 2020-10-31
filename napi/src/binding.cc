@@ -688,6 +688,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_rep_get_byte_string", Napi::Function::New(env, N_oc_rep_get_byte_string));
   exports.Set("oc_rep_get_byte_string_array", Napi::Function::New(env, N_oc_rep_get_byte_string_array));
   exports.Set("oc_rep_get_cbor_errno", Napi::Function::New(env, N_oc_rep_get_cbor_errno));
+  exports.Set("oc_rep_clear_cbor_errno", Napi::Function::New(env, N_oc_rep_clear_cbor_errno));
   exports.Set("oc_rep_get_double", Napi::Function::New(env, N_oc_rep_get_double));
   exports.Set("oc_rep_get_double_array", Napi::Function::New(env, N_oc_rep_get_double_array));
   exports.Set("oc_rep_get_encoded_payload_size", Napi::Function::New(env, N_oc_rep_get_encoded_payload_size));

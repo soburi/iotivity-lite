@@ -333,8 +333,8 @@ public:
   static Napi::Value OCRep::end_links_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::end_object(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::end_root_object(const Napi::CallbackInfo& info);
-  static Napi::Value OCRep::get_boolean(const Napi::CallbackInfo& info);
-  static Napi::Value OCRep::get_boolean_array(const Napi::CallbackInfo& info);
+  static Napi::Value OCRep::get_bool(const Napi::CallbackInfo& info);
+  static Napi::Value OCRep::get_bool_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::get_byte_string(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::get_byte_string_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::get_cbor_errno(const Napi::CallbackInfo& info);
@@ -357,7 +357,7 @@ public:
   static Napi::Value OCRep::open_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::open_object(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::set_boolean(const Napi::CallbackInfo& info);
-  static Napi::Value OCRep::set_boolean_array(const Napi::CallbackInfo& info);
+  static Napi::Value OCRep::set_bool_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::set_byte_string(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::set_double(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::set_double_array(const Napi::CallbackInfo& info);
@@ -366,6 +366,6 @@ public:
   static Napi::Value OCRep::set_long_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::set_string_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::set_text_string(const Napi::CallbackInfo& info);
-  static Napi::Value OCRep::set_unsigned_int(const Napi::CallbackInfo& info);
+  static Napi::Value OCRep::set_uint(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::to_json(const Napi::CallbackInfo& info);
 };

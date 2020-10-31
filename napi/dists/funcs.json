@@ -2895,6 +2895,11 @@
     "param": {
     }
   },
+  "oc_rep_clear_cbor_errno": {
+    "type": "void",
+    "param": {
+    }
+  },
   "oc_rep_get_double": {
     "type": "bool",
     "param": {
