@@ -4725,7 +4725,7 @@ Napi::Value OCValue::get_object(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_rep_s*> sp(&m_pvalue->object);
   auto accessor = Napi::External<std::shared_ptr<oc_rep_s*>>::New(info.Env(), &sp);
-  return OCRepresentation::constructor.New({accessor});
+  return OCRepS::constructor.New({accessor});
 }
 
 void OCValue::set_object(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4737,7 +4737,7 @@ Napi::Value OCValue::get_object_array(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_rep_s*> sp(&m_pvalue->object_array);
   auto accessor = Napi::External<std::shared_ptr<oc_rep_s*>>::New(info.Env(), &sp);
-  return OCRepresentation::constructor.New({accessor});
+  return OCRepS::constructor.New({accessor});
 }
 
 void OCValue::set_object_array(const Napi::CallbackInfo& info, const Napi::Value& value)
