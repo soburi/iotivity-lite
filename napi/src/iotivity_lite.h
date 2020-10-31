@@ -340,8 +340,6 @@ public:
   static Napi::Value OCRep::get_cbor_errno(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::get_double(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::get_double_array(const Napi::CallbackInfo& info);
-  static Napi::Value OCRep::get_long(const Napi::CallbackInfo& info);
-  static Napi::Value OCRep::get_long_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::get_object(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::get_object_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::get_rep_from_root_object(const Napi::CallbackInfo& info);
