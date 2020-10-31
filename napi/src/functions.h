@@ -731,7 +731,3 @@ Napi::Value N_helper_rep_oc_array_to_double_array(const Napi::CallbackInfo& info
 Napi::Value N_helper_rep_oc_array_to_long_array(const Napi::CallbackInfo& info);
 Napi::Value N_helper_rep_oc_array_to_string_array(const Napi::CallbackInfo& info);
 Napi::Value N_helper_rep_open_array(const Napi::CallbackInfo& info);
-Napi::Value N_helper_rep_set_boolean_array(const Napi::CallbackInfo& info);
-Napi::Value N_helper_rep_set_string_array(const Napi::CallbackInfo& info);
-Napi::Value N_helper_rep_set_unsigned_int(const Napi::CallbackInfo& info);
-Napi::Value N_helper_rep_to_json(const Napi::CallbackInfo& info);
