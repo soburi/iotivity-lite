@@ -82,7 +82,7 @@ void helper_rep_set_double_array(CborEncoder *object, const char* key, double *v
 void helper_rep_rep_set_string_array(CborEncoder *object, const char* key, oc_string_array_t values);
 oc_rep_t * helper_rep_get_rep_from_root_object();
 int helper_rep_get_cbor_errno();
-void oc_rep_clear_cbor_errno();
+void helper_rep_clear_cbor_errno();
 int64_t helper_rep_get_long(oc_rep_t *rep, const char *key, bool *jni_rep_get_error_flag);
 bool helper_rep_get_bool(oc_rep_t *rep, const char *key, bool *jni_rep_get_error_flag);
 double helper_rep_get_double(oc_rep_t *rep, const char *key, bool *jni_rep_get_error_flag);

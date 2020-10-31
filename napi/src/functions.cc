@@ -3675,6 +3675,11 @@ Napi::Value N_helper_rep_get_cbor_errno(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), helper_rep_get_cbor_errno());
 }
 
+Napi::Value N_helper_rep_clear_cbor_errno(const Napi::CallbackInfo& info) {
+  (void)helper_rep_clear_cbor_errno();
+  return info.Env().Undefined();
+}
+
 Napi::Value N_helper_rep_get_long(const Napi::CallbackInfo& info) {
   OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
@@ -3793,10 +3798,6 @@ Napi::Value N_helper_rep_begin_links_array(const Napi::CallbackInfo& info)
   return info.Env().Undefined();
 }
 Napi::Value N_helper_rep_begin_object(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_clear_cbor_errno(const Napi::CallbackInfo& info)
 {
   return info.Env().Undefined();
 }

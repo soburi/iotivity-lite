@@ -3496,6 +3496,11 @@
 	"param": {
 	}
 },
+"helper_rep_clear_cbor_errno": {
+	"type": "void",
+	"param": {
+	}
+},
 "helper_rep_get_long": {
 	"type": "int64_t",
 	"param": {
