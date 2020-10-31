@@ -2965,7 +2965,7 @@ Napi::Value N_oc_random_value(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_free_rep(const Napi::CallbackInfo& info) {
-  OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   (void)oc_free_rep(rep);
   return info.Env().Undefined();
 }
@@ -2978,7 +2978,7 @@ Napi::Value N_oc_parse_rep(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_get_bool(const Napi::CallbackInfo& info) {
-  OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
 // 2 value, bool*
@@ -2986,7 +2986,7 @@ Napi::Value N_oc_rep_get_bool(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_get_bool_array(const Napi::CallbackInfo& info) {
-  OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
 // 2 value, bool**
@@ -2995,7 +2995,7 @@ Napi::Value N_oc_rep_get_bool_array(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_get_byte_string(const Napi::CallbackInfo& info) {
-  OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
 // 2 value, char**
@@ -3004,7 +3004,7 @@ Napi::Value N_oc_rep_get_byte_string(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_get_byte_string_array(const Napi::CallbackInfo& info) {
-  OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
   OCMmem& value = *OCMmem::Unwrap(info[2].As<Napi::Object>());
@@ -3017,7 +3017,7 @@ Napi::Value N_oc_rep_get_cbor_errno(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_get_double(const Napi::CallbackInfo& info) {
-  OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
 // 2 value, double*
@@ -3025,7 +3025,7 @@ Napi::Value N_oc_rep_get_double(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_get_double_array(const Napi::CallbackInfo& info) {
-  OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
 // 2 value, double**
@@ -3042,7 +3042,7 @@ return Napi::Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(oc_rep_get_en
 }
 
 Napi::Value N_oc_rep_get_int(const Napi::CallbackInfo& info) {
-  OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
 // 2 value, int64_t*
@@ -3050,7 +3050,7 @@ Napi::Value N_oc_rep_get_int(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_get_int_array(const Napi::CallbackInfo& info) {
-  OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
 // 2 value, int64_t**
@@ -3059,7 +3059,7 @@ Napi::Value N_oc_rep_get_int_array(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_get_object(const Napi::CallbackInfo& info) {
-  OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
 // 2 value, oc_rep_t**
@@ -3067,7 +3067,7 @@ Napi::Value N_oc_rep_get_object(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_get_object_array(const Napi::CallbackInfo& info) {
-  OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
 // 2 value, oc_rep_t**
@@ -3075,7 +3075,7 @@ Napi::Value N_oc_rep_get_object_array(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_get_string(const Napi::CallbackInfo& info) {
-  OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
 // 2 value, char**
@@ -3084,7 +3084,7 @@ Napi::Value N_oc_rep_get_string(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_get_string_array(const Napi::CallbackInfo& info) {
-  OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
   OCMmem& value = *OCMmem::Unwrap(info[2].As<Napi::Object>());
@@ -3106,7 +3106,7 @@ Napi::Value N_oc_rep_set_pool(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_rep_to_json(const Napi::CallbackInfo& info) {
-  OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   char* buf = const_cast<char*>(info[1].As<Napi::String>().Utf8Value().c_str());
   size_t buf_size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
   bool pretty_print = info[3].As<Napi::Boolean>().Value();

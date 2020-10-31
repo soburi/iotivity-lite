@@ -1483,7 +1483,7 @@ Napi::Value OCClientResponse::get_payload(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_rep_t*> sp(&m_pvalue->payload);
   auto accessor = Napi::External<std::shared_ptr<oc_rep_t*>>::New(info.Env(), &sp);
-  return OCRep::constructor.New({accessor});
+  return OCRepresentation::constructor.New({accessor});
 }
 
 void OCClientResponse::set_payload(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -3274,13 +3274,13 @@ OCPropertiesCb::OCPropertiesCb(const Napi::CallbackInfo& info) : ObjectWrap(info
   }
 }
 
-Napi::FunctionReference OCRep::constructor;
+Napi::FunctionReference OCRepresentation::constructor;
 
-Napi::Function OCRep::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCRep", {
-    OCRep::InstanceAccessor("name", &OCRep::get_name, &OCRep::set_name),
-    OCRep::InstanceAccessor("type", &OCRep::get_type, &OCRep::set_type),
-    OCRep::InstanceAccessor("value", &OCRep::get_value, &OCRep::set_value),
+Napi::Function OCRepresentation::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCRepresentation", {
+    OCRepresentation::InstanceAccessor("name", &OCRepresentation::get_name, &OCRepresentation::set_name),
+    OCRepresentation::InstanceAccessor("type", &OCRepresentation::get_type, &OCRepresentation::set_type),
+    OCRepresentation::InstanceAccessor("value", &OCRepresentation::get_value, &OCRepresentation::set_value),
 
   });
 
@@ -3289,7 +3289,7 @@ Napi::Function OCRep::GetClass(Napi::Env env) {
 
   return func;
 }
-OCRep::OCRep(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCRepresentation::OCRepresentation(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_rep_s>(new oc_rep_s());
@@ -3302,36 +3302,36 @@ OCRep::OCRep(const Napi::CallbackInfo& info) : ObjectWrap(info)
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCRep::get_name(const Napi::CallbackInfo& info)
+Napi::Value OCRepresentation::get_name(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_mmem> sp(&m_pvalue->name);
   auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
   return OCMmem::constructor.New({accessor});
 }
 
-void OCRep::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCRepresentation::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->name = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
 }
 
-Napi::Value OCRep::get_type(const Napi::CallbackInfo& info)
+Napi::Value OCRepresentation::get_type(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->type);
 }
 
-void OCRep::set_type(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCRepresentation::set_type(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->type = static_cast<oc_rep_value_type_t>(value.As<Napi::Number>().Uint32Value());
 }
 
-Napi::Value OCRep::get_value(const Napi::CallbackInfo& info)
+Napi::Value OCRepresentation::get_value(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_rep_s::oc_rep_value> sp(&m_pvalue->value);
   auto accessor = Napi::External<std::shared_ptr<oc_rep_s::oc_rep_value>>::New(info.Env(), &sp);
   return OCValue::constructor.New({accessor});
 }
 
-void OCRep::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCRepresentation::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->value = *(*(value.As<Napi::External<std::shared_ptr<oc_rep_s::oc_rep_value>>>().Data()));
 }
@@ -3483,7 +3483,7 @@ Napi::Value OCRequest::get_request_payload(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_rep_t*> sp(&m_pvalue->request_payload);
   auto accessor = Napi::External<std::shared_ptr<oc_rep_t*>>::New(info.Env(), &sp);
-  return OCRep::constructor.New({accessor});
+  return OCRepresentation::constructor.New({accessor});
 }
 
 void OCRequest::set_request_payload(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4725,7 +4725,7 @@ Napi::Value OCValue::get_object(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_rep_s*> sp(&m_pvalue->object);
   auto accessor = Napi::External<std::shared_ptr<oc_rep_s*>>::New(info.Env(), &sp);
-  return OCRep::constructor.New({accessor});
+  return OCRepresentation::constructor.New({accessor});
 }
 
 void OCValue::set_object(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -4737,7 +4737,7 @@ Napi::Value OCValue::get_object_array(const Napi::CallbackInfo& info)
 {
   std::shared_ptr<oc_rep_s*> sp(&m_pvalue->object_array);
   auto accessor = Napi::External<std::shared_ptr<oc_rep_s*>>::New(info.Env(), &sp);
-  return OCRep::constructor.New({accessor});
+  return OCRepresentation::constructor.New({accessor});
 }
 
 void OCValue::set_object_array(const Napi::CallbackInfo& info, const Napi::Value& value)
