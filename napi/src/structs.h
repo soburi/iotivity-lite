@@ -1313,6 +1313,18 @@ public:
   std::shared_ptr<oc_rep_s::oc_rep_value> m_pvalue;
 };
 
+class OCArray : public Napi::ObjectWrap<OCArray>
+{
+public:
+  OCArray(const Napi::CallbackInfo&);
+  static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
+  operator oc_array_t*() { return m_pvalue.get(); }
+
+
+  std::shared_ptr<oc_array_t> m_pvalue;
+};
+
 class OCCborEncoder : public Napi::ObjectWrap<OCCborEncoder>
 {
 public:

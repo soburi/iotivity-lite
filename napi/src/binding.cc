@@ -53,6 +53,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("OCAceSubject", OCAceSubject::GetClass(env));
   exports.Set("DevAddr", DevAddr::GetClass(env));
   exports.Set("OCValue", OCValue::GetClass(env));
+  exports.Set("OCArray", OCArray::GetClass(env));
   exports.Set("OCCborEncoder", OCCborEncoder::GetClass(env));
   exports.Set("coapTransportType", coapTransportType::GetClass(env));
   exports.Set("coapSignalCode", coapSignalCode::GetClass(env));
@@ -800,5 +801,9 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("helper_rep_clear_cbor_errno", Napi::Function::New(env, N_helper_rep_clear_cbor_errno));
   exports.Set("helper_rep_delete_buffer", Napi::Function::New(env, N_helper_rep_delete_buffer));
   exports.Set("helper_rep_new_buffer", Napi::Function::New(env, N_helper_rep_new_buffer));
+  exports.Set("helper_rep_oc_array_to_int_array", Napi::Function::New(env, N_helper_rep_oc_array_to_int_array));
+  exports.Set("helper_rep_oc_array_to_bool_array", Napi::Function::New(env, N_helper_rep_oc_array_to_bool_array));
+  exports.Set("helper_rep_oc_array_to_double_array", Napi::Function::New(env, N_helper_rep_oc_array_to_double_array));
+  exports.Set("helper_rep_oc_array_to_string_array", Napi::Function::New(env, N_helper_rep_oc_array_to_string_array));
   return exports;
 }

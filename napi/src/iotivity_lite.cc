@@ -589,9 +589,9 @@ Napi::Function OCRep::GetClass(Napi::Env env) {
         OCRep::StaticMethod("new_buffer", &OCRep::new_buffer),
         OCRep::StaticMethod("object_array_start_item", &OCRep::object_array_start_item),
         OCRep::StaticMethod("object_array_end_item", &OCRep::object_array_end_item),
-        OCRep::StaticMethod("oc_array_to_boolean_array", &OCRep::oc_array_to_boolean_array),
+        OCRep::StaticMethod("oc_array_to_bool_array", &OCRep::oc_array_to_bool_array),
         OCRep::StaticMethod("oc_array_to_double_array", &OCRep::oc_array_to_double_array),
-        OCRep::StaticMethod("oc_array_to_long_array", &OCRep::oc_array_to_long_array),
+        OCRep::StaticMethod("oc_array_to_int_array", &OCRep::oc_array_to_int_array),
         OCRep::StaticMethod("oc_array_to_string_array", &OCRep::oc_array_to_string_array),
         OCRep::StaticMethod("open_array", &OCRep::open_array),
         OCRep::StaticMethod("open_object", &OCRep::open_object),
@@ -641,9 +641,9 @@ Napi::Value OCRep::get_string_array(const Napi::CallbackInfo& info) { return N_o
 Napi::Value OCRep::new_buffer(const Napi::CallbackInfo& info) { return N_helper_rep_new_buffer(info); };
 Napi::Value OCRep::object_array_start_item(const Napi::CallbackInfo& info) { return N_helper_rep_object_array_start_item(info); };
 Napi::Value OCRep::object_array_end_item(const Napi::CallbackInfo& info) { return N_helper_rep_object_array_end_item(info); };
-Napi::Value OCRep::oc_array_to_boolean_array(const Napi::CallbackInfo& info) { return N_helper_rep_oc_array_to_boolean_array(info); };
+Napi::Value OCRep::oc_array_to_bool_array(const Napi::CallbackInfo& info) { return N_helper_rep_oc_array_to_bool_array(info); };
 Napi::Value OCRep::oc_array_to_double_array(const Napi::CallbackInfo& info) { return N_helper_rep_oc_array_to_double_array(info); };
-Napi::Value OCRep::oc_array_to_long_array(const Napi::CallbackInfo& info) { return N_helper_rep_oc_array_to_long_array(info); };
+Napi::Value OCRep::oc_array_to_int_array(const Napi::CallbackInfo& info) { return N_helper_rep_oc_array_to_int_array(info); };
 Napi::Value OCRep::oc_array_to_string_array(const Napi::CallbackInfo& info) { return N_helper_rep_oc_array_to_string_array(info); };
 Napi::Value OCRep::open_array(const Napi::CallbackInfo& info) { return N_helper_rep_open_array(info); };
 Napi::Value OCRep::open_object(const Napi::CallbackInfo& info) { return N_helper_rep_open_object(info); };

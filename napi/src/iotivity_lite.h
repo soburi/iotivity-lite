@@ -347,9 +347,9 @@ public:
   static Napi::Value OCRep::new_buffer(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::object_array_start_item(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::object_array_end_item(const Napi::CallbackInfo& info);
-  static Napi::Value OCRep::oc_array_to_boolean_array(const Napi::CallbackInfo& info);
+  static Napi::Value OCRep::oc_array_to_bool_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::oc_array_to_double_array(const Napi::CallbackInfo& info);
-  static Napi::Value OCRep::oc_array_to_long_array(const Napi::CallbackInfo& info);
+  static Napi::Value OCRep::oc_array_to_int_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::oc_array_to_string_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::open_array(const Napi::CallbackInfo& info);
   static Napi::Value OCRep::open_object(const Napi::CallbackInfo& info);

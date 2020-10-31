@@ -706,3 +706,7 @@ Napi::Value N_helper_rep_get_cbor_errno(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_clear_cbor_errno(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_delete_buffer(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_new_buffer(const Napi::CallbackInfo&);
+Napi::Value N_helper_rep_oc_array_to_int_array(const Napi::CallbackInfo&);
+Napi::Value N_helper_rep_oc_array_to_bool_array(const Napi::CallbackInfo&);
+Napi::Value N_helper_rep_oc_array_to_double_array(const Napi::CallbackInfo&);
+Napi::Value N_helper_rep_oc_array_to_string_array(const Napi::CallbackInfo&);

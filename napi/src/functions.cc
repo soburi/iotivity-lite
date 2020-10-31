@@ -2338,7 +2338,7 @@ Napi::Value N__oc_copy_string_to_array(const Napi::CallbackInfo& info) {
 #endif
 
 Napi::Value N__oc_free_array(const Napi::CallbackInfo& info) {
-  OCMmem& ocarray = *OCMmem::Unwrap(info[0].As<Napi::Object>());
+  OCArray& ocarray = *OCArray::Unwrap(info[0].As<Napi::Object>());
   pool type = static_cast<pool>(info[1].As<Napi::Number>().Uint32Value());
   (void)_oc_free_array(ocarray, type);
   return info.Env().Undefined();
@@ -2351,7 +2351,7 @@ Napi::Value N__oc_free_string(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N__oc_new_array(const Napi::CallbackInfo& info) {
-  OCMmem& ocarray = *OCMmem::Unwrap(info[0].As<Napi::Object>());
+  OCArray& ocarray = *OCArray::Unwrap(info[0].As<Napi::Object>());
   size_t size = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
   pool type = static_cast<pool>(info[2].As<Napi::Number>().Uint32Value());
   (void)_oc_new_array(ocarray, size, type);
@@ -3698,5 +3698,33 @@ Napi::Value N_helper_rep_new_buffer(const Napi::CallbackInfo& info) {
   int size = static_cast<int>(info[0].As<Napi::Number>());
   (void)helper_rep_new_buffer(size);
   return info.Env().Undefined();
+}
+
+Napi::Value N_helper_rep_oc_array_to_int_array(const Napi::CallbackInfo& info) {
+// 0 array, oc_array_t
+  std::shared_ptr<const int64_t> sp(0);
+  auto args = Napi::External<std::shared_ptr<const int64_t>>::New(info.Env(), &sp);
+  //return const int64_t::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_oc_array_to_bool_array(const Napi::CallbackInfo& info) {
+// 0 array, oc_array_t
+  std::shared_ptr<const bool> sp(0);
+  auto args = Napi::External<std::shared_ptr<const bool>>::New(info.Env(), &sp);
+  //return const bool::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_oc_array_to_double_array(const Napi::CallbackInfo& info) {
+// 0 array, oc_array_t
+  std::shared_ptr<const double> sp(0);
+  auto args = Napi::External<std::shared_ptr<const double>>::New(info.Env(), &sp);
+  //return const double::constructor.New({args});
+}
+
+Napi::Value N_helper_rep_oc_array_to_string_array(const Napi::CallbackInfo& info) {
+// 0 array, oc_array_t
+  std::shared_ptr<const oc_string_array_t> sp(0);
+  auto args = Napi::External<std::shared_ptr<const oc_string_array_t>>::New(info.Env(), &sp);
+  //return const ocStringArray::constructor.New({args});
 }
 

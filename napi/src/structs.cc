@@ -4681,14 +4681,14 @@ OCValue::OCValue(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCValue::get_array(const Napi::CallbackInfo& info)
 {
-  std::shared_ptr<oc_mmem> sp(&m_pvalue->array);
-  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCMmem::constructor.New({accessor});
+  std::shared_ptr<oc_array_t> sp(&m_pvalue->array);
+  auto accessor = Napi::External<std::shared_ptr<oc_array_t>>::New(info.Env(), &sp);
+  return OCArray::constructor.New({accessor});
 }
 
 void OCValue::set_array(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-  m_pvalue->array = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+  m_pvalue->array = *(*(value.As<Napi::External<std::shared_ptr<oc_array_t>>>().Data()));
 }
 
 Napi::Value OCValue::get_boolean(const Napi::CallbackInfo& info)
@@ -4755,6 +4755,32 @@ Napi::Value OCValue::get_string(const Napi::CallbackInfo& info)
 void OCValue::set_string(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->string = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+}
+
+Napi::FunctionReference OCArray::constructor;
+
+Napi::Function OCArray::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCArray", {
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+OCArray::OCArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<oc_array_t>(new oc_array_t());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_array_t>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
 }
 
 Napi::FunctionReference OCCborEncoder::constructor;

@@ -453,6 +453,8 @@
     "object_array": "oc_rep_s*",
     "string": "oc_string_t"
   },
+  "oc_array_t": {
+  },
   "CborEncoder": {
   }
 }
