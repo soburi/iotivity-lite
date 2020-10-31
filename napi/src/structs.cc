@@ -4304,6 +4304,7 @@ Napi::FunctionReference OCSeparateResponse::constructor;
 Napi::Function OCSeparateResponse::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSeparateResponse", {
     OCSeparateResponse::InstanceAccessor("active", &OCSeparateResponse::get_active, &OCSeparateResponse::set_active),
+    OCSeparateResponse::InstanceAccessor("buffer", &OCSeparateResponse::get_buffer, &OCSeparateResponse::set_buffer),
 
   });
 
@@ -4333,6 +4334,16 @@ Napi::Value OCSeparateResponse::get_active(const Napi::CallbackInfo& info)
 void OCSeparateResponse::set_active(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->active = static_cast<int>(value.As<Napi::Number>());
+}
+
+Napi::Value OCSeparateResponse::get_buffer(const Napi::CallbackInfo& info)
+{
+return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, OC_MAX_APP_DATA_SIZE);
+}
+
+void OCSeparateResponse::set_buffer(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+m_pvalue->buffer =     value.As<Napi::Buffer<uint8_t>>().Data();
 }
 
 Napi::FunctionReference OCSessionEventCb::constructor;

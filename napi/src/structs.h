@@ -1167,6 +1167,8 @@ public:
   operator oc_separate_response_s*() { return m_pvalue.get(); }
   Napi::Value get_active(const Napi::CallbackInfo&);
          void set_active(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_buffer(const Napi::CallbackInfo&);
+         void set_buffer(const Napi::CallbackInfo&, const Napi::Value&);
 
 
   std::shared_ptr<oc_separate_response_s> m_pvalue;
