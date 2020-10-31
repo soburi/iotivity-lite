@@ -2990,16 +2990,13 @@ Napi::Value N_oc_free_rep(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-#if defined(XXX)
 Napi::Value N_oc_parse_rep(const Napi::CallbackInfo& info) {
   const uint8_t* payload = info[0].As<Napi::Buffer<const uint8_t>>().Data();
   int payload_size = static_cast<int>(info[1].As<Napi::Number>());
 // 2 value_list, oc_rep_t**
   return Napi::Number::New(info.Env(), 0);
 }
-#endif
 
-#if defined(XXX)
 Napi::Value N_oc_rep_get_bool(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
@@ -3007,9 +3004,7 @@ Napi::Value N_oc_rep_get_bool(const Napi::CallbackInfo& info) {
 // 2 value, bool*
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
-#if defined(XXX)
 Napi::Value N_oc_rep_get_bool_array(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
@@ -3018,9 +3013,7 @@ Napi::Value N_oc_rep_get_bool_array(const Napi::CallbackInfo& info) {
   size_t* size = reinterpret_cast<size_t*>(info[3].As<Napi::Uint32Array>().Data());
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
-#if defined(XXX)
 Napi::Value N_oc_rep_get_byte_string(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
@@ -3029,7 +3022,6 @@ Napi::Value N_oc_rep_get_byte_string(const Napi::CallbackInfo& info) {
   size_t* size = reinterpret_cast<size_t*>(info[3].As<Napi::Uint32Array>().Data());
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
 Napi::Value N_oc_rep_get_byte_string_array(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
@@ -3044,7 +3036,6 @@ Napi::Value N_oc_rep_get_cbor_errno(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_rep_get_cbor_errno());
 }
 
-#if defined(XXX)
 Napi::Value N_oc_rep_get_double(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
@@ -3052,9 +3043,7 @@ Napi::Value N_oc_rep_get_double(const Napi::CallbackInfo& info) {
 // 2 value, double*
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
-#if defined(XXX)
 Napi::Value N_oc_rep_get_double_array(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
@@ -3063,7 +3052,6 @@ Napi::Value N_oc_rep_get_double_array(const Napi::CallbackInfo& info) {
   size_t* size = reinterpret_cast<size_t*>(info[3].As<Napi::Uint32Array>().Data());
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
 Napi::Value N_oc_rep_get_encoded_payload_size(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_rep_get_encoded_payload_size());
@@ -3075,7 +3063,6 @@ Napi::Value N_oc_rep_get_encoder_buf(const Napi::CallbackInfo& info) {
 }
 #endif
 
-#if defined(XXX)
 Napi::Value N_oc_rep_get_int(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
@@ -3083,9 +3070,7 @@ Napi::Value N_oc_rep_get_int(const Napi::CallbackInfo& info) {
 // 2 value, int64_t*
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
-#if defined(XXX)
 Napi::Value N_oc_rep_get_int_array(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
@@ -3094,9 +3079,7 @@ Napi::Value N_oc_rep_get_int_array(const Napi::CallbackInfo& info) {
   size_t* size = reinterpret_cast<size_t*>(info[3].As<Napi::Uint32Array>().Data());
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
-#if defined(XXX)
 Napi::Value N_oc_rep_get_object(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
@@ -3104,9 +3087,7 @@ Napi::Value N_oc_rep_get_object(const Napi::CallbackInfo& info) {
 // 2 value, oc_rep_t**
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
-#if defined(XXX)
 Napi::Value N_oc_rep_get_object_array(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
@@ -3114,9 +3095,7 @@ Napi::Value N_oc_rep_get_object_array(const Napi::CallbackInfo& info) {
 // 2 value, oc_rep_t**
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
-#if defined(XXX)
 Napi::Value N_oc_rep_get_string(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
@@ -3125,7 +3104,6 @@ Napi::Value N_oc_rep_get_string(const Napi::CallbackInfo& info) {
   size_t* size = reinterpret_cast<size_t*>(info[3].As<Napi::Uint32Array>().Data());
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
 Napi::Value N_oc_rep_get_string_array(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());

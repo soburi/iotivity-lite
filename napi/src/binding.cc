@@ -702,45 +702,23 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_random_init", Napi::Function::New(env, N_oc_random_init));
   exports.Set("oc_random_value", Napi::Function::New(env, N_oc_random_value));
   exports.Set("oc_free_rep", Napi::Function::New(env, N_oc_free_rep));
-#if defined(XXX)
   exports.Set("oc_parse_rep", Napi::Function::New(env, N_oc_parse_rep));
-#endif
-#if defined(XXX)
   exports.Set("oc_rep_get_bool", Napi::Function::New(env, N_oc_rep_get_bool));
-#endif
-#if defined(XXX)
   exports.Set("oc_rep_get_bool_array", Napi::Function::New(env, N_oc_rep_get_bool_array));
-#endif
-#if defined(XXX)
   exports.Set("oc_rep_get_byte_string", Napi::Function::New(env, N_oc_rep_get_byte_string));
-#endif
   exports.Set("oc_rep_get_byte_string_array", Napi::Function::New(env, N_oc_rep_get_byte_string_array));
   exports.Set("oc_rep_get_cbor_errno", Napi::Function::New(env, N_oc_rep_get_cbor_errno));
-#if defined(XXX)
   exports.Set("oc_rep_get_double", Napi::Function::New(env, N_oc_rep_get_double));
-#endif
-#if defined(XXX)
   exports.Set("oc_rep_get_double_array", Napi::Function::New(env, N_oc_rep_get_double_array));
-#endif
   exports.Set("oc_rep_get_encoded_payload_size", Napi::Function::New(env, N_oc_rep_get_encoded_payload_size));
 #if defined(XXX)
   exports.Set("oc_rep_get_encoder_buf", Napi::Function::New(env, N_oc_rep_get_encoder_buf));
 #endif
-#if defined(XXX)
   exports.Set("oc_rep_get_int", Napi::Function::New(env, N_oc_rep_get_int));
-#endif
-#if defined(XXX)
   exports.Set("oc_rep_get_int_array", Napi::Function::New(env, N_oc_rep_get_int_array));
-#endif
-#if defined(XXX)
   exports.Set("oc_rep_get_object", Napi::Function::New(env, N_oc_rep_get_object));
-#endif
-#if defined(XXX)
   exports.Set("oc_rep_get_object_array", Napi::Function::New(env, N_oc_rep_get_object_array));
-#endif
-#if defined(XXX)
   exports.Set("oc_rep_get_string", Napi::Function::New(env, N_oc_rep_get_string));
-#endif
   exports.Set("oc_rep_get_string_array", Napi::Function::New(env, N_oc_rep_get_string_array));
   exports.Set("oc_rep_new", Napi::Function::New(env, N_oc_rep_new));
   exports.Set("oc_rep_set_pool", Napi::Function::New(env, N_oc_rep_set_pool));

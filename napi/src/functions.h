@@ -608,45 +608,23 @@ Napi::Value N_oc_random_destroy(const Napi::CallbackInfo&);
 Napi::Value N_oc_random_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_random_value(const Napi::CallbackInfo&);
 Napi::Value N_oc_free_rep(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_parse_rep(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
 Napi::Value N_oc_rep_get_bool(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
 Napi::Value N_oc_rep_get_bool_array(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
 Napi::Value N_oc_rep_get_byte_string(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_rep_get_byte_string_array(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_cbor_errno(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_rep_get_double(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
 Napi::Value N_oc_rep_get_double_array(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_rep_get_encoded_payload_size(const Napi::CallbackInfo&);
 #if defined(XXX)
 Napi::Value N_oc_rep_get_encoder_buf(const Napi::CallbackInfo&);
 #endif
-#if defined(XXX)
 Napi::Value N_oc_rep_get_int(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
 Napi::Value N_oc_rep_get_int_array(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
 Napi::Value N_oc_rep_get_object(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
 Napi::Value N_oc_rep_get_object_array(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
 Napi::Value N_oc_rep_get_string(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_rep_get_string_array(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_new(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_set_pool(const Napi::CallbackInfo&);
