@@ -797,17 +797,5 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("helper_rep_get_rep_from_root_object", Napi::Function::New(env, N_helper_rep_get_rep_from_root_object));
   exports.Set("helper_rep_get_cbor_errno", Napi::Function::New(env, N_helper_rep_get_cbor_errno));
   exports.Set("helper_rep_clear_cbor_errno", Napi::Function::New(env, N_helper_rep_clear_cbor_errno));
-  exports.Set("helper_rep_get_long", Napi::Function::New(env, N_helper_rep_get_long));
-  exports.Set("helper_rep_get_bool", Napi::Function::New(env, N_helper_rep_get_bool));
-  exports.Set("helper_rep_get_double", Napi::Function::New(env, N_helper_rep_get_double));
-  exports.Set("helper_rep_get_byte_string", Napi::Function::New(env, N_helper_rep_get_byte_string));
-  exports.Set("helper_rep_get_string", Napi::Function::New(env, N_helper_rep_get_string));
-  exports.Set("helper_rep_get_long_array", Napi::Function::New(env, N_helper_rep_get_long_array));
-  exports.Set("helper_rep_get_bool_array", Napi::Function::New(env, N_helper_rep_get_bool_array));
-  exports.Set("helper_rep_get_double_array", Napi::Function::New(env, N_helper_rep_get_double_array));
-  exports.Set("helper_rep_get_byte_string_array", Napi::Function::New(env, N_helper_rep_get_byte_string_array));
-  exports.Set("helper_rep_get_string_array", Napi::Function::New(env, N_helper_rep_get_string_array));
-  exports.Set("helper_rep_get_object", Napi::Function::New(env, N_helper_rep_get_object));
-  exports.Set("helper_rep_get_object_array", Napi::Function::New(env, N_helper_rep_get_object_array));
   return exports;
 }

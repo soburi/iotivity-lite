@@ -203,6 +203,15 @@ void helper_rep_set_byte_string(CborEncoder * object, const char* key, const uns
 }
 
 
+/* Alt implementation of oc_rep_start_array macro */
+CborEncoder * helper_rep_start_array(CborEncoder *parent) {
+  OC_DBG("JNI: %s\n", __func__);
+  CborEncoder *cbor_encoder_array = (CborEncoder *)malloc(sizeof(struct CborEncoder));
+  g_err |= cbor_encoder_create_array(parent, cbor_encoder_array, CborIndefiniteLength);
+  return cbor_encoder_array;
+}
+
+
 /* Alt implementation of oc_rep_end_array macro */
 void helper_rep_end_array(CborEncoder *parent, CborEncoder *arrayObject) {
   OC_DBG("JNI: %s\n", __func__);
@@ -286,6 +295,15 @@ void helper_rep_set_key(CborEncoder *parent, const char* key) {
   g_err |= cbor_encode_text_string(parent, key, strlen(key));
 }
 
+
+/* Alt implementation of oc_rep_set_array macro */
+CborEncoder * helper_rep_set_array(CborEncoder *parent, const char* key) {
+  OC_DBG("JNI: %s\n", __func__);
+  g_err |= cbor_encode_text_string(parent, key, strlen(key));
+  return helper_rep_start_array(parent);
+}
+
+
 /* Alt implementation of oc_rep_close_array macro */
 void helper_rep_close_array(CborEncoder *object, CborEncoder *arrayObject) {
   OC_DBG("JNI: %s\n", __func__);
@@ -294,7 +312,7 @@ void helper_rep_close_array(CborEncoder *object, CborEncoder *arrayObject) {
 
 
 /* Alt implementation of oc_rep_start_object macro */
-CborEncoder * jni_rep_start_object(CborEncoder *parent) {
+CborEncoder * helper_rep_start_object(CborEncoder *parent) {
   OC_DBG("JNI: %s\n", __func__);
   CborEncoder *cbor_encoder_map = (CborEncoder *)malloc(sizeof(struct CborEncoder));
   g_err |= cbor_encoder_create_map(parent, cbor_encoder_map, CborIndefiniteLength);
@@ -420,142 +438,6 @@ int helper_rep_get_cbor_errno() {
 
 void helper_rep_clear_cbor_errno() {
   g_err = CborNoError;
-}
-
-
-int64_t helper_rep_get_long(oc_rep_t *rep, const char *key, bool *jni_rep_get_error_flag) {
-  int64_t retValue;
-  *jni_rep_get_error_flag = oc_rep_get_int(rep, key, &retValue);
-  return retValue;
-}
-
-
-bool helper_rep_get_bool(oc_rep_t *rep, const char *key, bool *jni_rep_get_error_flag) {
-  bool retValue;
-  *jni_rep_get_error_flag = oc_rep_get_bool(rep, key, &retValue);
-  return retValue;
-}
-
-
-double helper_rep_get_double(oc_rep_t *rep, const char *key, bool *jni_rep_get_error_flag) {
-  double retValue;
-  *jni_rep_get_error_flag = oc_rep_get_double(rep, key, &retValue);
-  return retValue;
-}
-
-
-const char * helper_rep_get_byte_string(oc_rep_t *rep, const char *key, size_t *byte_string_size) {
-  char * c_byte_string = NULL;
-  if (oc_rep_get_byte_string(rep, key, &c_byte_string, byte_string_size)) {
-    return c_byte_string;
-  }
-  return NULL;
-}
-
-
-char * helper_rep_get_string(oc_rep_t *rep, const char *key) {
-  char * retValue;
-  size_t size;
-  if(oc_rep_get_string(rep, key, &retValue, &size)) {
-    return retValue;
-  } else {
-    return NULL;
-  }
-}
-
-
-const int64_t* helper_rep_get_long_array(oc_rep_t *rep, const char *key, size_t *int_array_size) {
-  int64_t *c_int_array;
-  if (oc_rep_get_int_array(rep, key, &c_int_array, int_array_size)) {
-    return c_int_array;
-  }
-  return NULL;
-}
-
-
-const bool* helper_rep_get_bool_array(oc_rep_t *rep, const char *key, size_t *bool_array_size) {
-  bool *c_bool_array;
-  if (oc_rep_get_bool_array(rep, key, &c_bool_array, bool_array_size)) {
-    return c_bool_array;
-  }
-  return NULL;
-}
-
-
-const double* helper_rep_get_double_array(oc_rep_t *rep, const char *key, size_t *double_array_size) {
-  double *c_double_array;
-  if (oc_rep_get_double_array(rep, key, &c_double_array, double_array_size)) {
-    return c_double_array;
-  }
-  return NULL;
-}
-
-
-const oc_string_array_t * helper_rep_get_byte_string_array(oc_rep_t *rep, const char *key, size_t *byte_string_array_size) {
-  oc_string_array_t * c_byte_string_array = (oc_string_array_t *)malloc(sizeof(oc_string_array_t));
-  if (oc_rep_get_byte_string_array(rep, key, c_byte_string_array, byte_string_array_size)) {
-    return c_byte_string_array;
-  }
-  return NULL;
-}
-
-
-const oc_string_array_t * helper_rep_get_string_array(oc_rep_t *rep, const char *key, size_t *string_array_size) {
-  oc_string_array_t * c_string_array = (oc_string_array_t *)malloc(sizeof(oc_string_array_t));
-  if (oc_rep_get_string_array(rep, key, c_string_array, string_array_size)) {
-    return c_string_array;
-  }
-  return NULL;
-}
-
-
-oc_rep_t * helper_rep_get_object(oc_rep_t* rep, const char *key) {
-  oc_rep_t *value;
-  if(oc_rep_get_object(rep, key, &value)) {
-    return value;
-  }
-  return NULL;
-}
-
-
-oc_rep_t * helper_rep_get_object_array(oc_rep_t* rep, const char *key) {
-  oc_rep_t *value;
-  if(oc_rep_get_object_array(rep, key, &value)) {
-    return value;
-  }
-  return NULL;
-}
-
-char *helper_rep_to_json(oc_rep_t *rep, bool prettyPrint)
-{
-  char *json;
-  size_t json_size;
-  json_size = oc_rep_to_json(rep, NULL, 0, prettyPrint);
-  json = (char *)malloc(json_size + 1);
-  oc_rep_to_json(rep, json, json_size + 1, prettyPrint);
-  return json;
-}
-
-CborEncoder * helper_rep_start_array(CborEncoder *parent) {
-  OC_DBG("JNI: %s\n", __func__);
-  CborEncoder *cbor_encoder_array = (CborEncoder *)malloc(sizeof(struct CborEncoder));
-  g_err |= cbor_encoder_create_array(parent, cbor_encoder_array, CborIndefiniteLength);
-  return cbor_encoder_array;
-}
-
-/* Alt implementation of oc_rep_set_array macro */
-CborEncoder * helper_rep_set_array(CborEncoder *parent, const char* key) {
-  OC_DBG("JNI: %s\n", __func__);
-  g_err |= cbor_encode_text_string(parent, key, strlen(key));
-  return helper_rep_start_array(parent);
-}
-
-/* Alt implementation of oc_rep_start_object macro */
-CborEncoder * helper_rep_start_object(CborEncoder *parent) {
-  OC_DBG("JNI: %s\n", __func__);
-  CborEncoder *cbor_encoder_map = (CborEncoder *)malloc(sizeof(struct CborEncoder));
-  g_err |= cbor_encoder_create_map(parent, cbor_encoder_map, CborIndefiniteLength);
-  return cbor_encoder_map;
 }
 
 
