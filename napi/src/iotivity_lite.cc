@@ -94,7 +94,6 @@ void IotivityLite::SetDi(const Napi::CallbackInfo& info, const Napi::Value& val)
     printf("SetDi\n");
 }
 
-OCMain::OCMain(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 Napi::Value OCMain::add_collection(const Napi::CallbackInfo& info) { return N_oc_add_collection(info); }
 Napi::Value OCMain::add_device(const Napi::CallbackInfo& info) { return N_oc_add_device(info); }
 Napi::Value OCMain::add_ownership_status_cb(const Napi::CallbackInfo& info) { return N_oc_add_ownership_status_cb(info); }
@@ -179,6 +178,8 @@ Napi::Value OCMain::set_random_pin_callback(const Napi::CallbackInfo& info) { re
 Napi::Value OCMain::set_separate_response_buffer(const Napi::CallbackInfo& info) { return N_oc_set_separate_response_buffer(info); }
 Napi::Value OCMain::stop_multicast(const Napi::CallbackInfo& info) { return N_oc_stop_multicast(info); }
 Napi::Value OCMain::stop_observe(const Napi::CallbackInfo& info) { return N_oc_stop_observe(info); }
+
+OCMain::OCMain(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCMain::GetClass(Napi::Env env) {
     return DefineClass(env, "OCMain", {
@@ -269,12 +270,98 @@ Napi::Function OCMain::GetClass(Napi::Env env) {
     });
 }
 
+Napi::Value OCObt::ace_add_permission(const Napi::CallbackInfo& info) { return N_oc_obt_ace_add_permission(info); }
+Napi::Value OCObt::ace_new_resource(const Napi::CallbackInfo& info) { return N_oc_obt_ace_new_resource(info); }
+Napi::Value OCObt::ace_resource_set_href(const Napi::CallbackInfo& info) { return N_oc_obt_ace_resource_set_href(info); }
+Napi::Value OCObt::ace_resource_set_wc(const Napi::CallbackInfo& info) { return N_oc_obt_ace_resource_set_wc(info); }
+Napi::Value OCObt::add_roleid(const Napi::CallbackInfo& info) { return N_oc_obt_add_roleid(info); }
+Napi::Value OCObt::delete_ace_by_aceid(const Napi::CallbackInfo& info) { return N_oc_obt_delete_ace_by_aceid(info); }
+Napi::Value OCObt::delete_cred_by_credid(const Napi::CallbackInfo& info) { return N_oc_obt_delete_cred_by_credid(info); }
+Napi::Value OCObt::delete_own_cred_by_credid(const Napi::CallbackInfo& info) { return N_oc_obt_delete_own_cred_by_credid(info); }
+Napi::Value OCObt::device_hard_reset(const Napi::CallbackInfo& info) { return N_oc_obt_device_hard_reset(info); }
+Napi::Value OCObt::discover_all_resources(const Napi::CallbackInfo& info) { return N_oc_obt_discover_all_resources(info); }
+Napi::Value OCObt::discover_owned_devices(const Napi::CallbackInfo& info) { return N_oc_obt_discover_owned_devices(info); }
+Napi::Value OCObt::discover_owned_devices_realm_local_ipv6(const Napi::CallbackInfo& info) { return N_oc_obt_discover_owned_devices_realm_local_ipv6(info); }
+Napi::Value OCObt::discover_owned_devices_site_local_ipv6(const Napi::CallbackInfo& info) { return N_oc_obt_discover_owned_devices_site_local_ipv6(info); }
+Napi::Value OCObt::discover_unowned_devices(const Napi::CallbackInfo& info) { return N_oc_obt_discover_unowned_devices(info); }
+Napi::Value OCObt::discover_unowned_devices_realm_local_ipv6(const Napi::CallbackInfo& info) { return N_oc_obt_discover_unowned_devices_realm_local_ipv6(info); }
+Napi::Value OCObt::discover_unowned_devices_site_local_ipv6(const Napi::CallbackInfo& info) { return N_oc_obt_discover_unowned_devices_site_local_ipv6(info); }
+Napi::Value OCObt::free_ace(const Napi::CallbackInfo& info) { return N_oc_obt_free_ace(info); }
+Napi::Value OCObt::free_acl(const Napi::CallbackInfo& info) { return N_oc_obt_free_acl(info); }
+Napi::Value OCObt::free_creds(const Napi::CallbackInfo& info) { return N_oc_obt_free_creds(info); }
+Napi::Value OCObt::free_roleid(const Napi::CallbackInfo& info) { return N_oc_obt_free_roleid(info); }
+Napi::Value OCObt::init(const Napi::CallbackInfo& info) { return N_oc_obt_init(info); }
+Napi::Value OCObt::new_ace_for_connection(const Napi::CallbackInfo& info) { return N_oc_obt_new_ace_for_connection(info); }
+Napi::Value OCObt::new_ace_for_role(const Napi::CallbackInfo& info) { return N_oc_obt_new_ace_for_role(info); }
+Napi::Value OCObt::new_ace_for_subject(const Napi::CallbackInfo& info) { return N_oc_obt_new_ace_for_subject(info); }
+Napi::Value OCObt::perform_cert_otm(const Napi::CallbackInfo& info) { return N_oc_obt_perform_cert_otm(info); }
+Napi::Value OCObt::perform_just_works_otm(const Napi::CallbackInfo& info) { return N_oc_obt_perform_just_works_otm(info); }
+Napi::Value OCObt::perform_random_pin_otm(const Napi::CallbackInfo& info) { return N_oc_obt_perform_random_pin_otm(info); }
+Napi::Value OCObt::provision_ace(const Napi::CallbackInfo& info) { return N_oc_obt_provision_ace(info); }
+Napi::Value OCObt::provision_auth_wildcard_ace(const Napi::CallbackInfo& info) { return N_oc_obt_provision_auth_wildcard_ace(info); }
+Napi::Value OCObt::provision_identity_certificate(const Napi::CallbackInfo& info) { return N_oc_obt_provision_identity_certificate(info); }
+Napi::Value OCObt::provision_pairwise_credentials(const Napi::CallbackInfo& info) { return N_oc_obt_provision_pairwise_credentials(info); }
+Napi::Value OCObt::provision_role_certificate(const Napi::CallbackInfo& info) { return N_oc_obt_provision_role_certificate(info); }
+Napi::Value OCObt::provision_role_wildcard_ace(const Napi::CallbackInfo& info) { return N_oc_obt_provision_role_wildcard_ace(info); }
+Napi::Value OCObt::request_random_pin(const Napi::CallbackInfo& info) { return N_oc_obt_request_random_pin(info); }
+Napi::Value OCObt::retrieve_acl(const Napi::CallbackInfo& info) { return N_oc_obt_retrieve_acl(info); }
+Napi::Value OCObt::retrieve_creds(const Napi::CallbackInfo& info) { return N_oc_obt_retrieve_creds(info); }
+Napi::Value OCObt::retrieve_own_creds(const Napi::CallbackInfo& info) { return N_oc_obt_retrieve_own_creds(info); }
+Napi::Value OCObt::set_sd_info(const Napi::CallbackInfo& info) { return N_oc_obt_set_sd_info(info); }
+Napi::Value OCObt::shutdown(const Napi::CallbackInfo& info) { return N_oc_obt_shutdown(info); }
+
+OCObt::OCObt(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCObt::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCObt", {
+        OCObt::StaticMethod("ace_add_permission", &OCObt::ace_add_permission),
+        OCObt::StaticMethod("ace_new_resource", &OCObt::ace_new_resource),
+        OCObt::StaticMethod("ace_resource_set_href", &OCObt::ace_resource_set_href),
+        OCObt::StaticMethod("ace_resource_set_wc", &OCObt::ace_resource_set_wc),
+        OCObt::StaticMethod("add_roleid", &OCObt::add_roleid),
+        OCObt::StaticMethod("delete_ace_by_aceid", &OCObt::delete_ace_by_aceid),
+        OCObt::StaticMethod("delete_cred_by_credid", &OCObt::delete_cred_by_credid),
+        OCObt::StaticMethod("delete_own_cred_by_credid", &OCObt::delete_own_cred_by_credid),
+        OCObt::StaticMethod("device_hard_reset", &OCObt::device_hard_reset),
+        OCObt::StaticMethod("discover_all_resources", &OCObt::discover_all_resources),
+        OCObt::StaticMethod("discover_owned_devices", &OCObt::discover_owned_devices),
+        OCObt::StaticMethod("discover_owned_devices_realm_local_ipv6", &OCObt::discover_owned_devices_realm_local_ipv6),
+        OCObt::StaticMethod("discover_owned_devices_site_local_ipv6", &OCObt::discover_owned_devices_site_local_ipv6),
+        OCObt::StaticMethod("discover_unowned_devices", &OCObt::discover_unowned_devices),
+        OCObt::StaticMethod("discover_unowned_devices_realm_local_ipv6", &OCObt::discover_unowned_devices_realm_local_ipv6),
+        OCObt::StaticMethod("discover_unowned_devices_site_local_ipv6", &OCObt::discover_unowned_devices_site_local_ipv6),
+        OCObt::StaticMethod("free_ace", &OCObt::free_ace),
+        OCObt::StaticMethod("free_acl", &OCObt::free_acl),
+        OCObt::StaticMethod("free_creds", &OCObt::free_creds),
+        OCObt::StaticMethod("free_roleid", &OCObt::free_roleid),
+        OCObt::StaticMethod("init", &OCObt::init),
+        OCObt::StaticMethod("new_ace_for_connection", &OCObt::new_ace_for_connection),
+        OCObt::StaticMethod("new_ace_for_role", &OCObt::new_ace_for_role),
+        OCObt::StaticMethod("new_ace_for_subject", &OCObt::new_ace_for_subject),
+        OCObt::StaticMethod("perform_cert_otm", &OCObt::perform_cert_otm),
+        OCObt::StaticMethod("perform_just_works_otm", &OCObt::perform_just_works_otm),
+        OCObt::StaticMethod("perform_random_pin_otm", &OCObt::perform_random_pin_otm),
+        OCObt::StaticMethod("provision_ace", &OCObt::provision_ace),
+        OCObt::StaticMethod("provision_auth_wildcard_ace", &OCObt::provision_auth_wildcard_ace),
+        OCObt::StaticMethod("provision_identity_certificate", &OCObt::provision_identity_certificate),
+        OCObt::StaticMethod("provision_pairwise_credentials", &OCObt::provision_pairwise_credentials),
+        OCObt::StaticMethod("provision_role_certificate", &OCObt::provision_role_certificate),
+        OCObt::StaticMethod("provision_role_wildcard_ace", &OCObt::provision_role_wildcard_ace),
+        OCObt::StaticMethod("request_random_pin", &OCObt::request_random_pin),
+        OCObt::StaticMethod("retrieve_acl", &OCObt::retrieve_acl),
+        OCObt::StaticMethod("retrieve_creds", &OCObt::retrieve_creds),
+        OCObt::StaticMethod("retrieve_own_creds", &OCObt::retrieve_own_creds),
+        OCObt::StaticMethod("set_sd_info", &OCObt::set_sd_info),
+        OCObt::StaticMethod("shutdown", &OCObt::shutdown),
+    });
+}
 
 Napi::Object module_init(Napi::Env env, Napi::Object exports);
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("IotivityLite", IotivityLite::GetClass(env));
     exports.Set("OCMain", OCMain::GetClass(env));
+    exports.Set("OCObt", OCObt::GetClass(env));
     return module_init(env, exports);
 }
 

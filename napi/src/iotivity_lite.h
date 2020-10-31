@@ -118,3 +118,49 @@ public:
 	static Napi::Value OCMain::stop_observe(const Napi::CallbackInfo& info);
 };
 
+class OCObt : public Napi::ObjectWrap<OCObt>
+{
+public:
+    OCObt(const Napi::CallbackInfo&);
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::Value OCObt::ace_add_permission(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::ace_new_resource(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::ace_resource_set_href(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::ace_resource_set_wc(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::add_roleid(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::delete_ace_by_aceid(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::delete_cred_by_credid(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::delete_own_cred_by_credid(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::device_hard_reset(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::discover_all_resources(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::discover_owned_devices(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::discover_owned_devices_realm_local_ipv6(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::discover_owned_devices_site_local_ipv6(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::discover_unowned_devices(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::discover_unowned_devices_realm_local_ipv6(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::discover_unowned_devices_site_local_ipv6(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::free_ace(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::free_acl(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::free_creds(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::free_roleid(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::init(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::new_ace_for_connection(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::new_ace_for_role(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::new_ace_for_subject(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::perform_cert_otm(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::perform_just_works_otm(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::perform_random_pin_otm(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::provision_ace(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::provision_auth_wildcard_ace(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::provision_identity_certificate(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::provision_pairwise_credentials(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::provision_role_certificate(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::provision_role_wildcard_ace(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::request_random_pin(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::retrieve_acl(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::retrieve_creds(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::retrieve_own_creds(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::set_sd_info(const Napi::CallbackInfo& info);
+	static Napi::Value OCObt::shutdown(const Napi::CallbackInfo& info);
+};
+
