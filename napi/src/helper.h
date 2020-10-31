@@ -94,7 +94,7 @@ const oc_string_array_t * helper_rep_get_byte_string_array(oc_rep_t *rep, const 
 const oc_string_array_t * helper_rep_get_string_array(oc_rep_t *rep, const char *key, size_t *string_array_size);
 oc_rep_t * helper_rep_get_object(oc_rep_t* rep, const char *key);
 oc_rep_t * helper_rep_get_object_array(oc_rep_t* rep, const char *key);
-
+char *helper_rep_to_json(oc_rep_t *rep, bool prettyPrint);
 #ifdef __cplusplus
 }
 #endif
