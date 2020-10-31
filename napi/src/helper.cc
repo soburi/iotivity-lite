@@ -203,15 +203,6 @@ void helper_rep_set_byte_string(CborEncoder * object, const char* key, const uns
 }
 
 
-/* Alt implementation of oc_rep_start_array macro */
-CborEncoder * jni_rep_start_array(CborEncoder *parent) {
-  OC_DBG("JNI: %s\n", __func__);
-  CborEncoder *cbor_encoder_array = (CborEncoder *)malloc(sizeof(struct CborEncoder));
-  g_err |= cbor_encoder_create_array(parent, cbor_encoder_array, CborIndefiniteLength);
-  return cbor_encoder_array;
-}
-
-
 /* Alt implementation of oc_rep_end_array macro */
 void helper_rep_end_array(CborEncoder *parent, CborEncoder *arrayObject) {
   OC_DBG("JNI: %s\n", __func__);
@@ -294,15 +285,6 @@ void helper_rep_set_key(CborEncoder *parent, const char* key) {
   OC_DBG("JNI: %s\n", __func__);
   g_err |= cbor_encode_text_string(parent, key, strlen(key));
 }
-
-
-/* Alt implementation of oc_rep_set_array macro */
-CborEncoder * jni_rep_set_array(CborEncoder *parent, const char* key) {
-  OC_DBG("JNI: %s\n", __func__);
-  g_err |= cbor_encode_text_string(parent, key, strlen(key));
-  return helper_rep_start_array(parent);
-}
-
 
 /* Alt implementation of oc_rep_close_array macro */
 void helper_rep_close_array(CborEncoder *object, CborEncoder *arrayObject) {
@@ -436,7 +418,7 @@ int helper_rep_get_cbor_errno() {
 }
 
 
-void clearCborErrno() {
+void helper_rep_clear_cbor_errno() {
   g_err = CborNoError;
 }
 
@@ -554,7 +536,6 @@ char *helper_rep_to_json(oc_rep_t *rep, bool prettyPrint)
   return json;
 }
 
-/* Alt implementation of oc_rep_start_array macro */
 CborEncoder * helper_rep_start_array(CborEncoder *parent) {
   OC_DBG("JNI: %s\n", __func__);
   CborEncoder *cbor_encoder_array = (CborEncoder *)malloc(sizeof(struct CborEncoder));
@@ -566,7 +547,7 @@ CborEncoder * helper_rep_start_array(CborEncoder *parent) {
 CborEncoder * helper_rep_set_array(CborEncoder *parent, const char* key) {
   OC_DBG("JNI: %s\n", __func__);
   g_err |= cbor_encode_text_string(parent, key, strlen(key));
-  return jni_rep_start_array(parent);
+  return helper_rep_start_array(parent);
 }
 
 /* Alt implementation of oc_rep_start_object macro */

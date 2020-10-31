@@ -618,9 +618,9 @@ Napi::Value OCRep::add_byte_string(const Napi::CallbackInfo& info) { return N_he
 Napi::Value OCRep::add_double(const Napi::CallbackInfo& info) { return N_helper_rep_add_double(info); };
 Napi::Value OCRep::add_long(const Napi::CallbackInfo& info) { return N_helper_rep_add_int(info); };
 Napi::Value OCRep::add_text_string(const Napi::CallbackInfo& info) { return N_helper_rep_add_text_string(info); };
-Napi::Value OCRep::begin_array(const Napi::CallbackInfo& info) { return N_helper_rep_begin_array(info); };
-Napi::Value OCRep::begin_links_array(const Napi::CallbackInfo& info) { return N_helper_rep_begin_links_array(info); };
-Napi::Value OCRep::begin_object(const Napi::CallbackInfo& info) { return N_helper_rep_begin_object(info); };
+Napi::Value OCRep::begin_array(const Napi::CallbackInfo& info) { return N_helper_rep_start_array(info); };
+Napi::Value OCRep::begin_links_array(const Napi::CallbackInfo& info) { return N_helper_rep_start_links_array(info); };
+Napi::Value OCRep::begin_object(const Napi::CallbackInfo& info) { return N_helper_rep_start_object(info); };
 Napi::Value OCRep::begin_root_object(const Napi::CallbackInfo& info) { return N_helper_rep_begin_root_object(info); };
 Napi::Value OCRep::clear_cbor_errno(const Napi::CallbackInfo& info) { return N_helper_rep_clear_cbor_errno(info); };
 Napi::Value OCRep::close_array(const Napi::CallbackInfo& info) { return N_helper_rep_close_array(info); };
@@ -645,7 +645,7 @@ Napi::Value OCRep::get_rep_from_root_object(const Napi::CallbackInfo& info) { re
 Napi::Value OCRep::get_string(const Napi::CallbackInfo& info) { return N_helper_rep_get_string(info); };
 Napi::Value OCRep::get_string_array(const Napi::CallbackInfo& info) { return N_helper_rep_get_string_array(info); };
 Napi::Value OCRep::new_buffer(const Napi::CallbackInfo& info) { return N_helper_rep_new_buffer(info); };
-Napi::Value OCRep::object_array_begin_item(const Napi::CallbackInfo& info) { return N_helper_rep_object_array_begin_item(info); };
+Napi::Value OCRep::object_array_begin_item(const Napi::CallbackInfo& info) { return N_helper_rep_object_array_start_item(info); };
 Napi::Value OCRep::object_array_end_item(const Napi::CallbackInfo& info) { return N_helper_rep_object_array_end_item(info); };
 Napi::Value OCRep::oc_array_to_boolean_array(const Napi::CallbackInfo& info) { return N_helper_rep_oc_array_to_boolean_array(info); };
 Napi::Value OCRep::oc_array_to_double_array(const Napi::CallbackInfo& info) { return N_helper_rep_oc_array_to_double_array(info); };

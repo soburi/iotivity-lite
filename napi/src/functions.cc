@@ -3778,20 +3778,6 @@ Napi::Value N_helper_rep_get_object_array(const Napi::CallbackInfo& info) {
   return OCRep::constructor.New({args});
 }
 
-
-
-Napi::Value N_helper_rep_begin_array(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_begin_links_array(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_begin_object(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
 Napi::Value N_helper_rep_clear_cbor_errno(const Napi::CallbackInfo& info)
 {
   return info.Env().Undefined();
@@ -3801,10 +3787,6 @@ Napi::Value N_helper_rep_delete_buffer(const Napi::CallbackInfo& info)
   return info.Env().Undefined();
 }
 Napi::Value N_helper_rep_new_buffer(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_object_array_begin_item(const Napi::CallbackInfo& info)
 {
   return info.Env().Undefined();
 }
