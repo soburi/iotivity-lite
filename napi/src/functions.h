@@ -689,6 +689,7 @@ Napi::Value N_helper_rep_add_int(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_add_boolean(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_set_key(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_set_array(const Napi::CallbackInfo&);
+Napi::Value N_helper_rep_open_array(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_close_array(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_start_object(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_end_object(const Napi::CallbackInfo&);
@@ -705,13 +706,3 @@ Napi::Value N_helper_rep_get_cbor_errno(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_clear_cbor_errno(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_delete_buffer(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_new_buffer(const Napi::CallbackInfo&);
-
-
-Napi::Value N_helper_rep_add_long(const Napi::CallbackInfo& info);
-Napi::Value N_helper_rep_delete_buffer(const Napi::CallbackInfo& info);
-Napi::Value N_helper_rep_new_buffer(const Napi::CallbackInfo& info);
-Napi::Value N_helper_rep_oc_array_to_boolean_array(const Napi::CallbackInfo& info);
-Napi::Value N_helper_rep_oc_array_to_double_array(const Napi::CallbackInfo& info);
-Napi::Value N_helper_rep_oc_array_to_long_array(const Napi::CallbackInfo& info);
-Napi::Value N_helper_rep_oc_array_to_string_array(const Napi::CallbackInfo& info);
-Napi::Value N_helper_rep_open_array(const Napi::CallbackInfo& info);

@@ -3575,6 +3575,15 @@ Napi::Value N_helper_rep_set_array(const Napi::CallbackInfo& info) {
   return OCCborEncoder::constructor.New({args});
 }
 
+Napi::Value N_helper_rep_open_array(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+  std::shared_ptr<CborEncoder> sp(helper_rep_open_array(parent, key));
+  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+  return OCCborEncoder::constructor.New({args});
+}
+
 Napi::Value N_helper_rep_close_array(const Napi::CallbackInfo& info) {
   OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
   OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[1].As<Napi::Object>());
@@ -3690,23 +3699,4 @@ Napi::Value N_helper_rep_new_buffer(const Napi::CallbackInfo& info) {
   (void)helper_rep_new_buffer(size);
   return info.Env().Undefined();
 }
-Napi::Value N_helper_rep_oc_array_to_boolean_array(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_oc_array_to_double_array(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_oc_array_to_long_array(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_oc_array_to_string_array(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_open_array(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
+

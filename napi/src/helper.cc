@@ -461,4 +461,8 @@ void helper_rep_clear_cbor_errno() {
   g_err = CborNoError;
 }
 
+CborEncoder * helper_rep_open_array(CborEncoder *parent, const char* key) {
+  return helper_rep_set_array(parent, key);
+}
+
 

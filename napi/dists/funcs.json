@@ -3404,6 +3404,13 @@
 		"key": "const char*"
 	}
 },
+"helper_rep_open_array": {
+	"type": "CborEncoder*",
+	"param": {
+		"parent": "CborEncoder*",
+		"key": "const char*"
+	}
+},
 "helper_rep_close_array": {
 	"type": "void",
 	"param": {

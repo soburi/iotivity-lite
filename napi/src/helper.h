@@ -72,6 +72,7 @@ CborEncoder * helper_rep_set_array(CborEncoder *parent, const char* key);
 void helper_rep_close_array(CborEncoder *object, CborEncoder *arrayObject);
 CborEncoder * helper_rep_start_object(CborEncoder *parent);
 void helper_rep_end_object(CborEncoder *parent, CborEncoder *object);
+CborEncoder * helper_rep_open_array(CborEncoder *parent, const char* key);
 CborEncoder * helper_rep_object_array_start_item(CborEncoder *arrayObject);
 void helper_rep_object_array_end_item(CborEncoder *parentArrayObject, CborEncoder *arrayObject);
 CborEncoder * helper_rep_open_object(CborEncoder *parent, const char* key);
