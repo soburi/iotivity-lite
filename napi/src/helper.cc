@@ -418,7 +418,7 @@ int helper_rep_get_cbor_errno() {
 }
 
 
-void helper_rep_clear_cbor_errno() {
+void oc_rep_clear_cbor_errno() {
   g_err = CborNoError;
 }
 

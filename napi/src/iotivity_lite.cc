@@ -622,7 +622,7 @@ Napi::Value OCRep::begin_array(const Napi::CallbackInfo& info) { return N_helper
 Napi::Value OCRep::begin_links_array(const Napi::CallbackInfo& info) { return N_helper_rep_begin_links_array(info); };
 Napi::Value OCRep::begin_object(const Napi::CallbackInfo& info) { return N_helper_rep_begin_object(info); };
 Napi::Value OCRep::begin_root_object(const Napi::CallbackInfo& info) { return N_helper_rep_begin_root_object(info); };
-Napi::Value OCRep::clear_cbor_errno(const Napi::CallbackInfo& info) { return N_oc_rep_clear_cbor_errno(info); };
+Napi::Value OCRep::clear_cbor_errno(const Napi::CallbackInfo& info) { return N_helper_rep_clear_cbor_errno(info); };
 Napi::Value OCRep::close_array(const Napi::CallbackInfo& info) { return N_helper_rep_close_array(info); };
 Napi::Value OCRep::close_object(const Napi::CallbackInfo& info) { return N_helper_rep_close_object(info); };
 Napi::Value OCRep::delete_buffer(const Napi::CallbackInfo& info) { return N_helper_rep_delete_buffer(info); };
