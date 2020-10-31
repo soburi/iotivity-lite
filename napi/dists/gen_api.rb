@@ -169,6 +169,13 @@ EXTRA_VALUE= {
 }
 
 SETGET_OVERRIDE = {
+  "oc_response_buffer_s::buffer" => {
+    "set" => "\
+m_pvalue->buffer =     value.As<Napi::Buffer<uint8_t>>().Data();
+m_pvalue->buffer_size = value.As<Napi::Buffer<uint8_t>>().Length();",
+    "get" =>
+"return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, m_pvalue->buffer_size);"
+  },
   "oc_client_handler_t::discovery"=> {
     "set"=> "discovery_function = value;",
     "get"=> "return discovery_function;"
@@ -560,11 +567,12 @@ IGNORE_TYPES = {
   "oc_network_interface_cb" => [/^next$/],
   "oc_session_event_cb" => [/^next$/],
   "coap_transaction" => [/^next$/],
+  "oc_rep_s" => [/^next$/ ],
 
   "coap_observer" => [/^next$/, /^resource$/, /^token$/,],
   "coap_packet_t" => [/^alt_addr$/, /^buffer$/, /^etag$/, /^if_match$/, /^location_path$/, /^location_query$/, /^options$/, /^payload$/, /^proxy_scheme$/, /^proxy_uri$/, /^token$/, /^uri_host$/, /^uri_path$/, /^uri_query$/, ],
   "coap_separate" => [/^token$/, /^next$/],
-  "oc_response_buffer_s" => [/^buffer$/,],
+#  "oc_response_buffer_s" => [/^buffer$/,],
   "oc_separate_response_s" => [/^buffer$/, /.*OC_LIST_STRUCT.*/ ],
 
 # void pointer
@@ -572,7 +580,6 @@ IGNORE_TYPES = {
   "oc_memb" => [/mem/, /buffers_avail_cb/],
   "oc_mmem" => [/ptr/, /^next$/],
 # internal
-  "oc_rep_s" => [/^next$/ ],
   "oc_client_response_t" => [/^client_cb$/, /^user_data$/],
 
   "pool" => nil,

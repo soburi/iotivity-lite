@@ -3781,6 +3781,7 @@ Napi::FunctionReference OCResponseBuffer::constructor;
 
 Napi::Function OCResponseBuffer::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCResponseBuffer", {
+    OCResponseBuffer::InstanceAccessor("buffer", &OCResponseBuffer::get_buffer, &OCResponseBuffer::set_buffer),
     OCResponseBuffer::InstanceAccessor("buffer_size", &OCResponseBuffer::get_buffer_size, &OCResponseBuffer::set_buffer_size),
     OCResponseBuffer::InstanceAccessor("code", &OCResponseBuffer::get_code, &OCResponseBuffer::set_code),
     OCResponseBuffer::InstanceAccessor("content_format", &OCResponseBuffer::get_content_format, &OCResponseBuffer::set_content_format),
@@ -3806,6 +3807,17 @@ OCResponseBuffer::OCResponseBuffer(const Napi::CallbackInfo& info) : ObjectWrap(
           .ThrowAsJavaScriptException();
   }
 }
+Napi::Value OCResponseBuffer::get_buffer(const Napi::CallbackInfo& info)
+{
+return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, m_pvalue->buffer_size);
+}
+
+void OCResponseBuffer::set_buffer(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+m_pvalue->buffer =     value.As<Napi::Buffer<uint8_t>>().Data();
+m_pvalue->buffer_size = value.As<Napi::Buffer<uint8_t>>().Length();
+}
+
 Napi::Value OCResponseBuffer::get_buffer_size(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->buffer_size);

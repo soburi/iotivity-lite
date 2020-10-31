@@ -1011,6 +1011,8 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_response_buffer_s*() { return m_pvalue.get(); }
+  Napi::Value get_buffer(const Napi::CallbackInfo&);
+         void set_buffer(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_buffer_size(const Napi::CallbackInfo&);
          void set_buffer_size(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_code(const Napi::CallbackInfo&);
