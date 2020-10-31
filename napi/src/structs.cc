@@ -1388,10 +1388,13 @@ Napi::FunctionReference OCClientResponse::constructor;
 
 Napi::Function OCClientResponse::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCClientResponse", {
+    OCClientResponse::InstanceAccessor("_payload", &OCClientResponse::get__payload, &OCClientResponse::set__payload),
+    OCClientResponse::InstanceAccessor("_payload_len", &OCClientResponse::get__payload_len, &OCClientResponse::set__payload_len),
     OCClientResponse::InstanceAccessor("code", &OCClientResponse::get_code, &OCClientResponse::set_code),
     OCClientResponse::InstanceAccessor("content_format", &OCClientResponse::get_content_format, &OCClientResponse::set_content_format),
     OCClientResponse::InstanceAccessor("endpoint", &OCClientResponse::get_endpoint, &OCClientResponse::set_endpoint),
     OCClientResponse::InstanceAccessor("observe_option", &OCClientResponse::get_observe_option, &OCClientResponse::set_observe_option),
+    OCClientResponse::InstanceAccessor("payload", &OCClientResponse::get_payload, &OCClientResponse::set_payload),
 
   });
 
@@ -1413,6 +1416,27 @@ OCClientResponse::OCClientResponse(const Napi::CallbackInfo& info) : ObjectWrap(
           .ThrowAsJavaScriptException();
   }
 }
+Napi::Value OCClientResponse::get__payload(const Napi::CallbackInfo& info)
+{
+return Napi::Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(m_pvalue->_payload), m_pvalue->_payload_len);
+}
+
+void OCClientResponse::set__payload(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+m_pvalue->_payload =    value.As<Napi::Buffer<uint8_t>>().Data();
+m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();
+}
+
+Napi::Value OCClientResponse::get__payload_len(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->_payload_len);
+}
+
+void OCClientResponse::set__payload_len(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->_payload_len = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
+}
+
 Napi::Value OCClientResponse::get_code(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), m_pvalue->code);
@@ -1453,6 +1477,18 @@ Napi::Value OCClientResponse::get_observe_option(const Napi::CallbackInfo& info)
 void OCClientResponse::set_observe_option(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
   m_pvalue->observe_option = static_cast<int>(value.As<Napi::Number>());
+}
+
+Napi::Value OCClientResponse::get_payload(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_rep_t*> sp(&m_pvalue->payload);
+  auto accessor = Napi::External<std::shared_ptr<oc_rep_t*>>::New(info.Env(), &sp);
+  return OCRep::constructor.New({accessor});
+}
+
+void OCClientResponse::set_payload(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->payload = *(*(value.As<Napi::External<std::shared_ptr<oc_rep_t*>>>().Data()));
 }
 
 Napi::FunctionReference OCCloudContext::constructor;

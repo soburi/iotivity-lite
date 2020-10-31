@@ -379,6 +379,10 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_client_response_t*() { return m_pvalue.get(); }
+  Napi::Value get__payload(const Napi::CallbackInfo&);
+         void set__payload(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get__payload_len(const Napi::CallbackInfo&);
+         void set__payload_len(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_code(const Napi::CallbackInfo&);
          void set_code(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_content_format(const Napi::CallbackInfo&);
@@ -387,6 +391,8 @@ public:
          void set_endpoint(const Napi::CallbackInfo&, const Napi::Value&);
   Napi::Value get_observe_option(const Napi::CallbackInfo&);
          void set_observe_option(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_payload(const Napi::CallbackInfo&);
+         void set_payload(const Napi::CallbackInfo&, const Napi::Value&);
 
 
   std::shared_ptr<oc_client_response_t> m_pvalue;
