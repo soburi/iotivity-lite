@@ -3800,14 +3800,6 @@ Napi::Value N_helper_rep_delete_buffer(const Napi::CallbackInfo& info)
 {
   return info.Env().Undefined();
 }
-Napi::Value N_helper_rep_get_boolean(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_get_boolean_array(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
 Napi::Value N_helper_rep_get_o_c_representaion_from_root_object(const Napi::CallbackInfo& info)
 {
   return info.Env().Undefined();
@@ -3833,26 +3825,6 @@ Napi::Value N_helper_rep_oc_array_to_long_array(const Napi::CallbackInfo& info)
   return info.Env().Undefined();
 }
 Napi::Value N_helper_rep_oc_array_to_string_array(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_open_array(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_set_boolean_array(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_set_string_array(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_set_unsigned_int(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_to_json(const Napi::CallbackInfo& info)
 {
   return info.Env().Undefined();
 }
