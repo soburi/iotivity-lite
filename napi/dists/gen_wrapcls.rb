@@ -40,6 +40,7 @@ CCPROLOGUE = <<CCPROLOGUE
 #include "iotivity_lite.h"
 #include "structs.h"
 #include "functions.h"
+#include "helper.h"
 using namespace Napi;
 
 Napi::Object module_init(Napi::Env env, Napi::Object exports);
@@ -94,6 +95,9 @@ elsif ARGV[1] == "-cc"
     apis[cls].keys.each do |mtd|
       print MTDIMPL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
     end
+    print "Napi::FunctionReference CLASS::constructor;".gsub(/CLASS/, cls)
+
+
     print "\n"
     print "\n"
   end

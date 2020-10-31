@@ -193,7 +193,7 @@ Napi::Value OCMain::set_random_pin_callback(const Napi::CallbackInfo& info) { re
 Napi::Value OCMain::set_separate_response_buffer(const Napi::CallbackInfo& info) { return N_oc_set_separate_response_buffer(info); };
 Napi::Value OCMain::stop_multicast(const Napi::CallbackInfo& info) { return N_oc_stop_multicast(info); };
 Napi::Value OCMain::stop_observe(const Napi::CallbackInfo& info) { return N_oc_stop_observe(info); };
-
+Napi::FunctionReference OCMain::constructor;
 
 OCObt::OCObt(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -280,7 +280,7 @@ Napi::Value OCObt::retrieve_creds(const Napi::CallbackInfo& info) { return N_oc_
 Napi::Value OCObt::retrieve_own_creds(const Napi::CallbackInfo& info) { return N_oc_obt_retrieve_own_creds(info); };
 Napi::Value OCObt::set_sd_info(const Napi::CallbackInfo& info) { return N_oc_obt_set_sd_info(info); };
 Napi::Value OCObt::shutdown(const Napi::CallbackInfo& info) { return N_oc_obt_shutdown(info); };
-
+Napi::FunctionReference OCObt::constructor;
 
 OCBufferSettings::OCBufferSettings(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -299,7 +299,7 @@ Napi::Value OCBufferSettings::get_mtu_size(const Napi::CallbackInfo& info) { ret
 Napi::Value OCBufferSettings::set_max_app_data_size(const Napi::CallbackInfo& info) { return N_oc_set_max_app_data_size(info); };
 Napi::Value OCBufferSettings::get_max_app_data_size(const Napi::CallbackInfo& info) { return N_oc_get_max_app_data_size(info); };
 Napi::Value OCBufferSettings::get_block_size(const Napi::CallbackInfo& info) { return N_oc_get_block_size(info); };
-
+Napi::FunctionReference OCBufferSettings::constructor;
 
 OCClock::OCClock(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -316,7 +316,7 @@ Napi::Value OCClock::clock_init(const Napi::CallbackInfo& info) { return N_oc_cl
 Napi::Value OCClock::clock_time(const Napi::CallbackInfo& info) { return N_oc_clock_time(info); };
 Napi::Value OCClock::clock_seconds(const Napi::CallbackInfo& info) { return N_oc_clock_seconds(info); };
 Napi::Value OCClock::clock_wait(const Napi::CallbackInfo& info) { return N_oc_clock_wait(info); };
-
+Napi::FunctionReference OCClock::constructor;
 
 OCCloud::OCCloud(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -349,7 +349,7 @@ Napi::Value OCCloud::delete_resource(const Napi::CallbackInfo& info) { return N_
 Napi::Value OCCloud::publish_resources(const Napi::CallbackInfo& info) { return N_oc_cloud_publish_resources(info); };
 Napi::Value OCCloud::discover_resources(const Napi::CallbackInfo& info) { return N_oc_cloud_discover_resources(info); };
 Napi::Value OCCloud::provision_conf_resource(const Napi::CallbackInfo& info) { return N_oc_cloud_provision_conf_resource(info); };
-
+Napi::FunctionReference OCCloud::constructor;
 
 OCCredUtil::OCCredUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -368,7 +368,7 @@ Napi::Value OCCredUtil::read_encoding(const Napi::CallbackInfo& info) { return N
 Napi::Value OCCredUtil::parse_credusage(const Napi::CallbackInfo& info) { return N_oc_cred_parse_credusage(info); };
 Napi::Value OCCredUtil::parse_encoding(const Napi::CallbackInfo& info) { return N_oc_cred_parse_encoding(info); };
 Napi::Value OCCredUtil::credtype_string(const Napi::CallbackInfo& info) { return N_oc_cred_credtype_string(info); };
-
+Napi::FunctionReference OCCredUtil::constructor;
 
 OCEndpointUtil::OCEndpointUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -399,7 +399,7 @@ Napi::Value OCEndpointUtil::set_di(const Napi::CallbackInfo& info) { return N_oc
 Napi::Value OCEndpointUtil::ipv6_endpoint_is_link_local(const Napi::CallbackInfo& info) { return N_oc_ipv6_endpoint_is_link_local(info); };
 Napi::Value OCEndpointUtil::compare_address(const Napi::CallbackInfo& info) { return N_oc_endpoint_compare_address(info); };
 Napi::Value OCEndpointUtil::set_local_address(const Napi::CallbackInfo& info) { return N_oc_endpoint_set_local_address(info); };
-
+Napi::FunctionReference OCEndpointUtil::constructor;
 
 OCEnumUtil::OCEnumUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -412,7 +412,7 @@ Napi::Function OCEnumUtil::GetClass(Napi::Env env) {
 
 Napi::Value OCEnumUtil::enum_to_str(const Napi::CallbackInfo& info) { return N_oc_enum_to_str(info); };
 Napi::Value OCEnumUtil::pos_desc_to_str(const Napi::CallbackInfo& info) { return N_oc_enum_pos_desc_to_str(info); };
-
+Napi::FunctionReference OCEnumUtil::constructor;
 
 OCIntrospection::OCIntrospection(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -423,7 +423,7 @@ Napi::Function OCIntrospection::GetClass(Napi::Env env) {
 }
 
 Napi::Value OCIntrospection::set_introspection_data(const Napi::CallbackInfo& info) { return N_oc_set_introspection_data(info); };
-
+Napi::FunctionReference OCIntrospection::constructor;
 
 OCPki::OCPki(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -442,7 +442,7 @@ Napi::Value OCPki::add_mfg_trust_anchor(const Napi::CallbackInfo& info) { return
 Napi::Value OCPki::add_mfg_intermediate_cert(const Napi::CallbackInfo& info) { return N_oc_pki_add_mfg_intermediate_cert(info); };
 Napi::Value OCPki::add_trust_anchor(const Napi::CallbackInfo& info) { return N_oc_pki_add_trust_anchor(info); };
 Napi::Value OCPki::set_security_profile(const Napi::CallbackInfo& info) { return N_oc_pki_set_security_profile(info); };
-
+Napi::FunctionReference OCPki::constructor;
 
 OCRandom::OCRandom(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -457,7 +457,7 @@ Napi::Function OCRandom::GetClass(Napi::Env env) {
 Napi::Value OCRandom::init(const Napi::CallbackInfo& info) { return N_oc_random_init(info); };
 Napi::Value OCRandom::destroy(const Napi::CallbackInfo& info) { return N_oc_random_destroy(info); };
 Napi::Value OCRandom::random_value(const Napi::CallbackInfo& info) { return N_oc_random_value(info); };
-
+Napi::FunctionReference OCRandom::constructor;
 
 OCSessionEvents::OCSessionEvents(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -472,7 +472,7 @@ Napi::Function OCSessionEvents::GetClass(Napi::Env env) {
 Napi::Value OCSessionEvents::start_event(const Napi::CallbackInfo& info) { return N_oc_session_start_event(info); };
 Napi::Value OCSessionEvents::end_event(const Napi::CallbackInfo& info) { return N_oc_session_end_event(info); };
 Napi::Value OCSessionEvents::set_event_delay(const Napi::CallbackInfo& info) { return N_oc_session_events_set_event_delay(info); };
-
+Napi::FunctionReference OCSessionEvents::constructor;
 
 OCSoftwareUpdate::OCSoftwareUpdate(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -491,7 +491,7 @@ Napi::Value OCSoftwareUpdate::notify_upgrading(const Napi::CallbackInfo& info) {
 Napi::Value OCSoftwareUpdate::notify_done(const Napi::CallbackInfo& info) { return N_oc_swupdate_notify_done(info); };
 Napi::Value OCSoftwareUpdate::notify_new_version_available(const Napi::CallbackInfo& info) { return N_oc_swupdate_notify_new_version_available(info); };
 Napi::Value OCSoftwareUpdate::set_impl(const Napi::CallbackInfo& info) { return N_oc_swupdate_set_impl(info); };
-
+Napi::FunctionReference OCSoftwareUpdate::constructor;
 
 OCStorage::OCStorage(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -502,7 +502,7 @@ Napi::Function OCStorage::GetClass(Napi::Env env) {
 }
 
 Napi::Value OCStorage::storage_config(const Napi::CallbackInfo& info) { return N_oc_storage_config(info); };
-
+Napi::FunctionReference OCStorage::constructor;
 
 OCUuidUtil::OCUuidUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -517,7 +517,7 @@ Napi::Function OCUuidUtil::GetClass(Napi::Env env) {
 Napi::Value OCUuidUtil::str_to_uuid(const Napi::CallbackInfo& info) { return N_oc_str_to_uuid(info); };
 Napi::Value OCUuidUtil::uuid_to_str(const Napi::CallbackInfo& info) { return N_oc_uuid_to_str(info); };
 Napi::Value OCUuidUtil::gen_uuid(const Napi::CallbackInfo& info) { return N_oc_gen_uuid(info); };
-
+Napi::FunctionReference OCUuidUtil::constructor;
 
 OCCoreRes::OCCoreRes(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -552,7 +552,7 @@ Napi::Value OCCoreRes::is_DCR(const Napi::CallbackInfo& info) { return N_oc_core
 Napi::Value OCCoreRes::set_latency(const Napi::CallbackInfo& info) { return N_oc_core_set_latency(info); };
 Napi::Value OCCoreRes::get_latency(const Napi::CallbackInfo& info) { return N_oc_core_get_latency(info); };
 Napi::Value OCCoreRes::add_new_device(const Napi::CallbackInfo& info) { return N_oc_core_add_new_device(info); };
-
+Napi::FunctionReference OCCoreRes::constructor;
 
 OCRep::OCRep(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -665,5 +665,5 @@ Napi::Value OCRep::set_string_array(const Napi::CallbackInfo& info) { return N_h
 Napi::Value OCRep::set_text_string(const Napi::CallbackInfo& info) { return N_helper_rep_set_text_string(info); };
 Napi::Value OCRep::set_unsigned_int(const Napi::CallbackInfo& info) { return N_helper_rep_set_unsigned_int(info); };
 Napi::Value OCRep::to_json(const Napi::CallbackInfo& info) { return N_helper_rep_to_json(info); };
-
+Napi::FunctionReference OCRep::constructor;
 
