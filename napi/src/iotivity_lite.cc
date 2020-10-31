@@ -3,182 +3,16 @@
 #include "functions.h"
 using namespace Napi;
 
-IotivityLite::IotivityLite(const Napi::CallbackInfo& info) : ObjectWrap(info) {
-    Napi::Env env = info.Env();
+Napi::Object module_init(Napi::Env env, Napi::Object exports);
+Napi::Object Init(Napi::Env env, Napi::Object exports);
+NODE_API_MODULE(addon, Init)
 
-    if (info.Length() < 1) {
-        Napi::TypeError::New(env, "Wrong number of arguments")
-          .ThrowAsJavaScriptException();
-        return;
-    }
-
-    if (!info[0].IsString()) {
-        Napi::TypeError::New(env, "You need to name yourself")
-          .ThrowAsJavaScriptException();
-        return;
-    }
-
-    //XOCUuid* uuid = new XOCUuid(info);
-    this->_greeterName = info[0].As<Napi::String>().Utf8Value();
+Napi::Object Init(Napi::Env env, Napi::Object exports) {
+    exports.Set("OCMain", OCMain::GetClass(env));
+    exports.Set("OCObt", OCObt::GetClass(env));
+    exports.Set("OCBufferSettings", OCBufferSettings::GetClass(env));
+    return module_init(env, exports);
 }
-
-Napi::FunctionReference IotivityLite::callback_helper;
-
-Napi::Value IotivityLite::Callback(const Napi::CallbackInfo& info) {
-	OCIPv4Addr* ipv4 = OCIPv4Addr::Unwrap(info[0].As<Object>());
-printf("Unwrap %p\n", ipv4);
-
-	Napi::Function func = info[0].As<Napi::Function>();
-
-	IotivityLite::callback_helper = Napi::Persistent(func);
-	IotivityLite::callback_helper.SuppressDestruct();
-
-	callback_helper.Call({});
-
-	return info.Env().Null();
-}
-
-Napi::Value IotivityLite::Greet(const Napi::CallbackInfo& info) {
-    Napi::Env env = info.Env();
-
-    if (info.Length() < 1) {
-        Napi::TypeError::New(env, "Wrong number of arguments")
-          .ThrowAsJavaScriptException();
-        return env.Null();
-    }
-
-    if (!info[0].IsString()) {
-        Napi::TypeError::New(env, "You need to introduce yourself to greet")
-          .ThrowAsJavaScriptException();
-        return env.Null();
-    }
-
-    Napi::String name = info[0].As<Napi::String>();
-
-    printf("Hello %s\n", name.Utf8Value().c_str());
-    printf("I am %s\n", this->_greeterName.c_str());
-
-    return Napi::String::New(env, this->_greeterName);
-}
-
-Napi::Function IotivityLite::GetClass(Napi::Env env) {
-    return DefineClass(env, "IotivityLite", {
-        IotivityLite::InstanceAccessor("device", &IotivityLite::GetDevice, &IotivityLite::SetDevice),
-        IotivityLite::InstanceAccessor("di", &IotivityLite::GetDi, &IotivityLite::SetDi),
-        IotivityLite::InstanceAccessor("greet", &IotivityLite::Greet, nullptr),
-        IotivityLite::InstanceMethod("callback", &IotivityLite::Callback),
-    });
-}
-
-Napi::Value IotivityLite::GetDevice(const Napi::CallbackInfo& info) {
-    printf("GetDevice\n");
-    Napi::Env env = info.Env();
-    //XOCUuid* uuid = new XOCUuid(info);
-    return Napi::Number::New(env, endpoint.device);
-}
-
-void IotivityLite::SetDevice(const Napi::CallbackInfo& info, const Napi::Value& val) {
-    printf("SetDevice\n");
-}
-
-Napi::Value IotivityLite::GetDi(const Napi::CallbackInfo& info) {
-    printf("GetDi\n");
-    //Napi::Env env = info.Env();
-    //Object obj = Object::New(env);
-    //XOCUuid* uuid = new XOCUuid(env, obj);
-    //return XOCUuid::constructor.New({});
-    return Napi::Number::New(info.Env(), 0);
-}
-
-void IotivityLite::SetDi(const Napi::CallbackInfo& info, const Napi::Value& val) {
-    printf("SetDi\n");
-}
-
-Napi::Value OCMain::add_collection(const Napi::CallbackInfo& info) { return N_oc_add_collection(info); }
-Napi::Value OCMain::add_device(const Napi::CallbackInfo& info) { return N_oc_add_device(info); }
-Napi::Value OCMain::add_ownership_status_cb(const Napi::CallbackInfo& info) { return N_oc_add_ownership_status_cb(info); }
-Napi::Value OCMain::add_resource(const Napi::CallbackInfo& info) { return N_oc_add_resource(info); }
-Napi::Value OCMain::assert_all_roles(const Napi::CallbackInfo& info) { return N_oc_assert_all_roles(info); }
-Napi::Value OCMain::assert_role(const Napi::CallbackInfo& info) { return N_oc_assert_role(info); }
-Napi::Value OCMain::auto_assert_roles(const Napi::CallbackInfo& info) { return N_oc_auto_assert_roles(info); }
-Napi::Value OCMain::close_session(const Napi::CallbackInfo& info) { return N_oc_close_session(info); }
-Napi::Value OCMain::collection_add_link(const Napi::CallbackInfo& info) { return N_oc_collection_add_link(info); }
-Napi::Value OCMain::collection_add_mandatory_rt(const Napi::CallbackInfo& info) { return N_oc_collection_add_mandatory_rt(info); }
-Napi::Value OCMain::collection_add_supported_rt(const Napi::CallbackInfo& info) { return N_oc_collection_add_supported_rt(info); }
-Napi::Value OCMain::collection_get_collections(const Napi::CallbackInfo& info) { return N_oc_collection_get_collections(info); }
-Napi::Value OCMain::collection_get_links(const Napi::CallbackInfo& info) { return N_oc_collection_get_links(info); }
-Napi::Value OCMain::collection_remove_link(const Napi::CallbackInfo& info) { return N_oc_collection_remove_link(info); }
-Napi::Value OCMain::delete_collection(const Napi::CallbackInfo& info) { return N_oc_delete_collection(info); }
-Napi::Value OCMain::delete_link(const Napi::CallbackInfo& info) { return N_oc_delete_link(info); }
-Napi::Value OCMain::delete_resource(const Napi::CallbackInfo& info) { return N_oc_delete_resource(info); }
-Napi::Value OCMain::device_bind_resource_type(const Napi::CallbackInfo& info) { return N_oc_device_bind_resource_type(info); }
-Napi::Value OCMain::do_delete(const Napi::CallbackInfo& info) { return N_oc_do_delete(info); }
-Napi::Value OCMain::do_get(const Napi::CallbackInfo& info) { return N_oc_do_get(info); }
-Napi::Value OCMain::do_ip_discovery(const Napi::CallbackInfo& info) { return N_oc_do_ip_discovery(info); }
-Napi::Value OCMain::do_ip_discovery_all(const Napi::CallbackInfo& info) { return N_oc_do_ip_discovery_all(info); }
-Napi::Value OCMain::do_ip_discovery_all_at_endpoint(const Napi::CallbackInfo& info) { return N_oc_do_ip_discovery_all_at_endpoint(info); }
-Napi::Value OCMain::do_ip_discovery_at_endpoint(const Napi::CallbackInfo& info) { return N_oc_do_ip_discovery_at_endpoint(info); }
-Napi::Value OCMain::do_ip_multicast(const Napi::CallbackInfo& info) { return N_oc_do_ip_multicast(info); }
-Napi::Value OCMain::do_observe(const Napi::CallbackInfo& info) { return N_oc_do_observe(info); }
-Napi::Value OCMain::do_post(const Napi::CallbackInfo& info) { return N_oc_do_post(info); }
-Napi::Value OCMain::do_put(const Napi::CallbackInfo& info) { return N_oc_do_put(info); }
-Napi::Value OCMain::do_realm_local_ipv6_discovery(const Napi::CallbackInfo& info) { return N_oc_do_realm_local_ipv6_discovery(info); }
-Napi::Value OCMain::do_realm_local_ipv6_discovery_all(const Napi::CallbackInfo& info) { return N_oc_do_realm_local_ipv6_discovery_all(info); }
-Napi::Value OCMain::do_realm_local_ipv6_multicast(const Napi::CallbackInfo& info) { return N_oc_do_realm_local_ipv6_multicast(info); }
-Napi::Value OCMain::do_site_local_ipv6_discovery(const Napi::CallbackInfo& info) { return N_oc_do_site_local_ipv6_discovery(info); }
-Napi::Value OCMain::do_site_local_ipv6_discovery_all(const Napi::CallbackInfo& info) { return N_oc_do_site_local_ipv6_discovery_all(info); }
-Napi::Value OCMain::do_site_local_ipv6_multicast(const Napi::CallbackInfo& info) { return N_oc_do_site_local_ipv6_multicast(info); }
-Napi::Value OCMain::free_server_endpoints(const Napi::CallbackInfo& info) { return N_oc_free_server_endpoints(info); }
-Napi::Value OCMain::get_all_roles(const Napi::CallbackInfo& info) { return N_oc_get_all_roles(info); }
-Napi::Value OCMain::get_con_res_announced(const Napi::CallbackInfo& info) { return N_oc_get_con_res_announced(info); }
-#if defined(XXX)
-Napi::Value OCMain::get_diagnostic_message(const Napi::CallbackInfo& info) { return N_oc_get_diagnostic_message(info); }
-Napi::Value OCMain::get_request_payload_raw(const Napi::CallbackInfo& info) { return N_oc_get_request_payload_raw(info); }
-Napi::Value OCMain::get_response_payload_raw(const Napi::CallbackInfo& info) { return N_oc_get_response_payload_raw(info); }
-#endif
-Napi::Value OCMain::ignore_request(const Napi::CallbackInfo& info) { return N_oc_ignore_request(info); }
-Napi::Value OCMain::indicate_separate_response(const Napi::CallbackInfo& info) { return N_oc_indicate_separate_response(info); }
-Napi::Value OCMain::init_platform(const Napi::CallbackInfo& info) { return N_oc_init_platform(info); }
-Napi::Value OCMain::init_post(const Napi::CallbackInfo& info) { return N_oc_init_post(info); }
-Napi::Value OCMain::init_put(const Napi::CallbackInfo& info) { return N_oc_init_put(info); }
-Napi::Value OCMain::is_owned_device(const Napi::CallbackInfo& info) { return N_oc_is_owned_device(info); }
-Napi::Value OCMain::link_add_link_param(const Napi::CallbackInfo& info) { return N_oc_link_add_link_param(info); }
-Napi::Value OCMain::link_add_rel(const Napi::CallbackInfo& info) { return N_oc_link_add_rel(info); }
-Napi::Value OCMain::main_init(const Napi::CallbackInfo& info) { return N_oc_main_init(info); }
-Napi::Value OCMain::main_shutdown(const Napi::CallbackInfo& info) { return N_oc_main_shutdown(info); }
-Napi::Value OCMain::new_collection(const Napi::CallbackInfo& info) { return N_oc_new_collection(info); }
-Napi::Value OCMain::new_link(const Napi::CallbackInfo& info) { return N_oc_new_link(info); }
-Napi::Value OCMain::new_resource(const Napi::CallbackInfo& info) { return N_oc_new_resource(info); }
-Napi::Value OCMain::notify_observers(const Napi::CallbackInfo& info) { return N_oc_notify_observers(info); }
-Napi::Value OCMain::process_baseline_interface(const Napi::CallbackInfo& info) { return N_oc_process_baseline_interface(info); }
-Napi::Value OCMain::remove_delayed_callback(const Napi::CallbackInfo& info) { return N_oc_remove_delayed_callback(info); }
-Napi::Value OCMain::remove_ownership_status_cb(const Napi::CallbackInfo& info) { return N_oc_remove_ownership_status_cb(info); }
-Napi::Value OCMain::reset(const Napi::CallbackInfo& info) { return N_oc_reset(info); }
-Napi::Value OCMain::reset_device(const Napi::CallbackInfo& info) { return N_oc_reset_device(info); }
-Napi::Value OCMain::resource_bind_resource_interface(const Napi::CallbackInfo& info) { return N_oc_resource_bind_resource_interface(info); }
-Napi::Value OCMain::resource_bind_resource_type(const Napi::CallbackInfo& info) { return N_oc_resource_bind_resource_type(info); }
-Napi::Value OCMain::resource_make_public(const Napi::CallbackInfo& info) { return N_oc_resource_make_public(info); }
-Napi::Value OCMain::resource_set_default_interface(const Napi::CallbackInfo& info) { return N_oc_resource_set_default_interface(info); }
-Napi::Value OCMain::resource_set_discoverable(const Napi::CallbackInfo& info) { return N_oc_resource_set_discoverable(info); }
-Napi::Value OCMain::resource_set_observable(const Napi::CallbackInfo& info) { return N_oc_resource_set_observable(info); }
-Napi::Value OCMain::resource_set_periodic_observable(const Napi::CallbackInfo& info) { return N_oc_resource_set_periodic_observable(info); }
-Napi::Value OCMain::resource_set_properties_cbs(const Napi::CallbackInfo& info) { return N_oc_resource_set_properties_cbs(info); }
-Napi::Value OCMain::resource_set_request_handler(const Napi::CallbackInfo& info) { return N_oc_resource_set_request_handler(info); }
-Napi::Value OCMain::ri_is_app_resource_valid(const Napi::CallbackInfo& info) { return N_oc_ri_is_app_resource_valid(info); }
-Napi::Value OCMain::send_diagnostic_message(const Napi::CallbackInfo& info) { return N_oc_send_diagnostic_message(info); }
-Napi::Value OCMain::send_ping(const Napi::CallbackInfo& info) { return N_oc_send_ping(info); }
-Napi::Value OCMain::send_response(const Napi::CallbackInfo& info) { return N_oc_send_response(info); }
-Napi::Value OCMain::send_response_raw(const Napi::CallbackInfo& info) { return N_oc_send_response_raw(info); }
-Napi::Value OCMain::send_separate_response(const Napi::CallbackInfo& info) { return N_oc_send_separate_response(info); }
-Napi::Value OCMain::set_con_res_announced(const Napi::CallbackInfo& info) { return N_oc_set_con_res_announced(info); }
-Napi::Value OCMain::set_con_write_cb(const Napi::CallbackInfo& info) { return N_oc_set_con_write_cb(info); }
-Napi::Value OCMain::set_delayed_callback(const Napi::CallbackInfo& info) { return N_oc_set_delayed_callback(info); }
-Napi::Value OCMain::set_factory_presets_cb(const Napi::CallbackInfo& info) { return N_oc_set_factory_presets_cb(info); }
-Napi::Value OCMain::set_random_pin_callback(const Napi::CallbackInfo& info) { return N_oc_set_random_pin_callback(info); }
-Napi::Value OCMain::set_separate_response_buffer(const Napi::CallbackInfo& info) { return N_oc_set_separate_response_buffer(info); }
-Napi::Value OCMain::stop_multicast(const Napi::CallbackInfo& info) { return N_oc_stop_multicast(info); }
-Napi::Value OCMain::stop_observe(const Napi::CallbackInfo& info) { return N_oc_stop_observe(info); }
-
 OCMain::OCMain(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCMain::GetClass(Napi::Env env) {
@@ -220,11 +54,6 @@ Napi::Function OCMain::GetClass(Napi::Env env) {
         OCMain::StaticMethod("free_server_endpoints", &OCMain::free_server_endpoints),
         OCMain::StaticMethod("get_all_roles", &OCMain::get_all_roles),
         OCMain::StaticMethod("get_con_res_announced", &OCMain::get_con_res_announced),
-#if defined(XXX)
-        OCMain::StaticMethod("get_diagnostic_message", &OCMain::get_diagnostic_message),
-        OCMain::StaticMethod("get_request_payload_raw", &OCMain::get_request_payload_raw),
-        OCMain::StaticMethod("get_response_payload_raw", &OCMain::get_response_payload_raw),
-#endif
         OCMain::StaticMethod("ignore_request", &OCMain::ignore_request),
         OCMain::StaticMethod("indicate_separate_response", &OCMain::indicate_separate_response),
         OCMain::StaticMethod("init_platform", &OCMain::init_platform),
@@ -270,45 +99,86 @@ Napi::Function OCMain::GetClass(Napi::Env env) {
     });
 }
 
-Napi::Value OCObt::ace_add_permission(const Napi::CallbackInfo& info) { return N_oc_obt_ace_add_permission(info); }
-Napi::Value OCObt::ace_new_resource(const Napi::CallbackInfo& info) { return N_oc_obt_ace_new_resource(info); }
-Napi::Value OCObt::ace_resource_set_href(const Napi::CallbackInfo& info) { return N_oc_obt_ace_resource_set_href(info); }
-Napi::Value OCObt::ace_resource_set_wc(const Napi::CallbackInfo& info) { return N_oc_obt_ace_resource_set_wc(info); }
-Napi::Value OCObt::add_roleid(const Napi::CallbackInfo& info) { return N_oc_obt_add_roleid(info); }
-Napi::Value OCObt::delete_ace_by_aceid(const Napi::CallbackInfo& info) { return N_oc_obt_delete_ace_by_aceid(info); }
-Napi::Value OCObt::delete_cred_by_credid(const Napi::CallbackInfo& info) { return N_oc_obt_delete_cred_by_credid(info); }
-Napi::Value OCObt::delete_own_cred_by_credid(const Napi::CallbackInfo& info) { return N_oc_obt_delete_own_cred_by_credid(info); }
-Napi::Value OCObt::device_hard_reset(const Napi::CallbackInfo& info) { return N_oc_obt_device_hard_reset(info); }
-Napi::Value OCObt::discover_all_resources(const Napi::CallbackInfo& info) { return N_oc_obt_discover_all_resources(info); }
-Napi::Value OCObt::discover_owned_devices(const Napi::CallbackInfo& info) { return N_oc_obt_discover_owned_devices(info); }
-Napi::Value OCObt::discover_owned_devices_realm_local_ipv6(const Napi::CallbackInfo& info) { return N_oc_obt_discover_owned_devices_realm_local_ipv6(info); }
-Napi::Value OCObt::discover_owned_devices_site_local_ipv6(const Napi::CallbackInfo& info) { return N_oc_obt_discover_owned_devices_site_local_ipv6(info); }
-Napi::Value OCObt::discover_unowned_devices(const Napi::CallbackInfo& info) { return N_oc_obt_discover_unowned_devices(info); }
-Napi::Value OCObt::discover_unowned_devices_realm_local_ipv6(const Napi::CallbackInfo& info) { return N_oc_obt_discover_unowned_devices_realm_local_ipv6(info); }
-Napi::Value OCObt::discover_unowned_devices_site_local_ipv6(const Napi::CallbackInfo& info) { return N_oc_obt_discover_unowned_devices_site_local_ipv6(info); }
-Napi::Value OCObt::free_ace(const Napi::CallbackInfo& info) { return N_oc_obt_free_ace(info); }
-Napi::Value OCObt::free_acl(const Napi::CallbackInfo& info) { return N_oc_obt_free_acl(info); }
-Napi::Value OCObt::free_creds(const Napi::CallbackInfo& info) { return N_oc_obt_free_creds(info); }
-Napi::Value OCObt::free_roleid(const Napi::CallbackInfo& info) { return N_oc_obt_free_roleid(info); }
-Napi::Value OCObt::init(const Napi::CallbackInfo& info) { return N_oc_obt_init(info); }
-Napi::Value OCObt::new_ace_for_connection(const Napi::CallbackInfo& info) { return N_oc_obt_new_ace_for_connection(info); }
-Napi::Value OCObt::new_ace_for_role(const Napi::CallbackInfo& info) { return N_oc_obt_new_ace_for_role(info); }
-Napi::Value OCObt::new_ace_for_subject(const Napi::CallbackInfo& info) { return N_oc_obt_new_ace_for_subject(info); }
-Napi::Value OCObt::perform_cert_otm(const Napi::CallbackInfo& info) { return N_oc_obt_perform_cert_otm(info); }
-Napi::Value OCObt::perform_just_works_otm(const Napi::CallbackInfo& info) { return N_oc_obt_perform_just_works_otm(info); }
-Napi::Value OCObt::perform_random_pin_otm(const Napi::CallbackInfo& info) { return N_oc_obt_perform_random_pin_otm(info); }
-Napi::Value OCObt::provision_ace(const Napi::CallbackInfo& info) { return N_oc_obt_provision_ace(info); }
-Napi::Value OCObt::provision_auth_wildcard_ace(const Napi::CallbackInfo& info) { return N_oc_obt_provision_auth_wildcard_ace(info); }
-Napi::Value OCObt::provision_identity_certificate(const Napi::CallbackInfo& info) { return N_oc_obt_provision_identity_certificate(info); }
-Napi::Value OCObt::provision_pairwise_credentials(const Napi::CallbackInfo& info) { return N_oc_obt_provision_pairwise_credentials(info); }
-Napi::Value OCObt::provision_role_certificate(const Napi::CallbackInfo& info) { return N_oc_obt_provision_role_certificate(info); }
-Napi::Value OCObt::provision_role_wildcard_ace(const Napi::CallbackInfo& info) { return N_oc_obt_provision_role_wildcard_ace(info); }
-Napi::Value OCObt::request_random_pin(const Napi::CallbackInfo& info) { return N_oc_obt_request_random_pin(info); }
-Napi::Value OCObt::retrieve_acl(const Napi::CallbackInfo& info) { return N_oc_obt_retrieve_acl(info); }
-Napi::Value OCObt::retrieve_creds(const Napi::CallbackInfo& info) { return N_oc_obt_retrieve_creds(info); }
-Napi::Value OCObt::retrieve_own_creds(const Napi::CallbackInfo& info) { return N_oc_obt_retrieve_own_creds(info); }
-Napi::Value OCObt::set_sd_info(const Napi::CallbackInfo& info) { return N_oc_obt_set_sd_info(info); }
-Napi::Value OCObt::shutdown(const Napi::CallbackInfo& info) { return N_oc_obt_shutdown(info); }
+Napi::Value OCMain::add_collection(const Napi::CallbackInfo& info) { return N_oc_add_collection(info); };
+Napi::Value OCMain::add_device(const Napi::CallbackInfo& info) { return N_oc_add_device(info); };
+Napi::Value OCMain::add_ownership_status_cb(const Napi::CallbackInfo& info) { return N_oc_add_ownership_status_cb(info); };
+Napi::Value OCMain::add_resource(const Napi::CallbackInfo& info) { return N_oc_add_resource(info); };
+Napi::Value OCMain::assert_all_roles(const Napi::CallbackInfo& info) { return N_oc_assert_all_roles(info); };
+Napi::Value OCMain::assert_role(const Napi::CallbackInfo& info) { return N_oc_assert_role(info); };
+Napi::Value OCMain::auto_assert_roles(const Napi::CallbackInfo& info) { return N_oc_auto_assert_roles(info); };
+Napi::Value OCMain::close_session(const Napi::CallbackInfo& info) { return N_oc_close_session(info); };
+Napi::Value OCMain::collection_add_link(const Napi::CallbackInfo& info) { return N_oc_collection_add_link(info); };
+Napi::Value OCMain::collection_add_mandatory_rt(const Napi::CallbackInfo& info) { return N_oc_collection_add_mandatory_rt(info); };
+Napi::Value OCMain::collection_add_supported_rt(const Napi::CallbackInfo& info) { return N_oc_collection_add_supported_rt(info); };
+Napi::Value OCMain::collection_get_collections(const Napi::CallbackInfo& info) { return N_oc_collection_get_collections(info); };
+Napi::Value OCMain::collection_get_links(const Napi::CallbackInfo& info) { return N_oc_collection_get_links(info); };
+Napi::Value OCMain::collection_remove_link(const Napi::CallbackInfo& info) { return N_oc_collection_remove_link(info); };
+Napi::Value OCMain::delete_collection(const Napi::CallbackInfo& info) { return N_oc_delete_collection(info); };
+Napi::Value OCMain::delete_link(const Napi::CallbackInfo& info) { return N_oc_delete_link(info); };
+Napi::Value OCMain::delete_resource(const Napi::CallbackInfo& info) { return N_oc_delete_resource(info); };
+Napi::Value OCMain::device_bind_resource_type(const Napi::CallbackInfo& info) { return N_oc_device_bind_resource_type(info); };
+Napi::Value OCMain::do_delete(const Napi::CallbackInfo& info) { return N_oc_do_delete(info); };
+Napi::Value OCMain::do_get(const Napi::CallbackInfo& info) { return N_oc_do_get(info); };
+Napi::Value OCMain::do_ip_discovery(const Napi::CallbackInfo& info) { return N_oc_do_ip_discovery(info); };
+Napi::Value OCMain::do_ip_discovery_all(const Napi::CallbackInfo& info) { return N_oc_do_ip_discovery_all(info); };
+Napi::Value OCMain::do_ip_discovery_all_at_endpoint(const Napi::CallbackInfo& info) { return N_oc_do_ip_discovery_all_at_endpoint(info); };
+Napi::Value OCMain::do_ip_discovery_at_endpoint(const Napi::CallbackInfo& info) { return N_oc_do_ip_discovery_at_endpoint(info); };
+Napi::Value OCMain::do_ip_multicast(const Napi::CallbackInfo& info) { return N_oc_do_ip_multicast(info); };
+Napi::Value OCMain::do_observe(const Napi::CallbackInfo& info) { return N_oc_do_observe(info); };
+Napi::Value OCMain::do_post(const Napi::CallbackInfo& info) { return N_oc_do_post(info); };
+Napi::Value OCMain::do_put(const Napi::CallbackInfo& info) { return N_oc_do_put(info); };
+Napi::Value OCMain::do_realm_local_ipv6_discovery(const Napi::CallbackInfo& info) { return N_oc_do_realm_local_ipv6_discovery(info); };
+Napi::Value OCMain::do_realm_local_ipv6_discovery_all(const Napi::CallbackInfo& info) { return N_oc_do_realm_local_ipv6_discovery_all(info); };
+Napi::Value OCMain::do_realm_local_ipv6_multicast(const Napi::CallbackInfo& info) { return N_oc_do_realm_local_ipv6_multicast(info); };
+Napi::Value OCMain::do_site_local_ipv6_discovery(const Napi::CallbackInfo& info) { return N_oc_do_site_local_ipv6_discovery(info); };
+Napi::Value OCMain::do_site_local_ipv6_discovery_all(const Napi::CallbackInfo& info) { return N_oc_do_site_local_ipv6_discovery_all(info); };
+Napi::Value OCMain::do_site_local_ipv6_multicast(const Napi::CallbackInfo& info) { return N_oc_do_site_local_ipv6_multicast(info); };
+Napi::Value OCMain::free_server_endpoints(const Napi::CallbackInfo& info) { return N_oc_free_server_endpoints(info); };
+Napi::Value OCMain::get_all_roles(const Napi::CallbackInfo& info) { return N_oc_get_all_roles(info); };
+Napi::Value OCMain::get_con_res_announced(const Napi::CallbackInfo& info) { return N_oc_get_con_res_announced(info); };
+Napi::Value OCMain::ignore_request(const Napi::CallbackInfo& info) { return N_oc_ignore_request(info); };
+Napi::Value OCMain::indicate_separate_response(const Napi::CallbackInfo& info) { return N_oc_indicate_separate_response(info); };
+Napi::Value OCMain::init_platform(const Napi::CallbackInfo& info) { return N_oc_init_platform(info); };
+Napi::Value OCMain::init_post(const Napi::CallbackInfo& info) { return N_oc_init_post(info); };
+Napi::Value OCMain::init_put(const Napi::CallbackInfo& info) { return N_oc_init_put(info); };
+Napi::Value OCMain::is_owned_device(const Napi::CallbackInfo& info) { return N_oc_is_owned_device(info); };
+Napi::Value OCMain::link_add_link_param(const Napi::CallbackInfo& info) { return N_oc_link_add_link_param(info); };
+Napi::Value OCMain::link_add_rel(const Napi::CallbackInfo& info) { return N_oc_link_add_rel(info); };
+Napi::Value OCMain::main_init(const Napi::CallbackInfo& info) { return N_oc_main_init(info); };
+Napi::Value OCMain::main_shutdown(const Napi::CallbackInfo& info) { return N_oc_main_shutdown(info); };
+Napi::Value OCMain::new_collection(const Napi::CallbackInfo& info) { return N_oc_new_collection(info); };
+Napi::Value OCMain::new_link(const Napi::CallbackInfo& info) { return N_oc_new_link(info); };
+Napi::Value OCMain::new_resource(const Napi::CallbackInfo& info) { return N_oc_new_resource(info); };
+Napi::Value OCMain::notify_observers(const Napi::CallbackInfo& info) { return N_oc_notify_observers(info); };
+Napi::Value OCMain::process_baseline_interface(const Napi::CallbackInfo& info) { return N_oc_process_baseline_interface(info); };
+Napi::Value OCMain::remove_delayed_callback(const Napi::CallbackInfo& info) { return N_oc_remove_delayed_callback(info); };
+Napi::Value OCMain::remove_ownership_status_cb(const Napi::CallbackInfo& info) { return N_oc_remove_ownership_status_cb(info); };
+Napi::Value OCMain::reset(const Napi::CallbackInfo& info) { return N_oc_reset(info); };
+Napi::Value OCMain::reset_device(const Napi::CallbackInfo& info) { return N_oc_reset_device(info); };
+Napi::Value OCMain::resource_bind_resource_interface(const Napi::CallbackInfo& info) { return N_oc_resource_bind_resource_interface(info); };
+Napi::Value OCMain::resource_bind_resource_type(const Napi::CallbackInfo& info) { return N_oc_resource_bind_resource_type(info); };
+Napi::Value OCMain::resource_make_public(const Napi::CallbackInfo& info) { return N_oc_resource_make_public(info); };
+Napi::Value OCMain::resource_set_default_interface(const Napi::CallbackInfo& info) { return N_oc_resource_set_default_interface(info); };
+Napi::Value OCMain::resource_set_discoverable(const Napi::CallbackInfo& info) { return N_oc_resource_set_discoverable(info); };
+Napi::Value OCMain::resource_set_observable(const Napi::CallbackInfo& info) { return N_oc_resource_set_observable(info); };
+Napi::Value OCMain::resource_set_periodic_observable(const Napi::CallbackInfo& info) { return N_oc_resource_set_periodic_observable(info); };
+Napi::Value OCMain::resource_set_properties_cbs(const Napi::CallbackInfo& info) { return N_oc_resource_set_properties_cbs(info); };
+Napi::Value OCMain::resource_set_request_handler(const Napi::CallbackInfo& info) { return N_oc_resource_set_request_handler(info); };
+Napi::Value OCMain::ri_is_app_resource_valid(const Napi::CallbackInfo& info) { return N_oc_ri_is_app_resource_valid(info); };
+Napi::Value OCMain::send_diagnostic_message(const Napi::CallbackInfo& info) { return N_oc_send_diagnostic_message(info); };
+Napi::Value OCMain::send_ping(const Napi::CallbackInfo& info) { return N_oc_send_ping(info); };
+Napi::Value OCMain::send_response(const Napi::CallbackInfo& info) { return N_oc_send_response(info); };
+Napi::Value OCMain::send_response_raw(const Napi::CallbackInfo& info) { return N_oc_send_response_raw(info); };
+Napi::Value OCMain::send_separate_response(const Napi::CallbackInfo& info) { return N_oc_send_separate_response(info); };
+Napi::Value OCMain::set_con_res_announced(const Napi::CallbackInfo& info) { return N_oc_set_con_res_announced(info); };
+Napi::Value OCMain::set_con_write_cb(const Napi::CallbackInfo& info) { return N_oc_set_con_write_cb(info); };
+Napi::Value OCMain::set_delayed_callback(const Napi::CallbackInfo& info) { return N_oc_set_delayed_callback(info); };
+Napi::Value OCMain::set_factory_presets_cb(const Napi::CallbackInfo& info) { return N_oc_set_factory_presets_cb(info); };
+Napi::Value OCMain::set_random_pin_callback(const Napi::CallbackInfo& info) { return N_oc_set_random_pin_callback(info); };
+Napi::Value OCMain::set_separate_response_buffer(const Napi::CallbackInfo& info) { return N_oc_set_separate_response_buffer(info); };
+Napi::Value OCMain::stop_multicast(const Napi::CallbackInfo& info) { return N_oc_stop_multicast(info); };
+Napi::Value OCMain::stop_observe(const Napi::CallbackInfo& info) { return N_oc_stop_observe(info); };
+
 
 OCObt::OCObt(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -356,14 +226,63 @@ Napi::Function OCObt::GetClass(Napi::Env env) {
     });
 }
 
-Napi::Object module_init(Napi::Env env, Napi::Object exports);
+Napi::Value OCObt::ace_add_permission(const Napi::CallbackInfo& info) { return N_oc_obt_ace_add_permission(info); };
+Napi::Value OCObt::ace_new_resource(const Napi::CallbackInfo& info) { return N_oc_obt_ace_new_resource(info); };
+Napi::Value OCObt::ace_resource_set_href(const Napi::CallbackInfo& info) { return N_oc_obt_ace_resource_set_href(info); };
+Napi::Value OCObt::ace_resource_set_wc(const Napi::CallbackInfo& info) { return N_oc_obt_ace_resource_set_wc(info); };
+Napi::Value OCObt::add_roleid(const Napi::CallbackInfo& info) { return N_oc_obt_add_roleid(info); };
+Napi::Value OCObt::delete_ace_by_aceid(const Napi::CallbackInfo& info) { return N_oc_obt_delete_ace_by_aceid(info); };
+Napi::Value OCObt::delete_cred_by_credid(const Napi::CallbackInfo& info) { return N_oc_obt_delete_cred_by_credid(info); };
+Napi::Value OCObt::delete_own_cred_by_credid(const Napi::CallbackInfo& info) { return N_oc_obt_delete_own_cred_by_credid(info); };
+Napi::Value OCObt::device_hard_reset(const Napi::CallbackInfo& info) { return N_oc_obt_device_hard_reset(info); };
+Napi::Value OCObt::discover_all_resources(const Napi::CallbackInfo& info) { return N_oc_obt_discover_all_resources(info); };
+Napi::Value OCObt::discover_owned_devices(const Napi::CallbackInfo& info) { return N_oc_obt_discover_owned_devices(info); };
+Napi::Value OCObt::discover_owned_devices_realm_local_ipv6(const Napi::CallbackInfo& info) { return N_oc_obt_discover_owned_devices_realm_local_ipv6(info); };
+Napi::Value OCObt::discover_owned_devices_site_local_ipv6(const Napi::CallbackInfo& info) { return N_oc_obt_discover_owned_devices_site_local_ipv6(info); };
+Napi::Value OCObt::discover_unowned_devices(const Napi::CallbackInfo& info) { return N_oc_obt_discover_unowned_devices(info); };
+Napi::Value OCObt::discover_unowned_devices_realm_local_ipv6(const Napi::CallbackInfo& info) { return N_oc_obt_discover_unowned_devices_realm_local_ipv6(info); };
+Napi::Value OCObt::discover_unowned_devices_site_local_ipv6(const Napi::CallbackInfo& info) { return N_oc_obt_discover_unowned_devices_site_local_ipv6(info); };
+Napi::Value OCObt::free_ace(const Napi::CallbackInfo& info) { return N_oc_obt_free_ace(info); };
+Napi::Value OCObt::free_acl(const Napi::CallbackInfo& info) { return N_oc_obt_free_acl(info); };
+Napi::Value OCObt::free_creds(const Napi::CallbackInfo& info) { return N_oc_obt_free_creds(info); };
+Napi::Value OCObt::free_roleid(const Napi::CallbackInfo& info) { return N_oc_obt_free_roleid(info); };
+Napi::Value OCObt::init(const Napi::CallbackInfo& info) { return N_oc_obt_init(info); };
+Napi::Value OCObt::new_ace_for_connection(const Napi::CallbackInfo& info) { return N_oc_obt_new_ace_for_connection(info); };
+Napi::Value OCObt::new_ace_for_role(const Napi::CallbackInfo& info) { return N_oc_obt_new_ace_for_role(info); };
+Napi::Value OCObt::new_ace_for_subject(const Napi::CallbackInfo& info) { return N_oc_obt_new_ace_for_subject(info); };
+Napi::Value OCObt::perform_cert_otm(const Napi::CallbackInfo& info) { return N_oc_obt_perform_cert_otm(info); };
+Napi::Value OCObt::perform_just_works_otm(const Napi::CallbackInfo& info) { return N_oc_obt_perform_just_works_otm(info); };
+Napi::Value OCObt::perform_random_pin_otm(const Napi::CallbackInfo& info) { return N_oc_obt_perform_random_pin_otm(info); };
+Napi::Value OCObt::provision_ace(const Napi::CallbackInfo& info) { return N_oc_obt_provision_ace(info); };
+Napi::Value OCObt::provision_auth_wildcard_ace(const Napi::CallbackInfo& info) { return N_oc_obt_provision_auth_wildcard_ace(info); };
+Napi::Value OCObt::provision_identity_certificate(const Napi::CallbackInfo& info) { return N_oc_obt_provision_identity_certificate(info); };
+Napi::Value OCObt::provision_pairwise_credentials(const Napi::CallbackInfo& info) { return N_oc_obt_provision_pairwise_credentials(info); };
+Napi::Value OCObt::provision_role_certificate(const Napi::CallbackInfo& info) { return N_oc_obt_provision_role_certificate(info); };
+Napi::Value OCObt::provision_role_wildcard_ace(const Napi::CallbackInfo& info) { return N_oc_obt_provision_role_wildcard_ace(info); };
+Napi::Value OCObt::request_random_pin(const Napi::CallbackInfo& info) { return N_oc_obt_request_random_pin(info); };
+Napi::Value OCObt::retrieve_acl(const Napi::CallbackInfo& info) { return N_oc_obt_retrieve_acl(info); };
+Napi::Value OCObt::retrieve_creds(const Napi::CallbackInfo& info) { return N_oc_obt_retrieve_creds(info); };
+Napi::Value OCObt::retrieve_own_creds(const Napi::CallbackInfo& info) { return N_oc_obt_retrieve_own_creds(info); };
+Napi::Value OCObt::set_sd_info(const Napi::CallbackInfo& info) { return N_oc_obt_set_sd_info(info); };
+Napi::Value OCObt::shutdown(const Napi::CallbackInfo& info) { return N_oc_obt_shutdown(info); };
 
-Napi::Object Init(Napi::Env env, Napi::Object exports) {
-    exports.Set("IotivityLite", IotivityLite::GetClass(env));
-    exports.Set("OCMain", OCMain::GetClass(env));
-    exports.Set("OCObt", OCObt::GetClass(env));
-    return module_init(env, exports);
+
+OCBufferSettings::OCBufferSettings(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCBufferSettings::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCBufferSettings", {
+        OCBufferSettings::StaticMethod("set_mtu_size", &OCBufferSettings::set_mtu_size),
+        OCBufferSettings::StaticMethod("get_mtu_size", &OCBufferSettings::get_mtu_size),
+        OCBufferSettings::StaticMethod("set_max_app_data_size", &OCBufferSettings::set_max_app_data_size),
+        OCBufferSettings::StaticMethod("get_max_app_data_size", &OCBufferSettings::get_max_app_data_size),
+        OCBufferSettings::StaticMethod("get_block_size", &OCBufferSettings::get_block_size),
+    });
 }
 
-NODE_API_MODULE(addon, Init)
+Napi::Value OCBufferSettings::set_mtu_size(const Napi::CallbackInfo& info) { return N_oc_set_mtu_size(info); };
+Napi::Value OCBufferSettings::get_mtu_size(const Napi::CallbackInfo& info) { return N_oc_get_mtu_size(info); };
+Napi::Value OCBufferSettings::set_max_app_data_size(const Napi::CallbackInfo& info) { return N_oc_set_max_app_data_size(info); };
+Napi::Value OCBufferSettings::get_max_app_data_size(const Napi::CallbackInfo& info) { return N_oc_get_max_app_data_size(info); };
+Napi::Value OCBufferSettings::get_block_size(const Napi::CallbackInfo& info) { return N_oc_get_block_size(info); };
+
 
