@@ -404,6 +404,34 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
 }
 
 FUNC_OVERRIDE = {
+  'helper_rep_get_string' => { 
+    'invoke' => "\
+    return Napi::String::New(info.Env(), helper_rep_get_string(rep, key));"
+  },
+  'helper_rep_get_long_array' => { 
+    'invoke' => "\
+  size_t sz;
+  const int64_t* data = helper_rep_get_long_array(rep, key, &sz);
+  return Napi::Buffer<int64_t>::New(info.Env(), const_cast<int64_t*>(data), sz);"
+  },
+  'helper_rep_get_bool_array' => {
+    'invoke' => "\
+  size_t sz;
+  const bool* data = helper_rep_get_bool_array(rep, key, &sz);
+  return Napi::Buffer<bool>::New(info.Env(), const_cast<bool*>(data), sz);"
+  },
+  'helper_rep_get_double_array' => {
+    'invoke' => "\
+  size_t sz;
+  const double* data = helper_rep_get_double_array(rep, key, &sz);
+  return Napi::Buffer<double>::New(info.Env(), const_cast<double*>(data), sz);"
+  },
+  'helper_rep_get_byte_string_array' => {
+    'invoke' => '//return xxx;'
+  },
+  'helper_rep_get_string_array' => {
+    'invoke' => '//return xxx;'
+  },
   'oc_rep_get_encoder_buf' => {
     'invoke' => 'return Napi::Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(oc_rep_get_encoder_buf()), oc_rep_get_encoded_payload_size() );'
   },
@@ -1151,9 +1179,13 @@ def gen_funcimpl(name, param)
   if type == 'void'
     invoke += "  (void)#{call_func};\n"
     invoke += "  return info.Env().Undefined();\n"
-  elsif type == 'bool'
+  elsif type == 'bool' or
+        type == 'const bool'
     invoke += "  return Napi::Boolean::New(info.Env(), #{call_func});\n"
   elsif type == 'long' or
+        type == 'double' or
+        type == 'int64_t' or
+        type == 'const int64_t' or
         type == 'unsigned int' or
         type == 'unsigned long' or
         type == 'CborError' or
@@ -1167,6 +1199,8 @@ def gen_funcimpl(name, param)
     invoke += "  //func return const void*\n"
   elsif type == 'const uint8_t*'
     invoke += "  //func return const uint8_t*\n"
+  elsif type == 'const char*'
+    invoke += "  //func return const char*\n"
   elsif type =~ /.*\*$/
     #p type
     type = type.gsub(/\*$/, "")
