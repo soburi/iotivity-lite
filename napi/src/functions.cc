@@ -3510,8 +3510,8 @@ Napi::Value N_helper_rep_end_links_array(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-Napi::Value N_helper_rep_begin_root_object(const Napi::CallbackInfo& info) {
-  std::shared_ptr<CborEncoder> sp(helper_rep_begin_root_object());
+Napi::Value N_helper_rep_start_root_object(const Napi::CallbackInfo& info) {
+  std::shared_ptr<CborEncoder> sp(helper_rep_start_root_object());
   auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
   return OCCborEncoder::constructor.New({args});
 }
@@ -3789,27 +3789,11 @@ Napi::Value N_helper_rep_add_long(const Napi::CallbackInfo& info)
 {
   return info.Env().Undefined();
 }
-Napi::Value N_helper_rep_begin_array(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_begin_links_array(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_begin_object(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
 Napi::Value N_helper_rep_delete_buffer(const Napi::CallbackInfo& info)
 {
   return info.Env().Undefined();
 }
 Napi::Value N_helper_rep_new_buffer(const Napi::CallbackInfo& info)
-{
-  return info.Env().Undefined();
-}
-Napi::Value N_helper_rep_object_array_begin_item(const Napi::CallbackInfo& info)
 {
   return info.Env().Undefined();
 }

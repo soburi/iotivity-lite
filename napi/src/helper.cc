@@ -228,7 +228,7 @@ void helper_rep_end_links_array() {
 
 
 /* Alt implementation of oc_rep_start_root_object macro */
-CborEncoder* helper_rep_begin_root_object() {
+CborEncoder* helper_rep_start_root_object() {
   OC_DBG("JNI: %s\n", __func__);
   g_err |= cbor_encoder_create_map(&g_encoder, &root_map, CborIndefiniteLength);
   return &root_map;

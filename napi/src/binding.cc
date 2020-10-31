@@ -774,7 +774,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("helper_rep_end_array", Napi::Function::New(env, N_helper_rep_end_array));
   exports.Set("helper_rep_start_links_array", Napi::Function::New(env, N_helper_rep_start_links_array));
   exports.Set("helper_rep_end_links_array", Napi::Function::New(env, N_helper_rep_end_links_array));
-  exports.Set("helper_rep_begin_root_object", Napi::Function::New(env, N_helper_rep_begin_root_object));
+  exports.Set("helper_rep_start_root_object", Napi::Function::New(env, N_helper_rep_start_root_object));
   exports.Set("helper_rep_end_root_object", Napi::Function::New(env, N_helper_rep_end_root_object));
   exports.Set("helper_rep_add_byte_string", Napi::Function::New(env, N_helper_rep_add_byte_string));
   exports.Set("helper_rep_add_text_string", Napi::Function::New(env, N_helper_rep_add_text_string));

@@ -3344,7 +3344,7 @@
 	"param": {
 	}
 },
-"helper_rep_begin_root_object": {
+"helper_rep_start_root_object": {
 	"type": "CborEncoder*", 
 	"param": {
 	}

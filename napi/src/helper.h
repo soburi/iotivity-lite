@@ -60,7 +60,7 @@ CborEncoder * helper_rep_start_array(CborEncoder *parent);
 void helper_rep_end_array(CborEncoder *parent, CborEncoder *arrayObject);
 CborEncoder * helper_rep_start_links_array();
 void helper_rep_end_links_array();
-CborEncoder * helper_rep_begin_root_object();
+CborEncoder * helper_rep_start_root_object();
 void helper_rep_end_root_object();
 void helper_rep_add_byte_string(CborEncoder *arrayObject, const unsigned char* value, const size_t length);
 void helper_rep_add_text_string(CborEncoder *arrayObject, const char* value);
