@@ -404,6 +404,9 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
 }
 
 FUNC_OVERRIDE = {
+  'oc_rep_get_encoder_buf' => {
+    'invoke' => 'return Napi::Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(oc_rep_get_encoder_buf()), oc_rep_get_encoded_payload_size() );'
+  },
   'oc_resource_set_request_handler' => {
     '2' => "  oc_request_callback_t callback = oc_resource_set_request_handler_helper;\n",
     '3' => <<~STR
@@ -777,25 +780,13 @@ IFDEF_FUNCS = {
 'oc_iterate_query'=>'defined(XXX)',
 'oc_iterate_query_get_values'=>'defined(XXX)',
 'oc_blockwise_dispatch_block'=>'defined(XXX)',
-'oc_ri_alloc_client_cb'=>'defined(XXX)',
-'oc_ri_invoke_client_cb'=>'defined(XXX)',
-'oc_ri_process_discovery_payload'=>'defined(XXX)',
-'oc_ri_get_query_nth_key_value'=>'defined(XXX)',
-'oc_ri_get_query_value'=>'defined(XXX)',
-'oc_core_encode_interfaces_mask'=>'defined(XXX)',
+#'oc_ri_alloc_client_cb'=>'defined(XXX)',
+#'oc_ri_invoke_client_cb'=>'defined(XXX)',
+#'oc_ri_process_discovery_payload'=>'defined(XXX)',
+#'oc_ri_get_query_nth_key_value'=>'defined(XXX)',
+#'oc_ri_get_query_value'=>'defined(XXX)',
 
-#'oc_parse_rep'=>'defined(XXX)',
-#'oc_rep_get_bool'=>'defined(XXX)',
-#'oc_rep_get_bool_array'=>'defined(XXX)',
-#'oc_rep_get_byte_string'=>'defined(XXX)',
-#'oc_rep_get_double'=>'defined(XXX)',
-#'oc_rep_get_double_array'=>'defined(XXX)',
-#'oc_rep_get_int'=>'defined(XXX)',
-#'oc_rep_get_int_array'=>'defined(XXX)',
-#'oc_rep_get_object'=>'defined(XXX)',
-#'oc_rep_get_object_array'=>'defined(XXX)',
-#'oc_rep_get_string'=>'defined(XXX)',
-'oc_rep_get_encoder_buf' => 'defined(XXX)',
+#'oc_rep_get_encoder_buf' => 'defined(XXX)',
 
 }
 

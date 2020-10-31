@@ -1641,7 +1641,6 @@ Napi::Value N_oc_set_mtu_size(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_set_mtu_size(mtu_size));
 }
 
-#if defined(XXX)
 Napi::Value N_oc_ri_alloc_client_cb(const Napi::CallbackInfo& info) {
   std::string uri_ = info[0].As<Napi::String>().Utf8Value();
   const char* uri = uri_.c_str();
@@ -1656,7 +1655,6 @@ Napi::Value N_oc_ri_alloc_client_cb(const Napi::CallbackInfo& info) {
   auto args = Napi::External<std::shared_ptr<oc_client_cb_t>>::New(info.Env(), &sp);
   return OCClientCallback::constructor.New({args});
 }
-#endif
 
 Napi::Value N_oc_ri_find_client_cb_by_mid(const Napi::CallbackInfo& info) {
   uint16_t mid = static_cast<uint16_t>(info[0].As<Napi::Number>().Uint32Value());
@@ -1695,7 +1693,6 @@ Napi::Value N_oc_ri_get_client_cb(const Napi::CallbackInfo& info) {
   return OCClientCallback::constructor.New({args});
 }
 
-#if defined(XXX)
 Napi::Value N_oc_ri_invoke_client_cb(const Napi::CallbackInfo& info) {
   void* response = info[0];
 // 1 response_state, oc_blockwise_state_t**
@@ -1703,14 +1700,12 @@ Napi::Value N_oc_ri_invoke_client_cb(const Napi::CallbackInfo& info) {
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[3].As<Napi::Object>());
   return Napi::Boolean::New(info.Env(), 0);
 }
-#endif
 
 Napi::Value N_oc_ri_is_client_cb_valid(const Napi::CallbackInfo& info) {
   OCClientCallback& client_cb = *OCClientCallback::Unwrap(info[0].As<Napi::Object>());
   return Napi::Boolean::New(info.Env(), oc_ri_is_client_cb_valid(client_cb));
 }
 
-#if defined(XXX)
 Napi::Value N_oc_ri_process_discovery_payload(const Napi::CallbackInfo& info) {
   uint8_t* payload = info[0].As<Napi::Buffer<uint8_t>>().Data();
   int len = static_cast<int>(info[1].As<Napi::Number>());
@@ -1719,7 +1714,6 @@ Napi::Value N_oc_ri_process_discovery_payload(const Napi::CallbackInfo& info) {
   void* user_data = info[4];
   return Napi::Number::New(info.Env(), 0);
 }
-#endif
 
 Napi::Value N_oc_clock_init(const Napi::CallbackInfo& info) {
   (void)oc_clock_init();
@@ -2061,14 +2055,12 @@ Napi::Value N_oc_core_add_new_device(const Napi::CallbackInfo& info) {
   return OCDeviceInfo::constructor.New({args});
 }
 
-#if defined(XXX)
 Napi::Value N_oc_core_encode_interfaces_mask(const Napi::CallbackInfo& info) {
   OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
   oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)oc_core_encode_interfaces_mask(parent, iface_mask);
   return info.Env().Undefined();
 }
-#endif
 
 Napi::Value N_oc_core_get_device_id(const Napi::CallbackInfo& info) {
   size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
@@ -3057,11 +3049,9 @@ Napi::Value N_oc_rep_get_encoded_payload_size(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_rep_get_encoded_payload_size());
 }
 
-#if defined(XXX)
 Napi::Value N_oc_rep_get_encoder_buf(const Napi::CallbackInfo& info) {
-  //func return const uint8_t*
+return Napi::Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(oc_rep_get_encoder_buf()), oc_rep_get_encoded_payload_size() );
 }
-#endif
 
 Napi::Value N_oc_rep_get_int(const Napi::CallbackInfo& info) {
   OCRep& rep = *OCRep::Unwrap(info[0].As<Napi::Object>());
@@ -3194,7 +3184,6 @@ Napi::Value N_oc_ri_get_interface_mask(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_ri_get_interface_mask(iface, if_len));
 }
 
-#if defined(XXX)
 Napi::Value N_oc_ri_get_query_nth_key_value(const Napi::CallbackInfo& info) {
   std::string query_ = info[0].As<Napi::String>().Utf8Value();
   const char* query = query_.c_str();
@@ -3206,9 +3195,7 @@ Napi::Value N_oc_ri_get_query_nth_key_value(const Napi::CallbackInfo& info) {
   size_t n = static_cast<size_t>(info[6].As<Napi::Number>().Uint32Value());
   return Napi::Number::New(info.Env(), 0);
 }
-#endif
 
-#if defined(XXX)
 Napi::Value N_oc_ri_get_query_value(const Napi::CallbackInfo& info) {
   std::string query_ = info[0].As<Napi::String>().Utf8Value();
   const char* query = query_.c_str();
@@ -3218,7 +3205,6 @@ Napi::Value N_oc_ri_get_query_value(const Napi::CallbackInfo& info) {
 // 3 value, char**
   return Napi::Number::New(info.Env(), 0);
 }
-#endif
 
 Napi::Value N_oc_ri_init(const Napi::CallbackInfo& info) {
   (void)oc_ri_init();

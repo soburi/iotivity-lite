@@ -372,21 +372,15 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_get_mtu_size", Napi::Function::New(env, N_oc_get_mtu_size));
   exports.Set("oc_set_max_app_data_size", Napi::Function::New(env, N_oc_set_max_app_data_size));
   exports.Set("oc_set_mtu_size", Napi::Function::New(env, N_oc_set_mtu_size));
-#if defined(XXX)
   exports.Set("oc_ri_alloc_client_cb", Napi::Function::New(env, N_oc_ri_alloc_client_cb));
-#endif
   exports.Set("oc_ri_find_client_cb_by_mid", Napi::Function::New(env, N_oc_ri_find_client_cb_by_mid));
   exports.Set("oc_ri_find_client_cb_by_token", Napi::Function::New(env, N_oc_ri_find_client_cb_by_token));
   exports.Set("oc_ri_free_client_cbs_by_endpoint", Napi::Function::New(env, N_oc_ri_free_client_cbs_by_endpoint));
   exports.Set("oc_ri_free_client_cbs_by_mid", Napi::Function::New(env, N_oc_ri_free_client_cbs_by_mid));
   exports.Set("oc_ri_get_client_cb", Napi::Function::New(env, N_oc_ri_get_client_cb));
-#if defined(XXX)
   exports.Set("oc_ri_invoke_client_cb", Napi::Function::New(env, N_oc_ri_invoke_client_cb));
-#endif
   exports.Set("oc_ri_is_client_cb_valid", Napi::Function::New(env, N_oc_ri_is_client_cb_valid));
-#if defined(XXX)
   exports.Set("oc_ri_process_discovery_payload", Napi::Function::New(env, N_oc_ri_process_discovery_payload));
-#endif
   exports.Set("oc_clock_init", Napi::Function::New(env, N_oc_clock_init));
   exports.Set("oc_clock_seconds", Napi::Function::New(env, N_oc_clock_seconds));
   exports.Set("oc_clock_time", Napi::Function::New(env, N_oc_clock_time));
@@ -467,9 +461,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_tcp_update_csm_state", Napi::Function::New(env, N_oc_tcp_update_csm_state));
 #endif
   exports.Set("oc_core_add_new_device", Napi::Function::New(env, N_oc_core_add_new_device));
-#if defined(XXX)
   exports.Set("oc_core_encode_interfaces_mask", Napi::Function::New(env, N_oc_core_encode_interfaces_mask));
-#endif
   exports.Set("oc_core_get_device_id", Napi::Function::New(env, N_oc_core_get_device_id));
   exports.Set("oc_core_get_device_info", Napi::Function::New(env, N_oc_core_get_device_info));
   exports.Set("oc_core_get_latency", Napi::Function::New(env, N_oc_core_get_latency));
@@ -711,9 +703,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_rep_get_double", Napi::Function::New(env, N_oc_rep_get_double));
   exports.Set("oc_rep_get_double_array", Napi::Function::New(env, N_oc_rep_get_double_array));
   exports.Set("oc_rep_get_encoded_payload_size", Napi::Function::New(env, N_oc_rep_get_encoded_payload_size));
-#if defined(XXX)
   exports.Set("oc_rep_get_encoder_buf", Napi::Function::New(env, N_oc_rep_get_encoder_buf));
-#endif
   exports.Set("oc_rep_get_int", Napi::Function::New(env, N_oc_rep_get_int));
   exports.Set("oc_rep_get_int_array", Napi::Function::New(env, N_oc_rep_get_int_array));
   exports.Set("oc_rep_get_object", Napi::Function::New(env, N_oc_rep_get_object));
@@ -737,12 +727,8 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_ri_get_app_resource_by_uri", Napi::Function::New(env, N_oc_ri_get_app_resource_by_uri));
   exports.Set("oc_ri_get_app_resources", Napi::Function::New(env, N_oc_ri_get_app_resources));
   exports.Set("oc_ri_get_interface_mask", Napi::Function::New(env, N_oc_ri_get_interface_mask));
-#if defined(XXX)
   exports.Set("oc_ri_get_query_nth_key_value", Napi::Function::New(env, N_oc_ri_get_query_nth_key_value));
-#endif
-#if defined(XXX)
   exports.Set("oc_ri_get_query_value", Napi::Function::New(env, N_oc_ri_get_query_value));
-#endif
   exports.Set("oc_ri_init", Napi::Function::New(env, N_oc_ri_init));
   exports.Set("oc_ri_is_app_resource_valid", Napi::Function::New(env, N_oc_ri_is_app_resource_valid));
   exports.Set("oc_ri_remove_timed_event_callback", Napi::Function::New(env, N_oc_ri_remove_timed_event_callback));

@@ -278,21 +278,15 @@ Napi::Value N_oc_get_max_app_data_size(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_mtu_size(const Napi::CallbackInfo&);
 Napi::Value N_oc_set_max_app_data_size(const Napi::CallbackInfo&);
 Napi::Value N_oc_set_mtu_size(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_ri_alloc_client_cb(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_ri_find_client_cb_by_mid(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_find_client_cb_by_token(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_free_client_cbs_by_endpoint(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_free_client_cbs_by_mid(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_get_client_cb(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_ri_invoke_client_cb(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_ri_is_client_cb_valid(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_ri_process_discovery_payload(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_clock_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_clock_seconds(const Napi::CallbackInfo&);
 Napi::Value N_oc_clock_time(const Napi::CallbackInfo&);
@@ -373,9 +367,7 @@ Napi::Value N_oc_tcp_get_csm_state(const Napi::CallbackInfo&);
 Napi::Value N_oc_tcp_update_csm_state(const Napi::CallbackInfo&);
 #endif
 Napi::Value N_oc_core_add_new_device(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_core_encode_interfaces_mask(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_core_get_device_id(const Napi::CallbackInfo&);
 Napi::Value N_oc_core_get_device_info(const Napi::CallbackInfo&);
 Napi::Value N_oc_core_get_latency(const Napi::CallbackInfo&);
@@ -617,9 +609,7 @@ Napi::Value N_oc_rep_get_cbor_errno(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_double(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_double_array(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_encoded_payload_size(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_rep_get_encoder_buf(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_rep_get_int(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_int_array(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_object(const Napi::CallbackInfo&);
@@ -643,12 +633,8 @@ Napi::Value N_oc_ri_free_resource_properties(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_get_app_resource_by_uri(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_get_app_resources(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_get_interface_mask(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_ri_get_query_nth_key_value(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
 Napi::Value N_oc_ri_get_query_value(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_ri_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_is_app_resource_valid(const Napi::CallbackInfo&);
 Napi::Value N_oc_ri_remove_timed_event_callback(const Napi::CallbackInfo&);
