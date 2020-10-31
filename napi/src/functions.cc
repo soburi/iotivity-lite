@@ -3701,30 +3701,29 @@ Napi::Value N_helper_rep_new_buffer(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_helper_rep_oc_array_to_int_array(const Napi::CallbackInfo& info) {
-// 0 array, oc_array_t
-  std::shared_ptr<const int64_t> sp(0);
-  auto args = Napi::External<std::shared_ptr<const int64_t>>::New(info.Env(), &sp);
-  //return const int64_t::constructor.New({args});
+  OCArray& array = *OCArray::Unwrap(info[0].As<Napi::Object>());
+      return Napi::Buffer<int64_t>::New(info.Env(), oc_int_array(*static_cast<oc_array_t*>(array)), oc_int_array_size(*(oc_array_t*)array));
 }
 
 Napi::Value N_helper_rep_oc_array_to_bool_array(const Napi::CallbackInfo& info) {
-// 0 array, oc_array_t
-  std::shared_ptr<const bool> sp(0);
-  auto args = Napi::External<std::shared_ptr<const bool>>::New(info.Env(), &sp);
-  //return const bool::constructor.New({args});
+  OCArray& array = *OCArray::Unwrap(info[0].As<Napi::Object>());
+      return Napi::Buffer<bool>::New(info.Env(), oc_bool_array(*static_cast<oc_array_t*>(array)), oc_bool_array_size(*(oc_array_t*)array));
 }
 
 Napi::Value N_helper_rep_oc_array_to_double_array(const Napi::CallbackInfo& info) {
-// 0 array, oc_array_t
-  std::shared_ptr<const double> sp(0);
-  auto args = Napi::External<std::shared_ptr<const double>>::New(info.Env(), &sp);
-  //return const double::constructor.New({args});
+  OCArray& array = *OCArray::Unwrap(info[0].As<Napi::Object>());
+      return Napi::Buffer<double>::New(info.Env(), oc_double_array(*static_cast<oc_array_t*>(array)), oc_double_array_size(*(oc_array_t*)array));
 }
 
 Napi::Value N_helper_rep_oc_array_to_string_array(const Napi::CallbackInfo& info) {
-// 0 array, oc_array_t
-  std::shared_ptr<const oc_string_array_t> sp(0);
-  auto args = Napi::External<std::shared_ptr<const oc_string_array_t>>::New(info.Env(), &sp);
-  //return const ocStringArray::constructor.New({args});
+  OCArray& array = *OCArray::Unwrap(info[0].As<Napi::Object>());
+    size_t sz = oc_string_array_get_allocated_size(*(oc_array_t*)array);
+    oc_string_array_t* strarray = reinterpret_cast<oc_string_array_t*>((oc_array_t*)array);
+    auto buf = Napi::Array::New(info.Env(), sz);
+    for(uint32_t i=0; i<sz; i++) {
+	auto str = Napi::String::New(info.Env(), oc_string_array_get_item(*strarray, i));
+	buf[i] = str;
+    }
+    return buf;
 }
 
