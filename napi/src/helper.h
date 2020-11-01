@@ -1,6 +1,22 @@
 #pragma once
 
 #include "structs.h"
+#if defined(_WIN32)
+#include <windows.h>
+#endif
+
+
+#if defined(_WIN32)
+#define jni_mutex_lock(m) EnterCriticalSection(&m)
+#define jni_mutex_unlock(m) LeaveCriticalSection(&m)
+extern HANDLE jni_poll_event_thread;
+#elif defined(__linux__)
+#define jni_mutex_lock(m) pthread_mutex_lock(&m)
+#define jni_mutex_unlock(m) pthread_mutex_unlock(&m)
+extern pthread_t jni_poll_event_thread;
+#elif defined(__linux__)
+#endif
+
 
 struct callback_helper_t {
 public:
@@ -86,6 +102,14 @@ int helper_rep_get_cbor_errno();
 void helper_rep_clear_cbor_errno();
 void helper_rep_delete_buffer();
 void helper_rep_new_buffer(int size);
+
+#if defined(_WIN32)
+DWORD WINAPI
+jni_poll_event(LPVOID lpParam);
+#elif defined(__linux__)
+void *
+jni_poll_event(void *data)
+#endif
 
 #ifdef __cplusplus
 }

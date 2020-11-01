@@ -1,6 +1,17 @@
 #include "helper.h"
 #include <thread>
+#if defined(_WIN32)
+#include <windows.h>
+#endif
 
+#if defined(_WIN32)
+HANDLE jni_poll_event_thread;
+CRITICAL_SECTION jni_sync_lock;
+CONDITION_VARIABLE jni_cv;
+CRITICAL_SECTION jni_cs;
+
+int jni_quit = 0;
+#endif
 
 Napi::FunctionReference oc_handler_init_ref;
 //Napi::FunctionReference oc_handler_signal_event_loop_ref;
@@ -133,6 +144,69 @@ void oc_resource_set_properties_cbs_get_helper(oc_resource_t* res, oc_interface_
 bool oc_resource_set_properties_cbs_set_helper(oc_resource_t* res, oc_rep_t* rep, void* data) { return true; }
 void oc_resource_set_request_handler_helper(oc_request_t* req, oc_interface_mask_t mask, void* data) { }
 
+
+#if defined(_WIN32)
+DWORD WINAPI
+jni_poll_event(LPVOID lpParam)
+{
+  oc_clock_time_t next_event;
+  while (jni_quit != 1) {
+      OC_DBG("JNI: - lock %s\n", __func__);
+      jni_mutex_lock(jni_sync_lock);
+      OC_DBG("calling oc_main_poll from JNI code\n");
+      next_event = oc_main_poll();
+      jni_mutex_unlock(jni_sync_lock);
+      OC_DBG("JNI: - unlock %s\n", __func__);
+
+      if (next_event == 0) {
+          SleepConditionVariableCS(&jni_cv, &jni_cs, INFINITE);
+      }
+      else {
+          oc_clock_time_t now = oc_clock_time();
+          if (now < next_event) {
+              SleepConditionVariableCS(&jni_cv, &jni_cs,
+                  (DWORD)((next_event - now) * 1000 / OC_CLOCK_SECOND));
+          }
+      }
+  }
+
+  oc_main_shutdown();
+
+  return TRUE;
+}
+
+#elif defined(__linux__)
+void *
+jni_poll_event(void *data)
+{
+  OC_DBG("inside the JNI jni_poll_event\n");
+  (void)data;
+  oc_clock_time_t next_event;
+  struct timespec ts;
+  while (jni_quit != 1) {
+    OC_DBG("JNI: - lock %s\n", __func__);
+    jni_mutex_lock(jni_sync_lock);
+    OC_DBG("calling oc_main_poll from JNI code\n");
+    next_event = oc_main_poll();
+    jni_mutex_unlock(jni_sync_lock);
+    OC_DBG("JNI: - unlock %s\n", __func__);
+
+    jni_mutex_lock(jni_cs);
+    if (next_event == 0) {
+      pthread_cond_wait(&jni_cv, &jni_cs);
+    } else {
+      ts.tv_sec = (next_event / OC_CLOCK_SECOND);
+      ts.tv_nsec = (next_event % OC_CLOCK_SECOND) * 1.e09 / OC_CLOCK_SECOND;
+      pthread_cond_timedwait(&jni_cv, &jni_cs, &ts);
+    }
+    jni_mutex_unlock(jni_cs);
+  }
+
+  oc_main_shutdown();
+
+  return NULL;
+}
+#endif
 
 
 
