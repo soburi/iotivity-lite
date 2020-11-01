@@ -3522,25 +3522,25 @@
 "helper_rep_oc_array_to_int_array": {
 	"type": "const int64_t*",
 	"param": {
-		"array": "oc_array_t"
+		"array": "oc_array_t*"
 	}
 },
 "helper_rep_oc_array_to_bool_array": {
 	"type": "const bool*",
 	"param": {
-		"array": "oc_array_t"
+		"array": "oc_array_t*"
 	}
 },
 "helper_rep_oc_array_to_double_array": {
 	"type": "const double*",
 	"param": {
-		"array": "oc_array_t"
+		"array": "oc_array_t*"
 	}
 },
 "helper_rep_oc_array_to_string_array": {
 	"type": "const oc_string_array_t*",
 	"param": {
-		"array": "oc_array_t"
+		"array": "oc_array_t*"
 	}
 }
 }

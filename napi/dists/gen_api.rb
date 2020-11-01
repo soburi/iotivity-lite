@@ -404,6 +404,29 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
 }
 
 FUNC_OVERRIDE = {
+  'helper_rep_oc_array_to_int_array' => { 
+    'invoke' => "\
+      return Napi::Buffer<int64_t>::New(info.Env(), oc_int_array(*static_cast<oc_array_t*>(array)), oc_int_array_size(*(oc_array_t*)array));",
+  },
+  'helper_rep_oc_array_to_bool_array' => { 
+    'invoke' => "\
+      return Napi::Buffer<bool>::New(info.Env(), oc_bool_array(*static_cast<oc_array_t*>(array)), oc_bool_array_size(*(oc_array_t*)array));"
+  },
+  'helper_rep_oc_array_to_double_array' => { 
+    'invoke' => "\
+      return Napi::Buffer<double>::New(info.Env(), oc_double_array(*static_cast<oc_array_t*>(array)), oc_double_array_size(*(oc_array_t*)array));"
+  },
+  'helper_rep_oc_array_to_string_array' => { 
+    'invoke' => "\
+    size_t sz = oc_string_array_get_allocated_size(*(oc_array_t*)array);
+    oc_string_array_t* strarray = reinterpret_cast<oc_string_array_t*>((oc_array_t*)array);
+    auto buf = Napi::Array::New(info.Env(), sz);
+    for(uint32_t i=0; i<sz; i++) {
+      auto str = Napi::String::New(info.Env(), oc_string_array_get_item(*strarray, i));
+      buf[i] = str;
+    }
+    return buf;"
+  },
   'helper_rep_get_string' => { 
     'invoke' => "\
     return Napi::String::New(info.Env(), helper_rep_get_string(rep, key));"
@@ -549,6 +572,7 @@ WRAPPERNAME = { 'oc_ipv4_addr_t' => "OCIPv4Addr",
                 'oc_rep_s' => 'OCRepresentation',
                 'oc_rep_s*' => 'OCRepresentation',
                 'CborEncoder' => 'OCCborEncoder',
+                'oc_array_t' => 'OCArray'
 }
 
 TYPEDEFS = {

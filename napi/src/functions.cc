@@ -3721,8 +3721,8 @@ Napi::Value N_helper_rep_oc_array_to_string_array(const Napi::CallbackInfo& info
     oc_string_array_t* strarray = reinterpret_cast<oc_string_array_t*>((oc_array_t*)array);
     auto buf = Napi::Array::New(info.Env(), sz);
     for(uint32_t i=0; i<sz; i++) {
-	auto str = Napi::String::New(info.Env(), oc_string_array_get_item(*strarray, i));
-	buf[i] = str;
+      auto str = Napi::String::New(info.Env(), oc_string_array_get_item(*strarray, i));
+      buf[i] = str;
     }
     return buf;
 }
