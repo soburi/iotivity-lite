@@ -5,7 +5,8 @@
 #endif
 
 #if defined(_WIN32)
-HANDLE jni_poll_event_thread;
+//HANDLE jni_poll_event_thread;
+std::thread helper_poll_event_thread;
 CRITICAL_SECTION jni_sync_lock;
 CONDITION_VARIABLE jni_cv;
 CRITICAL_SECTION jni_cs;
@@ -176,8 +177,9 @@ void terminate_main_loop() {
 }
 
 #if defined(_WIN32)
-DWORD WINAPI
-jni_poll_event(LPVOID lpParam)
+//DWORD WINAPI
+//jni_poll_event(LPVOID lpParam)
+void helper_poll_event()
 {
   oc_clock_time_t next_event;
   while (jni_quit != 1) {
@@ -205,7 +207,7 @@ jni_poll_event(LPVOID lpParam)
   oc_main_shutdown();
   OC_DBG("JNI: - end oc_main_shutdown %s\n", __func__);
 
-  return TRUE;
+//  return TRUE;
 }
 
 #elif defined(__linux__)

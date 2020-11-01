@@ -1,6 +1,7 @@
 #include "functions.h"
 #include "iotivity_lite.h"
 #include "helper.h"
+#include <system_error>
 Napi::Value N_handle_coap_signal_message(const Napi::CallbackInfo& info) {
   void* packet = info[0];
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
@@ -737,10 +738,16 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
   }
 
 #if defined(_WIN32)
-  jni_poll_event_thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)jni_poll_event, NULL, 0, NULL);
-  if (NULL == jni_poll_event_thread) {
-    Napi::TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  try {
+    helper_poll_event_thread = std::thread(helper_poll_event);
+    helper_poll_event_thread.detach();
   }
+  catch(system_error) {
+  }
+  //jni_poll_event_thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)jni_poll_event, NULL, 0, NULL);
+  //if (NULL == jni_poll_event_thread) {
+  //  Napi::TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  //}
 #elif defined(__linux__)
   if (pthread_create(&jni_poll_event_thread, NULL, &jni_poll_event, NULL) != 0) {
     Napi::TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
