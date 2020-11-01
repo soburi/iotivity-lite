@@ -54,9 +54,6 @@ HPROLOGUE = <<HPROLOGUE
 #pragma once
 
 #include <napi.h>
-#include <oc_endpoint.h>
-#include <oc_uuid.h>
-#include <memory>
 
 using namespace std;
 

@@ -147,13 +147,16 @@ function handle_signal()
 
   var handler = new IotivityLite.OCHandler();
   handler.init = app_init;
-  handler.signal_event_loop = signal_event_loop;
+  //handler.signal_event_loop = signal_event_loop;
   handler.register_resources = register_resources;
   handler.request_entry = function() { console.log("-- request_entry --"); };
 
   console.log("IotivityLite.oc_main_init(handler)");
   var init = IotivityLite.OCMain.main_init(handler);
   console.log("end IotivityLite.oc_main_init(handler)");
+  while(true) {
+	  console.log('wait');
+  }
 /*
   while (quit != 1) {
     next_event = IotivityLite.oc_main_poll();
