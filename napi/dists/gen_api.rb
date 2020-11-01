@@ -152,7 +152,6 @@ ENUMS = enum_table.keys
 EXTRA_VALUE= {
   "oc_handler_t" => "\
   Napi::FunctionReference init;\n\
-  Napi::FunctionReference signal_event_loop;\n\
 #if defined(OC_SERVER)\n\
   Napi::FunctionReference register_resources;\n\
 #endif\n\
@@ -496,7 +495,7 @@ FUNC_OVERRIDE = {
   'oc_main_init' => {
     'invoke' => <<~STR
 //
-  handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
+  handler.m_pvalue->signal_event_loop = [](){ helper_cv.notify_all(); };
   handler.m_pvalue->init = nullptr;
   handler.m_pvalue->register_resources = nullptr;
   handler.m_pvalue->requests_entry = nullptr;
@@ -609,6 +608,7 @@ TYPEDEFS = {
   }
 
 IGNORE_TYPES = {
+  "oc_handler_t" => [ /^signal_event_loop$/ ],
 # nested type
   "oc_properties_cb_t" => [ /cb/, /get_props/, /set_props/, /user_data/ ],
   "oc_ace_subject_t" => [ /role/, /^authority$/ ],

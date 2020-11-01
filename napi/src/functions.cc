@@ -719,7 +719,7 @@ Napi::Value N_oc_is_owned_device(const Napi::CallbackInfo& info) {
 Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
   OCHandler& handler = *OCHandler::Unwrap(info[0].As<Napi::Object>());
 //
-  handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
+  handler.m_pvalue->signal_event_loop = [](){ helper_cv.notify_all(); };
   handler.m_pvalue->init = nullptr;
   handler.m_pvalue->register_resources = nullptr;
   handler.m_pvalue->requests_entry = nullptr;
