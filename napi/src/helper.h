@@ -4,6 +4,7 @@
 #include <thread>
 #include <mutex>
 #include <condition_variable>
+#include <system_error>
 
 extern std::thread helper_poll_event_thread;
 extern std::mutex helper_sync_lock;
