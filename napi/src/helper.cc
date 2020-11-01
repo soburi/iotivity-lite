@@ -50,12 +50,6 @@ int oc_handler_init_helper()
   return 0;
 }
 
-void oc_handler_signal_event_loop_helper()
-{
-  OC_DBG("JNI: %s\n", __func__);
-  helper_cv.notify_all();
-}
-
 void oc_handler_register_resources_helper()
 {
   oc_handler_register_resources_ref.Call({});
