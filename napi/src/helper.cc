@@ -3,16 +3,10 @@
 
 std::thread helper_poll_event_thread;
 std::mutex helper_sync_lock;
-std::mutex helper_mutex;
-std::unique_lock<std::mutex> helper_cs;
+std::mutex helper_cs_mutex;
+std::unique_lock<std::mutex> helper_cs(helper_cs_mutex);
 std::condition_variable helper_cv;
 int jni_quit = 0;
-
-#if defined(_WIN32)
-CRITICAL_SECTION jni_sync_lock;
-CONDITION_VARIABLE jni_cv;
-CRITICAL_SECTION jni_cs;
-#endif
 
 main_context_t* main_context;
 
@@ -59,14 +53,7 @@ int oc_handler_init_helper()
 void oc_handler_signal_event_loop_helper()
 {
   OC_DBG("JNI: %s\n", __func__);
-#if defined(_WIN32)
-  WakeConditionVariable(&jni_cv);
-  //helper_cv.notify_all();
-#elif defined(__linux__)
-  jni_mutex_lock(jni_cs);
-  pthread_cond_signal(&jni_cv);
-  jni_mutex_unlock(jni_cs);
-#endif
+  helper_cv.notify_all();
 }
 
 void oc_handler_register_resources_helper()
@@ -163,8 +150,7 @@ Napi::Value N_helper_main_loop(const Napi::CallbackInfo& info) {
 
 void terminate_main_loop() {
   jni_quit = 1;
-  WakeConditionVariable(&jni_cv);
-  //helper_cv.notify_all();
+  helper_cv.notify_all();
 }
 
 void helper_poll_event()
@@ -179,32 +165,16 @@ void helper_poll_event()
     helper_sync_lock.unlock();
     OC_DBG("JNI: - unlock %s\n", __func__);
 
-#if defined(_WIN32)
     if (next_event == 0) {
-      SleepConditionVariableCS(&jni_cv, &jni_cs, INFINITE);
-      //helper_cv.wait(helper_cs);
+      helper_cv.wait(helper_cs);
     }
     else {
       oc_clock_time_t now = oc_clock_time();
       if (now < next_event) {
-	//std::chrono::milliseconds duration((next_event - now) * 1000 / OC_CLOCK_SECOND);
-        //helper_cv.wait_for(helper_cs, duration);
-        SleepConditionVariableCS(&jni_cv, &jni_cs,
-          (DWORD)((next_event - now) * 1000 / OC_CLOCK_SECOND));
+	std::chrono::milliseconds duration((next_event - now) * 1000 / OC_CLOCK_SECOND);
+        helper_cv.wait_for(helper_cs, duration);
       }
     }
-#elif defined(__linux__)
-    jni_mutex_lock(jni_cs);
-    if (next_event == 0) {
-      pthread_cond_wait(&jni_cv, &jni_cs);
-    } else {
-      struct timespec ts;
-      ts.tv_sec = (next_event / OC_CLOCK_SECOND);
-      ts.tv_nsec = (next_event % OC_CLOCK_SECOND) * 1.e09 / OC_CLOCK_SECOND;
-      pthread_cond_timedwait(&jni_cv, &jni_cs, &ts);
-    }
-    jni_mutex_unlock(jni_cs);
-#endif
   }
 
   napi_status status = main_context->tsfn.BlockingCall();

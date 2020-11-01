@@ -9,17 +9,6 @@ Napi::Object Init(Napi::Env env, Napi::Object exports);
 NODE_API_MODULE(addon, Init)
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-#if defined(_WIN32)
-  InitializeCriticalSection(&jni_cs);
-  InitializeConditionVariable(&jni_cv);
-  InitializeCriticalSection(&jni_sync_lock);
-#elif defined(__linux__)
-  pthread_mutexattr_init(&jni_sync_lock_attr);
-  pthread_mutexattr_settype(
-    &jni_sync_lock_attr,
-    PTHREAD_MUTEX_ERRORCHECK); // was PTHREAD_MUTEX_RECURSIVE
-  pthread_mutex_init(&jni_sync_lock, &jni_sync_lock_attr);
-#endif
     exports.Set("OCMain", OCMain::GetClass(env));
     exports.Set("OCObt", OCObt::GetClass(env));
     exports.Set("OCBufferSettings", OCBufferSettings::GetClass(env));
