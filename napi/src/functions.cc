@@ -733,9 +733,8 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
 #endif
 
   OC_DBG("N_oc_main_init");
-  handler.m_pvalue->init = nullptr;
-  //handler.m_pvalue->signal_event_loop = nullptr;
   handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
+  handler.m_pvalue->init = nullptr;
   handler.m_pvalue->register_resources = nullptr;
   handler.m_pvalue->requests_entry = nullptr;
   if(handler.init.Value().IsFunction() ) {
@@ -751,12 +750,9 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
     handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;
   }
 
-  //testData->nativeThread = std::thread(threadEntry, testData);
 #if defined(_WIN32)
-  OC_DBG("CreateThread");
   jni_poll_event_thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)jni_poll_event, NULL, 0, NULL);
   if (NULL == jni_poll_event_thread) {
-  OC_DBG("CreateThread failed");
     Napi::TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
   }
 #elif defined(__linux__)

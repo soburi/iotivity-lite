@@ -496,6 +496,10 @@ FUNC_OVERRIDE = {
   'oc_main_init' => {
     'invoke' => <<~STR
 //
+  handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
+  handler.m_pvalue->init = nullptr;
+  handler.m_pvalue->register_resources = nullptr;
+  handler.m_pvalue->requests_entry = nullptr;
   if(handler.init.Value().IsFunction() ) {
     oc_handler_init_ref.Reset(handler.init.Value());
     handler.m_pvalue->init = oc_handler_init_helper;
@@ -508,8 +512,7 @@ FUNC_OVERRIDE = {
     oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());
     handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;
   }
-  auto return_value = Napi::Number::New(info.Env(), oc_main_init(handler));
-// start poll event thread.
+
 #if defined(_WIN32)
   jni_poll_event_thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)jni_poll_event, NULL, 0, NULL);
   if (NULL == jni_poll_event_thread) {
@@ -520,7 +523,9 @@ FUNC_OVERRIDE = {
     Napi::TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
   }
 #endif
-  return return_value;
+
+  OC_DBG("call oc_main_init");
+  return Napi::Number::New(info.Env(), oc_main_init(handler));
 STR
   },
   'oc_main_shutdown' => "\
