@@ -161,7 +161,7 @@ Napi::Value OCMain::is_owned_device(const Napi::CallbackInfo& info) { return N_o
 Napi::Value OCMain::link_add_link_param(const Napi::CallbackInfo& info) { return N_oc_link_add_link_param(info); };
 Napi::Value OCMain::link_add_rel(const Napi::CallbackInfo& info) { return N_oc_link_add_rel(info); };
 Napi::Value OCMain::main_init(const Napi::CallbackInfo& info) { return N_oc_main_init(info); };
-Napi::Value OCMain::main_loop(const Napi::CallbackInfo& info) { return N_oc_main_loop(info); };
+Napi::Value OCMain::main_loop(const Napi::CallbackInfo& info) { return N_helper_main_loop(info); };
 Napi::Value OCMain::main_shutdown(const Napi::CallbackInfo& info) { return N_oc_main_shutdown(info); };
 Napi::Value OCMain::new_collection(const Napi::CallbackInfo& info) { return N_oc_new_collection(info); };
 Napi::Value OCMain::new_link(const Napi::CallbackInfo& info) { return N_oc_new_link(info); };
