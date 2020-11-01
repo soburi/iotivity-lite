@@ -1,17 +1,7 @@
-const IotivityLite = require("../lib/iotivity-lite.js");
+const IL = require("../lib/iotivity-lite.js");
 const assert = require("assert");
 
-//var quit = 0;
-//static pthread_mutex_t mutex;
-//static pthread_cond_t cv;
-//static struct timespec ts;
 var light_state = false;
-/*
-function set_device_custom_property(data)
-{
-  IotivityLite.oc_set_custom_device_property(purpose, "desk lamp");
-}
-*/
 
 function init_platform_cb(parm) {
   console.log("init_platform_cb");
@@ -32,12 +22,13 @@ function add_device_cb(param) {
 function app_init()
 {
   console.log("app_init");
-  var ret;
+
   console.log("call oc_init_platform");
-  ret = IotivityLite.oc_init_platform("Intel", init_platform_cb, "init_platform_cb_param");
+  var ret = IL.oc_init_platform("Intel", init_platform_cb, "init_platform_cb_param");
   console.log("end call oc_init_platform");
+
   console.log("call oc_add_device");
-  ret = IotivityLite.oc_add_device("/oic/d", "oic.d.light", "Kishen's light", "ocf.1.0.0",
+  ret = IL.oc_add_device("/oic/d", "oic.d.light", "Kishen's light", "ocf.1.0.0",
                        "ocf.res.1.0.0", add_device_cb, "add_device_cb_param");
   console.log("end oc_add_device");
   return ret;
@@ -49,18 +40,18 @@ function get_light(request, iface_mask, user_data)
   console.log(request);
   console.log(iface_mask);
   console.log(user_data);
-  var root = IotivityLite.oc_rep_start_root_object();
+  var root = IL.oc_rep_start_root_object();
   switch (iface_mask) {
   case OCInterfaceMask.OC_IF_BASELINE:
-    IotivityLite.oc_process_baseline_interface(request.resource);
+    IL.oc_process_baseline_interface(request.resource);
   case OCInterfaceMask.OC_IF_RW:
-    IotivityLite.oc_rep_set_boolean(root, state, light_state);
+    IL.oc_rep_set_boolean(root, state, light_state);
     break;
   default:
     break;
   }
-  IotivityLite.oc_rep_end_root_object();
-  IotivityLite.oc_send_response(request, OCStatus.OC_STATUS_OK);
+  IL.oc_rep_end_root_object();
+  IL.oc_send_response(request, OCStatus.OC_STATUS_OK);
   console.log("Light state " + light_state);
 }
 
@@ -106,34 +97,24 @@ function register_resources()
 //  oc_resource_t *res = oc_new_resource("lightbulb", "/light/1", 1, 0);
   console.log("---- register_resources ----");
 
-  var res = IotivityLite.oc_new_resource("lightbulb", "/light/1", 1, 0);//new IotivityLite.OCResource();
+  var res = IL.oc_new_resource("lightbulb", "/light/1", 1, 0);//new IL.OCResource();
   console.dir(res);
-  IotivityLite.oc_resource_bind_resource_type(res, "oic.r.light");
-  IotivityLite.oc_resource_bind_resource_interface(res, IotivityLite.OCInterfaceMask.OC_IF_RW);
-  IotivityLite.oc_resource_set_default_interface(res, IotivityLite.OCInterfaceMask.OC_IF_RW);
-  IotivityLite.oc_resource_set_discoverable(res, true);
-  IotivityLite.oc_resource_set_periodic_observable(res, 1);
-  IotivityLite.oc_resource_set_request_handler(res, IotivityLite.OCMethod.OC_GET, get_light, null);
-  IotivityLite.oc_resource_set_request_handler(res, IotivityLite.OCMethod.OC_POST, post_light, null);
-  IotivityLite.oc_resource_set_request_handler(res, IotivityLite.OCMethod.OC_PUT, put_light, null);
-  IotivityLite.oc_add_resource(res);
-}
-function signal_event_loop()
-{
-  console.log(new Date);
-  var stack = new Error().stack
-  console.log( stack )
-  console.log("---- signal_event_loop ---");
-  //pthread_mutex_lock(&mutex);
-  //pthread_cond_signal(&cv);
-  //pthread_mutex_unlock(&mutex);
+  IL.oc_resource_bind_resource_type(res, "oic.r.light");
+  IL.oc_resource_bind_resource_interface(res, IL.OCInterfaceMask.OC_IF_RW);
+  IL.oc_resource_set_default_interface(res, IL.OCInterfaceMask.OC_IF_RW);
+  IL.oc_resource_set_discoverable(res, true);
+  IL.oc_resource_set_periodic_observable(res, 1);
+  IL.oc_resource_set_request_handler(res, IL.OCMethod.OC_GET, get_light, null);
+  IL.oc_resource_set_request_handler(res, IL.OCMethod.OC_POST, post_light, null);
+  IL.oc_resource_set_request_handler(res, IL.OCMethod.OC_PUT, put_light, null);
+  IL.oc_add_resource(res);
 }
 
 function handle_signal()
 {
-  console.log("IotivityLite.oc_main_shutdown()");
-  IotivityLite.OCMain.main_shutdown();
-  console.log("end IotivityLite.oc_main_shutdown()");
+  console.log("IL.oc_main_shutdown()");
+  IL.OCMain.main_shutdown();
+  console.log("end IL.oc_main_shutdown()");
 }
 
 /*
@@ -143,19 +124,18 @@ function handle_signal()
 async function main() {
   process.on('SIGINT', handle_signal);
 
-  IotivityLite.oc_storage_config("./server_creds");
+  IL.oc_storage_config("./server_creds");
 
-  var handler = new IotivityLite.OCHandler();
+  var handler = new IL.OCHandler();
   handler.init = app_init;
-  handler.signal_event_loop = signal_event_loop;
   handler.register_resources = register_resources;
   handler.request_entry = function() { console.log("-- request_entry --"); };
 
-  console.log("IotivityLite.oc_main_init(handler)");
-  var init = IotivityLite.OCMain.main_init(handler);
-  console.log("end IotivityLite.oc_main_init(handler)");
-  await IotivityLite.OCMain.main_loop();
-  console.log("end IotivityLite.oc_main_loop()");
+  console.log("IL.oc_main_init(handler)");
+  var init = IL.OCMain.main_init(handler);
+  console.log("end IL.oc_main_init(handler)");
+  await IL.OCMain.main_loop();
+  console.log("end IL.oc_main_loop()");
 };
 
 main();
