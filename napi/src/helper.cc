@@ -61,6 +61,7 @@ void oc_handler_signal_event_loop_helper()
   OC_DBG("JNI: %s\n", __func__);
 #if defined(_WIN32)
   WakeConditionVariable(&jni_cv);
+  //helper_cv.notify_all();
 #elif defined(__linux__)
   jni_mutex_lock(jni_cs);
   pthread_cond_signal(&jni_cv);
@@ -163,7 +164,7 @@ Napi::Value N_helper_main_loop(const Napi::CallbackInfo& info) {
 void terminate_main_loop() {
   jni_quit = 1;
   WakeConditionVariable(&jni_cv);
-  //oc_main_poll();
+  //helper_cv.notify_all();
 }
 
 void helper_poll_event()
