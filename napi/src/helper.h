@@ -37,8 +37,6 @@ extern callback_helper_t* oc_handler_init_helper_data;
 
 
 extern Napi::FunctionReference oc_handler_init_ref;
-//extern Napi::FunctionReference oc_handler_signal_event_loop_ref;
-extern Napi::ThreadSafeFunction oc_handler_signal_event_loop_ref;
 extern Napi::FunctionReference oc_handler_register_resources_ref;
 extern Napi::FunctionReference oc_handler_requests_entry_ref;
 
@@ -57,11 +55,6 @@ extern "C" {
 
 void oc_init_platform_helper(void* param);
 void oc_add_device_helper(void* param);
-
-int oc_handler_init_helper();
-void oc_handler_signal_event_loop_helper();
-void oc_handler_register_resources_helper();
-void oc_handler_requests_entry_helper();
 
 int oc_swupdate_cb_validate_purl_helper(const char *url);
 int oc_swupdate_cb_check_new_version_helper(size_t device, const char *url, const char *version);
