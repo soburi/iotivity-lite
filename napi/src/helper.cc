@@ -41,26 +41,6 @@ callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, int idx
   return helper;
 }
 
-int oc_handler_init_helper()
-{
-  Napi::Value ret = oc_handler_init_ref.Call({});
-  if(ret.IsNumber()) {
-    return ret.As<Napi::Number>().Int32Value();
-  }
-  return 0;
-}
-
-void oc_handler_register_resources_helper()
-{
-  oc_handler_register_resources_ref.Call({});
-}
-
-void oc_handler_requests_entry_helper()
-{
-  oc_handler_requests_entry_ref.Call({});
-}
-
-
 void oc_init_platform_helper(void* param)
 {
 printf("oc_init_platform_helper");

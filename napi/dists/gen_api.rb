@@ -501,15 +501,19 @@ FUNC_OVERRIDE = {
   handler.m_pvalue->requests_entry = nullptr;
   if(handler.init.Value().IsFunction() ) {
     oc_handler_init_ref.Reset(handler.init.Value());
-    handler.m_pvalue->init = oc_handler_init_helper;
+    handler.m_pvalue->init = [](){
+      Napi::Value ret = oc_handler_init_ref.Call({});
+      if(ret.IsNumber()) return ret.As<Napi::Number>().Int32Value();
+      return 0;
+    };
   }
   if(handler.register_resources.Value().IsFunction() ) {
     oc_handler_register_resources_ref.Reset(handler.register_resources.Value());
-    handler.m_pvalue->register_resources = oc_handler_register_resources_helper;
+    handler.m_pvalue->register_resources = [](){ oc_handler_register_resources_ref.Call({}); };
   }
   if(handler.requests_entry.Value().IsFunction() ) {
     oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());
-    handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;
+    handler.m_pvalue->requests_entry = [](){ oc_handler_requests_entry_ref.Call({}); };
   }
 
   try {
