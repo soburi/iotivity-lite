@@ -4,14 +4,13 @@
 #include <windows.h>
 #endif
 
-#if defined(_WIN32)
-//HANDLE jni_poll_event_thread;
 std::thread helper_poll_event_thread;
+int jni_quit = 0;
+
+#if defined(_WIN32)
 CRITICAL_SECTION jni_sync_lock;
 CONDITION_VARIABLE jni_cv;
 CRITICAL_SECTION jni_cs;
-
-int jni_quit = 0;
 #endif
 
 main_context_t* main_context;
@@ -176,12 +175,11 @@ void terminate_main_loop() {
   //oc_main_poll();
 }
 
-#if defined(_WIN32)
-//DWORD WINAPI
-//jni_poll_event(LPVOID lpParam)
 void helper_poll_event()
 {
+  OC_DBG("inside the JNI jni_poll_event\n");
   oc_clock_time_t next_event;
+#if defined(_WIN32)
   while (jni_quit != 1) {
       OC_DBG("JNI: - lock %s\n", __func__);
       jni_mutex_lock(jni_sync_lock);
@@ -201,23 +199,7 @@ void helper_poll_event()
           }
       }
   }
-
-  napi_status status = main_context->tsfn.BlockingCall();
-
-  oc_main_shutdown();
-  OC_DBG("JNI: - end oc_main_shutdown %s\n", __func__);
-
-//  return TRUE;
-}
-
 #elif defined(__linux__)
-void *
-jni_poll_event(void *data)
-{
-  OC_DBG("inside the JNI jni_poll_event\n");
-  (void)data;
-  oc_clock_time_t next_event;
-  struct timespec ts;
   while (jni_quit != 1) {
     OC_DBG("JNI: - lock %s\n", __func__);
     jni_mutex_lock(jni_sync_lock);
@@ -230,18 +212,19 @@ jni_poll_event(void *data)
     if (next_event == 0) {
       pthread_cond_wait(&jni_cv, &jni_cs);
     } else {
+      struct timespec ts;
       ts.tv_sec = (next_event / OC_CLOCK_SECOND);
       ts.tv_nsec = (next_event % OC_CLOCK_SECOND) * 1.e09 / OC_CLOCK_SECOND;
       pthread_cond_timedwait(&jni_cv, &jni_cs, &ts);
     }
     jni_mutex_unlock(jni_cs);
   }
+#endif
+
+  napi_status status = main_context->tsfn.BlockingCall();
 
   oc_main_shutdown();
-
-  return NULL;
 }
-#endif
 
 
 

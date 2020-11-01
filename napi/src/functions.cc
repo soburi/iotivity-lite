@@ -737,24 +737,14 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
     handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;
   }
 
-#if defined(_WIN32)
   try {
     helper_poll_event_thread = std::thread(helper_poll_event);
     helper_poll_event_thread.detach();
   }
   catch(system_error) {
+    Napi::TypeError::New(info.Env(), "Fail to initialize poll_event thread.").ThrowAsJavaScriptException();
   }
-  //jni_poll_event_thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)jni_poll_event, NULL, 0, NULL);
-  //if (NULL == jni_poll_event_thread) {
-  //  Napi::TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
-  //}
-#elif defined(__linux__)
-  if (pthread_create(&jni_poll_event_thread, NULL, &jni_poll_event, NULL) != 0) {
-    Napi::TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
-  }
-#endif
 
-  OC_DBG("call oc_main_init");
   return Napi::Number::New(info.Env(), oc_main_init(handler));
 
 }

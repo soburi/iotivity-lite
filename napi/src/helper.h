@@ -121,14 +121,7 @@ void helper_rep_clear_cbor_errno();
 void helper_rep_delete_buffer();
 void helper_rep_new_buffer(int size);
 
-#if defined(_WIN32)
-//DWORD WINAPI
-//jni_poll_event(LPVOID lpParam);
 void helper_poll_event();
-#elif defined(__linux__)
-void *
-jni_poll_event(void *data)
-#endif
 
 #ifdef __cplusplus
 }
