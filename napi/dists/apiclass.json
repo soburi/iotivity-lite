@@ -46,6 +46,7 @@
 	"link_add_link_param": "oc_",
 	"link_add_rel": "oc_",
 	"main_init": "oc_",
+	"main_loop": "oc_",
 	"main_shutdown": "oc_",
 	"new_collection": "oc_",
 	"new_link": "oc_",

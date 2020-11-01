@@ -7,7 +7,6 @@ using namespace Napi;
 Napi::Object module_init(Napi::Env env, Napi::Object exports);
 Napi::Object Init(Napi::Env env, Napi::Object exports);
 NODE_API_MODULE(addon, Init)
-Napi::Value N_oc_main_loop(const Napi::CallbackInfo& info);
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("OCMain", OCMain::GetClass(env));
