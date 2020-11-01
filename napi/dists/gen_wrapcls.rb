@@ -18,7 +18,7 @@ public:
   static Napi::FunctionReference constructor;
 CLSDECL
 MTDDECL = <<MTDDECL
-  static Napi::Value CLASS::METHOD(const Napi::CallbackInfo& info);
+  static Napi::Value METHOD(const Napi::CallbackInfo& info);
 MTDDECL
 
 MTDIMPL = <<MTDIMPL
