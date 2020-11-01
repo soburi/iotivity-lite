@@ -653,13 +653,8 @@ public:
   Napi::Value requests_entry_function; Napi::Value requests_entry_data;
 
 #endif
-  Napi::Value get_signal_event_loop(const Napi::CallbackInfo&);
-         void set_signal_event_loop(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value signal_event_loop_function; Napi::Value signal_event_loop_data;
-
 
   Napi::FunctionReference init;
-  Napi::FunctionReference signal_event_loop;
 #if defined(OC_SERVER)
   Napi::FunctionReference register_resources;
 #endif

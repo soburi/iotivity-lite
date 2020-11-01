@@ -2489,7 +2489,6 @@ Napi::Function OCHandler::GetClass(Napi::Env env) {
 #if defined(OC_CLIENT)
     OCHandler::InstanceAccessor("requests_entry", &OCHandler::get_requests_entry, &OCHandler::set_requests_entry),
 #endif
-    OCHandler::InstanceAccessor("signal_event_loop", &OCHandler::get_signal_event_loop, &OCHandler::set_signal_event_loop),
 
   });
 
@@ -2548,18 +2547,6 @@ void OCHandler::set_requests_entry(const Napi::CallbackInfo& info, const Napi::V
 
 }
 #endif
-
-Napi::Value OCHandler::get_signal_event_loop(const Napi::CallbackInfo& info)
-{
-  return signal_event_loop.Value();
-
-}
-
-void OCHandler::set_signal_event_loop(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  signal_event_loop.Reset(value.As<Napi::Function>());
-
-}
 
 Napi::FunctionReference OCIPv4Addr::constructor;
 
