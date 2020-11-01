@@ -496,19 +496,9 @@ FUNC_OVERRIDE = {
   'oc_main_init' => {
     'invoke' => <<~STR
 //
-  handler.m_pvalue->init = nullptr;
-  handler.m_pvalue->signal_event_loop = nullptr;
-  handler.m_pvalue->register_resources = nullptr;
-  handler.m_pvalue->requests_entry = nullptr;
   if(handler.init.Value().IsFunction() ) {
     oc_handler_init_ref.Reset(handler.init.Value());
     handler.m_pvalue->init = oc_handler_init_helper;
-  }
-  if(handler.signal_event_loop.Value().IsFunction() ) {
-    oc_handler_signal_event_loop_ref = Napi::ThreadSafeFunction::New(info.Env(),
-                              handler.signal_event_loop.Value().As<Napi::Function>(),
-                              "oc_handler_signal_event_loop_ref", 0, 1);
-    handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
   }
   if(handler.register_resources.Value().IsFunction() ) {
     oc_handler_register_resources_ref.Reset(handler.register_resources.Value());
@@ -518,7 +508,19 @@ FUNC_OVERRIDE = {
     oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());
     handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;
   }
-  return Napi::Number::New(info.Env(), oc_main_init(handler));
+  auto return_value = Napi::Number::New(info.Env(), oc_main_init(handler));
+// start poll event thread.
+#if defined(_WIN32)
+  jni_poll_event_thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)jni_poll_event, NULL, 0, NULL);
+  if (NULL == jni_poll_event_thread) {
+    Napi::TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+#elif defined(__linux__)
+  if (pthread_create(&jni_poll_event_thread, NULL, &jni_poll_event, NULL) != 0) {
+    Napi::TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+#endif
+  return return_value;
 STR
   },
   'oc_main_shutdown' => "\

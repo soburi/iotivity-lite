@@ -57,11 +57,22 @@ int oc_handler_init_helper()
 
 void oc_handler_signal_event_loop_helper()
 {
+#if 0
   napi_status status = oc_handler_signal_event_loop_ref.NonBlockingCall();
 
   if (status != napi_ok) {
     Napi::Error::Fatal("ThreadEntry", "Napi::ThreadSafeNapi::Function.BlockingCall() failed");
   }
+#endif
+
+  OC_DBG("JNI: %s\n", __func__);
+#if defined(_WIN32)
+  WakeConditionVariable(&jni_cv);
+#elif defined(__linux__)
+  jni_mutex_lock(jni_cs);
+  pthread_cond_signal(&jni_cv);
+  jni_mutex_unlock(jni_cs);
+#endif
 }
 
 void oc_handler_register_resources_helper()

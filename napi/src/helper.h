@@ -10,6 +10,10 @@
 #define jni_mutex_lock(m) EnterCriticalSection(&m)
 #define jni_mutex_unlock(m) LeaveCriticalSection(&m)
 extern HANDLE jni_poll_event_thread;
+extern CRITICAL_SECTION jni_sync_lock;
+extern CONDITION_VARIABLE jni_cv;
+extern CRITICAL_SECTION jni_cs;
+
 #elif defined(__linux__)
 #define jni_mutex_lock(m) pthread_mutex_lock(&m)
 #define jni_mutex_unlock(m) pthread_mutex_unlock(&m)
