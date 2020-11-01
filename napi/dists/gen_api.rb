@@ -529,7 +529,7 @@ FUNC_OVERRIDE = {
 STR
   },
   'oc_main_shutdown' => "\
-  oc_handler_signal_event_loop_ref.Release();\n\
+  terminate_main_loop();\n\
   (void)oc_main_shutdown();\n\
   return info.Env().Undefined();\n" ,
   'oc_swupdate_set_impl' => {
