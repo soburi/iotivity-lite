@@ -21,6 +21,14 @@ extern pthread_t jni_poll_event_thread;
 #elif defined(__linux__)
 #endif
 
+class main_context_t {
+public:
+	Napi::ThreadSafeFunction tsfn;
+	Napi::Promise::Deferred deferred;
+	main_context_t(const Napi::Env& env) : deferred(env) { }
+};
+
+extern main_context_t* main_context;
 
 struct callback_helper_t {
 public:

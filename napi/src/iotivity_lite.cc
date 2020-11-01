@@ -7,6 +7,7 @@ using namespace Napi;
 Napi::Object module_init(Napi::Env env, Napi::Object exports);
 Napi::Object Init(Napi::Env env, Napi::Object exports);
 NODE_API_MODULE(addon, Init)
+Napi::Value N_oc_main_loop(const Napi::CallbackInfo& info);
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("OCMain", OCMain::GetClass(env));
@@ -78,6 +79,7 @@ Napi::Function OCMain::GetClass(Napi::Env env) {
         OCMain::StaticMethod("link_add_link_param", &OCMain::link_add_link_param),
         OCMain::StaticMethod("link_add_rel", &OCMain::link_add_rel),
         OCMain::StaticMethod("main_init", &OCMain::main_init),
+        OCMain::StaticMethod("main_loop", &OCMain::main_loop),
         OCMain::StaticMethod("main_shutdown", &OCMain::main_shutdown),
         OCMain::StaticMethod("new_collection", &OCMain::new_collection),
         OCMain::StaticMethod("new_link", &OCMain::new_link),
@@ -160,6 +162,7 @@ Napi::Value OCMain::is_owned_device(const Napi::CallbackInfo& info) { return N_o
 Napi::Value OCMain::link_add_link_param(const Napi::CallbackInfo& info) { return N_oc_link_add_link_param(info); };
 Napi::Value OCMain::link_add_rel(const Napi::CallbackInfo& info) { return N_oc_link_add_rel(info); };
 Napi::Value OCMain::main_init(const Napi::CallbackInfo& info) { return N_oc_main_init(info); };
+Napi::Value OCMain::main_loop(const Napi::CallbackInfo& info) { return N_oc_main_loop(info); };
 Napi::Value OCMain::main_shutdown(const Napi::CallbackInfo& info) { return N_oc_main_shutdown(info); };
 Napi::Value OCMain::new_collection(const Napi::CallbackInfo& info) { return N_oc_new_collection(info); };
 Napi::Value OCMain::new_link(const Napi::CallbackInfo& info) { return N_oc_new_link(info); };

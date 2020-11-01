@@ -716,6 +716,9 @@ Napi::Value N_oc_is_owned_device(const Napi::CallbackInfo& info) {
 }
 #endif
 
+void NopFunc(const Napi::CallbackInfo& info) {
+}
+
 Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
   OCHandler& handler = *OCHandler::Unwrap(info[0].As<Napi::Object>());
 //
@@ -751,6 +754,7 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
     handler.m_pvalue->requests_entry = oc_handler_requests_entry_helper;
   }
 
+  //testData->nativeThread = std::thread(threadEntry, testData);
 #if defined(_WIN32)
   OC_DBG("CreateThread");
   jni_poll_event_thread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)jni_poll_event, NULL, 0, NULL);
@@ -769,12 +773,26 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
 
 }
 
+Napi::Value N_oc_main_loop(const Napi::CallbackInfo& info) {
+
+  main_context = new main_context_t(info.Env());
+
+  main_context->tsfn = Napi::ThreadSafeFunction::New(info.Env(), Napi::Function::New(info.Env(), NopFunc), "TSFN", 0, 1);
+  return main_context->deferred.Promise();
+}
+
 Napi::Value N_oc_main_poll(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_main_poll());
 }
-
+extern int jni_quit;
 Napi::Value N_oc_main_shutdown(const Napi::CallbackInfo& info) {
-  oc_handler_signal_event_loop_ref.Release();
+  jni_quit = 1;
+  WakeConditionVariable(&jni_cv);
+
+  //OC_DBG("JNI: - resolve %s\n", __func__);
+  //main_context->deferred.Resolve(main_context->deferred.Env().Undefined() );
+  //OC_DBG("JNI: - oc_main_shutdown %s\n", __func__);
+  oc_main_poll();
   (void)oc_main_shutdown();
   return info.Env().Undefined();
 }

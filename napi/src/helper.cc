@@ -13,6 +13,8 @@ CRITICAL_SECTION jni_cs;
 int jni_quit = 0;
 #endif
 
+main_context_t* main_context;
+
 Napi::FunctionReference oc_handler_init_ref;
 //Napi::FunctionReference oc_handler_signal_event_loop_ref;
 Napi::ThreadSafeFunction oc_handler_signal_event_loop_ref;
@@ -181,7 +183,11 @@ jni_poll_event(LPVOID lpParam)
       }
   }
 
+  OC_DBG("JNI: - resolve %s\n", __func__);
+  main_context->deferred.Resolve(main_context->deferred.Env().Undefined() );
+  OC_DBG("JNI: - oc_main_shutdown %s\n", __func__);
   oc_main_shutdown();
+  OC_DBG("JNI: - end oc_main_shutdown %s\n", __func__);
 
   return TRUE;
 }

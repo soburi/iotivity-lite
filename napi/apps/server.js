@@ -131,16 +131,16 @@ function signal_event_loop()
 
 function handle_signal()
 {
-  console.log("IotivityLite.oc_main_shutdown(handler)");
+  console.log("IotivityLite.oc_main_shutdown()");
   IotivityLite.OCMain.main_shutdown();
-  console.log("end IotivityLite.oc_main_shutdown(handler)");
-  signal_event_loop();
-  //quit = 1;
+  console.log("end IotivityLite.oc_main_shutdown()");
 }
 
 /*
   oc_clock_time_t next_event;
 */
+
+async function main() {
   process.on('SIGINT', handle_signal);
 
   IotivityLite.oc_storage_config("./server_creds");
@@ -154,20 +154,8 @@ function handle_signal()
   console.log("IotivityLite.oc_main_init(handler)");
   var init = IotivityLite.OCMain.main_init(handler);
   console.log("end IotivityLite.oc_main_init(handler)");
+  await IotivityLite.OCMain.main_loop();
+  console.log("end IotivityLite.oc_main_loop()");
+};
 
-  while(true) { }
-/*
-  while (quit != 1) {
-    next_event = IotivityLite.oc_main_poll();
-    //pthread_mutex_lock(&mutex);
-    if (next_event == 0) {
-      //pthread_cond_wait(&cv, &mutex);
-    } else {
-      //ts.tv_sec = (next_event / OC_CLOCK_SECOND);
-      //ts.tv_nsec = (next_event % OC_CLOCK_SECOND) * 1.e09 / OC_CLOCK_SECOND;
-      //pthread_cond_timedwait(&cv, &mutex, &ts);
-    }
-    //pthread_mutex_unlock(&mutex);
-  }
-*/
-
+main();

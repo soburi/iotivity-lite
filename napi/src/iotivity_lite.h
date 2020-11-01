@@ -56,6 +56,7 @@ public:
   static Napi::Value link_add_link_param(const Napi::CallbackInfo& info);
   static Napi::Value link_add_rel(const Napi::CallbackInfo& info);
   static Napi::Value main_init(const Napi::CallbackInfo& info);
+  static Napi::Value main_loop(const Napi::CallbackInfo& info);
   static Napi::Value main_shutdown(const Napi::CallbackInfo& info);
   static Napi::Value new_collection(const Napi::CallbackInfo& info);
   static Napi::Value new_link(const Napi::CallbackInfo& info);
