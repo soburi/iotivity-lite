@@ -157,6 +157,17 @@ void oc_resource_set_properties_cbs_get_helper(oc_resource_t* res, oc_interface_
 bool oc_resource_set_properties_cbs_set_helper(oc_resource_t* res, oc_rep_t* rep, void* data) { return true; }
 void oc_resource_set_request_handler_helper(oc_request_t* req, oc_interface_mask_t mask, void* data) { }
 
+void NopFunc(const Napi::CallbackInfo& info) {
+  OC_DBG("JNI: - resolve %s\n", __func__);
+  main_context->deferred.Resolve(info.Env().Undefined() );
+  OC_DBG("JNI: - oc_main_shutdown %s\n", __func__);
+}
+
+Napi::Value N_helper_main_loop(const Napi::CallbackInfo& info) {
+  main_context = new main_context_t(info.Env());
+  main_context->tsfn = Napi::ThreadSafeFunction::New(info.Env(), Napi::Function::New(info.Env(), NopFunc), "TSFN", 0, 1);
+  return main_context->deferred.Promise();
+}
 
 #if defined(_WIN32)
 DWORD WINAPI
@@ -183,9 +194,8 @@ jni_poll_event(LPVOID lpParam)
       }
   }
 
-  OC_DBG("JNI: - resolve %s\n", __func__);
-  main_context->deferred.Resolve(main_context->deferred.Env().Undefined() );
-  OC_DBG("JNI: - oc_main_shutdown %s\n", __func__);
+  napi_status status = main_context->tsfn.BlockingCall();
+
   oc_main_shutdown();
   OC_DBG("JNI: - end oc_main_shutdown %s\n", __func__);
 

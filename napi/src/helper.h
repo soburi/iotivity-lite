@@ -56,6 +56,8 @@ extern Napi::FunctionReference oc_swupdate_cb_check_new_version_ref;
 extern Napi::FunctionReference oc_swupdate_cb_download_update_ref;
 extern Napi::FunctionReference oc_swupdate_cb_perform_upgrade_ref;
 
+Napi::Value N_helper_main_loop(const Napi::CallbackInfo& info);
+
 #ifdef __cplusplus
 extern "C" {
 #endif

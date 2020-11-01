@@ -716,9 +716,6 @@ Napi::Value N_oc_is_owned_device(const Napi::CallbackInfo& info) {
 }
 #endif
 
-void NopFunc(const Napi::CallbackInfo& info) {
-}
-
 Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
   OCHandler& handler = *OCHandler::Unwrap(info[0].As<Napi::Object>());
 //
@@ -771,14 +768,6 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
   OC_DBG("call oc_main_init");
   return Napi::Number::New(info.Env(), oc_main_init(handler));
 
-}
-
-Napi::Value N_oc_main_loop(const Napi::CallbackInfo& info) {
-
-  main_context = new main_context_t(info.Env());
-
-  main_context->tsfn = Napi::ThreadSafeFunction::New(info.Env(), Napi::Function::New(info.Env(), NopFunc), "TSFN", 0, 1);
-  return main_context->deferred.Promise();
 }
 
 Napi::Value N_oc_main_poll(const Napi::CallbackInfo& info) {
