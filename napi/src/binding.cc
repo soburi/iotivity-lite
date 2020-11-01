@@ -326,9 +326,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_base64_encode", Napi::Function::New(env, N_oc_base64_encode));
   exports.Set("oc_blockwise_alloc_request_buffer", Napi::Function::New(env, N_oc_blockwise_alloc_request_buffer));
   exports.Set("oc_blockwise_alloc_response_buffer", Napi::Function::New(env, N_oc_blockwise_alloc_response_buffer));
-#if defined(XXX)
   exports.Set("oc_blockwise_dispatch_block", Napi::Function::New(env, N_oc_blockwise_dispatch_block));
-#endif
   exports.Set("oc_blockwise_find_request_buffer", Napi::Function::New(env, N_oc_blockwise_find_request_buffer));
   exports.Set("oc_blockwise_find_request_buffer_by_client_cb", Napi::Function::New(env, N_oc_blockwise_find_request_buffer_by_client_cb));
   exports.Set("oc_blockwise_find_request_buffer_by_mid", Napi::Function::New(env, N_oc_blockwise_find_request_buffer_by_mid));
@@ -485,9 +483,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_endpoint_compare", Napi::Function::New(env, N_oc_endpoint_compare));
   exports.Set("oc_endpoint_compare_address", Napi::Function::New(env, N_oc_endpoint_compare_address));
   exports.Set("oc_endpoint_copy", Napi::Function::New(env, N_oc_endpoint_copy));
-#if defined(XXX)
   exports.Set("oc_endpoint_list_copy", Napi::Function::New(env, N_oc_endpoint_list_copy));
-#endif
   exports.Set("oc_endpoint_set_di", Napi::Function::New(env, N_oc_endpoint_set_di));
   exports.Set("oc_endpoint_set_local_address", Napi::Function::New(env, N_oc_endpoint_set_local_address));
   exports.Set("oc_endpoint_string_parse_path", Napi::Function::New(env, N_oc_endpoint_string_parse_path));
@@ -500,22 +496,10 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_enum_to_str", Napi::Function::New(env, N_oc_enum_to_str));
   exports.Set("_oc_alloc_string", Napi::Function::New(env, N__oc_alloc_string));
   exports.Set("_oc_alloc_string_array", Napi::Function::New(env, N__oc_alloc_string_array));
-#if defined(XXX)
-  exports.Set("_oc_byte_string_array_add_item", Napi::Function::New(env, N__oc_byte_string_array_add_item));
-#endif
-#if defined(XXX)
-  exports.Set("_oc_copy_byte_string_to_array", Napi::Function::New(env, N__oc_copy_byte_string_to_array));
-#endif
-#if defined(XXX)
-  exports.Set("_oc_copy_string_to_array", Napi::Function::New(env, N__oc_copy_string_to_array));
-#endif
   exports.Set("_oc_free_array", Napi::Function::New(env, N__oc_free_array));
   exports.Set("_oc_free_string", Napi::Function::New(env, N__oc_free_string));
   exports.Set("_oc_new_array", Napi::Function::New(env, N__oc_new_array));
   exports.Set("_oc_new_string", Napi::Function::New(env, N__oc_new_string));
-#if defined(XXX)
-  exports.Set("_oc_string_array_add_item", Napi::Function::New(env, N__oc_string_array_add_item));
-#endif
   exports.Set("oc_concat_strings", Napi::Function::New(env, N_oc_concat_strings));
   exports.Set("oc_join_string_array", Napi::Function::New(env, N_oc_join_string_array));
 #if defined(OC_IDD_API)

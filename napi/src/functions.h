@@ -231,9 +231,7 @@ Napi::Value N_oc_base64_decode(const Napi::CallbackInfo&);
 Napi::Value N_oc_base64_encode(const Napi::CallbackInfo&);
 Napi::Value N_oc_blockwise_alloc_request_buffer(const Napi::CallbackInfo&);
 Napi::Value N_oc_blockwise_alloc_response_buffer(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_blockwise_dispatch_block(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_blockwise_find_request_buffer(const Napi::CallbackInfo&);
 Napi::Value N_oc_blockwise_find_request_buffer_by_client_cb(const Napi::CallbackInfo&);
 Napi::Value N_oc_blockwise_find_request_buffer_by_mid(const Napi::CallbackInfo&);
@@ -390,9 +388,7 @@ Napi::Value N_oc_create_discovery_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_endpoint_compare(const Napi::CallbackInfo&);
 Napi::Value N_oc_endpoint_compare_address(const Napi::CallbackInfo&);
 Napi::Value N_oc_endpoint_copy(const Napi::CallbackInfo&);
-#if defined(XXX)
 Napi::Value N_oc_endpoint_list_copy(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_endpoint_set_di(const Napi::CallbackInfo&);
 Napi::Value N_oc_endpoint_set_local_address(const Napi::CallbackInfo&);
 Napi::Value N_oc_endpoint_string_parse_path(const Napi::CallbackInfo&);
@@ -405,22 +401,10 @@ Napi::Value N_oc_enum_pos_desc_to_str(const Napi::CallbackInfo&);
 Napi::Value N_oc_enum_to_str(const Napi::CallbackInfo&);
 Napi::Value N__oc_alloc_string(const Napi::CallbackInfo&);
 Napi::Value N__oc_alloc_string_array(const Napi::CallbackInfo&);
-#if defined(XXX)
-Napi::Value N__oc_byte_string_array_add_item(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N__oc_copy_byte_string_to_array(const Napi::CallbackInfo&);
-#endif
-#if defined(XXX)
-Napi::Value N__oc_copy_string_to_array(const Napi::CallbackInfo&);
-#endif
 Napi::Value N__oc_free_array(const Napi::CallbackInfo&);
 Napi::Value N__oc_free_string(const Napi::CallbackInfo&);
 Napi::Value N__oc_new_array(const Napi::CallbackInfo&);
 Napi::Value N__oc_new_string(const Napi::CallbackInfo&);
-#if defined(XXX)
-Napi::Value N__oc_string_array_add_item(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_concat_strings(const Napi::CallbackInfo&);
 Napi::Value N_oc_join_string_array(const Napi::CallbackInfo&);
 #if defined(OC_IDD_API)

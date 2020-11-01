@@ -677,6 +677,10 @@ IGNORE_FUNCS = [
 'oc_list_push',
 'oc_list_remove',
 'oc_list_tail',
+'_oc_copy_byte_string_to_array',
+'_oc_byte_string_array_add_item',
+'_oc_string_array_add_item',
+'_oc_copy_string_to_array'
 
 ]
 
@@ -821,13 +825,7 @@ IFDEF_FUNCS = {
   'coap_set_header_if_none_match'=>'0',
 
   'coap_get_observers'=>'defined(XXX)',
-  'oc_blockwise_dispatch_block'=>'defined(XXX)',
 
-'_oc_copy_byte_string_to_array'=>'defined(XXX)',
-'_oc_byte_string_array_add_item'=>'defined(XXX)',
-'_oc_string_array_add_item'=>'defined(XXX)',
-'_oc_copy_string_to_array'=>'defined(XXX)',
-'oc_endpoint_list_copy'=>'defined(XXX)',
 
 
 }
