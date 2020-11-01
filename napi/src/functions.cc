@@ -719,20 +719,6 @@ Napi::Value N_oc_is_owned_device(const Napi::CallbackInfo& info) {
 Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
   OCHandler& handler = *OCHandler::Unwrap(info[0].As<Napi::Object>());
 //
-//
-#if defined(_WIN32)
-  InitializeCriticalSection(&jni_cs);
-  InitializeConditionVariable(&jni_cv);
-  InitializeCriticalSection(&jni_sync_lock);
-#elif defined(__linux__)
-  pthread_mutexattr_init(&jni_sync_lock_attr);
-  pthread_mutexattr_settype(
-    &jni_sync_lock_attr,
-    PTHREAD_MUTEX_ERRORCHECK); // was PTHREAD_MUTEX_RECURSIVE
-  pthread_mutex_init(&jni_sync_lock, &jni_sync_lock_attr);
-#endif
-
-  OC_DBG("N_oc_main_init");
   handler.m_pvalue->signal_event_loop = oc_handler_signal_event_loop_helper;
   handler.m_pvalue->init = nullptr;
   handler.m_pvalue->register_resources = nullptr;
