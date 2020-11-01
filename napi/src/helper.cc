@@ -169,6 +169,12 @@ Napi::Value N_helper_main_loop(const Napi::CallbackInfo& info) {
   return main_context->deferred.Promise();
 }
 
+void terminate_main_loop() {
+  jni_quit = 1;
+  WakeConditionVariable(&jni_cv);
+  //oc_main_poll();
+}
+
 #if defined(_WIN32)
 DWORD WINAPI
 jni_poll_event(LPVOID lpParam)

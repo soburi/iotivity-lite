@@ -755,15 +755,9 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
 Napi::Value N_oc_main_poll(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_main_poll());
 }
-extern int jni_quit;
-Napi::Value N_oc_main_shutdown(const Napi::CallbackInfo& info) {
-  jni_quit = 1;
-  WakeConditionVariable(&jni_cv);
 
-  //OC_DBG("JNI: - resolve %s\n", __func__);
-  //main_context->deferred.Resolve(main_context->deferred.Env().Undefined() );
-  //OC_DBG("JNI: - oc_main_shutdown %s\n", __func__);
-  oc_main_poll();
+Napi::Value N_oc_main_shutdown(const Napi::CallbackInfo& info) {
+  terminate_main_loop();
   (void)oc_main_shutdown();
   return info.Env().Undefined();
 }
