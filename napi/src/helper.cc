@@ -1,10 +1,11 @@
 #include "helper.h"
-#include <thread>
-#if defined(_WIN32)
-#include <windows.h>
-#endif
+#include <chrono>
 
 std::thread helper_poll_event_thread;
+std::mutex helper_sync_lock;
+std::mutex helper_mutex;
+std::unique_lock<std::mutex> helper_cs;
+std::condition_variable helper_cv;
 int jni_quit = 0;
 
 #if defined(_WIN32)
@@ -16,8 +17,6 @@ CRITICAL_SECTION jni_cs;
 main_context_t* main_context;
 
 Napi::FunctionReference oc_handler_init_ref;
-//Napi::FunctionReference oc_handler_signal_event_loop_ref;
-Napi::ThreadSafeFunction oc_handler_signal_event_loop_ref;
 Napi::FunctionReference oc_handler_register_resources_ref;
 Napi::FunctionReference oc_handler_requests_entry_ref;
 
@@ -59,14 +58,6 @@ int oc_handler_init_helper()
 
 void oc_handler_signal_event_loop_helper()
 {
-#if 0
-  napi_status status = oc_handler_signal_event_loop_ref.NonBlockingCall();
-
-  if (status != napi_ok) {
-    Napi::Error::Fatal("ThreadEntry", "Napi::ThreadSafeNapi::Function.BlockingCall() failed");
-  }
-#endif
-
   OC_DBG("JNI: %s\n", __func__);
 #if defined(_WIN32)
   WakeConditionVariable(&jni_cv);
@@ -179,35 +170,29 @@ void helper_poll_event()
 {
   OC_DBG("inside the JNI jni_poll_event\n");
   oc_clock_time_t next_event;
-#if defined(_WIN32)
-  while (jni_quit != 1) {
-      OC_DBG("JNI: - lock %s\n", __func__);
-      jni_mutex_lock(jni_sync_lock);
-      OC_DBG("calling oc_main_poll from JNI code\n");
-      next_event = oc_main_poll();
-      jni_mutex_unlock(jni_sync_lock);
-      OC_DBG("JNI: - unlock %s\n", __func__);
-
-      if (next_event == 0) {
-          SleepConditionVariableCS(&jni_cv, &jni_cs, INFINITE);
-      }
-      else {
-          oc_clock_time_t now = oc_clock_time();
-          if (now < next_event) {
-              SleepConditionVariableCS(&jni_cv, &jni_cs,
-                  (DWORD)((next_event - now) * 1000 / OC_CLOCK_SECOND));
-          }
-      }
-  }
-#elif defined(__linux__)
   while (jni_quit != 1) {
     OC_DBG("JNI: - lock %s\n", __func__);
-    jni_mutex_lock(jni_sync_lock);
+    helper_sync_lock.lock();
     OC_DBG("calling oc_main_poll from JNI code\n");
     next_event = oc_main_poll();
-    jni_mutex_unlock(jni_sync_lock);
+    helper_sync_lock.unlock();
     OC_DBG("JNI: - unlock %s\n", __func__);
 
+#if defined(_WIN32)
+    if (next_event == 0) {
+      SleepConditionVariableCS(&jni_cv, &jni_cs, INFINITE);
+      //helper_cv.wait(helper_cs);
+    }
+    else {
+      oc_clock_time_t now = oc_clock_time();
+      if (now < next_event) {
+	//std::chrono::milliseconds duration((next_event - now) * 1000 / OC_CLOCK_SECOND);
+        //helper_cv.wait_for(helper_cs, duration);
+        SleepConditionVariableCS(&jni_cv, &jni_cs,
+          (DWORD)((next_event - now) * 1000 / OC_CLOCK_SECOND));
+      }
+    }
+#elif defined(__linux__)
     jni_mutex_lock(jni_cs);
     if (next_event == 0) {
       pthread_cond_wait(&jni_cv, &jni_cs);
@@ -218,8 +203,8 @@ void helper_poll_event()
       pthread_cond_timedwait(&jni_cv, &jni_cs, &ts);
     }
     jni_mutex_unlock(jni_cs);
-  }
 #endif
+  }
 
   napi_status status = main_context->tsfn.BlockingCall();
 

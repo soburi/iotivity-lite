@@ -5,13 +5,17 @@
 #include <windows.h>
 #endif
 #include <thread>
+#include <mutex>
+#include <condition_variable>
 
+extern std::thread helper_poll_event_thread;
+extern std::mutex helper_sync_lock;
+extern std::mutex helper_mutex;
+extern std::unique_lock<std::mutex> helper_cs;
+extern std::condition_variable helper_cv;
 #if defined(_WIN32)
 #define jni_mutex_lock(m) EnterCriticalSection(&m)
 #define jni_mutex_unlock(m) LeaveCriticalSection(&m)
-//extern HANDLE jni_poll_event_thread;
-
-extern std::thread helper_poll_event_thread;
 extern CRITICAL_SECTION jni_sync_lock;
 extern CONDITION_VARIABLE jni_cv;
 extern CRITICAL_SECTION jni_cs;
@@ -20,7 +24,6 @@ extern CRITICAL_SECTION jni_cs;
 #define jni_mutex_lock(m) pthread_mutex_lock(&m)
 #define jni_mutex_unlock(m) pthread_mutex_unlock(&m)
 extern pthread_t jni_poll_event_thread;
-#elif defined(__linux__)
 #endif
 
 class main_context_t {
