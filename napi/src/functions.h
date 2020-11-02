@@ -130,7 +130,9 @@ Napi::Value N_oc_base64_decode(const Napi::CallbackInfo&);
 Napi::Value N_oc_base64_encode(const Napi::CallbackInfo&);
 Napi::Value N_oc_blockwise_alloc_request_buffer(const Napi::CallbackInfo&);
 Napi::Value N_oc_blockwise_alloc_response_buffer(const Napi::CallbackInfo&);
+#if defined(XXX)
 Napi::Value N_oc_blockwise_dispatch_block(const Napi::CallbackInfo&);
+#endif
 Napi::Value N_oc_blockwise_find_request_buffer(const Napi::CallbackInfo&);
 Napi::Value N_oc_blockwise_find_request_buffer_by_client_cb(const Napi::CallbackInfo&);
 Napi::Value N_oc_blockwise_find_request_buffer_by_mid(const Napi::CallbackInfo&);

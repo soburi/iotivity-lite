@@ -873,6 +873,7 @@ Napi::Value N_oc_blockwise_alloc_response_buffer(const Napi::CallbackInfo& info)
   return OCBlockwiseState::constructor.New({args});
 }
 
+#if defined(XXX)
 Napi::Value N_oc_blockwise_dispatch_block(const Napi::CallbackInfo& info) {
   OCBlockwiseState& buffer = *OCBlockwiseState::Unwrap(info[0].As<Napi::Object>());
   uint32_t block_offset = static_cast<uint32_t>(info[1].As<Napi::Number>().Uint32Value());
@@ -880,6 +881,7 @@ Napi::Value N_oc_blockwise_dispatch_block(const Napi::CallbackInfo& info) {
 // 3 payload_size, uint32_t*
   //func return const void*
 }
+#endif
 
 Napi::Value N_oc_blockwise_find_request_buffer(const Napi::CallbackInfo& info) {
   std::string href_ = info[0].As<Napi::String>().Utf8Value();

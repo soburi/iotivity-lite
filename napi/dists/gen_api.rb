@@ -929,6 +929,7 @@ IFDEF_FUNCS = {
   'coap_set_header_if_none_match'=>'0',
 
   'coap_get_observers'=>'defined(XXX)',
+  'oc_blockwise_dispatch_block'=>'defined(XXX)',
 
 
 
