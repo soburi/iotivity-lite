@@ -1,4 +1,11 @@
 {
+  'target_defaults': {
+    'configurations': {
+      'Debug': {
+        'defines': [ 'OC_DEBUG', 'DEBUG', '_DEBUG', 'V8_ENABLE_CHECKS' ],
+      }
+    }
+  },
   'targets': [
     {
       'target_name': 'iotivity-lite-native',
@@ -203,7 +210,6 @@
                   'OC_PKI',
                   'OC_DYNAMIC_ALLOCATION',
                   'OC_IDD_API',
-                  'OC_DEBUG',
                   'OC_MNT',
 		  'OC_COLLECTIONS_IF_CREATE',
                   '__OC_RANDOM',
