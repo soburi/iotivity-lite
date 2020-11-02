@@ -677,5 +677,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("helper_rep_oc_array_to_bool_array", Napi::Function::New(env, N_helper_rep_oc_array_to_bool_array));
   exports.Set("helper_rep_oc_array_to_double_array", Napi::Function::New(env, N_helper_rep_oc_array_to_double_array));
   exports.Set("helper_rep_oc_array_to_string_array", Napi::Function::New(env, N_helper_rep_oc_array_to_string_array));
+  exports.Set("helper_oc_do_ip_discovery", Napi::Function::New(env, N_helper_oc_do_ip_discovery));
   return exports;
 }

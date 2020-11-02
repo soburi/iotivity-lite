@@ -582,3 +582,4 @@ Napi::Value N_helper_rep_oc_array_to_int_array(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_oc_array_to_bool_array(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_oc_array_to_double_array(const Napi::CallbackInfo&);
 Napi::Value N_helper_rep_oc_array_to_string_array(const Napi::CallbackInfo&);
+Napi::Value N_helper_oc_do_ip_discovery(const Napi::CallbackInfo&);

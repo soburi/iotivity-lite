@@ -3542,5 +3542,17 @@
 	"param": {
 		"array": "oc_array_t*"
 	}
+},
+"helper_oc_do_ip_discovery": {
+	"type": "oc_discovery_flags_t",
+	"param": {
+		"di": "const char*",
+		"uri": "const char*",
+		"types": "oc_string_array_t",
+		"iface_mask": "oc_interface_mask_t",
+		"endpoint": "oc_endpoint_t*",
+		"bm": "oc_resource_properties_t",
+	  	"user_data": "void*"
+	}
 }
 }

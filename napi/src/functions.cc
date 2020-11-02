@@ -3062,3 +3062,16 @@ Napi::Value N_helper_rep_oc_array_to_string_array(const Napi::CallbackInfo& info
     return buf;
 }
 
+Napi::Value N_helper_oc_do_ip_discovery(const Napi::CallbackInfo& info) {
+  std::string di_ = info[0].As<Napi::String>().Utf8Value();
+  const char* di = di_.c_str();
+  std::string uri_ = info[1].As<Napi::String>().Utf8Value();
+  const char* uri = uri_.c_str();
+// 2 types, oc_string_array_t
+  oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[3].As<Napi::Number>().Uint32Value());
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[4].As<Napi::Object>());
+  oc_resource_properties_t bm = static_cast<oc_resource_properties_t>(info[5].As<Napi::Number>().Uint32Value());
+  void* user_data = info[6];
+  return Napi::Number::New(info.Env(), 0);
+}
+

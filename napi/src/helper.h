@@ -56,6 +56,12 @@ extern "C" {
 void oc_init_platform_helper(void* param);
 void oc_add_device_helper(void* param);
 
+oc_discovery_flags_t
+oc_do_ip_discovery_helper(const char *di, const char *uri, oc_string_array_t types,
+          oc_interface_mask_t iface_mask, oc_endpoint_t *endpoint,
+          oc_resource_properties_t bm, void *user_data);
+
+
 int oc_swupdate_cb_validate_purl_helper(const char *url);
 int oc_swupdate_cb_check_new_version_helper(size_t device, const char *url, const char *version);
 int oc_swupdate_cb_download_update_helper(size_t device, const char *url);

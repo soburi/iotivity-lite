@@ -1,6 +1,8 @@
 #include "helper.h"
 #include <chrono>
 
+static void nop_deleter(void*) { }
+
 std::thread helper_poll_event_thread;
 std::mutex helper_sync_lock;
 std::mutex helper_cs_mutex;
@@ -60,6 +62,29 @@ printf("oc_add_device_helper\n");
   Napi::CallbackScope scope(helper->function.Env(), helper->async_context);
   helper->function.MakeCallback(helper->function.Env().Null(), {helper->value.Value()});
 printf("end oc_add_device_helper\n");
+}
+
+oc_discovery_flags_t
+oc_do_ip_discovery_helper(const char *di, const char *uri, oc_string_array_t types,
+          oc_interface_mask_t iface_mask, oc_endpoint_t *endpoint,
+          oc_resource_properties_t bm, void *user_data)
+{
+  callback_helper_t* helper = (callback_helper_t*)user_data;
+  auto di_ = Napi::String::New(helper->function.Env(), di);
+  auto uri_ = Napi::String::New(helper->function.Env(), uri);
+  //?
+  std::shared_ptr<oc_endpoint_t> endpoint_sp(endpoint, nop_deleter);
+  auto endpoint_ = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(helper->function.Env(), &endpoint_sp);
+  auto iface_mask_ = Napi::Number::New(helper->function.Env(), iface_mask);
+  auto bm_ = Napi::Number::New(helper->function.Env(), bm);
+
+  Napi::CallbackScope scope(helper->function.Env(), helper->async_context);
+  Napi::Value ret = helper->function.MakeCallback(helper->function.Env().Null(), {di_, uri_, nullptr, iface_mask_, endpoint_, bm_, helper->value.Value()});
+
+  if(ret.IsNumber()) {
+    return static_cast<oc_discovery_flags_t>(ret.As<Napi::Number>().Uint32Value());
+  }
+  return OC_STOP_DISCOVERY;
 }
 
 int oc_swupdate_cb_validate_purl_helper(const char *url)
