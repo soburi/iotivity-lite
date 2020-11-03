@@ -60,17 +60,15 @@ CallbackHelper::CallbackHelper(const Napi::CallbackInfo& info) : ObjectWrap(info
 
 
 Napi::Value OCResource::bind_resource_interface(const Napi::CallbackInfo& info) {
-//Napi::Value N_oc_resource_(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[1].As<Napi::Number>().Uint32Value());
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+  oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[0].As<Napi::Number>().Uint32Value());
   (void)oc_resource_bind_resource_interface(resource, iface_mask);
   return info.Env().Undefined();
 }
 
 Napi::Value OCResource::bind_resource_type(const Napi::CallbackInfo& info) {
-//Napi::Value N_oc_resource_bind_resource_type(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  std::string type_ = info[1].As<Napi::String>().Utf8Value();
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+  std::string type_ = info[0].As<Napi::String>().Utf8Value();
   const char* type = type_.c_str();
   (void)oc_resource_bind_resource_type(resource, type);
   return info.Env().Undefined();
@@ -78,61 +76,53 @@ Napi::Value OCResource::bind_resource_type(const Napi::CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Napi::Value OCResource::make_public(const Napi::CallbackInfo& info) {
-//Napi::Value N_oc_resource_make_public(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
   (void)oc_resource_make_public(resource);
   return info.Env().Undefined();
 }
 #endif
 
-
 Napi::Value OCResource::set_discoverable(const Napi::CallbackInfo& info) {
-//Napi::Value N_oc_resource_set_discoverable(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  bool state = info[1].As<Napi::Boolean>().Value();
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+  bool state = info[0].As<Napi::Boolean>().Value();
   (void)oc_resource_set_discoverable(resource, state);
   return info.Env().Undefined();
 }
 
 Napi::Value OCResource::set_observable(const Napi::CallbackInfo& info) {
-//Napi::Value N_oc_resource_set_observable(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  bool state = info[1].As<Napi::Boolean>().Value();
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+  bool state = info[0].As<Napi::Boolean>().Value();
   (void)oc_resource_set_observable(resource, state);
   return info.Env().Undefined();
 }
 
-
 Napi::Value OCResource::set_periodic_observable(const Napi::CallbackInfo& info) {
-//Napi::Value N_oc_resource_set_periodic_observable(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  uint16_t seconds = static_cast<uint16_t>(info[1].As<Napi::Number>().Uint32Value());
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+  uint16_t seconds = static_cast<uint16_t>(info[0].As<Napi::Number>().Uint32Value());
   (void)oc_resource_set_periodic_observable(resource, seconds);
   return info.Env().Undefined();
 }
 
 Napi::Value OCResource::set_properties_cbs(const Napi::CallbackInfo& info) {
-//Napi::Value N_oc_resource_set_properties_cbs(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
   oc_get_properties_cb_t get_properties = oc_resource_set_properties_cbs_get_helper;
 //
-  callback_helper_t* get_propr_user_data = new_callback_helper_t(info, 1, 2);
+  callback_helper_t* get_propr_user_data = new_callback_helper_t(info, 0, 1);
   if(!get_propr_user_data) get_properties = nullptr;
   oc_set_properties_cb_t set_properties = oc_resource_set_properties_cbs_set_helper;
 //
-  callback_helper_t* set_props_user_data = new_callback_helper_t(info, 3, 4);
+  callback_helper_t* set_props_user_data = new_callback_helper_t(info, 2, 3);
   if(!set_props_user_data) set_properties = nullptr;
   (void)oc_resource_set_properties_cbs(resource, get_properties, get_propr_user_data, set_properties, set_props_user_data);
   return info.Env().Undefined();
 }
 
 Napi::Value OCResource::set_request_handler(const Napi::CallbackInfo& info) {
-//Napi::Value N_oc_resource_set_request_handler(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  oc_method_t method = static_cast<oc_method_t>(info[1].As<Napi::Number>().Uint32Value());
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+  oc_method_t method = static_cast<oc_method_t>(info[0].As<Napi::Number>().Uint32Value());
   oc_request_callback_t callback = oc_resource_set_request_handler_helper;
 
-  Napi::Value helper = CallbackHelper::constructor.New({ info[2], info[3] });
+  Napi::Value helper = CallbackHelper::constructor.New({ info[1], info[2] });
 //callback_helper_t* user_data = new_callback_helper_t(info, 2, 3);
 //if(!user_data) callback = nullptr;
   (void)oc_resource_set_request_handler(resource, method, callback, helper);
@@ -141,24 +131,21 @@ Napi::Value OCResource::set_request_handler(const Napi::CallbackInfo& info) {
 
 /*
 Napi::Value OCResource::tag_func_desc(const Napi::CallbackInfo& info) {
-//Napi::Value N_oc_resource_tag_func_desc(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
   oc_enum_t func = static_cast<oc_enum_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)oc_resource_tag_func_desc(resource, func);
   return info.Env().Undefined();
 }
 
 Napi::Value OCResource::tag_pos_desc(const Napi::CallbackInfo& info) {
-//Napi::Value N_oc_resource_tag_pos_desc(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
   oc_pos_description_t pos = static_cast<oc_pos_description_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)oc_resource_tag_pos_desc(resource, pos);
   return info.Env().Undefined();
 }
 
 Napi::Value OCResource::tag_pos_rel(const Napi::CallbackInfo& info) {
-//Napi::Value N_oc_resource_tag_pos_rel(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
   double x = info[1].As<Napi::Number>().DoubleValue();
   double y = info[2].As<Napi::Number>().DoubleValue();
   double z = info[3].As<Napi::Number>().DoubleValue();
@@ -167,8 +154,7 @@ Napi::Value OCResource::tag_pos_rel(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value OCResource::set_default_interface(const Napi::CallbackInfo& info) {
-//Napi::Value N_oc_resource_set_default_interface(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
   oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)oc_resource_set_default_interface(resource, iface_mask);
   return info.Env().Undefined();
