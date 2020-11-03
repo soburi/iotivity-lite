@@ -32,6 +32,7 @@ class CLASSNAME : public Napi::ObjectWrap<CLASSNAME>
 {
 public:
   CLASSNAME(const Napi::CallbackInfo&);
+  virtual ~CLASSNAME();
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator STRUCTNAME*() { return m_pvalue.get(); }
@@ -53,6 +54,10 @@ Napi::Function CLASSNAME::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+CLASSNAME::~CLASSNAME()
+{
 }
 GETCLASSIMPL
 
@@ -184,6 +189,9 @@ EXTRA_VALUE= {
   Napi::FunctionReference get_handler;\n\
   Napi::FunctionReference post_handler;\n\
   Napi::FunctionReference put_handler;\n\
+  Napi::Value get_value;\n\
+  Napi::Value post_value;\n\
+  Napi::Value put_value;\n\
   Napi::Value OCResource::bind_resource_interface(const Napi::CallbackInfo& info);
   Napi::Value OCResource::bind_resource_type(const Napi::CallbackInfo& info);
 #if defined(OC_SECURITY)
@@ -513,7 +521,7 @@ FUNC_OVERRIDE = {
     'invoke' => 'return Napi::Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(oc_rep_get_encoder_buf()), oc_rep_get_encoded_payload_size() );'
   },
   'oc_resource_set_request_handler' => {
-    '2' => "  oc_request_callback_t callback = oc_resource_set_request_handler_helper;\n",
+    '2' => "  oc_request_callback_t callback = nullptr;\n",
     '3' => <<~STR
                    callback_helper_t* user_data = new_callback_helper_t(info, 2, 3);
                    if(!user_data) callback = nullptr;

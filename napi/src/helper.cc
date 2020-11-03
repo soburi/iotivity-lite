@@ -123,13 +123,16 @@ Napi::Value OCResource::set_request_handler(const Napi::CallbackInfo& info) {
 
   switch(method) {
   case OC_GET:
-    get_handler.Reset(info[1].As<Napi::Function>());
+    //get_handler.Reset(info[1].As<Napi::Function>());
+    //get_value = info[2];
     break;
   case OC_POST:
     post_handler.Reset(info[1].As<Napi::Function>());
+    //post_value = info[2];
     break;
   case OC_PUT:
     put_handler.Reset(info[1].As<Napi::Function>());
+    //put_value = info[2];
     break;
   }
 

@@ -563,7 +563,7 @@ Napi::Value N_oc_resource_set_properties_cbs(const Napi::CallbackInfo& info) {
 Napi::Value N_oc_resource_set_request_handler(const Napi::CallbackInfo& info) {
   OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
   oc_method_t method = static_cast<oc_method_t>(info[1].As<Napi::Number>().Uint32Value());
-  oc_request_callback_t callback = oc_resource_set_request_handler_helper;
+  oc_request_callback_t callback = nullptr;
 callback_helper_t* user_data = new_callback_helper_t(info, 2, 3);
 if(!user_data) callback = nullptr;
   (void)oc_resource_set_request_handler(resource, method, callback, user_data);

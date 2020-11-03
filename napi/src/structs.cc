@@ -21,6 +21,10 @@ Napi::Function coapObserver::GetClass(Napi::Env env) {
 
   return func;
 }
+
+coapObserver::~coapObserver()
+{
+}
 coapObserver::coapObserver(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -179,6 +183,10 @@ Napi::Function coapPacket::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+coapPacket::~coapPacket()
+{
 }
 coapPacket::coapPacket(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -592,6 +600,10 @@ Napi::Function coapSeparate::GetClass(Napi::Env env) {
 
   return func;
 }
+
+coapSeparate::~coapSeparate()
+{
+}
 coapSeparate::coapSeparate(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -695,6 +707,10 @@ Napi::Function coapTransaction::GetClass(Napi::Env env) {
 
   return func;
 }
+
+coapTransaction::~coapTransaction()
+{
+}
 coapTransaction::coapTransaction(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -768,6 +784,10 @@ Napi::Function OCAceResource::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCAceResource::~OCAceResource()
+{
+}
 OCAceResource::OCAceResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -838,6 +858,10 @@ Napi::Function OCBlockwiseRequestState::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCBlockwiseRequestState::~OCBlockwiseRequestState()
+{
+}
 OCBlockwiseRequestState::OCBlockwiseRequestState(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -879,6 +903,10 @@ Napi::Function OCBlockwiseResponseState::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCBlockwiseResponseState::~OCBlockwiseResponseState()
+{
 }
 OCBlockwiseResponseState::OCBlockwiseResponseState(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -959,6 +987,10 @@ Napi::Function OCBlockwiseState::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCBlockwiseState::~OCBlockwiseState()
+{
 }
 OCBlockwiseState::OCBlockwiseState(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -1144,6 +1176,10 @@ Napi::Function OCClientCallback::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCClientCallback::~OCClientCallback()
+{
 }
 OCClientCallback::OCClientCallback(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -1341,6 +1377,10 @@ Napi::Function OCClientHandler::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCClientHandler::~OCClientHandler()
+{
+}
 OCClientHandler::OCClientHandler(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -1402,6 +1442,10 @@ Napi::Function OCClientResponse::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCClientResponse::~OCClientResponse()
+{
 }
 OCClientResponse::OCClientResponse(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -1518,6 +1562,10 @@ Napi::Function OCCloudContext::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCCloudContext::~OCCloudContext()
+{
 }
 OCCloudContext::OCCloudContext(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -1725,6 +1773,10 @@ Napi::Function OCCloudStore::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCCloudStore::~OCCloudStore()
+{
+}
 OCCloudStore::OCCloudStore(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -1869,6 +1921,10 @@ Napi::Function OCCollection::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCCollection::~OCCollection()
+{
 }
 OCCollection::OCCollection(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -2101,6 +2157,10 @@ Napi::Function OCCredData::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCCredData::~OCCredData()
+{
+}
 OCCredData::OCCredData(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -2154,6 +2214,10 @@ Napi::Function OCDeviceInfo::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCDeviceInfo::~OCDeviceInfo()
+{
 }
 OCDeviceInfo::OCDeviceInfo(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -2268,6 +2332,10 @@ Napi::Function OCEndpoint::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCEndpoint::~OCEndpoint()
+{
+}
 OCEndpoint::OCEndpoint(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -2381,6 +2449,10 @@ Napi::Function OCEtimer::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCEtimer::~OCEtimer()
+{
+}
 OCEtimer::OCEtimer(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -2432,6 +2504,10 @@ Napi::Function OCEventCallback::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCEventCallback::~OCEventCallback()
+{
 }
 OCEventCallback::OCEventCallback(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -2496,6 +2572,10 @@ Napi::Function OCHandler::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCHandler::~OCHandler()
+{
 }
 OCHandler::OCHandler(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -2562,6 +2642,10 @@ Napi::Function OCIPv4Addr::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCIPv4Addr::~OCIPv4Addr()
+{
+}
 OCIPv4Addr::OCIPv4Addr(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -2617,6 +2701,10 @@ Napi::Function OCIPv6Addr::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCIPv6Addr::~OCIPv6Addr()
+{
 }
 OCIPv6Addr::OCIPv6Addr(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -2691,6 +2779,10 @@ Napi::Function OCLEAddr::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCLEAddr::~OCLEAddr()
+{
+}
 OCLEAddr::OCLEAddr(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -2750,6 +2842,10 @@ Napi::Function OCLinkParams::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCLinkParams::~OCLinkParams()
+{
+}
 OCLinkParams::OCLinkParams(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -2802,6 +2898,10 @@ Napi::Function OCLink::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCLink::~OCLink()
+{
 }
 OCLink::OCLink(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -2875,6 +2975,10 @@ Napi::Function OCMemb::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCMemb::~OCMemb()
+{
+}
 OCMemb::OCMemb(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -2940,6 +3044,10 @@ Napi::Function OCMessage::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCMessage::~OCMessage()
+{
 }
 OCMessage::OCMessage(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -3045,6 +3153,10 @@ Napi::Function OCMmem::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCMmem::~OCMmem()
+{
+}
 OCMmem::OCMmem(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -3080,6 +3192,10 @@ Napi::Function OCNetworkInterfaceCb::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCNetworkInterfaceCb::~OCNetworkInterfaceCb()
+{
 }
 OCNetworkInterfaceCb::OCNetworkInterfaceCb(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -3119,6 +3235,10 @@ Napi::Function OCPlatformInfo::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCPlatformInfo::~OCPlatformInfo()
+{
 }
 OCPlatformInfo::OCPlatformInfo(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -3192,6 +3312,10 @@ Napi::Function OCProcess::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCProcess::~OCProcess()
+{
+}
 OCProcess::OCProcess(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -3247,6 +3371,10 @@ Napi::Function OCPropertiesCb::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCPropertiesCb::~OCPropertiesCb()
+{
+}
 OCPropertiesCb::OCPropertiesCb(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -3275,6 +3403,10 @@ Napi::Function OCRepresentation::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCRepresentation::~OCRepresentation()
+{
 }
 OCRepresentation::OCRepresentation(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -3337,6 +3469,10 @@ Napi::Function OCRequestHandler::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCRequestHandler::~OCRequestHandler()
+{
+}
 OCRequestHandler::OCRequestHandler(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -3390,6 +3526,10 @@ Napi::Function OCRequest::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCRequest::~OCRequest()
+{
 }
 OCRequest::OCRequest(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -3545,6 +3685,10 @@ Napi::Function OCResource::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCResource::~OCResource()
+{
 }
 OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -3799,6 +3943,10 @@ Napi::Function OCResponseBuffer::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCResponseBuffer::~OCResponseBuffer()
+{
+}
 OCResponseBuffer::OCResponseBuffer(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -3877,6 +4025,10 @@ Napi::Function OCResponse::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCResponse::~OCResponse()
+{
+}
 OCResponse::OCResponse(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -3928,6 +4080,10 @@ Napi::Function OCRole::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCRole::~OCRole()
+{
+}
 OCRole::OCRole(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -3978,6 +4134,10 @@ Napi::Function OCResourceType::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCResourceType::~OCResourceType()
+{
+}
 OCResourceType::OCResourceType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -4018,6 +4178,10 @@ Napi::Function OCSecurityAce::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCSecurityAce::~OCSecurityAce()
+{
 }
 OCSecurityAce::OCSecurityAce(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -4087,6 +4251,10 @@ Napi::Function OCSecurityAcl::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCSecurityAcl::~OCSecurityAcl()
+{
+}
 OCSecurityAcl::OCSecurityAcl(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -4124,6 +4292,10 @@ Napi::Function OCCreds::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCCreds::~OCCreds()
+{
 }
 OCCreds::OCCreds(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -4178,6 +4350,10 @@ Napi::Function OCCred::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCCred::~OCCred()
+{
 }
 OCCred::OCCred(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -4318,6 +4494,10 @@ Napi::Function OCSeparateResponse::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCSeparateResponse::~OCSeparateResponse()
+{
+}
 OCSeparateResponse::OCSeparateResponse(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -4364,6 +4544,10 @@ Napi::Function OCSessionEventCb::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCSessionEventCb::~OCSessionEventCb()
+{
+}
 OCSessionEventCb::OCSessionEventCb(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -4402,6 +4586,10 @@ Napi::Function OCSoftwareUpdateHandler::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCSoftwareUpdateHandler::~OCSoftwareUpdateHandler()
+{
 }
 OCSoftwareUpdateHandler::OCSoftwareUpdateHandler(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -4470,6 +4658,10 @@ Napi::Function OCTimer::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCTimer::~OCTimer()
+{
+}
 OCTimer::OCTimer(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -4516,6 +4708,10 @@ Napi::Function OCUuid::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCUuid::~OCUuid()
+{
+}
 OCUuid::OCUuid(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -4552,6 +4748,10 @@ Napi::Function OCAceSubject::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCAceSubject::~OCAceSubject()
+{
 }
 OCAceSubject::OCAceSubject(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -4602,6 +4802,10 @@ Napi::Function DevAddr::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+DevAddr::~DevAddr()
+{
 }
 DevAddr::DevAddr(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -4670,6 +4874,10 @@ Napi::Function OCValue::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCValue::~OCValue()
+{
 }
 OCValue::OCValue(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -4774,6 +4982,10 @@ Napi::Function OCArray::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCArray::~OCArray()
+{
+}
 OCArray::OCArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -4799,6 +5011,10 @@ Napi::Function OCCborEncoder::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCCborEncoder::~OCCborEncoder()
+{
 }
 OCCborEncoder::OCCborEncoder(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -4828,6 +5044,10 @@ Napi::Function coapTransportType::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+coapTransportType::~coapTransportType()
+{
 }
 coapTransportType::coapTransportType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -4878,6 +5098,10 @@ Napi::Function coapSignalCode::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+coapSignalCode::~coapSignalCode()
+{
 }
 coapSignalCode::coapSignalCode(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -4959,6 +5183,10 @@ Napi::Function coapSignalOption::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+coapSignalOption::~coapSignalOption()
+{
 }
 coapSignalOption::coapSignalOption(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -5049,6 +5277,10 @@ Napi::Function coapMessageType::GetClass(Napi::Env env) {
 
   return func;
 }
+
+coapMessageType::~coapMessageType()
+{
+}
 coapMessageType::coapMessageType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -5117,6 +5349,10 @@ Napi::Function coapMethod::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+coapMethod::~coapMethod()
+{
 }
 coapMethod::coapMethod(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -5203,6 +5439,10 @@ Napi::Function coapOption::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+coapOption::~coapOption()
+{
 }
 coapOption::coapOption(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -5466,6 +5706,10 @@ Napi::Function coapStatus::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+coapStatus::~coapStatus()
+{
 }
 coapStatus::coapStatus(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -5774,6 +6018,10 @@ Napi::Function OCAceConnectionType::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCAceConnectionType::~OCAceConnectionType()
+{
+}
 OCAceConnectionType::OCAceConnectionType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -5824,6 +6072,10 @@ Napi::Function OCAcePermissionsMask::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCAcePermissionsMask::~OCAcePermissionsMask()
+{
 }
 OCAcePermissionsMask::OCAcePermissionsMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -5913,6 +6165,10 @@ Napi::Function OCAceSubjectType::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCAceSubjectType::~OCAceSubjectType()
+{
+}
 OCAceSubjectType::OCAceSubjectType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -5971,6 +6227,10 @@ Napi::Function OCAceWildcard::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCAceWildcard::~OCAceWildcard()
+{
 }
 OCAceWildcard::OCAceWildcard(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -6039,6 +6299,10 @@ Napi::Function OCBlockwiseRole::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCBlockwiseRole::~OCBlockwiseRole()
+{
+}
 OCBlockwiseRole::OCBlockwiseRole(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -6086,6 +6350,10 @@ Napi::Function OCDiscoveryFlags::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCDiscoveryFlags::~OCDiscoveryFlags()
+{
+}
 OCDiscoveryFlags::OCDiscoveryFlags(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -6132,6 +6400,10 @@ Napi::Function OCQos::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCQos::~OCQos()
+{
 }
 OCQos::OCQos(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -6181,6 +6453,10 @@ Napi::Function OCCloudError::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCCloudError::~OCCloudError()
+{
 }
 OCCloudError::OCCloudError(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -6254,6 +6530,10 @@ Napi::Function OCCloudStatusMask::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCCloudStatusMask::~OCCloudStatusMask()
+{
 }
 OCCloudStatusMask::OCCloudStatusMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -6365,6 +6645,10 @@ Napi::Function OCCloudPrivisoningStatus::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCCloudPrivisoningStatus::~OCCloudPrivisoningStatus()
+{
+}
 OCCloudPrivisoningStatus::OCCloudPrivisoningStatus(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -6445,6 +6729,10 @@ Napi::Function tcpCsmState::GetClass(Napi::Env env) {
 
   return func;
 }
+
+tcpCsmState::~tcpCsmState()
+{
+}
 tcpCsmState::tcpCsmState(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -6514,6 +6802,10 @@ Napi::Function OCCredType::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCCredType::~OCCredType()
+{
+}
 OCCredType::OCCredType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -6574,6 +6866,10 @@ Napi::Function OCCredUsage::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCCredUsage::~OCCredUsage()
+{
 }
 OCCredUsage::OCCredUsage(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -6665,6 +6961,10 @@ Napi::Function OCEncoding::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCEncoding::~OCEncoding()
+{
+}
 OCEncoding::OCEncoding(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -6742,6 +7042,10 @@ Napi::Function OCFVersion::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCFVersion::~OCFVersion()
+{
+}
 OCFVersion::OCFVersion(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -6793,6 +7097,10 @@ Napi::Function OCTransportFlags::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCTransportFlags::~OCTransportFlags()
+{
 }
 OCTransportFlags::OCTransportFlags(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -6961,6 +7269,10 @@ Napi::Function OCEnum::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCEnum::~OCEnum()
+{
 }
 OCEnum::OCEnum(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -7731,6 +8043,10 @@ Napi::Function OCPositionDescription::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCPositionDescription::~OCPositionDescription()
+{
+}
 OCPositionDescription::OCPositionDescription(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -7899,6 +8215,10 @@ Napi::Function OCInterfaceEvent::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCInterfaceEvent::~OCInterfaceEvent()
+{
+}
 OCInterfaceEvent::OCInterfaceEvent(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -7947,6 +8267,10 @@ Napi::Function OCSpTypesMask::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCSpTypesMask::~OCSpTypesMask()
+{
 }
 OCSpTypesMask::OCSpTypesMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -8026,6 +8350,10 @@ Napi::Function OCRepValueType::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCRepValueType::~OCRepValueType()
+{
 }
 OCRepValueType::OCRepValueType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -8215,6 +8543,10 @@ Napi::Function OCContentFormat::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCContentFormat::~OCContentFormat()
+{
 }
 OCContentFormat::OCContentFormat(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -8523,6 +8855,10 @@ Napi::Function OCCoreResource::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCCoreResource::~OCCoreResource()
+{
+}
 OCCoreResource::OCCoreResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -8754,6 +9090,10 @@ Napi::Function OCEventCallbackResult::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCEventCallbackResult::~OCEventCallbackResult()
+{
+}
 OCEventCallbackResult::OCEventCallbackResult(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -8806,6 +9146,10 @@ Napi::Function OCInterfaceMask::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCInterfaceMask::~OCInterfaceMask()
+{
 }
 OCInterfaceMask::OCInterfaceMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -8916,6 +9260,10 @@ Napi::Function OCMethod::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCMethod::~OCMethod()
+{
+}
 OCMethod::OCMethod(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -8984,6 +9332,10 @@ Napi::Function OCResourcePropertiesMask::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCResourcePropertiesMask::~OCResourcePropertiesMask()
+{
 }
 OCResourcePropertiesMask::OCResourcePropertiesMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -9072,6 +9424,10 @@ Napi::Function OCStatus::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCStatus::~OCStatus()
+{
 }
 OCStatus::OCStatus(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -9330,6 +9686,10 @@ Napi::Function OCSessionState::GetClass(Napi::Env env) {
 
   return func;
 }
+
+OCSessionState::~OCSessionState()
+{
+}
 OCSessionState::OCSessionState(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
@@ -9382,6 +9742,10 @@ Napi::Function OCSoftwareUpdateResult::GetClass(Napi::Env env) {
   constructor.SuppressDestruct();
 
   return func;
+}
+
+OCSoftwareUpdateResult::~OCSoftwareUpdateResult()
+{
 }
 OCSoftwareUpdateResult::OCSoftwareUpdateResult(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
