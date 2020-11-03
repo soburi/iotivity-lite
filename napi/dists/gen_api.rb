@@ -199,7 +199,7 @@ m_pvalue->buffer_size = value.As<Napi::Buffer<uint8_t>>().Length();",
   },
   "oc_handler_t::register_resources"=> {
     "set"=> "  register_resources.Reset(value.As<Napi::Function>());\n",
-    "get"=> "  return oc_handler_register_resources_ref.Value();"
+    "get"=> "  return main_context->oc_handler_register_resources_ref.Value();"
   },
   "oc_handler_t::requests_entry"=> {
     "set"=> "  requests_entry.Reset(value.As<Napi::Function>());\n",
@@ -495,25 +495,30 @@ FUNC_OVERRIDE = {
   'oc_main_init' => {
     'invoke' => <<~STR
 //
+  main_context = new main_context_t(info.Env());
+
   handler.m_pvalue->signal_event_loop = [](){ helper_cv.notify_all(); };
   handler.m_pvalue->init = nullptr;
   handler.m_pvalue->register_resources = nullptr;
   handler.m_pvalue->requests_entry = nullptr;
   if(handler.init.Value().IsFunction() ) {
-    oc_handler_init_ref.Reset(handler.init.Value());
+    main_context->oc_handler_init_ref.Reset(handler.init.Value());
     handler.m_pvalue->init = [](){
-      Napi::Value ret = oc_handler_init_ref.Call({});
+      Napi::Value ret = main_context->oc_handler_init_ref.Call({});
       if(ret.IsNumber()) return ret.As<Napi::Number>().Int32Value();
       return 0;
     };
   }
+  else {
+    Napi::TypeError::New(info.Env(), "init callback is not set.").ThrowAsJavaScriptException();
+  }
   if(handler.register_resources.Value().IsFunction() ) {
-    oc_handler_register_resources_ref.Reset(handler.register_resources.Value());
-    handler.m_pvalue->register_resources = [](){ oc_handler_register_resources_ref.Call({}); };
+    main_context->oc_handler_register_resources_ref.Reset(handler.register_resources.Value());
+    handler.m_pvalue->register_resources = [](){ main_context->oc_handler_register_resources_ref.Call({}); };
   }
   if(handler.requests_entry.Value().IsFunction() ) {
-    oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());
-    handler.m_pvalue->requests_entry = [](){ oc_handler_requests_entry_ref.Call({}); };
+    main_context->oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());
+    handler.m_pvalue->requests_entry = [](){ main_context->oc_handler_requests_entry_ref.Call({}); };
   }
 
   try {
