@@ -14,6 +14,28 @@ Napi::FunctionReference oc_swupdate_cb_perform_upgrade_ref;
 callback_helper_t* oc_handler_init_helper_data;
 
 
+int helper_oc_handler_init()
+{
+  Napi::Value ret = main_context->oc_handler_init_ref.Call({});
+  if(ret.IsNumber()) return ret.As<Napi::Number>().Int32Value();
+  return 0;
+}
+
+void helper_oc_handler_signal_event_loop()
+{
+  main_context->helper_cv.notify_all();
+}
+
+void helper_oc_handler_register_resources()
+{
+  main_context->oc_handler_register_resources_ref.Call({});
+}
+
+void helper_oc_handler_requests_entry()
+{
+  main_context->oc_handler_requests_entry_ref.Call({});
+}
+
 callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, const Napi::FunctionReference& f)
 {
   callback_helper_t* helper = new callback_helper_t(info);
@@ -149,8 +171,11 @@ void terminate_main_loop() {
   }
 }
 
-void helper_poll_event()
+void helper_poll_event_thread(struct main_context_t* mainctx)
 {
+  delete main_context;
+  main_context = mainctx;
+
   OC_DBG("inside the JNI jni_poll_event\n");
   oc_clock_time_t next_event;
   while (main_context->jni_quit != 1) {

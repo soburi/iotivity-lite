@@ -25,9 +25,6 @@ public:
 	Napi::ThreadSafeFunction tsfn;
 };
 
-extern struct main_context_t* main_context;
-
-
 struct callback_helper_t {
 public:
   Napi::FunctionReference function;
@@ -59,6 +56,12 @@ void terminate_main_loop();
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+int  helper_oc_handler_init();
+void helper_oc_handler_signal_event_loop();
+void helper_oc_handler_register_resources();
+void helper_oc_handler_requests_entry();
+
 
 void oc_init_platform_helper(void* param);
 void oc_add_device_helper(void* param);
@@ -116,7 +119,7 @@ void helper_rep_clear_cbor_errno();
 void helper_rep_delete_buffer();
 void helper_rep_new_buffer(int size);
 
-void helper_poll_event();
+void helper_poll_event_thread(struct main_context_t* ctx);
 
 #ifdef __cplusplus
 }

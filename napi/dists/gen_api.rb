@@ -199,7 +199,7 @@ m_pvalue->buffer_size = value.As<Napi::Buffer<uint8_t>>().Length();",
   },
   "oc_handler_t::register_resources"=> {
     "set"=> "  register_resources.Reset(value.As<Napi::Function>());\n",
-    "get"=> "  return main_context->oc_handler_register_resources_ref.Value();"
+    "get"=> "  return register_resources.Value();"
   },
   "oc_handler_t::requests_entry"=> {
     "set"=> "  requests_entry.Reset(value.As<Napi::Function>());\n",
