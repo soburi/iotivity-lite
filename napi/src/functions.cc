@@ -736,16 +736,14 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
   else {
     Napi::TypeError::New(info.Env(), "init callback is not set.").ThrowAsJavaScriptException();
   }
-  /*
   if(handler.register_resources.Value().IsFunction() ) {
-    oc_handler_register_resources_ref.Reset(handler.register_resources.Value());
-    handler.m_pvalue->register_resources = [](){ oc_handler_register_resources_ref.Call({}); };
+    main_context->oc_handler_register_resources_ref.Reset(handler.register_resources.Value());
+    handler.m_pvalue->register_resources = [](){ main_context->oc_handler_register_resources_ref.Call({}); };
   }
   if(handler.requests_entry.Value().IsFunction() ) {
-    oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());
-    handler.m_pvalue->requests_entry = [](){ oc_handler_requests_entry_ref.Call({}); };
+    main_context->oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());
+    handler.m_pvalue->requests_entry = [](){ main_context->oc_handler_requests_entry_ref.Call({}); };
   }
-  */
 
   try {
     helper_poll_event_thread = std::thread(helper_poll_event);

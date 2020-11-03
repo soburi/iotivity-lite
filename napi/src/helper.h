@@ -17,6 +17,8 @@ public:
 	Napi::ThreadSafeFunction tsfn;
 	Napi::Promise::Deferred deferred;
         Napi::FunctionReference oc_handler_init_ref;
+	Napi::FunctionReference oc_handler_register_resources_ref;
+	Napi::FunctionReference oc_handler_requests_entry_ref;
 	main_context_t(const Napi::Env& env) : deferred(env) { }
 };
 
@@ -38,8 +40,8 @@ extern callback_helper_t* oc_handler_init_helper_data;
 
 
 //extern Napi::FunctionReference oc_handler_init_ref;
-extern Napi::FunctionReference oc_handler_register_resources_ref;
-extern Napi::FunctionReference oc_handler_requests_entry_ref;
+//extern Napi::FunctionReference oc_handler_register_resources_ref;
+//extern Napi::FunctionReference oc_handler_requests_entry_ref;
 
 extern Napi::FunctionReference oc_swupdate_cb_validate_purl_ref;
 extern Napi::FunctionReference oc_swupdate_cb_check_new_version_ref;
