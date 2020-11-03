@@ -57,11 +57,11 @@ Napi::Function CLASSNAME::GetClass(Napi::Env env) {
 GETCLASSIMPL
 
 ACCESSORIMPL = <<'ACCESSORIMPL'
-    CLASSNAME::InstanceAccessor("VALNAME", &CLASSNAME::get_VALNAME, &CLASSNAME::set_VALNAME),
+    InstanceAccessor("VALNAME", &CLASSNAME::get_VALNAME, &CLASSNAME::set_VALNAME),
 ACCESSORIMPL
 
 ENUMACCESSORIMPL = <<'ENUMACCESSORIMPL'
-    CLASSNAME::StaticAccessor("VALNAME", CLASSNAME::get_VALNAME, CLASSNAME::set_VALNAME),
+    StaticAccessor("VALNAME", CLASSNAME::get_VALNAME, CLASSNAME::set_VALNAME),
 ENUMACCESSORIMPL
 
 GETCLSIMPL = <<'CLSIMPL'
@@ -181,6 +181,9 @@ EXTRA_VALUE= {
   Napi::FunctionReference perform_upgrade;\n\
 ",
   "oc_resource_s" => "\
+  Napi::FunctionReference get;\n\
+  Napi::FunctionReference post;\n\
+  Napi::FunctionReference put;\n\
   Napi::Value OCResource::bind_resource_interface(const Napi::CallbackInfo& info);
   Napi::Value OCResource::bind_resource_type(const Napi::CallbackInfo& info);
 #if defined(OC_SECURITY)
