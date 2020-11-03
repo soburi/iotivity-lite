@@ -3,7 +3,8 @@
 
 static void nop_deleter(void*) { }
 
-main_context_t* main_context;
+struct main_context_t* main_context;
+main_loop_t* main_loop;
 
 Napi::FunctionReference oc_swupdate_cb_validate_purl_ref;
 Napi::FunctionReference oc_swupdate_cb_check_new_version_ref;
@@ -124,15 +125,21 @@ void oc_resource_set_properties_cbs_get_helper(oc_resource_t* res, oc_interface_
 bool oc_resource_set_properties_cbs_set_helper(oc_resource_t* res, oc_rep_t* rep, void* data) { return true; }
 void oc_resource_set_request_handler_helper(oc_request_t* req, oc_interface_mask_t mask, void* data) { }
 
+void finalizer(const Napi::Env& e) {
+    printf("env");
+}
+
 void NopFunc(const Napi::CallbackInfo& info) {
-  OC_DBG("JNI: - resolve %s\n", __func__);
-  main_context->deferred.Resolve(info.Env().Undefined() );
-  OC_DBG("JNI: - oc_main_shutdown %s\n", __func__);
+  OC_DBG("JNI: - resolve %s", __func__);
+  main_loop->deferred.Resolve(info.Env().Undefined() );
+  delete main_loop;
+  main_loop = nullptr;
 }
 
 Napi::Value N_helper_main_loop(const Napi::CallbackInfo& info) {
-  main_context->tsfn = Napi::ThreadSafeFunction::New(info.Env(), Napi::Function::New(info.Env(), NopFunc), "TSFN", 0, 1);
-  return main_context->deferred.Promise();
+  main_loop = new main_loop_t{ Napi::Promise::Deferred::New(info.Env()),
+                               Napi::ThreadSafeFunction::New(info.Env(), Napi::Function::New(info.Env(), NopFunc), "TSFN", 0, 1, finalizer) };
+  return main_loop->deferred.Promise();
 }
 
 void terminate_main_loop() {
@@ -169,12 +176,14 @@ void helper_poll_event()
   }
 
   OC_DBG("jni_quit\n");
-  //napi_status status = main_context->tsfn.BlockingCall();
+  napi_status status = main_loop->tsfn.BlockingCall();
+  main_loop->tsfn.Release();
+
+  OC_DBG("JNI: - oc_main_shutdown %s", __func__);
+  oc_main_shutdown();
+  OC_DBG("end oc_main_shutdown");
   delete main_context;
   main_context = nullptr;
-
-  oc_main_shutdown();
-  OC_DBG("end oc_main_shutdown\n");
 }
 
 

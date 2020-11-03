@@ -7,23 +7,26 @@
 #include <system_error>
 
 
-class main_context_t {
-public:
+struct main_context_t {
 	std::thread helper_poll_event_thread;
 	std::mutex helper_sync_lock;
 	std::mutex helper_cs_mutex;
 	std::unique_lock<std::mutex> helper_cs;
 	std::condition_variable helper_cv;
 	int jni_quit;
-	Napi::ThreadSafeFunction tsfn;
-	Napi::Promise::Deferred deferred;
         Napi::FunctionReference oc_handler_init_ref;
 	Napi::FunctionReference oc_handler_register_resources_ref;
 	Napi::FunctionReference oc_handler_requests_entry_ref;
-	main_context_t(const Napi::Env& env) : deferred(env) { }
 };
 
-extern main_context_t* main_context;
+class main_loop_t {
+public:
+	Napi::Promise::Deferred deferred;
+	Napi::ThreadSafeFunction tsfn;
+};
+
+extern struct main_context_t* main_context;
+
 
 struct callback_helper_t {
 public:

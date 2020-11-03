@@ -495,7 +495,7 @@ FUNC_OVERRIDE = {
   'oc_main_init' => {
     'invoke' => <<~STR
 //
-  main_context = new main_context_t(info.Env());
+  main_context = new main_context_t();
 
   handler.m_pvalue->signal_event_loop = [](){ helper_cv.notify_all(); };
   handler.m_pvalue->init = nullptr;
