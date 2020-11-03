@@ -479,7 +479,7 @@ Napi::Value N_oc_new_resource(const Napi::CallbackInfo& info) {
   const char* uri = uri_.c_str();
   uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
   size_t device = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_resource_t> sp(oc_new_resource(name, uri, num_resource_types, device), nop_deleter);
+  std::shared_ptr<oc_resource_t> sp(oc_new_resource(name, uri, num_resource_types, device));
   auto args = Napi::External<std::shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
   return OCResource::constructor.New({args});
 }
@@ -564,11 +564,9 @@ Napi::Value N_oc_resource_set_request_handler(const Napi::CallbackInfo& info) {
   OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
   oc_method_t method = static_cast<oc_method_t>(info[1].As<Napi::Number>().Uint32Value());
   oc_request_callback_t callback = oc_resource_set_request_handler_helper;
-
-  Napi::Value helper = CallbackHelper::constructor.New({ info[2], info[3] });
-//callback_helper_t* user_data = new_callback_helper_t(info, 2, 3);
-//if(!user_data) callback = nullptr;
-  (void)oc_resource_set_request_handler(resource, method, callback, helper);
+callback_helper_t* user_data = new_callback_helper_t(info, 2, 3);
+if(!user_data) callback = nullptr;
+  (void)oc_resource_set_request_handler(resource, method, callback, user_data);
   return info.Env().Undefined();
 }
 

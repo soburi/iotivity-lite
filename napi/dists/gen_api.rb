@@ -167,6 +167,31 @@ EXTRA_VALUE= {
 ",
 }
 
+CTOR_OVERRIDE = {
+  "oc_resource_s" => <<~STR
+OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 4) {
+     std::string name_ = info[0].As<Napi::String>().Utf8Value();
+     const char* name = name_.c_str();
+     std::string uri_ = info[1].As<Napi::String>().Utf8Value();
+     const char* uri = uri_.c_str();
+     uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
+     size_t device = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
+
+     m_pvalue = std::shared_ptr<oc_resource_s>( oc_new_resource(name, uri, num_resource_types, device), oc_delete_resource);
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_resource_s>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+  STR
+}
+
 SETGET_OVERRIDE = {
   "oc_separate_response_s::buffer" => {
     "set" => "\
@@ -1137,7 +1162,12 @@ def gen_classimpl(type, h)
   hh = format_ignore(type, h)
 
   impl = GETCLASSIMPL.gsub(/\/\* accessor \*\//, gen_accessor(type, hh)).gsub(/CLASSNAME/, gen_classname(type))
-  impl += CTORIMPL.gsub(/STRUCTNAME/, type).gsub(/CLASSNAME/, gen_classname(type))
+
+  if CTOR_OVERRIDE.has_key?(type)
+    impl += CTOR_OVERRIDE[type]
+  else
+    impl += CTORIMPL.gsub(/STRUCTNAME/, type).gsub(/CLASSNAME/, gen_classname(type))
+  end
   impl += gen_setget_impl(type, hh)
 
   if IFDEF_TYPES.has_key?(type) and IFDEF_TYPES[type].is_a?(String)
