@@ -995,9 +995,9 @@ public:
   Napi::Value get_uri(const Napi::CallbackInfo&);
          void set_uri(const Napi::CallbackInfo&, const Napi::Value&);
 
-  Napi::FunctionReference get;
-  Napi::FunctionReference post;
-  Napi::FunctionReference put;
+  Napi::FunctionReference get_handler;
+  Napi::FunctionReference post_handler;
+  Napi::FunctionReference put_handler;
   Napi::Value OCResource::bind_resource_interface(const Napi::CallbackInfo& info);
   Napi::Value OCResource::bind_resource_type(const Napi::CallbackInfo& info);
 #if defined(OC_SECURITY)

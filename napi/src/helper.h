@@ -92,7 +92,7 @@ int oc_swupdate_cb_perform_upgrade_helper(size_t device, const char *url);
 
 void oc_resource_set_properties_cbs_get_helper(oc_resource_t *, oc_interface_mask_t, void *);
 bool oc_resource_set_properties_cbs_set_helper(oc_resource_t *, oc_rep_t *, void *);
-void oc_resource_set_request_handler_helper(oc_request_t *, oc_interface_mask_t, void *);
+void helper_oc_resource_set_request_handler(oc_request_t *, oc_interface_mask_t, void *);
 
 
 void helper_rep_set_double(CborEncoder * object, const char* key, double value);

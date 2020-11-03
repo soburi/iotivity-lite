@@ -120,12 +120,20 @@ Napi::Value OCResource::set_properties_cbs(const Napi::CallbackInfo& info) {
 Napi::Value OCResource::set_request_handler(const Napi::CallbackInfo& info) {
   OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
   oc_method_t method = static_cast<oc_method_t>(info[0].As<Napi::Number>().Uint32Value());
-  oc_request_callback_t callback = oc_resource_set_request_handler_helper;
 
-  Napi::Value helper = CallbackHelper::constructor.New({ info[1], info[2] });
-//callback_helper_t* user_data = new_callback_helper_t(info, 2, 3);
-//if(!user_data) callback = nullptr;
-  (void)oc_resource_set_request_handler(resource, method, callback, helper);
+  switch(method) {
+  case OC_GET:
+    get_handler.Reset(info[1].As<Napi::Function>());
+    break;
+  case OC_POST:
+    post_handler.Reset(info[1].As<Napi::Function>());
+    break;
+  case OC_PUT:
+    put_handler.Reset(info[1].As<Napi::Function>());
+    break;
+  }
+
+  (void)oc_resource_set_request_handler(resource, method, helper_oc_resource_set_request_handler, this);
   return info.Env().Undefined();
 }
 
@@ -271,7 +279,11 @@ int oc_swupdate_cb_perform_upgrade_helper(size_t device, const char *url)
 
 void oc_resource_set_properties_cbs_get_helper(oc_resource_t* res, oc_interface_mask_t mask, void* data) { }
 bool oc_resource_set_properties_cbs_set_helper(oc_resource_t* res, oc_rep_t* rep, void* data) { return true; }
-void oc_resource_set_request_handler_helper(oc_request_t* req, oc_interface_mask_t mask, void* data) { }
+
+void helper_oc_resource_set_request_handler(oc_request_t* req, oc_interface_mask_t mask, void* data)
+{
+  
+}
 
 void finalizer(const Napi::Env& e) {
     printf("env");

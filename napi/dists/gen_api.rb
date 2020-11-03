@@ -181,9 +181,9 @@ EXTRA_VALUE= {
   Napi::FunctionReference perform_upgrade;\n\
 ",
   "oc_resource_s" => "\
-  Napi::FunctionReference get;\n\
-  Napi::FunctionReference post;\n\
-  Napi::FunctionReference put;\n\
+  Napi::FunctionReference get_handler;\n\
+  Napi::FunctionReference post_handler;\n\
+  Napi::FunctionReference put_handler;\n\
   Napi::Value OCResource::bind_resource_interface(const Napi::CallbackInfo& info);
   Napi::Value OCResource::bind_resource_type(const Napi::CallbackInfo& info);
 #if defined(OC_SECURITY)
