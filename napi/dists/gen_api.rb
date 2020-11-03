@@ -217,7 +217,7 @@ OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
      uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
      size_t device = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
 
-     m_pvalue = std::shared_ptr<oc_resource_s>( oc_new_resource(name, uri, num_resource_types, device), oc_delete_resource);
+     m_pvalue = std::shared_ptr<oc_resource_s>( oc_new_resource(name, uri, num_resource_types, device), nop_deleter);
   }
   else if (info.Length() == 1 && info[0].IsExternal() ) {
      m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_resource_s>>>().Data());

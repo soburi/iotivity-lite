@@ -288,11 +288,7 @@ void helper_oc_resource_set_request_handler(oc_request_t* req, oc_interface_mask
   
 }
 
-void finalizer(const Napi::Env& e) {
-    printf("env");
-}
-
-void NopFunc(const Napi::CallbackInfo& info) {
+static void main_loop_resolve(const Napi::CallbackInfo& info) {
   OC_DBG("JNI: - resolve %s", __func__);
   main_loop->deferred.Resolve(info.Env().Undefined() );
   delete main_loop;
@@ -301,7 +297,7 @@ void NopFunc(const Napi::CallbackInfo& info) {
 
 Napi::Value N_helper_main_loop(const Napi::CallbackInfo& info) {
   main_loop = new main_loop_t{ Napi::Promise::Deferred::New(info.Env()),
-                               Napi::ThreadSafeFunction::New(info.Env(), Napi::Function::New(info.Env(), NopFunc), "TSFN", 0, 1, finalizer) };
+                               Napi::ThreadSafeFunction::New(info.Env(), Napi::Function::New(info.Env(), main_loop_resolve), "main_loop_resolve", 0, 1) };
   return main_loop->deferred.Promise();
 }
 
