@@ -3,18 +3,7 @@
 
 static void nop_deleter(void*) { }
 
-std::thread helper_poll_event_thread;
-std::mutex helper_sync_lock;
-std::mutex helper_cs_mutex;
-
-std::condition_variable helper_cv;
-int jni_quit = 0;
-
 main_context_t* main_context;
-
-Napi::FunctionReference oc_handler_init_ref;
-Napi::FunctionReference oc_handler_register_resources_ref;
-Napi::FunctionReference oc_handler_requests_entry_ref;
 
 Napi::FunctionReference oc_swupdate_cb_validate_purl_ref;
 Napi::FunctionReference oc_swupdate_cb_check_new_version_ref;
@@ -147,32 +136,34 @@ Napi::Value N_helper_main_loop(const Napi::CallbackInfo& info) {
 }
 
 void terminate_main_loop() {
-  helper_cv.notify_all();
-  jni_quit = 1;
+  if (main_context) {
+    main_context->helper_cv.notify_all();
+    main_context->jni_quit = 1;
+  }
 }
 
 void helper_poll_event()
 {
   OC_DBG("inside the JNI jni_poll_event\n");
   oc_clock_time_t next_event;
-  while (jni_quit != 1) {
+  while (main_context->jni_quit != 1) {
     OC_DBG("JNI: - lock %s\n", __func__);
-    helper_sync_lock.lock();
+    main_context->helper_sync_lock.lock();
     OC_DBG("calling oc_main_poll from JNI code\n");
     next_event = oc_main_poll();
-    helper_sync_lock.unlock();
+    main_context->helper_sync_lock.unlock();
     OC_DBG("JNI: - unlock %s\n", __func__);
 
     if (next_event == 0) {
-      std::unique_lock<std::mutex> helper_cs(helper_cs_mutex);
-      helper_cv.wait(helper_cs);
+      std::unique_lock<std::mutex> helper_cs(main_context->helper_cs_mutex);
+      main_context->helper_cv.wait(helper_cs);
     }
     else {
       oc_clock_time_t now = oc_clock_time();
       if (now < next_event) {
 	    std::chrono::milliseconds duration((next_event - now) * 1000 / OC_CLOCK_SECOND);
-        std::unique_lock<std::mutex> helper_cs(helper_cs_mutex);
-        helper_cv.wait_for(helper_cs, duration);
+        std::unique_lock<std::mutex> helper_cs(main_context->helper_cs_mutex);
+        main_context->helper_cv.wait_for(helper_cs, duration);
       }
     }
   }

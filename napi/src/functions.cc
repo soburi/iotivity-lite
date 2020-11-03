@@ -721,7 +721,7 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
 //
   main_context = new main_context_t(info.Env());
 
-  handler.m_pvalue->signal_event_loop = [](){ helper_cv.notify_all(); };
+  handler.m_pvalue->signal_event_loop = [](){ main_context->helper_cv.notify_all(); };
   handler.m_pvalue->init = nullptr;
   handler.m_pvalue->register_resources = nullptr;
   handler.m_pvalue->requests_entry = nullptr;
@@ -746,8 +746,8 @@ Napi::Value N_oc_main_init(const Napi::CallbackInfo& info) {
   }
 
   try {
-    helper_poll_event_thread = std::thread(helper_poll_event);
-    helper_poll_event_thread.detach();
+    main_context->helper_poll_event_thread = std::thread(helper_poll_event);
+    main_context->helper_poll_event_thread.detach();
   }
   catch(system_error) {
     Napi::TypeError::New(info.Env(), "Fail to initialize poll_event thread.").ThrowAsJavaScriptException();

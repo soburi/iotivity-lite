@@ -6,14 +6,15 @@
 #include <condition_variable>
 #include <system_error>
 
-extern std::thread helper_poll_event_thread;
-extern std::mutex helper_sync_lock;
-extern std::mutex helper_mutex;
-extern std::unique_lock<std::mutex> helper_cs;
-extern std::condition_variable helper_cv;
 
 class main_context_t {
 public:
+	std::thread helper_poll_event_thread;
+	std::mutex helper_sync_lock;
+	std::mutex helper_cs_mutex;
+	std::unique_lock<std::mutex> helper_cs;
+	std::condition_variable helper_cv;
+	int jni_quit;
 	Napi::ThreadSafeFunction tsfn;
 	Napi::Promise::Deferred deferred;
         Napi::FunctionReference oc_handler_init_ref;
