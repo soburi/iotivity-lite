@@ -495,35 +495,31 @@ FUNC_OVERRIDE = {
   'oc_main_init' => {
     'invoke' => <<~STR
 //
-  main_context = new main_context_t();
+  struct main_context_t* mainctx = new main_context_t();
 
-  handler.m_pvalue->signal_event_loop = [](){ main_context->helper_cv.notify_all(); };
+  handler.m_pvalue->signal_event_loop = helper_oc_handler_signal_event_loop;
   handler.m_pvalue->init = nullptr;
   handler.m_pvalue->register_resources = nullptr;
   handler.m_pvalue->requests_entry = nullptr;
   if(handler.init.Value().IsFunction() ) {
-    main_context->oc_handler_init_ref.Reset(handler.init.Value());
-    handler.m_pvalue->init = [](){
-      Napi::Value ret = main_context->oc_handler_init_ref.Call({});
-      if(ret.IsNumber()) return ret.As<Napi::Number>().Int32Value();
-      return 0;
-    };
+    mainctx->oc_handler_init_ref.Reset(handler.init.Value());
+    handler.m_pvalue->init = helper_oc_handler_init;
   }
   else {
     Napi::TypeError::New(info.Env(), "init callback is not set.").ThrowAsJavaScriptException();
   }
   if(handler.register_resources.Value().IsFunction() ) {
-    main_context->oc_handler_register_resources_ref.Reset(handler.register_resources.Value());
-    handler.m_pvalue->register_resources = [](){ main_context->oc_handler_register_resources_ref.Call({}); };
+    mainctx->oc_handler_register_resources_ref.Reset(handler.register_resources.Value());
+    handler.m_pvalue->register_resources = helper_oc_handler_register_resources;
   }
   if(handler.requests_entry.Value().IsFunction() ) {
-    main_context->oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());
-    handler.m_pvalue->requests_entry = [](){ main_context->oc_handler_requests_entry_ref.Call({}); };
+    mainctx->oc_handler_requests_entry_ref.Reset(handler.requests_entry.Value());
+    handler.m_pvalue->requests_entry = helper_oc_handler_requests_entry;
   }
 
   try {
-    main_context->helper_poll_event_thread = std::thread(helper_poll_event);
-    main_context->helper_poll_event_thread.detach();
+    mainctx->helper_poll_event_thread = std::thread(helper_poll_event_thread, mainctx);
+    mainctx->helper_poll_event_thread.detach();
   }
   catch(system_error) {
     Napi::TypeError::New(info.Env(), "Fail to initialize poll_event thread.").ThrowAsJavaScriptException();
