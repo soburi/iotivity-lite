@@ -497,7 +497,7 @@ FUNC_OVERRIDE = {
 //
   main_context = new main_context_t();
 
-  handler.m_pvalue->signal_event_loop = [](){ helper_cv.notify_all(); };
+  handler.m_pvalue->signal_event_loop = [](){ main_context->helper_cv.notify_all(); };
   handler.m_pvalue->init = nullptr;
   handler.m_pvalue->register_resources = nullptr;
   handler.m_pvalue->requests_entry = nullptr;
@@ -522,8 +522,8 @@ FUNC_OVERRIDE = {
   }
 
   try {
-    helper_poll_event_thread = std::thread(helper_poll_event);
-    helper_poll_event_thread.detach();
+    main_context->helper_poll_event_thread = std::thread(helper_poll_event);
+    main_context->helper_poll_event_thread.detach();
   }
   catch(system_error) {
     Napi::TypeError::New(info.Env(), "Fail to initialize poll_event thread.").ThrowAsJavaScriptException();
@@ -1511,8 +1511,12 @@ end
 
 File.open('lib/iotivity-lite.js', 'w') do |f|
 
-  f.print "const addon = require('../build/Release/iotivity-lite-native');\n"
-  f.print "module.exports = addon;\n"
+  f.print <<STR
+var path = '../build/Release/';
+if (process.env.IOTIVITY_LITE_DEBUG == '1') { path = '../build/Debug/'; }
+const addon = require(path + 'iotivity-lite-native');
+module.exports = addon;
+STR
 =begin
   f.print "module.exports = [\n"
   struct_table.each do |key, h|
