@@ -3528,6 +3528,17 @@ Napi::Function OCResource::GetClass(Napi::Env env) {
     OCResource::InstanceAccessor("types", &OCResource::get_types, &OCResource::set_types),
     OCResource::InstanceAccessor("uri", &OCResource::get_uri, &OCResource::set_uri),
 
+    InstanceMethod("bind_resource_interface", &OCResource::bind_resource_interface),
+    InstanceMethod("bind_resource_type",      &OCResource::bind_resource_type),
+#if defined(OC_SECURITY)
+    InstanceMethod("make_public",             &OCResource::make_public),
+#endif
+    InstanceMethod("set_discoverable",        &OCResource::set_discoverable),
+    InstanceMethod("set_observable",          &OCResource::set_observable),
+    InstanceMethod("set_periodic_observable", &OCResource::set_periodic_observable),
+    InstanceMethod("set_properties_cbs",      &OCResource::set_properties_cbs),
+    InstanceMethod("set_request_handler",     &OCResource::set_request_handler),
+  
   });
 
   constructor = Napi::Persistent(func);

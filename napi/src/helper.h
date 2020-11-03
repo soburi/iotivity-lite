@@ -10,21 +10,21 @@
 static void nop_deleter(void*) { }
 
 struct main_context_t {
-	std::thread helper_poll_event_thread;
-	std::mutex helper_sync_lock;
-	std::mutex helper_cs_mutex;
-	std::unique_lock<std::mutex> helper_cs;
-	std::condition_variable helper_cv;
-	int jni_quit;
-        Napi::FunctionReference oc_handler_init_ref;
-	Napi::FunctionReference oc_handler_register_resources_ref;
-	Napi::FunctionReference oc_handler_requests_entry_ref;
+  std::thread helper_poll_event_thread;
+  std::mutex helper_sync_lock;
+  std::mutex helper_cs_mutex;
+  std::unique_lock<std::mutex> helper_cs;
+  std::condition_variable helper_cv;
+  Napi::FunctionReference oc_handler_init_ref;
+  Napi::FunctionReference oc_handler_register_resources_ref;
+  Napi::FunctionReference oc_handler_requests_entry_ref;
+  int jni_quit;
 };
 
 class main_loop_t {
 public:
-	Napi::Promise::Deferred deferred;
-	Napi::ThreadSafeFunction tsfn;
+  Napi::Promise::Deferred deferred;
+  Napi::ThreadSafeFunction tsfn;
 };
 
 struct callback_helper_t {
@@ -46,73 +46,6 @@ public:
   Napi::FunctionReference function;
   Napi::ObjectReference value;
 };
-
-
-
-class OCResource : public Napi::ObjectWrap<OCResource>
-{
-public:
-  OCResource(const Napi::CallbackInfo&);
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  operator oc_resource_s*() { return m_pvalue.get(); }
-  Napi::Value get_default_interface(const Napi::CallbackInfo&);
-         void set_default_interface(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_delete_handler(const Napi::CallbackInfo&);
-         void set_delete_handler(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_device(const Napi::CallbackInfo&);
-         void set_device(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_get_handler(const Napi::CallbackInfo&);
-         void set_get_handler(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_get_properties(const Napi::CallbackInfo&);
-         void set_get_properties(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_interfaces(const Napi::CallbackInfo&);
-         void set_interfaces(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_name(const Napi::CallbackInfo&);
-         void set_name(const Napi::CallbackInfo&, const Napi::Value&);
-#if defined(OC_COLLECTIONS)
-  Napi::Value get_num_links(const Napi::CallbackInfo&);
-         void set_num_links(const Napi::CallbackInfo&, const Napi::Value&);
-#endif
-  Napi::Value get_num_observers(const Napi::CallbackInfo&);
-         void set_num_observers(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_observe_period_seconds(const Napi::CallbackInfo&);
-         void set_observe_period_seconds(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_post_handler(const Napi::CallbackInfo&);
-         void set_post_handler(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_properties(const Napi::CallbackInfo&);
-         void set_properties(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_put_handler(const Napi::CallbackInfo&);
-         void set_put_handler(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_set_properties(const Napi::CallbackInfo&);
-         void set_set_properties(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_tag_func_desc(const Napi::CallbackInfo&);
-         void set_tag_func_desc(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_tag_pos_desc(const Napi::CallbackInfo&);
-         void set_tag_pos_desc(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_tag_pos_rel(const Napi::CallbackInfo&);
-         void set_tag_pos_rel(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_types(const Napi::CallbackInfo&);
-         void set_types(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_uri(const Napi::CallbackInfo&);
-         void set_uri(const Napi::CallbackInfo&, const Napi::Value&);
-
-  Napi::Value bind_resource_interface(const Napi::CallbackInfo&);
-  Napi::Value bind_resource_type(const Napi::CallbackInfo&);
-  Napi::Value make_public(const Napi::CallbackInfo&);
-  Napi::Value set_discoverable(const Napi::CallbackInfo&);
-  Napi::Value set_observable(const Napi::CallbackInfo&);
-  Napi::Value set_periodic_observable(const Napi::CallbackInfo&);
-  Napi::Value set_properties_cbs(const Napi::CallbackInfo&);
-  Napi::Value set_request_handler(const Napi::CallbackInfo&);
-
-         //void set_tag_pos_desc(const Napi::CallbackInfo&, const Napi::Value&);
-         //void set_tag_pos_rel(const Napi::CallbackInfo&, const Napi::Value&);
-         //void set_tag_func_desc(const Napi::CallbackInfo&, const Napi::Value&);
-
-  std::shared_ptr<oc_resource_s> m_pvalue;
-};
-
 
 callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, const Napi::FunctionReference& f);
 callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, int idx_func, int idx_val);

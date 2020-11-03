@@ -995,6 +995,17 @@ public:
   Napi::Value get_uri(const Napi::CallbackInfo&);
          void set_uri(const Napi::CallbackInfo&, const Napi::Value&);
 
+  Napi::Value OCResource::bind_resource_interface(const Napi::CallbackInfo& info);
+  Napi::Value OCResource::bind_resource_type(const Napi::CallbackInfo& info);
+#if defined(OC_SECURITY)
+  Napi::Value OCResource::make_public(const Napi::CallbackInfo& info);
+#endif
+  Napi::Value OCResource::set_discoverable(const Napi::CallbackInfo& info);
+  Napi::Value OCResource::set_observable(const Napi::CallbackInfo& info);
+  Napi::Value OCResource::set_periodic_observable(const Napi::CallbackInfo& info);
+  Napi::Value OCResource::set_properties_cbs(const Napi::CallbackInfo& info);
+  Napi::Value OCResource::set_request_handler(const Napi::CallbackInfo& info);
+
 
   std::shared_ptr<oc_resource_s> m_pvalue;
 };

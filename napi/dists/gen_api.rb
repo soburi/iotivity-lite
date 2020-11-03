@@ -149,6 +149,21 @@ STRUCTS = struct_table.keys
 
 ENUMS = enum_table.keys
 
+EXTRA_ACCESSOR = {
+  'oc_resource_s' => '
+    InstanceMethod("bind_resource_interface", &OCResource::bind_resource_interface),
+    InstanceMethod("bind_resource_type",      &OCResource::bind_resource_type),
+#if defined(OC_SECURITY)
+    InstanceMethod("make_public",             &OCResource::make_public),
+#endif
+    InstanceMethod("set_discoverable",        &OCResource::set_discoverable),
+    InstanceMethod("set_observable",          &OCResource::set_observable),
+    InstanceMethod("set_periodic_observable", &OCResource::set_periodic_observable),
+    InstanceMethod("set_properties_cbs",      &OCResource::set_properties_cbs),
+    InstanceMethod("set_request_handler",     &OCResource::set_request_handler),
+  ',
+}
+
 EXTRA_VALUE= {
   "oc_handler_t" => "\
   Napi::FunctionReference init;\n\
@@ -165,6 +180,18 @@ EXTRA_VALUE= {
   Napi::FunctionReference download_update;\n\
   Napi::FunctionReference perform_upgrade;\n\
 ",
+  "oc_resource_s" => "\
+  Napi::Value OCResource::bind_resource_interface(const Napi::CallbackInfo& info);
+  Napi::Value OCResource::bind_resource_type(const Napi::CallbackInfo& info);
+#if defined(OC_SECURITY)
+  Napi::Value OCResource::make_public(const Napi::CallbackInfo& info);
+#endif
+  Napi::Value OCResource::set_discoverable(const Napi::CallbackInfo& info);
+  Napi::Value OCResource::set_observable(const Napi::CallbackInfo& info);
+  Napi::Value OCResource::set_periodic_observable(const Napi::CallbackInfo& info);
+  Napi::Value OCResource::set_properties_cbs(const Napi::CallbackInfo& info);
+  Napi::Value OCResource::set_request_handler(const Napi::CallbackInfo& info);
+"
 }
 
 CTOR_OVERRIDE = {
@@ -1029,7 +1056,11 @@ def gen_accessor(type, ftable)
     end
     accr
   end
-  list.join()
+  list = list.join()
+  if EXTRA_ACCESSOR.has_key?(type)
+    list += EXTRA_ACCESSOR[type]
+  end
+  list
 end
 
 def gen_enumaccessor(type, ftable)
