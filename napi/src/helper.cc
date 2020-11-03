@@ -6,7 +6,7 @@ static void nop_deleter(void*) { }
 std::thread helper_poll_event_thread;
 std::mutex helper_sync_lock;
 std::mutex helper_cs_mutex;
-std::unique_lock<std::mutex> helper_cs(helper_cs_mutex);
+
 std::condition_variable helper_cv;
 int jni_quit = 0;
 
@@ -142,14 +142,13 @@ void NopFunc(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_helper_main_loop(const Napi::CallbackInfo& info) {
-  main_context = new main_context_t(info.Env());
   main_context->tsfn = Napi::ThreadSafeFunction::New(info.Env(), Napi::Function::New(info.Env(), NopFunc), "TSFN", 0, 1);
   return main_context->deferred.Promise();
 }
 
 void terminate_main_loop() {
-  jni_quit = 1;
   helper_cv.notify_all();
+  jni_quit = 1;
 }
 
 void helper_poll_event()
@@ -165,20 +164,26 @@ void helper_poll_event()
     OC_DBG("JNI: - unlock %s\n", __func__);
 
     if (next_event == 0) {
+      std::unique_lock<std::mutex> helper_cs(helper_cs_mutex);
       helper_cv.wait(helper_cs);
     }
     else {
       oc_clock_time_t now = oc_clock_time();
       if (now < next_event) {
-	std::chrono::milliseconds duration((next_event - now) * 1000 / OC_CLOCK_SECOND);
+	    std::chrono::milliseconds duration((next_event - now) * 1000 / OC_CLOCK_SECOND);
+        std::unique_lock<std::mutex> helper_cs(helper_cs_mutex);
         helper_cv.wait_for(helper_cs, duration);
       }
     }
   }
 
-  napi_status status = main_context->tsfn.BlockingCall();
+  OC_DBG("jni_quit\n");
+  //napi_status status = main_context->tsfn.BlockingCall();
+  delete main_context;
+  main_context = nullptr;
 
   oc_main_shutdown();
+  OC_DBG("end oc_main_shutdown\n");
 }
 
 

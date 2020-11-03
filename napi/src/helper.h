@@ -16,6 +16,7 @@ class main_context_t {
 public:
 	Napi::ThreadSafeFunction tsfn;
 	Napi::Promise::Deferred deferred;
+        Napi::FunctionReference oc_handler_init_ref;
 	main_context_t(const Napi::Env& env) : deferred(env) { }
 };
 
@@ -36,7 +37,7 @@ callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, int idx
 extern callback_helper_t* oc_handler_init_helper_data;
 
 
-extern Napi::FunctionReference oc_handler_init_ref;
+//extern Napi::FunctionReference oc_handler_init_ref;
 extern Napi::FunctionReference oc_handler_register_resources_ref;
 extern Napi::FunctionReference oc_handler_requests_entry_ref;
 
