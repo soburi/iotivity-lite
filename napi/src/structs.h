@@ -947,58 +947,6 @@ public:
   std::shared_ptr<oc_request_t> m_pvalue;
 };
 
-class OCResource : public Napi::ObjectWrap<OCResource>
-{
-public:
-  OCResource(const Napi::CallbackInfo&);
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  operator oc_resource_s*() { return m_pvalue.get(); }
-  Napi::Value get_default_interface(const Napi::CallbackInfo&);
-         void set_default_interface(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_delete_handler(const Napi::CallbackInfo&);
-         void set_delete_handler(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_device(const Napi::CallbackInfo&);
-         void set_device(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_get_handler(const Napi::CallbackInfo&);
-         void set_get_handler(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_get_properties(const Napi::CallbackInfo&);
-         void set_get_properties(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_interfaces(const Napi::CallbackInfo&);
-         void set_interfaces(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_name(const Napi::CallbackInfo&);
-         void set_name(const Napi::CallbackInfo&, const Napi::Value&);
-#if defined(OC_COLLECTIONS)
-  Napi::Value get_num_links(const Napi::CallbackInfo&);
-         void set_num_links(const Napi::CallbackInfo&, const Napi::Value&);
-#endif
-  Napi::Value get_num_observers(const Napi::CallbackInfo&);
-         void set_num_observers(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_observe_period_seconds(const Napi::CallbackInfo&);
-         void set_observe_period_seconds(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_post_handler(const Napi::CallbackInfo&);
-         void set_post_handler(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_properties(const Napi::CallbackInfo&);
-         void set_properties(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_put_handler(const Napi::CallbackInfo&);
-         void set_put_handler(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_set_properties(const Napi::CallbackInfo&);
-         void set_set_properties(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_tag_func_desc(const Napi::CallbackInfo&);
-         void set_tag_func_desc(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_tag_pos_desc(const Napi::CallbackInfo&);
-         void set_tag_pos_desc(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_tag_pos_rel(const Napi::CallbackInfo&);
-         void set_tag_pos_rel(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_types(const Napi::CallbackInfo&);
-         void set_types(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_uri(const Napi::CallbackInfo&);
-         void set_uri(const Napi::CallbackInfo&, const Napi::Value&);
-
-
-  std::shared_ptr<oc_resource_s> m_pvalue;
-};
-
 class OCResponseBuffer : public Napi::ObjectWrap<OCResponseBuffer>
 {
 public:

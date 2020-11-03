@@ -1,8 +1,6 @@
 #include "helper.h"
 #include <chrono>
 
-static void nop_deleter(void*) { }
-
 struct main_context_t* main_context;
 main_loop_t* main_loop;
 
@@ -35,6 +33,435 @@ void helper_oc_handler_requests_entry()
 {
   main_context->oc_handler_requests_entry_ref.Call({});
 }
+
+Napi::FunctionReference CallbackHelper::constructor;
+
+Napi::Function CallbackHelper::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "CallbackHelper", {
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+CallbackHelper::CallbackHelper(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 2 && info[0].IsFunction() ) {
+     function.Reset(info[0].As<Napi::Function>());
+     //value.Set("0", info[1]);
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+
+Napi::FunctionReference OCResource::constructor;
+
+Napi::Function OCResource::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCResource", {
+    OCResource::InstanceAccessor("default_interface", &OCResource::get_default_interface, &OCResource::set_default_interface),
+    OCResource::InstanceAccessor("delete_handler", &OCResource::get_delete_handler, &OCResource::set_delete_handler),
+    OCResource::InstanceAccessor("device", &OCResource::get_device, &OCResource::set_device),
+    OCResource::InstanceAccessor("get_handler", &OCResource::get_get_handler, &OCResource::set_get_handler),
+    OCResource::InstanceAccessor("get_properties", &OCResource::get_get_properties, &OCResource::set_get_properties),
+    OCResource::InstanceAccessor("interfaces", &OCResource::get_interfaces, &OCResource::set_interfaces),
+    OCResource::InstanceAccessor("name", &OCResource::get_name, &OCResource::set_name),
+#if defined(OC_COLLECTIONS)
+    OCResource::InstanceAccessor("num_links", &OCResource::get_num_links, &OCResource::set_num_links),
+#endif
+    OCResource::InstanceAccessor("num_observers", &OCResource::get_num_observers, &OCResource::set_num_observers),
+    OCResource::InstanceAccessor("observe_period_seconds", &OCResource::get_observe_period_seconds, &OCResource::set_observe_period_seconds),
+    OCResource::InstanceAccessor("post_handler", &OCResource::get_post_handler, &OCResource::set_post_handler),
+    OCResource::InstanceAccessor("properties", &OCResource::get_properties, &OCResource::set_properties),
+    OCResource::InstanceAccessor("put_handler", &OCResource::get_put_handler, &OCResource::set_put_handler),
+    OCResource::InstanceAccessor("set_properties", &OCResource::get_set_properties, &OCResource::set_set_properties),
+    OCResource::InstanceAccessor("tag_func_desc", &OCResource::get_tag_func_desc, &OCResource::set_tag_func_desc),
+    OCResource::InstanceAccessor("tag_pos_desc", &OCResource::get_tag_pos_desc, &OCResource::set_tag_pos_desc),
+    OCResource::InstanceAccessor("tag_pos_rel", &OCResource::get_tag_pos_rel, &OCResource::set_tag_pos_rel),
+    OCResource::InstanceAccessor("types", &OCResource::get_types, &OCResource::set_types),
+    OCResource::InstanceAccessor("uri", &OCResource::get_uri, &OCResource::set_uri),
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+
+OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 4) {
+     std::string name_ = info[0].As<Napi::String>().Utf8Value();
+     const char* name = name_.c_str();
+     std::string uri_ = info[1].As<Napi::String>().Utf8Value();
+     const char* uri = uri_.c_str();
+     uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
+     size_t device = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
+
+     m_pvalue = std::shared_ptr<oc_resource_s>( oc_new_resource(name, uri, num_resource_types, device), oc_delete_resource);
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_resource_s>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+
+
+Napi::Value OCResource::bind_resource_interface(const Napi::CallbackInfo& info) {
+//Napi::Value N_oc_resource_(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[1].As<Napi::Number>().Uint32Value());
+  (void)oc_resource_bind_resource_interface(resource, iface_mask);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCResource::bind_resource_type(const Napi::CallbackInfo& info) {
+//Napi::Value N_oc_resource_bind_resource_type(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  std::string type_ = info[1].As<Napi::String>().Utf8Value();
+  const char* type = type_.c_str();
+  (void)oc_resource_bind_resource_type(resource, type);
+  return info.Env().Undefined();
+}
+
+#if defined(OC_SECURITY)
+Napi::Value OCResource::make_public(const Napi::CallbackInfo& info) {
+//Napi::Value N_oc_resource_make_public(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  (void)oc_resource_make_public(resource);
+  return info.Env().Undefined();
+}
+#endif
+
+
+Napi::Value OCResource::set_discoverable(const Napi::CallbackInfo& info) {
+//Napi::Value N_oc_resource_set_discoverable(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  bool state = info[1].As<Napi::Boolean>().Value();
+  (void)oc_resource_set_discoverable(resource, state);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCResource::set_observable(const Napi::CallbackInfo& info) {
+//Napi::Value N_oc_resource_set_observable(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  bool state = info[1].As<Napi::Boolean>().Value();
+  (void)oc_resource_set_observable(resource, state);
+  return info.Env().Undefined();
+}
+
+
+Napi::Value OCResource::set_periodic_observable(const Napi::CallbackInfo& info) {
+//Napi::Value N_oc_resource_set_periodic_observable(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  uint16_t seconds = static_cast<uint16_t>(info[1].As<Napi::Number>().Uint32Value());
+  (void)oc_resource_set_periodic_observable(resource, seconds);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCResource::set_properties_cbs(const Napi::CallbackInfo& info) {
+//Napi::Value N_oc_resource_set_properties_cbs(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  oc_get_properties_cb_t get_properties = oc_resource_set_properties_cbs_get_helper;
+//
+  callback_helper_t* get_propr_user_data = new_callback_helper_t(info, 1, 2);
+  if(!get_propr_user_data) get_properties = nullptr;
+  oc_set_properties_cb_t set_properties = oc_resource_set_properties_cbs_set_helper;
+//
+  callback_helper_t* set_props_user_data = new_callback_helper_t(info, 3, 4);
+  if(!set_props_user_data) set_properties = nullptr;
+  (void)oc_resource_set_properties_cbs(resource, get_properties, get_propr_user_data, set_properties, set_props_user_data);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCResource::set_request_handler(const Napi::CallbackInfo& info) {
+//Napi::Value N_oc_resource_set_request_handler(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  oc_method_t method = static_cast<oc_method_t>(info[1].As<Napi::Number>().Uint32Value());
+  oc_request_callback_t callback = oc_resource_set_request_handler_helper;
+
+  Napi::Value helper = CallbackHelper::constructor.New({ info[2], info[3] });
+//callback_helper_t* user_data = new_callback_helper_t(info, 2, 3);
+//if(!user_data) callback = nullptr;
+  (void)oc_resource_set_request_handler(resource, method, callback, helper);
+  return info.Env().Undefined();
+}
+
+/*
+Napi::Value OCResource::tag_func_desc(const Napi::CallbackInfo& info) {
+//Napi::Value N_oc_resource_tag_func_desc(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  oc_enum_t func = static_cast<oc_enum_t>(info[1].As<Napi::Number>().Uint32Value());
+  (void)oc_resource_tag_func_desc(resource, func);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCResource::tag_pos_desc(const Napi::CallbackInfo& info) {
+//Napi::Value N_oc_resource_tag_pos_desc(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  oc_pos_description_t pos = static_cast<oc_pos_description_t>(info[1].As<Napi::Number>().Uint32Value());
+  (void)oc_resource_tag_pos_desc(resource, pos);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCResource::tag_pos_rel(const Napi::CallbackInfo& info) {
+//Napi::Value N_oc_resource_tag_pos_rel(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  double x = info[1].As<Napi::Number>().DoubleValue();
+  double y = info[2].As<Napi::Number>().DoubleValue();
+  double z = info[3].As<Napi::Number>().DoubleValue();
+  (void)oc_resource_tag_pos_rel(resource, x, y, z);
+  return info.Env().Undefined();
+}
+*/
+
+
+
+Napi::Value OCResource::get_default_interface(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->default_interface);
+}
+
+void OCResource::set_default_interface(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->default_interface = static_cast<oc_interface_mask_t>(value.As<Napi::Number>().Uint32Value());
+}
+/*
+Napi::Value OCResource::set_default_interface(const Napi::CallbackInfo& info) {
+//Napi::Value N_oc_resource_set_default_interface(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[1].As<Napi::Number>().Uint32Value());
+  (void)oc_resource_set_default_interface(resource, iface_mask);
+  return info.Env().Undefined();
+}
+*/
+Napi::Value OCResource::get_delete_handler(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->delete_handler);
+  auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
+  return OCRequestHandler::constructor.New({accessor});
+}
+
+void OCResource::set_delete_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->delete_handler = *(*(value.As<Napi::External<std::shared_ptr<oc_request_handler_s>>>().Data()));
+}
+
+Napi::Value OCResource::get_device(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->device);
+}
+
+void OCResource::set_device(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->device = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value OCResource::get_get_handler(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->get_handler);
+  auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
+  return OCRequestHandler::constructor.New({accessor});
+}
+
+void OCResource::set_get_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->get_handler = *(*(value.As<Napi::External<std::shared_ptr<oc_request_handler_s>>>().Data()));
+}
+
+Napi::Value OCResource::get_get_properties(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_properties_cb_t> sp(&m_pvalue->get_properties);
+  auto accessor = Napi::External<std::shared_ptr<oc_properties_cb_t>>::New(info.Env(), &sp);
+  return OCPropertiesCb::constructor.New({accessor});
+}
+
+void OCResource::set_get_properties(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->get_properties = *(*(value.As<Napi::External<std::shared_ptr<oc_properties_cb_t>>>().Data()));
+}
+
+Napi::Value OCResource::get_interfaces(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->interfaces);
+}
+
+
+
+void OCResource::set_interfaces(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->interfaces = static_cast<oc_interface_mask_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value OCResource::get_name(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_mmem> sp(&m_pvalue->name);
+  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+  return OCMmem::constructor.New({accessor});
+}
+
+void OCResource::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->name = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+}
+
+#if defined(OC_COLLECTIONS)
+Napi::Value OCResource::get_num_links(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->num_links);
+}
+
+void OCResource::set_num_links(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->num_links = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+#endif
+
+Napi::Value OCResource::get_num_observers(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->num_observers);
+}
+
+void OCResource::set_num_observers(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->num_observers = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value OCResource::get_observe_period_seconds(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->observe_period_seconds);
+}
+
+void OCResource::set_observe_period_seconds(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->observe_period_seconds = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value OCResource::get_post_handler(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->post_handler);
+  auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
+  return OCRequestHandler::constructor.New({accessor});
+}
+
+void OCResource::set_post_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->post_handler = *(*(value.As<Napi::External<std::shared_ptr<oc_request_handler_s>>>().Data()));
+}
+
+Napi::Value OCResource::get_properties(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->properties);
+}
+
+void OCResource::set_properties(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->properties = static_cast<oc_resource_properties_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value OCResource::get_put_handler(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->put_handler);
+  auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
+  return OCRequestHandler::constructor.New({accessor});
+}
+
+void OCResource::set_put_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->put_handler = *(*(value.As<Napi::External<std::shared_ptr<oc_request_handler_s>>>().Data()));
+}
+
+Napi::Value OCResource::get_set_properties(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_properties_cb_t> sp(&m_pvalue->set_properties);
+  auto accessor = Napi::External<std::shared_ptr<oc_properties_cb_t>>::New(info.Env(), &sp);
+  return OCPropertiesCb::constructor.New({accessor});
+}
+
+void OCResource::set_set_properties(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->set_properties = *(*(value.As<Napi::External<std::shared_ptr<oc_properties_cb_t>>>().Data()));
+}
+
+Napi::Value OCResource::get_tag_func_desc(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->tag_func_desc);
+}
+
+void OCResource::set_tag_func_desc(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->tag_func_desc = static_cast<oc_enum_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value OCResource::get_tag_pos_desc(const Napi::CallbackInfo& info)
+{
+  return Napi::Number::New(info.Env(), m_pvalue->tag_pos_desc);
+}
+
+void OCResource::set_tag_pos_desc(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->tag_pos_desc = static_cast<oc_pos_description_t>(value.As<Napi::Number>().Uint32Value());
+}
+
+Napi::Value OCResource::get_tag_pos_rel(const Napi::CallbackInfo& info)
+{
+auto array = Napi::Float64Array::New(info.Env(), 3);
+array[0] = m_pvalue->tag_pos_rel[0];
+array[1] = m_pvalue->tag_pos_rel[1];
+array[2] = m_pvalue->tag_pos_rel[2];
+return array;
+}
+
+void OCResource::set_tag_pos_rel(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+m_pvalue->tag_pos_rel[0] = value.As<Napi::Float64Array>()[0];
+m_pvalue->tag_pos_rel[1] = value.As<Napi::Float64Array>()[1];
+m_pvalue->tag_pos_rel[2] = value.As<Napi::Float64Array>()[2];
+}
+
+
+Napi::Value OCResource::get_types(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_mmem> sp(&m_pvalue->types);
+  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+  return OCMmem::constructor.New({accessor});
+}
+
+void OCResource::set_types(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->types = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+}
+
+Napi::Value OCResource::get_uri(const Napi::CallbackInfo& info)
+{
+  std::shared_ptr<oc_mmem> sp(&m_pvalue->uri);
+  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+  return OCMmem::constructor.New({accessor});
+}
+
+void OCResource::set_uri(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  m_pvalue->uri = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, const Napi::FunctionReference& f)
 {
