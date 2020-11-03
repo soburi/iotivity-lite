@@ -2524,7 +2524,7 @@ void OCHandler::set_init(const Napi::CallbackInfo& info, const Napi::Value& valu
 #if defined(OC_SERVER)
 Napi::Value OCHandler::get_register_resources(const Napi::CallbackInfo& info)
 {
-  return main_context->oc_handler_register_resources_ref.Value();
+  return register_resources.Value();
 }
 
 void OCHandler::set_register_resources(const Napi::CallbackInfo& info, const Napi::Value& value)
