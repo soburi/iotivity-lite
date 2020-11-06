@@ -80,7 +80,7 @@ void oc_init_platform_helper(void* param);
 void oc_add_device_helper(void* param);
 
 oc_discovery_flags_t
-oc_do_ip_discovery_helper(const char *di, const char *uri, oc_string_array_t types,
+helper_oc_do_ip_discovery(const char *di, const char *uri, oc_string_array_t types,
           oc_interface_mask_t iface_mask, oc_endpoint_t *endpoint,
           oc_resource_properties_t bm, void *user_data);
 
