@@ -1,10 +1,11 @@
 const IL = require("../lib/iotivity-lite.js");
 const assert = require("assert");
-
+/*
 #define MAX_URI_LENGTH (30)
 static char light_1[MAX_URI_LENGTH];
 var light_server;
 static bool light_state = false;
+*/
 
 
 function init_platform_cb(parm) {
@@ -28,12 +29,12 @@ function app_init()
   console.log("app_init");
 
   console.log("call oc_init_platform");
-  var ret = IL.oc_init_platform("Intel Corporation", init_platform_cb, "init_platform_cb_param");
+  var ret = IL.oc_init_platform("Intel Corporation", null, null);
   console.log("end call oc_init_platform");
 
   console.log("call oc_add_device");
-  ret = IL.oc_add_device("/oic/d", "oic.wk.d", "Generic Client", "ocf.1.0.0",
-                       "ocf.res.1.3.0", add_device_cb, "add_device_cb_param");
+  ret |= IL.oc_add_device("/oic/d", "oic.d.phone", "Generic Client", "ocf.1.0.0",
+                       "ocf.res.1.0.0", null, null);
 
   return ret;
 }
@@ -44,7 +45,7 @@ function stop_observe(data)
   IL.oc_stop_observe(light_1, light_server);
   return OC_EVENT_DONE;
 }
-
+/*
 static void
 post_light(oc_client_response_t *data)
 {
@@ -84,10 +85,12 @@ observe_light(oc_client_response_t *data)
   } else
     PRINT("Could not init POST\n");
 }
+*/
 
 function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
 {
-  uri_len = (uri_len >= MAX_URI_LENGTH) ? MAX_URI_LENGTH - 1 : uri_len;
+  console.log("-- discovery --");
+//  uri_len = (uri_len >= MAX_URI_LENGTH) ? MAX_URI_LENGTH - 1 : uri_len;
 
 //  for (i = 0; i < (int)oc_string_array_get_allocated_size(types); i++) {
 //    char *t = IL.oc_string_array_get_item(types, i);
@@ -98,24 +101,25 @@ function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
       light_server = IL.oc_endpoint_list_copy(endpoint);
 
       console.log("Resource %s hosted at endpoints:\n", light_1);
-      oc_endpoint_t *ep = endpoint;
-      while (ep != NULL) {
-        PRINTipaddr(*ep);
+      ep = endpoint;
+      while (ep != null) {
+        //PRINTipaddr(*ep);
         PRINT("\n");
-        ep = ep->next;
+        //ep = ep->next;
       }
 
       IL.oc_do_observe(light_1, light_server, null, observe_light, LOW_QOS, null);
       IL.oc_set_delayed_callback(null, stop_observe, 10);
       return OC_STOP_DISCOVERY;
     }
-  }
+//  }
   return OC_CONTINUE_DISCOVERY;
 }
 
 function issue_requests()
 {
-  IL.oc_do_ip_discovery("oic.r.light", discovery, "discovery_data");
+  console.log("-- issue_requests --");
+  IL.oc_do_ip_discovery("core.light", discovery, "discovery_data");
 }
 
 function handle_signal()
