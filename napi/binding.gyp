@@ -166,7 +166,8 @@
         '../api',
         '../deps/mbedtls/include',
         '../deps/tinycbor/src',
-        "<!@(node -p \"require('node-addon-api').include\")"
+        "<!@(node -p \"require('node-addon-api').include\")",
+        "<!@(node -p \"require('napi-thread-safe-callback').include\")"
       ], 
       'conditions': [
         ['OS=="win"', {
