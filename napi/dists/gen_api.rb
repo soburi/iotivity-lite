@@ -646,7 +646,9 @@ WRAPPERNAME = { 'oc_ipv4_addr_t' => "OCIPv4Addr",
                 'oc_rep_s' => 'OCRepresentation',
                 'oc_rep_s*' => 'OCRepresentation',
                 'CborEncoder' => 'OCCborEncoder',
-                'oc_array_t' => 'OCArray'
+                'oc_array_t' => 'OCArray',
+                'oc_string_array_t' => 'OCStringArray',
+
 }
 
 TYPEDEFS = {
@@ -655,7 +657,7 @@ TYPEDEFS = {
   'oc_handle_t' => 'oc_mmem',
   'oc_string_t' => 'oc_mmem',
 #  'oc_array_t' => 'oc_mmem',
-  'oc_string_array_t' => 'oc_mmem',
+#  'oc_string_array_t' => 'oc_mmem',
   'oc_byte_string_array_t' => 'oc_mmem',
   'oc_blockwise_state_t' => 'oc_blockwise_state_s',
   'oc_response_buffer_t' => 'oc_response_buffer_s',

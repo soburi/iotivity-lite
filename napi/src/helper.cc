@@ -201,19 +201,19 @@ helper_oc_do_ip_discovery(const char *di, const char *uri, oc_string_array_t typ
           oc_interface_mask_t iface_mask, oc_endpoint_t *endpoint,
           oc_resource_properties_t bm, void *user_data)
 {
-//  safecallback_helper_t* helper = (safecallback_helper_t*)user_data;
   SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(user_data);
 
   auto future = helper->function.call<oc_discovery_flags_t>(
   [&](Napi::Env env, std::vector<napi_value>& args) {
     auto         di_ = Napi::String::New(helper->env, di);
     auto        uri_ = Napi::String::New(helper->env, uri);
-    //?
+    std::shared_ptr<oc_string_array_t> types_sp(&types, nop_deleter);
+    auto      types_ = OCStringArray::constructor.New({ Napi::External<std::shared_ptr<oc_string_array_t>>::New(helper->env, &types_sp) });
     std::shared_ptr<oc_endpoint_t> endpoint_sp(endpoint, nop_deleter);
     auto   endpoint_ = OCEndpoint::constructor.New({ Napi::External<std::shared_ptr<oc_endpoint_t>>::New(helper->env, &endpoint_sp) });
     auto iface_mask_ = Napi::Number::New(helper->env, iface_mask);
     auto         bm_ = Napi::Number::New(helper->env, bm);
-    args = {di_, uri_, helper->env.Null(), iface_mask_, endpoint_, bm_, helper->value };
+    args = {di_, uri_, types_, iface_mask_, endpoint_, bm_, helper->value };
   },
   [&](const Napi::Value& val) {
     if (val.IsNumber()) {

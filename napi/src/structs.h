@@ -1390,6 +1390,19 @@ public:
   std::shared_ptr<oc_array_t> m_pvalue;
 };
 
+class OCStringArray : public Napi::ObjectWrap<OCStringArray>
+{
+public:
+  OCStringArray(const Napi::CallbackInfo&);
+  virtual ~OCStringArray();
+  static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
+  operator oc_string_array_t*() { return m_pvalue.get(); }
+
+
+  std::shared_ptr<oc_string_array_t> m_pvalue;
+};
+
 class OCCborEncoder : public Napi::ObjectWrap<OCCborEncoder>
 {
 public:

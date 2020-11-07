@@ -1749,7 +1749,7 @@ Napi::Value N__oc_alloc_string(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N__oc_alloc_string_array(const Napi::CallbackInfo& info) {
-  OCMmem& ocstringarray = *OCMmem::Unwrap(info[0].As<Napi::Object>());
+  OCStringArray& ocstringarray = *OCStringArray::Unwrap(info[0].As<Napi::Object>());
   size_t size = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
   (void)_oc_alloc_string_array(ocstringarray, size);
   return info.Env().Undefined();
@@ -1796,7 +1796,7 @@ Napi::Value N_oc_concat_strings(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_join_string_array(const Napi::CallbackInfo& info) {
-  OCMmem& ocstringarray = *OCMmem::Unwrap(info[0].As<Napi::Object>());
+  OCStringArray& ocstringarray = *OCStringArray::Unwrap(info[0].As<Napi::Object>());
   OCMmem& ocstring = *OCMmem::Unwrap(info[1].As<Napi::Object>());
   (void)oc_join_string_array(ocstringarray, ocstring);
   return info.Env().Undefined();
@@ -2419,7 +2419,7 @@ Napi::Value N_oc_rep_get_byte_string_array(const Napi::CallbackInfo& info) {
   OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
-  OCMmem& value = *OCMmem::Unwrap(info[2].As<Napi::Object>());
+  OCStringArray& value = *OCStringArray::Unwrap(info[2].As<Napi::Object>());
   size_t* size = reinterpret_cast<size_t*>(info[3].As<Napi::Uint32Array>().Data());
   return Napi::Boolean::New(info.Env(), oc_rep_get_byte_string_array(rep, key, value, size));
 }
@@ -2499,7 +2499,7 @@ Napi::Value N_oc_rep_get_string_array(const Napi::CallbackInfo& info) {
   OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
-  OCMmem& value = *OCMmem::Unwrap(info[2].As<Napi::Object>());
+  OCStringArray& value = *OCStringArray::Unwrap(info[2].As<Napi::Object>());
   size_t* size = reinterpret_cast<size_t*>(info[3].As<Napi::Uint32Array>().Data());
   return Napi::Boolean::New(info.Env(), oc_rep_get_string_array(rep, key, value, size));
 }

@@ -825,14 +825,14 @@ void OCAceResource::set_interfaces(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCAceResource::get_types(const Napi::CallbackInfo& info)
 {
-  std::shared_ptr<oc_mmem> sp(&m_pvalue->types);
-  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCMmem::constructor.New({accessor});
+  std::shared_ptr<oc_string_array_t> sp(&m_pvalue->types);
+  auto accessor = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &sp);
+  return OCStringArray::constructor.New({accessor});
 }
 
 void OCAceResource::set_types(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-  m_pvalue->types = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+  m_pvalue->types = *(*(value.As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data()));
 }
 
 Napi::Value OCAceResource::get_wildcard(const Napi::CallbackInfo& info)
@@ -2121,14 +2121,14 @@ m_pvalue->tag_pos_rel[2] = value.As<Napi::Float64Array>()[2];
 
 Napi::Value OCCollection::get_types(const Napi::CallbackInfo& info)
 {
-  std::shared_ptr<oc_mmem> sp(&m_pvalue->types);
-  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCMmem::constructor.New({accessor});
+  std::shared_ptr<oc_string_array_t> sp(&m_pvalue->types);
+  auto accessor = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &sp);
+  return OCStringArray::constructor.New({accessor});
 }
 
 void OCCollection::set_types(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-  m_pvalue->types = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+  m_pvalue->types = *(*(value.As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data()));
 }
 
 Napi::Value OCCollection::get_uri(const Napi::CallbackInfo& info)
@@ -2938,14 +2938,14 @@ void OCLink::set_interfaces(const Napi::CallbackInfo& info, const Napi::Value& v
 
 Napi::Value OCLink::get_rel(const Napi::CallbackInfo& info)
 {
-  std::shared_ptr<oc_mmem> sp(&m_pvalue->rel);
-  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCMmem::constructor.New({accessor});
+  std::shared_ptr<oc_string_array_t> sp(&m_pvalue->rel);
+  auto accessor = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &sp);
+  return OCStringArray::constructor.New({accessor});
 }
 
 void OCLink::set_rel(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-  m_pvalue->rel = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+  m_pvalue->rel = *(*(value.As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data()));
 }
 
 Napi::Value OCLink::get_resource(const Napi::CallbackInfo& info)
@@ -3904,14 +3904,14 @@ m_pvalue->tag_pos_rel[2] = value.As<Napi::Float64Array>()[2];
 
 Napi::Value OCResource::get_types(const Napi::CallbackInfo& info)
 {
-  std::shared_ptr<oc_mmem> sp(&m_pvalue->types);
-  auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-  return OCMmem::constructor.New({accessor});
+  std::shared_ptr<oc_string_array_t> sp(&m_pvalue->types);
+  auto accessor = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &sp);
+  return OCStringArray::constructor.New({accessor});
 }
 
 void OCResource::set_types(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-  m_pvalue->types = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+  m_pvalue->types = *(*(value.As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data()));
 }
 
 Napi::Value OCResource::get_uri(const Napi::CallbackInfo& info)
@@ -4993,6 +4993,36 @@ OCArray::OCArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
   }
   else if (info.Length() == 1 && info[0].IsExternal() ) {
      m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_array_t>>>().Data());
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}
+
+Napi::FunctionReference OCStringArray::constructor;
+
+Napi::Function OCStringArray::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCStringArray", {
+
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+
+OCStringArray::~OCStringArray()
+{
+}
+OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 0) {
+     m_pvalue = std::shared_ptr<oc_string_array_t>(new oc_string_array_t());
+  }
+  else if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data());
   }
   else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
