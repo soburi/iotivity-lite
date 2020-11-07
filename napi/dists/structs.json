@@ -456,7 +456,6 @@
   "oc_array_t": {
   },
   "oc_string_array_t": {
-    "iterator": "oc_string_array_t*"
   },
   "CborEncoder": {
   }

@@ -5003,8 +5003,10 @@ OCArray::OCArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
 Napi::FunctionReference OCStringArray::constructor;
 
 Napi::Function OCStringArray::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCStringArray", {
-    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCStringArray::get_iterator),
+    auto func = DefineClass(env, "OCStringArray", {
+
+      InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCStringArray::get_iterator),// , &OCStringArray::set_iterator),
+  
   });
 
   constructor = Napi::Persistent(func);
@@ -5028,16 +5030,6 @@ OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
         Napi::TypeError::New(info.Env(), "You need to name yourself")
           .ThrowAsJavaScriptException();
   }
-}
-Napi::Value OCStringArray::get_iterator(const Napi::CallbackInfo& info)
-{
-  auto args = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &m_pvalue);
-  return OCStringArrayIterator::constructor.New({ args });
-}
-
-void OCStringArray::set_iterator(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-  //m_pvalue->iterator = *(*(value.As<Napi::External<std::shared_ptr<oc_string_array_t*>>>().Data()));
 }
 
 Napi::FunctionReference OCCborEncoder::constructor;

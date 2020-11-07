@@ -1398,9 +1398,10 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_string_array_t*() { return m_pvalue.get(); }
-  Napi::Value get_iterator(const Napi::CallbackInfo&);
-         void set_iterator(const Napi::CallbackInfo&, const Napi::Value&);
 
+
+    Napi::Value get_iterator(const Napi::CallbackInfo& info);
+    void set_iterator(const Napi::CallbackInfo& info, const Napi::Value& x);
 
   std::shared_ptr<oc_string_array_t> m_pvalue;
 };

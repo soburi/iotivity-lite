@@ -42,6 +42,11 @@ SafeCallbackHelper::SafeCallbackHelper(const Napi::Function& fn, const Napi::Val
 {
 }
 
+Napi::Value OCStringArray::get_iterator(const Napi::CallbackInfo& info)
+{
+  auto args = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &m_pvalue);
+  return OCStringArrayIterator::constructor.New({ args });
+}
 
 Napi::FunctionReference OCStringArrayIterator::constructor;
 

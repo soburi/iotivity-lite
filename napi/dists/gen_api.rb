@@ -155,6 +155,9 @@ STRUCTS = struct_table.keys
 ENUMS = enum_table.keys
 
 EXTRA_ACCESSOR = {
+  'oc_string_array_t' => '
+    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCStringArray::get_iterator),
+  ',
   'oc_resource_s' => '
     InstanceMethod("bind_resource_interface", &OCResource::bind_resource_interface),
     InstanceMethod("bind_resource_type",      &OCResource::bind_resource_type),
@@ -170,6 +173,9 @@ EXTRA_ACCESSOR = {
 }
 
 EXTRA_VALUE= {
+  'oc_string_array_t' => '
+    Napi::Value get_iterator(const Napi::CallbackInfo& info);
+  ',
   "oc_handler_t" => "\
   Napi::FunctionReference init;\n\
 #if defined(OC_SERVER)\n\
