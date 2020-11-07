@@ -201,7 +201,7 @@ printf("end oc_add_device_helper\n");
 }
 
 oc_discovery_flags_t
-helper_oc_do_ip_discovery(const char *di, const char *uri, oc_string_array_t types,
+helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t types,
           oc_interface_mask_t iface_mask, oc_endpoint_t *endpoint,
           oc_resource_properties_t bm, void *user_data)
 {
@@ -232,6 +232,37 @@ helper_oc_do_ip_discovery(const char *di, const char *uri, oc_string_array_t typ
   return future.get();
 }
 
+oc_discovery_flags_t
+helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array_t types, oc_interface_mask_t iface_mask,
+    oc_endpoint_t* endpoint, oc_resource_properties_t bm, bool more, void* user_data)
+{
+    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(user_data);
+
+    auto future = helper->function.call<oc_discovery_flags_t>(
+        [&](Napi::Env env, std::vector<napi_value>& args) {
+        auto         di_ = Napi::String::New(helper->env, di);
+        auto        uri_ = Napi::String::New(helper->env, uri);
+        std::shared_ptr<oc_string_array_t> types_sp(&types, nop_deleter);
+        auto      types_ = OCStringArray::constructor.New({ Napi::External<std::shared_ptr<oc_string_array_t>>::New(helper->env, &types_sp) });
+        std::shared_ptr<oc_endpoint_t> endpoint_sp(endpoint, nop_deleter);
+        auto   endpoint_ = OCEndpoint::constructor.New({ Napi::External<std::shared_ptr<oc_endpoint_t>>::New(helper->env, &endpoint_sp) });
+        auto iface_mask_ = Napi::Number::New(helper->env, iface_mask);
+        auto       more_ = Napi::Boolean::New(helper->env, more);
+        auto         bm_ = Napi::Number::New(helper->env, bm);
+        args = { di_, uri_, types_, iface_mask_, endpoint_, bm_, more_, helper->value };
+    },
+        [&](const Napi::Value& val) {
+        if (val.IsNumber()) {
+            return static_cast<oc_discovery_flags_t>(val.As<Napi::Number>().Uint32Value());
+        }
+        else {
+            helper->function.callError("invalid return type");
+        }
+        return OC_STOP_DISCOVERY;
+    });
+
+    return future.get();
+}
 int oc_swupdate_cb_validate_purl_helper(const char *url)
 {
   Napi::String Nurl = Napi::String::New(oc_swupdate_cb_validate_purl_ref.Env(), url);

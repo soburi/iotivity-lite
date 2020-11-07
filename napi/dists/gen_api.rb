@@ -504,6 +504,10 @@ FUNC_OVERRIDE = {
     '1' => "  oc_discovery_handler_t handler = helper_oc_do_ip_discovery;\n",
     '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[2]);\n"
   },
+  'oc_do_ip_discovery_all' => {
+    '0' => "  oc_discovery_all_handler_t handler = helper_oc_do_ip_discovery_all;\n",
+    '1' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[1]);\n"
+  },
   'helper_rep_oc_array_to_int_array' => { 
     'invoke' => "\
       return Napi::Buffer<int64_t>::New(info.Env(), oc_int_array(*static_cast<oc_array_t*>(array)), oc_int_array_size(*(oc_array_t*)array));",
@@ -702,14 +706,14 @@ TYPEDEFS = {
   'oc_link_t' => 'oc_link_s',
   'oc_rep_t' => 'oc_rep_s',
   'oc_collection_t' => 'oc_collection_s',
-  'oc_cloud_cb_t' => 'void (*)(struct oc_cloud_context_t*, oc_cloud_status_t, void*)',
   'oc_core_add_device_cb_t' => 'void (*)(void*)',
-  'oc_discovery_handler_t' => 'void (*)(const char*, const char*, oc_string_array_t, oc_interface_mask_t, oc_endpoint_t*, oc_resource_properties_t, void*)',
+  'oc_core_init_platform_cb_t' => 'void (*)(void*)',
+  'oc_cloud_cb_t' => 'void (*)(struct oc_cloud_context_t*, oc_cloud_status_t, void*)',
   'oc_discovery_all_handler_t' => 'oc_discovery_flags_t (*)(const char*, const char*, oc_string_array_t, oc_interface_mask_t, oc_endpoint_t*, oc_resource_properties_t, bool, void*)',
+  'oc_discovery_handler_t' => 'void (*)(const char*, const char*, oc_string_array_t, oc_interface_mask_t, oc_endpoint_t*, oc_resource_properties_t, void*)',
   'oc_response_handler_t' => 'void (*)(oc_client_response_t*)',
   'oc_request_callback_t' => 'void (*)(oc_request_t*, oc_interface_mask_t, void*)',
   'oc_trigger_t' => 'void (*)(void*)',
-  'oc_core_init_platform_cb_t' => 'void (*)(void*)',
   'interface_event_handler_t' => 'void (*)(oc_interface_event_t event)',
   'oc_memb_buffers_avail_callback_t' => 'void (*)(int)',
   'session_event_handler_t' => 'void (*)(const oc_endpoint_t* endpoint, oc_session_state_t state)',

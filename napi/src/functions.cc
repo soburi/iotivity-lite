@@ -83,15 +83,14 @@ Napi::Value N_oc_do_get(const Napi::CallbackInfo& info) {
 Napi::Value N_oc_do_ip_discovery(const Napi::CallbackInfo& info) {
   std::string rt_ = info[0].As<Napi::String>().Utf8Value();
   const char* rt = rt_.c_str();
-  oc_discovery_handler_t handler = helper_oc_do_ip_discovery;
+  oc_discovery_handler_t handler = helper_oc_discovery_handler;
   SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[2]);
   return Napi::Boolean::New(info.Env(), oc_do_ip_discovery(rt, handler, user_data));
 }
 
 Napi::Value N_oc_do_ip_discovery_all(const Napi::CallbackInfo& info) {
-  oc_discovery_all_handler_t handler = nullptr;
-  Napi::Function handler_ = info[0].As<Napi::Function>();
-  void* user_data = info[1];
+  oc_discovery_all_handler_t handler = helper_oc_discovery_all_handler;
+  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[1]);
   return Napi::Boolean::New(info.Env(), oc_do_ip_discovery_all(handler, user_data));
 }
 
