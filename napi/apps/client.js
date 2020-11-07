@@ -93,19 +93,24 @@ function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
   console.dir(di);
   console.dir(uri);
   console.dir(types);
-/*
-  console.dir(types[Symbol.iterator]);
-  console.dir(types[Symbol.iterator]());
-  console.dir(types[Symbol.iterator]().value);
-  console.dir(types[Symbol.iterator]().next().value);
-*/
   for(let t of types) {
     console.dir(t);
   }
 
   console.dir(iface_mask);
   console.dir(endpoint);
+  //for(let ep of endpoints) {
+  //}
   console.dir(bm);
+
+  for(let t of types) {
+    console.dir(t);
+    if(t == "core.light") {
+      console.log("core.light = " + uri);
+      a_light = uri;
+      IL.oc_do_get(a_light, light_server, null, get_light, IL.LOW_QOS, null)
+    }
+  }
   //console.log(user_data);
   return 0
 }
