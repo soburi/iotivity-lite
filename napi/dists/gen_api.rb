@@ -223,7 +223,8 @@ OCStringArrayIterator::OCStringArrayIterator(const Napi::CallbackInfo& info) : O
 {
   if (info.Length() == 1 && info[0].IsExternal() ) {
      m_pvalue = std::shared_ptr<oc_string_array_iterator_t>(new oc_string_array_iterator_t());
-     m_pvalue->array = info[0].As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data();
+     m_pvalue->index = -1;
+     m_pvalue->array = *info[0].As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data()->get();
   }
   else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -257,11 +258,11 @@ OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 
 SETGET_OVERRIDE = {
   "oc_string_array_iterator_t::done" => {
-    "get" => "return Napi::Boolean::New(info.Env(), m_pvalue->index >= oc_string_array_get_allocated_size(*m_pvalue->array));",
+    "get" => "return Napi::Boolean::New(info.Env(), m_pvalue->index >= oc_string_array_get_allocated_size(m_pvalue->array));",
     "set" => "",
   },
   "oc_string_array_iterator_t::value" => {
-    "get" => "return Napi::String::New(info.Env(), oc_string_array_get_item(*m_pvalue->array, m_pvalue->index));",
+    "get" => "return Napi::String::New(info.Env(), oc_string_array_get_item(m_pvalue->array, m_pvalue->index));",
     "set" => "",
   },
   "oc_separate_response_s::buffer" => {
