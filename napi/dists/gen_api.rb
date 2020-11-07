@@ -500,6 +500,22 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
 }
 
 FUNC_OVERRIDE = {
+  'oc_add_ownership_status_cb' => {
+    '0' => "  oc_ownership_status_cb_t cb = helper_oc_ownership_status_cb; if(!info[0].IsFunction()) { cb = nullptr; }\n",
+    '1' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[1]);\n",
+  },
+  'oc_set_delayed_callback' => {
+    '0' => "  SafeCallbackHelper* cb_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[0]);\n",
+    '1' => "  oc_trigger_t callback = helper_oc_trigger; if(!info[1].IsFunction()) { callback = nullptr; }\n",
+  },
+  'oc_set_factory_presets_cb' => {
+    '0' => "  oc_factory_presets_cb_t cb = helper_oc_factory_presets_cb; if(!info[0].IsFunction()) { cb = nullptr; }\n",
+    '4' => "  SafeCallbackHelper* data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[1]);\n",
+  },
+  'oc_set_random_pin_callback' => {
+    '0' => "  oc_random_pin_cb_t cb = helper_oc_random_pin_cb; if(!info[0].IsFunction()) { cb = nullptr; }\n",
+    '4' => "  SafeCallbackHelper* data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[1]);\n",
+  },
   'oc_send_ping' => {
     '3' => "  oc_response_handler_t handler = helper_oc_response_handler; if(!info[3].IsFunction()) { handler = nullptr; }\n",
     '4' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Napi::Function>(), info[4]);\n",

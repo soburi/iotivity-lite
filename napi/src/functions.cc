@@ -348,9 +348,8 @@ Napi::Value N_oc_remove_delayed_callback(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_set_delayed_callback(const Napi::CallbackInfo& info) {
-  void* cb_data = info[0];
-  oc_trigger_t callback = nullptr;
-  Napi::Function callback_ = info[1].As<Napi::Function>();
+  SafeCallbackHelper* cb_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[0]);
+  oc_trigger_t callback = helper_oc_trigger; if(!info[1].IsFunction()) { callback = nullptr; }
   uint16_t seconds = static_cast<uint16_t>(info[2].As<Napi::Number>().Uint32Value());
   (void)oc_set_delayed_callback(cb_data, callback, seconds);
   return info.Env().Undefined();
@@ -664,9 +663,8 @@ if(!data) add_device_cb = nullptr;
 
 #if defined(OC_SECURITY)
 Napi::Value N_oc_add_ownership_status_cb(const Napi::CallbackInfo& info) {
-  oc_ownership_status_cb_t cb = nullptr;
-  Napi::Function cb_ = info[0].As<Napi::Function>();
-  void* user_data = info[1];
+  oc_ownership_status_cb_t cb = helper_oc_ownership_status_cb; if(!info[0].IsFunction()) { cb = nullptr; }
+  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[1]);
   (void)oc_add_ownership_status_cb(cb, user_data);
   return info.Env().Undefined();
 }
@@ -771,8 +769,7 @@ Napi::Value N_oc_set_con_res_announced(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_set_factory_presets_cb(const Napi::CallbackInfo& info) {
-  oc_factory_presets_cb_t cb = nullptr;
-  Napi::Function cb_ = info[0].As<Napi::Function>();
+  oc_factory_presets_cb_t cb = helper_oc_factory_presets_cb; if(!info[0].IsFunction()) { cb = nullptr; }
   void* data = info[1];
   (void)oc_set_factory_presets_cb(cb, data);
   return info.Env().Undefined();
@@ -780,8 +777,7 @@ Napi::Value N_oc_set_factory_presets_cb(const Napi::CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Napi::Value N_oc_set_random_pin_callback(const Napi::CallbackInfo& info) {
-  oc_random_pin_cb_t cb = nullptr;
-  Napi::Function cb_ = info[0].As<Napi::Function>();
+  oc_random_pin_cb_t cb = helper_oc_random_pin_cb; if(!info[0].IsFunction()) { cb = nullptr; }
   void* data = info[1];
   (void)oc_set_random_pin_callback(cb, data);
   return info.Env().Undefined();
