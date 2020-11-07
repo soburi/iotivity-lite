@@ -251,14 +251,14 @@ helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array
         auto         bm_ = Napi::Number::New(helper->env, bm);
         args = { di_, uri_, types_, iface_mask_, endpoint_, bm_, more_, helper->value };
     },
-        [&](const Napi::Value& val) {
-        if (val.IsNumber()) {
-            return static_cast<oc_discovery_flags_t>(val.As<Napi::Number>().Uint32Value());
-        }
-        else {
-            helper->function.callError("invalid return type");
-        }
-        return OC_STOP_DISCOVERY;
+    [&](const Napi::Value& val) {
+      if (val.IsNumber()) {
+        return static_cast<oc_discovery_flags_t>(val.As<Napi::Number>().Uint32Value());
+      }
+      else {
+        helper->function.callError("invalid return type");
+      }
+      return OC_STOP_DISCOVERY;
     });
 
     return future.get();
@@ -273,6 +273,52 @@ void helper_oc_response_handler(oc_client_response_t* response)
       std::shared_ptr<oc_client_response_t> sp(response, nop_deleter);
       auto accessor = Napi::External<std::shared_ptr<oc_client_response_t>>::New(helper->env, &sp);
       args = { OCClientResponse::constructor.New({ accessor }) };
+    });
+}
+
+void helper_oc_ownership_status_cb(const oc_uuid_t* device_uuid,
+    size_t device_index, bool owned, void* user_data)
+{
+  SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(user_data);
+  helper->function.call(
+    [&](Napi::Env env, std::vector<napi_value>& args)
+    {
+      std::shared_ptr<oc_uuid_t> uuid_sp(const_cast<oc_uuid_t*>(device_uuid), nop_deleter);
+      auto  device_uuid_ = OCUuid::constructor.New({ Napi::External<std::shared_ptr<oc_uuid_t>>::New(helper->env, &uuid_sp) });
+      auto device_index_ = Napi::Number::New(helper->env, device_index);
+      auto        owned_ = Napi::Boolean::New(helper->env, owned);
+      args = { device_uuid_, device_index_, owned_, helper->value };
+    });
+}
+
+oc_event_callback_retval_t helper_oc_trigger(void* data)
+{
+  SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+  auto future = helper->function.call< oc_event_callback_retval_t>(
+    [&](Napi::Env env, std::vector<napi_value>& args)
+    {
+      args = { helper->value };
+    },
+    [&](const Napi::Value& val) {
+      if (val.IsNumber()) {
+        return static_cast<oc_event_callback_retval_t>(val.As<Napi::Number>().Uint32Value());
+      }
+      else {
+        helper->function.callError("invalid return type");
+      }
+      return OC_EVENT_DONE;
+    });
+  return future.get();
+}
+
+void helper_oc_factory_presets_cb(size_t device, void* data)
+{
+  SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+  helper->function.call(
+    [&](Napi::Env env, std::vector<napi_value>& args)
+    {
+      auto device_ = Napi::Number::New(helper->env, device);
+      args = { device_, helper->value };
     });
 }
 
