@@ -10,8 +10,6 @@ Napi::FunctionReference oc_swupdate_cb_check_new_version_ref;
 Napi::FunctionReference oc_swupdate_cb_download_update_ref;
 Napi::FunctionReference oc_swupdate_cb_perform_upgrade_ref;
 
-callback_helper_t* oc_handler_init_helper_data;
-
 
 int helper_oc_handler_init()
 {
@@ -168,13 +166,6 @@ Napi::Value OCResource::set_default_interface(const Napi::CallbackInfo& info) {
 }
 */
 
-
-callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, const Napi::FunctionReference& f)
-{
-  callback_helper_t* helper = new callback_helper_t(info);
-  helper->function.Reset(f.Value());
-  return helper;
-}
 
 callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, int idx_func, int idx_val)
 {

@@ -36,15 +36,6 @@ public:
   callback_helper_t(const Napi::CallbackInfo& info) : async_context(info.Env(), "") { }
 };
 
-struct safecallback_helper_t {
-public:
-    ThreadSafeCallback function;
-    Napi::Value value;
-    Napi::Env env;
-
-    //callback_helper_t(const Napi::CallbackInfo& info) : async_context(info.Env(), "") { }
-};
-
 class SafeCallbackHelper {
 public:
     ThreadSafeCallback function;
@@ -56,12 +47,7 @@ public:
 };
 
 
-
-callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, const Napi::FunctionReference& f);
 callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, int idx_func, int idx_val);
-
-extern callback_helper_t* oc_handler_init_helper_data;
-
 
 //extern Napi::FunctionReference oc_handler_init_ref;
 //extern Napi::FunctionReference oc_handler_register_resources_ref;
