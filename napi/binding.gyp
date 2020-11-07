@@ -187,6 +187,7 @@
             'WIN32',
             '_CONSOLE',
             '_CRT_SECURE_NO_DEPRECATE',
+	    '_HAS_EXCEPTIONS=1'
           ]
          }],
         ['OS=="linux"', {
