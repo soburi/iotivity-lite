@@ -468,7 +468,7 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
 FUNC_OVERRIDE = {
   'oc_do_ip_discovery' => {
     '1' => "  oc_discovery_handler_t handler = helper_oc_do_ip_discovery;\n",
-    '2' => "  callback_helper_t* user_data = new_callback_helper_t(info, 1, 2);\n"
+    '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[2]);\n"
   },
   'helper_rep_oc_array_to_int_array' => { 
     'invoke' => "\
