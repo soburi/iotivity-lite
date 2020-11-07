@@ -90,6 +90,13 @@ observe_light(oc_client_response_t *data)
 function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
 {
   console.log("-- discovery --");
+  console.dir(di);
+  console.dir(uri);
+  console.dir(iface_mask);
+  console.dir(endpoint);
+  console.dir(bm);
+  console.dir(user_data);
+  //return 0
 }
 
 function issue_requests()
