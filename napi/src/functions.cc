@@ -214,9 +214,8 @@ Napi::Value N_oc_send_ping(const Napi::CallbackInfo& info) {
   bool custody = info[0].As<Napi::Boolean>().Value();
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
   uint16_t timeout_seconds = static_cast<uint16_t>(info[2].As<Napi::Number>().Uint32Value());
-  oc_response_handler_t handler = nullptr;
-  Napi::Function handler_ = info[3].As<Napi::Function>();
-  void* user_data = info[4];
+  oc_response_handler_t handler = helper_oc_response_handler; if(!info[3].IsFunction()) { handler = nullptr; }
+  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Napi::Function>(), info[4]);
   return Napi::Boolean::New(info.Env(), oc_send_ping(custody, endpoint, timeout_seconds, handler, user_data));
 }
 #endif

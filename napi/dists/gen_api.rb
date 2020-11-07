@@ -500,6 +500,10 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
 }
 
 FUNC_OVERRIDE = {
+  'oc_send_ping' => {
+    '3' => "  oc_response_handler_t handler = helper_oc_response_handler; if(!info[3].IsFunction()) { handler = nullptr; }\n",
+    '4' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Napi::Function>(), info[4]);\n",
+  },
   'oc_assert_all_roles' => {
     '1' => "  oc_response_handler_t handler = helper_oc_response_handler; if(!info[1].IsFunction()) { handler = nullptr; }\n",
     '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[2]);\n",
