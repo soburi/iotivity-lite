@@ -15,7 +15,69 @@ func_table = open(ARGV[2]) do |io|
   JSON.load(io)
 end
 
+apis = open(ARGV[3]) do |io|
+  JSON.load(io)
+end
+
+
+
 formatter = REXML::Formatters::Pretty.new
+
+APICLSDECL = <<APICLSDECL
+class CLASS : public Napi::ObjectWrap<CLASS>
+{
+public:
+  CLASS(const Napi::CallbackInfo&);
+  static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
+APICLSDECL
+MTDDECL = <<MTDDECL
+  static Napi::Value METHOD(const Napi::CallbackInfo& info);
+MTDDECL
+
+MTDIMPL = <<MTDIMPL
+Napi::Value CLASS::METHOD(const Napi::CallbackInfo& info) { return N_PREFIXMETHOD(info); };
+MTDIMPL
+
+BINDIMPL = <<BINDIMPL
+CLASS::CLASS(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function CLASS::GetClass(Napi::Env env) {
+    return DefineClass(env, "CLASS", {
+BINDIMPL
+
+MTDBIND = <<MTDBIND
+        CLASS::StaticMethod("METHOD", &CLASS::METHOD),
+MTDBIND
+
+CCPROLOGUE = <<CCPROLOGUE
+#include "iotivity_lite.h"
+#include "structs.h"
+#include "functions.h"
+#include "helper.h"
+using namespace Napi;
+
+Napi::Object module_init(Napi::Env env, Napi::Object exports);
+Napi::Object Init(Napi::Env env, Napi::Object exports);
+NODE_API_MODULE(addon, Init)
+
+Napi::Object Init(Napi::Env env, Napi::Object exports) {
+CCPROLOGUE
+
+HPROLOGUE = <<HPROLOGUE
+#pragma once
+
+#include <napi.h>
+
+using namespace std;
+
+HPROLOGUE
+
+EXPORTIMPL = <<EXPORTIMPL
+    exports.Set("CLASS", CLASS::GetClass(env));
+EXPORTIMPL
+
+#########################
 
 GETSETDECL = <<'GETSETDECL'
   Napi::Value get_VALNAME(const Napi::CallbackInfo&);
@@ -1742,3 +1804,43 @@ STR
   f.print "\n"
 =end
 end
+
+File.open('src/iotivity-lite.h', 'w') do |f|
+  f.print HPROLOGUE
+  apis.keys.each do |cls|
+    f.print APICLSDECL.gsub(/CLASS/, cls)
+    apis[cls].keys.each do |mtd|
+      f.print MTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
+    end
+    f.print "};\n"
+  end
+end
+
+File.open('src/iotivity-lite.cc', 'w') do |f|
+  f.print CCPROLOGUE
+  apis.keys.each do |cls|
+    f.print EXPORTIMPL.gsub(/CLASS/, cls)
+  end
+  f.print "    return module_init(env, exports);\n"
+  f.print "}\n"
+
+  apis.keys.each do |cls|
+    f.print BINDIMPL.gsub(/CLASS/, cls)
+    apis[cls].keys.each do |mtd|
+      f.print MTDBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
+    end
+    f.print "    });\n"
+    f.print "}\n"
+
+    f.print "\n"
+    apis[cls].keys.each do |mtd|
+      f.print MTDIMPL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
+    end
+    f.print "Napi::FunctionReference CLASS::constructor;".gsub(/CLASS/, cls)
+
+    f.print "\n"
+    f.print "\n"
+  end
+end
+
+
