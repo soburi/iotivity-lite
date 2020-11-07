@@ -509,6 +509,14 @@ FUNC_OVERRIDE = {
     '2' => "  oc_response_handler_t handler = helper_oc_response_handler;\n",
     '3' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[2].As<Napi::Function>(), info[3]);\n"
   },
+  'oc_do_realm_local_ipv6_multicast' => {
+    '2' => "  oc_response_handler_t handler = helper_oc_response_handler;\n",
+    '3' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[2].As<Napi::Function>(), info[3]);\n"
+  },
+  'oc_do_site_local_ipv6_multicast' => {
+    '2' => "  oc_response_handler_t handler = helper_oc_response_handler;\n",
+    '3' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[2].As<Napi::Function>(), info[3]);\n"
+  },
   'oc_do_ip_discovery' => {
     '1' => "  oc_discovery_handler_t handler = helper_oc_discovery_handler;\n",
     '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[2]);\n"

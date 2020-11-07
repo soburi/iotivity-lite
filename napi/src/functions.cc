@@ -158,9 +158,8 @@ Napi::Value N_oc_do_realm_local_ipv6_multicast(const Napi::CallbackInfo& info) {
   const char* uri = uri_.c_str();
   std::string query_ = info[1].As<Napi::String>().Utf8Value();
   const char* query = query_.c_str();
-  oc_response_handler_t handler = nullptr;
-  Napi::Function handler_ = info[2].As<Napi::Function>();
-  void* user_data = info[3];
+  oc_response_handler_t handler = helper_oc_response_handler;
+  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[2].As<Napi::Function>(), info[3]);
   return Napi::Boolean::New(info.Env(), oc_do_realm_local_ipv6_multicast(uri, query, handler, user_data));
 }
 
@@ -183,9 +182,8 @@ Napi::Value N_oc_do_site_local_ipv6_multicast(const Napi::CallbackInfo& info) {
   const char* uri = uri_.c_str();
   std::string query_ = info[1].As<Napi::String>().Utf8Value();
   const char* query = query_.c_str();
-  oc_response_handler_t handler = nullptr;
-  Napi::Function handler_ = info[2].As<Napi::Function>();
-  void* user_data = info[3];
+  oc_response_handler_t handler = helper_oc_response_handler;
+  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[2].As<Napi::Function>(), info[3]);
   return Napi::Boolean::New(info.Env(), oc_do_site_local_ipv6_multicast(uri, query, handler, user_data));
 }
 
