@@ -1807,9 +1807,20 @@ File.open('src/iotivity-lite.cc', 'w') do |f|
     f.print "}\n"
 
     f.print "\n"
-    apis[cls].keys.each do |mtd|
-      f.print MTDIMPL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
+    apis[cls].each do |name, mtd|
+      next if IGNORE_FUNCS.include?(mtd)
+      if not func_table.has_key?(mtd)
+        print mtd
+        print "\n"
+        next
+      end
+      expset = gen_funcimpl(mtd, func_table[mtd])
+      if IFDEF_FUNCS.include?(mtd)
+        expset = "#if #{IFDEF_FUNCS[mtd]}\n" + expset + "#endif\n"
+      end
+      f.print "#{expset}\n"
     end
+
     f.print "Napi::FunctionReference CLASS::constructor;".gsub(/CLASS/, cls)
 
     f.print "\n"
