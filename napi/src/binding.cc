@@ -100,34 +100,11 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_resource_tag_func_desc", Napi::Function::New(env, N_oc_resource_tag_func_desc));
   exports.Set("oc_resource_tag_pos_desc", Napi::Function::New(env, N_oc_resource_tag_pos_desc));
   exports.Set("oc_resource_tag_pos_rel", Napi::Function::New(env, N_oc_resource_tag_pos_rel));
-  exports.Set("oc_timer_expired", Napi::Function::New(env, N_oc_timer_expired));
-  exports.Set("oc_timer_remaining", Napi::Function::New(env, N_oc_timer_remaining));
-  exports.Set("oc_timer_reset", Napi::Function::New(env, N_oc_timer_reset));
-  exports.Set("oc_timer_restart", Napi::Function::New(env, N_oc_timer_restart));
-  exports.Set("oc_timer_set", Napi::Function::New(env, N_oc_timer_set));
   exports.Set("oc_main_poll", Napi::Function::New(env, N_oc_main_poll));
   exports.Set("oc_abort", Napi::Function::New(env, N_oc_abort));
   exports.Set("oc_exit", Napi::Function::New(env, N_oc_exit));
   exports.Set("oc_base64_decode", Napi::Function::New(env, N_oc_base64_decode));
   exports.Set("oc_base64_encode", Napi::Function::New(env, N_oc_base64_encode));
-  exports.Set("oc_blockwise_alloc_request_buffer", Napi::Function::New(env, N_oc_blockwise_alloc_request_buffer));
-  exports.Set("oc_blockwise_alloc_response_buffer", Napi::Function::New(env, N_oc_blockwise_alloc_response_buffer));
-#if defined(XXX)
-  exports.Set("oc_blockwise_dispatch_block", Napi::Function::New(env, N_oc_blockwise_dispatch_block));
-#endif
-  exports.Set("oc_blockwise_find_request_buffer", Napi::Function::New(env, N_oc_blockwise_find_request_buffer));
-  exports.Set("oc_blockwise_find_request_buffer_by_client_cb", Napi::Function::New(env, N_oc_blockwise_find_request_buffer_by_client_cb));
-  exports.Set("oc_blockwise_find_request_buffer_by_mid", Napi::Function::New(env, N_oc_blockwise_find_request_buffer_by_mid));
-  exports.Set("oc_blockwise_find_request_buffer_by_token", Napi::Function::New(env, N_oc_blockwise_find_request_buffer_by_token));
-  exports.Set("oc_blockwise_find_response_buffer", Napi::Function::New(env, N_oc_blockwise_find_response_buffer));
-  exports.Set("oc_blockwise_find_response_buffer_by_client_cb", Napi::Function::New(env, N_oc_blockwise_find_response_buffer_by_client_cb));
-  exports.Set("oc_blockwise_find_response_buffer_by_mid", Napi::Function::New(env, N_oc_blockwise_find_response_buffer_by_mid));
-  exports.Set("oc_blockwise_find_response_buffer_by_token", Napi::Function::New(env, N_oc_blockwise_find_response_buffer_by_token));
-  exports.Set("oc_blockwise_free_request_buffer", Napi::Function::New(env, N_oc_blockwise_free_request_buffer));
-  exports.Set("oc_blockwise_free_response_buffer", Napi::Function::New(env, N_oc_blockwise_free_response_buffer));
-  exports.Set("oc_blockwise_handle_block", Napi::Function::New(env, N_oc_blockwise_handle_block));
-  exports.Set("oc_blockwise_scrub_buffers", Napi::Function::New(env, N_oc_blockwise_scrub_buffers));
-  exports.Set("oc_blockwise_scrub_buffers_for_client_cb", Napi::Function::New(env, N_oc_blockwise_scrub_buffers_for_client_cb));
   exports.Set("oc_allocate_message", Napi::Function::New(env, N_oc_allocate_message));
   exports.Set("oc_allocate_message_from_pool", Napi::Function::New(env, N_oc_allocate_message_from_pool));
 #if defined(OC_SECURITY)
@@ -184,12 +161,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_dns_lookup", Napi::Function::New(env, N_oc_dns_lookup));
   exports.Set("oc_send_buffer", Napi::Function::New(env, N_oc_send_buffer));
   exports.Set("oc_send_discovery_request", Napi::Function::New(env, N_oc_send_discovery_request));
-#if defined(OC_TCP)
-  exports.Set("oc_tcp_get_csm_state", Napi::Function::New(env, N_oc_tcp_get_csm_state));
-#endif
-#if defined(OC_TCP)
-  exports.Set("oc_tcp_update_csm_state", Napi::Function::New(env, N_oc_tcp_update_csm_state));
-#endif
   exports.Set("oc_core_encode_interfaces_mask", Napi::Function::New(env, N_oc_core_encode_interfaces_mask));
   exports.Set("oc_core_get_resource_by_index", Napi::Function::New(env, N_oc_core_get_resource_by_index));
   exports.Set("oc_core_populate_resource", Napi::Function::New(env, N_oc_core_populate_resource));

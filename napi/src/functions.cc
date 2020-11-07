@@ -101,35 +101,6 @@ Napi::Value N_oc_resource_tag_pos_rel(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-Napi::Value N_oc_timer_expired(const Napi::CallbackInfo& info) {
-  OCTimer& t = *OCTimer::Unwrap(info[0].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_timer_expired(t));
-}
-
-Napi::Value N_oc_timer_remaining(const Napi::CallbackInfo& info) {
-  OCTimer& t = *OCTimer::Unwrap(info[0].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_timer_remaining(t));
-}
-
-Napi::Value N_oc_timer_reset(const Napi::CallbackInfo& info) {
-  OCTimer& t = *OCTimer::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_timer_reset(t);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_timer_restart(const Napi::CallbackInfo& info) {
-  OCTimer& t = *OCTimer::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_timer_restart(t);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_timer_set(const Napi::CallbackInfo& info) {
-  OCTimer& t = *OCTimer::Unwrap(info[0].As<Napi::Object>());
-  oc_clock_time_t interval = static_cast<uint64_t>(info[1].As<Napi::Number>().Int64Value());
-  (void)oc_timer_set(t, interval);
-  return info.Env().Undefined();
-}
-
 Napi::Value N_oc_main_poll(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_main_poll());
 }
@@ -159,148 +130,6 @@ Napi::Value N_oc_base64_encode(const Napi::CallbackInfo& info) {
   uint8_t* output_buffer = info[2].As<Napi::Buffer<uint8_t>>().Data();
   size_t output_buffer_len = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
   return Napi::Number::New(info.Env(), oc_base64_encode(input, input_len, output_buffer, output_buffer_len));
-}
-
-Napi::Value N_oc_blockwise_alloc_request_buffer(const Napi::CallbackInfo& info) {
-  std::string href_ = info[0].As<Napi::String>().Utf8Value();
-  const char* href = href_.c_str();
-  size_t href_len = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[2].As<Napi::Object>());
-  oc_method_t method = static_cast<oc_method_t>(info[3].As<Napi::Number>().Uint32Value());
-  oc_blockwise_role_t role = static_cast<oc_blockwise_role_t>(info[4].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_blockwise_state_t> sp(oc_blockwise_alloc_request_buffer(href, href_len, endpoint, method, role));
-  auto args = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({args});
-}
-
-Napi::Value N_oc_blockwise_alloc_response_buffer(const Napi::CallbackInfo& info) {
-  std::string href_ = info[0].As<Napi::String>().Utf8Value();
-  const char* href = href_.c_str();
-  size_t href_len = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[2].As<Napi::Object>());
-  oc_method_t method = static_cast<oc_method_t>(info[3].As<Napi::Number>().Uint32Value());
-  oc_blockwise_role_t role = static_cast<oc_blockwise_role_t>(info[4].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_blockwise_state_t> sp(oc_blockwise_alloc_response_buffer(href, href_len, endpoint, method, role));
-  auto args = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({args});
-}
-
-#if defined(XXX)
-Napi::Value N_oc_blockwise_dispatch_block(const Napi::CallbackInfo& info) {
-  OCBlockwiseState& buffer = *OCBlockwiseState::Unwrap(info[0].As<Napi::Object>());
-  uint32_t block_offset = static_cast<uint32_t>(info[1].As<Napi::Number>().Uint32Value());
-  uint32_t requested_block_size = static_cast<uint32_t>(info[2].As<Napi::Number>().Uint32Value());
-// 3 payload_size, uint32_t*
-  //func return const void*
-}
-#endif
-
-Napi::Value N_oc_blockwise_find_request_buffer(const Napi::CallbackInfo& info) {
-  std::string href_ = info[0].As<Napi::String>().Utf8Value();
-  const char* href = href_.c_str();
-  size_t href_len = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[2].As<Napi::Object>());
-  oc_method_t method = static_cast<oc_method_t>(info[3].As<Napi::Number>().Uint32Value());
-  std::string query_ = info[4].As<Napi::String>().Utf8Value();
-  const char* query = query_.c_str();
-  size_t query_len = static_cast<size_t>(info[5].As<Napi::Number>().Uint32Value());
-  oc_blockwise_role_t role = static_cast<oc_blockwise_role_t>(info[6].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_blockwise_state_t> sp(oc_blockwise_find_request_buffer(href, href_len, endpoint, method, query, query_len, role));
-  auto args = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({args});
-}
-
-Napi::Value N_oc_blockwise_find_request_buffer_by_client_cb(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  void* client_cb = info[1];
-  std::shared_ptr<oc_blockwise_state_t> sp(oc_blockwise_find_request_buffer_by_client_cb(endpoint, client_cb));
-  auto args = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({args});
-}
-
-Napi::Value N_oc_blockwise_find_request_buffer_by_mid(const Napi::CallbackInfo& info) {
-  uint16_t mid = static_cast<uint16_t>(info[0].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_blockwise_state_t> sp(oc_blockwise_find_request_buffer_by_mid(mid));
-  auto args = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({args});
-}
-
-Napi::Value N_oc_blockwise_find_request_buffer_by_token(const Napi::CallbackInfo& info) {
-  uint8_t* token = info[0].As<Napi::Buffer<uint8_t>>().Data();
-  uint8_t token_len = static_cast<uint8_t>(info[1].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_blockwise_state_t> sp(oc_blockwise_find_request_buffer_by_token(token, token_len));
-  auto args = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({args});
-}
-
-Napi::Value N_oc_blockwise_find_response_buffer(const Napi::CallbackInfo& info) {
-  std::string href_ = info[0].As<Napi::String>().Utf8Value();
-  const char* href = href_.c_str();
-  size_t href_len = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[2].As<Napi::Object>());
-  oc_method_t method = static_cast<oc_method_t>(info[3].As<Napi::Number>().Uint32Value());
-  std::string query_ = info[4].As<Napi::String>().Utf8Value();
-  const char* query = query_.c_str();
-  size_t query_len = static_cast<size_t>(info[5].As<Napi::Number>().Uint32Value());
-  oc_blockwise_role_t role = static_cast<oc_blockwise_role_t>(info[6].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_blockwise_state_t> sp(oc_blockwise_find_response_buffer(href, href_len, endpoint, method, query, query_len, role));
-  auto args = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({args});
-}
-
-Napi::Value N_oc_blockwise_find_response_buffer_by_client_cb(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  void* client_cb = info[1];
-  std::shared_ptr<oc_blockwise_state_t> sp(oc_blockwise_find_response_buffer_by_client_cb(endpoint, client_cb));
-  auto args = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({args});
-}
-
-Napi::Value N_oc_blockwise_find_response_buffer_by_mid(const Napi::CallbackInfo& info) {
-  uint16_t mid = static_cast<uint16_t>(info[0].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_blockwise_state_t> sp(oc_blockwise_find_response_buffer_by_mid(mid));
-  auto args = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({args});
-}
-
-Napi::Value N_oc_blockwise_find_response_buffer_by_token(const Napi::CallbackInfo& info) {
-  uint8_t* token = info[0].As<Napi::Buffer<uint8_t>>().Data();
-  uint8_t token_len = static_cast<uint8_t>(info[1].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_blockwise_state_t> sp(oc_blockwise_find_response_buffer_by_token(token, token_len));
-  auto args = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
-  return OCBlockwiseState::constructor.New({args});
-}
-
-Napi::Value N_oc_blockwise_free_request_buffer(const Napi::CallbackInfo& info) {
-  OCBlockwiseState& buffer = *OCBlockwiseState::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_blockwise_free_request_buffer(buffer);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_blockwise_free_response_buffer(const Napi::CallbackInfo& info) {
-  OCBlockwiseState& buffer = *OCBlockwiseState::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_blockwise_free_response_buffer(buffer);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_blockwise_handle_block(const Napi::CallbackInfo& info) {
-  OCBlockwiseState& buffer = *OCBlockwiseState::Unwrap(info[0].As<Napi::Object>());
-  uint32_t incoming_block_offset = static_cast<uint32_t>(info[1].As<Napi::Number>().Uint32Value());
-  const uint8_t* incoming_block = info[2].As<Napi::Buffer<const uint8_t>>().Data();
-  uint32_t incoming_block_size = static_cast<uint32_t>(info[3].As<Napi::Number>().Uint32Value());
-  return Napi::Boolean::New(info.Env(), oc_blockwise_handle_block(buffer, incoming_block_offset, incoming_block, incoming_block_size));
-}
-
-Napi::Value N_oc_blockwise_scrub_buffers(const Napi::CallbackInfo& info) {
-  bool all = info[0].As<Napi::Boolean>().Value();
-  (void)oc_blockwise_scrub_buffers(all);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_blockwise_scrub_buffers_for_client_cb(const Napi::CallbackInfo& info) {
-  void* cb = info[0];
-  (void)oc_blockwise_scrub_buffers_for_client_cb(cb);
-  return info.Env().Undefined();
 }
 
 Napi::Value N_oc_allocate_message(const Napi::CallbackInfo& info) {
@@ -618,21 +447,6 @@ Napi::Value N_oc_send_discovery_request(const Napi::CallbackInfo& info) {
   (void)oc_send_discovery_request(message);
   return info.Env().Undefined();
 }
-
-#if defined(OC_TCP)
-Napi::Value N_oc_tcp_get_csm_state(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_tcp_get_csm_state(endpoint));
-}
-#endif
-
-#if defined(OC_TCP)
-Napi::Value N_oc_tcp_update_csm_state(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  tcp_csm_state_t csm = static_cast<tcp_csm_state_t>(info[1].As<Napi::Number>().Uint32Value());
-  return Napi::Number::New(info.Env(), oc_tcp_update_csm_state(endpoint, csm));
-}
-#endif
 
 Napi::Value N_oc_core_encode_interfaces_mask(const Napi::CallbackInfo& info) {
   OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());

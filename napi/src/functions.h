@@ -14,34 +14,11 @@ Napi::Value N_oc_iterate_query_get_values(const Napi::CallbackInfo&);
 Napi::Value N_oc_resource_tag_func_desc(const Napi::CallbackInfo&);
 Napi::Value N_oc_resource_tag_pos_desc(const Napi::CallbackInfo&);
 Napi::Value N_oc_resource_tag_pos_rel(const Napi::CallbackInfo&);
-Napi::Value N_oc_timer_expired(const Napi::CallbackInfo&);
-Napi::Value N_oc_timer_remaining(const Napi::CallbackInfo&);
-Napi::Value N_oc_timer_reset(const Napi::CallbackInfo&);
-Napi::Value N_oc_timer_restart(const Napi::CallbackInfo&);
-Napi::Value N_oc_timer_set(const Napi::CallbackInfo&);
 Napi::Value N_oc_main_poll(const Napi::CallbackInfo&);
 Napi::Value N_oc_abort(const Napi::CallbackInfo&);
 Napi::Value N_oc_exit(const Napi::CallbackInfo&);
 Napi::Value N_oc_base64_decode(const Napi::CallbackInfo&);
 Napi::Value N_oc_base64_encode(const Napi::CallbackInfo&);
-Napi::Value N_oc_blockwise_alloc_request_buffer(const Napi::CallbackInfo&);
-Napi::Value N_oc_blockwise_alloc_response_buffer(const Napi::CallbackInfo&);
-#if defined(XXX)
-Napi::Value N_oc_blockwise_dispatch_block(const Napi::CallbackInfo&);
-#endif
-Napi::Value N_oc_blockwise_find_request_buffer(const Napi::CallbackInfo&);
-Napi::Value N_oc_blockwise_find_request_buffer_by_client_cb(const Napi::CallbackInfo&);
-Napi::Value N_oc_blockwise_find_request_buffer_by_mid(const Napi::CallbackInfo&);
-Napi::Value N_oc_blockwise_find_request_buffer_by_token(const Napi::CallbackInfo&);
-Napi::Value N_oc_blockwise_find_response_buffer(const Napi::CallbackInfo&);
-Napi::Value N_oc_blockwise_find_response_buffer_by_client_cb(const Napi::CallbackInfo&);
-Napi::Value N_oc_blockwise_find_response_buffer_by_mid(const Napi::CallbackInfo&);
-Napi::Value N_oc_blockwise_find_response_buffer_by_token(const Napi::CallbackInfo&);
-Napi::Value N_oc_blockwise_free_request_buffer(const Napi::CallbackInfo&);
-Napi::Value N_oc_blockwise_free_response_buffer(const Napi::CallbackInfo&);
-Napi::Value N_oc_blockwise_handle_block(const Napi::CallbackInfo&);
-Napi::Value N_oc_blockwise_scrub_buffers(const Napi::CallbackInfo&);
-Napi::Value N_oc_blockwise_scrub_buffers_for_client_cb(const Napi::CallbackInfo&);
 Napi::Value N_oc_allocate_message(const Napi::CallbackInfo&);
 Napi::Value N_oc_allocate_message_from_pool(const Napi::CallbackInfo&);
 #if defined(OC_SECURITY)
@@ -98,12 +75,6 @@ Napi::Value N_oc_connectivity_shutdown(const Napi::CallbackInfo&);
 Napi::Value N_oc_dns_lookup(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_buffer(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_discovery_request(const Napi::CallbackInfo&);
-#if defined(OC_TCP)
-Napi::Value N_oc_tcp_get_csm_state(const Napi::CallbackInfo&);
-#endif
-#if defined(OC_TCP)
-Napi::Value N_oc_tcp_update_csm_state(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_core_encode_interfaces_mask(const Napi::CallbackInfo&);
 Napi::Value N_oc_core_get_resource_by_index(const Napi::CallbackInfo&);
 Napi::Value N_oc_core_populate_resource(const Napi::CallbackInfo&);

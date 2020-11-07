@@ -1080,6 +1080,33 @@ IGNORE_FUNCS = [
 '_oc_mmem_alloc',
 '_oc_mmem_free',
 '_oc_signal_event_loop',
+
+
+'oc_blockwise_alloc_request_buffer',
+'oc_blockwise_alloc_response_buffer',
+'oc_blockwise_dispatch_block',
+'oc_blockwise_find_request_buffer',
+'oc_blockwise_find_request_buffer_by_client_cb',
+'oc_blockwise_find_request_buffer_by_mid',
+'oc_blockwise_find_request_buffer_by_token',
+'oc_blockwise_find_response_buffer',
+'oc_blockwise_find_response_buffer_by_client_cb',
+'oc_blockwise_find_response_buffer_by_mid',
+'oc_blockwise_find_response_buffer_by_token',
+'oc_blockwise_free_request_buffer',
+'oc_blockwise_free_response_buffer',
+'oc_blockwise_handle_block',
+'oc_blockwise_scrub_buffers',
+'oc_blockwise_scrub_buffers_for_client_cb',
+
+'oc_tcp_get_csm_state',
+'oc_tcp_update_csm_state',
+'oc_timer_expired',
+'oc_timer_remaining',
+'oc_timer_reset',
+'oc_timer_restart',
+'oc_timer_set',
+
 ]
 
 IFDEF_TYPES = {
