@@ -3376,13 +3376,6 @@
 		"value": "const double"
 	}
 },
-"helper_rep_add_int": {
-	"type": "void",
-	"param": {
-		"arrayObject": "CborEncoder*",
-		"value": "const int64_t"
-	}
-},
 "helper_rep_add_boolean": {
 	"type": "void",
 	"param": {
@@ -3392,13 +3385,6 @@
 },
 "helper_rep_set_key": {
 	"type": "void",
-	"param": {
-		"parent": "CborEncoder*",
-		"key": "const char*"
-	}
-},
-"helper_rep_set_array": {
-	"type": "CborEncoder*",
 	"param": {
 		"parent": "CborEncoder*",
 		"key": "const char*"
@@ -3498,11 +3484,6 @@
 	"param": {
 	}
 },
-"helper_rep_get_cbor_errno": {
-	"type": "int",
-	"param": {
-	}
-},
 "helper_rep_clear_cbor_errno": {
 	"type": "void",
 	"param": {
@@ -3541,18 +3522,6 @@
 	"type": "const oc_string_array_t*",
 	"param": {
 		"array": "oc_array_t*"
-	}
-},
-"helper_oc_do_ip_discovery": {
-	"type": "oc_discovery_flags_t",
-	"param": {
-		"di": "const char*",
-		"uri": "const char*",
-		"types": "oc_string_array_t",
-		"iface_mask": "oc_interface_mask_t",
-		"endpoint": "oc_endpoint_t*",
-		"bm": "oc_resource_properties_t",
-	  	"user_data": "void*"
 	}
 },
 "helper_main_loop": {

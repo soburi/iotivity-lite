@@ -117,8 +117,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_timer_restart", Napi::Function::New(env, N_oc_timer_restart));
   exports.Set("oc_timer_set", Napi::Function::New(env, N_oc_timer_set));
   exports.Set("oc_main_poll", Napi::Function::New(env, N_oc_main_poll));
-  exports.Set("abort_impl", Napi::Function::New(env, N_abort_impl));
-  exports.Set("exit_impl", Napi::Function::New(env, N_exit_impl));
   exports.Set("oc_abort", Napi::Function::New(env, N_oc_abort));
   exports.Set("oc_exit", Napi::Function::New(env, N_oc_exit));
   exports.Set("oc_base64_decode", Napi::Function::New(env, N_oc_base64_decode));
@@ -209,12 +207,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_store_uri", Napi::Function::New(env, N_oc_store_uri));
   exports.Set("oc_create_discovery_resource", Napi::Function::New(env, N_oc_create_discovery_resource));
   exports.Set("oc_endpoint_list_copy", Napi::Function::New(env, N_oc_endpoint_list_copy));
-  exports.Set("_oc_alloc_string", Napi::Function::New(env, N__oc_alloc_string));
-  exports.Set("_oc_alloc_string_array", Napi::Function::New(env, N__oc_alloc_string_array));
-  exports.Set("_oc_free_array", Napi::Function::New(env, N__oc_free_array));
-  exports.Set("_oc_free_string", Napi::Function::New(env, N__oc_free_string));
-  exports.Set("_oc_new_array", Napi::Function::New(env, N__oc_new_array));
-  exports.Set("_oc_new_string", Napi::Function::New(env, N__oc_new_string));
   exports.Set("oc_concat_strings", Napi::Function::New(env, N_oc_concat_strings));
   exports.Set("oc_join_string_array", Napi::Function::New(env, N_oc_join_string_array));
   exports.Set("oc_memb_init", Napi::Function::New(env, N_oc_memb_init));
@@ -230,8 +222,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
 #if defined(OC_MEMORY_TRACE)
   exports.Set("oc_mem_trace_shutdown", Napi::Function::New(env, N_oc_mem_trace_shutdown));
 #endif
-  exports.Set("_oc_mmem_alloc", Napi::Function::New(env, N__oc_mmem_alloc));
-  exports.Set("_oc_mmem_free", Napi::Function::New(env, N__oc_mmem_free));
   exports.Set("oc_mmem_init", Napi::Function::New(env, N_oc_mmem_init));
   exports.Set("oc_network_event", Napi::Function::New(env, N_oc_network_event));
   exports.Set("oc_network_interface_event", Napi::Function::New(env, N_oc_network_interface_event));
@@ -271,12 +261,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_ri_remove_timed_event_callback", Napi::Function::New(env, N_oc_ri_remove_timed_event_callback));
   exports.Set("oc_ri_shutdown", Napi::Function::New(env, N_oc_ri_shutdown));
   exports.Set("oc_status_code", Napi::Function::New(env, N_oc_status_code));
-  exports.Set("_oc_signal_event_loop", Napi::Function::New(env, N__oc_signal_event_loop));
   exports.Set("oc_storage_read", Napi::Function::New(env, N_oc_storage_read));
   exports.Set("oc_storage_write", Napi::Function::New(env, N_oc_storage_write));
-  exports.Set("helper_rep_add_int", Napi::Function::New(env, N_helper_rep_add_int));
-  exports.Set("helper_rep_set_array", Napi::Function::New(env, N_helper_rep_set_array));
-  exports.Set("helper_rep_get_cbor_errno", Napi::Function::New(env, N_helper_rep_get_cbor_errno));
-  exports.Set("helper_oc_do_ip_discovery", Napi::Function::New(env, N_helper_oc_do_ip_discovery));
   return exports;
 }

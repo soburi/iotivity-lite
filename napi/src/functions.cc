@@ -134,17 +134,6 @@ Napi::Value N_oc_main_poll(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_main_poll());
 }
 
-Napi::Value N_abort_impl(const Napi::CallbackInfo& info) {
-  (void)abort_impl();
-  return info.Env().Undefined();
-}
-
-Napi::Value N_exit_impl(const Napi::CallbackInfo& info) {
-  int status = static_cast<int>(info[0].As<Napi::Number>());
-  (void)exit_impl(status);
-  return info.Env().Undefined();
-}
-
 Napi::Value N_oc_abort(const Napi::CallbackInfo& info) {
   std::string msg_ = info[0].As<Napi::String>().Utf8Value();
   const char* msg = msg_.c_str();
@@ -703,50 +692,6 @@ Napi::Value N_oc_endpoint_list_copy(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-Napi::Value N__oc_alloc_string(const Napi::CallbackInfo& info) {
-  OCMmem& ocstring = *OCMmem::Unwrap(info[0].As<Napi::Object>());
-  size_t size = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-  (void)_oc_alloc_string(ocstring, size);
-  return info.Env().Undefined();
-}
-
-Napi::Value N__oc_alloc_string_array(const Napi::CallbackInfo& info) {
-  OCStringArray& ocstringarray = *OCStringArray::Unwrap(info[0].As<Napi::Object>());
-  size_t size = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-  (void)_oc_alloc_string_array(ocstringarray, size);
-  return info.Env().Undefined();
-}
-
-Napi::Value N__oc_free_array(const Napi::CallbackInfo& info) {
-  OCArray& ocarray = *OCArray::Unwrap(info[0].As<Napi::Object>());
-  pool type = static_cast<pool>(info[1].As<Napi::Number>().Uint32Value());
-  (void)_oc_free_array(ocarray, type);
-  return info.Env().Undefined();
-}
-
-Napi::Value N__oc_free_string(const Napi::CallbackInfo& info) {
-  OCMmem& ocstring = *OCMmem::Unwrap(info[0].As<Napi::Object>());
-  (void)_oc_free_string(ocstring);
-  return info.Env().Undefined();
-}
-
-Napi::Value N__oc_new_array(const Napi::CallbackInfo& info) {
-  OCArray& ocarray = *OCArray::Unwrap(info[0].As<Napi::Object>());
-  size_t size = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-  pool type = static_cast<pool>(info[2].As<Napi::Number>().Uint32Value());
-  (void)_oc_new_array(ocarray, size, type);
-  return info.Env().Undefined();
-}
-
-Napi::Value N__oc_new_string(const Napi::CallbackInfo& info) {
-  OCMmem& ocstring = *OCMmem::Unwrap(info[0].As<Napi::Object>());
-  std::string str_ = info[1].As<Napi::String>().Utf8Value();
-  const char* str = str_.c_str();
-  size_t str_len = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
-  (void)_oc_new_string(ocstring, str, str_len);
-  return info.Env().Undefined();
-}
-
 Napi::Value N_oc_concat_strings(const Napi::CallbackInfo& info) {
   OCMmem& concat = *OCMmem::Unwrap(info[0].As<Napi::Object>());
   std::string str1_ = info[1].As<Napi::String>().Utf8Value();
@@ -814,20 +759,6 @@ Napi::Value N_oc_mem_trace_shutdown(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 #endif
-
-Napi::Value N__oc_mmem_alloc(const Napi::CallbackInfo& info) {
-  OCMmem& m = *OCMmem::Unwrap(info[0].As<Napi::Object>());
-  size_t size = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-  pool pool_type = static_cast<pool>(info[2].As<Napi::Number>().Uint32Value());
-  return Napi::Number::New(info.Env(), _oc_mmem_alloc(m, size, pool_type));
-}
-
-Napi::Value N__oc_mmem_free(const Napi::CallbackInfo& info) {
-  OCMmem& m = *OCMmem::Unwrap(info[0].As<Napi::Object>());
-  pool pool_type = static_cast<pool>(info[1].As<Napi::Number>().Uint32Value());
-  (void)_oc_mmem_free(m, pool_type);
-  return info.Env().Undefined();
-}
 
 Napi::Value N_oc_mmem_init(const Napi::CallbackInfo& info) {
   (void)oc_mmem_init();
@@ -1045,11 +976,6 @@ Napi::Value N_oc_status_code(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_status_code(key));
 }
 
-Napi::Value N__oc_signal_event_loop(const Napi::CallbackInfo& info) {
-  (void)_oc_signal_event_loop();
-  return info.Env().Undefined();
-}
-
 Napi::Value N_oc_storage_read(const Napi::CallbackInfo& info) {
   std::string store_ = info[0].As<Napi::String>().Utf8Value();
   const char* store = store_.c_str();
@@ -1064,38 +990,5 @@ Napi::Value N_oc_storage_write(const Napi::CallbackInfo& info) {
   uint8_t* buf = info[1].As<Napi::Buffer<uint8_t>>().Data();
   size_t size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
   return Napi::Number::New(info.Env(), oc_storage_write(store, buf, size));
-}
-
-Napi::Value N_helper_rep_add_int(const Napi::CallbackInfo& info) {
-  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-  const int64_t value = static_cast<const int64_t>(info[1].As<Napi::Number>());
-  (void)helper_rep_add_int(arrayObject, value);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_helper_rep_set_array(const Napi::CallbackInfo& info) {
-  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-  std::string key_ = info[1].As<Napi::String>().Utf8Value();
-  const char* key = key_.c_str();
-  std::shared_ptr<CborEncoder> sp(helper_rep_set_array(parent, key));
-  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
-  return OCCborEncoder::constructor.New({args});
-}
-
-Napi::Value N_helper_rep_get_cbor_errno(const Napi::CallbackInfo& info) {
-  return Napi::Number::New(info.Env(), helper_rep_get_cbor_errno());
-}
-
-Napi::Value N_helper_oc_do_ip_discovery(const Napi::CallbackInfo& info) {
-  std::string di_ = info[0].As<Napi::String>().Utf8Value();
-  const char* di = di_.c_str();
-  std::string uri_ = info[1].As<Napi::String>().Utf8Value();
-  const char* uri = uri_.c_str();
-// 2 types, oc_string_array_t
-  oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[3].As<Napi::Number>().Uint32Value());
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[4].As<Napi::Object>());
-  oc_resource_properties_t bm = static_cast<oc_resource_properties_t>(info[5].As<Napi::Number>().Uint32Value());
-  void* user_data = info[6];
-  return Napi::Number::New(info.Env(), 0);
 }
 

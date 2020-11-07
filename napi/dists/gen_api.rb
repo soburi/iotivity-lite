@@ -1058,6 +1058,17 @@ IGNORE_FUNCS = [
 'coap_register_as_transaction_handler',
 'coap_send_transaction',
 
+'abort_impl',
+'exit_impl',
+'_oc_alloc_string',
+'_oc_alloc_string_array',
+'_oc_free_array',
+'_oc_free_string',
+'_oc_new_array',
+'_oc_new_string',
+'_oc_mmem_alloc',
+'_oc_mmem_free',
+'_oc_signal_event_loop',
 ]
 
 IFDEF_TYPES = {
