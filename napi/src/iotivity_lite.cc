@@ -9,23 +9,23 @@ Napi::Object Init(Napi::Env env, Napi::Object exports);
 NODE_API_MODULE(addon, Init)
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-    exports.Set("OCMain", OCMain::GetClass(env));
-    exports.Set("OCObt", OCObt::GetClass(env));
-    exports.Set("OCBufferSettings", OCBufferSettings::GetClass(env));
-    exports.Set("OCClock", OCClock::GetClass(env));
-    exports.Set("OCCloud", OCCloud::GetClass(env));
-    exports.Set("OCCredUtil", OCCredUtil::GetClass(env));
-    exports.Set("OCEndpointUtil", OCEndpointUtil::GetClass(env));
-    exports.Set("OCEnumUtil", OCEnumUtil::GetClass(env));
-    exports.Set("OCIntrospection", OCIntrospection::GetClass(env));
-    exports.Set("OCPki", OCPki::GetClass(env));
-    exports.Set("OCRandom", OCRandom::GetClass(env));
-    exports.Set("OCSessionEvents", OCSessionEvents::GetClass(env));
-    exports.Set("OCSoftwareUpdate", OCSoftwareUpdate::GetClass(env));
-    exports.Set("OCStorage", OCStorage::GetClass(env));
-    exports.Set("OCUuidUtil", OCUuidUtil::GetClass(env));
-    exports.Set("OCCoreRes", OCCoreRes::GetClass(env));
-    exports.Set("OCRep", OCRep::GetClass(env));
+    exports.Set("Main", OCMain::GetClass(env));
+    exports.Set("Obt", OCObt::GetClass(env));
+    exports.Set("BufferSettings", OCBufferSettings::GetClass(env));
+    exports.Set("Clock", OCClock::GetClass(env));
+    exports.Set("Cloud", OCCloud::GetClass(env));
+    exports.Set("CredUtil", OCCredUtil::GetClass(env));
+    exports.Set("EndpointUtil", OCEndpointUtil::GetClass(env));
+    exports.Set("EnumUtil", OCEnumUtil::GetClass(env));
+    exports.Set("Introspection", OCIntrospection::GetClass(env));
+    exports.Set("Pki", OCPki::GetClass(env));
+    exports.Set("Random", OCRandom::GetClass(env));
+    exports.Set("SessionEvents", OCSessionEvents::GetClass(env));
+    exports.Set("SoftwareUpdate", OCSoftwareUpdate::GetClass(env));
+    exports.Set("Storage", OCStorage::GetClass(env));
+    exports.Set("UuidUtil", OCUuidUtil::GetClass(env));
+    exports.Set("CoreRes", OCCoreRes::GetClass(env));
+    exports.Set("Rep", OCRep::GetClass(env));
     return module_init(env, exports);
 }
 OCMain::OCMain(const Napi::CallbackInfo& info) : ObjectWrap(info) { }

@@ -74,7 +74,7 @@ using namespace std;
 HPROLOGUE
 
 EXPORTIMPL = <<EXPORTIMPL
-    exports.Set("CLASS", CLASS::GetClass(env));
+    exports.Set("NAMESPACE", CLASS::GetClass(env));
 EXPORTIMPL
 
 #########################
@@ -1810,7 +1810,7 @@ end
 File.open('src/iotivity_lite.cc', 'w') do |f|
   f.print CCPROLOGUE
   apis.keys.each do |cls|
-    f.print EXPORTIMPL.gsub(/CLASS/, cls)
+    f.print EXPORTIMPL.gsub(/NAMESPACE/, cls.gsub(/^OC/, '')).gsub(/CLASS/, cls)
   end
   f.print "    return module_init(env, exports);\n"
   f.print "}\n"
