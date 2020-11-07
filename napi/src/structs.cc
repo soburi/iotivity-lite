@@ -5016,8 +5016,7 @@ Napi::Function OCStringArray::GetClass(Napi::Env env) {
 OCStringArray::~OCStringArray()
 {
 }
-
-OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info), index(-1)
+OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_string_array_t>(new oc_string_array_t());
@@ -5030,11 +5029,15 @@ OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info),
           .ThrowAsJavaScriptException();
   }
 }
-
 Napi::Value OCStringArray::get_iterator(const Napi::CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &m_pvalue);
-    return OCStringArrayIterator::constructor.New({ args });
+  auto args = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &m_pvalue);
+  return OCStringArrayIterator::constructor.New({ args });
+}
+
+void OCStringArray::set_iterator(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+  //m_pvalue->iterator = *(*(value.As<Napi::External<std::shared_ptr<oc_string_array_t*>>>().Data()));
 }
 
 Napi::FunctionReference OCCborEncoder::constructor;
