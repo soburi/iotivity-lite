@@ -305,7 +305,7 @@ OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
      uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
      size_t device = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
 
-     m_pvalue = std::shared_ptr<oc_resource_s>( oc_new_resource(name, uri, num_resource_types, device), nop_deleter);
+     m_pvalue = std::shared_ptr<oc_resource_s>( oc_new_resource(name, uri, num_resource_types, device), nop_deleter /* TODO */);
   }
   else if (info.Length() == 1 && info[0].IsExternal() ) {
      m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_resource_s>>>().Data());
@@ -1081,7 +1081,30 @@ IGNORE_FUNCS = [
 '_oc_mmem_free',
 '_oc_signal_event_loop',
 
-
+'oc_ri_invoke_client_cb',
+'oc_ri_alloc_client_cb',
+'oc_ri_get_client_cb',
+'oc_ri_find_client_cb_by_token',
+'oc_ri_is_client_cb_valid',
+'oc_ri_find_client_cb_by_mid',
+'oc_ri_remove_client_cb_by_mid',
+'oc_ri_free_client_cbs_by_endpoint',
+'oc_ri_free_client_cbs_by_mid',
+'oc_ri_process_discovery_payload',
+'oc_ri_init',
+'oc_ri_shutdown',
+'oc_ri_add_timed_event_callback_ticks',
+'oc_ri_remove_timed_event_callback',
+'oc_ri_get_app_resource_by_uri',
+'oc_ri_get_app_resources',
+'oc_ri_alloc_resource',
+'oc_ri_alloc_resource',
+'oc_ri_add_resource',
+'oc_ri_delete_resource',
+'oc_ri_free_resource_properties',
+'oc_ri_get_query_nth_key_value',
+'oc_ri_get_query_value',
+'oc_ri_get_interface_mask',
 'oc_blockwise_alloc_request_buffer',
 'oc_blockwise_alloc_response_buffer',
 'oc_blockwise_dispatch_block',

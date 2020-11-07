@@ -119,15 +119,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_recv_message", Napi::Function::New(env, N_oc_recv_message));
   exports.Set("oc_send_message", Napi::Function::New(env, N_oc_send_message));
   exports.Set("oc_set_buffers_avail_cb", Napi::Function::New(env, N_oc_set_buffers_avail_cb));
-  exports.Set("oc_ri_alloc_client_cb", Napi::Function::New(env, N_oc_ri_alloc_client_cb));
-  exports.Set("oc_ri_find_client_cb_by_mid", Napi::Function::New(env, N_oc_ri_find_client_cb_by_mid));
-  exports.Set("oc_ri_find_client_cb_by_token", Napi::Function::New(env, N_oc_ri_find_client_cb_by_token));
-  exports.Set("oc_ri_free_client_cbs_by_endpoint", Napi::Function::New(env, N_oc_ri_free_client_cbs_by_endpoint));
-  exports.Set("oc_ri_free_client_cbs_by_mid", Napi::Function::New(env, N_oc_ri_free_client_cbs_by_mid));
-  exports.Set("oc_ri_get_client_cb", Napi::Function::New(env, N_oc_ri_get_client_cb));
-  exports.Set("oc_ri_invoke_client_cb", Napi::Function::New(env, N_oc_ri_invoke_client_cb));
-  exports.Set("oc_ri_is_client_cb_valid", Napi::Function::New(env, N_oc_ri_is_client_cb_valid));
-  exports.Set("oc_ri_process_discovery_payload", Napi::Function::New(env, N_oc_ri_process_discovery_payload));
   exports.Set("oc_clock_encode_time_rfc3339", Napi::Function::New(env, N_oc_clock_encode_time_rfc3339));
   exports.Set("oc_clock_parse_time_rfc3339", Napi::Function::New(env, N_oc_clock_parse_time_rfc3339));
   exports.Set("oc_clock_time_rfc3339", Napi::Function::New(env, N_oc_clock_time_rfc3339));
@@ -201,25 +192,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_rep_get_int_array", Napi::Function::New(env, N_oc_rep_get_int_array));
   exports.Set("oc_rep_new", Napi::Function::New(env, N_oc_rep_new));
   exports.Set("oc_rep_set_pool", Napi::Function::New(env, N_oc_rep_set_pool));
-#if defined(OC_SERVER)
-  exports.Set("oc_ri_add_resource", Napi::Function::New(env, N_oc_ri_add_resource));
-#endif
-  exports.Set("oc_ri_add_timed_event_callback_ticks", Napi::Function::New(env, N_oc_ri_add_timed_event_callback_ticks));
-#if defined(OC_SERVER)
-  exports.Set("oc_ri_alloc_resource", Napi::Function::New(env, N_oc_ri_alloc_resource));
-#endif
-#if defined(OC_SERVER)
-  exports.Set("oc_ri_delete_resource", Napi::Function::New(env, N_oc_ri_delete_resource));
-#endif
-  exports.Set("oc_ri_free_resource_properties", Napi::Function::New(env, N_oc_ri_free_resource_properties));
-  exports.Set("oc_ri_get_app_resource_by_uri", Napi::Function::New(env, N_oc_ri_get_app_resource_by_uri));
-  exports.Set("oc_ri_get_app_resources", Napi::Function::New(env, N_oc_ri_get_app_resources));
-  exports.Set("oc_ri_get_interface_mask", Napi::Function::New(env, N_oc_ri_get_interface_mask));
-  exports.Set("oc_ri_get_query_nth_key_value", Napi::Function::New(env, N_oc_ri_get_query_nth_key_value));
-  exports.Set("oc_ri_get_query_value", Napi::Function::New(env, N_oc_ri_get_query_value));
-  exports.Set("oc_ri_init", Napi::Function::New(env, N_oc_ri_init));
-  exports.Set("oc_ri_remove_timed_event_callback", Napi::Function::New(env, N_oc_ri_remove_timed_event_callback));
-  exports.Set("oc_ri_shutdown", Napi::Function::New(env, N_oc_ri_shutdown));
   exports.Set("oc_status_code", Napi::Function::New(env, N_oc_status_code));
   exports.Set("oc_storage_read", Napi::Function::New(env, N_oc_storage_read));
   exports.Set("oc_storage_write", Napi::Function::New(env, N_oc_storage_write));

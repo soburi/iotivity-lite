@@ -3109,7 +3109,7 @@ Napi::Value OCResource::get_tag_func_desc(const Napi::CallbackInfo& info)
 
 void OCResource::set_tag_func_desc(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-  m_pvalue->tag_func_desc = static_cast<oc_enum_t>(value.As<Napi::Number>().Uint32Value());
+  oc_resource_tag_func_desc(m_pvalue.get(), static_cast<oc_enum_t>(value.As<Napi::Number>().Uint32Value()));
 }
 
 Napi::Value OCResource::get_tag_pos_desc(const Napi::CallbackInfo& info)
@@ -3119,7 +3119,7 @@ Napi::Value OCResource::get_tag_pos_desc(const Napi::CallbackInfo& info)
 
 void OCResource::set_tag_pos_desc(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-  m_pvalue->tag_pos_desc = static_cast<oc_pos_description_t>(value.As<Napi::Number>().Uint32Value());
+  oc_resource_tag_pos_desc(m_pvalue.get(), static_cast<oc_pos_description_t>(value.As<Napi::Number>().Uint32Value()));
 }
 
 Napi::Value OCResource::get_tag_pos_rel(const Napi::CallbackInfo& info)
@@ -3133,9 +3133,9 @@ return array;
 
 void OCResource::set_tag_pos_rel(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-m_pvalue->tag_pos_rel[0] = value.As<Napi::Float64Array>()[0];
-m_pvalue->tag_pos_rel[1] = value.As<Napi::Float64Array>()[1];
-m_pvalue->tag_pos_rel[2] = value.As<Napi::Float64Array>()[2];
+  oc_resource_tag_pos_rel(m_pvalue.get(), value.As<Napi::Float64Array>()[0],
+                                          value.As<Napi::Float64Array>()[1],
+                                          value.As<Napi::Float64Array>()[2]);
 }
 
 Napi::Value OCResource::get_types(const Napi::CallbackInfo& info)

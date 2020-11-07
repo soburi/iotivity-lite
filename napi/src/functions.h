@@ -33,15 +33,6 @@ Napi::Value N_oc_message_unref(const Napi::CallbackInfo&);
 Napi::Value N_oc_recv_message(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_message(const Napi::CallbackInfo&);
 Napi::Value N_oc_set_buffers_avail_cb(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_alloc_client_cb(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_find_client_cb_by_mid(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_find_client_cb_by_token(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_free_client_cbs_by_endpoint(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_free_client_cbs_by_mid(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_get_client_cb(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_invoke_client_cb(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_is_client_cb_valid(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_process_discovery_payload(const Napi::CallbackInfo&);
 Napi::Value N_oc_clock_encode_time_rfc3339(const Napi::CallbackInfo&);
 Napi::Value N_oc_clock_parse_time_rfc3339(const Napi::CallbackInfo&);
 Napi::Value N_oc_clock_time_rfc3339(const Napi::CallbackInfo&);
@@ -115,25 +106,6 @@ Napi::Value N_oc_rep_get_int(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_get_int_array(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_new(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_set_pool(const Napi::CallbackInfo&);
-#if defined(OC_SERVER)
-Napi::Value N_oc_ri_add_resource(const Napi::CallbackInfo&);
-#endif
-Napi::Value N_oc_ri_add_timed_event_callback_ticks(const Napi::CallbackInfo&);
-#if defined(OC_SERVER)
-Napi::Value N_oc_ri_alloc_resource(const Napi::CallbackInfo&);
-#endif
-#if defined(OC_SERVER)
-Napi::Value N_oc_ri_delete_resource(const Napi::CallbackInfo&);
-#endif
-Napi::Value N_oc_ri_free_resource_properties(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_get_app_resource_by_uri(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_get_app_resources(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_get_interface_mask(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_get_query_nth_key_value(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_get_query_value(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_init(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_remove_timed_event_callback(const Napi::CallbackInfo&);
-Napi::Value N_oc_ri_shutdown(const Napi::CallbackInfo&);
 Napi::Value N_oc_status_code(const Napi::CallbackInfo&);
 Napi::Value N_oc_storage_read(const Napi::CallbackInfo&);
 Napi::Value N_oc_storage_write(const Napi::CallbackInfo&);
