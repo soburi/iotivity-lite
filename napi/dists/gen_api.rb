@@ -508,6 +508,14 @@ FUNC_OVERRIDE = {
     '0' => "  oc_discovery_all_handler_t handler = helper_oc_discovery_all_handler;\n",
     '1' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[1]);\n"
   },
+  'oc_do_ip_discovery_at_endpoint' => {
+    '1' => "  oc_discovery_handler_t handler = helper_oc_discovery_handler;\n",
+    '3' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[3]);\n"
+  },
+  'oc_do_ip_discovery_all_at_endpoint' => {
+    '0' => "  oc_discovery_all_handler_t handler = helper_oc_discovery_all_handler;\n",
+    '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[2]);\n"
+  },
   'helper_rep_oc_array_to_int_array' => { 
     'invoke' => "\
       return Napi::Buffer<int64_t>::New(info.Env(), oc_int_array(*static_cast<oc_array_t*>(array)), oc_int_array_size(*(oc_array_t*)array));",

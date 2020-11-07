@@ -95,20 +95,18 @@ Napi::Value N_oc_do_ip_discovery_all(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_do_ip_discovery_all_at_endpoint(const Napi::CallbackInfo& info) {
-  oc_discovery_all_handler_t handler = nullptr;
-  Napi::Function handler_ = info[0].As<Napi::Function>();
+  oc_discovery_all_handler_t handler = helper_oc_discovery_all_handler;
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
-  void* user_data = info[2];
+  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[2]);
   return Napi::Boolean::New(info.Env(), oc_do_ip_discovery_all_at_endpoint(handler, endpoint, user_data));
 }
 
 Napi::Value N_oc_do_ip_discovery_at_endpoint(const Napi::CallbackInfo& info) {
   std::string rt_ = info[0].As<Napi::String>().Utf8Value();
   const char* rt = rt_.c_str();
-  oc_discovery_handler_t handler = nullptr;
-  Napi::Function handler_ = info[1].As<Napi::Function>();
+  oc_discovery_handler_t handler = helper_oc_discovery_handler;
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[2].As<Napi::Object>());
-  void* user_data = info[3];
+  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[3]);
   return Napi::Boolean::New(info.Env(), oc_do_ip_discovery_at_endpoint(rt, handler, endpoint, user_data));
 }
 
