@@ -40,6 +40,10 @@ extern "C" {
 #include <separate.h>
 #include <transactions.h>
 }
+struct oc_string_array_iterator_t {
+    oc_string_array_t array;
+    uint32_t index;
+};
 class coapObserver : public Napi::ObjectWrap<coapObserver>
 {
 public:
@@ -1390,6 +1394,26 @@ public:
   std::shared_ptr<oc_array_t> m_pvalue;
 };
 
+class OCStringArrayIterator : public Napi::ObjectWrap<OCStringArrayIterator>
+{
+public:
+  OCStringArrayIterator(const Napi::CallbackInfo&);
+  virtual ~OCStringArrayIterator();
+  static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
+  operator oc_string_array_iterator_t*() { return m_pvalue.get(); }
+  Napi::Value get_value(const Napi::CallbackInfo&);
+         void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_done(const Napi::CallbackInfo&);
+         void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+    Napi::Value get_next(const Napi::CallbackInfo& info);
+  
+
+  std::shared_ptr<oc_string_array_iterator_t> m_pvalue;
+};
+
 class OCStringArray : public Napi::ObjectWrap<OCStringArray>
 {
 public:
@@ -1401,7 +1425,7 @@ public:
 
 
     Napi::Value get_iterator(const Napi::CallbackInfo& info);
-    void set_iterator(const Napi::CallbackInfo& info, const Napi::Value& x);
+  
 
   std::shared_ptr<oc_string_array_t> m_pvalue;
 };

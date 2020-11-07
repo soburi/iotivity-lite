@@ -155,6 +155,9 @@ STRUCTS = struct_table.keys
 ENUMS = enum_table.keys
 
 EXTRA_ACCESSOR = {
+  'oc_string_array_iterator_t' => '
+    InstanceMethod("next", &OCStringArrayIterator::get_next),
+  ',
   'oc_string_array_t' => '
     InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCStringArray::get_iterator),
   ',
@@ -173,6 +176,9 @@ EXTRA_ACCESSOR = {
 }
 
 EXTRA_VALUE= {
+  'oc_string_array_iterator_t' => '
+    Napi::Value get_next(const Napi::CallbackInfo& info);
+  ',
   'oc_string_array_t' => '
     Napi::Value get_iterator(const Napi::CallbackInfo& info);
   ',
@@ -212,6 +218,19 @@ EXTRA_VALUE= {
 }
 
 CTOR_OVERRIDE = {
+  "oc_string_array_iterator_t" => '
+OCStringArrayIterator::OCStringArrayIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = std::shared_ptr<oc_string_array_iterator_t>(new oc_string_array_iterator_t());
+     m_pvalue->array = info[0].As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data();
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}',
+
   "oc_resource_s" => <<~STR
 OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -237,6 +256,14 @@ OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 
 SETGET_OVERRIDE = {
+  "oc_string_array_iterator_t::done" => {
+    "get" => "return Napi::Boolean::New(info.Env(), m_pvalue->index >= oc_string_array_get_allocated_size(*m_pvalue->array));",
+    "set" => "",
+  },
+  "oc_string_array_iterator_t::value" => {
+    "get" => "return Napi::String::New(info.Env(), oc_string_array_get_item(*m_pvalue->array, m_pvalue->index));",
+    "set" => "",
+  },
   "oc_separate_response_s::buffer" => {
     "set" => "\
 m_pvalue->buffer =     value.As<Napi::Buffer<uint8_t>>().Data();",
@@ -1479,6 +1506,13 @@ File.open('src/structs.h', 'w') do |f|
   f.print "#include <separate.h>\n"
   f.print "#include <transactions.h>\n"
   f.print "}\n"
+
+  f.print <<~STR
+    struct oc_string_array_iterator_t {
+        oc_string_array_t array;
+        uint32_t index;
+    };
+  STR
 
   struct_table.each do |key, h|
     f.print gen_classdecl(key, h)

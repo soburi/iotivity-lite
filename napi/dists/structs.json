@@ -455,6 +455,10 @@
   },
   "oc_array_t": {
   },
+  "oc_string_array_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
   "oc_string_array_t": {
   },
   "CborEncoder": {

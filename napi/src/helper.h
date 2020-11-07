@@ -55,26 +55,7 @@ public:
     virtual ~SafeCallbackHelper() {}
 };
 
-class OCStringArrayIterator : public Napi::ObjectWrap<OCStringArrayIterator>
-{
-public:
-    OCStringArrayIterator(const Napi::CallbackInfo&);
-    virtual ~OCStringArrayIterator();
-    static Napi::Function GetClass(Napi::Env);
-    static Napi::FunctionReference constructor;
-    operator oc_string_array_t* () { return m_pvalue.get(); }
-    Napi::Value get_next(const Napi::CallbackInfo&);
-    void set_next(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_iterator(const Napi::CallbackInfo&);
-    void set_iterator(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_done(const Napi::CallbackInfo&);
-    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_value(const Napi::CallbackInfo&);
-    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
-    std::shared_ptr<oc_string_array_t> m_pvalue;
 
-    int index;
-};
 
 callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, const Napi::FunctionReference& f);
 callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, int idx_func, int idx_val);

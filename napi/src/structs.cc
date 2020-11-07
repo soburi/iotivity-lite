@@ -5000,12 +5000,64 @@ OCArray::OCArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
   }
 }
 
+Napi::FunctionReference OCStringArrayIterator::constructor;
+
+Napi::Function OCStringArrayIterator::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCStringArrayIterator", {
+    InstanceAccessor("value", &OCStringArrayIterator::get_value, &OCStringArrayIterator::set_value),
+    InstanceAccessor("done", &OCStringArrayIterator::get_done, &OCStringArrayIterator::set_done),
+
+    InstanceMethod("next", &OCStringArrayIterator::get_next),
+  
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+
+OCStringArrayIterator::~OCStringArrayIterator()
+{
+}
+
+OCStringArrayIterator::OCStringArrayIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = std::shared_ptr<oc_string_array_iterator_t>(new oc_string_array_iterator_t());
+     m_pvalue->index = -1;
+     m_pvalue->array = *info[0].As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data()->get();
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}Napi::Value OCStringArrayIterator::get_value(const Napi::CallbackInfo& info)
+{
+return Napi::String::New(info.Env(), oc_string_array_get_item(m_pvalue->array, m_pvalue->index));
+}
+
+void OCStringArrayIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value OCStringArrayIterator::get_done(const Napi::CallbackInfo& info)
+{
+return Napi::Boolean::New(info.Env(), m_pvalue->index >= oc_string_array_get_allocated_size(m_pvalue->array));
+}
+
+void OCStringArrayIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
 Napi::FunctionReference OCStringArray::constructor;
 
 Napi::Function OCStringArray::GetClass(Napi::Env env) {
-    auto func = DefineClass(env, "OCStringArray", {
+  auto func = DefineClass(env, "OCStringArray", {
 
-      InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCStringArray::get_iterator),// , &OCStringArray::set_iterator),
+    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCStringArray::get_iterator),
   
   });
 

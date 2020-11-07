@@ -48,67 +48,12 @@ Napi::Value OCStringArray::get_iterator(const Napi::CallbackInfo& info)
   return OCStringArrayIterator::constructor.New({ args });
 }
 
-Napi::FunctionReference OCStringArrayIterator::constructor;
-
-Napi::Function OCStringArrayIterator::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "OCStringArrayIterator", {
-    InstanceMethod("next", &OCStringArrayIterator::get_next),
-    InstanceAccessor("value", &OCStringArrayIterator::get_value, &OCStringArrayIterator::set_value),
-    InstanceAccessor("done", &OCStringArrayIterator::get_done, &OCStringArrayIterator::set_done),
-  });
-
-  constructor = Napi::Persistent(func);
-  constructor.SuppressDestruct();
-
-  return func;
-}
-
-OCStringArrayIterator::~OCStringArrayIterator()
-{
-}
-
-OCStringArrayIterator::OCStringArrayIterator(const Napi::CallbackInfo& info) : ObjectWrap(info), index(-1)
-{
-    if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_string_array_t>(new oc_string_array_t());
-    }
-    else if (info.Length() == 1 && info[0].IsExternal()) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data());
-    }
-    else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
-            .ThrowAsJavaScriptException();
-    }
-}
-
 Napi::Value OCStringArrayIterator::get_next(const Napi::CallbackInfo& info)
 {
-    index++;
-    return info.This();
+  m_pvalue->index++;
+  return info.This();
 }
 
-
-Napi::Value OCStringArrayIterator::get_done(const Napi::CallbackInfo& info)
-{
-    int sz = oc_string_array_get_allocated_size(*m_pvalue);
-    return Napi::Boolean::New(info.Env(), index >= sz);
-}
-
-Napi::Value OCStringArrayIterator::get_value(const Napi::CallbackInfo& info)
-{
-    char* t = oc_string_array_get_item(*m_pvalue, index);
-    return Napi::String::New(info.Env(), t);
-}
-
-void OCStringArrayIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
-void OCStringArrayIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
 
 Napi::Value OCResource::bind_resource_interface(const Napi::CallbackInfo& info) {
   OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
