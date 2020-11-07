@@ -1761,7 +1761,7 @@ File.open('src/binding.cc', 'w') do |f|
   f.print "Napi::Object module_init(Napi::Env env, Napi::Object exports) {\n"
   struct_table.each do |key, h|
     if not (IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil)
-      impl = "  exports.Set(\"#{gen_classname(key)}\", #{gen_classname(key)}::GetClass(env));\n"
+      impl = "  exports.Set(\"#{gen_classname(key).gsub(/^OC/,'')}\", #{gen_classname(key)}::GetClass(env));\n"
       if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
         impl = "#ifdef #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
       end
@@ -1772,7 +1772,7 @@ File.open('src/binding.cc', 'w') do |f|
 
   enum_table.each do |key, h|
     if not (IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil)
-      impl = "  exports.Set(\"#{gen_classname(key)}\", #{gen_classname(key)}::GetClass(env));\n"
+      impl = "  exports.Set(\"#{gen_classname(key).gsub(/^OC/,'')}\", #{gen_classname(key)}::GetClass(env));\n"
       if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
         impl = "#if #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
       end
@@ -1784,7 +1784,7 @@ File.open('src/binding.cc', 'w') do |f|
   func_table.each do |key, h|
     next if apis.values.collect{|v| v.values }.flatten.include?(key)
     next if IGNORE_FUNCS.include?(key)
-    expset = "  exports.Set(\"#{key}\", Napi::Function::New(env, N_#{key}));\n"
+    expset = "  exports.Set(\"#{key.gsub(/^OC/,'')}\", Napi::Function::New(env, N_#{key}));\n"
     if IFDEF_FUNCS.include?(key)
       expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
     end

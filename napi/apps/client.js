@@ -1,4 +1,4 @@
-const IL = require("../lib/iotivity-lite.js");
+const OC = require("../lib/iotivity-lite.js");
 const assert = require("assert");
 /*
 #define MAX_URI_LENGTH (30)
@@ -29,11 +29,11 @@ function app_init()
   console.log("app_init");
 
   console.log("call oc_init_platform");
-  var ret = IL.OCMain.init_platform("Intel Corporation", null, null);
+  var ret = OC.Main.init_platform("Intel Corporation", null, null);
   console.log("end call oc_init_platform");
 
   console.log("call oc_add_device");
-  ret |= IL.OCMain.add_device("/oic/d", "oic.d.phone", "Generic Client", "ocf.1.0.0",
+  ret |= OC.Main.add_device("/oic/d", "oic.d.phone", "Generic Client", "ocf.1.0.0",
                        "ocf.res.1.0.0", null, null);
 
   return ret;
@@ -42,7 +42,7 @@ function app_init()
 function stop_observe(data)
 {
   PRINT("Stopping OBSERVE\n");
-  IL.oc_stop_observe(light_1, light_server);
+  OC.oc_stop_observe(light_1, light_server);
   return OC_EVENT_DONE;
 }
 /*
@@ -96,7 +96,7 @@ function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
 {
   console.log("-- discovery --");
 
-  IL.OCMain.do_ip_multicast(uri, "", get_light, "hoge");
+  OC.Main.do_ip_multicast(uri, "", get_light, "hoge");
 /*
   console.dir(di);
   console.dir(uri);
@@ -116,12 +116,12 @@ function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
     if(t == "core.light") {
       console.log("core.light = " + uri);
       a_light = uri;
-      light_server = IL.oc_endpoint_copy(endpoint);
+      light_server = OC.oc_endpoint_copy(endpoint);
       console.log(a_light);
       console.log(light_server);
-      console.log(IL.OCQos);
-      console.log(IL.OCQos.LOW_QOS);
-      IL.oc_do_get(a_light, light_server, null, get_light, IL.OCQos.LOW_QOS, null)
+      console.log(OC.Qos);
+      console.log(OC.Qos.LOW_QOS);
+      OC.oc_do_get(a_light, light_server, null, get_light, OC.Qos.LOW_QOS, null)
     }
   }
   //console.log(user_data);
@@ -132,30 +132,30 @@ function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
 function issue_requests()
 {
   console.log("-- issue_requests --");
-  IL.OCMain.do_ip_discovery("core.light", discovery, "discovery_data");
+  OC.Main.do_ip_discovery("core.light", discovery, "discovery_data");
 }
 
 function handle_signal()
 {
-  console.log("IL.oc_main_shutdown()");
-  IL.OCMain.main_shutdown();
-  console.log("end IL.oc_main_shutdown()");
+  console.log("OC.oc_main_shutdown()");
+  OC.Main.main_shutdown();
+  console.log("end OC.oc_main_shutdown()");
 }
 
 async function main() {
   process.on('SIGINT', handle_signal);
 
-  //IL.oc_storage_config("./simpleclient_creds");
+  //OC.oc_storage_config("./simpleclient_creds");
 
-  var handler = new IL.OCHandler();
+  var handler = new OC.Handler();
   handler.init = app_init;
   handler.requests_entry = issue_requests;
 
-  console.log("IL.oc_main_init(handler)");
-  var init = IL.OCMain.main_init(handler);
-  console.log("end IL.oc_main_init(handler)");
-  await IL.OCMain.main_loop();
-  console.log("end IL.oc_main_loop()");
+  console.log("OC.oc_main_init(handler)");
+  var init = OC.Main.main_init(handler);
+  console.log("end OC.oc_main_init(handler)");
+  await OC.Main.main_loop();
+  console.log("end OC.oc_main_loop()");
 };
 
 main();
