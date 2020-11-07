@@ -71,8 +71,11 @@ Napi::Value N_oc_do_get(const Napi::CallbackInfo& info) {
   std::string uri_ = info[0].As<Napi::String>().Utf8Value();
   const char* uri = uri_.c_str();
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
-  std::string query_ = info[2].As<Napi::String>().Utf8Value();
-  const char* query = query_.c_str();
+  const char* query = nullptr;
+  if (info[2].IsString()) {
+    std::string query_ = info[2].As<Napi::String>().Utf8Value();
+    query = query_.c_str();
+  }
   oc_response_handler_t handler = nullptr;
   Napi::Function handler_ = info[3].As<Napi::Function>();
   oc_qos_t qos = static_cast<oc_qos_t>(info[4].As<Napi::Number>().Uint32Value());

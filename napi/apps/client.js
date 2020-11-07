@@ -3,9 +3,9 @@ const assert = require("assert");
 /*
 #define MAX_URI_LENGTH (30)
 static char light_1[MAX_URI_LENGTH];
-var light_server;
 static bool light_state = false;
 */
+var light_server;
 
 
 function init_platform_cb(parm) {
@@ -86,6 +86,11 @@ observe_light(oc_client_response_t *data)
     PRINT("Could not init POST\n");
 }
 */
+function get_light(client_response)
+{
+  console.log("-- get_light --");
+  console.dir(client_response);
+}
 
 function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
 {
@@ -108,7 +113,12 @@ function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
     if(t == "core.light") {
       console.log("core.light = " + uri);
       a_light = uri;
-      IL.oc_do_get(a_light, light_server, null, get_light, IL.LOW_QOS, null)
+      //light_server = IL.oc_endpoint_list_copy(endpoint);
+      console.log(a_light);
+      console.log(light_server);
+      console.log(IL.OCQos);
+      console.log(IL.OCQos.LOW_QOS);
+      IL.oc_do_get(a_light, endpoint, null, get_light, IL.OCQos.LOW_QOS, null)
     }
   }
   //console.log(user_data);
