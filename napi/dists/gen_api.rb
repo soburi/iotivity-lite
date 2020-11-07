@@ -565,14 +565,14 @@ FUNC_OVERRIDE = {
   'helper_main_loop' => {
     'invoke' => <<~STR
 //
-  main_loop = new main_loop_t{ Napi::Promise::Deferred::New(info.Env()),
+  main_loop_ctx = new main_loop_t{ Napi::Promise::Deferred::New(info.Env()),
                                Napi::ThreadSafeFunction::New(info.Env(),
                                Napi::Function::New(info.Env(), [](const Napi::CallbackInfo& info) {
-  main_loop->deferred.Resolve(info.Env().Undefined() );
-  delete main_loop;
-  main_loop = nullptr;
+  main_loop_ctx->deferred.Resolve(info.Env().Undefined() );
+  delete main_loop_ctx;
+  main_loop_ctx = nullptr;
   }), "main_loop_resolve", 0, 1) };
-  return main_loop->deferred.Promise();
+  return main_loop_ctx->deferred.Promise();
 STR
   },
   'oc_add_ownership_status_cb' => {

@@ -507,11 +507,12 @@ Napi::Value OCMain::main_init(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_main_init(handler));
 
 }
-extern main_loop_t* main_loop_ctx;
+
 Napi::Value OCMain::main_loop(const Napi::CallbackInfo& info) {
 //
   main_loop_ctx = new main_loop_t{ Napi::Promise::Deferred::New(info.Env()),
-                               Napi::ThreadSafeFunction::New(info.Env(), Napi::Function::New(info.Env(), [](const Napi::CallbackInfo& info) {
+                               Napi::ThreadSafeFunction::New(info.Env(),
+                               Napi::Function::New(info.Env(), [](const Napi::CallbackInfo& info) {
   main_loop_ctx->deferred.Resolve(info.Env().Undefined() );
   delete main_loop_ctx;
   main_loop_ctx = nullptr;
