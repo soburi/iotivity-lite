@@ -132,12 +132,11 @@ function handle_signal()
 async function main() {
   process.on('SIGINT', handle_signal);
 
-  IL.oc_storage_config("./server_creds");
+  IL.oc_storage_config("./simpleclient_creds");
 
-  oc_set_con_res_announced(false);
+  var handler = new IL.OCHandler();
   handler.init = app_init;
-
-  handler.request_entry = issue_requests;
+  handler.requests_entry = issue_requests;
 
   console.log("IL.oc_main_init(handler)");
   var init = IL.OCMain.main_init(handler);
