@@ -1779,32 +1779,6 @@ File.open('src/binding.cc', 'w') do |f|
   f.print "}\n"
 end
 
-File.open('lib/iotivity-lite.js', 'w') do |f|
-
-  f.print <<STR
-var path = '../build/Release/';
-if (process.env.IOTIVITY_LITE_NODE_DEBUG == '1') { path = '../build/Debug/'; }
-const addon = require(path + 'iotivity-lite-native');
-module.exports = addon;
-STR
-=begin
-  f.print "module.exports = [\n"
-  struct_table.each do |key, h|
-    if not (IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil)
-      f.print "  addon.#{gen_classname(key)},\n"
-    end
-  end
-  func_table.each do |key, h|
-    if not IFDEF_FUNCS.include?(key)
-      f.print "  addon.#{gen_classname(key)},\n"
-    end
-  end
-  f.print "  addon.IotivityLite\n"
-  f.print "];\n"
-  f.print "\n"
-=end
-end
-
 File.open('src/iotivity-lite.h', 'w') do |f|
   f.print HPROLOGUE
   apis.keys.each do |cls|
@@ -1843,4 +1817,14 @@ File.open('src/iotivity-lite.cc', 'w') do |f|
   end
 end
 
+
+File.open('lib/iotivity-lite.js', 'w') do |f|
+
+  f.print <<STR
+var path = '../build/Release/';
+if (process.env.IOTIVITY_LITE_NODE_DEBUG == '1') { path = '../build/Debug/'; }
+const addon = require(path + 'iotivity-lite-native');
+module.exports = addon;
+STR
+end
 
