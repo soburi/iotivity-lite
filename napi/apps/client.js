@@ -96,7 +96,7 @@ function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
   console.dir(iface_mask);
   console.dir(endpoint);
   console.dir(bm);
-  //console.dir(user_data);
+  //console.log(user_data);
   return 0
 }
 
