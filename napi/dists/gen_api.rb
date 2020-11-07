@@ -562,6 +562,19 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
 }
 
 FUNC_OVERRIDE = {
+  'helper_main_loop' => {
+    'invoke' => <<~STR
+//
+  main_loop = new main_loop_t{ Napi::Promise::Deferred::New(info.Env()),
+                               Napi::ThreadSafeFunction::New(info.Env(),
+                               Napi::Function::New(info.Env(), [](const Napi::CallbackInfo& info) {
+  main_loop->deferred.Resolve(info.Env().Undefined() );
+  delete main_loop;
+  main_loop = nullptr;
+  }), "main_loop_resolve", 0, 1) };
+  return main_loop->deferred.Promise();
+STR
+  },
   'oc_add_ownership_status_cb' => {
     '0' => "  oc_ownership_status_cb_t cb = helper_oc_ownership_status_cb; if(!info[0].IsFunction()) { cb = nullptr; }\n",
     '1' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[1]);\n",
@@ -1463,13 +1476,13 @@ def is_struct_ptr?(ty)
   return false
 end
 
-def gen_funcimpl(name, param)
+def gen_funcimpl(func, name, param)
   type = param['type']
   type = FUNC_TYPEMAP[type] if FUNC_TYPEMAP.include?(type)
 
   check = true
   args = []
-  decl = "Napi::Value N_#{name}(const Napi::CallbackInfo& info) {\n"
+  decl = "Napi::Value #{func}(const Napi::CallbackInfo& info) {\n"
   
   if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name].is_a?(String)
     decl += FUNC_OVERRIDE[name]
@@ -1708,6 +1721,7 @@ File.open('src/functions.h', 'w') do |f|
 
   func_table.each do |key, h|
     next if IGNORE_FUNCS.include?(key)
+    next if apis.values.collect{|v| v.values }.flatten.include?(key)
     expset = gen_funcdecl(key, h) + "\n"
     if IFDEF_FUNCS.include?(key)
       expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
@@ -1730,7 +1744,8 @@ File.open('src/functions.cc', 'w') do |f|
   #end 
   func_table.each do |key, h|
     next if IGNORE_FUNCS.include?(key)
-    expset = gen_funcimpl(key, h)
+    next if apis.values.collect{|v| v.values }.flatten.include?(key)
+    expset = gen_funcimpl("N_"+ key, key, h)
     if IFDEF_FUNCS.include?(key)
       expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
     end
@@ -1767,6 +1782,7 @@ File.open('src/binding.cc', 'w') do |f|
 
 
   func_table.each do |key, h|
+    next if apis.values.collect{|v| v.values }.flatten.include?(key)
     next if IGNORE_FUNCS.include?(key)
     expset = "  exports.Set(\"#{key}\", Napi::Function::New(env, N_#{key}));\n"
     if IFDEF_FUNCS.include?(key)
@@ -1779,7 +1795,7 @@ File.open('src/binding.cc', 'w') do |f|
   f.print "}\n"
 end
 
-File.open('src/iotivity-lite.h', 'w') do |f|
+File.open('src/iotivity_lite.h', 'w') do |f|
   f.print HPROLOGUE
   apis.keys.each do |cls|
     f.print APICLSDECL.gsub(/CLASS/, cls)
@@ -1787,10 +1803,11 @@ File.open('src/iotivity-lite.h', 'w') do |f|
       f.print MTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
     end
     f.print "};\n"
+    f.print "\n"
   end
 end
 
-File.open('src/iotivity-lite.cc', 'w') do |f|
+File.open('src/iotivity_lite.cc', 'w') do |f|
   f.print CCPROLOGUE
   apis.keys.each do |cls|
     f.print EXPORTIMPL.gsub(/CLASS/, cls)
@@ -1814,7 +1831,7 @@ File.open('src/iotivity-lite.cc', 'w') do |f|
         print "\n"
         next
       end
-      expset = gen_funcimpl(mtd, func_table[mtd])
+      expset = gen_funcimpl(cls + "::" + name, mtd, func_table[mtd])
       if IFDEF_FUNCS.include?(mtd)
         expset = "#if #{IFDEF_FUNCS[mtd]}\n" + expset + "#endif\n"
       end

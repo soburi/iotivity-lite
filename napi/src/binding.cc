@@ -97,128 +97,26 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("OCSessionState", OCSessionState::GetClass(env));
   exports.Set("OCSoftwareUpdateResult", OCSoftwareUpdateResult::GetClass(env));
   exports.Set("handle_coap_signal_message", Napi::Function::New(env, N_handle_coap_signal_message));
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_assert_all_roles", Napi::Function::New(env, N_oc_assert_all_roles));
-#endif
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_assert_role", Napi::Function::New(env, N_oc_assert_role));
-#endif
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_auto_assert_roles", Napi::Function::New(env, N_oc_auto_assert_roles));
-#endif
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_get_all_roles", Napi::Function::New(env, N_oc_get_all_roles));
-#endif
-  exports.Set("oc_close_session", Napi::Function::New(env, N_oc_close_session));
-  exports.Set("oc_do_delete", Napi::Function::New(env, N_oc_do_delete));
-  exports.Set("oc_do_get", Napi::Function::New(env, N_oc_do_get));
-  exports.Set("oc_do_ip_discovery", Napi::Function::New(env, N_oc_do_ip_discovery));
-  exports.Set("oc_do_ip_discovery_all", Napi::Function::New(env, N_oc_do_ip_discovery_all));
-  exports.Set("oc_do_ip_discovery_all_at_endpoint", Napi::Function::New(env, N_oc_do_ip_discovery_all_at_endpoint));
-  exports.Set("oc_do_ip_discovery_at_endpoint", Napi::Function::New(env, N_oc_do_ip_discovery_at_endpoint));
-  exports.Set("oc_do_ip_multicast", Napi::Function::New(env, N_oc_do_ip_multicast));
-  exports.Set("oc_do_observe", Napi::Function::New(env, N_oc_do_observe));
-  exports.Set("oc_do_post", Napi::Function::New(env, N_oc_do_post));
-  exports.Set("oc_do_put", Napi::Function::New(env, N_oc_do_put));
-  exports.Set("oc_do_realm_local_ipv6_discovery", Napi::Function::New(env, N_oc_do_realm_local_ipv6_discovery));
-  exports.Set("oc_do_realm_local_ipv6_discovery_all", Napi::Function::New(env, N_oc_do_realm_local_ipv6_discovery_all));
-  exports.Set("oc_do_realm_local_ipv6_multicast", Napi::Function::New(env, N_oc_do_realm_local_ipv6_multicast));
-  exports.Set("oc_do_site_local_ipv6_discovery", Napi::Function::New(env, N_oc_do_site_local_ipv6_discovery));
-  exports.Set("oc_do_site_local_ipv6_discovery_all", Napi::Function::New(env, N_oc_do_site_local_ipv6_discovery_all));
-  exports.Set("oc_do_site_local_ipv6_multicast", Napi::Function::New(env, N_oc_do_site_local_ipv6_multicast));
-  exports.Set("oc_free_server_endpoints", Napi::Function::New(env, N_oc_free_server_endpoints));
-  exports.Set("oc_init_post", Napi::Function::New(env, N_oc_init_post));
-  exports.Set("oc_init_put", Napi::Function::New(env, N_oc_init_put));
-#if defined(OC_TCP)
-  exports.Set("oc_send_ping", Napi::Function::New(env, N_oc_send_ping));
-#endif
-  exports.Set("oc_stop_multicast", Napi::Function::New(env, N_oc_stop_multicast));
-  exports.Set("oc_stop_observe", Napi::Function::New(env, N_oc_stop_observe));
-  exports.Set("oc_add_collection", Napi::Function::New(env, N_oc_add_collection));
-  exports.Set("oc_collection_add_link", Napi::Function::New(env, N_oc_collection_add_link));
-  exports.Set("oc_collection_add_mandatory_rt", Napi::Function::New(env, N_oc_collection_add_mandatory_rt));
-  exports.Set("oc_collection_add_supported_rt", Napi::Function::New(env, N_oc_collection_add_supported_rt));
-  exports.Set("oc_collection_get_collections", Napi::Function::New(env, N_oc_collection_get_collections));
-  exports.Set("oc_collection_get_links", Napi::Function::New(env, N_oc_collection_get_links));
-  exports.Set("oc_collection_remove_link", Napi::Function::New(env, N_oc_collection_remove_link));
 #if defined(OC_COLLECTIONS_IF_CREATE)
   exports.Set("oc_collections_add_rt_factory", Napi::Function::New(env, N_oc_collections_add_rt_factory));
 #endif
-  exports.Set("oc_delete_collection", Napi::Function::New(env, N_oc_delete_collection));
-  exports.Set("oc_delete_link", Napi::Function::New(env, N_oc_delete_link));
-  exports.Set("oc_link_add_link_param", Napi::Function::New(env, N_oc_link_add_link_param));
-  exports.Set("oc_link_add_rel", Napi::Function::New(env, N_oc_link_add_rel));
-  exports.Set("oc_new_collection", Napi::Function::New(env, N_oc_new_collection));
-  exports.Set("oc_new_link", Napi::Function::New(env, N_oc_new_link));
-  exports.Set("oc_remove_delayed_callback", Napi::Function::New(env, N_oc_remove_delayed_callback));
-  exports.Set("oc_set_delayed_callback", Napi::Function::New(env, N_oc_set_delayed_callback));
   exports.Set("oc_set_immutable_device_identifier", Napi::Function::New(env, N_oc_set_immutable_device_identifier));
-  exports.Set("oc_add_resource", Napi::Function::New(env, N_oc_add_resource));
-  exports.Set("oc_delete_resource", Napi::Function::New(env, N_oc_delete_resource));
-  exports.Set("oc_device_bind_resource_type", Napi::Function::New(env, N_oc_device_bind_resource_type));
   exports.Set("oc_get_diagnostic_message", Napi::Function::New(env, N_oc_get_diagnostic_message));
   exports.Set("oc_get_query_value", Napi::Function::New(env, N_oc_get_query_value));
   exports.Set("oc_get_request_payload_raw", Napi::Function::New(env, N_oc_get_request_payload_raw));
   exports.Set("oc_get_response_payload_raw", Napi::Function::New(env, N_oc_get_response_payload_raw));
-  exports.Set("oc_ignore_request", Napi::Function::New(env, N_oc_ignore_request));
-  exports.Set("oc_indicate_separate_response", Napi::Function::New(env, N_oc_indicate_separate_response));
   exports.Set("oc_init_query_iterator", Napi::Function::New(env, N_oc_init_query_iterator));
   exports.Set("oc_iterate_query", Napi::Function::New(env, N_oc_iterate_query));
   exports.Set("oc_iterate_query_get_values", Napi::Function::New(env, N_oc_iterate_query_get_values));
-  exports.Set("oc_new_resource", Napi::Function::New(env, N_oc_new_resource));
-  exports.Set("oc_notify_observers", Napi::Function::New(env, N_oc_notify_observers));
-  exports.Set("oc_process_baseline_interface", Napi::Function::New(env, N_oc_process_baseline_interface));
-  exports.Set("oc_resource_bind_resource_interface", Napi::Function::New(env, N_oc_resource_bind_resource_interface));
-  exports.Set("oc_resource_bind_resource_type", Napi::Function::New(env, N_oc_resource_bind_resource_type));
-#if defined(OC_SECURITY)
-  exports.Set("oc_resource_make_public", Napi::Function::New(env, N_oc_resource_make_public));
-#endif
-  exports.Set("oc_resource_set_default_interface", Napi::Function::New(env, N_oc_resource_set_default_interface));
-  exports.Set("oc_resource_set_discoverable", Napi::Function::New(env, N_oc_resource_set_discoverable));
-  exports.Set("oc_resource_set_observable", Napi::Function::New(env, N_oc_resource_set_observable));
-  exports.Set("oc_resource_set_periodic_observable", Napi::Function::New(env, N_oc_resource_set_periodic_observable));
-  exports.Set("oc_resource_set_properties_cbs", Napi::Function::New(env, N_oc_resource_set_properties_cbs));
-  exports.Set("oc_resource_set_request_handler", Napi::Function::New(env, N_oc_resource_set_request_handler));
   exports.Set("oc_resource_tag_func_desc", Napi::Function::New(env, N_oc_resource_tag_func_desc));
   exports.Set("oc_resource_tag_pos_desc", Napi::Function::New(env, N_oc_resource_tag_pos_desc));
   exports.Set("oc_resource_tag_pos_rel", Napi::Function::New(env, N_oc_resource_tag_pos_rel));
-  exports.Set("oc_send_diagnostic_message", Napi::Function::New(env, N_oc_send_diagnostic_message));
-  exports.Set("oc_send_response", Napi::Function::New(env, N_oc_send_response));
-  exports.Set("oc_send_response_raw", Napi::Function::New(env, N_oc_send_response_raw));
-  exports.Set("oc_send_separate_response", Napi::Function::New(env, N_oc_send_separate_response));
-  exports.Set("oc_set_con_write_cb", Napi::Function::New(env, N_oc_set_con_write_cb));
-  exports.Set("oc_set_separate_response_buffer", Napi::Function::New(env, N_oc_set_separate_response_buffer));
   exports.Set("oc_timer_expired", Napi::Function::New(env, N_oc_timer_expired));
   exports.Set("oc_timer_remaining", Napi::Function::New(env, N_oc_timer_remaining));
   exports.Set("oc_timer_reset", Napi::Function::New(env, N_oc_timer_reset));
   exports.Set("oc_timer_restart", Napi::Function::New(env, N_oc_timer_restart));
   exports.Set("oc_timer_set", Napi::Function::New(env, N_oc_timer_set));
-  exports.Set("oc_add_device", Napi::Function::New(env, N_oc_add_device));
-#if defined(OC_SECURITY)
-  exports.Set("oc_add_ownership_status_cb", Napi::Function::New(env, N_oc_add_ownership_status_cb));
-#endif
-  exports.Set("oc_get_con_res_announced", Napi::Function::New(env, N_oc_get_con_res_announced));
-  exports.Set("oc_init_platform", Napi::Function::New(env, N_oc_init_platform));
-#if defined(OC_SECURITY)
-  exports.Set("oc_is_owned_device", Napi::Function::New(env, N_oc_is_owned_device));
-#endif
-  exports.Set("oc_main_init", Napi::Function::New(env, N_oc_main_init));
   exports.Set("oc_main_poll", Napi::Function::New(env, N_oc_main_poll));
-  exports.Set("oc_main_shutdown", Napi::Function::New(env, N_oc_main_shutdown));
-#if defined(OC_SECURITY)
-  exports.Set("oc_remove_ownership_status_cb", Napi::Function::New(env, N_oc_remove_ownership_status_cb));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_reset", Napi::Function::New(env, N_oc_reset));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_reset_device", Napi::Function::New(env, N_oc_reset_device));
-#endif
-  exports.Set("oc_set_con_res_announced", Napi::Function::New(env, N_oc_set_con_res_announced));
-  exports.Set("oc_set_factory_presets_cb", Napi::Function::New(env, N_oc_set_factory_presets_cb));
-#if defined(OC_SECURITY)
-  exports.Set("oc_set_random_pin_callback", Napi::Function::New(env, N_oc_set_random_pin_callback));
-#endif
   exports.Set("abort_impl", Napi::Function::New(env, N_abort_impl));
   exports.Set("exit_impl", Napi::Function::New(env, N_exit_impl));
   exports.Set("oc_abort", Napi::Function::New(env, N_oc_abort));
@@ -257,11 +155,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_recv_message", Napi::Function::New(env, N_oc_recv_message));
   exports.Set("oc_send_message", Napi::Function::New(env, N_oc_send_message));
   exports.Set("oc_set_buffers_avail_cb", Napi::Function::New(env, N_oc_set_buffers_avail_cb));
-  exports.Set("oc_get_block_size", Napi::Function::New(env, N_oc_get_block_size));
-  exports.Set("oc_get_max_app_data_size", Napi::Function::New(env, N_oc_get_max_app_data_size));
-  exports.Set("oc_get_mtu_size", Napi::Function::New(env, N_oc_get_mtu_size));
-  exports.Set("oc_set_max_app_data_size", Napi::Function::New(env, N_oc_set_max_app_data_size));
-  exports.Set("oc_set_mtu_size", Napi::Function::New(env, N_oc_set_mtu_size));
   exports.Set("oc_ri_alloc_client_cb", Napi::Function::New(env, N_oc_ri_alloc_client_cb));
   exports.Set("oc_ri_find_client_cb_by_mid", Napi::Function::New(env, N_oc_ri_find_client_cb_by_mid));
   exports.Set("oc_ri_find_client_cb_by_token", Napi::Function::New(env, N_oc_ri_find_client_cb_by_token));
@@ -271,51 +164,11 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_ri_invoke_client_cb", Napi::Function::New(env, N_oc_ri_invoke_client_cb));
   exports.Set("oc_ri_is_client_cb_valid", Napi::Function::New(env, N_oc_ri_is_client_cb_valid));
   exports.Set("oc_ri_process_discovery_payload", Napi::Function::New(env, N_oc_ri_process_discovery_payload));
-  exports.Set("oc_clock_init", Napi::Function::New(env, N_oc_clock_init));
-  exports.Set("oc_clock_seconds", Napi::Function::New(env, N_oc_clock_seconds));
-  exports.Set("oc_clock_time", Napi::Function::New(env, N_oc_clock_time));
-  exports.Set("oc_clock_wait", Napi::Function::New(env, N_oc_clock_wait));
   exports.Set("oc_clock_encode_time_rfc3339", Napi::Function::New(env, N_oc_clock_encode_time_rfc3339));
   exports.Set("oc_clock_parse_time_rfc3339", Napi::Function::New(env, N_oc_clock_parse_time_rfc3339));
   exports.Set("oc_clock_time_rfc3339", Napi::Function::New(env, N_oc_clock_time_rfc3339));
 #if defined(OC_CLOUD)
-  exports.Set("oc_cloud_add_resource", Napi::Function::New(env, N_oc_cloud_add_resource));
-#endif
-#if defined(OC_CLOUD)
-  exports.Set("oc_cloud_delete_resource", Napi::Function::New(env, N_oc_cloud_delete_resource));
-#endif
-#if defined(OC_CLOUD)
   exports.Set("oc_cloud_deregister", Napi::Function::New(env, N_oc_cloud_deregister));
-#endif
-#if defined(OC_CLOUD)
-  exports.Set("oc_cloud_discover_resources", Napi::Function::New(env, N_oc_cloud_discover_resources));
-#endif
-#if defined(OC_CLOUD)
-  exports.Set("oc_cloud_get_context", Napi::Function::New(env, N_oc_cloud_get_context));
-#endif
-#if defined(OC_CLOUD)
-  exports.Set("oc_cloud_get_token_expiry", Napi::Function::New(env, N_oc_cloud_get_token_expiry));
-#endif
-#if defined(OC_CLOUD)
-  exports.Set("oc_cloud_login", Napi::Function::New(env, N_oc_cloud_login));
-#endif
-#if defined(OC_CLOUD)
-  exports.Set("oc_cloud_logout", Napi::Function::New(env, N_oc_cloud_logout));
-#endif
-#if defined(OC_CLOUD)
-  exports.Set("oc_cloud_manager_start", Napi::Function::New(env, N_oc_cloud_manager_start));
-#endif
-#if defined(OC_CLOUD)
-  exports.Set("oc_cloud_manager_stop", Napi::Function::New(env, N_oc_cloud_manager_stop));
-#endif
-#if defined(OC_CLOUD)
-  exports.Set("oc_cloud_provision_conf_resource", Napi::Function::New(env, N_oc_cloud_provision_conf_resource));
-#endif
-#if defined(OC_CLOUD)
-  exports.Set("oc_cloud_publish_resources", Napi::Function::New(env, N_oc_cloud_publish_resources));
-#endif
-#if defined(OC_CLOUD)
-  exports.Set("oc_cloud_refresh_token", Napi::Function::New(env, N_oc_cloud_refresh_token));
 #endif
 #if defined(OC_CLOUD)
   exports.Set("oc_cloud_register", Napi::Function::New(env, N_oc_cloud_register));
@@ -350,53 +203,12 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
 #if defined(OC_TCP)
   exports.Set("oc_tcp_update_csm_state", Napi::Function::New(env, N_oc_tcp_update_csm_state));
 #endif
-  exports.Set("oc_core_add_new_device", Napi::Function::New(env, N_oc_core_add_new_device));
   exports.Set("oc_core_encode_interfaces_mask", Napi::Function::New(env, N_oc_core_encode_interfaces_mask));
-  exports.Set("oc_core_get_device_id", Napi::Function::New(env, N_oc_core_get_device_id));
-  exports.Set("oc_core_get_device_info", Napi::Function::New(env, N_oc_core_get_device_info));
-  exports.Set("oc_core_get_latency", Napi::Function::New(env, N_oc_core_get_latency));
-  exports.Set("oc_core_get_num_devices", Napi::Function::New(env, N_oc_core_get_num_devices));
-  exports.Set("oc_core_get_platform_info", Napi::Function::New(env, N_oc_core_get_platform_info));
   exports.Set("oc_core_get_resource_by_index", Napi::Function::New(env, N_oc_core_get_resource_by_index));
-  exports.Set("oc_core_get_resource_by_uri", Napi::Function::New(env, N_oc_core_get_resource_by_uri));
-  exports.Set("oc_core_init", Napi::Function::New(env, N_oc_core_init));
-  exports.Set("oc_core_init_platform", Napi::Function::New(env, N_oc_core_init_platform));
-  exports.Set("oc_core_is_DCR", Napi::Function::New(env, N_oc_core_is_DCR));
   exports.Set("oc_core_populate_resource", Napi::Function::New(env, N_oc_core_populate_resource));
-  exports.Set("oc_core_set_latency", Napi::Function::New(env, N_oc_core_set_latency));
-  exports.Set("oc_core_shutdown", Napi::Function::New(env, N_oc_core_shutdown));
-  exports.Set("oc_filter_resource_by_rt", Napi::Function::New(env, N_oc_filter_resource_by_rt));
   exports.Set("oc_store_uri", Napi::Function::New(env, N_oc_store_uri));
-#if defined(OC_SECURITY)
-  exports.Set("oc_cred_credtype_string", Napi::Function::New(env, N_oc_cred_credtype_string));
-#endif
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_cred_parse_credusage", Napi::Function::New(env, N_oc_cred_parse_credusage));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_cred_parse_encoding", Napi::Function::New(env, N_oc_cred_parse_encoding));
-#endif
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_cred_read_credusage", Napi::Function::New(env, N_oc_cred_read_credusage));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_cred_read_encoding", Napi::Function::New(env, N_oc_cred_read_encoding));
-#endif
   exports.Set("oc_create_discovery_resource", Napi::Function::New(env, N_oc_create_discovery_resource));
-  exports.Set("oc_endpoint_compare", Napi::Function::New(env, N_oc_endpoint_compare));
-  exports.Set("oc_endpoint_compare_address", Napi::Function::New(env, N_oc_endpoint_compare_address));
-  exports.Set("oc_endpoint_copy", Napi::Function::New(env, N_oc_endpoint_copy));
   exports.Set("oc_endpoint_list_copy", Napi::Function::New(env, N_oc_endpoint_list_copy));
-  exports.Set("oc_endpoint_set_di", Napi::Function::New(env, N_oc_endpoint_set_di));
-  exports.Set("oc_endpoint_set_local_address", Napi::Function::New(env, N_oc_endpoint_set_local_address));
-  exports.Set("oc_endpoint_string_parse_path", Napi::Function::New(env, N_oc_endpoint_string_parse_path));
-  exports.Set("oc_endpoint_to_string", Napi::Function::New(env, N_oc_endpoint_to_string));
-  exports.Set("oc_free_endpoint", Napi::Function::New(env, N_oc_free_endpoint));
-  exports.Set("oc_ipv6_endpoint_is_link_local", Napi::Function::New(env, N_oc_ipv6_endpoint_is_link_local));
-  exports.Set("oc_new_endpoint", Napi::Function::New(env, N_oc_new_endpoint));
-  exports.Set("oc_string_to_endpoint", Napi::Function::New(env, N_oc_string_to_endpoint));
-  exports.Set("oc_enum_pos_desc_to_str", Napi::Function::New(env, N_oc_enum_pos_desc_to_str));
-  exports.Set("oc_enum_to_str", Napi::Function::New(env, N_oc_enum_to_str));
   exports.Set("_oc_alloc_string", Napi::Function::New(env, N__oc_alloc_string));
   exports.Set("_oc_alloc_string_array", Napi::Function::New(env, N__oc_alloc_string_array));
   exports.Set("_oc_free_array", Napi::Function::New(env, N__oc_free_array));
@@ -405,9 +217,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("_oc_new_string", Napi::Function::New(env, N__oc_new_string));
   exports.Set("oc_concat_strings", Napi::Function::New(env, N_oc_concat_strings));
   exports.Set("oc_join_string_array", Napi::Function::New(env, N_oc_join_string_array));
-#if defined(OC_IDD_API)
-  exports.Set("oc_set_introspection_data", Napi::Function::New(env, N_oc_set_introspection_data));
-#endif
   exports.Set("oc_memb_init", Napi::Function::New(env, N_oc_memb_init));
   exports.Set("oc_memb_inmemb", Napi::Function::New(env, N_oc_memb_inmemb));
   exports.Set("oc_memb_numfree", Napi::Function::New(env, N_oc_memb_numfree));
@@ -434,161 +243,14 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_add_session_event_callback", Napi::Function::New(env, N_oc_add_session_event_callback));
   exports.Set("oc_remove_network_interface_event_callback", Napi::Function::New(env, N_oc_remove_network_interface_event_callback));
   exports.Set("oc_remove_session_event_callback", Napi::Function::New(env, N_oc_remove_session_event_callback));
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_ace_add_permission", Napi::Function::New(env, N_oc_obt_ace_add_permission));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_ace_new_resource", Napi::Function::New(env, N_oc_obt_ace_new_resource));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_ace_resource_set_href", Napi::Function::New(env, N_oc_obt_ace_resource_set_href));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_ace_resource_set_wc", Napi::Function::New(env, N_oc_obt_ace_resource_set_wc));
-#endif
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_obt_add_roleid", Napi::Function::New(env, N_oc_obt_add_roleid));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_delete_ace_by_aceid", Napi::Function::New(env, N_oc_obt_delete_ace_by_aceid));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_delete_cred_by_credid", Napi::Function::New(env, N_oc_obt_delete_cred_by_credid));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_delete_own_cred_by_credid", Napi::Function::New(env, N_oc_obt_delete_own_cred_by_credid));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_device_hard_reset", Napi::Function::New(env, N_oc_obt_device_hard_reset));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_discover_all_resources", Napi::Function::New(env, N_oc_obt_discover_all_resources));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_discover_owned_devices", Napi::Function::New(env, N_oc_obt_discover_owned_devices));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_discover_owned_devices_realm_local_ipv6", Napi::Function::New(env, N_oc_obt_discover_owned_devices_realm_local_ipv6));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_discover_owned_devices_site_local_ipv6", Napi::Function::New(env, N_oc_obt_discover_owned_devices_site_local_ipv6));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_discover_unowned_devices", Napi::Function::New(env, N_oc_obt_discover_unowned_devices));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_discover_unowned_devices_realm_local_ipv6", Napi::Function::New(env, N_oc_obt_discover_unowned_devices_realm_local_ipv6));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_discover_unowned_devices_site_local_ipv6", Napi::Function::New(env, N_oc_obt_discover_unowned_devices_site_local_ipv6));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_free_ace", Napi::Function::New(env, N_oc_obt_free_ace));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_free_acl", Napi::Function::New(env, N_oc_obt_free_acl));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_free_creds", Napi::Function::New(env, N_oc_obt_free_creds));
-#endif
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_obt_free_roleid", Napi::Function::New(env, N_oc_obt_free_roleid));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_init", Napi::Function::New(env, N_oc_obt_init));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_new_ace_for_connection", Napi::Function::New(env, N_oc_obt_new_ace_for_connection));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_new_ace_for_role", Napi::Function::New(env, N_oc_obt_new_ace_for_role));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_new_ace_for_subject", Napi::Function::New(env, N_oc_obt_new_ace_for_subject));
-#endif
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_obt_perform_cert_otm", Napi::Function::New(env, N_oc_obt_perform_cert_otm));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_perform_just_works_otm", Napi::Function::New(env, N_oc_obt_perform_just_works_otm));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_perform_random_pin_otm", Napi::Function::New(env, N_oc_obt_perform_random_pin_otm));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_provision_ace", Napi::Function::New(env, N_oc_obt_provision_ace));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_provision_auth_wildcard_ace", Napi::Function::New(env, N_oc_obt_provision_auth_wildcard_ace));
-#endif
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_obt_provision_identity_certificate", Napi::Function::New(env, N_oc_obt_provision_identity_certificate));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_provision_pairwise_credentials", Napi::Function::New(env, N_oc_obt_provision_pairwise_credentials));
-#endif
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_obt_provision_role_certificate", Napi::Function::New(env, N_oc_obt_provision_role_certificate));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_provision_role_wildcard_ace", Napi::Function::New(env, N_oc_obt_provision_role_wildcard_ace));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_request_random_pin", Napi::Function::New(env, N_oc_obt_request_random_pin));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_retrieve_acl", Napi::Function::New(env, N_oc_obt_retrieve_acl));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_retrieve_creds", Napi::Function::New(env, N_oc_obt_retrieve_creds));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_retrieve_own_creds", Napi::Function::New(env, N_oc_obt_retrieve_own_creds));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_set_sd_info", Napi::Function::New(env, N_oc_obt_set_sd_info));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_obt_shutdown", Napi::Function::New(env, N_oc_obt_shutdown));
-#endif
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_pki_add_mfg_cert", Napi::Function::New(env, N_oc_pki_add_mfg_cert));
-#endif
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_pki_add_mfg_intermediate_cert", Napi::Function::New(env, N_oc_pki_add_mfg_intermediate_cert));
-#endif
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_pki_add_mfg_trust_anchor", Napi::Function::New(env, N_oc_pki_add_mfg_trust_anchor));
-#endif
-#if defined(OC_SECURITY) && defined(OC_PKI)
-  exports.Set("oc_pki_add_trust_anchor", Napi::Function::New(env, N_oc_pki_add_trust_anchor));
-#endif
-#if defined(OC_SECURITY)
-  exports.Set("oc_pki_set_security_profile", Napi::Function::New(env, N_oc_pki_set_security_profile));
-#endif
-  exports.Set("oc_random_destroy", Napi::Function::New(env, N_oc_random_destroy));
-  exports.Set("oc_random_init", Napi::Function::New(env, N_oc_random_init));
-  exports.Set("oc_random_value", Napi::Function::New(env, N_oc_random_value));
   exports.Set("oc_free_rep", Napi::Function::New(env, N_oc_free_rep));
   exports.Set("oc_parse_rep", Napi::Function::New(env, N_oc_parse_rep));
-  exports.Set("oc_rep_get_bool", Napi::Function::New(env, N_oc_rep_get_bool));
-  exports.Set("oc_rep_get_bool_array", Napi::Function::New(env, N_oc_rep_get_bool_array));
-  exports.Set("oc_rep_get_byte_string", Napi::Function::New(env, N_oc_rep_get_byte_string));
-  exports.Set("oc_rep_get_byte_string_array", Napi::Function::New(env, N_oc_rep_get_byte_string_array));
-  exports.Set("oc_rep_get_cbor_errno", Napi::Function::New(env, N_oc_rep_get_cbor_errno));
-  exports.Set("oc_rep_get_double", Napi::Function::New(env, N_oc_rep_get_double));
-  exports.Set("oc_rep_get_double_array", Napi::Function::New(env, N_oc_rep_get_double_array));
   exports.Set("oc_rep_get_encoded_payload_size", Napi::Function::New(env, N_oc_rep_get_encoded_payload_size));
   exports.Set("oc_rep_get_encoder_buf", Napi::Function::New(env, N_oc_rep_get_encoder_buf));
   exports.Set("oc_rep_get_int", Napi::Function::New(env, N_oc_rep_get_int));
   exports.Set("oc_rep_get_int_array", Napi::Function::New(env, N_oc_rep_get_int_array));
-  exports.Set("oc_rep_get_object", Napi::Function::New(env, N_oc_rep_get_object));
-  exports.Set("oc_rep_get_object_array", Napi::Function::New(env, N_oc_rep_get_object_array));
-  exports.Set("oc_rep_get_string", Napi::Function::New(env, N_oc_rep_get_string));
-  exports.Set("oc_rep_get_string_array", Napi::Function::New(env, N_oc_rep_get_string_array));
   exports.Set("oc_rep_new", Napi::Function::New(env, N_oc_rep_new));
   exports.Set("oc_rep_set_pool", Napi::Function::New(env, N_oc_rep_set_pool));
-  exports.Set("oc_rep_to_json", Napi::Function::New(env, N_oc_rep_to_json));
 #if defined(OC_SERVER)
   exports.Set("oc_ri_add_resource", Napi::Function::New(env, N_oc_ri_add_resource));
 #endif
@@ -606,81 +268,15 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_ri_get_query_nth_key_value", Napi::Function::New(env, N_oc_ri_get_query_nth_key_value));
   exports.Set("oc_ri_get_query_value", Napi::Function::New(env, N_oc_ri_get_query_value));
   exports.Set("oc_ri_init", Napi::Function::New(env, N_oc_ri_init));
-  exports.Set("oc_ri_is_app_resource_valid", Napi::Function::New(env, N_oc_ri_is_app_resource_valid));
   exports.Set("oc_ri_remove_timed_event_callback", Napi::Function::New(env, N_oc_ri_remove_timed_event_callback));
   exports.Set("oc_ri_shutdown", Napi::Function::New(env, N_oc_ri_shutdown));
   exports.Set("oc_status_code", Napi::Function::New(env, N_oc_status_code));
-#if defined(OC_TCP)
-  exports.Set("oc_session_end_event", Napi::Function::New(env, N_oc_session_end_event));
-#endif
-#if defined(OC_TCP)
-  exports.Set("oc_session_events_set_event_delay", Napi::Function::New(env, N_oc_session_events_set_event_delay));
-#endif
-#if defined(OC_TCP)
-  exports.Set("oc_session_start_event", Napi::Function::New(env, N_oc_session_start_event));
-#endif
   exports.Set("_oc_signal_event_loop", Napi::Function::New(env, N__oc_signal_event_loop));
-  exports.Set("oc_storage_config", Napi::Function::New(env, N_oc_storage_config));
   exports.Set("oc_storage_read", Napi::Function::New(env, N_oc_storage_read));
   exports.Set("oc_storage_write", Napi::Function::New(env, N_oc_storage_write));
-#if defined(OC_SOFTWARE_UPDATE)
-  exports.Set("oc_swupdate_notify_done", Napi::Function::New(env, N_oc_swupdate_notify_done));
-#endif
-#if defined(OC_SOFTWARE_UPDATE)
-  exports.Set("oc_swupdate_notify_downloaded", Napi::Function::New(env, N_oc_swupdate_notify_downloaded));
-#endif
-#if defined(OC_SOFTWARE_UPDATE)
-  exports.Set("oc_swupdate_notify_new_version_available", Napi::Function::New(env, N_oc_swupdate_notify_new_version_available));
-#endif
-#if defined(OC_SOFTWARE_UPDATE)
-  exports.Set("oc_swupdate_notify_upgrading", Napi::Function::New(env, N_oc_swupdate_notify_upgrading));
-#endif
-#if defined(OC_SOFTWARE_UPDATE)
-  exports.Set("oc_swupdate_set_impl", Napi::Function::New(env, N_oc_swupdate_set_impl));
-#endif
-  exports.Set("oc_gen_uuid", Napi::Function::New(env, N_oc_gen_uuid));
-  exports.Set("oc_str_to_uuid", Napi::Function::New(env, N_oc_str_to_uuid));
-  exports.Set("oc_uuid_to_str", Napi::Function::New(env, N_oc_uuid_to_str));
-  exports.Set("helper_rep_set_double", Napi::Function::New(env, N_helper_rep_set_double));
-  exports.Set("helper_rep_set_long", Napi::Function::New(env, N_helper_rep_set_long));
-  exports.Set("helper_rep_set_uint", Napi::Function::New(env, N_helper_rep_set_uint));
-  exports.Set("helper_rep_set_boolean", Napi::Function::New(env, N_helper_rep_set_boolean));
-  exports.Set("helper_rep_set_text_string", Napi::Function::New(env, N_helper_rep_set_text_string));
-  exports.Set("helper_rep_set_byte_string", Napi::Function::New(env, N_helper_rep_set_byte_string));
-  exports.Set("helper_rep_start_array", Napi::Function::New(env, N_helper_rep_start_array));
-  exports.Set("helper_rep_end_array", Napi::Function::New(env, N_helper_rep_end_array));
-  exports.Set("helper_rep_start_links_array", Napi::Function::New(env, N_helper_rep_start_links_array));
-  exports.Set("helper_rep_end_links_array", Napi::Function::New(env, N_helper_rep_end_links_array));
-  exports.Set("helper_rep_start_root_object", Napi::Function::New(env, N_helper_rep_start_root_object));
-  exports.Set("helper_rep_end_root_object", Napi::Function::New(env, N_helper_rep_end_root_object));
-  exports.Set("helper_rep_add_byte_string", Napi::Function::New(env, N_helper_rep_add_byte_string));
-  exports.Set("helper_rep_add_text_string", Napi::Function::New(env, N_helper_rep_add_text_string));
-  exports.Set("helper_rep_add_double", Napi::Function::New(env, N_helper_rep_add_double));
   exports.Set("helper_rep_add_int", Napi::Function::New(env, N_helper_rep_add_int));
-  exports.Set("helper_rep_add_boolean", Napi::Function::New(env, N_helper_rep_add_boolean));
-  exports.Set("helper_rep_set_key", Napi::Function::New(env, N_helper_rep_set_key));
   exports.Set("helper_rep_set_array", Napi::Function::New(env, N_helper_rep_set_array));
-  exports.Set("helper_rep_open_array", Napi::Function::New(env, N_helper_rep_open_array));
-  exports.Set("helper_rep_close_array", Napi::Function::New(env, N_helper_rep_close_array));
-  exports.Set("helper_rep_start_object", Napi::Function::New(env, N_helper_rep_start_object));
-  exports.Set("helper_rep_end_object", Napi::Function::New(env, N_helper_rep_end_object));
-  exports.Set("helper_rep_object_array_start_item", Napi::Function::New(env, N_helper_rep_object_array_start_item));
-  exports.Set("helper_rep_object_array_end_item", Napi::Function::New(env, N_helper_rep_object_array_end_item));
-  exports.Set("helper_rep_open_object", Napi::Function::New(env, N_helper_rep_open_object));
-  exports.Set("helper_rep_close_object", Napi::Function::New(env, N_helper_rep_close_object));
-  exports.Set("helper_rep_set_long_array", Napi::Function::New(env, N_helper_rep_set_long_array));
-  exports.Set("helper_rep_set_bool_array", Napi::Function::New(env, N_helper_rep_set_bool_array));
-  exports.Set("helper_rep_set_double_array", Napi::Function::New(env, N_helper_rep_set_double_array));
-  exports.Set("helper_rep_rep_set_string_array", Napi::Function::New(env, N_helper_rep_rep_set_string_array));
-  exports.Set("helper_rep_get_rep_from_root_object", Napi::Function::New(env, N_helper_rep_get_rep_from_root_object));
   exports.Set("helper_rep_get_cbor_errno", Napi::Function::New(env, N_helper_rep_get_cbor_errno));
-  exports.Set("helper_rep_clear_cbor_errno", Napi::Function::New(env, N_helper_rep_clear_cbor_errno));
-  exports.Set("helper_rep_delete_buffer", Napi::Function::New(env, N_helper_rep_delete_buffer));
-  exports.Set("helper_rep_new_buffer", Napi::Function::New(env, N_helper_rep_new_buffer));
-  exports.Set("helper_rep_oc_array_to_int_array", Napi::Function::New(env, N_helper_rep_oc_array_to_int_array));
-  exports.Set("helper_rep_oc_array_to_bool_array", Napi::Function::New(env, N_helper_rep_oc_array_to_bool_array));
-  exports.Set("helper_rep_oc_array_to_double_array", Napi::Function::New(env, N_helper_rep_oc_array_to_double_array));
-  exports.Set("helper_rep_oc_array_to_string_array", Napi::Function::New(env, N_helper_rep_oc_array_to_string_array));
   exports.Set("helper_oc_do_ip_discovery", Napi::Function::New(env, N_helper_oc_do_ip_discovery));
   return exports;
 }

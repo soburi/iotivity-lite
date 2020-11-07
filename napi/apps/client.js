@@ -29,11 +29,11 @@ function app_init()
   console.log("app_init");
 
   console.log("call oc_init_platform");
-  var ret = IL.oc_init_platform("Intel Corporation", null, null);
+  var ret = IL.OCMain.init_platform("Intel Corporation", null, null);
   console.log("end call oc_init_platform");
 
   console.log("call oc_add_device");
-  ret |= IL.oc_add_device("/oic/d", "oic.d.phone", "Generic Client", "ocf.1.0.0",
+  ret |= IL.OCMain.add_device("/oic/d", "oic.d.phone", "Generic Client", "ocf.1.0.0",
                        "ocf.res.1.0.0", null, null);
 
   return ret;
@@ -96,7 +96,7 @@ function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
 {
   console.log("-- discovery --");
 
-  IL.oc_do_ip_multicast(uri, "", get_light, "hoge");
+  IL.OCMain.do_ip_multicast(uri, "", get_light, "hoge");
 /*
   console.dir(di);
   console.dir(uri);
@@ -132,7 +132,7 @@ function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
 function issue_requests()
 {
   console.log("-- issue_requests --");
-  IL.oc_do_ip_discovery("core.light", discovery, "discovery_data");
+  IL.OCMain.do_ip_discovery("core.light", discovery, "discovery_data");
 }
 
 function handle_signal()
@@ -145,7 +145,7 @@ function handle_signal()
 async function main() {
   process.on('SIGINT', handle_signal);
 
-  IL.oc_storage_config("./simpleclient_creds");
+  //IL.oc_storage_config("./simpleclient_creds");
 
   var handler = new IL.OCHandler();
   handler.init = app_init;

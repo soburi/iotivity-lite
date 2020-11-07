@@ -7,6 +7,7 @@
 #include <system_error>
 #include <napi-thread-safe-callback.hpp>
 
+
 static void nop_deleter(void*) { }
 
 struct main_context_t {
@@ -26,6 +27,9 @@ public:
   Napi::Promise::Deferred deferred;
   Napi::ThreadSafeFunction tsfn;
 };
+
+
+extern main_loop_t* main_loop_ctx;
 
 struct callback_helper_t {
 public:

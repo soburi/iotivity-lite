@@ -91,6 +91,7 @@ public:
   static Napi::Value stop_multicast(const Napi::CallbackInfo& info);
   static Napi::Value stop_observe(const Napi::CallbackInfo& info);
 };
+
 class OCObt : public Napi::ObjectWrap<OCObt>
 {
 public:
@@ -137,6 +138,7 @@ public:
   static Napi::Value set_sd_info(const Napi::CallbackInfo& info);
   static Napi::Value shutdown(const Napi::CallbackInfo& info);
 };
+
 class OCBufferSettings : public Napi::ObjectWrap<OCBufferSettings>
 {
 public:
@@ -149,6 +151,7 @@ public:
   static Napi::Value get_max_app_data_size(const Napi::CallbackInfo& info);
   static Napi::Value get_block_size(const Napi::CallbackInfo& info);
 };
+
 class OCClock : public Napi::ObjectWrap<OCClock>
 {
 public:
@@ -160,6 +163,7 @@ public:
   static Napi::Value clock_seconds(const Napi::CallbackInfo& info);
   static Napi::Value clock_wait(const Napi::CallbackInfo& info);
 };
+
 class OCCloud : public Napi::ObjectWrap<OCCloud>
 {
 public:
@@ -179,6 +183,7 @@ public:
   static Napi::Value discover_resources(const Napi::CallbackInfo& info);
   static Napi::Value provision_conf_resource(const Napi::CallbackInfo& info);
 };
+
 class OCCredUtil : public Napi::ObjectWrap<OCCredUtil>
 {
 public:
@@ -191,6 +196,7 @@ public:
   static Napi::Value parse_encoding(const Napi::CallbackInfo& info);
   static Napi::Value credtype_string(const Napi::CallbackInfo& info);
 };
+
 class OCEndpointUtil : public Napi::ObjectWrap<OCEndpointUtil>
 {
 public:
@@ -209,6 +215,7 @@ public:
   static Napi::Value compare_address(const Napi::CallbackInfo& info);
   static Napi::Value set_local_address(const Napi::CallbackInfo& info);
 };
+
 class OCEnumUtil : public Napi::ObjectWrap<OCEnumUtil>
 {
 public:
@@ -218,6 +225,7 @@ public:
   static Napi::Value enum_to_str(const Napi::CallbackInfo& info);
   static Napi::Value pos_desc_to_str(const Napi::CallbackInfo& info);
 };
+
 class OCIntrospection : public Napi::ObjectWrap<OCIntrospection>
 {
 public:
@@ -226,6 +234,7 @@ public:
   static Napi::FunctionReference constructor;
   static Napi::Value set_introspection_data(const Napi::CallbackInfo& info);
 };
+
 class OCPki : public Napi::ObjectWrap<OCPki>
 {
 public:
@@ -238,6 +247,7 @@ public:
   static Napi::Value add_trust_anchor(const Napi::CallbackInfo& info);
   static Napi::Value set_security_profile(const Napi::CallbackInfo& info);
 };
+
 class OCRandom : public Napi::ObjectWrap<OCRandom>
 {
 public:
@@ -248,6 +258,7 @@ public:
   static Napi::Value destroy(const Napi::CallbackInfo& info);
   static Napi::Value random_value(const Napi::CallbackInfo& info);
 };
+
 class OCSessionEvents : public Napi::ObjectWrap<OCSessionEvents>
 {
 public:
@@ -258,6 +269,7 @@ public:
   static Napi::Value end_event(const Napi::CallbackInfo& info);
   static Napi::Value set_event_delay(const Napi::CallbackInfo& info);
 };
+
 class OCSoftwareUpdate : public Napi::ObjectWrap<OCSoftwareUpdate>
 {
 public:
@@ -270,6 +282,7 @@ public:
   static Napi::Value notify_new_version_available(const Napi::CallbackInfo& info);
   static Napi::Value set_impl(const Napi::CallbackInfo& info);
 };
+
 class OCStorage : public Napi::ObjectWrap<OCStorage>
 {
 public:
@@ -278,6 +291,7 @@ public:
   static Napi::FunctionReference constructor;
   static Napi::Value storage_config(const Napi::CallbackInfo& info);
 };
+
 class OCUuidUtil : public Napi::ObjectWrap<OCUuidUtil>
 {
 public:
@@ -288,6 +302,7 @@ public:
   static Napi::Value uuid_to_str(const Napi::CallbackInfo& info);
   static Napi::Value gen_uuid(const Napi::CallbackInfo& info);
 };
+
 class OCCoreRes : public Napi::ObjectWrap<OCCoreRes>
 {
 public:
@@ -308,6 +323,7 @@ public:
   static Napi::Value get_latency(const Napi::CallbackInfo& info);
   static Napi::Value add_new_device(const Napi::CallbackInfo& info);
 };
+
 class OCRep : public Napi::ObjectWrap<OCRep>
 {
 public:
@@ -364,3 +380,4 @@ public:
   static Napi::Value set_uint(const Napi::CallbackInfo& info);
   static Napi::Value to_json(const Napi::CallbackInfo& info);
 };
+

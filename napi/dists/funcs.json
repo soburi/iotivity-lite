@@ -3554,5 +3554,10 @@
 		"bm": "oc_resource_properties_t",
 	  	"user_data": "void*"
 	}
+},
+"helper_main_loop": {
+       "type": "void*",
+       "param": {
+       }
 }
 }
