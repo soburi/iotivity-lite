@@ -1393,14 +1393,22 @@ public:
 class OCStringArray : public Napi::ObjectWrap<OCStringArray>
 {
 public:
-  OCStringArray(const Napi::CallbackInfo&);
+  OCStringArray(const Napi::CallbackInfo&); 
   virtual ~OCStringArray();
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   operator oc_string_array_t*() { return m_pvalue.get(); }
-
-
+  Napi::Value get_next(const Napi::CallbackInfo&);
+         void set_next(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_iterator(const Napi::CallbackInfo&);
+         void set_iterator(const Napi::CallbackInfo&, const Napi::Value&);
+         Napi::Value get_done(const Napi::CallbackInfo&);
+         void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+         Napi::Value get_value(const Napi::CallbackInfo&);
+         void set_value(const Napi::CallbackInfo&, const Napi::Value&);
   std::shared_ptr<oc_string_array_t> m_pvalue;
+
+  int index;
 };
 
 class OCCborEncoder : public Napi::ObjectWrap<OCCborEncoder>

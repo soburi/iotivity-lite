@@ -5004,7 +5004,10 @@ Napi::FunctionReference OCStringArray::constructor;
 
 Napi::Function OCStringArray::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCStringArray", {
-
+    InstanceMethod("next", &OCStringArray::get_next),
+    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCStringArray::get_iterator),
+    InstanceAccessor("value", &OCStringArray::get_value, &OCStringArray::set_value),
+    InstanceAccessor("done", &OCStringArray::get_done, &OCStringArray::set_done),
   });
 
   constructor = Napi::Persistent(func);
@@ -5016,7 +5019,8 @@ Napi::Function OCStringArray::GetClass(Napi::Env env) {
 OCStringArray::~OCStringArray()
 {
 }
-OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
+
+OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info), index(-1)
 {
   if (info.Length() == 0) {
      m_pvalue = std::shared_ptr<oc_string_array_t>(new oc_string_array_t());
@@ -5028,6 +5032,38 @@ OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
         Napi::TypeError::New(info.Env(), "You need to name yourself")
           .ThrowAsJavaScriptException();
   }
+}
+Napi::Value OCStringArray::get_next(const Napi::CallbackInfo& info)
+{
+  index++;
+  return info.This();
+}
+
+Napi::Value OCStringArray::get_iterator(const Napi::CallbackInfo& info)
+{
+  return info.This();
+}
+
+Napi::Value OCStringArray::get_done(const Napi::CallbackInfo& info)
+{
+  int sz = oc_string_array_get_allocated_size(*m_pvalue);
+  return Napi::Boolean::New(info.Env(), index >= sz);
+}
+
+Napi::Value OCStringArray::get_value(const Napi::CallbackInfo& info)
+{
+  char* t = oc_string_array_get_item(*m_pvalue, index);
+  return Napi::String::New(info.Env(), t);
+}
+
+void OCStringArray::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+void OCStringArray::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
 }
 
 Napi::FunctionReference OCCborEncoder::constructor;

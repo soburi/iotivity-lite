@@ -93,6 +93,16 @@ function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
   console.dir(di);
   console.dir(uri);
   console.dir(types);
+/*
+  console.dir(types[Symbol.iterator]);
+  console.dir(types[Symbol.iterator]());
+  console.dir(types[Symbol.iterator]().value);
+  console.dir(types[Symbol.iterator]().next().value);
+*/
+  for(let t of types) {
+    console.dir(t);
+  }
+
   console.dir(iface_mask);
   console.dir(endpoint);
   console.dir(bm);
