@@ -500,11 +500,18 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
     "array[1] = m_pvalue->tag_pos_rel[1];\n" +
     "array[2] = m_pvalue->tag_pos_rel[2];\n" +
     "return array;"},
+  "oc_resource_s::tag_func_desc"=>
+  {"set"=> '  oc_resource_tag_func_desc(m_pvalue.get(), static_cast<oc_enum_t>(value.As<Napi::Number>().Uint32Value()));',
+   "get"=> '  return Napi::Number::New(info.Env(), m_pvalue->tag_func_desc);'
+  },
+  "oc_resource_s::tag_pos_desc"=>
+  {"set"=> '  oc_resource_tag_pos_desc(m_pvalue.get(), static_cast<oc_pos_description_t>(value.As<Napi::Number>().Uint32Value()));',
+   "get"=> '  return Napi::Number::New(info.Env(), m_pvalue->tag_pos_desc);'
+  },
   "oc_resource_s::tag_pos_rel"=>
-  {"set"=>
-    "m_pvalue->tag_pos_rel[0] = value.As<Napi::Float64Array>()[0];\n" +
-    "m_pvalue->tag_pos_rel[1] = value.As<Napi::Float64Array>()[1];\n" +
-    "m_pvalue->tag_pos_rel[2] = value.As<Napi::Float64Array>()[2];",
+  {"set"=> '  oc_resource_tag_pos_rel(m_pvalue.get(), value.As<Napi::Float64Array>()[0],
+                                          value.As<Napi::Float64Array>()[1],
+                                          value.As<Napi::Float64Array>()[2]);',
    "get"=>
     "auto array = Napi::Float64Array::New(info.Env(), 3);\n" +
     "array[0] = m_pvalue->tag_pos_rel[0];\n" +
