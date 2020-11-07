@@ -193,12 +193,10 @@ Napi::Value N_oc_init_post(const Napi::CallbackInfo& info) {
   std::string uri_ = info[0].As<Napi::String>().Utf8Value();
   const char* uri = uri_.c_str();
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
-  std::string query_ = info[2].As<Napi::String>().Utf8Value();
-  const char* query = query_.c_str();
-  oc_response_handler_t handler = nullptr;
-  Napi::Function handler_ = info[3].As<Napi::Function>();
+  const char* query = nullptr; if (info[2].IsString()) { query = info[2].As<Napi::String>().Utf8Value().c_str(); }
+  oc_response_handler_t handler = helper_oc_response_handler; if(!info[3].IsFunction()) { handler = nullptr; }
   oc_qos_t qos = static_cast<oc_qos_t>(info[4].As<Napi::Number>().Uint32Value());
-  void* user_data = info[5];
+  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Napi::Function>(), info[5]);
   return Napi::Boolean::New(info.Env(), oc_init_post(uri, endpoint, query, handler, qos, user_data));
 }
 
@@ -206,12 +204,10 @@ Napi::Value N_oc_init_put(const Napi::CallbackInfo& info) {
   std::string uri_ = info[0].As<Napi::String>().Utf8Value();
   const char* uri = uri_.c_str();
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
-  std::string query_ = info[2].As<Napi::String>().Utf8Value();
-  const char* query = query_.c_str();
-  oc_response_handler_t handler = nullptr;
-  Napi::Function handler_ = info[3].As<Napi::Function>();
+  const char* query = nullptr; if (info[2].IsString()) { query = info[2].As<Napi::String>().Utf8Value().c_str(); }
+  oc_response_handler_t handler = helper_oc_response_handler; if(!info[3].IsFunction()) { handler = nullptr; }
   oc_qos_t qos = static_cast<oc_qos_t>(info[4].As<Napi::Number>().Uint32Value());
-  void* user_data = info[5];
+  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Napi::Function>(), info[5]);
   return Napi::Boolean::New(info.Env(), oc_init_put(uri, endpoint, query, handler, qos, user_data));
 }
 
