@@ -78,29 +78,6 @@ Napi::Value N_oc_iterate_query_get_values(const Napi::CallbackInfo& info) {
   return Napi::Boolean::New(info.Env(), 0);
 }
 
-Napi::Value N_oc_resource_tag_func_desc(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  oc_enum_t func = static_cast<oc_enum_t>(info[1].As<Napi::Number>().Uint32Value());
-  (void)oc_resource_tag_func_desc(resource, func);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_resource_tag_pos_desc(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  oc_pos_description_t pos = static_cast<oc_pos_description_t>(info[1].As<Napi::Number>().Uint32Value());
-  (void)oc_resource_tag_pos_desc(resource, pos);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_resource_tag_pos_rel(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  double x = info[1].As<Napi::Number>().DoubleValue();
-  double y = info[2].As<Napi::Number>().DoubleValue();
-  double z = info[3].As<Napi::Number>().DoubleValue();
-  (void)oc_resource_tag_pos_rel(resource, x, y, z);
-  return info.Env().Undefined();
-}
-
 Napi::Value N_oc_main_poll(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_main_poll());
 }

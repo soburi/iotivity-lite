@@ -1137,6 +1137,10 @@ IGNORE_FUNCS = [
 'oc_timer_restart',
 'oc_timer_set',
 
+
+'oc_resource_tag_func_desc',
+'oc_resource_tag_pos_desc',
+'oc_resource_tag_pos_rel',
 ]
 
 IFDEF_TYPES = {
