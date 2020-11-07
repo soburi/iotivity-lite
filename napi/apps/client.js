@@ -95,6 +95,9 @@ function get_light(client_response)
 function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
 {
   console.log("-- discovery --");
+
+  IL.oc_do_ip_multicast(uri, "", get_light, "hoge");
+/*
   console.dir(di);
   console.dir(uri);
   console.dir(types);
@@ -122,6 +125,7 @@ function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
     }
   }
   //console.log(user_data);
+*/
   return 0
 }
 

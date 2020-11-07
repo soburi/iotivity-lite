@@ -113,9 +113,8 @@ Napi::Value N_oc_do_ip_multicast(const Napi::CallbackInfo& info) {
   const char* uri = uri_.c_str();
   std::string query_ = info[1].As<Napi::String>().Utf8Value();
   const char* query = query_.c_str();
-  oc_response_handler_t handler = nullptr;
-  Napi::Function handler_ = info[2].As<Napi::Function>();
-  void* user_data = info[3];
+  oc_response_handler_t handler = helper_oc_response_handler;
+  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[2].As<Napi::Function>(), info[3]);
   return Napi::Boolean::New(info.Env(), oc_do_ip_multicast(uri, query, handler, user_data));
 }
 
@@ -1659,38 +1658,16 @@ Napi::Value N_oc_endpoint_compare_address(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_endpoint_copy(const Napi::CallbackInfo& info) {
-  oc_endpoint_t* dst = oc_new_endpoint();
-  OCEndpoint& src = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  OCEndpoint& dst = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  OCEndpoint& src = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
   (void)oc_endpoint_copy(dst, src);
-
-  std::shared_ptr<oc_endpoint_t> sp(dst, oc_free_endpoint);
-  auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
-  return OCEndpoint::constructor.New({ accessor });
+  return info.Env().Undefined();
 }
 
 Napi::Value N_oc_endpoint_list_copy(const Napi::CallbackInfo& info) {
-  oc_endpoint_t* dst = nullptr;
-  OCEndpoint& src = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_endpoint_list_copy(&dst, src);
-
-  uint32_t len = 0;
-  oc_endpoint_t* ep = dst;
-  while (ep->next) {
-    len++;
-    ep = ep->next;
-  }
-  
-  OCEndpoint* head;
-  OCEndpoint* prev;
-  for (uint32_t i = 0; i < len; i++) {
-    std::shared_ptr<oc_endpoint_t> sp(ep, oc_free_endpoint);
-    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
-    if (i == 0) {
-       //NOCEndpoint::constructor.New({ accessor });
-    }
-    ep = ep->next;
-  }
-
+// 0 dst, oc_endpoint_t**
+  OCEndpoint& src = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
+  (void)0;
   return info.Env().Undefined();
 }
 
