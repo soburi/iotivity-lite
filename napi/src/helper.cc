@@ -35,29 +35,12 @@ void helper_oc_handler_requests_entry()
   main_context->oc_handler_requests_entry_ref.Call({});
 }
 
-Napi::FunctionReference CallbackHelper::constructor;
-
-Napi::Function CallbackHelper::GetClass(Napi::Env env) {
-  auto func = DefineClass(env, "CallbackHelper", {
-  });
-
-  constructor = Napi::Persistent(func);
-  constructor.SuppressDestruct();
-
-  return func;
-}
-CallbackHelper::CallbackHelper(const Napi::CallbackInfo& info) : ObjectWrap(info)
+SafeCallbackHelper::SafeCallbackHelper(const Napi::Function& fn, const Napi::Value& val)
+  : function(fn)
+  , value(val)
+  , env(fn.Env())
 {
-  if (info.Length() == 2 && info[0].IsFunction() ) {
-     function.Reset(info[0].As<Napi::Function>());
-     //value.Set("0", info[1]);
-  }
-  else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
-          .ThrowAsJavaScriptException();
-  }
 }
-
 
 Napi::Value OCResource::bind_resource_interface(const Napi::CallbackInfo& info) {
   OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
@@ -218,7 +201,8 @@ helper_oc_do_ip_discovery(const char *di, const char *uri, oc_string_array_t typ
           oc_interface_mask_t iface_mask, oc_endpoint_t *endpoint,
           oc_resource_properties_t bm, void *user_data)
 {
-  safecallback_helper_t* helper = (safecallback_helper_t*)user_data;
+//  safecallback_helper_t* helper = (safecallback_helper_t*)user_data;
+  SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(user_data);
 
   auto future = helper->function.call<oc_discovery_flags_t>(
   [&](Napi::Env env, std::vector<napi_value>& args) {

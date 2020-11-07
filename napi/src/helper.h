@@ -45,15 +45,14 @@ public:
     //callback_helper_t(const Napi::CallbackInfo& info) : async_context(info.Env(), "") { }
 };
 
-class CallbackHelper: public Napi::ObjectWrap<CallbackHelper>
-{
+class SafeCallbackHelper {
 public:
-  CallbackHelper(const Napi::CallbackInfo&);
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
+    ThreadSafeCallback function;
+    Napi::Value value;
+    Napi::Env env;
 
-  Napi::FunctionReference function;
-  Napi::ObjectReference value;
+    SafeCallbackHelper(const Napi::Function&, const Napi::Value&);
+    virtual ~SafeCallbackHelper() {}
 };
 
 callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, const Napi::FunctionReference& f);

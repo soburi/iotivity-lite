@@ -1,7 +1,6 @@
 #include "functions.h"
 #include "iotivity_lite.h"
 #include "helper.h"
-#include <napi-thread-safe-callback.hpp>
 Napi::Value N_handle_coap_signal_message(const Napi::CallbackInfo& info) {
   void* packet = info[0];
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
@@ -85,14 +84,8 @@ Napi::Value N_oc_do_ip_discovery(const Napi::CallbackInfo& info) {
   std::string rt_ = info[0].As<Napi::String>().Utf8Value();
   const char* rt = rt_.c_str();
   oc_discovery_handler_t handler = helper_oc_do_ip_discovery;
-  //callback_helper_t* user_data = new_callback_helper_t(info, 1, 2);
-
-  safecallback_helper_t* user_data = new safecallback_helper_t{ ThreadSafeCallback(info[1].As<Napi::Function>()), info[2].As<Napi::Value>(), info.Env() };
-
-  Napi::HandleScope scope(info.Env());
-
-  //info[1].As<Napi::Function>().MakeCallback(info.Env().Global(), {});
-
+  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[2].As<Napi::Value>()); 
+  
   return Napi::Boolean::New(info.Env(), oc_do_ip_discovery(rt, handler, user_data));
 }
 
