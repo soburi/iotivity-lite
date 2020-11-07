@@ -1044,7 +1044,7 @@ public:
   Napi::Value bind_resource_interface(const Napi::CallbackInfo& info);
   Napi::Value bind_resource_type(const Napi::CallbackInfo& info);
 #if defined(OC_SECURITY)
-  Napi::Value OCResource::make_public(const Napi::CallbackInfo& info);
+  Napi::Value make_public(const Napi::CallbackInfo& info);
 #endif
   Napi::Value set_discoverable(const Napi::CallbackInfo& info);
   Napi::Value set_observable(const Napi::CallbackInfo& info);
