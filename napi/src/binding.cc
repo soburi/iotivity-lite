@@ -1,10 +1,6 @@
 #include "structs.h"
 #include "functions.h"
 Napi::Object module_init(Napi::Env env, Napi::Object exports) {
-  exports.Set("coapObserver", coapObserver::GetClass(env));
-  exports.Set("coapPacket", coapPacket::GetClass(env));
-  exports.Set("coapSeparate", coapSeparate::GetClass(env));
-  exports.Set("coapTransaction", coapTransaction::GetClass(env));
   exports.Set("AceResource", OCAceResource::GetClass(env));
   exports.Set("BlockwiseRequestState", OCBlockwiseRequestState::GetClass(env));
   exports.Set("BlockwiseResponseState", OCBlockwiseResponseState::GetClass(env));
@@ -57,13 +53,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("StringArrayIterator", OCStringArrayIterator::GetClass(env));
   exports.Set("StringArray", OCStringArray::GetClass(env));
   exports.Set("CborEncoder", OCCborEncoder::GetClass(env));
-  exports.Set("coapTransportType", coapTransportType::GetClass(env));
-  exports.Set("coapSignalCode", coapSignalCode::GetClass(env));
-  exports.Set("coapSignalOption", coapSignalOption::GetClass(env));
-  exports.Set("coapMessageType", coapMessageType::GetClass(env));
-  exports.Set("coapMethod", coapMethod::GetClass(env));
-  exports.Set("coapOption", coapOption::GetClass(env));
-  exports.Set("coapStatus", coapStatus::GetClass(env));
   exports.Set("AceConnectionType", OCAceConnectionType::GetClass(env));
   exports.Set("AcePermissionsMask", OCAcePermissionsMask::GetClass(env));
   exports.Set("AceSubjectType", OCAceSubjectType::GetClass(env));

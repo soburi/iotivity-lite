@@ -884,6 +884,17 @@ TYPEDEFS = {
   }
 
 IGNORE_TYPES = {
+'coap_observer' => nil,
+'coap_packet_t' => nil,
+'coap_separate' => nil,
+'coap_transaction' => nil,
+'coap_transport_type_t' => nil,
+'coap_signal_code_t' => nil,
+'coap_signal_option_t' => nil,
+'coap_message_type_t' => nil,
+'coap_method_t' => nil,
+'coap_option_t' => nil,
+'coap_status_t' => nil,
   "oc_handler_t" => [ /^signal_event_loop$/ ],
 # nested type
   "oc_properties_cb_t" => [ /cb/, /get_props/, /set_props/, /user_data/ ],
@@ -912,10 +923,10 @@ IGNORE_TYPES = {
   "oc_session_event_cb" => [/^next$/],
   "oc_rep_s" => [/^next$/ ],
 
-  "coap_transaction" => [/^next$/],
-  "coap_observer" => [/^next$/, /^resource$/, /^token$/,],
-  "coap_packet_t" => [/^alt_addr$/, /^buffer$/, /^etag$/, /^if_match$/, /^location_path$/, /^location_query$/, /^options$/, /^payload$/, /^proxy_scheme$/, /^proxy_uri$/, /^token$/, /^uri_host$/, /^uri_path$/, /^uri_query$/, ],
-  "coap_separate" => [/^token$/, /^next$/],
+#  "coap_transaction" => [/^next$/],
+#  "coap_observer" => [/^next$/, /^resource$/, /^token$/,],
+#  "coap_packet_t" => [/^alt_addr$/, /^buffer$/, /^etag$/, /^if_match$/, /^location_path$/, /^location_query$/, /^options$/, /^payload$/, /^proxy_scheme$/, /^proxy_uri$/, /^token$/, /^uri_host$/, /^uri_path$/, /^uri_query$/, ],
+#  "coap_separate" => [/^token$/, /^next$/],
 
 # void pointer
   "oc_client_cb_t" => [ /user_data/, /^next$/],
