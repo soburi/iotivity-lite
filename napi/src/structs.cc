@@ -5004,10 +5004,7 @@ Napi::FunctionReference OCStringArray::constructor;
 
 Napi::Function OCStringArray::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCStringArray", {
-    InstanceMethod("next", &OCStringArray::get_next),
     InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCStringArray::get_iterator),
-    InstanceAccessor("value", &OCStringArray::get_value, &OCStringArray::set_value),
-    InstanceAccessor("done", &OCStringArray::get_done, &OCStringArray::set_done),
   });
 
   constructor = Napi::Persistent(func);
@@ -5033,37 +5030,11 @@ OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info),
           .ThrowAsJavaScriptException();
   }
 }
-Napi::Value OCStringArray::get_next(const Napi::CallbackInfo& info)
-{
-  index++;
-  return info.This();
-}
 
 Napi::Value OCStringArray::get_iterator(const Napi::CallbackInfo& info)
 {
-  return info.This();
-}
-
-Napi::Value OCStringArray::get_done(const Napi::CallbackInfo& info)
-{
-  int sz = oc_string_array_get_allocated_size(*m_pvalue);
-  return Napi::Boolean::New(info.Env(), index >= sz);
-}
-
-Napi::Value OCStringArray::get_value(const Napi::CallbackInfo& info)
-{
-  char* t = oc_string_array_get_item(*m_pvalue, index);
-  return Napi::String::New(info.Env(), t);
-}
-
-void OCStringArray::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
-void OCStringArray::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
+    auto args = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &m_pvalue);
+    return OCStringArrayIterator::constructor.New({ args });
 }
 
 Napi::FunctionReference OCCborEncoder::constructor;

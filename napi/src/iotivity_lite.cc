@@ -26,6 +26,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("OCUuidUtil", OCUuidUtil::GetClass(env));
     exports.Set("OCCoreRes", OCCoreRes::GetClass(env));
     exports.Set("OCRep", OCRep::GetClass(env));
+    exports.Set("OCStringArrayIterator", OCStringArrayIterator::GetClass(env));
     return module_init(env, exports);
 }
 OCMain::OCMain(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
