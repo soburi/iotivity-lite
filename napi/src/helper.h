@@ -84,6 +84,8 @@ oc_discovery_flags_t
 helper_oc_discovery_all_handler(const char*, const char*, oc_string_array_t, oc_interface_mask_t,
     oc_endpoint_t*, oc_resource_properties_t, bool, void*);
 
+void helper_oc_response_handler(oc_client_response_t* response);
+
 int oc_swupdate_cb_validate_purl_helper(const char *url);
 int oc_swupdate_cb_check_new_version_helper(size_t device, const char *url, const char *version);
 int oc_swupdate_cb_download_update_helper(size_t device, const char *url);

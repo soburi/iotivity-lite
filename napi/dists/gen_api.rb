@@ -500,6 +500,11 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
 }
 
 FUNC_OVERRIDE = {
+  'oc_do_get' => {
+    '2' => "  const char* query = nullptr; if (info[2].IsString()) { query = info[2].As<Napi::String>().Utf8Value().c_str(); }\n",
+    '3' => "  oc_response_handler_t handler = helper_oc_response_handler; if(!info[3].IsFunction()) { handler = nullptr; }\n",
+    '5' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Napi::Function>(), info[5]);\n",
+  },
   'oc_do_ip_discovery' => {
     '1' => "  oc_discovery_handler_t handler = helper_oc_discovery_handler;\n",
     '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[2]);\n"

@@ -263,6 +263,19 @@ helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array
 
     return future.get();
 }
+
+void helper_oc_response_handler(oc_client_response_t* response)
+{
+  SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(response->user_data);
+  helper->function.call(
+    [&](Napi::Env env, std::vector<napi_value>& args)
+    {
+      std::shared_ptr<oc_client_response_t> sp(response, nop_deleter);
+      auto accessor = Napi::External<std::shared_ptr<oc_client_response_t>>::New(helper->env, &sp);
+      args = { OCClientResponse::constructor.New({ accessor }) };
+    });
+}
+
 int oc_swupdate_cb_validate_purl_helper(const char *url)
 {
   Napi::String Nurl = Napi::String::New(oc_swupdate_cb_validate_purl_ref.Env(), url);

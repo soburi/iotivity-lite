@@ -113,12 +113,12 @@ function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
     if(t == "core.light") {
       console.log("core.light = " + uri);
       a_light = uri;
-      //light_server = IL.oc_endpoint_list_copy(endpoint);
+      light_server = IL.oc_endpoint_copy(endpoint);
       console.log(a_light);
       console.log(light_server);
       console.log(IL.OCQos);
       console.log(IL.OCQos.LOW_QOS);
-      IL.oc_do_get(a_light, endpoint, null, get_light, IL.OCQos.LOW_QOS, null)
+      IL.oc_do_get(a_light, light_server, null, get_light, IL.OCQos.LOW_QOS, null)
     }
   }
   //console.log(user_data);
