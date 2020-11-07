@@ -276,6 +276,21 @@ void helper_oc_response_handler(oc_client_response_t* response)
     });
 }
 
+void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* data)
+{
+  SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+  helper->function.call(
+    [&](Napi::Env env, std::vector<napi_value>& args)
+    {
+      auto pin_ = Napi::Uint8Array::New(helper->env, pin_len);
+      for (uint32_t i = 0; i < pin_len; i++)
+      {
+          pin_[i] = pin[i];
+      }
+      args = { pin_, helper->value };
+    });
+}
+
 int oc_swupdate_cb_validate_purl_helper(const char *url)
 {
   Napi::String Nurl = Napi::String::New(oc_swupdate_cb_validate_purl_ref.Env(), url);
