@@ -90,30 +90,6 @@ observe_light(oc_client_response_t *data)
 function discovery(di, uri, types, iface_mask, endpoint, bm, user_data)
 {
   console.log("-- discovery --");
-//  uri_len = (uri_len >= MAX_URI_LENGTH) ? MAX_URI_LENGTH - 1 : uri_len;
-
-//  for (i = 0; i < (int)oc_string_array_get_allocated_size(types); i++) {
-//    char *t = IL.oc_string_array_get_item(types, i);
-    if (strlen(t) == 11 && strncmp(t, "oic.r.light", 11) == 0) {
-      strncpy(light_1, uri, uri_len);
-      light_1[uri_len] = '\0';
-
-      light_server = IL.oc_endpoint_list_copy(endpoint);
-
-      console.log("Resource %s hosted at endpoints:\n", light_1);
-      ep = endpoint;
-      while (ep != null) {
-        //PRINTipaddr(*ep);
-        PRINT("\n");
-        //ep = ep->next;
-      }
-
-      IL.oc_do_observe(light_1, light_server, null, observe_light, LOW_QOS, null);
-      IL.oc_set_delayed_callback(null, stop_observe, 10);
-      return OC_STOP_DISCOVERY;
-    }
-//  }
-  return OC_CONTINUE_DISCOVERY;
 }
 
 function issue_requests()

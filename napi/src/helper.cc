@@ -218,7 +218,11 @@ helper_oc_do_ip_discovery(const char *di, const char *uri, oc_string_array_t typ
           oc_interface_mask_t iface_mask, oc_endpoint_t *endpoint,
           oc_resource_properties_t bm, void *user_data)
 {
-  callback_helper_t* helper = (callback_helper_t*)user_data;
+  safecallback_helper_t* helper = (safecallback_helper_t*)user_data;
+
+/*
+  Napi::HandleScope scope(helper->function.Env());
+
   auto         di_ = Napi::String::New(helper->function.Env(), di);
   auto        uri_ = Napi::String::New(helper->function.Env(), uri);
   //?
@@ -229,11 +233,24 @@ helper_oc_do_ip_discovery(const char *di, const char *uri, oc_string_array_t typ
 
   Napi::CallbackScope scope(helper->function.Env(), helper->async_context);
   Napi::Value ret = helper->function.MakeCallback(helper->function.Env().Null(), {di_, uri_, nullptr, iface_mask_, endpoint_, bm_, helper->value.Value()});
+*/
+  auto future = helper->function.call<oc_discovery_flags_t>(
+  [&](Napi::Env env, std::vector<napi_value>& args) {
+    auto         di_ = Napi::String::New(helper->env, di);
+    auto        uri_ = Napi::String::New(helper->env, uri);
+    //?
+    std::shared_ptr<oc_endpoint_t> endpoint_sp(endpoint, nop_deleter);
+    auto   endpoint_ = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(helper->env, &endpoint_sp);
+    auto iface_mask_ = Napi::Number::New(helper->env, iface_mask);
+    auto         bm_ = Napi::Number::New(helper->env, bm);
+    args = {di_, uri_, helper->env.Null(), iface_mask_, endpoint_, bm_, helper->value };
+  },
+  [](const Napi::Value& val) {
+      return static_cast<oc_discovery_flags_t>(val.As<Napi::Number>().Uint32Value());
+  });
 
-  if(ret.IsNumber()) {
-    return static_cast<oc_discovery_flags_t>(ret.As<Napi::Number>().Uint32Value());
-  }
-  return OC_STOP_DISCOVERY;
+  auto ret = future.get();
+  return ret;
 }
 
 int oc_swupdate_cb_validate_purl_helper(const char *url)

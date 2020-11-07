@@ -5,7 +5,7 @@
 #include <mutex>
 #include <condition_variable>
 #include <system_error>
-
+#include <napi-thread-safe-callback.hpp>
 
 static void nop_deleter(void*) { }
 
@@ -34,6 +34,15 @@ public:
   Napi::AsyncContext async_context;
 
   callback_helper_t(const Napi::CallbackInfo& info) : async_context(info.Env(), "") { }
+};
+
+struct safecallback_helper_t {
+public:
+    ThreadSafeCallback function;
+    Napi::Value value;
+    Napi::Env env;
+
+    //callback_helper_t(const Napi::CallbackInfo& info) : async_context(info.Env(), "") { }
 };
 
 class CallbackHelper: public Napi::ObjectWrap<CallbackHelper>
