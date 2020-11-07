@@ -10,9 +10,8 @@ Napi::Value N_handle_coap_signal_message(const Napi::CallbackInfo& info) {
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value N_oc_assert_all_roles(const Napi::CallbackInfo& info) {
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  oc_response_handler_t handler = nullptr;
-  Napi::Function handler_ = info[1].As<Napi::Function>();
-  void* user_data = info[2];
+  oc_response_handler_t handler = helper_oc_response_handler; if(!info[1].IsFunction()) { handler = nullptr; }
+  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[2]);
   (void)oc_assert_all_roles(endpoint, handler, user_data);
   return info.Env().Undefined();
 }
@@ -25,9 +24,8 @@ Napi::Value N_oc_assert_role(const Napi::CallbackInfo& info) {
   std::string authority_ = info[1].As<Napi::String>().Utf8Value();
   const char* authority = authority_.c_str();
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[2].As<Napi::Object>());
-  oc_response_handler_t handler = nullptr;
-  Napi::Function handler_ = info[3].As<Napi::Function>();
-  void* user_data = info[4];
+  oc_response_handler_t handler = helper_oc_response_handler; if(!info[3].IsFunction()) { handler = nullptr; }
+  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Napi::Function>(), info[4]);
   return Napi::Boolean::New(info.Env(), oc_assert_role(role, authority, endpoint, handler, user_data));
 }
 #endif
