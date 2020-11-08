@@ -192,7 +192,5 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_rep_new", Napi::Function::New(env, N_oc_rep_new));
   exports.Set("oc_rep_set_pool", Napi::Function::New(env, N_oc_rep_set_pool));
   exports.Set("oc_status_code", Napi::Function::New(env, N_oc_status_code));
-  exports.Set("oc_storage_read", Napi::Function::New(env, N_oc_storage_read));
-  exports.Set("oc_storage_write", Napi::Function::New(env, N_oc_storage_write));
   return exports;
 }

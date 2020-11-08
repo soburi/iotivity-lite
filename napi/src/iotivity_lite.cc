@@ -2341,14 +2341,32 @@ OCStorage::OCStorage(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCStorage::GetClass(Napi::Env env) {
     return DefineClass(env, "OCStorage", {
-        OCStorage::StaticMethod("storage_config", &OCStorage::storage_config),
+        OCStorage::StaticMethod("config", &OCStorage::config),
+        OCStorage::StaticMethod("read", &OCStorage::read),
+        OCStorage::StaticMethod("write", &OCStorage::write),
     });
 }
 
-Napi::Value OCStorage::storage_config(const Napi::CallbackInfo& info) {
+Napi::Value OCStorage::config(const Napi::CallbackInfo& info) {
   std::string store_ = info[0].As<Napi::String>().Utf8Value();
   const char* store = store_.c_str();
   return Napi::Number::New(info.Env(), oc_storage_config(store));
+}
+
+Napi::Value OCStorage::read(const Napi::CallbackInfo& info) {
+  std::string store_ = info[0].As<Napi::String>().Utf8Value();
+  const char* store = store_.c_str();
+  uint8_t* buf = info[1].As<Napi::Buffer<uint8_t>>().Data();
+  size_t size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), oc_storage_read(store, buf, size));
+}
+
+Napi::Value OCStorage::write(const Napi::CallbackInfo& info) {
+  std::string store_ = info[0].As<Napi::String>().Utf8Value();
+  const char* store = store_.c_str();
+  uint8_t* buf = info[1].As<Napi::Buffer<uint8_t>>().Data();
+  size_t size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), oc_storage_write(store, buf, size));
 }
 
 Napi::FunctionReference OCStorage::constructor;

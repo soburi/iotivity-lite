@@ -201,7 +201,9 @@
 	"set_impl": "oc_swupdate_set_impl"
   },
   "OCStorage": {
-	"storage_config": "oc_storage_config"
+	"config": "oc_storage_config",
+	"read": "oc_storage_read",
+	"write": "oc_storage_write"
   },
   "OCUuidUtil": {
 	"str_to_uuid": "oc_str_to_uuid",

@@ -103,6 +103,4 @@ Napi::Value N_oc_send_message(const Napi::CallbackInfo&);
 Napi::Value N_oc_set_buffers_avail_cb(const Napi::CallbackInfo&);
 Napi::Value N_oc_set_immutable_device_identifier(const Napi::CallbackInfo&);
 Napi::Value N_oc_status_code(const Napi::CallbackInfo&);
-Napi::Value N_oc_storage_read(const Napi::CallbackInfo&);
-Napi::Value N_oc_storage_write(const Napi::CallbackInfo&);
 Napi::Value N_oc_store_uri(const Napi::CallbackInfo&);

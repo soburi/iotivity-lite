@@ -365,7 +365,9 @@ public:
   OCStorage(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
-  static Napi::Value storage_config(const Napi::CallbackInfo& info);
+  static Napi::Value config(const Napi::CallbackInfo& info);
+  static Napi::Value read(const Napi::CallbackInfo& info);
+  static Napi::Value write(const Napi::CallbackInfo& info);
 };
 
 class OCUuidUtil : public Napi::ObjectWrap<OCUuidUtil>

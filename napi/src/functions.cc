@@ -588,22 +588,6 @@ Napi::Value N_oc_status_code(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_status_code(key));
 }
 
-Napi::Value N_oc_storage_read(const Napi::CallbackInfo& info) {
-  std::string store_ = info[0].As<Napi::String>().Utf8Value();
-  const char* store = store_.c_str();
-  uint8_t* buf = info[1].As<Napi::Buffer<uint8_t>>().Data();
-  size_t size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
-  return Napi::Number::New(info.Env(), oc_storage_read(store, buf, size));
-}
-
-Napi::Value N_oc_storage_write(const Napi::CallbackInfo& info) {
-  std::string store_ = info[0].As<Napi::String>().Utf8Value();
-  const char* store = store_.c_str();
-  uint8_t* buf = info[1].As<Napi::Buffer<uint8_t>>().Data();
-  size_t size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
-  return Napi::Number::New(info.Env(), oc_storage_write(store, buf, size));
-}
-
 Napi::Value N_oc_store_uri(const Napi::CallbackInfo& info) {
   std::string s_uri_ = info[0].As<Napi::String>().Utf8Value();
   const char* s_uri = s_uri_.c_str();
