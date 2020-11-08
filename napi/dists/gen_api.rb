@@ -1548,11 +1548,16 @@ end
 
 def gen_apimtd_decl(cls, f)
     APIS[cls].keys.each do |mtd|
+      decl =""
       if INSTANCE_FUNCS.include?(cls + "::" + mtd)
-        f.print INSTANCEMTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
+        decl = INSTANCEMTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
       else
-        f.print STATICMTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
+        decl = STATICMTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
       end
+      if IFDEF_FUNCS.include?(APIS[cls][mtd])
+        decl = "#if #{IFDEF_FUNCS[APIS[cls][mtd]]}\n" + decl + "#endif\n"
+      end
+      f.print decl
     end
     if EXTRA_VALUE[cls] != nil
       f.print "#{EXTRA_VALUE[cls]}\n"
