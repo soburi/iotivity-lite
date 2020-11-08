@@ -5031,8 +5031,8 @@ Napi::FunctionReference OCAceConnectionType::constructor;
 
 Napi::Function OCAceConnectionType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceConnectionType", {
-    StaticAccessor("OC_CONN_AUTH_CRYPT", OCAceConnectionType::get_OC_CONN_AUTH_CRYPT, OCAceConnectionType::set_OC_CONN_AUTH_CRYPT),
-    StaticAccessor("OC_CONN_ANON_CLEAR", OCAceConnectionType::get_OC_CONN_ANON_CLEAR, OCAceConnectionType::set_OC_CONN_ANON_CLEAR),
+    StaticAccessor("OC_CONN_AUTH_CRYPT", OCAceConnectionType::get_OC_CONN_AUTH_CRYPT, nullptr),
+    StaticAccessor("OC_CONN_ANON_CLEAR", OCAceConnectionType::get_OC_CONN_ANON_CLEAR, nullptr),
 
   });
 
@@ -5063,31 +5063,21 @@ Napi::Value OCAceConnectionType::get_OC_CONN_AUTH_CRYPT(const Napi::CallbackInfo
   return Napi::Number::New(info.Env(), OC_CONN_AUTH_CRYPT);
 }
 
-void OCAceConnectionType::set_OC_CONN_AUTH_CRYPT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCAceConnectionType::get_OC_CONN_ANON_CLEAR(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_CONN_ANON_CLEAR);
-}
-
-void OCAceConnectionType::set_OC_CONN_ANON_CLEAR(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCAcePermissionsMask::constructor;
 
 Napi::Function OCAcePermissionsMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAcePermissionsMask", {
-    StaticAccessor("OC_PERM_NONE", OCAcePermissionsMask::get_OC_PERM_NONE, OCAcePermissionsMask::set_OC_PERM_NONE),
-    StaticAccessor("OC_PERM_CREATE", OCAcePermissionsMask::get_OC_PERM_CREATE, OCAcePermissionsMask::set_OC_PERM_CREATE),
-    StaticAccessor("OC_PERM_RETRIEVE", OCAcePermissionsMask::get_OC_PERM_RETRIEVE, OCAcePermissionsMask::set_OC_PERM_RETRIEVE),
-    StaticAccessor("OC_PERM_UPDATE", OCAcePermissionsMask::get_OC_PERM_UPDATE, OCAcePermissionsMask::set_OC_PERM_UPDATE),
-    StaticAccessor("OC_PERM_DELETE", OCAcePermissionsMask::get_OC_PERM_DELETE, OCAcePermissionsMask::set_OC_PERM_DELETE),
-    StaticAccessor("OC_PERM_NOTIFY", OCAcePermissionsMask::get_OC_PERM_NOTIFY, OCAcePermissionsMask::set_OC_PERM_NOTIFY),
+    StaticAccessor("OC_PERM_NONE", OCAcePermissionsMask::get_OC_PERM_NONE, nullptr),
+    StaticAccessor("OC_PERM_CREATE", OCAcePermissionsMask::get_OC_PERM_CREATE, nullptr),
+    StaticAccessor("OC_PERM_RETRIEVE", OCAcePermissionsMask::get_OC_PERM_RETRIEVE, nullptr),
+    StaticAccessor("OC_PERM_UPDATE", OCAcePermissionsMask::get_OC_PERM_UPDATE, nullptr),
+    StaticAccessor("OC_PERM_DELETE", OCAcePermissionsMask::get_OC_PERM_DELETE, nullptr),
+    StaticAccessor("OC_PERM_NOTIFY", OCAcePermissionsMask::get_OC_PERM_NOTIFY, nullptr),
 
   });
 
@@ -5118,19 +5108,9 @@ Napi::Value OCAcePermissionsMask::get_OC_PERM_NONE(const Napi::CallbackInfo& inf
   return Napi::Number::New(info.Env(), OC_PERM_NONE);
 }
 
-void OCAcePermissionsMask::set_OC_PERM_NONE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCAcePermissionsMask::get_OC_PERM_CREATE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_PERM_CREATE);
-}
-
-void OCAcePermissionsMask::set_OC_PERM_CREATE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCAcePermissionsMask::get_OC_PERM_RETRIEVE(const Napi::CallbackInfo& info)
@@ -5138,19 +5118,9 @@ Napi::Value OCAcePermissionsMask::get_OC_PERM_RETRIEVE(const Napi::CallbackInfo&
   return Napi::Number::New(info.Env(), OC_PERM_RETRIEVE);
 }
 
-void OCAcePermissionsMask::set_OC_PERM_RETRIEVE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCAcePermissionsMask::get_OC_PERM_UPDATE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_PERM_UPDATE);
-}
-
-void OCAcePermissionsMask::set_OC_PERM_UPDATE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCAcePermissionsMask::get_OC_PERM_DELETE(const Napi::CallbackInfo& info)
@@ -5158,28 +5128,18 @@ Napi::Value OCAcePermissionsMask::get_OC_PERM_DELETE(const Napi::CallbackInfo& i
   return Napi::Number::New(info.Env(), OC_PERM_DELETE);
 }
 
-void OCAcePermissionsMask::set_OC_PERM_DELETE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCAcePermissionsMask::get_OC_PERM_NOTIFY(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_PERM_NOTIFY);
-}
-
-void OCAcePermissionsMask::set_OC_PERM_NOTIFY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCAceSubjectType::constructor;
 
 Napi::Function OCAceSubjectType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceSubjectType", {
-    StaticAccessor("OC_SUBJECT_UUID", OCAceSubjectType::get_OC_SUBJECT_UUID, OCAceSubjectType::set_OC_SUBJECT_UUID),
-    StaticAccessor("OC_SUBJECT_ROLE", OCAceSubjectType::get_OC_SUBJECT_ROLE, OCAceSubjectType::set_OC_SUBJECT_ROLE),
-    StaticAccessor("OC_SUBJECT_CONN", OCAceSubjectType::get_OC_SUBJECT_CONN, OCAceSubjectType::set_OC_SUBJECT_CONN),
+    StaticAccessor("OC_SUBJECT_UUID", OCAceSubjectType::get_OC_SUBJECT_UUID, nullptr),
+    StaticAccessor("OC_SUBJECT_ROLE", OCAceSubjectType::get_OC_SUBJECT_ROLE, nullptr),
+    StaticAccessor("OC_SUBJECT_CONN", OCAceSubjectType::get_OC_SUBJECT_CONN, nullptr),
 
   });
 
@@ -5210,19 +5170,9 @@ Napi::Value OCAceSubjectType::get_OC_SUBJECT_UUID(const Napi::CallbackInfo& info
   return Napi::Number::New(info.Env(), OC_SUBJECT_UUID);
 }
 
-void OCAceSubjectType::set_OC_SUBJECT_UUID(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCAceSubjectType::get_OC_SUBJECT_ROLE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_SUBJECT_ROLE);
-}
-
-void OCAceSubjectType::set_OC_SUBJECT_ROLE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCAceSubjectType::get_OC_SUBJECT_CONN(const Napi::CallbackInfo& info)
@@ -5230,19 +5180,14 @@ Napi::Value OCAceSubjectType::get_OC_SUBJECT_CONN(const Napi::CallbackInfo& info
   return Napi::Number::New(info.Env(), OC_SUBJECT_CONN);
 }
 
-void OCAceSubjectType::set_OC_SUBJECT_CONN(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::FunctionReference OCAceWildcard::constructor;
 
 Napi::Function OCAceWildcard::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCAceWildcard", {
-    StaticAccessor("OC_ACE_NO_WC", OCAceWildcard::get_OC_ACE_NO_WC, OCAceWildcard::set_OC_ACE_NO_WC),
-    StaticAccessor("OC_ACE_WC_ALL", OCAceWildcard::get_OC_ACE_WC_ALL, OCAceWildcard::set_OC_ACE_WC_ALL),
-    StaticAccessor("OC_ACE_WC_ALL_SECURED", OCAceWildcard::get_OC_ACE_WC_ALL_SECURED, OCAceWildcard::set_OC_ACE_WC_ALL_SECURED),
-    StaticAccessor("OC_ACE_WC_ALL_PUBLIC", OCAceWildcard::get_OC_ACE_WC_ALL_PUBLIC, OCAceWildcard::set_OC_ACE_WC_ALL_PUBLIC),
+    StaticAccessor("OC_ACE_NO_WC", OCAceWildcard::get_OC_ACE_NO_WC, nullptr),
+    StaticAccessor("OC_ACE_WC_ALL", OCAceWildcard::get_OC_ACE_WC_ALL, nullptr),
+    StaticAccessor("OC_ACE_WC_ALL_SECURED", OCAceWildcard::get_OC_ACE_WC_ALL_SECURED, nullptr),
+    StaticAccessor("OC_ACE_WC_ALL_PUBLIC", OCAceWildcard::get_OC_ACE_WC_ALL_PUBLIC, nullptr),
 
   });
 
@@ -5273,19 +5218,9 @@ Napi::Value OCAceWildcard::get_OC_ACE_NO_WC(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ACE_NO_WC);
 }
 
-void OCAceWildcard::set_OC_ACE_NO_WC(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCAceWildcard::get_OC_ACE_WC_ALL(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ACE_WC_ALL);
-}
-
-void OCAceWildcard::set_OC_ACE_WC_ALL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCAceWildcard::get_OC_ACE_WC_ALL_SECURED(const Napi::CallbackInfo& info)
@@ -5293,27 +5228,17 @@ Napi::Value OCAceWildcard::get_OC_ACE_WC_ALL_SECURED(const Napi::CallbackInfo& i
   return Napi::Number::New(info.Env(), OC_ACE_WC_ALL_SECURED);
 }
 
-void OCAceWildcard::set_OC_ACE_WC_ALL_SECURED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCAceWildcard::get_OC_ACE_WC_ALL_PUBLIC(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ACE_WC_ALL_PUBLIC);
-}
-
-void OCAceWildcard::set_OC_ACE_WC_ALL_PUBLIC(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCBlockwiseRole::constructor;
 
 Napi::Function OCBlockwiseRole::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCBlockwiseRole", {
-    StaticAccessor("OC_BLOCKWISE_CLIENT", OCBlockwiseRole::get_OC_BLOCKWISE_CLIENT, OCBlockwiseRole::set_OC_BLOCKWISE_CLIENT),
-    StaticAccessor("OC_BLOCKWISE_SERVER", OCBlockwiseRole::get_OC_BLOCKWISE_SERVER, OCBlockwiseRole::set_OC_BLOCKWISE_SERVER),
+    StaticAccessor("OC_BLOCKWISE_CLIENT", OCBlockwiseRole::get_OC_BLOCKWISE_CLIENT, nullptr),
+    StaticAccessor("OC_BLOCKWISE_SERVER", OCBlockwiseRole::get_OC_BLOCKWISE_SERVER, nullptr),
 
   });
 
@@ -5344,27 +5269,17 @@ Napi::Value OCBlockwiseRole::get_OC_BLOCKWISE_CLIENT(const Napi::CallbackInfo& i
   return Napi::Number::New(info.Env(), OC_BLOCKWISE_CLIENT);
 }
 
-void OCBlockwiseRole::set_OC_BLOCKWISE_CLIENT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCBlockwiseRole::get_OC_BLOCKWISE_SERVER(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_BLOCKWISE_SERVER);
-}
-
-void OCBlockwiseRole::set_OC_BLOCKWISE_SERVER(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCDiscoveryFlags::constructor;
 
 Napi::Function OCDiscoveryFlags::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCDiscoveryFlags", {
-    StaticAccessor("OC_STOP_DISCOVERY", OCDiscoveryFlags::get_OC_STOP_DISCOVERY, OCDiscoveryFlags::set_OC_STOP_DISCOVERY),
-    StaticAccessor("OC_CONTINUE_DISCOVERY", OCDiscoveryFlags::get_OC_CONTINUE_DISCOVERY, OCDiscoveryFlags::set_OC_CONTINUE_DISCOVERY),
+    StaticAccessor("OC_STOP_DISCOVERY", OCDiscoveryFlags::get_OC_STOP_DISCOVERY, nullptr),
+    StaticAccessor("OC_CONTINUE_DISCOVERY", OCDiscoveryFlags::get_OC_CONTINUE_DISCOVERY, nullptr),
 
   });
 
@@ -5395,27 +5310,17 @@ Napi::Value OCDiscoveryFlags::get_OC_STOP_DISCOVERY(const Napi::CallbackInfo& in
   return Napi::Number::New(info.Env(), OC_STOP_DISCOVERY);
 }
 
-void OCDiscoveryFlags::set_OC_STOP_DISCOVERY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCDiscoveryFlags::get_OC_CONTINUE_DISCOVERY(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_CONTINUE_DISCOVERY);
-}
-
-void OCDiscoveryFlags::set_OC_CONTINUE_DISCOVERY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCQos::constructor;
 
 Napi::Function OCQos::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCQos", {
-    StaticAccessor("HIGH_QOS", OCQos::get_HIGH_QOS, OCQos::set_HIGH_QOS),
-    StaticAccessor("LOW_QOS", OCQos::get_LOW_QOS, OCQos::set_LOW_QOS),
+    StaticAccessor("HIGH_QOS", OCQos::get_HIGH_QOS, nullptr),
+    StaticAccessor("LOW_QOS", OCQos::get_LOW_QOS, nullptr),
 
   });
 
@@ -5446,29 +5351,19 @@ Napi::Value OCQos::get_HIGH_QOS(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), HIGH_QOS);
 }
 
-void OCQos::set_HIGH_QOS(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCQos::get_LOW_QOS(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), LOW_QOS);
-}
-
-void OCQos::set_LOW_QOS(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCCloudError::constructor;
 
 Napi::Function OCCloudError::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudError", {
-    StaticAccessor("CLOUD_OK", OCCloudError::get_CLOUD_OK, OCCloudError::set_CLOUD_OK),
-    StaticAccessor("CLOUD_ERROR_RESPONSE", OCCloudError::get_CLOUD_ERROR_RESPONSE, OCCloudError::set_CLOUD_ERROR_RESPONSE),
-    StaticAccessor("CLOUD_ERROR_CONNECT", OCCloudError::get_CLOUD_ERROR_CONNECT, OCCloudError::set_CLOUD_ERROR_CONNECT),
-    StaticAccessor("CLOUD_ERROR_REFRESH_ACCESS_TOKEN", OCCloudError::get_CLOUD_ERROR_REFRESH_ACCESS_TOKEN, OCCloudError::set_CLOUD_ERROR_REFRESH_ACCESS_TOKEN),
+    StaticAccessor("CLOUD_OK", OCCloudError::get_CLOUD_OK, nullptr),
+    StaticAccessor("CLOUD_ERROR_RESPONSE", OCCloudError::get_CLOUD_ERROR_RESPONSE, nullptr),
+    StaticAccessor("CLOUD_ERROR_CONNECT", OCCloudError::get_CLOUD_ERROR_CONNECT, nullptr),
+    StaticAccessor("CLOUD_ERROR_REFRESH_ACCESS_TOKEN", OCCloudError::get_CLOUD_ERROR_REFRESH_ACCESS_TOKEN, nullptr),
 
   });
 
@@ -5499,19 +5394,9 @@ Napi::Value OCCloudError::get_CLOUD_OK(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), CLOUD_OK);
 }
 
-void OCCloudError::set_CLOUD_OK(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCCloudError::get_CLOUD_ERROR_RESPONSE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), CLOUD_ERROR_RESPONSE);
-}
-
-void OCCloudError::set_CLOUD_ERROR_RESPONSE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCCloudError::get_CLOUD_ERROR_CONNECT(const Napi::CallbackInfo& info)
@@ -5519,33 +5404,23 @@ Napi::Value OCCloudError::get_CLOUD_ERROR_CONNECT(const Napi::CallbackInfo& info
   return Napi::Number::New(info.Env(), CLOUD_ERROR_CONNECT);
 }
 
-void OCCloudError::set_CLOUD_ERROR_CONNECT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCCloudError::get_CLOUD_ERROR_REFRESH_ACCESS_TOKEN(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), CLOUD_ERROR_REFRESH_ACCESS_TOKEN);
-}
-
-void OCCloudError::set_CLOUD_ERROR_REFRESH_ACCESS_TOKEN(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCCloudStatusMask::constructor;
 
 Napi::Function OCCloudStatusMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudStatusMask", {
-    StaticAccessor("OC_CLOUD_INITIALIZED", OCCloudStatusMask::get_OC_CLOUD_INITIALIZED, OCCloudStatusMask::set_OC_CLOUD_INITIALIZED),
-    StaticAccessor("OC_CLOUD_REGISTERED", OCCloudStatusMask::get_OC_CLOUD_REGISTERED, OCCloudStatusMask::set_OC_CLOUD_REGISTERED),
-    StaticAccessor("OC_CLOUD_LOGGED_IN", OCCloudStatusMask::get_OC_CLOUD_LOGGED_IN, OCCloudStatusMask::set_OC_CLOUD_LOGGED_IN),
-    StaticAccessor("OC_CLOUD_TOKEN_EXPIRY", OCCloudStatusMask::get_OC_CLOUD_TOKEN_EXPIRY, OCCloudStatusMask::set_OC_CLOUD_TOKEN_EXPIRY),
-    StaticAccessor("OC_CLOUD_REFRESHED_TOKEN", OCCloudStatusMask::get_OC_CLOUD_REFRESHED_TOKEN, OCCloudStatusMask::set_OC_CLOUD_REFRESHED_TOKEN),
-    StaticAccessor("OC_CLOUD_LOGGED_OUT", OCCloudStatusMask::get_OC_CLOUD_LOGGED_OUT, OCCloudStatusMask::set_OC_CLOUD_LOGGED_OUT),
-    StaticAccessor("OC_CLOUD_FAILURE", OCCloudStatusMask::get_OC_CLOUD_FAILURE, OCCloudStatusMask::set_OC_CLOUD_FAILURE),
-    StaticAccessor("OC_CLOUD_DEREGISTERED", OCCloudStatusMask::get_OC_CLOUD_DEREGISTERED, OCCloudStatusMask::set_OC_CLOUD_DEREGISTERED),
+    StaticAccessor("OC_CLOUD_INITIALIZED", OCCloudStatusMask::get_OC_CLOUD_INITIALIZED, nullptr),
+    StaticAccessor("OC_CLOUD_REGISTERED", OCCloudStatusMask::get_OC_CLOUD_REGISTERED, nullptr),
+    StaticAccessor("OC_CLOUD_LOGGED_IN", OCCloudStatusMask::get_OC_CLOUD_LOGGED_IN, nullptr),
+    StaticAccessor("OC_CLOUD_TOKEN_EXPIRY", OCCloudStatusMask::get_OC_CLOUD_TOKEN_EXPIRY, nullptr),
+    StaticAccessor("OC_CLOUD_REFRESHED_TOKEN", OCCloudStatusMask::get_OC_CLOUD_REFRESHED_TOKEN, nullptr),
+    StaticAccessor("OC_CLOUD_LOGGED_OUT", OCCloudStatusMask::get_OC_CLOUD_LOGGED_OUT, nullptr),
+    StaticAccessor("OC_CLOUD_FAILURE", OCCloudStatusMask::get_OC_CLOUD_FAILURE, nullptr),
+    StaticAccessor("OC_CLOUD_DEREGISTERED", OCCloudStatusMask::get_OC_CLOUD_DEREGISTERED, nullptr),
 
   });
 
@@ -5576,19 +5451,9 @@ Napi::Value OCCloudStatusMask::get_OC_CLOUD_INITIALIZED(const Napi::CallbackInfo
   return Napi::Number::New(info.Env(), OC_CLOUD_INITIALIZED);
 }
 
-void OCCloudStatusMask::set_OC_CLOUD_INITIALIZED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_REGISTERED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_CLOUD_REGISTERED);
-}
-
-void OCCloudStatusMask::set_OC_CLOUD_REGISTERED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_LOGGED_IN(const Napi::CallbackInfo& info)
@@ -5596,19 +5461,9 @@ Napi::Value OCCloudStatusMask::get_OC_CLOUD_LOGGED_IN(const Napi::CallbackInfo& 
   return Napi::Number::New(info.Env(), OC_CLOUD_LOGGED_IN);
 }
 
-void OCCloudStatusMask::set_OC_CLOUD_LOGGED_IN(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_TOKEN_EXPIRY(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_CLOUD_TOKEN_EXPIRY);
-}
-
-void OCCloudStatusMask::set_OC_CLOUD_TOKEN_EXPIRY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_REFRESHED_TOKEN(const Napi::CallbackInfo& info)
@@ -5616,19 +5471,9 @@ Napi::Value OCCloudStatusMask::get_OC_CLOUD_REFRESHED_TOKEN(const Napi::Callback
   return Napi::Number::New(info.Env(), OC_CLOUD_REFRESHED_TOKEN);
 }
 
-void OCCloudStatusMask::set_OC_CLOUD_REFRESHED_TOKEN(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_LOGGED_OUT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_CLOUD_LOGGED_OUT);
-}
-
-void OCCloudStatusMask::set_OC_CLOUD_LOGGED_OUT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_FAILURE(const Napi::CallbackInfo& info)
@@ -5636,30 +5481,20 @@ Napi::Value OCCloudStatusMask::get_OC_CLOUD_FAILURE(const Napi::CallbackInfo& in
   return Napi::Number::New(info.Env(), OC_CLOUD_FAILURE);
 }
 
-void OCCloudStatusMask::set_OC_CLOUD_FAILURE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCCloudStatusMask::get_OC_CLOUD_DEREGISTERED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_CLOUD_DEREGISTERED);
-}
-
-void OCCloudStatusMask::set_OC_CLOUD_DEREGISTERED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCCloudPrivisoningStatus::constructor;
 
 Napi::Function OCCloudPrivisoningStatus::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCloudPrivisoningStatus", {
-    StaticAccessor("OC_CPS_UNINITIALIZED", OCCloudPrivisoningStatus::get_OC_CPS_UNINITIALIZED, OCCloudPrivisoningStatus::set_OC_CPS_UNINITIALIZED),
-    StaticAccessor("OC_CPS_READYTOREGISTER", OCCloudPrivisoningStatus::get_OC_CPS_READYTOREGISTER, OCCloudPrivisoningStatus::set_OC_CPS_READYTOREGISTER),
-    StaticAccessor("OC_CPS_REGISTERING", OCCloudPrivisoningStatus::get_OC_CPS_REGISTERING, OCCloudPrivisoningStatus::set_OC_CPS_REGISTERING),
-    StaticAccessor("OC_CPS_REGISTERED", OCCloudPrivisoningStatus::get_OC_CPS_REGISTERED, OCCloudPrivisoningStatus::set_OC_CPS_REGISTERED),
-    StaticAccessor("OC_CPS_FAILED", OCCloudPrivisoningStatus::get_OC_CPS_FAILED, OCCloudPrivisoningStatus::set_OC_CPS_FAILED),
+    StaticAccessor("OC_CPS_UNINITIALIZED", OCCloudPrivisoningStatus::get_OC_CPS_UNINITIALIZED, nullptr),
+    StaticAccessor("OC_CPS_READYTOREGISTER", OCCloudPrivisoningStatus::get_OC_CPS_READYTOREGISTER, nullptr),
+    StaticAccessor("OC_CPS_REGISTERING", OCCloudPrivisoningStatus::get_OC_CPS_REGISTERING, nullptr),
+    StaticAccessor("OC_CPS_REGISTERED", OCCloudPrivisoningStatus::get_OC_CPS_REGISTERED, nullptr),
+    StaticAccessor("OC_CPS_FAILED", OCCloudPrivisoningStatus::get_OC_CPS_FAILED, nullptr),
 
   });
 
@@ -5690,19 +5525,9 @@ Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_UNINITIALIZED(const Napi::Callb
   return Napi::Number::New(info.Env(), OC_CPS_UNINITIALIZED);
 }
 
-void OCCloudPrivisoningStatus::set_OC_CPS_UNINITIALIZED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_READYTOREGISTER(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_CPS_READYTOREGISTER);
-}
-
-void OCCloudPrivisoningStatus::set_OC_CPS_READYTOREGISTER(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_REGISTERING(const Napi::CallbackInfo& info)
@@ -5710,19 +5535,9 @@ Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_REGISTERING(const Napi::Callbac
   return Napi::Number::New(info.Env(), OC_CPS_REGISTERING);
 }
 
-void OCCloudPrivisoningStatus::set_OC_CPS_REGISTERING(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_REGISTERED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_CPS_REGISTERED);
-}
-
-void OCCloudPrivisoningStatus::set_OC_CPS_REGISTERED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_FAILED(const Napi::CallbackInfo& info)
@@ -5730,20 +5545,15 @@ Napi::Value OCCloudPrivisoningStatus::get_OC_CPS_FAILED(const Napi::CallbackInfo
   return Napi::Number::New(info.Env(), OC_CPS_FAILED);
 }
 
-void OCCloudPrivisoningStatus::set_OC_CPS_FAILED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 #if defined(OC_TCP)
 Napi::FunctionReference tcpCsmState::constructor;
 
 Napi::Function tcpCsmState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "tcpCsmState", {
-    StaticAccessor("CSM_NONE", tcpCsmState::get_CSM_NONE, tcpCsmState::set_CSM_NONE),
-    StaticAccessor("CSM_SENT", tcpCsmState::get_CSM_SENT, tcpCsmState::set_CSM_SENT),
-    StaticAccessor("CSM_DONE", tcpCsmState::get_CSM_DONE, tcpCsmState::set_CSM_DONE),
-    StaticAccessor("CSM_ERROR", tcpCsmState::get_CSM_ERROR, tcpCsmState::set_CSM_ERROR),
+    StaticAccessor("CSM_NONE", tcpCsmState::get_CSM_NONE, nullptr),
+    StaticAccessor("CSM_SENT", tcpCsmState::get_CSM_SENT, nullptr),
+    StaticAccessor("CSM_DONE", tcpCsmState::get_CSM_DONE, nullptr),
+    StaticAccessor("CSM_ERROR", tcpCsmState::get_CSM_ERROR, nullptr),
 
   });
 
@@ -5774,19 +5584,9 @@ Napi::Value tcpCsmState::get_CSM_NONE(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), CSM_NONE);
 }
 
-void tcpCsmState::set_CSM_NONE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value tcpCsmState::get_CSM_SENT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), CSM_SENT);
-}
-
-void tcpCsmState::set_CSM_SENT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value tcpCsmState::get_CSM_DONE(const Napi::CallbackInfo& info)
@@ -5794,19 +5594,9 @@ Napi::Value tcpCsmState::get_CSM_DONE(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), CSM_DONE);
 }
 
-void tcpCsmState::set_CSM_DONE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value tcpCsmState::get_CSM_ERROR(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), CSM_ERROR);
-}
-
-void tcpCsmState::set_CSM_ERROR(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 #endif
 
@@ -5814,9 +5604,9 @@ Napi::FunctionReference OCCredType::constructor;
 
 Napi::Function OCCredType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCredType", {
-    StaticAccessor("OC_CREDTYPE_NULL", OCCredType::get_OC_CREDTYPE_NULL, OCCredType::set_OC_CREDTYPE_NULL),
-    StaticAccessor("OC_CREDTYPE_PSK", OCCredType::get_OC_CREDTYPE_PSK, OCCredType::set_OC_CREDTYPE_PSK),
-    StaticAccessor("OC_CREDTYPE_CERT", OCCredType::get_OC_CREDTYPE_CERT, OCCredType::set_OC_CREDTYPE_CERT),
+    StaticAccessor("OC_CREDTYPE_NULL", OCCredType::get_OC_CREDTYPE_NULL, nullptr),
+    StaticAccessor("OC_CREDTYPE_PSK", OCCredType::get_OC_CREDTYPE_PSK, nullptr),
+    StaticAccessor("OC_CREDTYPE_CERT", OCCredType::get_OC_CREDTYPE_CERT, nullptr),
 
   });
 
@@ -5847,19 +5637,9 @@ Napi::Value OCCredType::get_OC_CREDTYPE_NULL(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_CREDTYPE_NULL);
 }
 
-void OCCredType::set_OC_CREDTYPE_NULL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCCredType::get_OC_CREDTYPE_PSK(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_CREDTYPE_PSK);
-}
-
-void OCCredType::set_OC_CREDTYPE_PSK(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCCredType::get_OC_CREDTYPE_CERT(const Napi::CallbackInfo& info)
@@ -5867,21 +5647,16 @@ Napi::Value OCCredType::get_OC_CREDTYPE_CERT(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_CREDTYPE_CERT);
 }
 
-void OCCredType::set_OC_CREDTYPE_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::FunctionReference OCCredUsage::constructor;
 
 Napi::Function OCCredUsage::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCredUsage", {
-    StaticAccessor("OC_CREDUSAGE_NULL", OCCredUsage::get_OC_CREDUSAGE_NULL, OCCredUsage::set_OC_CREDUSAGE_NULL),
-    StaticAccessor("OC_CREDUSAGE_TRUSTCA", OCCredUsage::get_OC_CREDUSAGE_TRUSTCA, OCCredUsage::set_OC_CREDUSAGE_TRUSTCA),
-    StaticAccessor("OC_CREDUSAGE_IDENTITY_CERT", OCCredUsage::get_OC_CREDUSAGE_IDENTITY_CERT, OCCredUsage::set_OC_CREDUSAGE_IDENTITY_CERT),
-    StaticAccessor("OC_CREDUSAGE_ROLE_CERT", OCCredUsage::get_OC_CREDUSAGE_ROLE_CERT, OCCredUsage::set_OC_CREDUSAGE_ROLE_CERT),
-    StaticAccessor("OC_CREDUSAGE_MFG_TRUSTCA", OCCredUsage::get_OC_CREDUSAGE_MFG_TRUSTCA, OCCredUsage::set_OC_CREDUSAGE_MFG_TRUSTCA),
-    StaticAccessor("OC_CREDUSAGE_MFG_CERT", OCCredUsage::get_OC_CREDUSAGE_MFG_CERT, OCCredUsage::set_OC_CREDUSAGE_MFG_CERT),
+    StaticAccessor("OC_CREDUSAGE_NULL", OCCredUsage::get_OC_CREDUSAGE_NULL, nullptr),
+    StaticAccessor("OC_CREDUSAGE_TRUSTCA", OCCredUsage::get_OC_CREDUSAGE_TRUSTCA, nullptr),
+    StaticAccessor("OC_CREDUSAGE_IDENTITY_CERT", OCCredUsage::get_OC_CREDUSAGE_IDENTITY_CERT, nullptr),
+    StaticAccessor("OC_CREDUSAGE_ROLE_CERT", OCCredUsage::get_OC_CREDUSAGE_ROLE_CERT, nullptr),
+    StaticAccessor("OC_CREDUSAGE_MFG_TRUSTCA", OCCredUsage::get_OC_CREDUSAGE_MFG_TRUSTCA, nullptr),
+    StaticAccessor("OC_CREDUSAGE_MFG_CERT", OCCredUsage::get_OC_CREDUSAGE_MFG_CERT, nullptr),
 
   });
 
@@ -5912,19 +5687,9 @@ Napi::Value OCCredUsage::get_OC_CREDUSAGE_NULL(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_CREDUSAGE_NULL);
 }
 
-void OCCredUsage::set_OC_CREDUSAGE_NULL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCCredUsage::get_OC_CREDUSAGE_TRUSTCA(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_CREDUSAGE_TRUSTCA);
-}
-
-void OCCredUsage::set_OC_CREDUSAGE_TRUSTCA(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCCredUsage::get_OC_CREDUSAGE_IDENTITY_CERT(const Napi::CallbackInfo& info)
@@ -5932,19 +5697,9 @@ Napi::Value OCCredUsage::get_OC_CREDUSAGE_IDENTITY_CERT(const Napi::CallbackInfo
   return Napi::Number::New(info.Env(), OC_CREDUSAGE_IDENTITY_CERT);
 }
 
-void OCCredUsage::set_OC_CREDUSAGE_IDENTITY_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCCredUsage::get_OC_CREDUSAGE_ROLE_CERT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_CREDUSAGE_ROLE_CERT);
-}
-
-void OCCredUsage::set_OC_CREDUSAGE_ROLE_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCCredUsage::get_OC_CREDUSAGE_MFG_TRUSTCA(const Napi::CallbackInfo& info)
@@ -5952,30 +5707,20 @@ Napi::Value OCCredUsage::get_OC_CREDUSAGE_MFG_TRUSTCA(const Napi::CallbackInfo& 
   return Napi::Number::New(info.Env(), OC_CREDUSAGE_MFG_TRUSTCA);
 }
 
-void OCCredUsage::set_OC_CREDUSAGE_MFG_TRUSTCA(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCCredUsage::get_OC_CREDUSAGE_MFG_CERT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_CREDUSAGE_MFG_CERT);
-}
-
-void OCCredUsage::set_OC_CREDUSAGE_MFG_CERT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCEncoding::constructor;
 
 Napi::Function OCEncoding::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEncoding", {
-    StaticAccessor("OC_ENCODING_UNSUPPORTED", OCEncoding::get_OC_ENCODING_UNSUPPORTED, OCEncoding::set_OC_ENCODING_UNSUPPORTED),
-    StaticAccessor("OC_ENCODING_BASE64", OCEncoding::get_OC_ENCODING_BASE64, OCEncoding::set_OC_ENCODING_BASE64),
-    StaticAccessor("OC_ENCODING_RAW", OCEncoding::get_OC_ENCODING_RAW, OCEncoding::set_OC_ENCODING_RAW),
-    StaticAccessor("OC_ENCODING_PEM", OCEncoding::get_OC_ENCODING_PEM, OCEncoding::set_OC_ENCODING_PEM),
-    StaticAccessor("OC_ENCODING_HANDLE", OCEncoding::get_OC_ENCODING_HANDLE, OCEncoding::set_OC_ENCODING_HANDLE),
+    StaticAccessor("OC_ENCODING_UNSUPPORTED", OCEncoding::get_OC_ENCODING_UNSUPPORTED, nullptr),
+    StaticAccessor("OC_ENCODING_BASE64", OCEncoding::get_OC_ENCODING_BASE64, nullptr),
+    StaticAccessor("OC_ENCODING_RAW", OCEncoding::get_OC_ENCODING_RAW, nullptr),
+    StaticAccessor("OC_ENCODING_PEM", OCEncoding::get_OC_ENCODING_PEM, nullptr),
+    StaticAccessor("OC_ENCODING_HANDLE", OCEncoding::get_OC_ENCODING_HANDLE, nullptr),
 
   });
 
@@ -6006,19 +5751,9 @@ Napi::Value OCEncoding::get_OC_ENCODING_UNSUPPORTED(const Napi::CallbackInfo& in
   return Napi::Number::New(info.Env(), OC_ENCODING_UNSUPPORTED);
 }
 
-void OCEncoding::set_OC_ENCODING_UNSUPPORTED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEncoding::get_OC_ENCODING_BASE64(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENCODING_BASE64);
-}
-
-void OCEncoding::set_OC_ENCODING_BASE64(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEncoding::get_OC_ENCODING_RAW(const Napi::CallbackInfo& info)
@@ -6026,19 +5761,9 @@ Napi::Value OCEncoding::get_OC_ENCODING_RAW(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENCODING_RAW);
 }
 
-void OCEncoding::set_OC_ENCODING_RAW(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEncoding::get_OC_ENCODING_PEM(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENCODING_PEM);
-}
-
-void OCEncoding::set_OC_ENCODING_PEM(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEncoding::get_OC_ENCODING_HANDLE(const Napi::CallbackInfo& info)
@@ -6046,17 +5771,12 @@ Napi::Value OCEncoding::get_OC_ENCODING_HANDLE(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENCODING_HANDLE);
 }
 
-void OCEncoding::set_OC_ENCODING_HANDLE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::FunctionReference OCFVersion::constructor;
 
 Napi::Function OCFVersion::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCFVersion", {
-    StaticAccessor("OCF_VER_1_0_0", OCFVersion::get_OCF_VER_1_0_0, OCFVersion::set_OCF_VER_1_0_0),
-    StaticAccessor("OIC_VER_1_1_0", OCFVersion::get_OIC_VER_1_1_0, OCFVersion::set_OIC_VER_1_1_0),
+    StaticAccessor("OCF_VER_1_0_0", OCFVersion::get_OCF_VER_1_0_0, nullptr),
+    StaticAccessor("OIC_VER_1_1_0", OCFVersion::get_OIC_VER_1_1_0, nullptr),
 
   });
 
@@ -6087,32 +5807,22 @@ Napi::Value OCFVersion::get_OCF_VER_1_0_0(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OCF_VER_1_0_0);
 }
 
-void OCFVersion::set_OCF_VER_1_0_0(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCFVersion::get_OIC_VER_1_1_0(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OIC_VER_1_1_0);
-}
-
-void OCFVersion::set_OIC_VER_1_1_0(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCTransportFlags::constructor;
 
 Napi::Function OCTransportFlags::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCTransportFlags", {
-    StaticAccessor("DISCOVERY", OCTransportFlags::get_DISCOVERY, OCTransportFlags::set_DISCOVERY),
-    StaticAccessor("SECURED", OCTransportFlags::get_SECURED, OCTransportFlags::set_SECURED),
-    StaticAccessor("IPV4", OCTransportFlags::get_IPV4, OCTransportFlags::set_IPV4),
-    StaticAccessor("IPV6", OCTransportFlags::get_IPV6, OCTransportFlags::set_IPV6),
-    StaticAccessor("TCP", OCTransportFlags::get_TCP, OCTransportFlags::set_TCP),
-    StaticAccessor("GATT", OCTransportFlags::get_GATT, OCTransportFlags::set_GATT),
-    StaticAccessor("MULTICAST", OCTransportFlags::get_MULTICAST, OCTransportFlags::set_MULTICAST),
+    StaticAccessor("DISCOVERY", OCTransportFlags::get_DISCOVERY, nullptr),
+    StaticAccessor("SECURED", OCTransportFlags::get_SECURED, nullptr),
+    StaticAccessor("IPV4", OCTransportFlags::get_IPV4, nullptr),
+    StaticAccessor("IPV6", OCTransportFlags::get_IPV6, nullptr),
+    StaticAccessor("TCP", OCTransportFlags::get_TCP, nullptr),
+    StaticAccessor("GATT", OCTransportFlags::get_GATT, nullptr),
+    StaticAccessor("MULTICAST", OCTransportFlags::get_MULTICAST, nullptr),
 
   });
 
@@ -6143,19 +5853,9 @@ Napi::Value OCTransportFlags::get_DISCOVERY(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), DISCOVERY);
 }
 
-void OCTransportFlags::set_DISCOVERY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCTransportFlags::get_SECURED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), SECURED);
-}
-
-void OCTransportFlags::set_SECURED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCTransportFlags::get_IPV4(const Napi::CallbackInfo& info)
@@ -6163,19 +5863,9 @@ Napi::Value OCTransportFlags::get_IPV4(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), IPV4);
 }
 
-void OCTransportFlags::set_IPV4(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCTransportFlags::get_IPV6(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), IPV6);
-}
-
-void OCTransportFlags::set_IPV6(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCTransportFlags::get_TCP(const Napi::CallbackInfo& info)
@@ -6183,19 +5873,9 @@ Napi::Value OCTransportFlags::get_TCP(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), TCP);
 }
 
-void OCTransportFlags::set_TCP(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCTransportFlags::get_GATT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), GATT);
-}
-
-void OCTransportFlags::set_GATT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCTransportFlags::get_MULTICAST(const Napi::CallbackInfo& info)
@@ -6203,88 +5883,83 @@ Napi::Value OCTransportFlags::get_MULTICAST(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), MULTICAST);
 }
 
-void OCTransportFlags::set_MULTICAST(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::FunctionReference OCEnum::constructor;
 
 Napi::Function OCEnum::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEnum", {
-    StaticAccessor("OC_ENUM_ABORTED", OCEnum::get_OC_ENUM_ABORTED, OCEnum::set_OC_ENUM_ABORTED),
-    StaticAccessor("OC_ENUM_ACTIVE", OCEnum::get_OC_ENUM_ACTIVE, OCEnum::set_OC_ENUM_ACTIVE),
-    StaticAccessor("OC_ENUM_AIRDRY", OCEnum::get_OC_ENUM_AIRDRY, OCEnum::set_OC_ENUM_AIRDRY),
-    StaticAccessor("OC_ENUM_ARMEDAWAY", OCEnum::get_OC_ENUM_ARMEDAWAY, OCEnum::set_OC_ENUM_ARMEDAWAY),
-    StaticAccessor("OC_ENUM_ARMEDINSTANT", OCEnum::get_OC_ENUM_ARMEDINSTANT, OCEnum::set_OC_ENUM_ARMEDINSTANT),
-    StaticAccessor("OC_ENUM_ARMEDMAXIMUM", OCEnum::get_OC_ENUM_ARMEDMAXIMUM, OCEnum::set_OC_ENUM_ARMEDMAXIMUM),
-    StaticAccessor("OC_ENUM_ARMEDNIGHTSTAY", OCEnum::get_OC_ENUM_ARMEDNIGHTSTAY, OCEnum::set_OC_ENUM_ARMEDNIGHTSTAY),
-    StaticAccessor("OC_ENUM_ARMEDSTAY", OCEnum::get_OC_ENUM_ARMEDSTAY, OCEnum::set_OC_ENUM_ARMEDSTAY),
-    StaticAccessor("OC_ENUM_AROMA", OCEnum::get_OC_ENUM_AROMA, OCEnum::set_OC_ENUM_AROMA),
-    StaticAccessor("OC_ENUM_AI", OCEnum::get_OC_ENUM_AI, OCEnum::set_OC_ENUM_AI),
-    StaticAccessor("OC_ENUM_AUTO", OCEnum::get_OC_ENUM_AUTO, OCEnum::set_OC_ENUM_AUTO),
-    StaticAccessor("OC_ENUM_BOILING", OCEnum::get_OC_ENUM_BOILING, OCEnum::set_OC_ENUM_BOILING),
-    StaticAccessor("OC_ENUM_BREWING", OCEnum::get_OC_ENUM_BREWING, OCEnum::set_OC_ENUM_BREWING),
-    StaticAccessor("OC_ENUM_CANCELLED", OCEnum::get_OC_ENUM_CANCELLED, OCEnum::set_OC_ENUM_CANCELLED),
-    StaticAccessor("OC_ENUM_CIRCULATING", OCEnum::get_OC_ENUM_CIRCULATING, OCEnum::set_OC_ENUM_CIRCULATING),
-    StaticAccessor("OC_ENUM_CLEANING", OCEnum::get_OC_ENUM_CLEANING, OCEnum::set_OC_ENUM_CLEANING),
-    StaticAccessor("OC_ENUM_CLOTHES", OCEnum::get_OC_ENUM_CLOTHES, OCEnum::set_OC_ENUM_CLOTHES),
-    StaticAccessor("OC_ENUM_COMPLETED", OCEnum::get_OC_ENUM_COMPLETED, OCEnum::set_OC_ENUM_COMPLETED),
-    StaticAccessor("OC_ENUM_COOL", OCEnum::get_OC_ENUM_COOL, OCEnum::set_OC_ENUM_COOL),
-    StaticAccessor("OC_ENUM_DELICATE", OCEnum::get_OC_ENUM_DELICATE, OCEnum::set_OC_ENUM_DELICATE),
-    StaticAccessor("OC_ENUM_DISABLED", OCEnum::get_OC_ENUM_DISABLED, OCEnum::set_OC_ENUM_DISABLED),
-    StaticAccessor("OC_ENUM_DOWN", OCEnum::get_OC_ENUM_DOWN, OCEnum::set_OC_ENUM_DOWN),
-    StaticAccessor("OC_ENUM_DUAL", OCEnum::get_OC_ENUM_DUAL, OCEnum::set_OC_ENUM_DUAL),
-    StaticAccessor("OC_ENUM_DRY", OCEnum::get_OC_ENUM_DRY, OCEnum::set_OC_ENUM_DRY),
-    StaticAccessor("OC_ENUM_ENABLED", OCEnum::get_OC_ENUM_ENABLED, OCEnum::set_OC_ENUM_ENABLED),
-    StaticAccessor("OC_ENUM_EXTENDED", OCEnum::get_OC_ENUM_EXTENDED, OCEnum::set_OC_ENUM_EXTENDED),
-    StaticAccessor("OC_ENUM_FAN", OCEnum::get_OC_ENUM_FAN, OCEnum::set_OC_ENUM_FAN),
-    StaticAccessor("OC_ENUM_FAST", OCEnum::get_OC_ENUM_FAST, OCEnum::set_OC_ENUM_FAST),
-    StaticAccessor("OC_ENUM_FILTERMATERIAL", OCEnum::get_OC_ENUM_FILTERMATERIAL, OCEnum::set_OC_ENUM_FILTERMATERIAL),
-    StaticAccessor("OC_ENUM_FOCUSED", OCEnum::get_OC_ENUM_FOCUSED, OCEnum::set_OC_ENUM_FOCUSED),
-    StaticAccessor("OC_ENUM_GRINDING", OCEnum::get_OC_ENUM_GRINDING, OCEnum::set_OC_ENUM_GRINDING),
-    StaticAccessor("OC_ENUM_HEATING", OCEnum::get_OC_ENUM_HEATING, OCEnum::set_OC_ENUM_HEATING),
-    StaticAccessor("OC_ENUM_HEAVY", OCEnum::get_OC_ENUM_HEAVY, OCEnum::set_OC_ENUM_HEAVY),
-    StaticAccessor("OC_ENUM_IDLE", OCEnum::get_OC_ENUM_IDLE, OCEnum::set_OC_ENUM_IDLE),
-    StaticAccessor("OC_ENUM_INK", OCEnum::get_OC_ENUM_INK, OCEnum::set_OC_ENUM_INK),
-    StaticAccessor("OC_ENUM_INKBLACK", OCEnum::get_OC_ENUM_INKBLACK, OCEnum::set_OC_ENUM_INKBLACK),
-    StaticAccessor("OC_ENUM_INKCYAN", OCEnum::get_OC_ENUM_INKCYAN, OCEnum::set_OC_ENUM_INKCYAN),
-    StaticAccessor("OC_ENUM_INKMAGENTA", OCEnum::get_OC_ENUM_INKMAGENTA, OCEnum::set_OC_ENUM_INKMAGENTA),
-    StaticAccessor("OC_ENUM_INKTRICOLOUR", OCEnum::get_OC_ENUM_INKTRICOLOUR, OCEnum::set_OC_ENUM_INKTRICOLOUR),
-    StaticAccessor("OC_ENUM_INKYELLOW", OCEnum::get_OC_ENUM_INKYELLOW, OCEnum::set_OC_ENUM_INKYELLOW),
-    StaticAccessor("OC_ENUM_KEEPWARM", OCEnum::get_OC_ENUM_KEEPWARM, OCEnum::set_OC_ENUM_KEEPWARM),
-    StaticAccessor("OC_ENUM_NORMAL", OCEnum::get_OC_ENUM_NORMAL, OCEnum::set_OC_ENUM_NORMAL),
-    StaticAccessor("OC_ENUM_NOTSUPPORTED", OCEnum::get_OC_ENUM_NOTSUPPORTED, OCEnum::set_OC_ENUM_NOTSUPPORTED),
-    StaticAccessor("OC_ENUM_PAUSE", OCEnum::get_OC_ENUM_PAUSE, OCEnum::set_OC_ENUM_PAUSE),
-    StaticAccessor("OC_ENUM_PENDING", OCEnum::get_OC_ENUM_PENDING, OCEnum::set_OC_ENUM_PENDING),
-    StaticAccessor("OC_ENUM_PENDINGHELD", OCEnum::get_OC_ENUM_PENDINGHELD, OCEnum::set_OC_ENUM_PENDINGHELD),
-    StaticAccessor("OC_ENUM_PERMAPRESS", OCEnum::get_OC_ENUM_PERMAPRESS, OCEnum::set_OC_ENUM_PERMAPRESS),
-    StaticAccessor("OC_ENUM_PREWASH", OCEnum::get_OC_ENUM_PREWASH, OCEnum::set_OC_ENUM_PREWASH),
-    StaticAccessor("OC_ENUM_PROCESSING", OCEnum::get_OC_ENUM_PROCESSING, OCEnum::set_OC_ENUM_PROCESSING),
-    StaticAccessor("OC_ENUM_PURE", OCEnum::get_OC_ENUM_PURE, OCEnum::set_OC_ENUM_PURE),
-    StaticAccessor("OC_ENUM_QUICK", OCEnum::get_OC_ENUM_QUICK, OCEnum::set_OC_ENUM_QUICK),
-    StaticAccessor("OC_ENUM_QUIET", OCEnum::get_OC_ENUM_QUIET, OCEnum::set_OC_ENUM_QUIET),
-    StaticAccessor("OC_ENUM_RINSE", OCEnum::get_OC_ENUM_RINSE, OCEnum::set_OC_ENUM_RINSE),
-    StaticAccessor("OC_ENUM_SECTORED", OCEnum::get_OC_ENUM_SECTORED, OCEnum::set_OC_ENUM_SECTORED),
-    StaticAccessor("OC_ENUM_SILENT", OCEnum::get_OC_ENUM_SILENT, OCEnum::set_OC_ENUM_SILENT),
-    StaticAccessor("OC_ENUM_SLEEP", OCEnum::get_OC_ENUM_SLEEP, OCEnum::set_OC_ENUM_SLEEP),
-    StaticAccessor("OC_ENUM_SMART", OCEnum::get_OC_ENUM_SMART, OCEnum::set_OC_ENUM_SMART),
-    StaticAccessor("OC_ENUM_SPOT", OCEnum::get_OC_ENUM_SPOT, OCEnum::set_OC_ENUM_SPOT),
-    StaticAccessor("OC_ENUM_STEAM", OCEnum::get_OC_ENUM_STEAM, OCEnum::set_OC_ENUM_STEAM),
-    StaticAccessor("OC_ENUM_STOPPED", OCEnum::get_OC_ENUM_STOPPED, OCEnum::set_OC_ENUM_STOPPED),
-    StaticAccessor("OC_ENUM_SPIN", OCEnum::get_OC_ENUM_SPIN, OCEnum::set_OC_ENUM_SPIN),
-    StaticAccessor("OC_ENUM_TESTING", OCEnum::get_OC_ENUM_TESTING, OCEnum::set_OC_ENUM_TESTING),
-    StaticAccessor("OC_ENUM_TONER", OCEnum::get_OC_ENUM_TONER, OCEnum::set_OC_ENUM_TONER),
-    StaticAccessor("OC_ENUM_TONERBLACK", OCEnum::get_OC_ENUM_TONERBLACK, OCEnum::set_OC_ENUM_TONERBLACK),
-    StaticAccessor("OC_ENUM_TONERCYAN", OCEnum::get_OC_ENUM_TONERCYAN, OCEnum::set_OC_ENUM_TONERCYAN),
-    StaticAccessor("OC_ENUM_TONERMAGENTA", OCEnum::get_OC_ENUM_TONERMAGENTA, OCEnum::set_OC_ENUM_TONERMAGENTA),
-    StaticAccessor("OC_ENUM_TONERYELLOW", OCEnum::get_OC_ENUM_TONERYELLOW, OCEnum::set_OC_ENUM_TONERYELLOW),
-    StaticAccessor("OC_ENUM_WARM", OCEnum::get_OC_ENUM_WARM, OCEnum::set_OC_ENUM_WARM),
-    StaticAccessor("OC_ENUM_WASH", OCEnum::get_OC_ENUM_WASH, OCEnum::set_OC_ENUM_WASH),
-    StaticAccessor("OC_ENUM_WET", OCEnum::get_OC_ENUM_WET, OCEnum::set_OC_ENUM_WET),
-    StaticAccessor("OC_ENUM_WIND", OCEnum::get_OC_ENUM_WIND, OCEnum::set_OC_ENUM_WIND),
-    StaticAccessor("OC_ENUM_WRINKLEPREVENT", OCEnum::get_OC_ENUM_WRINKLEPREVENT, OCEnum::set_OC_ENUM_WRINKLEPREVENT),
-    StaticAccessor("OC_ENUM_ZIGZAG", OCEnum::get_OC_ENUM_ZIGZAG, OCEnum::set_OC_ENUM_ZIGZAG),
+    StaticAccessor("OC_ENUM_ABORTED", OCEnum::get_OC_ENUM_ABORTED, nullptr),
+    StaticAccessor("OC_ENUM_ACTIVE", OCEnum::get_OC_ENUM_ACTIVE, nullptr),
+    StaticAccessor("OC_ENUM_AIRDRY", OCEnum::get_OC_ENUM_AIRDRY, nullptr),
+    StaticAccessor("OC_ENUM_ARMEDAWAY", OCEnum::get_OC_ENUM_ARMEDAWAY, nullptr),
+    StaticAccessor("OC_ENUM_ARMEDINSTANT", OCEnum::get_OC_ENUM_ARMEDINSTANT, nullptr),
+    StaticAccessor("OC_ENUM_ARMEDMAXIMUM", OCEnum::get_OC_ENUM_ARMEDMAXIMUM, nullptr),
+    StaticAccessor("OC_ENUM_ARMEDNIGHTSTAY", OCEnum::get_OC_ENUM_ARMEDNIGHTSTAY, nullptr),
+    StaticAccessor("OC_ENUM_ARMEDSTAY", OCEnum::get_OC_ENUM_ARMEDSTAY, nullptr),
+    StaticAccessor("OC_ENUM_AROMA", OCEnum::get_OC_ENUM_AROMA, nullptr),
+    StaticAccessor("OC_ENUM_AI", OCEnum::get_OC_ENUM_AI, nullptr),
+    StaticAccessor("OC_ENUM_AUTO", OCEnum::get_OC_ENUM_AUTO, nullptr),
+    StaticAccessor("OC_ENUM_BOILING", OCEnum::get_OC_ENUM_BOILING, nullptr),
+    StaticAccessor("OC_ENUM_BREWING", OCEnum::get_OC_ENUM_BREWING, nullptr),
+    StaticAccessor("OC_ENUM_CANCELLED", OCEnum::get_OC_ENUM_CANCELLED, nullptr),
+    StaticAccessor("OC_ENUM_CIRCULATING", OCEnum::get_OC_ENUM_CIRCULATING, nullptr),
+    StaticAccessor("OC_ENUM_CLEANING", OCEnum::get_OC_ENUM_CLEANING, nullptr),
+    StaticAccessor("OC_ENUM_CLOTHES", OCEnum::get_OC_ENUM_CLOTHES, nullptr),
+    StaticAccessor("OC_ENUM_COMPLETED", OCEnum::get_OC_ENUM_COMPLETED, nullptr),
+    StaticAccessor("OC_ENUM_COOL", OCEnum::get_OC_ENUM_COOL, nullptr),
+    StaticAccessor("OC_ENUM_DELICATE", OCEnum::get_OC_ENUM_DELICATE, nullptr),
+    StaticAccessor("OC_ENUM_DISABLED", OCEnum::get_OC_ENUM_DISABLED, nullptr),
+    StaticAccessor("OC_ENUM_DOWN", OCEnum::get_OC_ENUM_DOWN, nullptr),
+    StaticAccessor("OC_ENUM_DUAL", OCEnum::get_OC_ENUM_DUAL, nullptr),
+    StaticAccessor("OC_ENUM_DRY", OCEnum::get_OC_ENUM_DRY, nullptr),
+    StaticAccessor("OC_ENUM_ENABLED", OCEnum::get_OC_ENUM_ENABLED, nullptr),
+    StaticAccessor("OC_ENUM_EXTENDED", OCEnum::get_OC_ENUM_EXTENDED, nullptr),
+    StaticAccessor("OC_ENUM_FAN", OCEnum::get_OC_ENUM_FAN, nullptr),
+    StaticAccessor("OC_ENUM_FAST", OCEnum::get_OC_ENUM_FAST, nullptr),
+    StaticAccessor("OC_ENUM_FILTERMATERIAL", OCEnum::get_OC_ENUM_FILTERMATERIAL, nullptr),
+    StaticAccessor("OC_ENUM_FOCUSED", OCEnum::get_OC_ENUM_FOCUSED, nullptr),
+    StaticAccessor("OC_ENUM_GRINDING", OCEnum::get_OC_ENUM_GRINDING, nullptr),
+    StaticAccessor("OC_ENUM_HEATING", OCEnum::get_OC_ENUM_HEATING, nullptr),
+    StaticAccessor("OC_ENUM_HEAVY", OCEnum::get_OC_ENUM_HEAVY, nullptr),
+    StaticAccessor("OC_ENUM_IDLE", OCEnum::get_OC_ENUM_IDLE, nullptr),
+    StaticAccessor("OC_ENUM_INK", OCEnum::get_OC_ENUM_INK, nullptr),
+    StaticAccessor("OC_ENUM_INKBLACK", OCEnum::get_OC_ENUM_INKBLACK, nullptr),
+    StaticAccessor("OC_ENUM_INKCYAN", OCEnum::get_OC_ENUM_INKCYAN, nullptr),
+    StaticAccessor("OC_ENUM_INKMAGENTA", OCEnum::get_OC_ENUM_INKMAGENTA, nullptr),
+    StaticAccessor("OC_ENUM_INKTRICOLOUR", OCEnum::get_OC_ENUM_INKTRICOLOUR, nullptr),
+    StaticAccessor("OC_ENUM_INKYELLOW", OCEnum::get_OC_ENUM_INKYELLOW, nullptr),
+    StaticAccessor("OC_ENUM_KEEPWARM", OCEnum::get_OC_ENUM_KEEPWARM, nullptr),
+    StaticAccessor("OC_ENUM_NORMAL", OCEnum::get_OC_ENUM_NORMAL, nullptr),
+    StaticAccessor("OC_ENUM_NOTSUPPORTED", OCEnum::get_OC_ENUM_NOTSUPPORTED, nullptr),
+    StaticAccessor("OC_ENUM_PAUSE", OCEnum::get_OC_ENUM_PAUSE, nullptr),
+    StaticAccessor("OC_ENUM_PENDING", OCEnum::get_OC_ENUM_PENDING, nullptr),
+    StaticAccessor("OC_ENUM_PENDINGHELD", OCEnum::get_OC_ENUM_PENDINGHELD, nullptr),
+    StaticAccessor("OC_ENUM_PERMAPRESS", OCEnum::get_OC_ENUM_PERMAPRESS, nullptr),
+    StaticAccessor("OC_ENUM_PREWASH", OCEnum::get_OC_ENUM_PREWASH, nullptr),
+    StaticAccessor("OC_ENUM_PROCESSING", OCEnum::get_OC_ENUM_PROCESSING, nullptr),
+    StaticAccessor("OC_ENUM_PURE", OCEnum::get_OC_ENUM_PURE, nullptr),
+    StaticAccessor("OC_ENUM_QUICK", OCEnum::get_OC_ENUM_QUICK, nullptr),
+    StaticAccessor("OC_ENUM_QUIET", OCEnum::get_OC_ENUM_QUIET, nullptr),
+    StaticAccessor("OC_ENUM_RINSE", OCEnum::get_OC_ENUM_RINSE, nullptr),
+    StaticAccessor("OC_ENUM_SECTORED", OCEnum::get_OC_ENUM_SECTORED, nullptr),
+    StaticAccessor("OC_ENUM_SILENT", OCEnum::get_OC_ENUM_SILENT, nullptr),
+    StaticAccessor("OC_ENUM_SLEEP", OCEnum::get_OC_ENUM_SLEEP, nullptr),
+    StaticAccessor("OC_ENUM_SMART", OCEnum::get_OC_ENUM_SMART, nullptr),
+    StaticAccessor("OC_ENUM_SPOT", OCEnum::get_OC_ENUM_SPOT, nullptr),
+    StaticAccessor("OC_ENUM_STEAM", OCEnum::get_OC_ENUM_STEAM, nullptr),
+    StaticAccessor("OC_ENUM_STOPPED", OCEnum::get_OC_ENUM_STOPPED, nullptr),
+    StaticAccessor("OC_ENUM_SPIN", OCEnum::get_OC_ENUM_SPIN, nullptr),
+    StaticAccessor("OC_ENUM_TESTING", OCEnum::get_OC_ENUM_TESTING, nullptr),
+    StaticAccessor("OC_ENUM_TONER", OCEnum::get_OC_ENUM_TONER, nullptr),
+    StaticAccessor("OC_ENUM_TONERBLACK", OCEnum::get_OC_ENUM_TONERBLACK, nullptr),
+    StaticAccessor("OC_ENUM_TONERCYAN", OCEnum::get_OC_ENUM_TONERCYAN, nullptr),
+    StaticAccessor("OC_ENUM_TONERMAGENTA", OCEnum::get_OC_ENUM_TONERMAGENTA, nullptr),
+    StaticAccessor("OC_ENUM_TONERYELLOW", OCEnum::get_OC_ENUM_TONERYELLOW, nullptr),
+    StaticAccessor("OC_ENUM_WARM", OCEnum::get_OC_ENUM_WARM, nullptr),
+    StaticAccessor("OC_ENUM_WASH", OCEnum::get_OC_ENUM_WASH, nullptr),
+    StaticAccessor("OC_ENUM_WET", OCEnum::get_OC_ENUM_WET, nullptr),
+    StaticAccessor("OC_ENUM_WIND", OCEnum::get_OC_ENUM_WIND, nullptr),
+    StaticAccessor("OC_ENUM_WRINKLEPREVENT", OCEnum::get_OC_ENUM_WRINKLEPREVENT, nullptr),
+    StaticAccessor("OC_ENUM_ZIGZAG", OCEnum::get_OC_ENUM_ZIGZAG, nullptr),
 
   });
 
@@ -6315,19 +5990,9 @@ Napi::Value OCEnum::get_OC_ENUM_ABORTED(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_ABORTED);
 }
 
-void OCEnum::set_OC_ENUM_ABORTED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_ACTIVE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_ACTIVE);
-}
-
-void OCEnum::set_OC_ENUM_ACTIVE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_AIRDRY(const Napi::CallbackInfo& info)
@@ -6335,19 +6000,9 @@ Napi::Value OCEnum::get_OC_ENUM_AIRDRY(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_AIRDRY);
 }
 
-void OCEnum::set_OC_ENUM_AIRDRY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_ARMEDAWAY(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_ARMEDAWAY);
-}
-
-void OCEnum::set_OC_ENUM_ARMEDAWAY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_ARMEDINSTANT(const Napi::CallbackInfo& info)
@@ -6355,19 +6010,9 @@ Napi::Value OCEnum::get_OC_ENUM_ARMEDINSTANT(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_ARMEDINSTANT);
 }
 
-void OCEnum::set_OC_ENUM_ARMEDINSTANT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_ARMEDMAXIMUM(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_ARMEDMAXIMUM);
-}
-
-void OCEnum::set_OC_ENUM_ARMEDMAXIMUM(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_ARMEDNIGHTSTAY(const Napi::CallbackInfo& info)
@@ -6375,19 +6020,9 @@ Napi::Value OCEnum::get_OC_ENUM_ARMEDNIGHTSTAY(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_ARMEDNIGHTSTAY);
 }
 
-void OCEnum::set_OC_ENUM_ARMEDNIGHTSTAY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_ARMEDSTAY(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_ARMEDSTAY);
-}
-
-void OCEnum::set_OC_ENUM_ARMEDSTAY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_AROMA(const Napi::CallbackInfo& info)
@@ -6395,19 +6030,9 @@ Napi::Value OCEnum::get_OC_ENUM_AROMA(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_AROMA);
 }
 
-void OCEnum::set_OC_ENUM_AROMA(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_AI(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_AI);
-}
-
-void OCEnum::set_OC_ENUM_AI(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_AUTO(const Napi::CallbackInfo& info)
@@ -6415,19 +6040,9 @@ Napi::Value OCEnum::get_OC_ENUM_AUTO(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_AUTO);
 }
 
-void OCEnum::set_OC_ENUM_AUTO(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_BOILING(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_BOILING);
-}
-
-void OCEnum::set_OC_ENUM_BOILING(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_BREWING(const Napi::CallbackInfo& info)
@@ -6435,19 +6050,9 @@ Napi::Value OCEnum::get_OC_ENUM_BREWING(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_BREWING);
 }
 
-void OCEnum::set_OC_ENUM_BREWING(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_CANCELLED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_CANCELLED);
-}
-
-void OCEnum::set_OC_ENUM_CANCELLED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_CIRCULATING(const Napi::CallbackInfo& info)
@@ -6455,19 +6060,9 @@ Napi::Value OCEnum::get_OC_ENUM_CIRCULATING(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_CIRCULATING);
 }
 
-void OCEnum::set_OC_ENUM_CIRCULATING(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_CLEANING(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_CLEANING);
-}
-
-void OCEnum::set_OC_ENUM_CLEANING(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_CLOTHES(const Napi::CallbackInfo& info)
@@ -6475,19 +6070,9 @@ Napi::Value OCEnum::get_OC_ENUM_CLOTHES(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_CLOTHES);
 }
 
-void OCEnum::set_OC_ENUM_CLOTHES(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_COMPLETED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_COMPLETED);
-}
-
-void OCEnum::set_OC_ENUM_COMPLETED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_COOL(const Napi::CallbackInfo& info)
@@ -6495,19 +6080,9 @@ Napi::Value OCEnum::get_OC_ENUM_COOL(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_COOL);
 }
 
-void OCEnum::set_OC_ENUM_COOL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_DELICATE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_DELICATE);
-}
-
-void OCEnum::set_OC_ENUM_DELICATE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_DISABLED(const Napi::CallbackInfo& info)
@@ -6515,19 +6090,9 @@ Napi::Value OCEnum::get_OC_ENUM_DISABLED(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_DISABLED);
 }
 
-void OCEnum::set_OC_ENUM_DISABLED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_DOWN(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_DOWN);
-}
-
-void OCEnum::set_OC_ENUM_DOWN(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_DUAL(const Napi::CallbackInfo& info)
@@ -6535,19 +6100,9 @@ Napi::Value OCEnum::get_OC_ENUM_DUAL(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_DUAL);
 }
 
-void OCEnum::set_OC_ENUM_DUAL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_DRY(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_DRY);
-}
-
-void OCEnum::set_OC_ENUM_DRY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_ENABLED(const Napi::CallbackInfo& info)
@@ -6555,19 +6110,9 @@ Napi::Value OCEnum::get_OC_ENUM_ENABLED(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_ENABLED);
 }
 
-void OCEnum::set_OC_ENUM_ENABLED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_EXTENDED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_EXTENDED);
-}
-
-void OCEnum::set_OC_ENUM_EXTENDED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_FAN(const Napi::CallbackInfo& info)
@@ -6575,19 +6120,9 @@ Napi::Value OCEnum::get_OC_ENUM_FAN(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_FAN);
 }
 
-void OCEnum::set_OC_ENUM_FAN(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_FAST(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_FAST);
-}
-
-void OCEnum::set_OC_ENUM_FAST(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_FILTERMATERIAL(const Napi::CallbackInfo& info)
@@ -6595,19 +6130,9 @@ Napi::Value OCEnum::get_OC_ENUM_FILTERMATERIAL(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_FILTERMATERIAL);
 }
 
-void OCEnum::set_OC_ENUM_FILTERMATERIAL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_FOCUSED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_FOCUSED);
-}
-
-void OCEnum::set_OC_ENUM_FOCUSED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_GRINDING(const Napi::CallbackInfo& info)
@@ -6615,19 +6140,9 @@ Napi::Value OCEnum::get_OC_ENUM_GRINDING(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_GRINDING);
 }
 
-void OCEnum::set_OC_ENUM_GRINDING(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_HEATING(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_HEATING);
-}
-
-void OCEnum::set_OC_ENUM_HEATING(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_HEAVY(const Napi::CallbackInfo& info)
@@ -6635,19 +6150,9 @@ Napi::Value OCEnum::get_OC_ENUM_HEAVY(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_HEAVY);
 }
 
-void OCEnum::set_OC_ENUM_HEAVY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_IDLE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_IDLE);
-}
-
-void OCEnum::set_OC_ENUM_IDLE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_INK(const Napi::CallbackInfo& info)
@@ -6655,19 +6160,9 @@ Napi::Value OCEnum::get_OC_ENUM_INK(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_INK);
 }
 
-void OCEnum::set_OC_ENUM_INK(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_INKBLACK(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_INKBLACK);
-}
-
-void OCEnum::set_OC_ENUM_INKBLACK(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_INKCYAN(const Napi::CallbackInfo& info)
@@ -6675,19 +6170,9 @@ Napi::Value OCEnum::get_OC_ENUM_INKCYAN(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_INKCYAN);
 }
 
-void OCEnum::set_OC_ENUM_INKCYAN(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_INKMAGENTA(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_INKMAGENTA);
-}
-
-void OCEnum::set_OC_ENUM_INKMAGENTA(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_INKTRICOLOUR(const Napi::CallbackInfo& info)
@@ -6695,19 +6180,9 @@ Napi::Value OCEnum::get_OC_ENUM_INKTRICOLOUR(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_INKTRICOLOUR);
 }
 
-void OCEnum::set_OC_ENUM_INKTRICOLOUR(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_INKYELLOW(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_INKYELLOW);
-}
-
-void OCEnum::set_OC_ENUM_INKYELLOW(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_KEEPWARM(const Napi::CallbackInfo& info)
@@ -6715,19 +6190,9 @@ Napi::Value OCEnum::get_OC_ENUM_KEEPWARM(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_KEEPWARM);
 }
 
-void OCEnum::set_OC_ENUM_KEEPWARM(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_NORMAL(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_NORMAL);
-}
-
-void OCEnum::set_OC_ENUM_NORMAL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_NOTSUPPORTED(const Napi::CallbackInfo& info)
@@ -6735,19 +6200,9 @@ Napi::Value OCEnum::get_OC_ENUM_NOTSUPPORTED(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_NOTSUPPORTED);
 }
 
-void OCEnum::set_OC_ENUM_NOTSUPPORTED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_PAUSE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_PAUSE);
-}
-
-void OCEnum::set_OC_ENUM_PAUSE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_PENDING(const Napi::CallbackInfo& info)
@@ -6755,19 +6210,9 @@ Napi::Value OCEnum::get_OC_ENUM_PENDING(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_PENDING);
 }
 
-void OCEnum::set_OC_ENUM_PENDING(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_PENDINGHELD(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_PENDINGHELD);
-}
-
-void OCEnum::set_OC_ENUM_PENDINGHELD(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_PERMAPRESS(const Napi::CallbackInfo& info)
@@ -6775,19 +6220,9 @@ Napi::Value OCEnum::get_OC_ENUM_PERMAPRESS(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_PERMAPRESS);
 }
 
-void OCEnum::set_OC_ENUM_PERMAPRESS(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_PREWASH(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_PREWASH);
-}
-
-void OCEnum::set_OC_ENUM_PREWASH(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_PROCESSING(const Napi::CallbackInfo& info)
@@ -6795,19 +6230,9 @@ Napi::Value OCEnum::get_OC_ENUM_PROCESSING(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_PROCESSING);
 }
 
-void OCEnum::set_OC_ENUM_PROCESSING(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_PURE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_PURE);
-}
-
-void OCEnum::set_OC_ENUM_PURE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_QUICK(const Napi::CallbackInfo& info)
@@ -6815,19 +6240,9 @@ Napi::Value OCEnum::get_OC_ENUM_QUICK(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_QUICK);
 }
 
-void OCEnum::set_OC_ENUM_QUICK(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_QUIET(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_QUIET);
-}
-
-void OCEnum::set_OC_ENUM_QUIET(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_RINSE(const Napi::CallbackInfo& info)
@@ -6835,19 +6250,9 @@ Napi::Value OCEnum::get_OC_ENUM_RINSE(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_RINSE);
 }
 
-void OCEnum::set_OC_ENUM_RINSE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_SECTORED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_SECTORED);
-}
-
-void OCEnum::set_OC_ENUM_SECTORED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_SILENT(const Napi::CallbackInfo& info)
@@ -6855,19 +6260,9 @@ Napi::Value OCEnum::get_OC_ENUM_SILENT(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_SILENT);
 }
 
-void OCEnum::set_OC_ENUM_SILENT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_SLEEP(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_SLEEP);
-}
-
-void OCEnum::set_OC_ENUM_SLEEP(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_SMART(const Napi::CallbackInfo& info)
@@ -6875,19 +6270,9 @@ Napi::Value OCEnum::get_OC_ENUM_SMART(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_SMART);
 }
 
-void OCEnum::set_OC_ENUM_SMART(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_SPOT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_SPOT);
-}
-
-void OCEnum::set_OC_ENUM_SPOT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_STEAM(const Napi::CallbackInfo& info)
@@ -6895,19 +6280,9 @@ Napi::Value OCEnum::get_OC_ENUM_STEAM(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_STEAM);
 }
 
-void OCEnum::set_OC_ENUM_STEAM(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_STOPPED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_STOPPED);
-}
-
-void OCEnum::set_OC_ENUM_STOPPED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_SPIN(const Napi::CallbackInfo& info)
@@ -6915,19 +6290,9 @@ Napi::Value OCEnum::get_OC_ENUM_SPIN(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_SPIN);
 }
 
-void OCEnum::set_OC_ENUM_SPIN(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_TESTING(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_TESTING);
-}
-
-void OCEnum::set_OC_ENUM_TESTING(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_TONER(const Napi::CallbackInfo& info)
@@ -6935,19 +6300,9 @@ Napi::Value OCEnum::get_OC_ENUM_TONER(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_TONER);
 }
 
-void OCEnum::set_OC_ENUM_TONER(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_TONERBLACK(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_TONERBLACK);
-}
-
-void OCEnum::set_OC_ENUM_TONERBLACK(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_TONERCYAN(const Napi::CallbackInfo& info)
@@ -6955,19 +6310,9 @@ Napi::Value OCEnum::get_OC_ENUM_TONERCYAN(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_TONERCYAN);
 }
 
-void OCEnum::set_OC_ENUM_TONERCYAN(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_TONERMAGENTA(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_TONERMAGENTA);
-}
-
-void OCEnum::set_OC_ENUM_TONERMAGENTA(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_TONERYELLOW(const Napi::CallbackInfo& info)
@@ -6975,19 +6320,9 @@ Napi::Value OCEnum::get_OC_ENUM_TONERYELLOW(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_TONERYELLOW);
 }
 
-void OCEnum::set_OC_ENUM_TONERYELLOW(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_WARM(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_WARM);
-}
-
-void OCEnum::set_OC_ENUM_WARM(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_WASH(const Napi::CallbackInfo& info)
@@ -6995,19 +6330,9 @@ Napi::Value OCEnum::get_OC_ENUM_WASH(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_WASH);
 }
 
-void OCEnum::set_OC_ENUM_WASH(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_WET(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_WET);
-}
-
-void OCEnum::set_OC_ENUM_WET(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_WIND(const Napi::CallbackInfo& info)
@@ -7015,19 +6340,9 @@ Napi::Value OCEnum::get_OC_ENUM_WIND(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_WIND);
 }
 
-void OCEnum::set_OC_ENUM_WIND(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEnum::get_OC_ENUM_WRINKLEPREVENT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_ENUM_WRINKLEPREVENT);
-}
-
-void OCEnum::set_OC_ENUM_WRINKLEPREVENT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCEnum::get_OC_ENUM_ZIGZAG(const Napi::CallbackInfo& info)
@@ -7035,29 +6350,24 @@ Napi::Value OCEnum::get_OC_ENUM_ZIGZAG(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_ENUM_ZIGZAG);
 }
 
-void OCEnum::set_OC_ENUM_ZIGZAG(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::FunctionReference OCPositionDescription::constructor;
 
 Napi::Function OCPositionDescription::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCPositionDescription", {
-    StaticAccessor("OC_POS_UNKNOWN", OCPositionDescription::get_OC_POS_UNKNOWN, OCPositionDescription::set_OC_POS_UNKNOWN),
-    StaticAccessor("OC_POS_TOP", OCPositionDescription::get_OC_POS_TOP, OCPositionDescription::set_OC_POS_TOP),
-    StaticAccessor("OC_POS_BOTTOM", OCPositionDescription::get_OC_POS_BOTTOM, OCPositionDescription::set_OC_POS_BOTTOM),
-    StaticAccessor("OC_POS_LEFT", OCPositionDescription::get_OC_POS_LEFT, OCPositionDescription::set_OC_POS_LEFT),
-    StaticAccessor("OC_POS_RIGHT", OCPositionDescription::get_OC_POS_RIGHT, OCPositionDescription::set_OC_POS_RIGHT),
-    StaticAccessor("OC_POS_CENTRE", OCPositionDescription::get_OC_POS_CENTRE, OCPositionDescription::set_OC_POS_CENTRE),
-    StaticAccessor("OC_POS_TOPLEFT", OCPositionDescription::get_OC_POS_TOPLEFT, OCPositionDescription::set_OC_POS_TOPLEFT),
-    StaticAccessor("OC_POS_BOTTOMLEFT", OCPositionDescription::get_OC_POS_BOTTOMLEFT, OCPositionDescription::set_OC_POS_BOTTOMLEFT),
-    StaticAccessor("OC_POS_CENTRELEFT", OCPositionDescription::get_OC_POS_CENTRELEFT, OCPositionDescription::set_OC_POS_CENTRELEFT),
-    StaticAccessor("OC_POS_CENTRERIGHT", OCPositionDescription::get_OC_POS_CENTRERIGHT, OCPositionDescription::set_OC_POS_CENTRERIGHT),
-    StaticAccessor("OC_POS_BOTTOMRIGHT", OCPositionDescription::get_OC_POS_BOTTOMRIGHT, OCPositionDescription::set_OC_POS_BOTTOMRIGHT),
-    StaticAccessor("OC_POS_TOPRIGHT", OCPositionDescription::get_OC_POS_TOPRIGHT, OCPositionDescription::set_OC_POS_TOPRIGHT),
-    StaticAccessor("OC_POS_TOPCENTRE", OCPositionDescription::get_OC_POS_TOPCENTRE, OCPositionDescription::set_OC_POS_TOPCENTRE),
-    StaticAccessor("OC_POS_BOTTOMCENTRE", OCPositionDescription::get_OC_POS_BOTTOMCENTRE, OCPositionDescription::set_OC_POS_BOTTOMCENTRE),
+    StaticAccessor("OC_POS_UNKNOWN", OCPositionDescription::get_OC_POS_UNKNOWN, nullptr),
+    StaticAccessor("OC_POS_TOP", OCPositionDescription::get_OC_POS_TOP, nullptr),
+    StaticAccessor("OC_POS_BOTTOM", OCPositionDescription::get_OC_POS_BOTTOM, nullptr),
+    StaticAccessor("OC_POS_LEFT", OCPositionDescription::get_OC_POS_LEFT, nullptr),
+    StaticAccessor("OC_POS_RIGHT", OCPositionDescription::get_OC_POS_RIGHT, nullptr),
+    StaticAccessor("OC_POS_CENTRE", OCPositionDescription::get_OC_POS_CENTRE, nullptr),
+    StaticAccessor("OC_POS_TOPLEFT", OCPositionDescription::get_OC_POS_TOPLEFT, nullptr),
+    StaticAccessor("OC_POS_BOTTOMLEFT", OCPositionDescription::get_OC_POS_BOTTOMLEFT, nullptr),
+    StaticAccessor("OC_POS_CENTRELEFT", OCPositionDescription::get_OC_POS_CENTRELEFT, nullptr),
+    StaticAccessor("OC_POS_CENTRERIGHT", OCPositionDescription::get_OC_POS_CENTRERIGHT, nullptr),
+    StaticAccessor("OC_POS_BOTTOMRIGHT", OCPositionDescription::get_OC_POS_BOTTOMRIGHT, nullptr),
+    StaticAccessor("OC_POS_TOPRIGHT", OCPositionDescription::get_OC_POS_TOPRIGHT, nullptr),
+    StaticAccessor("OC_POS_TOPCENTRE", OCPositionDescription::get_OC_POS_TOPCENTRE, nullptr),
+    StaticAccessor("OC_POS_BOTTOMCENTRE", OCPositionDescription::get_OC_POS_BOTTOMCENTRE, nullptr),
 
   });
 
@@ -7088,19 +6398,9 @@ Napi::Value OCPositionDescription::get_OC_POS_UNKNOWN(const Napi::CallbackInfo& 
   return Napi::Number::New(info.Env(), OC_POS_UNKNOWN);
 }
 
-void OCPositionDescription::set_OC_POS_UNKNOWN(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCPositionDescription::get_OC_POS_TOP(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_POS_TOP);
-}
-
-void OCPositionDescription::set_OC_POS_TOP(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCPositionDescription::get_OC_POS_BOTTOM(const Napi::CallbackInfo& info)
@@ -7108,19 +6408,9 @@ Napi::Value OCPositionDescription::get_OC_POS_BOTTOM(const Napi::CallbackInfo& i
   return Napi::Number::New(info.Env(), OC_POS_BOTTOM);
 }
 
-void OCPositionDescription::set_OC_POS_BOTTOM(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCPositionDescription::get_OC_POS_LEFT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_POS_LEFT);
-}
-
-void OCPositionDescription::set_OC_POS_LEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCPositionDescription::get_OC_POS_RIGHT(const Napi::CallbackInfo& info)
@@ -7128,19 +6418,9 @@ Napi::Value OCPositionDescription::get_OC_POS_RIGHT(const Napi::CallbackInfo& in
   return Napi::Number::New(info.Env(), OC_POS_RIGHT);
 }
 
-void OCPositionDescription::set_OC_POS_RIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCPositionDescription::get_OC_POS_CENTRE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_POS_CENTRE);
-}
-
-void OCPositionDescription::set_OC_POS_CENTRE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCPositionDescription::get_OC_POS_TOPLEFT(const Napi::CallbackInfo& info)
@@ -7148,19 +6428,9 @@ Napi::Value OCPositionDescription::get_OC_POS_TOPLEFT(const Napi::CallbackInfo& 
   return Napi::Number::New(info.Env(), OC_POS_TOPLEFT);
 }
 
-void OCPositionDescription::set_OC_POS_TOPLEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCPositionDescription::get_OC_POS_BOTTOMLEFT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_POS_BOTTOMLEFT);
-}
-
-void OCPositionDescription::set_OC_POS_BOTTOMLEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCPositionDescription::get_OC_POS_CENTRELEFT(const Napi::CallbackInfo& info)
@@ -7168,19 +6438,9 @@ Napi::Value OCPositionDescription::get_OC_POS_CENTRELEFT(const Napi::CallbackInf
   return Napi::Number::New(info.Env(), OC_POS_CENTRELEFT);
 }
 
-void OCPositionDescription::set_OC_POS_CENTRELEFT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCPositionDescription::get_OC_POS_CENTRERIGHT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_POS_CENTRERIGHT);
-}
-
-void OCPositionDescription::set_OC_POS_CENTRERIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCPositionDescription::get_OC_POS_BOTTOMRIGHT(const Napi::CallbackInfo& info)
@@ -7188,19 +6448,9 @@ Napi::Value OCPositionDescription::get_OC_POS_BOTTOMRIGHT(const Napi::CallbackIn
   return Napi::Number::New(info.Env(), OC_POS_BOTTOMRIGHT);
 }
 
-void OCPositionDescription::set_OC_POS_BOTTOMRIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCPositionDescription::get_OC_POS_TOPRIGHT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_POS_TOPRIGHT);
-}
-
-void OCPositionDescription::set_OC_POS_TOPRIGHT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCPositionDescription::get_OC_POS_TOPCENTRE(const Napi::CallbackInfo& info)
@@ -7208,19 +6458,9 @@ Napi::Value OCPositionDescription::get_OC_POS_TOPCENTRE(const Napi::CallbackInfo
   return Napi::Number::New(info.Env(), OC_POS_TOPCENTRE);
 }
 
-void OCPositionDescription::set_OC_POS_TOPCENTRE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCPositionDescription::get_OC_POS_BOTTOMCENTRE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_POS_BOTTOMCENTRE);
-}
-
-void OCPositionDescription::set_OC_POS_BOTTOMCENTRE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 
@@ -7228,8 +6468,8 @@ Napi::FunctionReference OCInterfaceEvent::constructor;
 
 Napi::Function OCInterfaceEvent::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCInterfaceEvent", {
-    StaticAccessor("NETWORK_INTERFACE_DOWN", OCInterfaceEvent::get_NETWORK_INTERFACE_DOWN, OCInterfaceEvent::set_NETWORK_INTERFACE_DOWN),
-    StaticAccessor("NETWORK_INTERFACE_UP", OCInterfaceEvent::get_NETWORK_INTERFACE_UP, OCInterfaceEvent::set_NETWORK_INTERFACE_UP),
+    StaticAccessor("NETWORK_INTERFACE_DOWN", OCInterfaceEvent::get_NETWORK_INTERFACE_DOWN, nullptr),
+    StaticAccessor("NETWORK_INTERFACE_UP", OCInterfaceEvent::get_NETWORK_INTERFACE_UP, nullptr),
 
   });
 
@@ -7260,29 +6500,19 @@ Napi::Value OCInterfaceEvent::get_NETWORK_INTERFACE_DOWN(const Napi::CallbackInf
   return Napi::Number::New(info.Env(), NETWORK_INTERFACE_DOWN);
 }
 
-void OCInterfaceEvent::set_NETWORK_INTERFACE_DOWN(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCInterfaceEvent::get_NETWORK_INTERFACE_UP(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), NETWORK_INTERFACE_UP);
-}
-
-void OCInterfaceEvent::set_NETWORK_INTERFACE_UP(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCSpTypesMask::constructor;
 
 Napi::Function OCSpTypesMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSpTypesMask", {
-    StaticAccessor("OC_SP_BASELINE", OCSpTypesMask::get_OC_SP_BASELINE, OCSpTypesMask::set_OC_SP_BASELINE),
-    StaticAccessor("OC_SP_BLACK", OCSpTypesMask::get_OC_SP_BLACK, OCSpTypesMask::set_OC_SP_BLACK),
-    StaticAccessor("OC_SP_BLUE", OCSpTypesMask::get_OC_SP_BLUE, OCSpTypesMask::set_OC_SP_BLUE),
-    StaticAccessor("OC_SP_PURPLE", OCSpTypesMask::get_OC_SP_PURPLE, OCSpTypesMask::set_OC_SP_PURPLE),
+    StaticAccessor("OC_SP_BASELINE", OCSpTypesMask::get_OC_SP_BASELINE, nullptr),
+    StaticAccessor("OC_SP_BLACK", OCSpTypesMask::get_OC_SP_BLACK, nullptr),
+    StaticAccessor("OC_SP_BLUE", OCSpTypesMask::get_OC_SP_BLUE, nullptr),
+    StaticAccessor("OC_SP_PURPLE", OCSpTypesMask::get_OC_SP_PURPLE, nullptr),
 
   });
 
@@ -7313,19 +6543,9 @@ Napi::Value OCSpTypesMask::get_OC_SP_BASELINE(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_SP_BASELINE);
 }
 
-void OCSpTypesMask::set_OC_SP_BASELINE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCSpTypesMask::get_OC_SP_BLACK(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_SP_BLACK);
-}
-
-void OCSpTypesMask::set_OC_SP_BLACK(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCSpTypesMask::get_OC_SP_BLUE(const Napi::CallbackInfo& info)
@@ -7333,39 +6553,29 @@ Napi::Value OCSpTypesMask::get_OC_SP_BLUE(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_SP_BLUE);
 }
 
-void OCSpTypesMask::set_OC_SP_BLUE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCSpTypesMask::get_OC_SP_PURPLE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_SP_PURPLE);
-}
-
-void OCSpTypesMask::set_OC_SP_PURPLE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCRepValueType::constructor;
 
 Napi::Function OCRepValueType::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCRepValueType", {
-    StaticAccessor("OC_REP_NIL", OCRepValueType::get_OC_REP_NIL, OCRepValueType::set_OC_REP_NIL),
-    StaticAccessor("OC_REP_INT", OCRepValueType::get_OC_REP_INT, OCRepValueType::set_OC_REP_INT),
-    StaticAccessor("OC_REP_DOUBLE", OCRepValueType::get_OC_REP_DOUBLE, OCRepValueType::set_OC_REP_DOUBLE),
-    StaticAccessor("OC_REP_BOOL", OCRepValueType::get_OC_REP_BOOL, OCRepValueType::set_OC_REP_BOOL),
-    StaticAccessor("OC_REP_BYTE_STRING", OCRepValueType::get_OC_REP_BYTE_STRING, OCRepValueType::set_OC_REP_BYTE_STRING),
-    StaticAccessor("OC_REP_STRING", OCRepValueType::get_OC_REP_STRING, OCRepValueType::set_OC_REP_STRING),
-    StaticAccessor("OC_REP_OBJECT", OCRepValueType::get_OC_REP_OBJECT, OCRepValueType::set_OC_REP_OBJECT),
-    StaticAccessor("OC_REP_ARRAY", OCRepValueType::get_OC_REP_ARRAY, OCRepValueType::set_OC_REP_ARRAY),
-    StaticAccessor("OC_REP_INT_ARRAY", OCRepValueType::get_OC_REP_INT_ARRAY, OCRepValueType::set_OC_REP_INT_ARRAY),
-    StaticAccessor("OC_REP_DOUBLE_ARRAY", OCRepValueType::get_OC_REP_DOUBLE_ARRAY, OCRepValueType::set_OC_REP_DOUBLE_ARRAY),
-    StaticAccessor("OC_REP_BOOL_ARRAY", OCRepValueType::get_OC_REP_BOOL_ARRAY, OCRepValueType::set_OC_REP_BOOL_ARRAY),
-    StaticAccessor("OC_REP_BYTE_STRING_ARRAY", OCRepValueType::get_OC_REP_BYTE_STRING_ARRAY, OCRepValueType::set_OC_REP_BYTE_STRING_ARRAY),
-    StaticAccessor("OC_REP_STRING_ARRAY", OCRepValueType::get_OC_REP_STRING_ARRAY, OCRepValueType::set_OC_REP_STRING_ARRAY),
-    StaticAccessor("OC_REP_OBJECT_ARRAY", OCRepValueType::get_OC_REP_OBJECT_ARRAY, OCRepValueType::set_OC_REP_OBJECT_ARRAY),
+    StaticAccessor("OC_REP_NIL", OCRepValueType::get_OC_REP_NIL, nullptr),
+    StaticAccessor("OC_REP_INT", OCRepValueType::get_OC_REP_INT, nullptr),
+    StaticAccessor("OC_REP_DOUBLE", OCRepValueType::get_OC_REP_DOUBLE, nullptr),
+    StaticAccessor("OC_REP_BOOL", OCRepValueType::get_OC_REP_BOOL, nullptr),
+    StaticAccessor("OC_REP_BYTE_STRING", OCRepValueType::get_OC_REP_BYTE_STRING, nullptr),
+    StaticAccessor("OC_REP_STRING", OCRepValueType::get_OC_REP_STRING, nullptr),
+    StaticAccessor("OC_REP_OBJECT", OCRepValueType::get_OC_REP_OBJECT, nullptr),
+    StaticAccessor("OC_REP_ARRAY", OCRepValueType::get_OC_REP_ARRAY, nullptr),
+    StaticAccessor("OC_REP_INT_ARRAY", OCRepValueType::get_OC_REP_INT_ARRAY, nullptr),
+    StaticAccessor("OC_REP_DOUBLE_ARRAY", OCRepValueType::get_OC_REP_DOUBLE_ARRAY, nullptr),
+    StaticAccessor("OC_REP_BOOL_ARRAY", OCRepValueType::get_OC_REP_BOOL_ARRAY, nullptr),
+    StaticAccessor("OC_REP_BYTE_STRING_ARRAY", OCRepValueType::get_OC_REP_BYTE_STRING_ARRAY, nullptr),
+    StaticAccessor("OC_REP_STRING_ARRAY", OCRepValueType::get_OC_REP_STRING_ARRAY, nullptr),
+    StaticAccessor("OC_REP_OBJECT_ARRAY", OCRepValueType::get_OC_REP_OBJECT_ARRAY, nullptr),
 
   });
 
@@ -7396,19 +6606,9 @@ Napi::Value OCRepValueType::get_OC_REP_NIL(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_REP_NIL);
 }
 
-void OCRepValueType::set_OC_REP_NIL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCRepValueType::get_OC_REP_INT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_REP_INT);
-}
-
-void OCRepValueType::set_OC_REP_INT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCRepValueType::get_OC_REP_DOUBLE(const Napi::CallbackInfo& info)
@@ -7416,19 +6616,9 @@ Napi::Value OCRepValueType::get_OC_REP_DOUBLE(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_REP_DOUBLE);
 }
 
-void OCRepValueType::set_OC_REP_DOUBLE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCRepValueType::get_OC_REP_BOOL(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_REP_BOOL);
-}
-
-void OCRepValueType::set_OC_REP_BOOL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCRepValueType::get_OC_REP_BYTE_STRING(const Napi::CallbackInfo& info)
@@ -7436,19 +6626,9 @@ Napi::Value OCRepValueType::get_OC_REP_BYTE_STRING(const Napi::CallbackInfo& inf
   return Napi::Number::New(info.Env(), OC_REP_BYTE_STRING);
 }
 
-void OCRepValueType::set_OC_REP_BYTE_STRING(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCRepValueType::get_OC_REP_STRING(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_REP_STRING);
-}
-
-void OCRepValueType::set_OC_REP_STRING(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCRepValueType::get_OC_REP_OBJECT(const Napi::CallbackInfo& info)
@@ -7456,19 +6636,9 @@ Napi::Value OCRepValueType::get_OC_REP_OBJECT(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_REP_OBJECT);
 }
 
-void OCRepValueType::set_OC_REP_OBJECT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCRepValueType::get_OC_REP_ARRAY(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_REP_ARRAY);
-}
-
-void OCRepValueType::set_OC_REP_ARRAY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCRepValueType::get_OC_REP_INT_ARRAY(const Napi::CallbackInfo& info)
@@ -7476,19 +6646,9 @@ Napi::Value OCRepValueType::get_OC_REP_INT_ARRAY(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_REP_INT_ARRAY);
 }
 
-void OCRepValueType::set_OC_REP_INT_ARRAY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCRepValueType::get_OC_REP_DOUBLE_ARRAY(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_REP_DOUBLE_ARRAY);
-}
-
-void OCRepValueType::set_OC_REP_DOUBLE_ARRAY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCRepValueType::get_OC_REP_BOOL_ARRAY(const Napi::CallbackInfo& info)
@@ -7496,19 +6656,9 @@ Napi::Value OCRepValueType::get_OC_REP_BOOL_ARRAY(const Napi::CallbackInfo& info
   return Napi::Number::New(info.Env(), OC_REP_BOOL_ARRAY);
 }
 
-void OCRepValueType::set_OC_REP_BOOL_ARRAY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCRepValueType::get_OC_REP_BYTE_STRING_ARRAY(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_REP_BYTE_STRING_ARRAY);
-}
-
-void OCRepValueType::set_OC_REP_BYTE_STRING_ARRAY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCRepValueType::get_OC_REP_STRING_ARRAY(const Napi::CallbackInfo& info)
@@ -7516,49 +6666,39 @@ Napi::Value OCRepValueType::get_OC_REP_STRING_ARRAY(const Napi::CallbackInfo& in
   return Napi::Number::New(info.Env(), OC_REP_STRING_ARRAY);
 }
 
-void OCRepValueType::set_OC_REP_STRING_ARRAY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCRepValueType::get_OC_REP_OBJECT_ARRAY(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_REP_OBJECT_ARRAY);
-}
-
-void OCRepValueType::set_OC_REP_OBJECT_ARRAY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCContentFormat::constructor;
 
 Napi::Function OCContentFormat::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCContentFormat", {
-    StaticAccessor("TEXT_PLAIN", OCContentFormat::get_TEXT_PLAIN, OCContentFormat::set_TEXT_PLAIN),
-    StaticAccessor("TEXT_XML", OCContentFormat::get_TEXT_XML, OCContentFormat::set_TEXT_XML),
-    StaticAccessor("TEXT_CSV", OCContentFormat::get_TEXT_CSV, OCContentFormat::set_TEXT_CSV),
-    StaticAccessor("TEXT_HTML", OCContentFormat::get_TEXT_HTML, OCContentFormat::set_TEXT_HTML),
-    StaticAccessor("IMAGE_GIF", OCContentFormat::get_IMAGE_GIF, OCContentFormat::set_IMAGE_GIF),
-    StaticAccessor("IMAGE_JPEG", OCContentFormat::get_IMAGE_JPEG, OCContentFormat::set_IMAGE_JPEG),
-    StaticAccessor("IMAGE_PNG", OCContentFormat::get_IMAGE_PNG, OCContentFormat::set_IMAGE_PNG),
-    StaticAccessor("IMAGE_TIFF", OCContentFormat::get_IMAGE_TIFF, OCContentFormat::set_IMAGE_TIFF),
-    StaticAccessor("AUDIO_RAW", OCContentFormat::get_AUDIO_RAW, OCContentFormat::set_AUDIO_RAW),
-    StaticAccessor("VIDEO_RAW", OCContentFormat::get_VIDEO_RAW, OCContentFormat::set_VIDEO_RAW),
-    StaticAccessor("APPLICATION_LINK_FORMAT", OCContentFormat::get_APPLICATION_LINK_FORMAT, OCContentFormat::set_APPLICATION_LINK_FORMAT),
-    StaticAccessor("APPLICATION_XML", OCContentFormat::get_APPLICATION_XML, OCContentFormat::set_APPLICATION_XML),
-    StaticAccessor("APPLICATION_OCTET_STREAM", OCContentFormat::get_APPLICATION_OCTET_STREAM, OCContentFormat::set_APPLICATION_OCTET_STREAM),
-    StaticAccessor("APPLICATION_RDF_XML", OCContentFormat::get_APPLICATION_RDF_XML, OCContentFormat::set_APPLICATION_RDF_XML),
-    StaticAccessor("APPLICATION_SOAP_XML", OCContentFormat::get_APPLICATION_SOAP_XML, OCContentFormat::set_APPLICATION_SOAP_XML),
-    StaticAccessor("APPLICATION_ATOM_XML", OCContentFormat::get_APPLICATION_ATOM_XML, OCContentFormat::set_APPLICATION_ATOM_XML),
-    StaticAccessor("APPLICATION_XMPP_XML", OCContentFormat::get_APPLICATION_XMPP_XML, OCContentFormat::set_APPLICATION_XMPP_XML),
-    StaticAccessor("APPLICATION_EXI", OCContentFormat::get_APPLICATION_EXI, OCContentFormat::set_APPLICATION_EXI),
-    StaticAccessor("APPLICATION_FASTINFOSET", OCContentFormat::get_APPLICATION_FASTINFOSET, OCContentFormat::set_APPLICATION_FASTINFOSET),
-    StaticAccessor("APPLICATION_SOAP_FASTINFOSET", OCContentFormat::get_APPLICATION_SOAP_FASTINFOSET, OCContentFormat::set_APPLICATION_SOAP_FASTINFOSET),
-    StaticAccessor("APPLICATION_JSON", OCContentFormat::get_APPLICATION_JSON, OCContentFormat::set_APPLICATION_JSON),
-    StaticAccessor("APPLICATION_X_OBIX_BINARY", OCContentFormat::get_APPLICATION_X_OBIX_BINARY, OCContentFormat::set_APPLICATION_X_OBIX_BINARY),
-    StaticAccessor("APPLICATION_CBOR", OCContentFormat::get_APPLICATION_CBOR, OCContentFormat::set_APPLICATION_CBOR),
-    StaticAccessor("APPLICATION_VND_OCF_CBOR", OCContentFormat::get_APPLICATION_VND_OCF_CBOR, OCContentFormat::set_APPLICATION_VND_OCF_CBOR),
+    StaticAccessor("TEXT_PLAIN", OCContentFormat::get_TEXT_PLAIN, nullptr),
+    StaticAccessor("TEXT_XML", OCContentFormat::get_TEXT_XML, nullptr),
+    StaticAccessor("TEXT_CSV", OCContentFormat::get_TEXT_CSV, nullptr),
+    StaticAccessor("TEXT_HTML", OCContentFormat::get_TEXT_HTML, nullptr),
+    StaticAccessor("IMAGE_GIF", OCContentFormat::get_IMAGE_GIF, nullptr),
+    StaticAccessor("IMAGE_JPEG", OCContentFormat::get_IMAGE_JPEG, nullptr),
+    StaticAccessor("IMAGE_PNG", OCContentFormat::get_IMAGE_PNG, nullptr),
+    StaticAccessor("IMAGE_TIFF", OCContentFormat::get_IMAGE_TIFF, nullptr),
+    StaticAccessor("AUDIO_RAW", OCContentFormat::get_AUDIO_RAW, nullptr),
+    StaticAccessor("VIDEO_RAW", OCContentFormat::get_VIDEO_RAW, nullptr),
+    StaticAccessor("APPLICATION_LINK_FORMAT", OCContentFormat::get_APPLICATION_LINK_FORMAT, nullptr),
+    StaticAccessor("APPLICATION_XML", OCContentFormat::get_APPLICATION_XML, nullptr),
+    StaticAccessor("APPLICATION_OCTET_STREAM", OCContentFormat::get_APPLICATION_OCTET_STREAM, nullptr),
+    StaticAccessor("APPLICATION_RDF_XML", OCContentFormat::get_APPLICATION_RDF_XML, nullptr),
+    StaticAccessor("APPLICATION_SOAP_XML", OCContentFormat::get_APPLICATION_SOAP_XML, nullptr),
+    StaticAccessor("APPLICATION_ATOM_XML", OCContentFormat::get_APPLICATION_ATOM_XML, nullptr),
+    StaticAccessor("APPLICATION_XMPP_XML", OCContentFormat::get_APPLICATION_XMPP_XML, nullptr),
+    StaticAccessor("APPLICATION_EXI", OCContentFormat::get_APPLICATION_EXI, nullptr),
+    StaticAccessor("APPLICATION_FASTINFOSET", OCContentFormat::get_APPLICATION_FASTINFOSET, nullptr),
+    StaticAccessor("APPLICATION_SOAP_FASTINFOSET", OCContentFormat::get_APPLICATION_SOAP_FASTINFOSET, nullptr),
+    StaticAccessor("APPLICATION_JSON", OCContentFormat::get_APPLICATION_JSON, nullptr),
+    StaticAccessor("APPLICATION_X_OBIX_BINARY", OCContentFormat::get_APPLICATION_X_OBIX_BINARY, nullptr),
+    StaticAccessor("APPLICATION_CBOR", OCContentFormat::get_APPLICATION_CBOR, nullptr),
+    StaticAccessor("APPLICATION_VND_OCF_CBOR", OCContentFormat::get_APPLICATION_VND_OCF_CBOR, nullptr),
 
   });
 
@@ -7589,19 +6729,9 @@ Napi::Value OCContentFormat::get_TEXT_PLAIN(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), TEXT_PLAIN);
 }
 
-void OCContentFormat::set_TEXT_PLAIN(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCContentFormat::get_TEXT_XML(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), TEXT_XML);
-}
-
-void OCContentFormat::set_TEXT_XML(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCContentFormat::get_TEXT_CSV(const Napi::CallbackInfo& info)
@@ -7609,19 +6739,9 @@ Napi::Value OCContentFormat::get_TEXT_CSV(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), TEXT_CSV);
 }
 
-void OCContentFormat::set_TEXT_CSV(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCContentFormat::get_TEXT_HTML(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), TEXT_HTML);
-}
-
-void OCContentFormat::set_TEXT_HTML(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCContentFormat::get_IMAGE_GIF(const Napi::CallbackInfo& info)
@@ -7629,19 +6749,9 @@ Napi::Value OCContentFormat::get_IMAGE_GIF(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), IMAGE_GIF);
 }
 
-void OCContentFormat::set_IMAGE_GIF(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCContentFormat::get_IMAGE_JPEG(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), IMAGE_JPEG);
-}
-
-void OCContentFormat::set_IMAGE_JPEG(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCContentFormat::get_IMAGE_PNG(const Napi::CallbackInfo& info)
@@ -7649,19 +6759,9 @@ Napi::Value OCContentFormat::get_IMAGE_PNG(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), IMAGE_PNG);
 }
 
-void OCContentFormat::set_IMAGE_PNG(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCContentFormat::get_IMAGE_TIFF(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), IMAGE_TIFF);
-}
-
-void OCContentFormat::set_IMAGE_TIFF(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCContentFormat::get_AUDIO_RAW(const Napi::CallbackInfo& info)
@@ -7669,19 +6769,9 @@ Napi::Value OCContentFormat::get_AUDIO_RAW(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), AUDIO_RAW);
 }
 
-void OCContentFormat::set_AUDIO_RAW(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCContentFormat::get_VIDEO_RAW(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), VIDEO_RAW);
-}
-
-void OCContentFormat::set_VIDEO_RAW(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCContentFormat::get_APPLICATION_LINK_FORMAT(const Napi::CallbackInfo& info)
@@ -7689,19 +6779,9 @@ Napi::Value OCContentFormat::get_APPLICATION_LINK_FORMAT(const Napi::CallbackInf
   return Napi::Number::New(info.Env(), APPLICATION_LINK_FORMAT);
 }
 
-void OCContentFormat::set_APPLICATION_LINK_FORMAT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCContentFormat::get_APPLICATION_XML(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), APPLICATION_XML);
-}
-
-void OCContentFormat::set_APPLICATION_XML(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCContentFormat::get_APPLICATION_OCTET_STREAM(const Napi::CallbackInfo& info)
@@ -7709,19 +6789,9 @@ Napi::Value OCContentFormat::get_APPLICATION_OCTET_STREAM(const Napi::CallbackIn
   return Napi::Number::New(info.Env(), APPLICATION_OCTET_STREAM);
 }
 
-void OCContentFormat::set_APPLICATION_OCTET_STREAM(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCContentFormat::get_APPLICATION_RDF_XML(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), APPLICATION_RDF_XML);
-}
-
-void OCContentFormat::set_APPLICATION_RDF_XML(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCContentFormat::get_APPLICATION_SOAP_XML(const Napi::CallbackInfo& info)
@@ -7729,19 +6799,9 @@ Napi::Value OCContentFormat::get_APPLICATION_SOAP_XML(const Napi::CallbackInfo& 
   return Napi::Number::New(info.Env(), APPLICATION_SOAP_XML);
 }
 
-void OCContentFormat::set_APPLICATION_SOAP_XML(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCContentFormat::get_APPLICATION_ATOM_XML(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), APPLICATION_ATOM_XML);
-}
-
-void OCContentFormat::set_APPLICATION_ATOM_XML(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCContentFormat::get_APPLICATION_XMPP_XML(const Napi::CallbackInfo& info)
@@ -7749,19 +6809,9 @@ Napi::Value OCContentFormat::get_APPLICATION_XMPP_XML(const Napi::CallbackInfo& 
   return Napi::Number::New(info.Env(), APPLICATION_XMPP_XML);
 }
 
-void OCContentFormat::set_APPLICATION_XMPP_XML(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCContentFormat::get_APPLICATION_EXI(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), APPLICATION_EXI);
-}
-
-void OCContentFormat::set_APPLICATION_EXI(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCContentFormat::get_APPLICATION_FASTINFOSET(const Napi::CallbackInfo& info)
@@ -7769,19 +6819,9 @@ Napi::Value OCContentFormat::get_APPLICATION_FASTINFOSET(const Napi::CallbackInf
   return Napi::Number::New(info.Env(), APPLICATION_FASTINFOSET);
 }
 
-void OCContentFormat::set_APPLICATION_FASTINFOSET(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCContentFormat::get_APPLICATION_SOAP_FASTINFOSET(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), APPLICATION_SOAP_FASTINFOSET);
-}
-
-void OCContentFormat::set_APPLICATION_SOAP_FASTINFOSET(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCContentFormat::get_APPLICATION_JSON(const Napi::CallbackInfo& info)
@@ -7789,19 +6829,9 @@ Napi::Value OCContentFormat::get_APPLICATION_JSON(const Napi::CallbackInfo& info
   return Napi::Number::New(info.Env(), APPLICATION_JSON);
 }
 
-void OCContentFormat::set_APPLICATION_JSON(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCContentFormat::get_APPLICATION_X_OBIX_BINARY(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), APPLICATION_X_OBIX_BINARY);
-}
-
-void OCContentFormat::set_APPLICATION_X_OBIX_BINARY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCContentFormat::get_APPLICATION_CBOR(const Napi::CallbackInfo& info)
@@ -7809,67 +6839,57 @@ Napi::Value OCContentFormat::get_APPLICATION_CBOR(const Napi::CallbackInfo& info
   return Napi::Number::New(info.Env(), APPLICATION_CBOR);
 }
 
-void OCContentFormat::set_APPLICATION_CBOR(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCContentFormat::get_APPLICATION_VND_OCF_CBOR(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), APPLICATION_VND_OCF_CBOR);
-}
-
-void OCContentFormat::set_APPLICATION_VND_OCF_CBOR(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCCoreResource::constructor;
 
 Napi::Function OCCoreResource::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCCoreResource", {
-    StaticAccessor("OCF_P", OCCoreResource::get_OCF_P, OCCoreResource::set_OCF_P),
-    StaticAccessor("OCF_CON", OCCoreResource::get_OCF_CON, OCCoreResource::set_OCF_CON),
-    StaticAccessor("OCF_INTROSPECTION_WK", OCCoreResource::get_OCF_INTROSPECTION_WK, OCCoreResource::set_OCF_INTROSPECTION_WK),
-    StaticAccessor("OCF_INTROSPECTION_DATA", OCCoreResource::get_OCF_INTROSPECTION_DATA, OCCoreResource::set_OCF_INTROSPECTION_DATA),
-    StaticAccessor("OCF_RES", OCCoreResource::get_OCF_RES, OCCoreResource::set_OCF_RES),
+    StaticAccessor("OCF_P", OCCoreResource::get_OCF_P, nullptr),
+    StaticAccessor("OCF_CON", OCCoreResource::get_OCF_CON, nullptr),
+    StaticAccessor("OCF_INTROSPECTION_WK", OCCoreResource::get_OCF_INTROSPECTION_WK, nullptr),
+    StaticAccessor("OCF_INTROSPECTION_DATA", OCCoreResource::get_OCF_INTROSPECTION_DATA, nullptr),
+    StaticAccessor("OCF_RES", OCCoreResource::get_OCF_RES, nullptr),
 #if defined(OC_MNT)
-    StaticAccessor("OCF_MNT", OCCoreResource::get_OCF_MNT, OCCoreResource::set_OCF_MNT),
+    StaticAccessor("OCF_MNT", OCCoreResource::get_OCF_MNT, nullptr),
 #endif
 #if defined(OC_CLOUD)
-    StaticAccessor("OCF_COAPCLOUDCONF", OCCoreResource::get_OCF_COAPCLOUDCONF, OCCoreResource::set_OCF_COAPCLOUDCONF),
+    StaticAccessor("OCF_COAPCLOUDCONF", OCCoreResource::get_OCF_COAPCLOUDCONF, nullptr),
 #endif
 #if defined(OC_SOFTWARE_UPDATE)
-    StaticAccessor("OCF_SW_UPDATE", OCCoreResource::get_OCF_SW_UPDATE, OCCoreResource::set_OCF_SW_UPDATE),
+    StaticAccessor("OCF_SW_UPDATE", OCCoreResource::get_OCF_SW_UPDATE, nullptr),
 #endif
 #if defined(OC_SECURITY)
-    StaticAccessor("OCF_SEC_DOXM", OCCoreResource::get_OCF_SEC_DOXM, OCCoreResource::set_OCF_SEC_DOXM),
+    StaticAccessor("OCF_SEC_DOXM", OCCoreResource::get_OCF_SEC_DOXM, nullptr),
 #endif
 #if defined(OC_SECURITY)
-    StaticAccessor("OCF_SEC_PSTAT", OCCoreResource::get_OCF_SEC_PSTAT, OCCoreResource::set_OCF_SEC_PSTAT),
+    StaticAccessor("OCF_SEC_PSTAT", OCCoreResource::get_OCF_SEC_PSTAT, nullptr),
 #endif
 #if defined(OC_SECURITY)
-    StaticAccessor("OCF_SEC_ACL", OCCoreResource::get_OCF_SEC_ACL, OCCoreResource::set_OCF_SEC_ACL),
+    StaticAccessor("OCF_SEC_ACL", OCCoreResource::get_OCF_SEC_ACL, nullptr),
 #endif
 #if defined(OC_SECURITY)
-    StaticAccessor("OCF_SEC_AEL", OCCoreResource::get_OCF_SEC_AEL, OCCoreResource::set_OCF_SEC_AEL),
+    StaticAccessor("OCF_SEC_AEL", OCCoreResource::get_OCF_SEC_AEL, nullptr),
 #endif
 #if defined(OC_SECURITY)
-    StaticAccessor("OCF_SEC_CRED", OCCoreResource::get_OCF_SEC_CRED, OCCoreResource::set_OCF_SEC_CRED),
+    StaticAccessor("OCF_SEC_CRED", OCCoreResource::get_OCF_SEC_CRED, nullptr),
 #endif
 #if defined(OC_SECURITY)
-    StaticAccessor("OCF_SEC_SDI", OCCoreResource::get_OCF_SEC_SDI, OCCoreResource::set_OCF_SEC_SDI),
+    StaticAccessor("OCF_SEC_SDI", OCCoreResource::get_OCF_SEC_SDI, nullptr),
 #endif
 #if defined(OC_SECURITY)
-    StaticAccessor("OCF_SEC_SP", OCCoreResource::get_OCF_SEC_SP, OCCoreResource::set_OCF_SEC_SP),
+    StaticAccessor("OCF_SEC_SP", OCCoreResource::get_OCF_SEC_SP, nullptr),
 #endif
 #if defined(OC_SECURITY) && defined(OC_PKI)
-    StaticAccessor("OCF_SEC_CSR", OCCoreResource::get_OCF_SEC_CSR, OCCoreResource::set_OCF_SEC_CSR),
+    StaticAccessor("OCF_SEC_CSR", OCCoreResource::get_OCF_SEC_CSR, nullptr),
 #endif
 #if defined(OC_SECURITY) && defined(OC_PKI)
-    StaticAccessor("OCF_SEC_ROLES", OCCoreResource::get_OCF_SEC_ROLES, OCCoreResource::set_OCF_SEC_ROLES),
+    StaticAccessor("OCF_SEC_ROLES", OCCoreResource::get_OCF_SEC_ROLES, nullptr),
 #endif
-    StaticAccessor("OCF_D", OCCoreResource::get_OCF_D, OCCoreResource::set_OCF_D),
+    StaticAccessor("OCF_D", OCCoreResource::get_OCF_D, nullptr),
 
   });
 
@@ -7900,19 +6920,9 @@ Napi::Value OCCoreResource::get_OCF_P(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OCF_P);
 }
 
-void OCCoreResource::set_OCF_P(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCCoreResource::get_OCF_CON(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_CON);
-}
-
-void OCCoreResource::set_OCF_CON(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCCoreResource::get_OCF_INTROSPECTION_WK(const Napi::CallbackInfo& info)
@@ -7920,19 +6930,9 @@ Napi::Value OCCoreResource::get_OCF_INTROSPECTION_WK(const Napi::CallbackInfo& i
   return Napi::Number::New(info.Env(), OCF_INTROSPECTION_WK);
 }
 
-void OCCoreResource::set_OCF_INTROSPECTION_WK(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCCoreResource::get_OCF_INTROSPECTION_DATA(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_INTROSPECTION_DATA);
-}
-
-void OCCoreResource::set_OCF_INTROSPECTION_DATA(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCCoreResource::get_OCF_RES(const Napi::CallbackInfo& info)
@@ -7940,20 +6940,10 @@ Napi::Value OCCoreResource::get_OCF_RES(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OCF_RES);
 }
 
-void OCCoreResource::set_OCF_RES(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 #if defined(OC_MNT)
 Napi::Value OCCoreResource::get_OCF_MNT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_MNT);
-}
-
-void OCCoreResource::set_OCF_MNT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 #endif
 
@@ -7962,22 +6952,12 @@ Napi::Value OCCoreResource::get_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info
 {
   return Napi::Number::New(info.Env(), OCF_COAPCLOUDCONF);
 }
-
-void OCCoreResource::set_OCF_COAPCLOUDCONF(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
 #endif
 
 #if defined(OC_SOFTWARE_UPDATE)
 Napi::Value OCCoreResource::get_OCF_SW_UPDATE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SW_UPDATE);
-}
-
-void OCCoreResource::set_OCF_SW_UPDATE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 #endif
 
@@ -7986,22 +6966,12 @@ Napi::Value OCCoreResource::get_OCF_SEC_DOXM(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_DOXM);
 }
-
-void OCCoreResource::set_OCF_SEC_DOXM(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
 #endif
 
 #if defined(OC_SECURITY)
 Napi::Value OCCoreResource::get_OCF_SEC_PSTAT(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_PSTAT);
-}
-
-void OCCoreResource::set_OCF_SEC_PSTAT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 #endif
 
@@ -8010,22 +6980,12 @@ Napi::Value OCCoreResource::get_OCF_SEC_ACL(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_ACL);
 }
-
-void OCCoreResource::set_OCF_SEC_ACL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
 #endif
 
 #if defined(OC_SECURITY)
 Napi::Value OCCoreResource::get_OCF_SEC_AEL(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_AEL);
-}
-
-void OCCoreResource::set_OCF_SEC_AEL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 #endif
 
@@ -8034,22 +6994,12 @@ Napi::Value OCCoreResource::get_OCF_SEC_CRED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_CRED);
 }
-
-void OCCoreResource::set_OCF_SEC_CRED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
 #endif
 
 #if defined(OC_SECURITY)
 Napi::Value OCCoreResource::get_OCF_SEC_SDI(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_SDI);
-}
-
-void OCCoreResource::set_OCF_SEC_SDI(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 #endif
 
@@ -8058,22 +7008,12 @@ Napi::Value OCCoreResource::get_OCF_SEC_SP(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_SP);
 }
-
-void OCCoreResource::set_OCF_SEC_SP(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
 #endif
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value OCCoreResource::get_OCF_SEC_CSR(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_CSR);
-}
-
-void OCCoreResource::set_OCF_SEC_CSR(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 #endif
 
@@ -8082,11 +7022,6 @@ Napi::Value OCCoreResource::get_OCF_SEC_ROLES(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OCF_SEC_ROLES);
 }
-
-void OCCoreResource::set_OCF_SEC_ROLES(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
 #endif
 
 Napi::Value OCCoreResource::get_OCF_D(const Napi::CallbackInfo& info)
@@ -8094,17 +7029,12 @@ Napi::Value OCCoreResource::get_OCF_D(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OCF_D);
 }
 
-void OCCoreResource::set_OCF_D(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::FunctionReference OCEventCallbackResult::constructor;
 
 Napi::Function OCEventCallbackResult::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCEventCallbackResult", {
-    StaticAccessor("OC_EVENT_DONE", OCEventCallbackResult::get_OC_EVENT_DONE, OCEventCallbackResult::set_OC_EVENT_DONE),
-    StaticAccessor("OC_EVENT_CONTINUE", OCEventCallbackResult::get_OC_EVENT_CONTINUE, OCEventCallbackResult::set_OC_EVENT_CONTINUE),
+    StaticAccessor("OC_EVENT_DONE", OCEventCallbackResult::get_OC_EVENT_DONE, nullptr),
+    StaticAccessor("OC_EVENT_CONTINUE", OCEventCallbackResult::get_OC_EVENT_CONTINUE, nullptr),
 
   });
 
@@ -8135,33 +7065,23 @@ Napi::Value OCEventCallbackResult::get_OC_EVENT_DONE(const Napi::CallbackInfo& i
   return Napi::Number::New(info.Env(), OC_EVENT_DONE);
 }
 
-void OCEventCallbackResult::set_OC_EVENT_DONE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCEventCallbackResult::get_OC_EVENT_CONTINUE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_EVENT_CONTINUE);
-}
-
-void OCEventCallbackResult::set_OC_EVENT_CONTINUE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCInterfaceMask::constructor;
 
 Napi::Function OCInterfaceMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCInterfaceMask", {
-    StaticAccessor("OC_IF_BASELINE", OCInterfaceMask::get_OC_IF_BASELINE, OCInterfaceMask::set_OC_IF_BASELINE),
-    StaticAccessor("OC_IF_LL", OCInterfaceMask::get_OC_IF_LL, OCInterfaceMask::set_OC_IF_LL),
-    StaticAccessor("OC_IF_B", OCInterfaceMask::get_OC_IF_B, OCInterfaceMask::set_OC_IF_B),
-    StaticAccessor("OC_IF_R", OCInterfaceMask::get_OC_IF_R, OCInterfaceMask::set_OC_IF_R),
-    StaticAccessor("OC_IF_RW", OCInterfaceMask::get_OC_IF_RW, OCInterfaceMask::set_OC_IF_RW),
-    StaticAccessor("OC_IF_A", OCInterfaceMask::get_OC_IF_A, OCInterfaceMask::set_OC_IF_A),
-    StaticAccessor("OC_IF_S", OCInterfaceMask::get_OC_IF_S, OCInterfaceMask::set_OC_IF_S),
-    StaticAccessor("OC_IF_CREATE", OCInterfaceMask::get_OC_IF_CREATE, OCInterfaceMask::set_OC_IF_CREATE),
+    StaticAccessor("OC_IF_BASELINE", OCInterfaceMask::get_OC_IF_BASELINE, nullptr),
+    StaticAccessor("OC_IF_LL", OCInterfaceMask::get_OC_IF_LL, nullptr),
+    StaticAccessor("OC_IF_B", OCInterfaceMask::get_OC_IF_B, nullptr),
+    StaticAccessor("OC_IF_R", OCInterfaceMask::get_OC_IF_R, nullptr),
+    StaticAccessor("OC_IF_RW", OCInterfaceMask::get_OC_IF_RW, nullptr),
+    StaticAccessor("OC_IF_A", OCInterfaceMask::get_OC_IF_A, nullptr),
+    StaticAccessor("OC_IF_S", OCInterfaceMask::get_OC_IF_S, nullptr),
+    StaticAccessor("OC_IF_CREATE", OCInterfaceMask::get_OC_IF_CREATE, nullptr),
 
   });
 
@@ -8192,19 +7112,9 @@ Napi::Value OCInterfaceMask::get_OC_IF_BASELINE(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_IF_BASELINE);
 }
 
-void OCInterfaceMask::set_OC_IF_BASELINE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCInterfaceMask::get_OC_IF_LL(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_IF_LL);
-}
-
-void OCInterfaceMask::set_OC_IF_LL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCInterfaceMask::get_OC_IF_B(const Napi::CallbackInfo& info)
@@ -8212,19 +7122,9 @@ Napi::Value OCInterfaceMask::get_OC_IF_B(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_IF_B);
 }
 
-void OCInterfaceMask::set_OC_IF_B(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCInterfaceMask::get_OC_IF_R(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_IF_R);
-}
-
-void OCInterfaceMask::set_OC_IF_R(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCInterfaceMask::get_OC_IF_RW(const Napi::CallbackInfo& info)
@@ -8232,19 +7132,9 @@ Napi::Value OCInterfaceMask::get_OC_IF_RW(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_IF_RW);
 }
 
-void OCInterfaceMask::set_OC_IF_RW(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCInterfaceMask::get_OC_IF_A(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_IF_A);
-}
-
-void OCInterfaceMask::set_OC_IF_A(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCInterfaceMask::get_OC_IF_S(const Napi::CallbackInfo& info)
@@ -8252,29 +7142,19 @@ Napi::Value OCInterfaceMask::get_OC_IF_S(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_IF_S);
 }
 
-void OCInterfaceMask::set_OC_IF_S(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCInterfaceMask::get_OC_IF_CREATE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_IF_CREATE);
-}
-
-void OCInterfaceMask::set_OC_IF_CREATE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCMethod::constructor;
 
 Napi::Function OCMethod::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCMethod", {
-    StaticAccessor("OC_GET", OCMethod::get_OC_GET, OCMethod::set_OC_GET),
-    StaticAccessor("OC_POST", OCMethod::get_OC_POST, OCMethod::set_OC_POST),
-    StaticAccessor("OC_PUT", OCMethod::get_OC_PUT, OCMethod::set_OC_PUT),
-    StaticAccessor("OC_DELETE", OCMethod::get_OC_DELETE, OCMethod::set_OC_DELETE),
+    StaticAccessor("OC_GET", OCMethod::get_OC_GET, nullptr),
+    StaticAccessor("OC_POST", OCMethod::get_OC_POST, nullptr),
+    StaticAccessor("OC_PUT", OCMethod::get_OC_PUT, nullptr),
+    StaticAccessor("OC_DELETE", OCMethod::get_OC_DELETE, nullptr),
 
   });
 
@@ -8305,19 +7185,9 @@ Napi::Value OCMethod::get_OC_GET(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_GET);
 }
 
-void OCMethod::set_OC_GET(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCMethod::get_OC_POST(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_POST);
-}
-
-void OCMethod::set_OC_POST(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCMethod::get_OC_PUT(const Napi::CallbackInfo& info)
@@ -8325,29 +7195,19 @@ Napi::Value OCMethod::get_OC_PUT(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_PUT);
 }
 
-void OCMethod::set_OC_PUT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCMethod::get_OC_DELETE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_DELETE);
-}
-
-void OCMethod::set_OC_DELETE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCResourcePropertiesMask::constructor;
 
 Napi::Function OCResourcePropertiesMask::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCResourcePropertiesMask", {
-    StaticAccessor("OC_DISCOVERABLE", OCResourcePropertiesMask::get_OC_DISCOVERABLE, OCResourcePropertiesMask::set_OC_DISCOVERABLE),
-    StaticAccessor("OC_OBSERVABLE", OCResourcePropertiesMask::get_OC_OBSERVABLE, OCResourcePropertiesMask::set_OC_OBSERVABLE),
-    StaticAccessor("OC_SECURE", OCResourcePropertiesMask::get_OC_SECURE, OCResourcePropertiesMask::set_OC_SECURE),
-    StaticAccessor("OC_PERIODIC", OCResourcePropertiesMask::get_OC_PERIODIC, OCResourcePropertiesMask::set_OC_PERIODIC),
+    StaticAccessor("OC_DISCOVERABLE", OCResourcePropertiesMask::get_OC_DISCOVERABLE, nullptr),
+    StaticAccessor("OC_OBSERVABLE", OCResourcePropertiesMask::get_OC_OBSERVABLE, nullptr),
+    StaticAccessor("OC_SECURE", OCResourcePropertiesMask::get_OC_SECURE, nullptr),
+    StaticAccessor("OC_PERIODIC", OCResourcePropertiesMask::get_OC_PERIODIC, nullptr),
 
   });
 
@@ -8378,19 +7238,9 @@ Napi::Value OCResourcePropertiesMask::get_OC_DISCOVERABLE(const Napi::CallbackIn
   return Napi::Number::New(info.Env(), OC_DISCOVERABLE);
 }
 
-void OCResourcePropertiesMask::set_OC_DISCOVERABLE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCResourcePropertiesMask::get_OC_OBSERVABLE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_OBSERVABLE);
-}
-
-void OCResourcePropertiesMask::set_OC_OBSERVABLE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCResourcePropertiesMask::get_OC_SECURE(const Napi::CallbackInfo& info)
@@ -8398,48 +7248,38 @@ Napi::Value OCResourcePropertiesMask::get_OC_SECURE(const Napi::CallbackInfo& in
   return Napi::Number::New(info.Env(), OC_SECURE);
 }
 
-void OCResourcePropertiesMask::set_OC_SECURE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCResourcePropertiesMask::get_OC_PERIODIC(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_PERIODIC);
-}
-
-void OCResourcePropertiesMask::set_OC_PERIODIC(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCStatus::constructor;
 
 Napi::Function OCStatus::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCStatus", {
-    StaticAccessor("OC_STATUS_OK", OCStatus::get_OC_STATUS_OK, OCStatus::set_OC_STATUS_OK),
-    StaticAccessor("OC_STATUS_CREATED", OCStatus::get_OC_STATUS_CREATED, OCStatus::set_OC_STATUS_CREATED),
-    StaticAccessor("OC_STATUS_CHANGED", OCStatus::get_OC_STATUS_CHANGED, OCStatus::set_OC_STATUS_CHANGED),
-    StaticAccessor("OC_STATUS_DELETED", OCStatus::get_OC_STATUS_DELETED, OCStatus::set_OC_STATUS_DELETED),
-    StaticAccessor("OC_STATUS_NOT_MODIFIED", OCStatus::get_OC_STATUS_NOT_MODIFIED, OCStatus::set_OC_STATUS_NOT_MODIFIED),
-    StaticAccessor("OC_STATUS_BAD_REQUEST", OCStatus::get_OC_STATUS_BAD_REQUEST, OCStatus::set_OC_STATUS_BAD_REQUEST),
-    StaticAccessor("OC_STATUS_UNAUTHORIZED", OCStatus::get_OC_STATUS_UNAUTHORIZED, OCStatus::set_OC_STATUS_UNAUTHORIZED),
-    StaticAccessor("OC_STATUS_BAD_OPTION", OCStatus::get_OC_STATUS_BAD_OPTION, OCStatus::set_OC_STATUS_BAD_OPTION),
-    StaticAccessor("OC_STATUS_FORBIDDEN", OCStatus::get_OC_STATUS_FORBIDDEN, OCStatus::set_OC_STATUS_FORBIDDEN),
-    StaticAccessor("OC_STATUS_NOT_FOUND", OCStatus::get_OC_STATUS_NOT_FOUND, OCStatus::set_OC_STATUS_NOT_FOUND),
-    StaticAccessor("OC_STATUS_METHOD_NOT_ALLOWED", OCStatus::get_OC_STATUS_METHOD_NOT_ALLOWED, OCStatus::set_OC_STATUS_METHOD_NOT_ALLOWED),
-    StaticAccessor("OC_STATUS_NOT_ACCEPTABLE", OCStatus::get_OC_STATUS_NOT_ACCEPTABLE, OCStatus::set_OC_STATUS_NOT_ACCEPTABLE),
-    StaticAccessor("OC_STATUS_REQUEST_ENTITY_TOO_LARGE", OCStatus::get_OC_STATUS_REQUEST_ENTITY_TOO_LARGE, OCStatus::set_OC_STATUS_REQUEST_ENTITY_TOO_LARGE),
-    StaticAccessor("OC_STATUS_UNSUPPORTED_MEDIA_TYPE", OCStatus::get_OC_STATUS_UNSUPPORTED_MEDIA_TYPE, OCStatus::set_OC_STATUS_UNSUPPORTED_MEDIA_TYPE),
-    StaticAccessor("OC_STATUS_INTERNAL_SERVER_ERROR", OCStatus::get_OC_STATUS_INTERNAL_SERVER_ERROR, OCStatus::set_OC_STATUS_INTERNAL_SERVER_ERROR),
-    StaticAccessor("OC_STATUS_NOT_IMPLEMENTED", OCStatus::get_OC_STATUS_NOT_IMPLEMENTED, OCStatus::set_OC_STATUS_NOT_IMPLEMENTED),
-    StaticAccessor("OC_STATUS_BAD_GATEWAY", OCStatus::get_OC_STATUS_BAD_GATEWAY, OCStatus::set_OC_STATUS_BAD_GATEWAY),
-    StaticAccessor("OC_STATUS_SERVICE_UNAVAILABLE", OCStatus::get_OC_STATUS_SERVICE_UNAVAILABLE, OCStatus::set_OC_STATUS_SERVICE_UNAVAILABLE),
-    StaticAccessor("OC_STATUS_GATEWAY_TIMEOUT", OCStatus::get_OC_STATUS_GATEWAY_TIMEOUT, OCStatus::set_OC_STATUS_GATEWAY_TIMEOUT),
-    StaticAccessor("OC_STATUS_PROXYING_NOT_SUPPORTED", OCStatus::get_OC_STATUS_PROXYING_NOT_SUPPORTED, OCStatus::set_OC_STATUS_PROXYING_NOT_SUPPORTED),
-    StaticAccessor("__NUM_OC_STATUS_CODES__", OCStatus::get___NUM_OC_STATUS_CODES__, OCStatus::set___NUM_OC_STATUS_CODES__),
-    StaticAccessor("OC_IGNORE", OCStatus::get_OC_IGNORE, OCStatus::set_OC_IGNORE),
-    StaticAccessor("OC_PING_TIMEOUT", OCStatus::get_OC_PING_TIMEOUT, OCStatus::set_OC_PING_TIMEOUT),
+    StaticAccessor("OC_STATUS_OK", OCStatus::get_OC_STATUS_OK, nullptr),
+    StaticAccessor("OC_STATUS_CREATED", OCStatus::get_OC_STATUS_CREATED, nullptr),
+    StaticAccessor("OC_STATUS_CHANGED", OCStatus::get_OC_STATUS_CHANGED, nullptr),
+    StaticAccessor("OC_STATUS_DELETED", OCStatus::get_OC_STATUS_DELETED, nullptr),
+    StaticAccessor("OC_STATUS_NOT_MODIFIED", OCStatus::get_OC_STATUS_NOT_MODIFIED, nullptr),
+    StaticAccessor("OC_STATUS_BAD_REQUEST", OCStatus::get_OC_STATUS_BAD_REQUEST, nullptr),
+    StaticAccessor("OC_STATUS_UNAUTHORIZED", OCStatus::get_OC_STATUS_UNAUTHORIZED, nullptr),
+    StaticAccessor("OC_STATUS_BAD_OPTION", OCStatus::get_OC_STATUS_BAD_OPTION, nullptr),
+    StaticAccessor("OC_STATUS_FORBIDDEN", OCStatus::get_OC_STATUS_FORBIDDEN, nullptr),
+    StaticAccessor("OC_STATUS_NOT_FOUND", OCStatus::get_OC_STATUS_NOT_FOUND, nullptr),
+    StaticAccessor("OC_STATUS_METHOD_NOT_ALLOWED", OCStatus::get_OC_STATUS_METHOD_NOT_ALLOWED, nullptr),
+    StaticAccessor("OC_STATUS_NOT_ACCEPTABLE", OCStatus::get_OC_STATUS_NOT_ACCEPTABLE, nullptr),
+    StaticAccessor("OC_STATUS_REQUEST_ENTITY_TOO_LARGE", OCStatus::get_OC_STATUS_REQUEST_ENTITY_TOO_LARGE, nullptr),
+    StaticAccessor("OC_STATUS_UNSUPPORTED_MEDIA_TYPE", OCStatus::get_OC_STATUS_UNSUPPORTED_MEDIA_TYPE, nullptr),
+    StaticAccessor("OC_STATUS_INTERNAL_SERVER_ERROR", OCStatus::get_OC_STATUS_INTERNAL_SERVER_ERROR, nullptr),
+    StaticAccessor("OC_STATUS_NOT_IMPLEMENTED", OCStatus::get_OC_STATUS_NOT_IMPLEMENTED, nullptr),
+    StaticAccessor("OC_STATUS_BAD_GATEWAY", OCStatus::get_OC_STATUS_BAD_GATEWAY, nullptr),
+    StaticAccessor("OC_STATUS_SERVICE_UNAVAILABLE", OCStatus::get_OC_STATUS_SERVICE_UNAVAILABLE, nullptr),
+    StaticAccessor("OC_STATUS_GATEWAY_TIMEOUT", OCStatus::get_OC_STATUS_GATEWAY_TIMEOUT, nullptr),
+    StaticAccessor("OC_STATUS_PROXYING_NOT_SUPPORTED", OCStatus::get_OC_STATUS_PROXYING_NOT_SUPPORTED, nullptr),
+    StaticAccessor("__NUM_OC_STATUS_CODES__", OCStatus::get___NUM_OC_STATUS_CODES__, nullptr),
+    StaticAccessor("OC_IGNORE", OCStatus::get_OC_IGNORE, nullptr),
+    StaticAccessor("OC_PING_TIMEOUT", OCStatus::get_OC_PING_TIMEOUT, nullptr),
 
   });
 
@@ -8470,19 +7310,9 @@ Napi::Value OCStatus::get_OC_STATUS_OK(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_STATUS_OK);
 }
 
-void OCStatus::set_OC_STATUS_OK(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCStatus::get_OC_STATUS_CREATED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_STATUS_CREATED);
-}
-
-void OCStatus::set_OC_STATUS_CREATED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCStatus::get_OC_STATUS_CHANGED(const Napi::CallbackInfo& info)
@@ -8490,19 +7320,9 @@ Napi::Value OCStatus::get_OC_STATUS_CHANGED(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_STATUS_CHANGED);
 }
 
-void OCStatus::set_OC_STATUS_CHANGED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCStatus::get_OC_STATUS_DELETED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_STATUS_DELETED);
-}
-
-void OCStatus::set_OC_STATUS_DELETED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCStatus::get_OC_STATUS_NOT_MODIFIED(const Napi::CallbackInfo& info)
@@ -8510,19 +7330,9 @@ Napi::Value OCStatus::get_OC_STATUS_NOT_MODIFIED(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_STATUS_NOT_MODIFIED);
 }
 
-void OCStatus::set_OC_STATUS_NOT_MODIFIED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCStatus::get_OC_STATUS_BAD_REQUEST(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_STATUS_BAD_REQUEST);
-}
-
-void OCStatus::set_OC_STATUS_BAD_REQUEST(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCStatus::get_OC_STATUS_UNAUTHORIZED(const Napi::CallbackInfo& info)
@@ -8530,19 +7340,9 @@ Napi::Value OCStatus::get_OC_STATUS_UNAUTHORIZED(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_STATUS_UNAUTHORIZED);
 }
 
-void OCStatus::set_OC_STATUS_UNAUTHORIZED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCStatus::get_OC_STATUS_BAD_OPTION(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_STATUS_BAD_OPTION);
-}
-
-void OCStatus::set_OC_STATUS_BAD_OPTION(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCStatus::get_OC_STATUS_FORBIDDEN(const Napi::CallbackInfo& info)
@@ -8550,19 +7350,9 @@ Napi::Value OCStatus::get_OC_STATUS_FORBIDDEN(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_STATUS_FORBIDDEN);
 }
 
-void OCStatus::set_OC_STATUS_FORBIDDEN(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCStatus::get_OC_STATUS_NOT_FOUND(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_STATUS_NOT_FOUND);
-}
-
-void OCStatus::set_OC_STATUS_NOT_FOUND(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCStatus::get_OC_STATUS_METHOD_NOT_ALLOWED(const Napi::CallbackInfo& info)
@@ -8570,19 +7360,9 @@ Napi::Value OCStatus::get_OC_STATUS_METHOD_NOT_ALLOWED(const Napi::CallbackInfo&
   return Napi::Number::New(info.Env(), OC_STATUS_METHOD_NOT_ALLOWED);
 }
 
-void OCStatus::set_OC_STATUS_METHOD_NOT_ALLOWED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCStatus::get_OC_STATUS_NOT_ACCEPTABLE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_STATUS_NOT_ACCEPTABLE);
-}
-
-void OCStatus::set_OC_STATUS_NOT_ACCEPTABLE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCStatus::get_OC_STATUS_REQUEST_ENTITY_TOO_LARGE(const Napi::CallbackInfo& info)
@@ -8590,19 +7370,9 @@ Napi::Value OCStatus::get_OC_STATUS_REQUEST_ENTITY_TOO_LARGE(const Napi::Callbac
   return Napi::Number::New(info.Env(), OC_STATUS_REQUEST_ENTITY_TOO_LARGE);
 }
 
-void OCStatus::set_OC_STATUS_REQUEST_ENTITY_TOO_LARGE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCStatus::get_OC_STATUS_UNSUPPORTED_MEDIA_TYPE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_STATUS_UNSUPPORTED_MEDIA_TYPE);
-}
-
-void OCStatus::set_OC_STATUS_UNSUPPORTED_MEDIA_TYPE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCStatus::get_OC_STATUS_INTERNAL_SERVER_ERROR(const Napi::CallbackInfo& info)
@@ -8610,19 +7380,9 @@ Napi::Value OCStatus::get_OC_STATUS_INTERNAL_SERVER_ERROR(const Napi::CallbackIn
   return Napi::Number::New(info.Env(), OC_STATUS_INTERNAL_SERVER_ERROR);
 }
 
-void OCStatus::set_OC_STATUS_INTERNAL_SERVER_ERROR(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCStatus::get_OC_STATUS_NOT_IMPLEMENTED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_STATUS_NOT_IMPLEMENTED);
-}
-
-void OCStatus::set_OC_STATUS_NOT_IMPLEMENTED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCStatus::get_OC_STATUS_BAD_GATEWAY(const Napi::CallbackInfo& info)
@@ -8630,19 +7390,9 @@ Napi::Value OCStatus::get_OC_STATUS_BAD_GATEWAY(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_STATUS_BAD_GATEWAY);
 }
 
-void OCStatus::set_OC_STATUS_BAD_GATEWAY(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCStatus::get_OC_STATUS_SERVICE_UNAVAILABLE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_STATUS_SERVICE_UNAVAILABLE);
-}
-
-void OCStatus::set_OC_STATUS_SERVICE_UNAVAILABLE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCStatus::get_OC_STATUS_GATEWAY_TIMEOUT(const Napi::CallbackInfo& info)
@@ -8650,19 +7400,9 @@ Napi::Value OCStatus::get_OC_STATUS_GATEWAY_TIMEOUT(const Napi::CallbackInfo& in
   return Napi::Number::New(info.Env(), OC_STATUS_GATEWAY_TIMEOUT);
 }
 
-void OCStatus::set_OC_STATUS_GATEWAY_TIMEOUT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCStatus::get_OC_STATUS_PROXYING_NOT_SUPPORTED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_STATUS_PROXYING_NOT_SUPPORTED);
-}
-
-void OCStatus::set_OC_STATUS_PROXYING_NOT_SUPPORTED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCStatus::get___NUM_OC_STATUS_CODES__(const Napi::CallbackInfo& info)
@@ -8670,19 +7410,9 @@ Napi::Value OCStatus::get___NUM_OC_STATUS_CODES__(const Napi::CallbackInfo& info
   return Napi::Number::New(info.Env(), __NUM_OC_STATUS_CODES__);
 }
 
-void OCStatus::set___NUM_OC_STATUS_CODES__(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCStatus::get_OC_IGNORE(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_IGNORE);
-}
-
-void OCStatus::set_OC_IGNORE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCStatus::get_OC_PING_TIMEOUT(const Napi::CallbackInfo& info)
@@ -8690,17 +7420,12 @@ Napi::Value OCStatus::get_OC_PING_TIMEOUT(const Napi::CallbackInfo& info)
   return Napi::Number::New(info.Env(), OC_PING_TIMEOUT);
 }
 
-void OCStatus::set_OC_PING_TIMEOUT(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::FunctionReference OCSessionState::constructor;
 
 Napi::Function OCSessionState::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSessionState", {
-    StaticAccessor("OC_SESSION_CONNECTED", OCSessionState::get_OC_SESSION_CONNECTED, OCSessionState::set_OC_SESSION_CONNECTED),
-    StaticAccessor("OC_SESSION_DISCONNECTED", OCSessionState::get_OC_SESSION_DISCONNECTED, OCSessionState::set_OC_SESSION_DISCONNECTED),
+    StaticAccessor("OC_SESSION_CONNECTED", OCSessionState::get_OC_SESSION_CONNECTED, nullptr),
+    StaticAccessor("OC_SESSION_DISCONNECTED", OCSessionState::get_OC_SESSION_DISCONNECTED, nullptr),
 
   });
 
@@ -8731,33 +7456,23 @@ Napi::Value OCSessionState::get_OC_SESSION_CONNECTED(const Napi::CallbackInfo& i
   return Napi::Number::New(info.Env(), OC_SESSION_CONNECTED);
 }
 
-void OCSessionState::set_OC_SESSION_CONNECTED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCSessionState::get_OC_SESSION_DISCONNECTED(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_SESSION_DISCONNECTED);
-}
-
-void OCSessionState::set_OC_SESSION_DISCONNECTED(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::FunctionReference OCSoftwareUpdateResult::constructor;
 
 Napi::Function OCSoftwareUpdateResult::GetClass(Napi::Env env) {
   auto func = DefineClass(env, "OCSoftwareUpdateResult", {
-    StaticAccessor("OC_SWUPDATE_RESULT_IDLE", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_IDLE, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_IDLE),
-    StaticAccessor("OC_SWUPDATE_RESULT_SUCCESS", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SUCCESS, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SUCCESS),
-    StaticAccessor("OC_SWUPDATE_RESULT_LESS_RAM", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_RAM, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_RAM),
-    StaticAccessor("OC_SWUPDATE_RESULT_LESS_FLASH", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_FLASH, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_FLASH),
-    StaticAccessor("OC_SWUPDATE_RESULT_CONN_FAIL", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_CONN_FAIL, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_CONN_FAIL),
-    StaticAccessor("OC_SWUPDATE_RESULT_SVV_FAIL", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SVV_FAIL, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SVV_FAIL),
-    StaticAccessor("OC_SWUPDATE_RESULT_INVALID_URL", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_INVALID_URL, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_INVALID_URL),
-    StaticAccessor("OC_SWUPDATE_RESULT_UPGRADE_FAIL", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_UPGRADE_FAIL, OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_UPGRADE_FAIL),
+    StaticAccessor("OC_SWUPDATE_RESULT_IDLE", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_IDLE, nullptr),
+    StaticAccessor("OC_SWUPDATE_RESULT_SUCCESS", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SUCCESS, nullptr),
+    StaticAccessor("OC_SWUPDATE_RESULT_LESS_RAM", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_RAM, nullptr),
+    StaticAccessor("OC_SWUPDATE_RESULT_LESS_FLASH", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_FLASH, nullptr),
+    StaticAccessor("OC_SWUPDATE_RESULT_CONN_FAIL", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_CONN_FAIL, nullptr),
+    StaticAccessor("OC_SWUPDATE_RESULT_SVV_FAIL", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SVV_FAIL, nullptr),
+    StaticAccessor("OC_SWUPDATE_RESULT_INVALID_URL", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_INVALID_URL, nullptr),
+    StaticAccessor("OC_SWUPDATE_RESULT_UPGRADE_FAIL", OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_UPGRADE_FAIL, nullptr),
 
   });
 
@@ -8788,19 +7503,9 @@ Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_IDLE(const Napi::Call
   return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_IDLE);
 }
 
-void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_IDLE(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SUCCESS(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_SUCCESS);
-}
-
-void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SUCCESS(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_RAM(const Napi::CallbackInfo& info)
@@ -8808,19 +7513,9 @@ Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_RAM(const Napi::
   return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_LESS_RAM);
 }
 
-void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_RAM(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_LESS_FLASH(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_LESS_FLASH);
-}
-
-void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_LESS_FLASH(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_CONN_FAIL(const Napi::CallbackInfo& info)
@@ -8828,19 +7523,9 @@ Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_CONN_FAIL(const Napi:
   return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_CONN_FAIL);
 }
 
-void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_CONN_FAIL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_SVV_FAIL(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_SVV_FAIL);
-}
-
-void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_SVV_FAIL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_INVALID_URL(const Napi::CallbackInfo& info)
@@ -8848,18 +7533,8 @@ Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_INVALID_URL(const Nap
   return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_INVALID_URL);
 }
 
-void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_INVALID_URL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
 Napi::Value OCSoftwareUpdateResult::get_OC_SWUPDATE_RESULT_UPGRADE_FAIL(const Napi::CallbackInfo& info)
 {
   return Napi::Number::New(info.Env(), OC_SWUPDATE_RESULT_UPGRADE_FAIL);
-}
-
-void OCSoftwareUpdateResult::set_OC_SWUPDATE_RESULT_UPGRADE_FAIL(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
 }
 

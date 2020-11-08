@@ -96,7 +96,6 @@ GETSETDECL
 
 ENUMENTRYDECL = <<'ENUMENTRYDECL'
   static Napi::Value get_VALNAME(const Napi::CallbackInfo&);
-  static        void set_VALNAME(const Napi::CallbackInfo&, const Napi::Value&);
 ENUMENTRYDECL
 
 CLSDECL = <<'CLSDECL'
@@ -139,7 +138,7 @@ ACCESSORIMPL = <<'ACCESSORIMPL'
 ACCESSORIMPL
 
 ENUMACCESSORIMPL = <<'ENUMACCESSORIMPL'
-    StaticAccessor("VALNAME", CLASSNAME::get_VALNAME, CLASSNAME::set_VALNAME),
+    StaticAccessor("VALNAME", CLASSNAME::get_VALNAME, nullptr),
 ENUMACCESSORIMPL
 
 GETCLSIMPL = <<'CLSIMPL'
@@ -180,6 +179,13 @@ Napi::Value CLASSNAME::get_VALNAME(const Napi::CallbackInfo& info)
 void CLASSNAME::set_VALNAME(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 #error setter
+}
+SETTERIMPL
+
+ENUMSETGETIMPL = <<'SETTERIMPL'
+Napi::Value CLASSNAME::get_VALNAME(const Napi::CallbackInfo& info)
+{
+#error getter
 }
 SETTERIMPL
 
@@ -1672,7 +1678,7 @@ def gen_enum_entry_impl(key, h)
     t = v
     t = TYPEDEFS[v] if TYPEDEFS[v] != nil
 
-    impl = SETGETIMPL.gsub(/^\#error getter/, "  return Napi::Number::New(info.Env(), #{k});").gsub(/^#error setter/, '').gsub(/STRUCTNAME/, t).gsub(/CLASSNAME/, gen_classname(key)).gsub(/VALNAME/, k)
+    impl = ENUMSETGETIMPL.gsub(/^\#error getter/, "  return Napi::Number::New(info.Env(), #{k});").gsub(/^#error setter/, '').gsub(/STRUCTNAME/, t).gsub(/CLASSNAME/, gen_classname(key)).gsub(/VALNAME/, k)
     if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(Hash) and IFDEF_TYPES[key].has_key?(k)
       impl = "#if #{IFDEF_TYPES[key][k]}\n" + impl + "#endif\n"
     end
