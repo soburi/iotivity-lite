@@ -231,9 +231,9 @@ void helper_oc_init_platform_cb(void* param)
 void helper_oc_add_device_cb(void* param)
 {
     printf("oc_add_device_helper\n");
- //   callback_helper_t* helper = (callback_helper_t*)param;
- //   CallbackScope scope(helper->function.Env(), helper->async_context);
- //   helper->function.MakeCallback(helper->function.Env().Null(), {helper->value.Value()});
+//   callback_helper_t* helper = (callback_helper_t*)param;
+//   CallbackScope scope(helper->function.Env(), helper->async_context);
+//   helper->function.MakeCallback(helper->function.Env().Null(), {helper->value.Value()});
     printf("end oc_add_device_helper\n");
 }
 

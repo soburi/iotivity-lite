@@ -1058,12 +1058,12 @@ FUNC_OVERRIDE = {
 STR
   },
   'oc_init_platform' => {
-    '1' => '  auto init_platform_cb = CHECK_CALLBACK_FUNC(info, ORDER, oc_init_platform_helper); const int O_FUNC = ORDER;',
+    '1' => '  auto init_platform_cb = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_init_platform_cb); const int O_FUNC = ORDER;',
     '2' => '  SafeCallbackHelper* data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
   },
   'oc_add_device' => {
-    '5' => '  auto add_device_cb = CHECK_CALLBACK_FUNC(info, ORDER, oc_add_device_helper); const int O_FUNC = ORDER;',
+    '5' => '  auto add_device_cb = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_add_device_cb); const int O_FUNC = ORDER;',
     '6' => '  SafeCallbackHelper* data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
   },
