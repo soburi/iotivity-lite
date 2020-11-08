@@ -1057,6 +1057,18 @@ FUNC_OVERRIDE = {
   return main_loop_ctx->deferred.Promise();
 STR
   },
+  'oc_init_platform' => {
+    '1' => "  oc_init_platform_cb_t init_platform_cb = oc_init_platform_helper;\n",
+    '2' => <<~STR
+                   callback_helper_t* data = new_callback_helper_t(info, 1, 2);
+                   if(!data) init_platform_cb = nullptr;
+              STR
+  },
+  'oc_add_device' => {
+    '5' => '  auto add_device_cb = CHECK_CALLBACK_FUNC(info, ORDER, oc_add_device_helper); const int O_FUNC = ORDER;',
+    '6' => '  SafeCallbackHelper* data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
   'oc_add_ownership_status_cb' => {
     '0' => '  auto cb = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_ownership_status_cb); const int O_FUNC = ORDER;',
     '1' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
@@ -1269,20 +1281,6 @@ STR
                  //
                    callback_helper_t* set_props_user_data = new_callback_helper_t(info, 3, 4);
                    if(!set_props_user_data) set_properties = nullptr;
-              STR
-  },
-  'oc_init_platform' => {
-    '1' => "  oc_init_platform_cb_t init_platform_cb = oc_init_platform_helper;\n",
-    '2' => <<~STR
-                   callback_helper_t* data = new_callback_helper_t(info, 1, 2);
-                   if(!data) init_platform_cb = nullptr;
-              STR
-  },
-  'oc_add_device' => {
-    '5' => "  oc_add_device_cb_t add_device_cb = oc_add_device_helper;\n",
-    '6' => <<~STR
-                   callback_helper_t* data = new_callback_helper_t(info, 5, 6);
-                   if(!data) add_device_cb = nullptr;
               STR
   },
   'oc_main_init' => {

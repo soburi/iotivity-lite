@@ -524,13 +524,11 @@ Value OCMain::add_device(const CallbackInfo& info) {
     const char* spec_version = spec_version_.c_str();
     std::string data_model_version_ = info[4].As<String>().Utf8Value();
     const char* data_model_version = data_model_version_.c_str();
-
-    auto cb = CHECK_CALLBACK_FUNC(info, 0, oc_add_device_helper);
-    const int O_FUNC = 0;
-    SafeCallbackHelper* data = CHECK_CALLBACK_CONTEXT(info, O_FUNC, 1);
+    auto add_device_cb = CHECK_CALLBACK_FUNC(info, 5, oc_add_device_helper);
+    const int O_FUNC = 5;
+    SafeCallbackHelper* data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 6);
     main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
-
-    return Number::New(info.Env(), oc_add_device(uri, rt, name, spec_version, data_model_version, cb, data));
+    return Number::New(info.Env(), oc_add_device(uri, rt, name, spec_version, data_model_version, add_device_cb, data));
 }
 
 #if defined(OC_SECURITY)
