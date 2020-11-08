@@ -49,18 +49,6 @@ public:
 
 extern main_loop_t* main_loop_ctx;
 
-struct callback_helper_t {
-public:
-    Napi::FunctionReference function;
-    Napi::ObjectReference value;
-    Napi::AsyncContext async_context;
-
-    callback_helper_t(const Napi::CallbackInfo& info) : async_context(info.Env(), "") { }
-};
-
-
-callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, int idx_func, int idx_val);
-
 extern Napi::FunctionReference oc_swupdate_cb_validate_purl_ref;
 extern Napi::FunctionReference oc_swupdate_cb_check_new_version_ref;
 extern Napi::FunctionReference oc_swupdate_cb_download_update_ref;

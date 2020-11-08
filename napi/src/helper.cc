@@ -14,28 +14,6 @@ FunctionReference oc_swupdate_cb_check_new_version_ref;
 FunctionReference oc_swupdate_cb_download_update_ref;
 FunctionReference oc_swupdate_cb_perform_upgrade_ref;
 
-int helper_oc_handler_init()
-{
-    Value ret = main_context->oc_handler_init_ref.Call({});
-    if(ret.IsNumber()) return ret.As<Number>().Int32Value();
-    return 0;
-}
-
-void helper_oc_handler_signal_event_loop()
-{
-    main_context->helper_cv.notify_all();
-}
-
-void helper_oc_handler_register_resources()
-{
-    main_context->oc_handler_register_resources_ref.Call({});
-}
-
-void helper_oc_handler_requests_entry()
-{
-    main_context->oc_handler_requests_entry_ref.Call({});
-}
-
 SafeCallbackHelper::SafeCallbackHelper(const Function& fn, const Value& val)
     : function(fn)
     , value(val)
@@ -215,16 +193,27 @@ Value OCStringArrayIterator::get_next(const CallbackInfo& info)
     return info.This();
 }
 
-callback_helper_t* new_callback_helper_t(const CallbackInfo& info, int idx_func, int idx_val)
-{
-    if(info.Length() < idx_func || !info[idx_func].IsFunction() ) return nullptr;
-    callback_helper_t* helper = new callback_helper_t(info);
-    helper->function = Persistent(info[idx_func].As<Function>());
-    if(info.Length() > idx_val) {
-        //helper->value = Persistent(info[idx_val].As<Object>());
-    }
 
-    return helper;
+int helper_oc_handler_init()
+{
+    Value ret = main_context->oc_handler_init_ref.Call({});
+    if (ret.IsNumber()) return ret.As<Number>().Int32Value();
+    return 0;
+}
+
+void helper_oc_handler_signal_event_loop()
+{
+    main_context->helper_cv.notify_all();
+}
+
+void helper_oc_handler_register_resources()
+{
+    main_context->oc_handler_register_resources_ref.Call({});
+}
+
+void helper_oc_handler_requests_entry()
+{
+    main_context->oc_handler_requests_entry_ref.Call({});
 }
 
 void oc_init_platform_helper(void* param)
@@ -242,10 +231,20 @@ void oc_init_platform_helper(void* param)
 void oc_add_device_helper(void* param)
 {
     printf("oc_add_device_helper\n");
-    callback_helper_t* helper = (callback_helper_t*)param;
-    CallbackScope scope(helper->function.Env(), helper->async_context);
-    helper->function.MakeCallback(helper->function.Env().Null(), {helper->value.Value()});
+ //   callback_helper_t* helper = (callback_helper_t*)param;
+ //   CallbackScope scope(helper->function.Env(), helper->async_context);
+ //   helper->function.MakeCallback(helper->function.Env().Null(), {helper->value.Value()});
     printf("end oc_add_device_helper\n");
+}
+
+void oc_resource_set_properties_cbs_get_helper(oc_resource_t* res, oc_interface_mask_t mask, void* data) { }
+bool oc_resource_set_properties_cbs_set_helper(oc_resource_t* res, oc_rep_t* rep, void* data) {
+    return true;
+}
+
+void helper_oc_resource_set_request_handler(oc_request_t* req, oc_interface_mask_t mask, void* data)
+{
+
 }
 
 oc_discovery_flags_t
@@ -429,22 +428,6 @@ int oc_swupdate_cb_perform_upgrade_helper(size_t device, const char *url)
     return 0;
 }
 
-void oc_resource_set_properties_cbs_get_helper(oc_resource_t* res, oc_interface_mask_t mask, void* data) { }
-bool oc_resource_set_properties_cbs_set_helper(oc_resource_t* res, oc_rep_t* rep, void* data) {
-    return true;
-}
-
-void helper_oc_resource_set_request_handler(oc_request_t* req, oc_interface_mask_t mask, void* data)
-{
-
-}
-
-void N_main_loop_resolve(const CallbackInfo& info) {
-    OC_DBG("JNI: - resolve %s", __func__);
-    main_loop_ctx->deferred.Resolve(info.Env().Undefined() );
-    delete main_loop_ctx;
-    main_loop_ctx = nullptr;
-}
 
 void terminate_main_loop() {
     if (main_context) {
