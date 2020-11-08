@@ -243,6 +243,11 @@
 	"get_int_array": "oc_rep_get_int_array",
 	"to_json": "oc_rep_to_json",
 
+	"parse": "oc_parse_rep",
+	"set_pool": "oc_rep_set_pool",
+	"get_encoded_payload_size": "oc_rep_get_encoded_payload_size",
+	"get_encoder_buf": "oc_rep_get_encoder_buf",
+
 	"add_boolean": "helper_rep_add_boolean",
 	"add_byte_string": "helper_rep_add_byte_string",
 	"add_double": "helper_rep_add_double",

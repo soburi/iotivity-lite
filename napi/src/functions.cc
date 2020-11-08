@@ -457,37 +457,16 @@ Napi::Value N_oc_network_interface_event(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-Napi::Value N_oc_parse_rep(const Napi::CallbackInfo& info) {
-  const uint8_t* payload = info[0].As<Napi::Buffer<const uint8_t>>().Data();
-  int payload_size = static_cast<int>(info[1].As<Napi::Number>());
-// 2 value_list, oc_rep_t**
-  return Napi::Number::New(info.Env(), 0);
-}
-
 Napi::Value N_oc_recv_message(const Napi::CallbackInfo& info) {
   OCMessage& message = *OCMessage::Unwrap(info[0].As<Napi::Object>());
   (void)oc_recv_message(message);
   return info.Env().Undefined();
 }
 
-Napi::Value N_oc_rep_get_encoded_payload_size(const Napi::CallbackInfo& info) {
-  return Napi::Number::New(info.Env(), oc_rep_get_encoded_payload_size());
-}
-
-Napi::Value N_oc_rep_get_encoder_buf(const Napi::CallbackInfo& info) {
-return Napi::Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(oc_rep_get_encoder_buf()), oc_rep_get_encoded_payload_size() );
-}
-
 Napi::Value N_oc_rep_new(const Napi::CallbackInfo& info) {
   uint8_t* payload = info[0].As<Napi::Buffer<uint8_t>>().Data();
   int size = static_cast<int>(info[1].As<Napi::Number>());
   (void)oc_rep_new(payload, size);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_rep_set_pool(const Napi::CallbackInfo& info) {
-  OCMemb& rep_objects_pool = *OCMemb::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_rep_set_pool(rep_objects_pool);
   return info.Env().Undefined();
 }
 

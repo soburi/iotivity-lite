@@ -173,11 +173,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_network_event_handler_mutex_lock", Napi::Function::New(env, N_oc_network_event_handler_mutex_lock));
   exports.Set("oc_network_event_handler_mutex_unlock", Napi::Function::New(env, N_oc_network_event_handler_mutex_unlock));
   exports.Set("oc_free_rep", Napi::Function::New(env, N_oc_free_rep));
-  exports.Set("oc_parse_rep", Napi::Function::New(env, N_oc_parse_rep));
-  exports.Set("oc_rep_get_encoded_payload_size", Napi::Function::New(env, N_oc_rep_get_encoded_payload_size));
-  exports.Set("oc_rep_get_encoder_buf", Napi::Function::New(env, N_oc_rep_get_encoder_buf));
   exports.Set("oc_rep_new", Napi::Function::New(env, N_oc_rep_new));
-  exports.Set("oc_rep_set_pool", Napi::Function::New(env, N_oc_rep_set_pool));
   exports.Set("oc_status_code", Napi::Function::New(env, N_oc_status_code));
   return exports;
 }

@@ -313,6 +313,10 @@ public:
   Napi::Value get_int(const Napi::CallbackInfo& info);
   Napi::Value get_int_array(const Napi::CallbackInfo& info);
   Napi::Value to_json(const Napi::CallbackInfo& info);
+  static Napi::Value parse(const Napi::CallbackInfo& info);
+  static Napi::Value set_pool(const Napi::CallbackInfo& info);
+  static Napi::Value get_encoded_payload_size(const Napi::CallbackInfo& info);
+  static Napi::Value get_encoder_buf(const Napi::CallbackInfo& info);
   static Napi::Value add_boolean(const Napi::CallbackInfo& info);
   static Napi::Value add_byte_string(const Napi::CallbackInfo& info);
   static Napi::Value add_double(const Napi::CallbackInfo& info);

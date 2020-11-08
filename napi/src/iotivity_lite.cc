@@ -1872,6 +1872,10 @@ Napi::Function OCRepresentation::GetClass(Napi::Env env) {
         InstanceMethod("get_int", &OCRepresentation::get_int),
         InstanceMethod("get_int_array", &OCRepresentation::get_int_array),
         InstanceMethod("to_json", &OCRepresentation::to_json),
+        StaticMethod("parse", &OCRepresentation::parse),
+        StaticMethod("set_pool", &OCRepresentation::set_pool),
+        StaticMethod("get_encoded_payload_size", &OCRepresentation::get_encoded_payload_size),
+        StaticMethod("get_encoder_buf", &OCRepresentation::get_encoder_buf),
         StaticMethod("add_boolean", &OCRepresentation::add_boolean),
         StaticMethod("add_byte_string", &OCRepresentation::add_byte_string),
         StaticMethod("add_double", &OCRepresentation::add_double),
@@ -2058,6 +2062,32 @@ Napi::Value OCRepresentation::to_json(const Napi::CallbackInfo& info) {
   size_t buf_size = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
   bool pretty_print = info[2].As<Napi::Boolean>().Value();
   return Napi::Number::New(info.Env(), oc_rep_to_json(rep, buf, buf_size, pretty_print));
+}
+
+Napi::Value OCRepresentation::parse(const Napi::CallbackInfo& info) {
+  const uint8_t* payload = info[0].As<Napi::Buffer<const uint8_t>>().Data();
+  int payload_size = static_cast<int>(info[1].As<Napi::Number>());
+  oc_rep_t* ret;
+  int err = oc_parse_rep(payload, payload_size, &ret);
+
+  if (err) { return info.Env().Undefined(); }
+  std::shared_ptr<oc_rep_t> sp(ret);
+  auto accessor = Napi::External<std::shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+  return OCRepresentation::constructor.New({ accessor });
+}
+
+Napi::Value OCRepresentation::set_pool(const Napi::CallbackInfo& info) {
+  OCMemb& rep_objects_pool = *OCMemb::Unwrap(info[0].As<Napi::Object>());
+  (void)oc_rep_set_pool(rep_objects_pool);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCRepresentation::get_encoded_payload_size(const Napi::CallbackInfo& info) {
+  return Napi::Number::New(info.Env(), oc_rep_get_encoded_payload_size());
+}
+
+Napi::Value OCRepresentation::get_encoder_buf(const Napi::CallbackInfo& info) {
+return Napi::Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(oc_rep_get_encoder_buf()), oc_rep_get_encoded_payload_size() );
 }
 
 Napi::Value OCRepresentation::add_boolean(const Napi::CallbackInfo& info) {
