@@ -3697,6 +3697,13 @@ Napi::Value OCResource::make_public(const Napi::CallbackInfo& info) {
 }
 #endif
 
+Napi::Value OCResource::set_default_interface(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+  oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[0].As<Napi::Number>().Uint32Value());
+  (void)oc_resource_set_default_interface(resource, iface_mask);
+  return info.Env().Undefined();
+}
+
 Napi::Value OCResource::set_discoverable(const Napi::CallbackInfo& info) {
   OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
   bool state = info[0].As<Napi::Boolean>().Value();

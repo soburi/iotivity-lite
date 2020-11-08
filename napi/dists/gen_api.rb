@@ -1080,6 +1080,7 @@ INSTANCE_FUNCS = [
   'OCResource::bind_resource_interface',
   'OCResource::bind_resource_type',
   'OCResource::make_public',
+  'OCResource::set_default_interface',
   'OCResource::set_discoverable',
   'OCResource::set_observable',
   'OCResource::set_periodic_observable',
@@ -1273,6 +1274,11 @@ IGNORE_FUNCS = [
 'oc_resource_tag_func_desc',
 'oc_resource_tag_pos_desc',
 'oc_resource_tag_pos_rel',
+
+'oc_rep_new',
+'oc_free_rep',
+'oc_new_resource',
+'oc_main_poll',
 ]
 
 IFDEF_TYPES = {

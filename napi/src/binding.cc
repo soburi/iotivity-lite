@@ -99,9 +99,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_init_query_iterator", Napi::Function::New(env, N_oc_init_query_iterator));
   exports.Set("oc_iterate_query", Napi::Function::New(env, N_oc_iterate_query));
   exports.Set("oc_iterate_query_get_values", Napi::Function::New(env, N_oc_iterate_query_get_values));
-  exports.Set("oc_new_resource", Napi::Function::New(env, N_oc_new_resource));
-  exports.Set("oc_resource_set_default_interface", Napi::Function::New(env, N_oc_resource_set_default_interface));
-  exports.Set("oc_main_poll", Napi::Function::New(env, N_oc_main_poll));
   exports.Set("oc_abort", Napi::Function::New(env, N_oc_abort));
   exports.Set("oc_exit", Napi::Function::New(env, N_oc_exit));
   exports.Set("oc_base64_decode", Napi::Function::New(env, N_oc_base64_decode));
@@ -175,8 +172,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_network_event_handler_mutex_init", Napi::Function::New(env, N_oc_network_event_handler_mutex_init));
   exports.Set("oc_network_event_handler_mutex_lock", Napi::Function::New(env, N_oc_network_event_handler_mutex_lock));
   exports.Set("oc_network_event_handler_mutex_unlock", Napi::Function::New(env, N_oc_network_event_handler_mutex_unlock));
-  exports.Set("oc_free_rep", Napi::Function::New(env, N_oc_free_rep));
-  exports.Set("oc_rep_new", Napi::Function::New(env, N_oc_rep_new));
   exports.Set("oc_status_code", Napi::Function::New(env, N_oc_status_code));
   return exports;
 }

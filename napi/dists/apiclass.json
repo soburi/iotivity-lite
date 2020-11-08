@@ -284,6 +284,7 @@
 	"bind_resource_interface": "oc_resource_bind_resource_interface",
 	"bind_resource_type": "oc_resource_bind_resource_type",
 	"make_public": "oc_resource_make_public",
+	"set_default_interface": "oc_resource_set_default_interface",
 	"set_discoverable": "oc_resource_set_discoverable",
 	"set_observable": "oc_resource_set_observable",
 	"set_periodic_observable": "oc_resource_set_periodic_observable",

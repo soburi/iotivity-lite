@@ -41,7 +41,6 @@ Napi::Value N_oc_create_discovery_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_dns_lookup(const Napi::CallbackInfo&);
 Napi::Value N_oc_endpoint_list_copy(const Napi::CallbackInfo&);
 Napi::Value N_oc_exit(const Napi::CallbackInfo&);
-Napi::Value N_oc_free_rep(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_collection_by_uri(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_diagnostic_message(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_link_by_uri(const Napi::CallbackInfo&);
@@ -56,7 +55,6 @@ Napi::Value N_oc_iterate_query(const Napi::CallbackInfo&);
 Napi::Value N_oc_iterate_query_get_values(const Napi::CallbackInfo&);
 Napi::Value N_oc_join_string_array(const Napi::CallbackInfo&);
 Napi::Value N_oc_link_set_interfaces(const Napi::CallbackInfo&);
-Napi::Value N_oc_main_poll(const Napi::CallbackInfo&);
 #if defined(OC_MEMORY_TRACE)
 Napi::Value N_oc_mem_trace_add_pace(const Napi::CallbackInfo&);
 #endif
@@ -79,10 +77,7 @@ Napi::Value N_oc_network_event_handler_mutex_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_network_event_handler_mutex_lock(const Napi::CallbackInfo&);
 Napi::Value N_oc_network_event_handler_mutex_unlock(const Napi::CallbackInfo&);
 Napi::Value N_oc_network_interface_event(const Napi::CallbackInfo&);
-Napi::Value N_oc_new_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_recv_message(const Napi::CallbackInfo&);
-Napi::Value N_oc_rep_new(const Napi::CallbackInfo&);
-Napi::Value N_oc_resource_set_default_interface(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_buffer(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_discovery_request(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_message(const Napi::CallbackInfo&);

@@ -237,12 +237,6 @@ Napi::Value N_oc_exit(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-Napi::Value N_oc_free_rep(const Napi::CallbackInfo& info) {
-  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_free_rep(rep);
-  return info.Env().Undefined();
-}
-
 Napi::Value N_oc_get_collection_by_uri(const Napi::CallbackInfo& info) {
   std::string uri_path_ = info[0].As<Napi::String>().Utf8Value();
   const char* uri_path = uri_path_.c_str();
@@ -353,10 +347,6 @@ Napi::Value N_oc_link_set_interfaces(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-Napi::Value N_oc_main_poll(const Napi::CallbackInfo& info) {
-  return Napi::Number::New(info.Env(), oc_main_poll());
-}
-
 #if defined(OC_MEMORY_TRACE)
 Napi::Value N_oc_mem_trace_add_pace(const Napi::CallbackInfo& info) {
   std::string func_ = info[0].As<Napi::String>().Utf8Value();
@@ -457,35 +447,9 @@ Napi::Value N_oc_network_interface_event(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-Napi::Value N_oc_new_resource(const Napi::CallbackInfo& info) {
-  std::string name_ = info[0].As<Napi::String>().Utf8Value();
-  const char* name = name_.c_str();
-  std::string uri_ = info[1].As<Napi::String>().Utf8Value();
-  const char* uri = uri_.c_str();
-  uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
-  size_t device = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_resource_t> sp(oc_new_resource(name, uri, num_resource_types, device));
-  auto args = Napi::External<std::shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
-  return OCResource::constructor.New({args});
-}
-
 Napi::Value N_oc_recv_message(const Napi::CallbackInfo& info) {
   OCMessage& message = *OCMessage::Unwrap(info[0].As<Napi::Object>());
   (void)oc_recv_message(message);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_rep_new(const Napi::CallbackInfo& info) {
-  uint8_t* payload = info[0].As<Napi::Buffer<uint8_t>>().Data();
-  int size = static_cast<int>(info[1].As<Napi::Number>());
-  (void)oc_rep_new(payload, size);
-  return info.Env().Undefined();
-}
-
-Napi::Value N_oc_resource_set_default_interface(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[1].As<Napi::Number>().Uint32Value());
-  (void)oc_resource_set_default_interface(resource, iface_mask);
   return info.Env().Undefined();
 }
 
