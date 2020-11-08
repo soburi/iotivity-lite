@@ -158,7 +158,7 @@
 	"parse_encoding": "oc_cred_parse_encoding",
 	"credtype_string": "oc_cred_credtype_string"
   },
-  "OCEndpointUtil": {
+  "OCEndpoint": {
 	"to_string": "oc_endpoint_to_string",
 	"compare": "oc_endpoint_compare",
 	"copy": "oc_endpoint_copy",
@@ -207,7 +207,7 @@
 	"read": "oc_storage_read",
 	"write": "oc_storage_write"
   },
-  "OCUuidUtil": {
+  "OCUuid": {
 	"str_to_uuid": "oc_str_to_uuid",
 	"uuid_to_str": "oc_uuid_to_str",
 	"gen_uuid": "oc_gen_uuid"

@@ -1674,6 +1674,76 @@ void OCEndpoint::set_version(const Napi::CallbackInfo& info, const Napi::Value& 
   m_pvalue->version = static_cast<ocf_version_t>(value.As<Napi::Number>().Uint32Value());
 }
 
+Napi::Value OCEndpoint::to_string(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  OCMmem& endpoint_str = *OCMmem::Unwrap(info[1].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_endpoint_to_string(endpoint, endpoint_str));
+}
+
+Napi::Value OCEndpoint::compare(const Napi::CallbackInfo& info) {
+  OCEndpoint& ep1 = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_endpoint_compare(ep1, ep2));
+}
+
+Napi::Value OCEndpoint::copy(const Napi::CallbackInfo& info) {
+  OCEndpoint& dst = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  OCEndpoint& src = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
+  (void)oc_endpoint_copy(dst, src);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCEndpoint::free_endpoint(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  (void)oc_free_endpoint(endpoint);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCEndpoint::string_to_endpoint(const Napi::CallbackInfo& info) {
+  OCMmem& endpoint_str = *OCMmem::Unwrap(info[0].As<Napi::Object>());
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
+  OCMmem& uri = *OCMmem::Unwrap(info[2].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_string_to_endpoint(endpoint_str, endpoint, uri));
+}
+
+Napi::Value OCEndpoint::new_endpoint(const Napi::CallbackInfo& info) {
+  std::shared_ptr<oc_endpoint_t> sp(oc_new_endpoint());
+  auto args = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+  return OCEndpoint::constructor.New({args});
+}
+
+Napi::Value OCEndpoint::endpoint_string_parse_path(const Napi::CallbackInfo& info) {
+  OCMmem& endpoint_str = *OCMmem::Unwrap(info[0].As<Napi::Object>());
+  OCMmem& path = *OCMmem::Unwrap(info[1].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_endpoint_string_parse_path(endpoint_str, path));
+}
+
+Napi::Value OCEndpoint::set_di(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  OCUuid& di = *OCUuid::Unwrap(info[1].As<Napi::Object>());
+  (void)oc_endpoint_set_di(endpoint, di);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCEndpoint::ipv6_endpoint_is_link_local(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_ipv6_endpoint_is_link_local(endpoint));
+}
+
+Napi::Value OCEndpoint::compare_address(const Napi::CallbackInfo& info) {
+  OCEndpoint& ep1 = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_endpoint_compare_address(ep1, ep2));
+}
+
+Napi::Value OCEndpoint::set_local_address(const Napi::CallbackInfo& info) {
+  OCEndpoint& ep = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  int interface_index = static_cast<int>(info[1].As<Napi::Number>());
+  (void)oc_endpoint_set_local_address(ep, interface_index);
+  return info.Env().Undefined();
+}
+
+
 Napi::FunctionReference OCEtimer::constructor;
 
 Napi::Function OCEtimer::GetClass(Napi::Env env) {
@@ -4481,6 +4551,29 @@ void OCUuid::set_id(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 for(uint32_t i=0; i<16; i++) { m_pvalue->id[i] = info[0].As<Napi::Buffer<uint8_t>>().Data()[i]; }
 }
+
+Napi::Value OCUuid::str_to_uuid(const Napi::CallbackInfo& info) {
+  std::string str_ = info[0].As<Napi::String>().Utf8Value();
+  const char* str = str_.c_str();
+  OCUuid& uuid = *OCUuid::Unwrap(info[1].As<Napi::Object>());
+  (void)oc_str_to_uuid(str, uuid);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCUuid::uuid_to_str(const Napi::CallbackInfo& info) {
+  OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
+  char* buffer = const_cast<char*>(info[1].As<Napi::String>().Utf8Value().c_str());
+  int buflen = static_cast<int>(info[2].As<Napi::Number>());
+  (void)oc_uuid_to_str(uuid, buffer, buflen);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCUuid::gen_uuid(const Napi::CallbackInfo& info) {
+  OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
+  (void)oc_gen_uuid(uuid);
+  return info.Env().Undefined();
+}
+
 
 Napi::FunctionReference OCAceSubject::constructor;
 

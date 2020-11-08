@@ -84,25 +84,6 @@ public:
   static Napi::Value credtype_string(const Napi::CallbackInfo& info);
 };
 
-class OCEndpointUtil : public Napi::ObjectWrap<OCEndpointUtil>
-{
-public:
-  OCEndpointUtil(const Napi::CallbackInfo&);
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  static Napi::Value to_string(const Napi::CallbackInfo& info);
-  static Napi::Value compare(const Napi::CallbackInfo& info);
-  static Napi::Value copy(const Napi::CallbackInfo& info);
-  static Napi::Value free_endpoint(const Napi::CallbackInfo& info);
-  static Napi::Value string_to_endpoint(const Napi::CallbackInfo& info);
-  static Napi::Value new_endpoint(const Napi::CallbackInfo& info);
-  static Napi::Value endpoint_string_parse_path(const Napi::CallbackInfo& info);
-  static Napi::Value set_di(const Napi::CallbackInfo& info);
-  static Napi::Value ipv6_endpoint_is_link_local(const Napi::CallbackInfo& info);
-  static Napi::Value compare_address(const Napi::CallbackInfo& info);
-  static Napi::Value set_local_address(const Napi::CallbackInfo& info);
-};
-
 class OCEnumUtil : public Napi::ObjectWrap<OCEnumUtil>
 {
 public:
@@ -326,16 +307,5 @@ public:
   static Napi::Value config(const Napi::CallbackInfo& info);
   static Napi::Value read(const Napi::CallbackInfo& info);
   static Napi::Value write(const Napi::CallbackInfo& info);
-};
-
-class OCUuidUtil : public Napi::ObjectWrap<OCUuidUtil>
-{
-public:
-  OCUuidUtil(const Napi::CallbackInfo&);
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  static Napi::Value str_to_uuid(const Napi::CallbackInfo& info);
-  static Napi::Value uuid_to_str(const Napi::CallbackInfo& info);
-  static Napi::Value gen_uuid(const Napi::CallbackInfo& info);
 };
 

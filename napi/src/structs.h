@@ -460,6 +460,17 @@ public:
          void set_version(const Napi::CallbackInfo&, const Napi::Value&);
 
 
+  static Napi::Value to_string(const Napi::CallbackInfo& info);
+  static Napi::Value compare(const Napi::CallbackInfo& info);
+  static Napi::Value copy(const Napi::CallbackInfo& info);
+  static Napi::Value free_endpoint(const Napi::CallbackInfo& info);
+  static Napi::Value string_to_endpoint(const Napi::CallbackInfo& info);
+  static Napi::Value new_endpoint(const Napi::CallbackInfo& info);
+  static Napi::Value endpoint_string_parse_path(const Napi::CallbackInfo& info);
+  static Napi::Value set_di(const Napi::CallbackInfo& info);
+  static Napi::Value ipv6_endpoint_is_link_local(const Napi::CallbackInfo& info);
+  static Napi::Value compare_address(const Napi::CallbackInfo& info);
+  static Napi::Value set_local_address(const Napi::CallbackInfo& info);
 
   std::shared_ptr<oc_endpoint_t> m_pvalue;
 };
@@ -1248,6 +1259,9 @@ public:
          void set_id(const Napi::CallbackInfo&, const Napi::Value&);
 
 
+  static Napi::Value str_to_uuid(const Napi::CallbackInfo& info);
+  static Napi::Value uuid_to_str(const Napi::CallbackInfo& info);
+  static Napi::Value gen_uuid(const Napi::CallbackInfo& info);
 
   std::shared_ptr<oc_uuid_t> m_pvalue;
 };

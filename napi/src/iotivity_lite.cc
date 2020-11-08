@@ -15,7 +15,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("Cloud", OCCloud::GetClass(env));
     exports.Set("CoreRes", OCCoreRes::GetClass(env));
     exports.Set("CredUtil", OCCredUtil::GetClass(env));
-    exports.Set("EndpointUtil", OCEndpointUtil::GetClass(env));
+    exports.Set("Endpoint", OCEndpoint::GetClass(env));
     exports.Set("EnumUtil", OCEnumUtil::GetClass(env));
     exports.Set("Introspection", OCIntrospection::GetClass(env));
     exports.Set("Main", OCMain::GetClass(env));
@@ -28,7 +28,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("SessionEvents", OCSessionEvents::GetClass(env));
     exports.Set("SoftwareUpdate", OCSoftwareUpdate::GetClass(env));
     exports.Set("Storage", OCStorage::GetClass(env));
-    exports.Set("UuidUtil", OCUuidUtil::GetClass(env));
+    exports.Set("Uuid", OCUuid::GetClass(env));
     return module_init(env, exports);
 }
 OCBufferSettings::OCBufferSettings(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
@@ -418,95 +418,6 @@ Napi::Value OCCredUtil::credtype_string(const Napi::CallbackInfo& info) {
   return Napi::String::New(info.Env(), oc_cred_credtype_string(credtype));
 }
 #endif
-
-OCEndpointUtil::OCEndpointUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCEndpointUtil::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCEndpointUtil", {
-        StaticMethod("to_string", &OCEndpointUtil::to_string),
-        StaticMethod("compare", &OCEndpointUtil::compare),
-        StaticMethod("copy", &OCEndpointUtil::copy),
-        StaticMethod("free_endpoint", &OCEndpointUtil::free_endpoint),
-        StaticMethod("string_to_endpoint", &OCEndpointUtil::string_to_endpoint),
-        StaticMethod("new_endpoint", &OCEndpointUtil::new_endpoint),
-        StaticMethod("endpoint_string_parse_path", &OCEndpointUtil::endpoint_string_parse_path),
-        StaticMethod("set_di", &OCEndpointUtil::set_di),
-        StaticMethod("ipv6_endpoint_is_link_local", &OCEndpointUtil::ipv6_endpoint_is_link_local),
-        StaticMethod("compare_address", &OCEndpointUtil::compare_address),
-        StaticMethod("set_local_address", &OCEndpointUtil::set_local_address),
-    });
-}
-Napi::FunctionReference OCEndpointUtil::constructor;
-
-
-Napi::Value OCEndpointUtil::to_string(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCMmem& endpoint_str = *OCMmem::Unwrap(info[1].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_endpoint_to_string(endpoint, endpoint_str));
-}
-
-Napi::Value OCEndpointUtil::compare(const Napi::CallbackInfo& info) {
-  OCEndpoint& ep1 = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_endpoint_compare(ep1, ep2));
-}
-
-Napi::Value OCEndpointUtil::copy(const Napi::CallbackInfo& info) {
-  OCEndpoint& dst = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCEndpoint& src = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
-  (void)oc_endpoint_copy(dst, src);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCEndpointUtil::free_endpoint(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_free_endpoint(endpoint);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCEndpointUtil::string_to_endpoint(const Napi::CallbackInfo& info) {
-  OCMmem& endpoint_str = *OCMmem::Unwrap(info[0].As<Napi::Object>());
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
-  OCMmem& uri = *OCMmem::Unwrap(info[2].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_string_to_endpoint(endpoint_str, endpoint, uri));
-}
-
-Napi::Value OCEndpointUtil::new_endpoint(const Napi::CallbackInfo& info) {
-  std::shared_ptr<oc_endpoint_t> sp(oc_new_endpoint());
-  auto args = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
-  return OCEndpoint::constructor.New({args});
-}
-
-Napi::Value OCEndpointUtil::endpoint_string_parse_path(const Napi::CallbackInfo& info) {
-  OCMmem& endpoint_str = *OCMmem::Unwrap(info[0].As<Napi::Object>());
-  OCMmem& path = *OCMmem::Unwrap(info[1].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_endpoint_string_parse_path(endpoint_str, path));
-}
-
-Napi::Value OCEndpointUtil::set_di(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCUuid& di = *OCUuid::Unwrap(info[1].As<Napi::Object>());
-  (void)oc_endpoint_set_di(endpoint, di);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCEndpointUtil::ipv6_endpoint_is_link_local(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_ipv6_endpoint_is_link_local(endpoint));
-}
-
-Napi::Value OCEndpointUtil::compare_address(const Napi::CallbackInfo& info) {
-  OCEndpoint& ep1 = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_endpoint_compare_address(ep1, ep2));
-}
-
-Napi::Value OCEndpointUtil::set_local_address(const Napi::CallbackInfo& info) {
-  OCEndpoint& ep = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  int interface_index = static_cast<int>(info[1].As<Napi::Number>());
-  (void)oc_endpoint_set_local_address(ep, interface_index);
-  return info.Env().Undefined();
-}
 
 OCEnumUtil::OCEnumUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -1996,39 +1907,5 @@ Napi::Value OCStorage::write(const Napi::CallbackInfo& info) {
   uint8_t* buf = info[1].As<Napi::Buffer<uint8_t>>().Data();
   size_t size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
   return Napi::Number::New(info.Env(), oc_storage_write(store, buf, size));
-}
-
-OCUuidUtil::OCUuidUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCUuidUtil::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCUuidUtil", {
-        StaticMethod("str_to_uuid", &OCUuidUtil::str_to_uuid),
-        StaticMethod("uuid_to_str", &OCUuidUtil::uuid_to_str),
-        StaticMethod("gen_uuid", &OCUuidUtil::gen_uuid),
-    });
-}
-Napi::FunctionReference OCUuidUtil::constructor;
-
-
-Napi::Value OCUuidUtil::str_to_uuid(const Napi::CallbackInfo& info) {
-  std::string str_ = info[0].As<Napi::String>().Utf8Value();
-  const char* str = str_.c_str();
-  OCUuid& uuid = *OCUuid::Unwrap(info[1].As<Napi::Object>());
-  (void)oc_str_to_uuid(str, uuid);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCUuidUtil::uuid_to_str(const Napi::CallbackInfo& info) {
-  OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
-  char* buffer = const_cast<char*>(info[1].As<Napi::String>().Utf8Value().c_str());
-  int buflen = static_cast<int>(info[2].As<Napi::Number>());
-  (void)oc_uuid_to_str(uuid, buffer, buflen);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCUuidUtil::gen_uuid(const Napi::CallbackInfo& info) {
-  OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_gen_uuid(uuid);
-  return info.Env().Undefined();
 }
 
