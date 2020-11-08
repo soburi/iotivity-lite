@@ -5191,12 +5191,12 @@ void OCLinkIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value&
 
 }
 
-Napi::FunctionReference OCSecAceIterator::constructor;
+Napi::FunctionReference OCSecurityAceIterator::constructor;
 
-Napi::Function OCSecAceIterator::GetClass(Napi::Env env) {
-    auto func = DefineClass(env, "OCSecAceIterator", {
-        InstanceAccessor("value", &OCSecAceIterator::get_value, &OCSecAceIterator::set_value),
-        InstanceAccessor("done", &OCSecAceIterator::get_done, &OCSecAceIterator::set_done),
+Napi::Function OCSecurityAceIterator::GetClass(Napi::Env env) {
+    auto func = DefineClass(env, "OCSecurityAceIterator", {
+        InstanceAccessor("value", &OCSecurityAceIterator::get_value, &OCSecurityAceIterator::set_value),
+        InstanceAccessor("done", &OCSecurityAceIterator::get_done, &OCSecurityAceIterator::set_done),
 
     });
 
@@ -5206,10 +5206,10 @@ Napi::Function OCSecAceIterator::GetClass(Napi::Env env) {
     return func;
 }
 
-OCSecAceIterator::~OCSecAceIterator()
+OCSecurityAceIterator::~OCSecurityAceIterator()
 {
 }
-OCSecAceIterator::OCSecAceIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCSecurityAceIterator::OCSecurityAceIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
         m_pvalue = std::shared_ptr<oc_sec_ace_iterator_t>(new oc_sec_ace_iterator_t());
@@ -5222,7 +5222,7 @@ OCSecAceIterator::OCSecAceIterator(const Napi::CallbackInfo& info) : ObjectWrap(
         .ThrowAsJavaScriptException();
     }
 }
-Napi::Value OCSecAceIterator::get_value(const Napi::CallbackInfo& info)
+Napi::Value OCSecurityAceIterator::get_value(const Napi::CallbackInfo& info)
 {
 
     std::shared_ptr<oc_sec_ace_t> sp(m_pvalue->current);
@@ -5230,27 +5230,27 @@ Napi::Value OCSecAceIterator::get_value(const Napi::CallbackInfo& info)
     return OCSecurityAce::constructor.New({ accessor });
 }
 
-void OCSecAceIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSecurityAceIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSecAceIterator::get_done(const Napi::CallbackInfo& info)
+Napi::Value OCSecurityAceIterator::get_done(const Napi::CallbackInfo& info)
 {
     return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
 }
 
-void OCSecAceIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSecurityAceIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::FunctionReference OCAceResIterator::constructor;
+Napi::FunctionReference OCAceResourceIterator::constructor;
 
-Napi::Function OCAceResIterator::GetClass(Napi::Env env) {
-    auto func = DefineClass(env, "OCAceResIterator", {
-        InstanceAccessor("value", &OCAceResIterator::get_value, &OCAceResIterator::set_value),
-        InstanceAccessor("done", &OCAceResIterator::get_done, &OCAceResIterator::set_done),
+Napi::Function OCAceResourceIterator::GetClass(Napi::Env env) {
+    auto func = DefineClass(env, "OCAceResourceIterator", {
+        InstanceAccessor("value", &OCAceResourceIterator::get_value, &OCAceResourceIterator::set_value),
+        InstanceAccessor("done", &OCAceResourceIterator::get_done, &OCAceResourceIterator::set_done),
 
     });
 
@@ -5260,10 +5260,10 @@ Napi::Function OCAceResIterator::GetClass(Napi::Env env) {
     return func;
 }
 
-OCAceResIterator::~OCAceResIterator()
+OCAceResourceIterator::~OCAceResourceIterator()
 {
 }
-OCAceResIterator::OCAceResIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCAceResourceIterator::OCAceResourceIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
         m_pvalue = std::shared_ptr<oc_ace_res_iterator_t>(new oc_ace_res_iterator_t());
@@ -5276,7 +5276,7 @@ OCAceResIterator::OCAceResIterator(const Napi::CallbackInfo& info) : ObjectWrap(
         .ThrowAsJavaScriptException();
     }
 }
-Napi::Value OCAceResIterator::get_value(const Napi::CallbackInfo& info)
+Napi::Value OCAceResourceIterator::get_value(const Napi::CallbackInfo& info)
 {
 
     std::shared_ptr<oc_ace_res_t> sp(m_pvalue->current);
@@ -5284,17 +5284,17 @@ Napi::Value OCAceResIterator::get_value(const Napi::CallbackInfo& info)
     return OCAceResource::constructor.New({ accessor });
 }
 
-void OCAceResIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCAceResourceIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCAceResIterator::get_done(const Napi::CallbackInfo& info)
+Napi::Value OCAceResourceIterator::get_done(const Napi::CallbackInfo& info)
 {
     return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
 }
 
-void OCAceResIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCAceResourceIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
@@ -5407,12 +5407,12 @@ void OCLinkParamsIterator::set_done(const Napi::CallbackInfo& info, const Napi::
 
 }
 
-Napi::FunctionReference OCRtIterator::constructor;
+Napi::FunctionReference OCResourceTypeIterator::constructor;
 
-Napi::Function OCRtIterator::GetClass(Napi::Env env) {
-    auto func = DefineClass(env, "OCRtIterator", {
-        InstanceAccessor("value", &OCRtIterator::get_value, &OCRtIterator::set_value),
-        InstanceAccessor("done", &OCRtIterator::get_done, &OCRtIterator::set_done),
+Napi::Function OCResourceTypeIterator::GetClass(Napi::Env env) {
+    auto func = DefineClass(env, "OCResourceTypeIterator", {
+        InstanceAccessor("value", &OCResourceTypeIterator::get_value, &OCResourceTypeIterator::set_value),
+        InstanceAccessor("done", &OCResourceTypeIterator::get_done, &OCResourceTypeIterator::set_done),
 
     });
 
@@ -5422,10 +5422,10 @@ Napi::Function OCRtIterator::GetClass(Napi::Env env) {
     return func;
 }
 
-OCRtIterator::~OCRtIterator()
+OCResourceTypeIterator::~OCResourceTypeIterator()
 {
 }
-OCRtIterator::OCRtIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCResourceTypeIterator::OCResourceTypeIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
         m_pvalue = std::shared_ptr<oc_rt_iterator_t>(new oc_rt_iterator_t());
@@ -5438,7 +5438,7 @@ OCRtIterator::OCRtIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
         .ThrowAsJavaScriptException();
     }
 }
-Napi::Value OCRtIterator::get_value(const Napi::CallbackInfo& info)
+Napi::Value OCResourceTypeIterator::get_value(const Napi::CallbackInfo& info)
 {
 
     std::shared_ptr<oc_rt_t> sp(m_pvalue->current);
@@ -5446,17 +5446,17 @@ Napi::Value OCRtIterator::get_value(const Napi::CallbackInfo& info)
     return OCResourceType::constructor.New({ accessor });
 }
 
-void OCRtIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCResourceTypeIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCRtIterator::get_done(const Napi::CallbackInfo& info)
+Napi::Value OCResourceTypeIterator::get_done(const Napi::CallbackInfo& info)
 {
     return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
 }
 
-void OCRtIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCResourceTypeIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
@@ -5731,12 +5731,12 @@ void OCBlockwiseStateIterator::set_done(const Napi::CallbackInfo& info, const Na
 
 }
 
-Napi::FunctionReference OCSessionEventIterator::constructor;
+Napi::FunctionReference OCSessionEventCbIterator::constructor;
 
-Napi::Function OCSessionEventIterator::GetClass(Napi::Env env) {
-    auto func = DefineClass(env, "OCSessionEventIterator", {
-        InstanceAccessor("value", &OCSessionEventIterator::get_value, &OCSessionEventIterator::set_value),
-        InstanceAccessor("done", &OCSessionEventIterator::get_done, &OCSessionEventIterator::set_done),
+Napi::Function OCSessionEventCbIterator::GetClass(Napi::Env env) {
+    auto func = DefineClass(env, "OCSessionEventCbIterator", {
+        InstanceAccessor("value", &OCSessionEventCbIterator::get_value, &OCSessionEventCbIterator::set_value),
+        InstanceAccessor("done", &OCSessionEventCbIterator::get_done, &OCSessionEventCbIterator::set_done),
 
     });
 
@@ -5746,23 +5746,23 @@ Napi::Function OCSessionEventIterator::GetClass(Napi::Env env) {
     return func;
 }
 
-OCSessionEventIterator::~OCSessionEventIterator()
+OCSessionEventCbIterator::~OCSessionEventCbIterator()
 {
 }
-OCSessionEventIterator::OCSessionEventIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCSessionEventCbIterator::OCSessionEventCbIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_session_event_iterator_t>(new oc_session_event_iterator_t());
+        m_pvalue = std::shared_ptr<oc_session_event_cb_iterator_t>(new oc_session_event_cb_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_session_event_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_session_event_cb_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
         .ThrowAsJavaScriptException();
     }
 }
-Napi::Value OCSessionEventIterator::get_value(const Napi::CallbackInfo& info)
+Napi::Value OCSessionEventCbIterator::get_value(const Napi::CallbackInfo& info)
 {
 
     std::shared_ptr<oc_session_event_cb> sp(m_pvalue->current);
@@ -5770,27 +5770,27 @@ Napi::Value OCSessionEventIterator::get_value(const Napi::CallbackInfo& info)
     return OCSessionEvents::constructor.New({ accessor });
 }
 
-void OCSessionEventIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSessionEventCbIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCSessionEventIterator::get_done(const Napi::CallbackInfo& info)
+Napi::Value OCSessionEventCbIterator::get_done(const Napi::CallbackInfo& info)
 {
     return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
 }
 
-void OCSessionEventIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCSessionEventCbIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::FunctionReference OCRepIterator::constructor;
+Napi::FunctionReference OCRepresentationIterator::constructor;
 
-Napi::Function OCRepIterator::GetClass(Napi::Env env) {
-    auto func = DefineClass(env, "OCRepIterator", {
-        InstanceAccessor("value", &OCRepIterator::get_value, &OCRepIterator::set_value),
-        InstanceAccessor("done", &OCRepIterator::get_done, &OCRepIterator::set_done),
+Napi::Function OCRepresentationIterator::GetClass(Napi::Env env) {
+    auto func = DefineClass(env, "OCRepresentationIterator", {
+        InstanceAccessor("value", &OCRepresentationIterator::get_value, &OCRepresentationIterator::set_value),
+        InstanceAccessor("done", &OCRepresentationIterator::get_done, &OCRepresentationIterator::set_done),
 
     });
 
@@ -5800,10 +5800,10 @@ Napi::Function OCRepIterator::GetClass(Napi::Env env) {
     return func;
 }
 
-OCRepIterator::~OCRepIterator()
+OCRepresentationIterator::~OCRepresentationIterator()
 {
 }
-OCRepIterator::OCRepIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCRepresentationIterator::OCRepresentationIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
         m_pvalue = std::shared_ptr<oc_rep_iterator_t>(new oc_rep_iterator_t());
@@ -5816,7 +5816,7 @@ OCRepIterator::OCRepIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
         .ThrowAsJavaScriptException();
     }
 }
-Napi::Value OCRepIterator::get_value(const Napi::CallbackInfo& info)
+Napi::Value OCRepresentationIterator::get_value(const Napi::CallbackInfo& info)
 {
 
     std::shared_ptr<oc_rep_s> sp(m_pvalue->current);
@@ -5824,17 +5824,17 @@ Napi::Value OCRepIterator::get_value(const Napi::CallbackInfo& info)
     return OCRepresentation::constructor.New({ accessor });
 }
 
-void OCRepIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCRepresentationIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCRepIterator::get_done(const Napi::CallbackInfo& info)
+Napi::Value OCRepresentationIterator::get_done(const Napi::CallbackInfo& info)
 {
     return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
 }
 
-void OCRepIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCRepresentationIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }

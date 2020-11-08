@@ -515,7 +515,7 @@
     "value": "void*",
     "done": "bool"
   },
-  "oc_session_event_iterator_t": {
+  "oc_session_event_cb_iterator_t": {
     "value": "void*",
     "done": "bool"
   },

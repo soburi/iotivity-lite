@@ -4,7 +4,7 @@ using namespace std;
 using namespace Napi;
 Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("CborEncoder", OCCborEncoder::GetClass(env));
-    exports.Set("AceResIterator", OCAceResIterator::GetClass(env));
+    exports.Set("AceResourceIterator", OCAceResourceIterator::GetClass(env));
     exports.Set("AceResource", OCAceResource::GetClass(env));
     exports.Set("AceSubject", OCAceSubject::GetClass(env));
     exports.Set("Array", OCArray::GetClass(env));
@@ -45,7 +45,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("PlatformInfo", OCPlatformInfo::GetClass(env));
     exports.Set("Process", OCProcess::GetClass(env));
     exports.Set("PropertiesCb", OCPropertiesCb::GetClass(env));
-    exports.Set("RepIterator", OCRepIterator::GetClass(env));
+    exports.Set("RepresentationIterator", OCRepresentationIterator::GetClass(env));
     exports.Set("Representation", OCRepresentation::GetClass(env));
     exports.Set("Value", OCValue::GetClass(env));
     exports.Set("RequestHandler", OCRequestHandler::GetClass(env));
@@ -55,16 +55,16 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("Response", OCResponse::GetClass(env));
     exports.Set("RoleIterator", OCRoleIterator::GetClass(env));
     exports.Set("Role", OCRole::GetClass(env));
-    exports.Set("RtIterator", OCRtIterator::GetClass(env));
+    exports.Set("ResourceTypeIterator", OCResourceTypeIterator::GetClass(env));
     exports.Set("ResourceType", OCResourceType::GetClass(env));
-    exports.Set("SecAceIterator", OCSecAceIterator::GetClass(env));
+    exports.Set("SecurityAceIterator", OCSecurityAceIterator::GetClass(env));
     exports.Set("SecurityAce", OCSecurityAce::GetClass(env));
     exports.Set("SecurityAcl", OCSecurityAcl::GetClass(env));
     exports.Set("Cred", OCCred::GetClass(env));
     exports.Set("Creds", OCCreds::GetClass(env));
     exports.Set("SeparateResponse", OCSeparateResponse::GetClass(env));
     exports.Set("SessionEventCb", OCSessionEventCb::GetClass(env));
-    exports.Set("SessionEventIterator", OCSessionEventIterator::GetClass(env));
+    exports.Set("SessionEventCbIterator", OCSessionEventCbIterator::GetClass(env));
     exports.Set("StringArrayIterator", OCStringArrayIterator::GetClass(env));
     exports.Set("StringArray", OCStringArray::GetClass(env));
     exports.Set("SoftwareUpdateHandler", OCSoftwareUpdateHandler::GetClass(env));

@@ -468,8 +468,8 @@ SETGET_OVERRIDE = {
     return OCBlockwiseState::constructor.New({ accessor });',
   },
 
-  "oc_session_event_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
-  "oc_session_event_iterator_t::value" => { "set" => "",
+  "oc_session_event_cb_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_session_event_cb_iterator_t::value" => { "set" => "",
     "get" => '
     std::shared_ptr<oc_session_event_cb> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_session_event_cb>>::New(info.Env(), &sp);
@@ -1135,6 +1135,11 @@ WRAPPERNAME = { 'oc_ipv4_addr_t' => "OCIPv4Addr",
                 'CborEncoder' => 'OCCborEncoder',
                 'oc_array_t' => 'OCArray',
                 'oc_string_array_t' => 'OCStringArray',
+                'oc_ace_res_iterator_t' => 'OCAceResourceIterator',
+                'oc_rep_iterator_t' => 'OCRepresentationIterator',
+                'oc_rt_iterator_t' => 'OCResourceTypeIterator',
+                'oc_sec_ace_iterator_t' => 'OCSecurityAceIterator',
+                'oc_session_event_cb_iterator_t' => 'OCSessionEventCbIterator',
 
 }
 
