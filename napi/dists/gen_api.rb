@@ -161,10 +161,10 @@ CLASSNAME::CLASSNAME(const Napi::CallbackInfo& info) : ObjectWrap(info)
      m_pvalue = shared_ptr<STRUCTNAME>(new STRUCTNAME());
   }
   else if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = *(info[0].As<Napi::External<shared_ptr<STRUCTNAME>>>().Data());
+     m_pvalue = *(info[0].As<External<shared_ptr<STRUCTNAME>>>().Data());
   }
   else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
+        TypeError::New(info.Env(), "You need to name yourself")
           .ThrowAsJavaScriptException();
   }
 }
@@ -189,44 +189,44 @@ Napi::Value CLASSNAME::get_VALNAME(const Napi::CallbackInfo& info)
 }
 SETTERIMPL
 
-GENERIC_GET = {           "bool"  => "  return Napi::Boolean::New(info.Env(), m_pvalue->VALNAME);",
-                           "int"  => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                 "unsigned char"  => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                "unsigned short"  => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                       "uint8_t"  => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                       "uint16_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                       "uint32_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                       "uint64_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                        "int32_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                        "int64_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                         "double" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                "oc_clock_time_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
-                         "size_t" => "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);",
+GENERIC_GET = {           "bool"  => "  return Boolean::New(info.Env(), m_pvalue->VALNAME);",
+                           "int"  => "  return Number::New(info.Env(), m_pvalue->VALNAME);",
+                 "unsigned char"  => "  return Number::New(info.Env(), m_pvalue->VALNAME);",
+                "unsigned short"  => "  return Number::New(info.Env(), m_pvalue->VALNAME);",
+                       "uint8_t"  => "  return Number::New(info.Env(), m_pvalue->VALNAME);",
+                       "uint16_t" => "  return Number::New(info.Env(), m_pvalue->VALNAME);",
+                       "uint32_t" => "  return Number::New(info.Env(), m_pvalue->VALNAME);",
+                       "uint64_t" => "  return Number::New(info.Env(), m_pvalue->VALNAME);",
+                        "int32_t" => "  return Number::New(info.Env(), m_pvalue->VALNAME);",
+                        "int64_t" => "  return Number::New(info.Env(), m_pvalue->VALNAME);",
+                         "double" => "  return Number::New(info.Env(), m_pvalue->VALNAME);",
+                "oc_clock_time_t" => "  return Number::New(info.Env(), m_pvalue->VALNAME);",
+                         "size_t" => "  return Number::New(info.Env(), m_pvalue->VALNAME);",
 }
-GENERIC_SET = {           "bool"  => "  m_pvalue->VALNAME = value.As<Napi::Boolean>().Value();",
-                           "int"  => "  m_pvalue->VALNAME = static_cast<int>(value.As<Napi::Number>());",
-                 "unsigned char"  => "  m_pvalue->VALNAME = static_cast<unsigned char>(value.As<Napi::Number>().Uint32Value());",
-                "unsigned short"  => "  m_pvalue->VALNAME = static_cast<unsigned short>(value.As<Napi::Number>().Uint32Value());",
-                "uint8_t"  => "  m_pvalue->VALNAME = static_cast<uint8_t>(value.As<Napi::Number>().Uint32Value());",
-                "uint16_t"  => "  m_pvalue->VALNAME = static_cast<uint16_t>(value.As<Napi::Number>().Uint32Value());",
-                "uint32_t" => "  m_pvalue->VALNAME = static_cast<uint32_t>(value.As<Napi::Number>());",
-                "uint64_t" => "  m_pvalue->VALNAME = static_cast<uint64_t>(value.As<Napi::Number>());",
-                "int32_t" => "  m_pvalue->VALNAME = value.As<Napi::Number>().Int32Value();",
-                "int64_t" => "  m_pvalue->VALNAME = value.As<Napi::Number>().Int64Value();",
-                "double" => "  m_pvalue->VALNAME = value.As<Napi::Number>().DoubleValue();",
-                "oc_clock_time_t" => "  m_pvalue->VALNAME = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());",
-                "size_t" => "  m_pvalue->VALNAME = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());",
+GENERIC_SET = {           "bool"  => "  m_pvalue->VALNAME = value.As<Boolean>().Value();",
+                           "int"  => "  m_pvalue->VALNAME = static_cast<int>(value.As<Number>());",
+                 "unsigned char"  => "  m_pvalue->VALNAME = static_cast<unsigned char>(value.As<Number>().Uint32Value());",
+                "unsigned short"  => "  m_pvalue->VALNAME = static_cast<unsigned short>(value.As<Number>().Uint32Value());",
+                "uint8_t"  => "  m_pvalue->VALNAME = static_cast<uint8_t>(value.As<Number>().Uint32Value());",
+                "uint16_t"  => "  m_pvalue->VALNAME = static_cast<uint16_t>(value.As<Number>().Uint32Value());",
+                "uint32_t" => "  m_pvalue->VALNAME = static_cast<uint32_t>(value.As<Number>());",
+                "uint64_t" => "  m_pvalue->VALNAME = static_cast<uint64_t>(value.As<Number>());",
+                "int32_t" => "  m_pvalue->VALNAME = value.As<Number>().Int32Value();",
+                "int64_t" => "  m_pvalue->VALNAME = value.As<Number>().Int64Value();",
+                "double" => "  m_pvalue->VALNAME = value.As<Number>().DoubleValue();",
+                "oc_clock_time_t" => "  m_pvalue->VALNAME = static_cast<uint32_t>(value.As<Number>().Uint32Value());",
+                "size_t" => "  m_pvalue->VALNAME = static_cast<uint32_t>(value.As<Number>().Uint32Value());",
 }
 
-STRUCT_SET = "  m_pvalue->VALNAME = *(*(value.As<Napi::External<shared_ptr<STRUCTNAME>>>().Data()));"
+STRUCT_SET = "  m_pvalue->VALNAME = *(*(value.As<External<shared_ptr<STRUCTNAME>>>().Data()));"
 
 STRUCT_GET = "\
   shared_ptr<STRUCTNAME> sp(&m_pvalue->VALNAME);
-  auto accessor = Napi::External<shared_ptr<STRUCTNAME>>::New(info.Env(), &sp);
+  auto accessor = External<shared_ptr<STRUCTNAME>>::New(info.Env(), &sp);
   return WRAPNAME::constructor.New({accessor});"
 
-ENUM_SET = "  m_pvalue->VALNAME = static_cast<STRUCTNAME>(value.As<Napi::Number>().Uint32Value());"
-ENUM_GET = "  return Napi::Number::New(info.Env(), m_pvalue->VALNAME);"
+ENUM_SET = "  m_pvalue->VALNAME = static_cast<STRUCTNAME>(value.As<Number>().Uint32Value());"
+ENUM_GET = "  return Number::New(info.Env(), m_pvalue->VALNAME);"
 
 
 STRUCTS = struct_table.keys
@@ -523,22 +523,22 @@ SETGET_OVERRIDE = {
     return OCEndpoint::constructor.New({ accessor });',
   },
   "oc_string_array_iterator_t::done" => {
-    "get" => "return Napi::Boolean::New(info.Env(), m_pvalue->index >= oc_string_array_get_allocated_size(m_pvalue->array));",
+    "get" => "return Boolean::New(info.Env(), m_pvalue->index >= oc_string_array_get_allocated_size(m_pvalue->array));",
     "set" => "",
   },
   "oc_string_array_iterator_t::value" => {
-    "get" => "return Napi::String::New(info.Env(), oc_string_array_get_item(m_pvalue->array, m_pvalue->index));",
+    "get" => "return String::New(info.Env(), oc_string_array_get_item(m_pvalue->array, m_pvalue->index));",
     "set" => "",
   },
   "oc_endpoint_t::di" => {
     "get" => '  shared_ptr<oc_uuid_t> sp(&m_pvalue->di);
-  auto accessor = Napi::External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+  auto accessor = External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
   return OCUuid::constructor.New({accessor});',
-    "set" => '  oc_endpoint_set_di(m_pvalue.get(), value.As<Napi::External<shared_ptr<oc_uuid_t>>>().Data()->get() );',
+    "set" => '  oc_endpoint_set_di(m_pvalue.get(), value.As<External<shared_ptr<oc_uuid_t>>>().Data()->get() );',
   },
   "oc_separate_response_s::buffer" => {
     "set" => "\
-m_pvalue->buffer =     value.As<Napi::Buffer<uint8_t>>().Data();",
+m_pvalue->buffer =     value.As<Buffer<uint8_t>>().Data();",
     "get" =>
 "return Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, OC_MAX_APP_DATA_SIZE);"
   },
@@ -598,15 +598,15 @@ m_pvalue->buffer_size = value.As<Buffer<uint8_t>>().Length();",
     "get"=>"  return String::New(info.Env(), m_pvalue->VALNAME);"
   },
   "oc_blockwise_state_s::buffer"=> {
-    "set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->buffer[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
+    "set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->buffer[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
     "get"=> "return Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, OC_MAX_APP_DATA_SIZE);"
   },
   "oc_message_s::data"=> {
-    "set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->data[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
+    "set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->data[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
     "get"=>"return Buffer<uint8_t>::New(info.Env(), m_pvalue->data, OC_PDU_SIZE);"
   },
   "oc_request_t::_payload"=> {
-    #"set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->_payload[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
+    #"set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->_payload[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
     "set" => "/* nop */",
     "get"=> "return Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(m_pvalue->_payload), m_pvalue->_payload_len);"
   },
@@ -616,7 +616,7 @@ m_pvalue->_payload =    value.As<Buffer<uint8_t>>().Data();
 m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();",
     "get" =>
 "return Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(m_pvalue->_payload), m_pvalue->_payload_len);"
-    #"set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->_payload[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
+    #"set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->_payload[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
     #"get"=> "return Buffer<uint8_t>::New(info.Env(), m_pvalue->_payload, m_pvalue->_payload_len);"
   },
   "oc_uuid_t::id"=>
