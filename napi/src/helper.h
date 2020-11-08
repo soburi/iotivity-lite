@@ -55,7 +55,6 @@ extern Napi::FunctionReference oc_swupdate_cb_download_update_ref;
 extern Napi::FunctionReference oc_swupdate_cb_perform_upgrade_ref;
 
 void terminate_main_loop();
-void N_main_loop_resolve(const Napi::CallbackInfo& info);
 
 #ifdef __cplusplus
 extern "C" {
@@ -66,9 +65,8 @@ void helper_oc_handler_signal_event_loop();
 void helper_oc_handler_register_resources();
 void helper_oc_handler_requests_entry();
 
-
-void oc_init_platform_helper(void* param);
-void oc_add_device_helper(void* param);
+void helper_oc_init_platform_cb(void* param);
+void helper_oc_add_device_cb(void* param);
 
 oc_discovery_flags_t
 helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t types,
@@ -96,6 +94,8 @@ int oc_swupdate_cb_perform_upgrade_helper(size_t device, const char *url);
 void oc_resource_set_properties_cbs_get_helper(oc_resource_t *, oc_interface_mask_t, void *);
 bool oc_resource_set_properties_cbs_set_helper(oc_resource_t *, oc_rep_t *, void *);
 void helper_oc_resource_set_request_handler(oc_request_t *, oc_interface_mask_t, void *);
+
+void helper_poll_event_thread(struct main_context_t* ctx);
 
 
 void helper_rep_set_double(CborEncoder * object, const char* key, double value);
@@ -135,7 +135,6 @@ void helper_rep_clear_cbor_errno();
 void helper_rep_delete_buffer();
 void helper_rep_new_buffer(int size);
 
-void helper_poll_event_thread(struct main_context_t* ctx);
 
 #ifdef __cplusplus
 }

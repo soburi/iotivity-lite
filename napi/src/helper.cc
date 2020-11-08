@@ -216,7 +216,7 @@ void helper_oc_handler_requests_entry()
     main_context->oc_handler_requests_entry_ref.Call({});
 }
 
-void oc_init_platform_helper(void* param)
+void helper_oc_init_platform_cb(void* param)
 {
     printf("oc_init_platform_helper");
     /*
@@ -228,7 +228,7 @@ void oc_init_platform_helper(void* param)
     */
 }
 
-void oc_add_device_helper(void* param)
+void helper_oc_add_device_cb(void* param)
 {
     printf("oc_add_device_helper\n");
  //   callback_helper_t* helper = (callback_helper_t*)param;

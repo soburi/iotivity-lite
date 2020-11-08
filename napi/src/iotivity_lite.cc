@@ -524,7 +524,7 @@ Value OCMain::add_device(const CallbackInfo& info) {
     const char* spec_version = spec_version_.c_str();
     std::string data_model_version_ = info[4].As<String>().Utf8Value();
     const char* data_model_version = data_model_version_.c_str();
-    auto add_device_cb = CHECK_CALLBACK_FUNC(info, 5, oc_add_device_helper);
+    auto add_device_cb = CHECK_CALLBACK_FUNC(info, 5, helper_oc_add_device_cb);
     const int O_FUNC = 5;
     SafeCallbackHelper* data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 6);
     main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
@@ -807,7 +807,7 @@ Value OCMain::indicate_separate_response(const CallbackInfo& info) {
 Value OCMain::init_platform(const CallbackInfo& info) {
     std::string mfg_name_ = info[0].As<String>().Utf8Value();
     const char* mfg_name = mfg_name_.c_str();
-    auto init_platform_cb = CHECK_CALLBACK_FUNC(info, 1, oc_init_platform_helper);
+    auto init_platform_cb = CHECK_CALLBACK_FUNC(info, 1, helper_oc_init_platform_cb);
     const int O_FUNC = 1;
     SafeCallbackHelper* data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 2);
     main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
