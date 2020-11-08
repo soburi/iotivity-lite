@@ -1972,9 +1972,15 @@ Napi::Value OCRepresentation::get_double_array(const Napi::CallbackInfo& info) {
   OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Napi::Object>());
   std::string key_ = info[0].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
-// 1 value, double**
-  size_t* size = reinterpret_cast<size_t*>(info[2].As<Napi::Uint32Array>().Data());
-  return Napi::Boolean::New(info.Env(), 0);
+
+  double* ret;  size_t sz;
+  bool success = oc_rep_get_double_array(rep, key, &ret, &sz);
+  if(!success) { return info.Env().Undefined(); }
+  auto array = Float64Array::New(info.Env(), sz);
+  for (uint32_t i = 0; i < sz; i++) {
+      array[i] = ret[i];
+  }
+  return array;
 }
 
 Napi::Value OCRepresentation::get_object(const Napi::CallbackInfo& info) {
@@ -2028,9 +2034,15 @@ Napi::Value OCRepresentation::get_int_array(const Napi::CallbackInfo& info) {
   OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Napi::Object>());
   std::string key_ = info[0].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
-// 1 value, int64_t**
-  size_t* size = reinterpret_cast<size_t*>(info[2].As<Napi::Uint32Array>().Data());
-  return Napi::Boolean::New(info.Env(), 0);
+
+  int64_t* ret;  size_t sz;
+  bool success = oc_rep_get_int_array(rep, key, &ret, &sz);
+  if (!success) { return info.Env().Undefined(); }
+  auto array = TypedArrayOf<int64_t>::New(info.Env(), sz, napi_bigint64_array);
+  for (uint32_t i = 0; i < sz; i++) {
+      array[i] = ret[i];
+  }
+  return array;
 }
 
 Napi::Value OCRepresentation::to_json(const Napi::CallbackInfo& info) {
