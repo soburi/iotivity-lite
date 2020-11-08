@@ -59,6 +59,7 @@ extern Napi::FunctionReference oc_swupdate_cb_download_update_ref;
 extern Napi::FunctionReference oc_swupdate_cb_perform_upgrade_ref;
 
 void terminate_main_loop();
+void N_main_loop_resolve(const Napi::CallbackInfo& info);
 
 #ifdef __cplusplus
 extern "C" {

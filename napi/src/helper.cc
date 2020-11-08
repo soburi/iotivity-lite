@@ -275,17 +275,11 @@ void helper_oc_resource_set_request_handler(oc_request_t* req, oc_interface_mask
   
 }
 
-static void main_loop_resolve(const Napi::CallbackInfo& info) {
+void N_main_loop_resolve(const Napi::CallbackInfo& info) {
   OC_DBG("JNI: - resolve %s", __func__);
   main_loop_ctx->deferred.Resolve(info.Env().Undefined() );
   delete main_loop_ctx;
   main_loop_ctx = nullptr;
-}
-
-Napi::Value helper_main_loop(const Napi::CallbackInfo& info) {
-    main_loop_ctx = new main_loop_t{ Napi::Promise::Deferred::New(info.Env()),
-                               Napi::ThreadSafeFunction::New(info.Env(), Napi::Function::New(info.Env(), main_loop_resolve), "main_loop_resolve", 0, 1) };
-  return main_loop_ctx->deferred.Promise();
 }
 
 void terminate_main_loop() {

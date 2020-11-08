@@ -888,11 +888,7 @@ Napi::Value OCMain::main_loop(const Napi::CallbackInfo& info) {
 //
   main_loop_ctx = new main_loop_t{ Napi::Promise::Deferred::New(info.Env()),
                                Napi::ThreadSafeFunction::New(info.Env(),
-                               Napi::Function::New(info.Env(), [](const Napi::CallbackInfo& info) {
-  main_loop_ctx->deferred.Resolve(info.Env().Undefined() );
-  delete main_loop_ctx;
-  main_loop_ctx = nullptr;
-  }), "main_loop_resolve", 0, 1) };
+                               Napi::Function::New(info.Env(), N_main_loop_resolve), "N_main_loop_resolve", 0, 1) };
   return main_loop_ctx->deferred.Promise();
 
 }
