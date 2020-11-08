@@ -1048,6 +1048,7 @@ public:
     Napi::Value get_uri(const Napi::CallbackInfo&);
     void set_uri(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_iterator(const Napi::CallbackInfo& info);
     Napi::FunctionReference get_handler;
     Napi::FunctionReference post_handler;
     Napi::FunctionReference put_handler;

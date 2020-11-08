@@ -258,7 +258,6 @@ EXTRA_VALUE= {
   'oc_etimer' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
   'oc_event_callback_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
   'oc_message_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
-  'oc_resource_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
   'oc_role_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
   'oc_blockwise_status_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
   'oc_session_event_cb' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
@@ -285,6 +284,7 @@ EXTRA_VALUE= {
   Napi::FunctionReference perform_upgrade;\n\
 ",
   "oc_resource_s" => "\
+  Napi::Value get_iterator(const Napi::CallbackInfo& info);\n\
   Napi::FunctionReference get_handler;\n\
   Napi::FunctionReference post_handler;\n\
   Napi::FunctionReference put_handler;\n\
