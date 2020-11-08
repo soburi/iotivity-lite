@@ -336,63 +336,63 @@ EXTRA_VALUE= {
 
 OVERRIDE_CTOR = {
   "oc_rep_s" => '
-OCRepresentation::OCRepresentation(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCRepresentation::OCRepresentation(const CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
         //TODO m_pvalue = shared_ptr<oc_rep_s>( oc_rep_new(), oc_free_rep);
     }
     else if (info.Length() == 1 && info[0].IsExternal()) {
-        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_rep_s>>>().Data());
+        m_pvalue = *(info[0].As<External<shared_ptr<oc_rep_s>>>().Data());
     }
     else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
+        TypeError::New(info.Env(), "You need to name yourself")
             .ThrowAsJavaScriptException();
     }
 }',
   "oc_endpoint_iterator_t" => '
-OCEndpointIterator::OCEndpointIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCEndpointIterator::OCEndpointIterator(const CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 1 && info[0].IsExternal() ) {
      m_pvalue = shared_ptr<oc_endpoint_iterator_t>(new oc_endpoint_iterator_t());
-     m_pvalue->current = info[0].As<Napi::External<shared_ptr<oc_endpoint_t>>>().Data()->get();
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_endpoint_t>>>().Data()->get();
   }
   else {
-     Napi::TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
   }
 }',
 
   "oc_string_array_iterator_t" => '
-OCStringArrayIterator::OCStringArrayIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCStringArrayIterator::OCStringArrayIterator(const CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 1 && info[0].IsExternal() ) {
      m_pvalue = shared_ptr<oc_string_array_iterator_t>(new oc_string_array_iterator_t());
      m_pvalue->index = -1;
-     m_pvalue->array = *info[0].As<Napi::External<shared_ptr<oc_string_array_t>>>().Data()->get();
+     m_pvalue->array = *info[0].As<External<shared_ptr<oc_string_array_t>>>().Data()->get();
   }
   else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
+        TypeError::New(info.Env(), "You need to name yourself")
           .ThrowAsJavaScriptException();
   }
 }',
 
   "oc_resource_s" => <<~STR
-OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCResource::OCResource(const CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 4) {
-     string name_ = info[0].As<Napi::String>().Utf8Value();
+     string name_ = info[0].As<String>().Utf8Value();
      const char* name = name_.c_str();
-     string uri_ = info[1].As<Napi::String>().Utf8Value();
+     string uri_ = info[1].As<String>().Utf8Value();
      const char* uri = uri_.c_str();
-     uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
-     size_t device = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
+     uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Number>().Uint32Value());
+     size_t device = static_cast<size_t>(info[3].As<Number>().Uint32Value());
 
      m_pvalue = shared_ptr<oc_resource_s>( oc_new_resource(name, uri, num_resource_types, device), nop_deleter /* TODO */);
   }
   else if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_resource_s>>>().Data());
+     m_pvalue = *(info[0].As<External<shared_ptr<oc_resource_s>>>().Data());
   }
   else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
+        TypeError::New(info.Env(), "You need to name yourself")
           .ThrowAsJavaScriptException();
   }
 }
@@ -401,125 +401,125 @@ OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 
 SETGET_OVERRIDE = {
 
-  "oc_collection_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_collection_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_collection_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_collection_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_collection_s>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_collection_s>>::New(info.Env(), &sp);
     return OCCollection::constructor.New({ accessor });',
   },
 
-  "oc_link_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_link_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_link_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_link_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_link_s>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_link_s>>::New(info.Env(), &sp);
     return OCLink::constructor.New({ accessor });',
   },
 
-  "oc_sec_ace_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_sec_ace_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_sec_ace_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_sec_ace_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
     return OCSecurityAce::constructor.New({ accessor });',
   },
 
-  "oc_ace_res_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_ace_res_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_ace_res_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_ace_res_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
     return OCAceResource::constructor.New({ accessor });',
   },
 
-  "oc_cloud_context_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_cloud_context_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_cloud_context_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_cloud_context_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
     return OCCloudContext::constructor.New({ accessor });',
   },
 
-  "oc_link_params_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_link_params_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_link_params_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_link_params_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_link_params_t>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_link_params_t>>::New(info.Env(), &sp);
     return OCLink::constructor.New({ accessor });',
   },
 
-  "oc_rt_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_rt_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_rt_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_rt_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_rt_t>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_rt_t>>::New(info.Env(), &sp);
     return OCResourceType::constructor.New({ accessor });',
   },
 
-  "oc_etime_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_etime_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_etime_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_etimer> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_etimer>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_etimer>>::New(info.Env(), &sp);
     return OCEtimer::constructor.New({ accessor });',
   },
 
-  "oc_event_callback_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_event_callback_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_event_callback_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_event_callback_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_event_callback_s>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_event_callback_s>>::New(info.Env(), &sp);
     return OCEventCallback::constructor.New({ accessor });',
   },
 
-  "oc_message_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_message_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_message_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_message_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_message_s>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_message_s>>::New(info.Env(), &sp);
     return OCMessage::constructor.New({ accessor });',
   },
 
-  "oc_role_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_role_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_role_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_role_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_role_t>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_role_t>>::New(info.Env(), &sp);
     return OCRole::constructor.New({ accessor });',
   },
 
 
-  "oc_blockwise_state_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_blockwise_state_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_blockwise_state_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_blockwise_state_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
     return OCBlockwiseState::constructor.New({ accessor });',
   },
 
-  "oc_session_event_cb_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_session_event_cb_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_session_event_cb_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_session_event_cb> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_session_event_cb>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_session_event_cb>>::New(info.Env(), &sp);
     return OCSessionEvents::constructor.New({ accessor });',
   },
 
 
-  "oc_rep_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_rep_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_rep_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_rep_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_rep_s>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_rep_s>>::New(info.Env(), &sp);
     return OCRepresentation::constructor.New({ accessor });',
   },
 
-  "oc_endpoint_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_endpoint_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_endpoint_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_endpoint_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
     return OCEndpoint::constructor.New({ accessor });',
   },
   "oc_string_array_iterator_t::done" => {
@@ -540,14 +540,14 @@ SETGET_OVERRIDE = {
     "set" => "\
 m_pvalue->buffer =     value.As<Napi::Buffer<uint8_t>>().Data();",
     "get" =>
-"return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, OC_MAX_APP_DATA_SIZE);"
+"return Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, OC_MAX_APP_DATA_SIZE);"
   },
   "oc_response_buffer_s::buffer" => {
     "set" => "\
-m_pvalue->buffer =     value.As<Napi::Buffer<uint8_t>>().Data();
-m_pvalue->buffer_size = value.As<Napi::Buffer<uint8_t>>().Length();",
+m_pvalue->buffer =     value.As<Buffer<uint8_t>>().Data();
+m_pvalue->buffer_size = value.As<Buffer<uint8_t>>().Length();",
     "get" =>
-"return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, m_pvalue->buffer_size);"
+"return Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, m_pvalue->buffer_size);"
   },
   "oc_client_handler_t::discovery"=> {
     "set"=> "discovery_function = value;",
@@ -562,19 +562,19 @@ m_pvalue->buffer_size = value.As<Napi::Buffer<uint8_t>>().Length();",
     "get"=> "return response_function;"
   },
   "oc_handler_t::init"=> {
-    "set"=> "  init.Reset(value.As<Napi::Function>());\n",
+    "set"=> "  init.Reset(value.As<Function>());\n",
     "get"=> "  return init.Value();"
   },
   "oc_handler_t::register_resources"=> {
-    "set"=> "  register_resources.Reset(value.As<Napi::Function>());\n",
+    "set"=> "  register_resources.Reset(value.As<Function>());\n",
     "get"=> "  return register_resources.Value();"
   },
   "oc_handler_t::requests_entry"=> {
-    "set"=> "  requests_entry.Reset(value.As<Napi::Function>());\n",
+    "set"=> "  requests_entry.Reset(value.As<Function>());\n",
     "get"=> "  return requests_entry.Value();\n"
   },
   "oc_handler_t::signal_event_loop"=> {
-    "set"=> "  signal_event_loop.Reset(value.As<Napi::Function>());\n",
+    "set"=> "  signal_event_loop.Reset(value.As<Function>());\n",
     "get"=> "  return signal_event_loop.Value();\n"
   },
   "oc_swupdate_cb_t::check_new_version"=> {
@@ -594,69 +594,69 @@ m_pvalue->buffer_size = value.As<Napi::Buffer<uint8_t>>().Length();",
     "get"=> "return perform_upgrade_function;"
   },
   "oc_process::name"=> {
-    "set"=>"  m_pvalue->VALNAME = value.As<Napi::String>().Utf8Value().c_str();",
-    "get"=>"  return Napi::String::New(info.Env(), m_pvalue->VALNAME);"
+    "set"=>"  m_pvalue->VALNAME = value.As<String>().Utf8Value().c_str();",
+    "get"=>"  return String::New(info.Env(), m_pvalue->VALNAME);"
   },
   "oc_blockwise_state_s::buffer"=> {
-    "set"=> "for(uint32_t i=0; i<value.As<Napi::Buffer<uint8_t>>().Length(); i++) { m_pvalue->buffer[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
-    "get"=> "return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, OC_MAX_APP_DATA_SIZE);"
+    "set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->buffer[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
+    "get"=> "return Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, OC_MAX_APP_DATA_SIZE);"
   },
   "oc_message_s::data"=> {
-    "set"=> "for(uint32_t i=0; i<value.As<Napi::Buffer<uint8_t>>().Length(); i++) { m_pvalue->data[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
-    "get"=>"return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->data, OC_PDU_SIZE);"
+    "set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->data[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
+    "get"=>"return Buffer<uint8_t>::New(info.Env(), m_pvalue->data, OC_PDU_SIZE);"
   },
   "oc_request_t::_payload"=> {
-    #"set"=> "for(uint32_t i=0; i<value.As<Napi::Buffer<uint8_t>>().Length(); i++) { m_pvalue->_payload[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
+    #"set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->_payload[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
     "set" => "/* nop */",
-    "get"=> "return Napi::Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(m_pvalue->_payload), m_pvalue->_payload_len);"
+    "get"=> "return Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(m_pvalue->_payload), m_pvalue->_payload_len);"
   },
   "oc_client_response_t::_payload"=> {
     "set" => "\
-m_pvalue->_payload =    value.As<Napi::Buffer<uint8_t>>().Data();
-m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
+m_pvalue->_payload =    value.As<Buffer<uint8_t>>().Data();
+m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();",
     "get" =>
-"return Napi::Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(m_pvalue->_payload), m_pvalue->_payload_len);"
-    #"set"=> "for(uint32_t i=0; i<value.As<Napi::Buffer<uint8_t>>().Length(); i++) { m_pvalue->_payload[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
-    #"get"=> "return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->_payload, m_pvalue->_payload_len);"
+"return Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(m_pvalue->_payload), m_pvalue->_payload_len);"
+    #"set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->_payload[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
+    #"get"=> "return Buffer<uint8_t>::New(info.Env(), m_pvalue->_payload, m_pvalue->_payload_len);"
   },
   "oc_uuid_t::id"=>
   {"set"=>
-    "for(uint32_t i=0; i<16; i++) { m_pvalue->id[i] = info[0].As<Napi::Buffer<uint8_t>>().Data()[i]; }",
-   "get"=>"return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->id, 16);"},
+    "for(uint32_t i=0; i<16; i++) { m_pvalue->id[i] = info[0].As<Buffer<uint8_t>>().Data()[i]; }",
+   "get"=>"return Buffer<uint8_t>::New(info.Env(), m_pvalue->id, 16);"},
   "oc_blockwise_response_state_s::etag"=>
   {"set"=>
-    "for(uint32_t i=0; i<COAP_ETAG_LEN; i++) { m_pvalue->VALNAME[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
-   "get"=>"return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->etag, COAP_ETAG_LEN);"},
+    "for(uint32_t i=0; i<COAP_ETAG_LEN; i++) { m_pvalue->VALNAME[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
+   "get"=>"return Buffer<uint8_t>::New(info.Env(), m_pvalue->etag, COAP_ETAG_LEN);"},
   "oc_blockwise_state_s::token"=>
   {"set"=>
-    "for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) { m_pvalue->token[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
+    "for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) { m_pvalue->token[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
    "get"=>
-    "return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->token, COAP_TOKEN_LEN);"},
+    "return Buffer<uint8_t>::New(info.Env(), m_pvalue->token, COAP_TOKEN_LEN);"},
   "oc_client_cb_t::token"=>
   {"set"=>
-    "for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) { m_pvalue->token[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
+    "for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) { m_pvalue->token[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
    "get"=>
-    "return Napi::Buffer<uint8_t>::New(info.Env(), m_pvalue->token, COAP_TOKEN_LEN);"},
+    "return Buffer<uint8_t>::New(info.Env(), m_pvalue->token, COAP_TOKEN_LEN);"},
   "oc_request_t::query"=>
   {#"set"=>
-   # "for(uint32_t i=0; i<m_pvalue->query_len; i++) { m_pvalue->query[i] = value.As<Napi::Buffer<uint8_t>>().Data()[i]; }",
+   # "for(uint32_t i=0; i<m_pvalue->query_len; i++) { m_pvalue->query[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
    "set"=> "/* nop */",
    "get"=>
-    "return Napi::Buffer<char>::New(info.Env(), const_cast<char*>(m_pvalue->query), m_pvalue->query_len);"},
+    "return Buffer<char>::New(info.Env(), const_cast<char*>(m_pvalue->query), m_pvalue->query_len);"},
   "oc_memb::count"=>
   {"set"=>
-    "for(uint32_t i=0; i<m_pvalue->num; i++) { m_pvalue->count[i] = value.As<Napi::Buffer<int8_t>>().Data()[i]; }",
-   "get"=>"return Napi::Buffer<char>::New(info.Env(), m_pvalue->count, m_pvalue->num);"},
+    "for(uint32_t i=0; i<m_pvalue->num; i++) { m_pvalue->count[i] = value.As<Buffer<int8_t>>().Data()[i]; }",
+   "get"=>"return Buffer<char>::New(info.Env(), m_pvalue->count, m_pvalue->num);"},
   "oc_le_addr_t::address"=>
   {"set"=>
-    "m_pvalue->address[0] = value.As<Napi::Uint8Array>()[0];\n" +
-    "m_pvalue->address[1] = value.As<Napi::Uint8Array>()[1];\n" +
-    "m_pvalue->address[2] = value.As<Napi::Uint8Array>()[2];\n" +
-    "m_pvalue->address[3] = value.As<Napi::Uint8Array>()[3];\n" +
-    "m_pvalue->address[4] = value.As<Napi::Uint8Array>()[4];\n" +
-    "m_pvalue->address[5] = value.As<Napi::Uint8Array>()[5];",
+    "m_pvalue->address[0] = value.As<Uint8Array>()[0];\n" +
+    "m_pvalue->address[1] = value.As<Uint8Array>()[1];\n" +
+    "m_pvalue->address[2] = value.As<Uint8Array>()[2];\n" +
+    "m_pvalue->address[3] = value.As<Uint8Array>()[3];\n" +
+    "m_pvalue->address[4] = value.As<Uint8Array>()[4];\n" +
+    "m_pvalue->address[5] = value.As<Uint8Array>()[5];",
    "get"=>
-    "auto array = Napi::Uint8Array::New(info.Env(), 6);\n" +
+    "auto array = Uint8Array::New(info.Env(), 6);\n" +
     "array[0] = m_pvalue->address[0];\n" +
     "array[1] = m_pvalue->address[1];\n" +
     "array[2] = m_pvalue->address[2];\n" +
@@ -666,12 +666,12 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
     "return array;"},
   "oc_ipv4_addr_t::address"=>
   {"set"=>
-    "m_pvalue->address[0] = value.As<Napi::Uint8Array>()[0];\n" +
-    "m_pvalue->address[1] = value.As<Napi::Uint8Array>()[1];\n" +
-    "m_pvalue->address[2] = value.As<Napi::Uint8Array>()[2];\n" +
-    "m_pvalue->address[3] = value.As<Napi::Uint8Array>()[3];",
+    "m_pvalue->address[0] = value.As<Uint8Array>()[0];\n" +
+    "m_pvalue->address[1] = value.As<Uint8Array>()[1];\n" +
+    "m_pvalue->address[2] = value.As<Uint8Array>()[2];\n" +
+    "m_pvalue->address[3] = value.As<Uint8Array>()[3];",
    "get"=>
-    "auto array = Napi::Uint8Array::New(info.Env(), 4);\n" +
+    "auto array = Uint8Array::New(info.Env(), 4);\n" +
     "array[0] = m_pvalue->address[0];\n" +
     "array[1] = m_pvalue->address[1];\n" +
     "array[2] = m_pvalue->address[2];\n" +
@@ -679,16 +679,16 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
     "return array;"},
   "oc_ipv6_addr_t::address"=>
   {"set"=>
-    "m_pvalue->address[0] = value.As<Napi::Uint16Array>()[0];\n" +
-    "m_pvalue->address[1] = value.As<Napi::Uint16Array>()[1];\n" +
-    "m_pvalue->address[2] = value.As<Napi::Uint16Array>()[2];\n" +
-    "m_pvalue->address[3] = value.As<Napi::Uint16Array>()[3];\n" +
-    "m_pvalue->address[4] = value.As<Napi::Uint16Array>()[4];\n" +
-    "m_pvalue->address[5] = value.As<Napi::Uint16Array>()[5];\n" +
-    "m_pvalue->address[6] = value.As<Napi::Uint16Array>()[6];\n" +
-    "m_pvalue->address[7] = value.As<Napi::Uint16Array>()[7];",
+    "m_pvalue->address[0] = value.As<Uint16Array>()[0];\n" +
+    "m_pvalue->address[1] = value.As<Uint16Array>()[1];\n" +
+    "m_pvalue->address[2] = value.As<Uint16Array>()[2];\n" +
+    "m_pvalue->address[3] = value.As<Uint16Array>()[3];\n" +
+    "m_pvalue->address[4] = value.As<Uint16Array>()[4];\n" +
+    "m_pvalue->address[5] = value.As<Uint16Array>()[5];\n" +
+    "m_pvalue->address[6] = value.As<Uint16Array>()[6];\n" +
+    "m_pvalue->address[7] = value.As<Uint16Array>()[7];",
    "get"=>
-    "auto array = Napi::Uint16Array::New(info.Env(), 8);\n" +
+    "auto array = Uint16Array::New(info.Env(), 8);\n" +
     "array[0] = m_pvalue->address[0];\n" +
     "array[1] = m_pvalue->address[1];\n" +
     "array[2] = m_pvalue->address[2];\n" +
@@ -700,29 +700,29 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
     "return array;"},
   "oc_collection_s::tag_pos_rel"=>
   {"set"=>
-    "m_pvalue->tag_pos_rel[0] = value.As<Napi::Float64Array>()[0];\n" +
-    "m_pvalue->tag_pos_rel[1] = value.As<Napi::Float64Array>()[1];\n" +
-    "m_pvalue->tag_pos_rel[2] = value.As<Napi::Float64Array>()[2];",
+    "m_pvalue->tag_pos_rel[0] = value.As<Float64Array>()[0];\n" +
+    "m_pvalue->tag_pos_rel[1] = value.As<Float64Array>()[1];\n" +
+    "m_pvalue->tag_pos_rel[2] = value.As<Float64Array>()[2];",
    "get"=>
-    "auto array = Napi::Float64Array::New(info.Env(), 3);\n" +
+    "auto array = Float64Array::New(info.Env(), 3);\n" +
     "array[0] = m_pvalue->tag_pos_rel[0];\n" +
     "array[1] = m_pvalue->tag_pos_rel[1];\n" +
     "array[2] = m_pvalue->tag_pos_rel[2];\n" +
     "return array;"},
   "oc_resource_s::tag_func_desc"=>
-  {"set"=> '  oc_resource_tag_func_desc(m_pvalue.get(), static_cast<oc_enum_t>(value.As<Napi::Number>().Uint32Value()));',
-   "get"=> '  return Napi::Number::New(info.Env(), m_pvalue->tag_func_desc);'
+  {"set"=> '  oc_resource_tag_func_desc(m_pvalue.get(), static_cast<oc_enum_t>(value.As<Number>().Uint32Value()));',
+   "get"=> '  return Number::New(info.Env(), m_pvalue->tag_func_desc);'
   },
   "oc_resource_s::tag_pos_desc"=>
-  {"set"=> '  oc_resource_tag_pos_desc(m_pvalue.get(), static_cast<oc_pos_description_t>(value.As<Napi::Number>().Uint32Value()));',
-   "get"=> '  return Napi::Number::New(info.Env(), m_pvalue->tag_pos_desc);'
+  {"set"=> '  oc_resource_tag_pos_desc(m_pvalue.get(), static_cast<oc_pos_description_t>(value.As<Number>().Uint32Value()));',
+   "get"=> '  return Number::New(info.Env(), m_pvalue->tag_pos_desc);'
   },
   "oc_resource_s::tag_pos_rel"=>
-  {"set"=> '  oc_resource_tag_pos_rel(m_pvalue.get(), value.As<Napi::Float64Array>()[0],
-                                          value.As<Napi::Float64Array>()[1],
-                                          value.As<Napi::Float64Array>()[2]);',
+  {"set"=> '  oc_resource_tag_pos_rel(m_pvalue.get(), value.As<Float64Array>()[0],
+                                          value.As<Float64Array>()[1],
+                                          value.As<Float64Array>()[2]);',
    "get"=>
-    "auto array = Napi::Float64Array::New(info.Env(), 3);\n" +
+    "auto array = Float64Array::New(info.Env(), 3);\n" +
     "array[0] = m_pvalue->tag_pos_rel[0];\n" +
     "array[1] = m_pvalue->tag_pos_rel[1];\n" +
     "array[2] = m_pvalue->tag_pos_rel[2];\n" +
@@ -758,20 +758,20 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
    "get"=>
    "return init_platform_cb_data;"},
   "oc_sec_cred_t::chain"=>
-  {"set"=> "  m_pvalue->chain = *(*(value.As<Napi::External<shared_ptr<oc_sec_cred_t*>>>().Data()));",
+  {"set"=> "  m_pvalue->chain = *(*(value.As<External<shared_ptr<oc_sec_cred_t*>>>().Data()));",
    "get"=> <<~STR
     //
       shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->chain);
-      auto accessor = Napi::External<shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
+      auto accessor = External<shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
       return OCCred::constructor.New({accessor});
    STR
   },
   "oc_sec_cred_t::child"=>
-  {"set"=> "  m_pvalue->child = *(*(value.As<Napi::External<shared_ptr<oc_sec_cred_t*>>>().Data()));",
+  {"set"=> "  m_pvalue->child = *(*(value.As<External<shared_ptr<oc_sec_cred_t*>>>().Data()));",
    "get"=> <<~STR
     //
       shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->child);
-      auto accessor = Napi::External<shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
+      auto accessor = External<shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
       return OCCred::constructor.New({accessor});
    STR
   }
@@ -779,7 +779,7 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
 
 FUNC_OVERRIDE = {
   'oc_parse_rep' => {
-    '1' => '  int payload_size = info[0].As<Napi::Buffer<const uint8_t>>().Length();',
+    '1' => '  int payload_size = info[0].As<Buffer<const uint8_t>>().Length();',
     '2' => '',
     'invoke' => '
 
@@ -788,7 +788,7 @@ FUNC_OVERRIDE = {
 
   if (err) { return info.Env().Undefined(); }
   shared_ptr<oc_rep_t> sp(ret);
-  auto accessor = Napi::External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+  auto accessor = External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
   return OCRepresentation::constructor.New({ accessor });'
   },
   'oc_rep_get_object' => {
@@ -799,7 +799,7 @@ FUNC_OVERRIDE = {
   if (!success) { return info.Env().Undefined(); }
 
   shared_ptr<oc_rep_t> sp(ret);
-  auto accessor = Napi::External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+  auto accessor = External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
   return OCRepresentation::constructor.New({ accessor });'
   },
   'oc_rep_get_string' => {
@@ -809,7 +809,7 @@ FUNC_OVERRIDE = {
   char* ret; size_t sz;
   bool success = oc_rep_get_string(rep, key, &ret, &sz);
   if(!success) { return info.Env().Undefined(); }
-  return Napi::String::New(info.Env(), ret, sz);'
+  return String::New(info.Env(), ret, sz);'
   },
   'oc_rep_get_int' => {
     '1' => '',
@@ -817,7 +817,7 @@ FUNC_OVERRIDE = {
   int64_t ret;
   bool success = oc_rep_get_int(rep, key, &ret);
   if(!success) { return info.Env().Undefined(); }
-  return Napi::Number::New(info.Env(), ret);'
+  return Number::New(info.Env(), ret);'
   },
   'oc_rep_get_bool' => {
     '1' => '',
@@ -825,7 +825,7 @@ FUNC_OVERRIDE = {
   bool ret;
   bool success = oc_rep_get_bool(rep, key, &ret);
   if(!success) { return info.Env().Undefined(); }
-  return Napi::Boolean::New(info.Env(), ret);'
+  return Boolean::New(info.Env(), ret);'
   },
   'oc_rep_get_double' => {
     '1' => '',
@@ -833,7 +833,7 @@ FUNC_OVERRIDE = {
   double ret;
   bool success = oc_rep_get_double(rep, key, &ret);
   if(!success) { return info.Env().Undefined(); }
-  return Napi::Number::New(info.Env(), ret);'
+  return Number::New(info.Env(), ret);'
   },
   'oc_rep_get_double_array' => {
     '1' => '',
@@ -864,9 +864,9 @@ FUNC_OVERRIDE = {
   'helper_main_loop' => {
     'invoke' => <<~STR
 //
-  main_loop_ctx = new main_loop_t{ Napi::Promise::Deferred::New(info.Env()),
-                               Napi::ThreadSafeFunction::New(info.Env(),
-                               Napi::Function::New(info.Env(), [](const Napi::CallbackInfo& info) {
+  main_loop_ctx = new main_loop_t{ Promise::Deferred::New(info.Env()),
+                               ThreadSafeFunction::New(info.Env(),
+                               Function::New(info.Env(), [](const CallbackInfo& info) {
   main_loop_ctx->deferred.Resolve(info.Env().Undefined() );
   delete main_loop_ctx;
   main_loop_ctx = nullptr;
@@ -876,145 +876,145 @@ STR
   },
   'oc_add_ownership_status_cb' => {
     '0' => "  oc_ownership_status_cb_t cb = helper_oc_ownership_status_cb; if(!info[0].IsFunction()) { cb = nullptr; }\n",
-    '1' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[1]);\n",
+    '1' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Function>(), info[1]);\n",
   },
   'oc_set_delayed_callback' => {
-    '0' => "  SafeCallbackHelper* cb_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[0]);\n",
+    '0' => "  SafeCallbackHelper* cb_data = new SafeCallbackHelper(info[1].As<Function>(), info[0]);\n",
     '1' => "  oc_trigger_t callback = helper_oc_trigger; if(!info[1].IsFunction()) { callback = nullptr; }\n",
   },
   'oc_set_factory_presets_cb' => {
     '0' => "  oc_factory_presets_cb_t cb = helper_oc_factory_presets_cb; if(!info[0].IsFunction()) { cb = nullptr; }\n",
-    '4' => "  SafeCallbackHelper* data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[1]);\n",
+    '4' => "  SafeCallbackHelper* data = new SafeCallbackHelper(info[0].As<Function>(), info[1]);\n",
   },
   'oc_set_random_pin_callback' => {
     '0' => "  oc_random_pin_cb_t cb = helper_oc_random_pin_cb; if(!info[0].IsFunction()) { cb = nullptr; }\n",
-    '4' => "  SafeCallbackHelper* data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[1]);\n",
+    '4' => "  SafeCallbackHelper* data = new SafeCallbackHelper(info[0].As<Function>(), info[1]);\n",
   },
   'oc_send_ping' => {
     '3' => "  oc_response_handler_t handler = helper_oc_response_handler; if(!info[3].IsFunction()) { handler = nullptr; }\n",
-    '4' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Napi::Function>(), info[4]);\n",
+    '4' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Function>(), info[4]);\n",
   },
   'oc_assert_all_roles' => {
     '1' => "  oc_response_handler_t handler = helper_oc_response_handler; if(!info[1].IsFunction()) { handler = nullptr; }\n",
-    '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[2]);\n",
+    '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Function>(), info[2]);\n",
   },
   'oc_assert_role' => {
     '3' => "  oc_response_handler_t handler = helper_oc_response_handler; if(!info[3].IsFunction()) { handler = nullptr; }\n",
-    '4' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Napi::Function>(), info[4]);\n",
+    '4' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Function>(), info[4]);\n",
   },
   'oc_do_get' => {
-    '2' => "  const char* query = nullptr; if (info[2].IsString()) { query = info[2].As<Napi::String>().Utf8Value().c_str(); }\n",
+    '2' => "  const char* query = nullptr; if (info[2].IsString()) { query = info[2].As<String>().Utf8Value().c_str(); }\n",
     '3' => "  oc_response_handler_t handler = helper_oc_response_handler; if(!info[3].IsFunction()) { handler = nullptr; }\n",
-    '5' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Napi::Function>(), info[5]);\n",
+    '5' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Function>(), info[5]);\n",
   },
   'oc_do_delete' => {
-    '2' => "  const char* query = nullptr; if (info[2].IsString()) { query = info[2].As<Napi::String>().Utf8Value().c_str(); }\n",
+    '2' => "  const char* query = nullptr; if (info[2].IsString()) { query = info[2].As<String>().Utf8Value().c_str(); }\n",
     '3' => "  oc_response_handler_t handler = helper_oc_response_handler; if(!info[3].IsFunction()) { handler = nullptr; }\n",
-    '5' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Napi::Function>(), info[5]);\n",
+    '5' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Function>(), info[5]);\n",
   },
   'oc_do_observe' => {
-    '2' => "  const char* query = nullptr; if (info[2].IsString()) { query = info[2].As<Napi::String>().Utf8Value().c_str(); }\n",
+    '2' => "  const char* query = nullptr; if (info[2].IsString()) { query = info[2].As<String>().Utf8Value().c_str(); }\n",
     '3' => "  oc_response_handler_t handler = helper_oc_response_handler; if(!info[3].IsFunction()) { handler = nullptr; }\n",
-    '5' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Napi::Function>(), info[5]);\n",
+    '5' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Function>(), info[5]);\n",
   },
   'oc_init_post' => {
-    '2' => "  const char* query = nullptr; if (info[2].IsString()) { query = info[2].As<Napi::String>().Utf8Value().c_str(); }\n",
+    '2' => "  const char* query = nullptr; if (info[2].IsString()) { query = info[2].As<String>().Utf8Value().c_str(); }\n",
     '3' => "  oc_response_handler_t handler = helper_oc_response_handler; if(!info[3].IsFunction()) { handler = nullptr; }\n",
-    '5' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Napi::Function>(), info[5]);\n",
+    '5' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Function>(), info[5]);\n",
   },
   'oc_init_put' => {
-    '2' => "  const char* query = nullptr; if (info[2].IsString()) { query = info[2].As<Napi::String>().Utf8Value().c_str(); }\n",
+    '2' => "  const char* query = nullptr; if (info[2].IsString()) { query = info[2].As<String>().Utf8Value().c_str(); }\n",
     '3' => "  oc_response_handler_t handler = helper_oc_response_handler; if(!info[3].IsFunction()) { handler = nullptr; }\n",
-    '5' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Napi::Function>(), info[5]);\n",
+    '5' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[3].As<Function>(), info[5]);\n",
   },
   'oc_do_ip_multicast' => {
     '2' => "  oc_response_handler_t handler = helper_oc_response_handler;\n",
-    '3' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[2].As<Napi::Function>(), info[3]);\n"
+    '3' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[2].As<Function>(), info[3]);\n"
   },
   'oc_do_realm_local_ipv6_multicast' => {
     '2' => "  oc_response_handler_t handler = helper_oc_response_handler;\n",
-    '3' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[2].As<Napi::Function>(), info[3]);\n"
+    '3' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[2].As<Function>(), info[3]);\n"
   },
   'oc_do_site_local_ipv6_multicast' => {
     '2' => "  oc_response_handler_t handler = helper_oc_response_handler;\n",
-    '3' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[2].As<Napi::Function>(), info[3]);\n"
+    '3' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[2].As<Function>(), info[3]);\n"
   },
   'oc_do_ip_discovery' => {
     '1' => "  oc_discovery_handler_t handler = helper_oc_discovery_handler;\n",
-    '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[2]);\n"
+    '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Function>(), info[2]);\n"
   },
   'oc_do_ip_discovery_all' => {
     '0' => "  oc_discovery_all_handler_t handler = helper_oc_discovery_all_handler;\n",
-    '1' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[1]);\n"
+    '1' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Function>(), info[1]);\n"
   },
   'oc_do_ip_discovery_at_endpoint' => {
     '1' => "  oc_discovery_handler_t handler = helper_oc_discovery_handler;\n",
-    '3' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[3]);\n"
+    '3' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Function>(), info[3]);\n"
   },
   'oc_do_ip_discovery_all_at_endpoint' => {
     '0' => "  oc_discovery_all_handler_t handler = helper_oc_discovery_all_handler;\n",
-    '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[2]);\n"
+    '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Function>(), info[2]);\n"
   },
   'oc_do_realm_local_ipv6_discovery' => {
     '1' => "  oc_discovery_handler_t handler = helper_oc_discovery_handler;\n",
-    '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[2]);\n"
+    '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Function>(), info[2]);\n"
   },
   'oc_do_realm_local_ipv6_discovery_all' => {
     '0' => "  oc_discovery_all_handler_t handler = helper_oc_discovery_all_handler;\n",
-    '1' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[1]);\n"
+    '1' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Function>(), info[1]);\n"
   },
   'oc_do_site_local_ipv6_discovery' => {
     '1' => "  oc_discovery_handler_t handler = helper_oc_discovery_handler;\n",
-    '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Napi::Function>(), info[2]);\n"
+    '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Function>(), info[2]);\n"
   },
   'oc_do_site_local_ipv6_discovery_all' => {
     '0' => "  oc_discovery_all_handler_t handler = helper_oc_discovery_all_handler;\n",
-    '1' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Napi::Function>(), info[1]);\n"
+    '1' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[0].As<Function>(), info[1]);\n"
   },
   'helper_rep_oc_array_to_int_array' => { 
     'invoke' => "\
-      return Napi::Buffer<int64_t>::New(info.Env(), oc_int_array(*static_cast<oc_array_t*>(array)), oc_int_array_size(*(oc_array_t*)array));",
+      return Buffer<int64_t>::New(info.Env(), oc_int_array(*static_cast<oc_array_t*>(array)), oc_int_array_size(*(oc_array_t*)array));",
   },
   'helper_rep_oc_array_to_bool_array' => { 
     'invoke' => "\
-      return Napi::Buffer<bool>::New(info.Env(), oc_bool_array(*static_cast<oc_array_t*>(array)), oc_bool_array_size(*(oc_array_t*)array));"
+      return Buffer<bool>::New(info.Env(), oc_bool_array(*static_cast<oc_array_t*>(array)), oc_bool_array_size(*(oc_array_t*)array));"
   },
   'helper_rep_oc_array_to_double_array' => { 
     'invoke' => "\
-      return Napi::Buffer<double>::New(info.Env(), oc_double_array(*static_cast<oc_array_t*>(array)), oc_double_array_size(*(oc_array_t*)array));"
+      return Buffer<double>::New(info.Env(), oc_double_array(*static_cast<oc_array_t*>(array)), oc_double_array_size(*(oc_array_t*)array));"
   },
   'helper_rep_oc_array_to_string_array' => { 
     'invoke' => "\
     size_t sz = oc_string_array_get_allocated_size(*(oc_array_t*)array);
     oc_string_array_t* strarray = reinterpret_cast<oc_string_array_t*>((oc_array_t*)array);
-    auto buf = Napi::Array::New(info.Env(), sz);
+    auto buf = Array::New(info.Env(), sz);
     for(uint32_t i=0; i<sz; i++) {
-      auto str = Napi::String::New(info.Env(), oc_string_array_get_item(*strarray, i));
+      auto str = String::New(info.Env(), oc_string_array_get_item(*strarray, i));
       buf[i] = str;
     }
     return buf;"
   },
   'helper_rep_get_string' => { 
     'invoke' => "\
-    return Napi::String::New(info.Env(), helper_rep_get_string(rep, key));"
+    return String::New(info.Env(), helper_rep_get_string(rep, key));"
   },
   'helper_rep_get_long_array' => { 
     'invoke' => "\
   size_t sz;
   const int64_t* data = helper_rep_get_long_array(rep, key, &sz);
-  return Napi::Buffer<int64_t>::New(info.Env(), const_cast<int64_t*>(data), sz);"
+  return Buffer<int64_t>::New(info.Env(), const_cast<int64_t*>(data), sz);"
   },
   'helper_rep_get_bool_array' => {
     'invoke' => "\
   size_t sz;
   const bool* data = helper_rep_get_bool_array(rep, key, &sz);
-  return Napi::Buffer<bool>::New(info.Env(), const_cast<bool*>(data), sz);"
+  return Buffer<bool>::New(info.Env(), const_cast<bool*>(data), sz);"
   },
   'helper_rep_get_double_array' => {
     'invoke' => "\
   size_t sz;
   const double* data = helper_rep_get_double_array(rep, key, &sz);
-  return Napi::Buffer<double>::New(info.Env(), const_cast<double*>(data), sz);"
+  return Buffer<double>::New(info.Env(), const_cast<double*>(data), sz);"
   },
   'helper_rep_get_byte_string_array' => {
     'invoke' => '//return xxx;'
@@ -1023,21 +1023,21 @@ STR
     'invoke' => '//return xxx;'
   },
   'oc_rep_get_encoder_buf' => {
-    'invoke' => 'return Napi::Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(oc_rep_get_encoder_buf()), oc_rep_get_encoded_payload_size() );'
+    'invoke' => 'return Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(oc_rep_get_encoder_buf()), oc_rep_get_encoded_payload_size() );'
   },
   'oc_resource_set_request_handler' => {
     '1' => '  oc_request_callback_t callback = nullptr;
   switch(method) {
   case OC_GET:
-    get_handler.Reset(info[1].As<Napi::Function>());
+    get_handler.Reset(info[1].As<Function>());
     get_value = info[2];
     break;
   case OC_POST:
-    post_handler.Reset(info[1].As<Napi::Function>());
+    post_handler.Reset(info[1].As<Function>());
     post_value = info[2];
     break;
   case OC_PUT:
-    put_handler.Reset(info[1].As<Napi::Function>());
+    put_handler.Reset(info[1].As<Function>());
     put_value = info[2];
     break;
   }
@@ -1089,7 +1089,7 @@ STR
     handler.m_pvalue->init = helper_oc_handler_init;
   }
   else {
-    Napi::TypeError::New(info.Env(), "init callback is not set.").ThrowAsJavaScriptException();
+    TypeError::New(info.Env(), "init callback is not set.").ThrowAsJavaScriptException();
   }
   if(handler.register_resources.Value().IsFunction() ) {
     mainctx->oc_handler_register_resources_ref.Reset(handler.register_resources.Value());
@@ -1105,10 +1105,10 @@ STR
     mainctx->helper_poll_event_thread.detach();
   }
   catch(system_error) {
-    Napi::TypeError::New(info.Env(), "Fail to initialize poll_event thread.").ThrowAsJavaScriptException();
+    TypeError::New(info.Env(), "Fail to initialize poll_event thread.").ThrowAsJavaScriptException();
   }
 
-  return Napi::Number::New(info.Env(), oc_main_init(handler));
+  return Number::New(info.Env(), oc_main_init(handler));
 STR
   },
   'oc_main_shutdown' => "\
@@ -1895,7 +1895,7 @@ def gen_enum_entry_impl(key, h)
     t = v
     t = TYPEDEFS[v] if TYPEDEFS[v] != nil
 
-    impl = ENUMSETGETIMPL.gsub(/^\#error getter/, "  return Napi::Number::New(info.Env(), #{k});").gsub(/^#error setter/, '').gsub(/STRUCTNAME/, t).gsub(/CLASSNAME/, gen_classname(key)).gsub(/VALNAME/, k)
+    impl = ENUMSETGETIMPL.gsub(/^\#error getter/, "  return Number::New(info.Env(), #{k});").gsub(/^#error setter/, '').gsub(/STRUCTNAME/, t).gsub(/CLASSNAME/, gen_classname(key)).gsub(/VALNAME/, k)
     if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(Hash) and IFDEF_TYPES[key].has_key?(k)
       impl = "#if #{IFDEF_TYPES[key][k]}\n" + impl + "#endif\n"
     end
@@ -1979,7 +1979,7 @@ def gen_funcimpl(func, name, param, instance)
 
   check = true
   args = []
-  decl = "Napi::Value #{func}(const Napi::CallbackInfo& info) {\n"
+  decl = "Value #{func}(const CallbackInfo& info) {\n"
   
   if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name].is_a?(String)
     decl += FUNC_OVERRIDE[name]
@@ -2000,40 +2000,40 @@ def gen_funcimpl(func, name, param, instance)
       decl +=  FUNC_OVERRIDE[name][i.to_s]
       args.append(n)
     elsif ty == 'uint8_t' or ty == 'uint16_t' or ty == 'uint32_t' or ty == 'size_t'
-      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Napi::Number>().Uint32Value());\n"
+      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Number>().Uint32Value());\n"
       args.append(n)
     elsif ty == 'double'
-      decl += "  #{ty} #{n} = info#{index}.As<Napi::Number>().DoubleValue();\n"
+      decl += "  #{ty} #{n} = info#{index}.As<Number>().DoubleValue();\n"
       args.append(n)
     elsif ty == 'oc_clock_time_t'
-      decl += "  #{ty} #{n} = static_cast<uint64_t>(info#{index}.As<Napi::Number>().Int64Value());\n"
+      decl += "  #{ty} #{n} = static_cast<uint64_t>(info#{index}.As<Number>().Int64Value());\n"
       args.append(n)
     elsif ty == 'void*'
       decl += "  #{ty} #{n} = info#{index};\n"
       args.append(n)
     elsif ty == 'const char*'
-      decl += "  std::string #{n}_ = info#{index}.As<Napi::String>().Utf8Value();\n  #{ty} #{n} = #{n}_.c_str();\n"
+      decl += "  std::string #{n}_ = info#{index}.As<String>().Utf8Value();\n  #{ty} #{n} = #{n}_.c_str();\n"
       args.append(n)
     elsif ty == 'char*'
-      decl += "  #{ty} #{n} = const_cast<char*>(info#{index}.As<Napi::String>().Utf8Value().c_str());\n"
+      decl += "  #{ty} #{n} = const_cast<char*>(info#{index}.As<String>().Utf8Value().c_str());\n"
       args.append(n)
     elsif ty == 'const char'
-      decl += "  #{ty} #{n} = static_cast<uint8_t>(info#{index}.As<Napi::Number>().Uint32Value());\n"
+      decl += "  #{ty} #{n} = static_cast<uint8_t>(info#{index}.As<Number>().Uint32Value());\n"
       args.append(n)
     elsif ty == 'const unsigned char*'
-      decl += "  #{ty} #{n} = info#{index}.As<Napi::Buffer<const uint8_t>>().Data();\n"
+      decl += "  #{ty} #{n} = info#{index}.As<Buffer<const uint8_t>>().Data();\n"
       args.append(n)
     elsif ty == 'const uint8_t*'
-      decl += "  #{ty} #{n} = info#{index}.As<Napi::Buffer<const uint8_t>>().Data();\n"
+      decl += "  #{ty} #{n} = info#{index}.As<Buffer<const uint8_t>>().Data();\n"
       args.append(n)
     elsif ty == 'uint8_t*'
-      decl += "  #{ty} #{n} = info#{index}.As<Napi::Buffer<uint8_t>>().Data();\n"
+      decl += "  #{ty} #{n} = info#{index}.As<Buffer<uint8_t>>().Data();\n"
       args.append(n)
     elsif ty == 'size_t*'
-      decl += "  #{ty} #{n} = reinterpret_cast<size_t*>(info#{index}.As<Napi::Uint32Array>().Data());\n"
+      decl += "  #{ty} #{n} = reinterpret_cast<size_t*>(info#{index}.As<Uint32Array>().Data());\n"
       args.append(n)
     elsif ty == 'bool'
-      decl += "  #{ty} #{n} = info#{index}.As<Napi::Boolean>().Value();\n"
+      decl += "  #{ty} #{n} = info#{index}.As<Boolean>().Value();\n"
       args.append(n)
     elsif ty == 'oc_response_handler_t' or
           ty == 'interface_event_handler_t' or
@@ -2060,11 +2060,11 @@ def gen_funcimpl(func, name, param, instance)
           ty == 'oc_trigger_t' or
           ty == 'session_event_handler_t'
       decl += "  #{ty} #{n} = nullptr;\n"
-      decl += "  Napi::Function #{n}_ = info#{index}.As<Napi::Function>();\n"
+      decl += "  Function #{n}_ = info#{index}.As<Function>();\n"
       args.append(n)
     elsif match_any?(ty, PRIMITIVES)
       #p ty + " PRIMITIVES"
-      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Napi::Number>());\n"
+      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Number>());\n"
       args.append(n)
     elsif is_struct_ptr?(ty)
       #p ty + " struct_ptr"
@@ -2072,11 +2072,11 @@ def gen_funcimpl(func, name, param, instance)
       raw_ty = raw_ty.gsub(/^struct /, "")
       raw_ty = raw_ty.gsub(/^const /, "")
       raw_ty = TYPEDEFS[raw_ty] if TYPEDEFS.keys.include?(raw_ty)
-      decl += "  #{gen_classname(raw_ty)}& #{n} = *#{gen_classname(raw_ty)}::Unwrap(info#{index}.As<Napi::Object>());\n"
+      decl += "  #{gen_classname(raw_ty)}& #{n} = *#{gen_classname(raw_ty)}::Unwrap(info#{index}.As<Object>());\n"
 
       args.append(n)
     elsif ENUMS.include?(typedef_map(ty.gsub(/^enum /,'') ) )
-      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Napi::Number>().Uint32Value());\n"
+      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Number>().Uint32Value());\n"
       args.append(n)
     else
       decl += "// #{i} #{n}, #{ty}\n"
@@ -2092,7 +2092,7 @@ def gen_funcimpl(func, name, param, instance)
     invoke += "  return info.Env().Undefined();\n"
   elsif type == 'bool' or
         type == 'const bool'
-    invoke += "  return Napi::Boolean::New(info.Env(), #{call_func});\n"
+    invoke += "  return Boolean::New(info.Env(), #{call_func});\n"
   elsif type == 'long' or
         type == 'double' or
         type == 'int64_t' or
@@ -2101,9 +2101,9 @@ def gen_funcimpl(func, name, param, instance)
         type == 'unsigned long' or
         type == 'CborError' or
         match_any?(type, PRIMITIVES)
-    invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
+    invoke += "  return Number::New(info.Env(), #{call_func});\n"
   elsif type == 'const char*'
-    invoke += "  return Napi::String::New(info.Env(), #{call_func});\n"
+    invoke += "  return String::New(info.Env(), #{call_func});\n"
   elsif type == 'void*'
     invoke += "  //func return void*\n"
   elsif type == 'const void*'
@@ -2116,10 +2116,10 @@ def gen_funcimpl(func, name, param, instance)
     #p type
     type = type.gsub(/\*$/, "")
     invoke += "  shared_ptr<#{type}> sp(#{call_func});\n"
-    invoke += "  auto args = Napi::External<shared_ptr<#{type}>>::New(info.Env(), &sp);\n"
+    invoke += "  auto args = External<shared_ptr<#{type}>>::New(info.Env(), &sp);\n"
     invoke += "  return #{gen_classname(type).gsub(/\*+$/,'')}::constructor.New({args});\n"
   elsif ENUMS.include?(type)
-    invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"
+    invoke += "  return Number::New(info.Env(), #{call_func});\n"
   else
     invoke += "  //func return unknown #{type}\n"
   end
