@@ -753,24 +753,6 @@ public:
   std::shared_ptr<oc_properties_cb_t> m_pvalue;
 };
 
-class OCRepresentation : public Napi::ObjectWrap<OCRepresentation>
-{
-public:
-  OCRepresentation(const Napi::CallbackInfo&);
-  virtual ~OCRepresentation();
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  operator oc_rep_s*() { return m_pvalue.get(); }
-  Napi::Value get_name(const Napi::CallbackInfo&);
-         void set_name(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_type(const Napi::CallbackInfo&);
-         void set_type(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_value(const Napi::CallbackInfo&);
-         void set_value(const Napi::CallbackInfo&, const Napi::Value&);
-
-
-  std::shared_ptr<oc_rep_s> m_pvalue;
-};
 
 class OCRequestHandler : public Napi::ObjectWrap<OCRequestHandler>
 {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <napi.h>
+#include <oc_rep.h>
 
 class OCBufferSettings : public Napi::ObjectWrap<OCBufferSettings>
 {
@@ -292,10 +293,10 @@ public:
   static Napi::Value random_value(const Napi::CallbackInfo& info);
 };
 
-class OCRep : public Napi::ObjectWrap<OCRep>
+class OCRepresentation : public Napi::ObjectWrap<OCRepresentation>
 {
 public:
-  OCRep(const Napi::CallbackInfo&);
+  OCRepresentation(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
   static Napi::Value get_bool(const Napi::CallbackInfo& info);
@@ -349,6 +350,18 @@ public:
   static Napi::Value start_links_array(const Napi::CallbackInfo& info);
   static Napi::Value start_object(const Napi::CallbackInfo& info);
   static Napi::Value start_root_object(const Napi::CallbackInfo& info);
+
+  operator oc_rep_s*() { return m_pvalue.get(); }
+  Napi::Value get_name(const Napi::CallbackInfo&);
+         void set_name(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_type(const Napi::CallbackInfo&);
+         void set_type(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_value(const Napi::CallbackInfo&);
+         void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+  std::shared_ptr<oc_rep_s> m_pvalue;
+  
 };
 
 class OCSessionEvents : public Napi::ObjectWrap<OCSessionEvents>

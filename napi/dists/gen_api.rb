@@ -237,6 +237,18 @@ EXTRA_ACCESSOR = {
 }
 
 EXTRA_VALUE= {
+  'OCRepresentation' => '
+  operator oc_rep_s*() { return m_pvalue.get(); }
+  Napi::Value get_name(const Napi::CallbackInfo&);
+         void set_name(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_type(const Napi::CallbackInfo&);
+         void set_type(const Napi::CallbackInfo&, const Napi::Value&);
+  Napi::Value get_value(const Napi::CallbackInfo&);
+         void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+  std::shared_ptr<oc_rep_s> m_pvalue;
+  ',
   'oc_string_array_iterator_t' => '
     Napi::Value get_next(const Napi::CallbackInfo& info);
   ',
@@ -927,7 +939,7 @@ IGNORE_TYPES = {
   "oc_blockwise_state_s" => [ /^next$/, ],
   "oc_network_interface_cb" => [/^next$/],
   "oc_session_event_cb" => [/^next$/],
-  "oc_rep_s" => [/^next$/ ],
+  "oc_rep_s" => nil, #[/^next$/ ],
 
 #  "coap_transaction" => [/^next$/],
 #  "coap_observer" => [/^next$/, /^resource$/, /^token$/,],
@@ -1779,6 +1791,7 @@ end
 File.open('src/structs.cc', 'w') do |f|
   f.print "#include \"structs.h\"\n"
   f.print "#include \"helper.h\"\n"
+  f.print "#include \"iotivity_lite.h\"\n"
   f.print "using namespace std;\n"
   f.print "using namespace Napi;\n"
 
@@ -1893,6 +1906,9 @@ File.open('src/iotivity_lite.h', 'w') do |f|
     f.print APICLSDECL.gsub(/CLASS/, cls)
     apis[cls].keys.each do |mtd|
       f.print MTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
+    end
+    if EXTRA_VALUE[cls] != nil
+      f.print "#{EXTRA_VALUE[cls]}\n"
     end
     f.print "};\n"
     f.print "\n"

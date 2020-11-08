@@ -227,7 +227,7 @@
 	"get_latency": "oc_core_get_latency",
 	"add_new_device": "oc_core_add_new_device"
   },
-  "OCRep": {
+  "OCRepresentation": {
 	"get_bool": "oc_rep_get_bool",
 	"get_bool_array": "oc_rep_get_bool_array",
 	"get_byte_string": "oc_rep_get_byte_string",
