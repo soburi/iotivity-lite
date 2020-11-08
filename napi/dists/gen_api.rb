@@ -234,11 +234,6 @@ STRUCTS = struct_table.keys
 ENUMS = enum_table.keys
 
 EXTRA_ACCESSOR = {
-  'OCRepresentation' => '
-    InstanceAccessor("name", &OCRepresentation::get_name, &OCRepresentation::set_name),
-    InstanceAccessor("type", &OCRepresentation::get_type, &OCRepresentation::set_type),
-    InstanceAccessor("value", &OCRepresentation::get_value, &OCRepresentation::set_value),
-  ',
   'oc_collection_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
   'oc_link_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
   'oc_sec_ace_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
