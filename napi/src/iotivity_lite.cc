@@ -104,20 +104,48 @@ OCCloud::OCCloud(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCCloud::GetClass(Napi::Env env) {
     return DefineClass(env, "OCCloud", {
+#if defined(OC_CLOUD)
         StaticMethod("get_context", &OCCloud::get_context),
+#endif
+#if defined(OC_CLOUD)
         StaticMethod("manager_start", &OCCloud::manager_start),
+#endif
+#if defined(OC_CLOUD)
         StaticMethod("manager_stop", &OCCloud::manager_stop),
+#endif
+#if defined(OC_CLOUD)
         StaticMethod("cloud_login", &OCCloud::cloud_login),
+#endif
+#if defined(OC_CLOUD)
         StaticMethod("cloud_logout", &OCCloud::cloud_logout),
+#endif
+#if defined(OC_CLOUD)
         StaticMethod("cloud_refresh_token", &OCCloud::cloud_refresh_token),
+#endif
+#if defined(OC_CLOUD)
         StaticMethod("get_token_expiry", &OCCloud::get_token_expiry),
+#endif
+#if defined(OC_CLOUD)
         StaticMethod("add_resource", &OCCloud::add_resource),
+#endif
+#if defined(OC_CLOUD)
         StaticMethod("delete_resource", &OCCloud::delete_resource),
+#endif
+#if defined(OC_CLOUD)
         StaticMethod("publish_resources", &OCCloud::publish_resources),
+#endif
+#if defined(OC_CLOUD)
         StaticMethod("discover_resources", &OCCloud::discover_resources),
+#endif
+#if defined(OC_CLOUD)
         StaticMethod("provision_conf_resource", &OCCloud::provision_conf_resource),
+#endif
+#if defined(OC_CLOUD)
         StaticMethod("cloud_register", &OCCloud::cloud_register),
+#endif
+#if defined(OC_CLOUD)
         StaticMethod("cloud_deregister", &OCCloud::cloud_deregister),
+#endif
     });
 }
 Napi::FunctionReference OCCloud::constructor;
@@ -395,7 +423,9 @@ OCIntrospection::OCIntrospection(const Napi::CallbackInfo& info) : ObjectWrap(in
 
 Napi::Function OCIntrospection::GetClass(Napi::Env env) {
     return DefineClass(env, "OCIntrospection", {
+#if defined(OC_IDD_API)
         StaticMethod("set_introspection_data", &OCIntrospection::set_introspection_data),
+#endif
     });
 }
 Napi::FunctionReference OCIntrospection::constructor;
@@ -417,11 +447,19 @@ Napi::Function OCMain::GetClass(Napi::Env env) {
     return DefineClass(env, "OCMain", {
         StaticMethod("add_collection", &OCMain::add_collection),
         StaticMethod("add_device", &OCMain::add_device),
+#if defined(OC_SECURITY)
         StaticMethod("add_ownership_status_cb", &OCMain::add_ownership_status_cb),
+#endif
         StaticMethod("add_resource", &OCMain::add_resource),
+#if defined(OC_SECURITY) && defined(OC_PKI)
         StaticMethod("assert_all_roles", &OCMain::assert_all_roles),
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
         StaticMethod("assert_role", &OCMain::assert_role),
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
         StaticMethod("auto_assert_roles", &OCMain::auto_assert_roles),
+#endif
         StaticMethod("close_session", &OCMain::close_session),
         StaticMethod("collection_add_link", &OCMain::collection_add_link),
         StaticMethod("collection_add_mandatory_rt", &OCMain::collection_add_mandatory_rt),
@@ -450,14 +488,18 @@ Napi::Function OCMain::GetClass(Napi::Env env) {
         StaticMethod("do_site_local_ipv6_discovery_all", &OCMain::do_site_local_ipv6_discovery_all),
         StaticMethod("do_site_local_ipv6_multicast", &OCMain::do_site_local_ipv6_multicast),
         StaticMethod("free_server_endpoints", &OCMain::free_server_endpoints),
+#if defined(OC_SECURITY) && defined(OC_PKI)
         StaticMethod("get_all_roles", &OCMain::get_all_roles),
+#endif
         StaticMethod("get_con_res_announced", &OCMain::get_con_res_announced),
         StaticMethod("ignore_request", &OCMain::ignore_request),
         StaticMethod("indicate_separate_response", &OCMain::indicate_separate_response),
         StaticMethod("init_platform", &OCMain::init_platform),
         StaticMethod("init_post", &OCMain::init_post),
         StaticMethod("init_put", &OCMain::init_put),
+#if defined(OC_SECURITY)
         StaticMethod("is_owned_device", &OCMain::is_owned_device),
+#endif
         StaticMethod("link_add_link_param", &OCMain::link_add_link_param),
         StaticMethod("link_add_rel", &OCMain::link_add_rel),
         StaticMethod("main_init", &OCMain::main_init),
@@ -466,12 +508,20 @@ Napi::Function OCMain::GetClass(Napi::Env env) {
         StaticMethod("new_collection", &OCMain::new_collection),
         StaticMethod("new_link", &OCMain::new_link),
         StaticMethod("remove_delayed_callback", &OCMain::remove_delayed_callback),
+#if defined(OC_SECURITY)
         StaticMethod("remove_ownership_status_cb", &OCMain::remove_ownership_status_cb),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("reset", &OCMain::reset),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("reset_device", &OCMain::reset_device),
+#endif
         StaticMethod("ri_is_app_resource_valid", &OCMain::ri_is_app_resource_valid),
         StaticMethod("send_diagnostic_message", &OCMain::send_diagnostic_message),
+#if defined(OC_TCP)
         StaticMethod("send_ping", &OCMain::send_ping),
+#endif
         StaticMethod("send_response", &OCMain::send_response),
         StaticMethod("send_response_raw", &OCMain::send_response_raw),
         StaticMethod("send_separate_response", &OCMain::send_separate_response),
@@ -479,7 +529,9 @@ Napi::Function OCMain::GetClass(Napi::Env env) {
         StaticMethod("set_con_write_cb", &OCMain::set_con_write_cb),
         StaticMethod("set_delayed_callback", &OCMain::set_delayed_callback),
         StaticMethod("set_factory_presets_cb", &OCMain::set_factory_presets_cb),
+#if defined(OC_SECURITY)
         StaticMethod("set_random_pin_callback", &OCMain::set_random_pin_callback),
+#endif
         StaticMethod("set_separate_response_buffer", &OCMain::set_separate_response_buffer),
         StaticMethod("stop_multicast", &OCMain::stop_multicast),
         StaticMethod("stop_observe", &OCMain::stop_observe),
@@ -1099,45 +1151,123 @@ OCObt::OCObt(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCObt::GetClass(Napi::Env env) {
     return DefineClass(env, "OCObt", {
+#if defined(OC_SECURITY)
         StaticMethod("ace_add_permission", &OCObt::ace_add_permission),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("ace_new_resource", &OCObt::ace_new_resource),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("ace_resource_set_href", &OCObt::ace_resource_set_href),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("ace_resource_set_wc", &OCObt::ace_resource_set_wc),
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
         StaticMethod("add_roleid", &OCObt::add_roleid),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("delete_ace_by_aceid", &OCObt::delete_ace_by_aceid),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("delete_cred_by_credid", &OCObt::delete_cred_by_credid),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("delete_own_cred_by_credid", &OCObt::delete_own_cred_by_credid),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("device_hard_reset", &OCObt::device_hard_reset),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("discover_all_resources", &OCObt::discover_all_resources),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("discover_owned_devices", &OCObt::discover_owned_devices),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("discover_owned_devices_realm_local_ipv6", &OCObt::discover_owned_devices_realm_local_ipv6),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("discover_owned_devices_site_local_ipv6", &OCObt::discover_owned_devices_site_local_ipv6),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("discover_unowned_devices", &OCObt::discover_unowned_devices),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("discover_unowned_devices_realm_local_ipv6", &OCObt::discover_unowned_devices_realm_local_ipv6),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("discover_unowned_devices_site_local_ipv6", &OCObt::discover_unowned_devices_site_local_ipv6),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("free_ace", &OCObt::free_ace),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("free_acl", &OCObt::free_acl),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("free_creds", &OCObt::free_creds),
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
         StaticMethod("free_roleid", &OCObt::free_roleid),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("init", &OCObt::init),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("new_ace_for_connection", &OCObt::new_ace_for_connection),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("new_ace_for_role", &OCObt::new_ace_for_role),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("new_ace_for_subject", &OCObt::new_ace_for_subject),
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
         StaticMethod("perform_cert_otm", &OCObt::perform_cert_otm),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("perform_just_works_otm", &OCObt::perform_just_works_otm),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("perform_random_pin_otm", &OCObt::perform_random_pin_otm),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("provision_ace", &OCObt::provision_ace),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("provision_auth_wildcard_ace", &OCObt::provision_auth_wildcard_ace),
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
         StaticMethod("provision_identity_certificate", &OCObt::provision_identity_certificate),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("provision_pairwise_credentials", &OCObt::provision_pairwise_credentials),
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
         StaticMethod("provision_role_certificate", &OCObt::provision_role_certificate),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("provision_role_wildcard_ace", &OCObt::provision_role_wildcard_ace),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("request_random_pin", &OCObt::request_random_pin),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("retrieve_acl", &OCObt::retrieve_acl),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("retrieve_creds", &OCObt::retrieve_creds),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("retrieve_own_creds", &OCObt::retrieve_own_creds),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("set_sd_info", &OCObt::set_sd_info),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("shutdown", &OCObt::shutdown),
+#endif
     });
 }
 Napi::FunctionReference OCObt::constructor;
@@ -1521,11 +1651,21 @@ OCPki::OCPki(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCPki::GetClass(Napi::Env env) {
     return DefineClass(env, "OCPki", {
+#if defined(OC_SECURITY) && defined(OC_PKI)
         StaticMethod("add_mfg_cert", &OCPki::add_mfg_cert),
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
         StaticMethod("add_mfg_trust_anchor", &OCPki::add_mfg_trust_anchor),
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
         StaticMethod("add_mfg_intermediate_cert", &OCPki::add_mfg_intermediate_cert),
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
         StaticMethod("add_trust_anchor", &OCPki::add_trust_anchor),
+#endif
+#if defined(OC_SECURITY)
         StaticMethod("set_security_profile", &OCPki::set_security_profile),
+#endif
     });
 }
 Napi::FunctionReference OCPki::constructor;
@@ -1611,9 +1751,15 @@ OCSessionEvents::OCSessionEvents(const Napi::CallbackInfo& info) : ObjectWrap(in
 
 Napi::Function OCSessionEvents::GetClass(Napi::Env env) {
     return DefineClass(env, "OCSessionEvents", {
+#if defined(OC_TCP)
         StaticMethod("start_event", &OCSessionEvents::start_event),
+#endif
+#if defined(OC_TCP)
         StaticMethod("end_event", &OCSessionEvents::end_event),
+#endif
+#if defined(OC_TCP)
         StaticMethod("set_event_delay", &OCSessionEvents::set_event_delay),
+#endif
     });
 }
 Napi::FunctionReference OCSessionEvents::constructor;
@@ -1647,11 +1793,21 @@ OCSoftwareUpdate::OCSoftwareUpdate(const Napi::CallbackInfo& info) : ObjectWrap(
 
 Napi::Function OCSoftwareUpdate::GetClass(Napi::Env env) {
     return DefineClass(env, "OCSoftwareUpdate", {
+#if defined(OC_SOFTWARE_UPDATE)
         StaticMethod("notify_downloaded", &OCSoftwareUpdate::notify_downloaded),
+#endif
+#if defined(OC_SOFTWARE_UPDATE)
         StaticMethod("notify_upgrading", &OCSoftwareUpdate::notify_upgrading),
+#endif
+#if defined(OC_SOFTWARE_UPDATE)
         StaticMethod("notify_done", &OCSoftwareUpdate::notify_done),
+#endif
+#if defined(OC_SOFTWARE_UPDATE)
         StaticMethod("notify_new_version_available", &OCSoftwareUpdate::notify_new_version_available),
+#endif
+#if defined(OC_SOFTWARE_UPDATE)
         StaticMethod("set_impl", &OCSoftwareUpdate::set_impl),
+#endif
     });
 }
 Napi::FunctionReference OCSoftwareUpdate::constructor;

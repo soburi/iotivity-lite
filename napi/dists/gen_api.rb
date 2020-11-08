@@ -2123,11 +2123,16 @@ File.open('src/iotivity_lite.cc', 'w') do |f|
     end
     f.print BINDIMPL.gsub(/CLASS/, cls)
     apis[cls].keys.each do |mtd|
+      bind = ""
       if INSTANCE_FUNCS.include?(cls + "::" + mtd)
-        f.print INSTANCEBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
+        bind = INSTANCEBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
       else
-        f.print STATICBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
+        bind = STATICBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
       end
+      if IFDEF_FUNCS.include?(apis[cls][mtd])
+        bind = "#if #{IFDEF_FUNCS[apis[cls][mtd]]}\n" + bind + "#endif\n"
+      end
+      f.print bind
     end
 
     if EXTRA_ACCESSOR.has_key?(cls)
