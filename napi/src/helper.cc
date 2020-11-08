@@ -156,6 +156,77 @@ Napi::Value OCStringArray::get_iterator(const Napi::CallbackInfo& info)
     return OCStringArrayIterator::constructor.New({ args });
 }
 
+
+Napi::Value OCCollectionIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Napi::Value OCLinkIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Napi::Value OCSecurityAceIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Napi::Value OCAceResourceIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Napi::Value OCCloudContextIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Napi::Value OCLinkParamsIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Napi::Value OCResourceTypeIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Napi::Value OCEtimeIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Napi::Value OCEventCallbackIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Napi::Value OCMessageIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Napi::Value OCRoleIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Napi::Value OCBlockwiseStateIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Napi::Value OCSessionEventCbIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Napi::Value OCRepresentationIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
 Napi::Value OCEndpointIterator::get_next(const Napi::CallbackInfo& info)
 {
     m_pvalue->current = m_pvalue->current->next;

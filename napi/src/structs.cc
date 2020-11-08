@@ -5089,7 +5089,7 @@ Napi::Function OCCollectionIterator::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCCollectionIterator", {
         InstanceAccessor("value", &OCCollectionIterator::get_value, &OCCollectionIterator::set_value),
         InstanceAccessor("done", &OCCollectionIterator::get_done, &OCCollectionIterator::set_done),
-
+        InstanceMethod("next", &OCCollectionIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);
@@ -5143,7 +5143,7 @@ Napi::Function OCLinkIterator::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCLinkIterator", {
         InstanceAccessor("value", &OCLinkIterator::get_value, &OCLinkIterator::set_value),
         InstanceAccessor("done", &OCLinkIterator::get_done, &OCLinkIterator::set_done),
-
+        InstanceMethod("next", &OCLinkIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);
@@ -5197,7 +5197,7 @@ Napi::Function OCSecurityAceIterator::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCSecurityAceIterator", {
         InstanceAccessor("value", &OCSecurityAceIterator::get_value, &OCSecurityAceIterator::set_value),
         InstanceAccessor("done", &OCSecurityAceIterator::get_done, &OCSecurityAceIterator::set_done),
-
+        InstanceMethod("next", &OCSecurityAceIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);
@@ -5251,7 +5251,7 @@ Napi::Function OCAceResourceIterator::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCAceResourceIterator", {
         InstanceAccessor("value", &OCAceResourceIterator::get_value, &OCAceResourceIterator::set_value),
         InstanceAccessor("done", &OCAceResourceIterator::get_done, &OCAceResourceIterator::set_done),
-
+        InstanceMethod("next", &OCAceResourceIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);
@@ -5305,7 +5305,7 @@ Napi::Function OCCloudContextIterator::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCCloudContextIterator", {
         InstanceAccessor("value", &OCCloudContextIterator::get_value, &OCCloudContextIterator::set_value),
         InstanceAccessor("done", &OCCloudContextIterator::get_done, &OCCloudContextIterator::set_done),
-
+        InstanceMethod("next", &OCCloudContextIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);
@@ -5359,7 +5359,7 @@ Napi::Function OCLinkParamsIterator::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCLinkParamsIterator", {
         InstanceAccessor("value", &OCLinkParamsIterator::get_value, &OCLinkParamsIterator::set_value),
         InstanceAccessor("done", &OCLinkParamsIterator::get_done, &OCLinkParamsIterator::set_done),
-
+        InstanceMethod("next", &OCLinkParamsIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);
@@ -5413,7 +5413,7 @@ Napi::Function OCResourceTypeIterator::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCResourceTypeIterator", {
         InstanceAccessor("value", &OCResourceTypeIterator::get_value, &OCResourceTypeIterator::set_value),
         InstanceAccessor("done", &OCResourceTypeIterator::get_done, &OCResourceTypeIterator::set_done),
-
+        InstanceMethod("next", &OCResourceTypeIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);
@@ -5467,7 +5467,7 @@ Napi::Function OCEtimeIterator::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCEtimeIterator", {
         InstanceAccessor("value", &OCEtimeIterator::get_value, &OCEtimeIterator::set_value),
         InstanceAccessor("done", &OCEtimeIterator::get_done, &OCEtimeIterator::set_done),
-
+        InstanceMethod("next", &OCEtimeIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);
@@ -5521,7 +5521,7 @@ Napi::Function OCEventCallbackIterator::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCEventCallbackIterator", {
         InstanceAccessor("value", &OCEventCallbackIterator::get_value, &OCEventCallbackIterator::set_value),
         InstanceAccessor("done", &OCEventCallbackIterator::get_done, &OCEventCallbackIterator::set_done),
-
+        InstanceMethod("next", &OCEventCallbackIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);
@@ -5575,7 +5575,7 @@ Napi::Function OCMessageIterator::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCMessageIterator", {
         InstanceAccessor("value", &OCMessageIterator::get_value, &OCMessageIterator::set_value),
         InstanceAccessor("done", &OCMessageIterator::get_done, &OCMessageIterator::set_done),
-
+        InstanceMethod("next", &OCMessageIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);
@@ -5629,7 +5629,7 @@ Napi::Function OCRoleIterator::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCRoleIterator", {
         InstanceAccessor("value", &OCRoleIterator::get_value, &OCRoleIterator::set_value),
         InstanceAccessor("done", &OCRoleIterator::get_done, &OCRoleIterator::set_done),
-
+        InstanceMethod("next", &OCRoleIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);
@@ -5683,7 +5683,7 @@ Napi::Function OCBlockwiseStateIterator::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCBlockwiseStateIterator", {
         InstanceAccessor("value", &OCBlockwiseStateIterator::get_value, &OCBlockwiseStateIterator::set_value),
         InstanceAccessor("done", &OCBlockwiseStateIterator::get_done, &OCBlockwiseStateIterator::set_done),
-
+        InstanceMethod("next", &OCBlockwiseStateIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);
@@ -5737,7 +5737,7 @@ Napi::Function OCSessionEventCbIterator::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCSessionEventCbIterator", {
         InstanceAccessor("value", &OCSessionEventCbIterator::get_value, &OCSessionEventCbIterator::set_value),
         InstanceAccessor("done", &OCSessionEventCbIterator::get_done, &OCSessionEventCbIterator::set_done),
-
+        InstanceMethod("next", &OCSessionEventCbIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);
@@ -5791,7 +5791,7 @@ Napi::Function OCRepresentationIterator::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCRepresentationIterator", {
         InstanceAccessor("value", &OCRepresentationIterator::get_value, &OCRepresentationIterator::set_value),
         InstanceAccessor("done", &OCRepresentationIterator::get_done, &OCRepresentationIterator::set_done),
-
+        InstanceMethod("next", &OCRepresentationIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);

@@ -256,6 +256,22 @@ EXTRA_ACCESSOR = {
   'oc_endpoint_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
   'oc_string_array_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
 
+  "oc_collection_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_link_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_sec_ace_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_ace_res_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_cloud_context_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_link_params_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_rt_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_etime_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_event_callback_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_message_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_role_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_blockwise_state_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_session_event_cb_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_rep_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_endpoint_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_string_array_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
   'oc_endpoint_iterator_t' => '    InstanceMethod("next", &CLASSNAME::get_next), ',
   'oc_string_array_iterator_t' => '    InstanceMethod("next", &CLASSNAME::get_next), ',
 }
@@ -278,8 +294,23 @@ EXTRA_VALUE= {
   'oc_endpoint_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
   'oc_string_array_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
 
+  "oc_collection_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  "oc_link_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  "oc_sec_ace_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  "oc_ace_res_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  "oc_cloud_context_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  "oc_link_params_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  "oc_rt_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  "oc_etime_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  "oc_event_callback_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  "oc_message_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  "oc_role_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  "oc_blockwise_state_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  "oc_session_event_cb_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  "oc_rep_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
   'oc_endpoint_iterator_t' => ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
   'oc_string_array_iterator_t' => ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+
   "oc_handler_t" => "\
   Napi::FunctionReference init;\n\
 #if defined(OC_SERVER)\n\

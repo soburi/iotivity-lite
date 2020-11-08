@@ -1581,6 +1581,7 @@ public:
     Napi::Value get_done(const Napi::CallbackInfo&);
     void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_collection_iterator_t> m_pvalue;
@@ -1601,6 +1602,7 @@ public:
     Napi::Value get_done(const Napi::CallbackInfo&);
     void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_link_iterator_t> m_pvalue;
@@ -1621,6 +1623,7 @@ public:
     Napi::Value get_done(const Napi::CallbackInfo&);
     void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_sec_ace_iterator_t> m_pvalue;
@@ -1641,6 +1644,7 @@ public:
     Napi::Value get_done(const Napi::CallbackInfo&);
     void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_ace_res_iterator_t> m_pvalue;
@@ -1661,6 +1665,7 @@ public:
     Napi::Value get_done(const Napi::CallbackInfo&);
     void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_cloud_context_iterator_t> m_pvalue;
@@ -1681,6 +1686,7 @@ public:
     Napi::Value get_done(const Napi::CallbackInfo&);
     void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_link_params_iterator_t> m_pvalue;
@@ -1701,6 +1707,7 @@ public:
     Napi::Value get_done(const Napi::CallbackInfo&);
     void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_rt_iterator_t> m_pvalue;
@@ -1721,6 +1728,7 @@ public:
     Napi::Value get_done(const Napi::CallbackInfo&);
     void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_etime_iterator_t> m_pvalue;
@@ -1741,6 +1749,7 @@ public:
     Napi::Value get_done(const Napi::CallbackInfo&);
     void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_event_callback_iterator_t> m_pvalue;
@@ -1761,6 +1770,7 @@ public:
     Napi::Value get_done(const Napi::CallbackInfo&);
     void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_message_iterator_t> m_pvalue;
@@ -1781,6 +1791,7 @@ public:
     Napi::Value get_done(const Napi::CallbackInfo&);
     void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_role_iterator_t> m_pvalue;
@@ -1801,6 +1812,7 @@ public:
     Napi::Value get_done(const Napi::CallbackInfo&);
     void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_blockwise_state_iterator_t> m_pvalue;
@@ -1821,6 +1833,7 @@ public:
     Napi::Value get_done(const Napi::CallbackInfo&);
     void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_session_event_cb_iterator_t> m_pvalue;
@@ -1841,6 +1854,7 @@ public:
     Napi::Value get_done(const Napi::CallbackInfo&);
     void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_rep_iterator_t> m_pvalue;
