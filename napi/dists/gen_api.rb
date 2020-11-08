@@ -1576,7 +1576,7 @@ def is_struct_ptr?(ty)
   return false
 end
 
-def gen_funcimpl(func, name, param)
+def gen_funcimpl(func, name, param, static)
   type = param['type']
   type = FUNC_TYPEMAP[type] if FUNC_TYPEMAP.include?(type)
 
@@ -1590,47 +1590,53 @@ def gen_funcimpl(func, name, param)
     return decl
   end
 
-  param['param'].each.with_index do |(n, ty), i|
+  param['param'].each.with_index do |(n, ty), ii|
+    i = ii
+    i = ii-1 if !static
+
+    index = "[#{i}]"
+    index = ".This()" if i == -1
+
     #p ty
     if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name][i.to_s]
       #p ty + " OVERRIDE"
       decl +=  FUNC_OVERRIDE[name][i.to_s]
       args.append(n)
     elsif ty == 'uint8_t' or ty == 'uint16_t' or ty == 'uint32_t' or ty == 'size_t'
-      decl += "  #{ty} #{n} = static_cast<#{ty}>(info[#{i}].As<Napi::Number>().Uint32Value());\n"
+      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Napi::Number>().Uint32Value());\n"
       args.append(n)
     elsif ty == 'double'
-      decl += "  #{ty} #{n} = info[#{i}].As<Napi::Number>().DoubleValue();\n"
+      decl += "  #{ty} #{n} = info#{index}.As<Napi::Number>().DoubleValue();\n"
       args.append(n)
     elsif ty == 'oc_clock_time_t'
-      decl += "  #{ty} #{n} = static_cast<uint64_t>(info[#{i}].As<Napi::Number>().Int64Value());\n"
+      decl += "  #{ty} #{n} = static_cast<uint64_t>(info#{index}.As<Napi::Number>().Int64Value());\n"
       args.append(n)
     elsif ty == 'void*'
-      decl += "  #{ty} #{n} = info[#{i}];\n"
+      decl += "  #{ty} #{n} = info#{index};\n"
       args.append(n)
     elsif ty == 'const char*'
-      decl += "  std::string #{n}_ = info[#{i}].As<Napi::String>().Utf8Value();\n  #{ty} #{n} = #{n}_.c_str();\n"
+      decl += "  std::string #{n}_ = info#{index}.As<Napi::String>().Utf8Value();\n  #{ty} #{n} = #{n}_.c_str();\n"
       args.append(n)
     elsif ty == 'char*'
-      decl += "  #{ty} #{n} = const_cast<char*>(info[#{i}].As<Napi::String>().Utf8Value().c_str());\n"
+      decl += "  #{ty} #{n} = const_cast<char*>(info#{index}.As<Napi::String>().Utf8Value().c_str());\n"
       args.append(n)
     elsif ty == 'const char'
-      decl += "  #{ty} #{n} = static_cast<uint8_t>(info[#{i}].As<Napi::Number>().Uint32Value());\n"
+      decl += "  #{ty} #{n} = static_cast<uint8_t>(info#{index}.As<Napi::Number>().Uint32Value());\n"
       args.append(n)
     elsif ty == 'const unsigned char*'
-      decl += "  #{ty} #{n} = info[#{i}].As<Napi::Buffer<const uint8_t>>().Data();\n"
+      decl += "  #{ty} #{n} = info#{index}.As<Napi::Buffer<const uint8_t>>().Data();\n"
       args.append(n)
     elsif ty == 'const uint8_t*'
-      decl += "  #{ty} #{n} = info[#{i}].As<Napi::Buffer<const uint8_t>>().Data();\n"
+      decl += "  #{ty} #{n} = info#{index}.As<Napi::Buffer<const uint8_t>>().Data();\n"
       args.append(n)
     elsif ty == 'uint8_t*'
-      decl += "  #{ty} #{n} = info[#{i}].As<Napi::Buffer<uint8_t>>().Data();\n"
+      decl += "  #{ty} #{n} = info#{index}.As<Napi::Buffer<uint8_t>>().Data();\n"
       args.append(n)
     elsif ty == 'size_t*'
-      decl += "  #{ty} #{n} = reinterpret_cast<size_t*>(info[#{i}].As<Napi::Uint32Array>().Data());\n"
+      decl += "  #{ty} #{n} = reinterpret_cast<size_t*>(info#{index}.As<Napi::Uint32Array>().Data());\n"
       args.append(n)
     elsif ty == 'bool'
-      decl += "  #{ty} #{n} = info[#{i}].As<Napi::Boolean>().Value();\n"
+      decl += "  #{ty} #{n} = info#{index}.As<Napi::Boolean>().Value();\n"
       args.append(n)
     elsif ty == 'oc_response_handler_t' or
           ty == 'interface_event_handler_t' or
@@ -1657,11 +1663,11 @@ def gen_funcimpl(func, name, param)
           ty == 'oc_trigger_t' or
           ty == 'session_event_handler_t'
       decl += "  #{ty} #{n} = nullptr;\n"
-      decl += "  Napi::Function #{n}_ = info[#{i}].As<Napi::Function>();\n"
+      decl += "  Napi::Function #{n}_ = info#{index}.As<Napi::Function>();\n"
       args.append(n)
     elsif match_any?(ty, PRIMITIVES)
       #p ty + " PRIMITIVES"
-      decl += "  #{ty} #{n} = static_cast<#{ty}>(info[#{i}].As<Napi::Number>());\n"
+      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Napi::Number>());\n"
       args.append(n)
     elsif is_struct_ptr?(ty)
       #p ty + " struct_ptr"
@@ -1669,11 +1675,11 @@ def gen_funcimpl(func, name, param)
       raw_ty = raw_ty.gsub(/^struct /, "")
       raw_ty = raw_ty.gsub(/^const /, "")
       raw_ty = TYPEDEFS[raw_ty] if TYPEDEFS.keys.include?(raw_ty)
-      decl += "  #{gen_classname(raw_ty)}& #{n} = *#{gen_classname(raw_ty)}::Unwrap(info[#{i}].As<Napi::Object>());\n"
+      decl += "  #{gen_classname(raw_ty)}& #{n} = *#{gen_classname(raw_ty)}::Unwrap(info#{index}.As<Napi::Object>());\n"
 
       args.append(n)
     elsif ENUMS.include?(typedef_map(ty.gsub(/^enum /,'') ) )
-      decl += "  #{ty} #{n} = static_cast<#{ty}>(info[#{i}].As<Napi::Number>().Uint32Value());\n"
+      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Napi::Number>().Uint32Value());\n"
       args.append(n)
     else
       decl += "// #{i} #{n}, #{ty}\n"
@@ -1852,7 +1858,7 @@ File.open('src/functions.cc', 'w') do |f|
     h = func_table[key]
     next if IGNORE_FUNCS.include?(key)
     next if apis.values.collect{|v| v.values }.flatten.include?(key)
-    expset = gen_funcimpl("N_"+ key, key, h)
+    expset = gen_funcimpl("N_"+ key, key, h, true)
     if IFDEF_FUNCS.include?(key)
       expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
     end
@@ -1950,7 +1956,7 @@ File.open('src/iotivity_lite.cc', 'w') do |f|
         print "\n"
         next
       end
-      expset = gen_funcimpl(cls + "::" + name, mtd, func_table[mtd])
+      expset = gen_funcimpl(cls + "::" + name, mtd, func_table[mtd], true)
       if IFDEF_FUNCS.include?(mtd)
         expset = "#if #{IFDEF_FUNCS[mtd]}\n" + expset + "#endif\n"
       end
