@@ -1920,6 +1920,7 @@ Napi::Value OCRepresentation::get_bool(const Napi::CallbackInfo& info) {
   OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Napi::Object>());
   std::string key_ = info[0].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
+
   bool ret;
   bool success = oc_rep_get_bool(rep, key, &ret);
   if(!success) { return info.Env().Undefined(); }
@@ -2043,7 +2044,7 @@ Napi::Value OCRepresentation::get_int_array(const Napi::CallbackInfo& info) {
 
   int64_t* ret;  size_t sz;
   bool success = oc_rep_get_int_array(rep, key, &ret, &sz);
-  if (!success) { return info.Env().Undefined(); }
+  if(!success) { return info.Env().Undefined(); }
   auto array = TypedArrayOf<int64_t>::New(info.Env(), sz, napi_bigint64_array);
   for (uint32_t i = 0; i < sz; i++) {
       array[i] = ret[i];

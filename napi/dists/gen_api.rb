@@ -591,6 +591,76 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
 }
 
 FUNC_OVERRIDE = {
+  'oc_rep_get_object' => {
+    '1' => '',
+    'invoke' => '
+  oc_rep_t* ret;
+  bool success = oc_rep_get_object(rep, key, &ret);
+  if (!success) { return info.Env().Undefined(); }
+
+  std::shared_ptr<oc_rep_t> sp(ret);
+  auto accessor = Napi::External<std::shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+  return OCRepresentation::constructor.New({ accessor });'
+  },
+  'oc_rep_get_string' => {
+    '1' => '',
+    '2' => '',
+    'invoke' => '
+  char* ret; size_t sz;
+  bool success = oc_rep_get_string(rep, key, &ret, &sz);
+  if(!success) { return info.Env().Undefined(); }
+  return Napi::String::New(info.Env(), ret, sz);'
+  },
+  'oc_rep_get_int' => {
+    '1' => '',
+    'invoke' => '
+  int64_t ret;
+  bool success = oc_rep_get_int(rep, key, &ret);
+  if(!success) { return info.Env().Undefined(); }
+  return Napi::Number::New(info.Env(), ret);'
+  },
+  'oc_rep_get_bool' => {
+    '1' => '',
+    'invoke' => '
+  bool ret;
+  bool success = oc_rep_get_bool(rep, key, &ret);
+  if(!success) { return info.Env().Undefined(); }
+  return Napi::Boolean::New(info.Env(), ret);'
+  },
+  'oc_rep_get_double' => {
+    '1' => '',
+    'invoke' => '
+  double ret;
+  bool success = oc_rep_get_double(rep, key, &ret);
+  if(!success) { return info.Env().Undefined(); }
+  return Napi::Number::New(info.Env(), ret);'
+  },
+  'oc_rep_get_double_array' => {
+    '1' => '',
+    '2' => '',
+    'invoke' => '
+  double* ret;  size_t sz;
+  bool success = oc_rep_get_double_array(rep, key, &ret, &sz);
+  if(!success) { return info.Env().Undefined(); }
+  auto array = Float64Array::New(info.Env(), sz);
+  for (uint32_t i = 0; i < sz; i++) {
+      array[i] = ret[i];
+  }
+  return array;'
+  },
+  'oc_rep_get_int_array' => {
+    '1' => '',
+    '2' => '',
+    'invoke' => '
+  int64_t* ret;  size_t sz;
+  bool success = oc_rep_get_int_array(rep, key, &ret, &sz);
+  if(!success) { return info.Env().Undefined(); }
+  auto array = TypedArrayOf<int64_t>::New(info.Env(), sz, napi_bigint64_array);
+  for (uint32_t i = 0; i < sz; i++) {
+      array[i] = ret[i];
+  }
+  return array;'
+  },
   'helper_main_loop' => {
     'invoke' => <<~STR
 //
