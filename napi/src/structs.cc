@@ -3,6 +3,8 @@
 #include "iotivity_lite.h"
 using namespace std;
 using namespace Napi;
+#define CHECK_CALLBACK_FUNC(info, order, helper)  ((info.Length() >= order &&                           info[order].IsFunction()) ? helper : nullptr)
+#define CHECK_CALLBACK_CONTEXT(info, fn_i, ctx_i) ((info.Length() >= fn_i  && info.Length() >= ctx_i &&  info[fn_i].IsFunction()) ? new SafeCallbackHelper(info[fn_i].As<Function>(), info[ctx_i]) : nullptr);
 
 
 
@@ -3787,13 +3789,15 @@ Value OCResource::set_periodic_observable(const CallbackInfo& info) {
 
 Value OCResource::set_properties_cbs(const CallbackInfo& info) {
     OCResource& resource = *OCResource::Unwrap(info.This().As<Object>());
-// 0 get_properties, oc_get_properties_cb_t
-    oc_get_properties_cb_t get_properties = oc_resource_set_properties_cbs_get_helper;
-//
-    callback_helper_t* get_propr_user_data = new_callback_helper_t(info, 1, 2);
-    if(!get_propr_user_data) get_properties = nullptr;
-    oc_set_properties_cb_t set_properties = oc_resource_set_properties_cbs_set_helper;
-    (void)0;
+    auto get_props = CHECK_CALLBACK_FUNC(info, 0, oc_resource_set_properties_cbs_get_helper);
+    const int O_FUNC_G = 0;
+    SafeCallbackHelper* get_propr_user_data  =  CHECK_CALLBACK_CONTEXT(info, O_FUNC_G, 1);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(get_propr_user_data));
+    auto set_props = CHECK_CALLBACK_FUNC(info, 2, oc_resource_set_properties_cbs_set_helper);
+    const int O_FUNC_S = 2;
+    SafeCallbackHelper* set_props_user_data  =  CHECK_CALLBACK_CONTEXT(info, O_FUNC_S, 3);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(set_props_user_data));
+    (void)oc_resource_set_properties_cbs(resource, get_props, get_propr_user_data, set_props, set_props_user_data);
     return info.Env().Undefined();
 }
 

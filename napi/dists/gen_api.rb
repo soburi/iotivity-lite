@@ -1067,10 +1067,16 @@ STR
     '6' => '  SafeCallbackHelper* data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
   },
-  'oc_add_ownership_status_cb' => {
-    '0' => '  auto cb = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_ownership_status_cb); const int O_FUNC = ORDER;',
-    '1' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
-  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
+  'oc_resource_set_properties_cbs' => {
+    '1' => '  auto get_props = CHECK_CALLBACK_FUNC(info, ORDER, oc_resource_set_properties_cbs_get_helper); const int O_FUNC_G = ORDER;',
+    '2' => '  SafeCallbackHelper* get_propr_user_data  =  CHECK_CALLBACK_CONTEXT(info, O_FUNC_G, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(get_propr_user_data));',
+    '3' => '  auto set_props = CHECK_CALLBACK_FUNC(info, ORDER, oc_resource_set_properties_cbs_set_helper); const int O_FUNC_S = ORDER;',
+    '4' => '  SafeCallbackHelper* set_props_user_data  =  CHECK_CALLBACK_CONTEXT(info, O_FUNC_S, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(set_props_user_data));',
+    'invoke' => '    (void)oc_resource_set_properties_cbs(resource, get_props, get_propr_user_data, set_props, set_props_user_data);
+    return info.Env().Undefined();'
+
   },
   'oc_set_delayed_callback' => {
     '0' => '',
@@ -1080,6 +1086,11 @@ STR
   (void)oc_set_delayed_callback(cb_data, callback, seconds);
   return info.Env().Undefined();
   ',
+  },
+  'oc_add_ownership_status_cb' => {
+    '0' => '  auto cb = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_ownership_status_cb); const int O_FUNC = ORDER;',
+    '1' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_set_factory_presets_cb' => {
     '0' => '  auto cb = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_factory_presets_cb); const int O_FUNC = ORDER;',
@@ -1265,20 +1276,6 @@ STR
     '4' => <<~STR
                    callback_helper_t* user_data = new_callback_helper_t(info, 2, 3);
                    if(!user_data) callback = nullptr;
-              STR
-  },
-  'oc_resource_set_properties_cbs' => {
-    '2' => "  oc_get_properties_cb_t get_properties = oc_resource_set_properties_cbs_get_helper;\n",
-    '4' => "  oc_set_properties_cb_t set_properties = oc_resource_set_properties_cbs_set_helper;\n",
-    '3' => <<~STR,
-                 //
-                   callback_helper_t* get_propr_user_data = new_callback_helper_t(info, 1, 2);
-                   if(!get_propr_user_data) get_properties = nullptr;
-              STR
-    '5' => <<~STR,
-                 //
-                   callback_helper_t* set_props_user_data = new_callback_helper_t(info, 3, 4);
-                   if(!set_props_user_data) set_properties = nullptr;
               STR
   },
   'oc_main_init' => {
@@ -2410,6 +2407,8 @@ File.open('src/structs.cc', 'w') do |f|
   f.print "#include \"iotivity_lite.h\"\n"
   f.print "using namespace std;\n"
   f.print "using namespace Napi;\n"
+  f.print '#define CHECK_CALLBACK_FUNC(info, order, helper)  ((info.Length() >= order &&                           info[order].IsFunction()) ? helper : nullptr)' + "\n"
+  f.print '#define CHECK_CALLBACK_CONTEXT(info, fn_i, ctx_i) ((info.Length() >= fn_i  && info.Length() >= ctx_i &&  info[fn_i].IsFunction()) ? new SafeCallbackHelper(info[fn_i].As<Function>(), info[ctx_i]) : nullptr);' + "\n"
 
   struct_table.each do |key, h|
     f.print gen_classimpl(key, h)
