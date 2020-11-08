@@ -65,6 +65,9 @@ CCPROLOGUE = <<CCPROLOGUE
 #include "structs.h"
 #include "functions.h"
 #include "helper.h"
+
+#define CHECK_CALLBACK_FUNC(info, order, helper) ((info.Length() >= order && info[order].IsFunction()) ? helper : nullptr)
+#
 using namespace std;
 using namespace Napi;
 
@@ -1119,8 +1122,9 @@ STR
     '3' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[2].As<Function>(), info[3]);\n"
   },
   'oc_do_ip_discovery' => {
-    '1' => "  oc_discovery_handler_t handler = helper_oc_discovery_handler;\n",
-    '2' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Function>(), info[2]);\n"
+    '1' => '  oc_discovery_handler_t handler = check_callback_func(info, ORDER, helper_oc_discovery_handler);',
+    '2' => '  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Function>(), info[2]);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));'
   },
   'oc_do_ip_discovery_all' => {
     '0' => "  oc_discovery_all_handler_t handler = helper_oc_discovery_all_handler;\n",
@@ -2183,7 +2187,7 @@ def gen_funcimpl(func, name, param, instance)
     #p ty
     if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name][ii.to_s]
       #p ty + " OVERRIDE"
-      decl +=  FUNC_OVERRIDE[name][ii.to_s]
+      decl +=  FUNC_OVERRIDE[name][ii.to_s].gsub(/ORDER/, i.to_s)
       args.append(n)
     elsif ty == 'uint8_t' or ty == 'uint16_t' or ty == 'uint32_t' or ty == 'size_t'
       decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Number>().Uint32Value());\n"

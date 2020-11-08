@@ -9,6 +9,8 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports);
 Napi::Object Init(Napi::Env env, Napi::Object exports);
 NODE_API_MODULE(addon, Init)
 
+#define CHECK_CALLBACK_FUNC(info, order, helper) ((info.Length() >= order && info[order].IsFunction()) ? helper : nullptr)
+
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("Clock", OCClock::GetClass(env));
     exports.Set("Cloud", OCCloud::GetClass(env));
@@ -642,10 +644,9 @@ Value OCMain::do_get(const CallbackInfo& info) {
 Value OCMain::do_ip_discovery(const CallbackInfo& info) {
     std::string rt_ = info[0].As<String>().Utf8Value();
     const char* rt = rt_.c_str();
-    oc_discovery_handler_t handler = helper_oc_discovery_handler;
+    oc_discovery_handler_t handler = CHECK_CALLBACK_FUNC(info, 1, helper_oc_discovery_handler);
     SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Function>(), info[2]);
     main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
-
     return Boolean::New(info.Env(), oc_do_ip_discovery(rt, handler, user_data));
 }
 
