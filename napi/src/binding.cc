@@ -1,7 +1,10 @@
 #include "structs.h"
 #include "functions.h"
 Napi::Object module_init(Napi::Env env, Napi::Object exports) {
+  exports.Set("CborEncoder", OCCborEncoder::GetClass(env));
   exports.Set("AceResource", OCAceResource::GetClass(env));
+  exports.Set("AceSubject", OCAceSubject::GetClass(env));
+  exports.Set("Array", OCArray::GetClass(env));
   exports.Set("BlockwiseRequestState", OCBlockwiseRequestState::GetClass(env));
   exports.Set("BlockwiseResponseState", OCBlockwiseResponseState::GetClass(env));
   exports.Set("BlockwiseState", OCBlockwiseState::GetClass(env));
@@ -14,6 +17,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("CredData", OCCredData::GetClass(env));
   exports.Set("DeviceInfo", OCDeviceInfo::GetClass(env));
   exports.Set("Endpoint", OCEndpoint::GetClass(env));
+  exports.Set("DevAddr", DevAddr::GetClass(env));
   exports.Set("Etimer", OCEtimer::GetClass(env));
   exports.Set("EventCallback", OCEventCallback::GetClass(env));
   exports.Set("Handler", OCHandler::GetClass(env));
@@ -30,6 +34,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("Process", OCProcess::GetClass(env));
   exports.Set("PropertiesCb", OCPropertiesCb::GetClass(env));
   exports.Set("Representation", OCRepresentation::GetClass(env));
+  exports.Set("Value", OCValue::GetClass(env));
   exports.Set("RequestHandler", OCRequestHandler::GetClass(env));
   exports.Set("Request", OCRequest::GetClass(env));
   exports.Set("Resource", OCResource::GetClass(env));
@@ -39,52 +44,47 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("ResourceType", OCResourceType::GetClass(env));
   exports.Set("SecurityAce", OCSecurityAce::GetClass(env));
   exports.Set("SecurityAcl", OCSecurityAcl::GetClass(env));
-  exports.Set("Creds", OCCreds::GetClass(env));
   exports.Set("Cred", OCCred::GetClass(env));
+  exports.Set("Creds", OCCreds::GetClass(env));
   exports.Set("SeparateResponse", OCSeparateResponse::GetClass(env));
   exports.Set("SessionEventCb", OCSessionEventCb::GetClass(env));
+  exports.Set("StringArrayIterator", OCStringArrayIterator::GetClass(env));
+  exports.Set("StringArray", OCStringArray::GetClass(env));
   exports.Set("SoftwareUpdateHandler", OCSoftwareUpdateHandler::GetClass(env));
   exports.Set("Timer", OCTimer::GetClass(env));
   exports.Set("Uuid", OCUuid::GetClass(env));
-  exports.Set("AceSubject", OCAceSubject::GetClass(env));
-  exports.Set("DevAddr", DevAddr::GetClass(env));
-  exports.Set("Value", OCValue::GetClass(env));
-  exports.Set("Array", OCArray::GetClass(env));
-  exports.Set("StringArrayIterator", OCStringArrayIterator::GetClass(env));
-  exports.Set("StringArray", OCStringArray::GetClass(env));
-  exports.Set("CborEncoder", OCCborEncoder::GetClass(env));
   exports.Set("AceConnectionType", OCAceConnectionType::GetClass(env));
   exports.Set("AcePermissionsMask", OCAcePermissionsMask::GetClass(env));
   exports.Set("AceSubjectType", OCAceSubjectType::GetClass(env));
   exports.Set("AceWildcard", OCAceWildcard::GetClass(env));
   exports.Set("BlockwiseRole", OCBlockwiseRole::GetClass(env));
-  exports.Set("DiscoveryFlags", OCDiscoveryFlags::GetClass(env));
-  exports.Set("Qos", OCQos::GetClass(env));
   exports.Set("CloudError", OCCloudError::GetClass(env));
   exports.Set("CloudStatusMask", OCCloudStatusMask::GetClass(env));
+  exports.Set("ContentFormat", OCContentFormat::GetClass(env));
+  exports.Set("CoreResource", OCCoreResource::GetClass(env));
   exports.Set("CloudPrivisoningStatus", OCCloudPrivisoningStatus::GetClass(env));
-#if defined(OC_TCP)
-  exports.Set("tcpCsmState", tcpCsmState::GetClass(env));
-#endif
+  exports.Set("DiscoveryFlags", OCDiscoveryFlags::GetClass(env));
+  exports.Set("Enum", OCEnum::GetClass(env));
+  exports.Set("EventCallbackResult", OCEventCallbackResult::GetClass(env));
+  exports.Set("InterfaceEvent", OCInterfaceEvent::GetClass(env));
+  exports.Set("InterfaceMask", OCInterfaceMask::GetClass(env));
+  exports.Set("Method", OCMethod::GetClass(env));
+  exports.Set("PositionDescription", OCPositionDescription::GetClass(env));
+  exports.Set("Qos", OCQos::GetClass(env));
+  exports.Set("RepValueType", OCRepValueType::GetClass(env));
+  exports.Set("ResourcePropertiesMask", OCResourcePropertiesMask::GetClass(env));
   exports.Set("CredType", OCCredType::GetClass(env));
   exports.Set("CredUsage", OCCredUsage::GetClass(env));
   exports.Set("Encoding", OCEncoding::GetClass(env));
-  exports.Set("FVersion", OCFVersion::GetClass(env));
-  exports.Set("TransportFlags", OCTransportFlags::GetClass(env));
-  exports.Set("Enum", OCEnum::GetClass(env));
-  exports.Set("PositionDescription", OCPositionDescription::GetClass(env));
-  exports.Set("InterfaceEvent", OCInterfaceEvent::GetClass(env));
-  exports.Set("SpTypesMask", OCSpTypesMask::GetClass(env));
-  exports.Set("RepValueType", OCRepValueType::GetClass(env));
-  exports.Set("ContentFormat", OCContentFormat::GetClass(env));
-  exports.Set("CoreResource", OCCoreResource::GetClass(env));
-  exports.Set("EventCallbackResult", OCEventCallbackResult::GetClass(env));
-  exports.Set("InterfaceMask", OCInterfaceMask::GetClass(env));
-  exports.Set("Method", OCMethod::GetClass(env));
-  exports.Set("ResourcePropertiesMask", OCResourcePropertiesMask::GetClass(env));
-  exports.Set("Status", OCStatus::GetClass(env));
   exports.Set("SessionState", OCSessionState::GetClass(env));
+  exports.Set("SpTypesMask", OCSpTypesMask::GetClass(env));
+  exports.Set("Status", OCStatus::GetClass(env));
   exports.Set("SoftwareUpdateResult", OCSoftwareUpdateResult::GetClass(env));
+  exports.Set("FVersion", OCFVersion::GetClass(env));
+#if defined(OC_TCP)
+  exports.Set("tcpCsmState", tcpCsmState::GetClass(env));
+#endif
+  exports.Set("TransportFlags", OCTransportFlags::GetClass(env));
   exports.Set("handle_coap_signal_message", Napi::Function::New(env, N_handle_coap_signal_message));
 #if defined(OC_COLLECTIONS_IF_CREATE)
   exports.Set("oc_collections_add_rt_factory", Napi::Function::New(env, N_oc_collections_add_rt_factory));

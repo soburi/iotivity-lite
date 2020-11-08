@@ -9,25 +9,521 @@ Napi::Object Init(Napi::Env env, Napi::Object exports);
 NODE_API_MODULE(addon, Init)
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-    exports.Set("Main", OCMain::GetClass(env));
-    exports.Set("Obt", OCObt::GetClass(env));
     exports.Set("BufferSettings", OCBufferSettings::GetClass(env));
     exports.Set("Clock", OCClock::GetClass(env));
     exports.Set("Cloud", OCCloud::GetClass(env));
+    exports.Set("CoreRes", OCCoreRes::GetClass(env));
     exports.Set("CredUtil", OCCredUtil::GetClass(env));
     exports.Set("EndpointUtil", OCEndpointUtil::GetClass(env));
     exports.Set("EnumUtil", OCEnumUtil::GetClass(env));
     exports.Set("Introspection", OCIntrospection::GetClass(env));
+    exports.Set("Main", OCMain::GetClass(env));
+    exports.Set("Obt", OCObt::GetClass(env));
     exports.Set("Pki", OCPki::GetClass(env));
     exports.Set("Random", OCRandom::GetClass(env));
+    exports.Set("Rep", OCRep::GetClass(env));
     exports.Set("SessionEvents", OCSessionEvents::GetClass(env));
     exports.Set("SoftwareUpdate", OCSoftwareUpdate::GetClass(env));
     exports.Set("Storage", OCStorage::GetClass(env));
     exports.Set("UuidUtil", OCUuidUtil::GetClass(env));
-    exports.Set("CoreRes", OCCoreRes::GetClass(env));
-    exports.Set("Rep", OCRep::GetClass(env));
     return module_init(env, exports);
 }
+OCBufferSettings::OCBufferSettings(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCBufferSettings::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCBufferSettings", {
+        OCBufferSettings::StaticMethod("set_mtu_size", &OCBufferSettings::set_mtu_size),
+        OCBufferSettings::StaticMethod("get_mtu_size", &OCBufferSettings::get_mtu_size),
+        OCBufferSettings::StaticMethod("set_max_app_data_size", &OCBufferSettings::set_max_app_data_size),
+        OCBufferSettings::StaticMethod("get_max_app_data_size", &OCBufferSettings::get_max_app_data_size),
+        OCBufferSettings::StaticMethod("get_block_size", &OCBufferSettings::get_block_size),
+    });
+}
+
+Napi::Value OCBufferSettings::set_mtu_size(const Napi::CallbackInfo& info) {
+  size_t mtu_size = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), oc_set_mtu_size(mtu_size));
+}
+
+Napi::Value OCBufferSettings::get_mtu_size(const Napi::CallbackInfo& info) {
+  return Napi::Number::New(info.Env(), oc_get_mtu_size());
+}
+
+Napi::Value OCBufferSettings::set_max_app_data_size(const Napi::CallbackInfo& info) {
+  size_t size = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
+  (void)oc_set_max_app_data_size(size);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCBufferSettings::get_max_app_data_size(const Napi::CallbackInfo& info) {
+  return Napi::Number::New(info.Env(), oc_get_max_app_data_size());
+}
+
+Napi::Value OCBufferSettings::get_block_size(const Napi::CallbackInfo& info) {
+  return Napi::Number::New(info.Env(), oc_get_block_size());
+}
+
+Napi::FunctionReference OCBufferSettings::constructor;
+
+OCClock::OCClock(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCClock::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCClock", {
+        OCClock::StaticMethod("clock_init", &OCClock::clock_init),
+        OCClock::StaticMethod("clock_time", &OCClock::clock_time),
+        OCClock::StaticMethod("clock_seconds", &OCClock::clock_seconds),
+        OCClock::StaticMethod("clock_wait", &OCClock::clock_wait),
+    });
+}
+
+Napi::Value OCClock::clock_init(const Napi::CallbackInfo& info) {
+  (void)oc_clock_init();
+  return info.Env().Undefined();
+}
+
+Napi::Value OCClock::clock_time(const Napi::CallbackInfo& info) {
+  return Napi::Number::New(info.Env(), oc_clock_time());
+}
+
+Napi::Value OCClock::clock_seconds(const Napi::CallbackInfo& info) {
+  return Napi::Number::New(info.Env(), oc_clock_seconds());
+}
+
+Napi::Value OCClock::clock_wait(const Napi::CallbackInfo& info) {
+  oc_clock_time_t t = static_cast<uint64_t>(info[0].As<Napi::Number>().Int64Value());
+  (void)oc_clock_wait(t);
+  return info.Env().Undefined();
+}
+
+Napi::FunctionReference OCClock::constructor;
+
+OCCloud::OCCloud(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCCloud::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCCloud", {
+        OCCloud::StaticMethod("get_context", &OCCloud::get_context),
+        OCCloud::StaticMethod("manager_start", &OCCloud::manager_start),
+        OCCloud::StaticMethod("manager_stop", &OCCloud::manager_stop),
+        OCCloud::StaticMethod("login", &OCCloud::login),
+        OCCloud::StaticMethod("logout", &OCCloud::logout),
+        OCCloud::StaticMethod("refresh_token", &OCCloud::refresh_token),
+        OCCloud::StaticMethod("get_token_expiry", &OCCloud::get_token_expiry),
+        OCCloud::StaticMethod("add_resource", &OCCloud::add_resource),
+        OCCloud::StaticMethod("delete_resource", &OCCloud::delete_resource),
+        OCCloud::StaticMethod("publish_resources", &OCCloud::publish_resources),
+        OCCloud::StaticMethod("discover_resources", &OCCloud::discover_resources),
+        OCCloud::StaticMethod("provision_conf_resource", &OCCloud::provision_conf_resource),
+    });
+}
+
+#if defined(OC_CLOUD)
+Napi::Value OCCloud::get_context(const Napi::CallbackInfo& info) {
+  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
+  std::shared_ptr<oc_cloud_context_t> sp(oc_cloud_get_context(device));
+  auto args = Napi::External<std::shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
+  return OCCloudContext::constructor.New({args});
+}
+#endif
+
+#if defined(OC_CLOUD)
+Napi::Value OCCloud::manager_start(const Napi::CallbackInfo& info) {
+  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
+  oc_cloud_cb_t cb = nullptr;
+  Napi::Function cb_ = info[1].As<Napi::Function>();
+  void* data = info[2];
+  return Napi::Number::New(info.Env(), oc_cloud_manager_start(ctx, cb, data));
+}
+#endif
+
+#if defined(OC_CLOUD)
+Napi::Value OCCloud::manager_stop(const Napi::CallbackInfo& info) {
+  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_cloud_manager_stop(ctx));
+}
+#endif
+
+#if defined(OC_CLOUD)
+Napi::Value OCCloud::login(const Napi::CallbackInfo& info) {
+  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
+  oc_cloud_cb_t cb = nullptr;
+  Napi::Function cb_ = info[1].As<Napi::Function>();
+  void* data = info[2];
+  return Napi::Number::New(info.Env(), oc_cloud_login(ctx, cb, data));
+}
+#endif
+
+#if defined(OC_CLOUD)
+Napi::Value OCCloud::logout(const Napi::CallbackInfo& info) {
+  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
+  oc_cloud_cb_t cb = nullptr;
+  Napi::Function cb_ = info[1].As<Napi::Function>();
+  void* data = info[2];
+  return Napi::Number::New(info.Env(), oc_cloud_logout(ctx, cb, data));
+}
+#endif
+
+#if defined(OC_CLOUD)
+Napi::Value OCCloud::refresh_token(const Napi::CallbackInfo& info) {
+  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
+  oc_cloud_cb_t cb = nullptr;
+  Napi::Function cb_ = info[1].As<Napi::Function>();
+  void* data = info[2];
+  return Napi::Number::New(info.Env(), oc_cloud_refresh_token(ctx, cb, data));
+}
+#endif
+
+#if defined(OC_CLOUD)
+Napi::Value OCCloud::get_token_expiry(const Napi::CallbackInfo& info) {
+  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_cloud_get_token_expiry(ctx));
+}
+#endif
+
+#if defined(OC_CLOUD)
+Napi::Value OCCloud::add_resource(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_cloud_add_resource(resource));
+}
+#endif
+
+#if defined(OC_CLOUD)
+Napi::Value OCCloud::delete_resource(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  (void)oc_cloud_delete_resource(resource);
+  return info.Env().Undefined();
+}
+#endif
+
+#if defined(OC_CLOUD)
+Napi::Value OCCloud::publish_resources(const Napi::CallbackInfo& info) {
+  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::Number::New(info.Env(), oc_cloud_publish_resources(device));
+}
+#endif
+
+#if defined(OC_CLOUD)
+Napi::Value OCCloud::discover_resources(const Napi::CallbackInfo& info) {
+  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
+  oc_discovery_all_handler_t handler = nullptr;
+  Napi::Function handler_ = info[1].As<Napi::Function>();
+  void* user_data = info[2];
+  return Napi::Number::New(info.Env(), oc_cloud_discover_resources(ctx, handler, user_data));
+}
+#endif
+
+#if defined(OC_CLOUD)
+Napi::Value OCCloud::provision_conf_resource(const Napi::CallbackInfo& info) {
+  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
+  std::string server_ = info[1].As<Napi::String>().Utf8Value();
+  const char* server = server_.c_str();
+  std::string access_token_ = info[2].As<Napi::String>().Utf8Value();
+  const char* access_token = access_token_.c_str();
+  std::string server_id_ = info[3].As<Napi::String>().Utf8Value();
+  const char* server_id = server_id_.c_str();
+  std::string auth_provider_ = info[4].As<Napi::String>().Utf8Value();
+  const char* auth_provider = auth_provider_.c_str();
+  return Napi::Number::New(info.Env(), oc_cloud_provision_conf_resource(ctx, server, access_token, server_id, auth_provider));
+}
+#endif
+
+Napi::FunctionReference OCCloud::constructor;
+
+OCCoreRes::OCCoreRes(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCCoreRes::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCCoreRes", {
+        OCCoreRes::StaticMethod("init", &OCCoreRes::init),
+        OCCoreRes::StaticMethod("init_platform", &OCCoreRes::init_platform),
+        OCCoreRes::StaticMethod("shutdown", &OCCoreRes::shutdown),
+        OCCoreRes::StaticMethod("get_num_devices", &OCCoreRes::get_num_devices),
+        OCCoreRes::StaticMethod("get_device_id", &OCCoreRes::get_device_id),
+        OCCoreRes::StaticMethod("get_device_info", &OCCoreRes::get_device_info),
+        OCCoreRes::StaticMethod("get_platform_info", &OCCoreRes::get_platform_info),
+        OCCoreRes::StaticMethod("get_resource_by_uri", &OCCoreRes::get_resource_by_uri),
+        OCCoreRes::StaticMethod("filter_resource_by_rt", &OCCoreRes::filter_resource_by_rt),
+        OCCoreRes::StaticMethod("is_DCR", &OCCoreRes::is_DCR),
+        OCCoreRes::StaticMethod("set_latency", &OCCoreRes::set_latency),
+        OCCoreRes::StaticMethod("get_latency", &OCCoreRes::get_latency),
+        OCCoreRes::StaticMethod("add_new_device", &OCCoreRes::add_new_device),
+    });
+}
+
+Napi::Value OCCoreRes::init(const Napi::CallbackInfo& info) {
+  (void)oc_core_init();
+  return info.Env().Undefined();
+}
+
+Napi::Value OCCoreRes::init_platform(const Napi::CallbackInfo& info) {
+  std::string mfg_name_ = info[0].As<Napi::String>().Utf8Value();
+  const char* mfg_name = mfg_name_.c_str();
+  oc_core_init_platform_cb_t init_cb = nullptr;
+  Napi::Function init_cb_ = info[1].As<Napi::Function>();
+  void* data = info[2];
+  std::shared_ptr<oc_platform_info_t> sp(oc_core_init_platform(mfg_name, init_cb, data));
+  auto args = Napi::External<std::shared_ptr<oc_platform_info_t>>::New(info.Env(), &sp);
+  return OCPlatformInfo::constructor.New({args});
+}
+
+Napi::Value OCCoreRes::shutdown(const Napi::CallbackInfo& info) {
+  (void)oc_core_shutdown();
+  return info.Env().Undefined();
+}
+
+Napi::Value OCCoreRes::get_num_devices(const Napi::CallbackInfo& info) {
+  return Napi::Number::New(info.Env(), oc_core_get_num_devices());
+}
+
+Napi::Value OCCoreRes::get_device_id(const Napi::CallbackInfo& info) {
+  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
+  std::shared_ptr<oc_uuid_t> sp(oc_core_get_device_id(device));
+  auto args = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+  return OCUuid::constructor.New({args});
+}
+
+Napi::Value OCCoreRes::get_device_info(const Napi::CallbackInfo& info) {
+  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
+  std::shared_ptr<oc_device_info_t> sp(oc_core_get_device_info(device));
+  auto args = Napi::External<std::shared_ptr<oc_device_info_t>>::New(info.Env(), &sp);
+  return OCDeviceInfo::constructor.New({args});
+}
+
+Napi::Value OCCoreRes::get_platform_info(const Napi::CallbackInfo& info) {
+  std::shared_ptr<oc_platform_info_t> sp(oc_core_get_platform_info());
+  auto args = Napi::External<std::shared_ptr<oc_platform_info_t>>::New(info.Env(), &sp);
+  return OCPlatformInfo::constructor.New({args});
+}
+
+Napi::Value OCCoreRes::get_resource_by_uri(const Napi::CallbackInfo& info) {
+  std::string uri_ = info[0].As<Napi::String>().Utf8Value();
+  const char* uri = uri_.c_str();
+  size_t device = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
+  std::shared_ptr<oc_resource_t> sp(oc_core_get_resource_by_uri(uri, device));
+  auto args = Napi::External<std::shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
+  return OCResource::constructor.New({args});
+}
+
+Napi::Value OCCoreRes::filter_resource_by_rt(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  OCRequest& request = *OCRequest::Unwrap(info[1].As<Napi::Object>());
+  return Napi::Boolean::New(info.Env(), oc_filter_resource_by_rt(resource, request));
+}
+
+Napi::Value OCCoreRes::is_DCR(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  size_t device = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
+  return Napi::Boolean::New(info.Env(), oc_core_is_DCR(resource, device));
+}
+
+Napi::Value OCCoreRes::set_latency(const Napi::CallbackInfo& info) {
+  int latency = static_cast<int>(info[0].As<Napi::Number>());
+  (void)oc_core_set_latency(latency);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCCoreRes::get_latency(const Napi::CallbackInfo& info) {
+  return Napi::Number::New(info.Env(), oc_core_get_latency());
+}
+
+Napi::Value OCCoreRes::add_new_device(const Napi::CallbackInfo& info) {
+  std::string uri_ = info[0].As<Napi::String>().Utf8Value();
+  const char* uri = uri_.c_str();
+  std::string rt_ = info[1].As<Napi::String>().Utf8Value();
+  const char* rt = rt_.c_str();
+  std::string name_ = info[2].As<Napi::String>().Utf8Value();
+  const char* name = name_.c_str();
+  std::string spec_version_ = info[3].As<Napi::String>().Utf8Value();
+  const char* spec_version = spec_version_.c_str();
+  std::string data_model_version_ = info[4].As<Napi::String>().Utf8Value();
+  const char* data_model_version = data_model_version_.c_str();
+  oc_core_add_device_cb_t add_device_cb = nullptr;
+  Napi::Function add_device_cb_ = info[5].As<Napi::Function>();
+  void* data = info[6];
+  std::shared_ptr<oc_device_info_t> sp(oc_core_add_new_device(uri, rt, name, spec_version, data_model_version, add_device_cb, data));
+  auto args = Napi::External<std::shared_ptr<oc_device_info_t>>::New(info.Env(), &sp);
+  return OCDeviceInfo::constructor.New({args});
+}
+
+Napi::FunctionReference OCCoreRes::constructor;
+
+OCCredUtil::OCCredUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCCredUtil::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCCredUtil", {
+        OCCredUtil::StaticMethod("read_credusage", &OCCredUtil::read_credusage),
+        OCCredUtil::StaticMethod("read_encoding", &OCCredUtil::read_encoding),
+        OCCredUtil::StaticMethod("parse_credusage", &OCCredUtil::parse_credusage),
+        OCCredUtil::StaticMethod("parse_encoding", &OCCredUtil::parse_encoding),
+        OCCredUtil::StaticMethod("credtype_string", &OCCredUtil::credtype_string),
+    });
+}
+
+#if defined(OC_SECURITY) && defined(OC_PKI)
+Napi::Value OCCredUtil::read_credusage(const Napi::CallbackInfo& info) {
+  oc_sec_credusage_t credusage = static_cast<oc_sec_credusage_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::String::New(info.Env(), oc_cred_read_credusage(credusage));
+}
+#endif
+
+#if defined(OC_SECURITY)
+Napi::Value OCCredUtil::read_encoding(const Napi::CallbackInfo& info) {
+  oc_sec_encoding_t encoding = static_cast<oc_sec_encoding_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::String::New(info.Env(), oc_cred_read_encoding(encoding));
+}
+#endif
+
+#if defined(OC_SECURITY) && defined(OC_PKI)
+Napi::Value OCCredUtil::parse_credusage(const Napi::CallbackInfo& info) {
+  OCMmem& credusage_string = *OCMmem::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_cred_parse_credusage(credusage_string));
+}
+#endif
+
+#if defined(OC_SECURITY)
+Napi::Value OCCredUtil::parse_encoding(const Napi::CallbackInfo& info) {
+  OCMmem& encoding_string = *OCMmem::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_cred_parse_encoding(encoding_string));
+}
+#endif
+
+#if defined(OC_SECURITY)
+Napi::Value OCCredUtil::credtype_string(const Napi::CallbackInfo& info) {
+  oc_sec_credtype_t credtype = static_cast<oc_sec_credtype_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::String::New(info.Env(), oc_cred_credtype_string(credtype));
+}
+#endif
+
+Napi::FunctionReference OCCredUtil::constructor;
+
+OCEndpointUtil::OCEndpointUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCEndpointUtil::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCEndpointUtil", {
+        OCEndpointUtil::StaticMethod("to_string", &OCEndpointUtil::to_string),
+        OCEndpointUtil::StaticMethod("compare", &OCEndpointUtil::compare),
+        OCEndpointUtil::StaticMethod("copy", &OCEndpointUtil::copy),
+        OCEndpointUtil::StaticMethod("free_endpoint", &OCEndpointUtil::free_endpoint),
+        OCEndpointUtil::StaticMethod("string_to_endpoint", &OCEndpointUtil::string_to_endpoint),
+        OCEndpointUtil::StaticMethod("new_endpoint", &OCEndpointUtil::new_endpoint),
+        OCEndpointUtil::StaticMethod("endpoint_string_parse_path", &OCEndpointUtil::endpoint_string_parse_path),
+        OCEndpointUtil::StaticMethod("set_di", &OCEndpointUtil::set_di),
+        OCEndpointUtil::StaticMethod("ipv6_endpoint_is_link_local", &OCEndpointUtil::ipv6_endpoint_is_link_local),
+        OCEndpointUtil::StaticMethod("compare_address", &OCEndpointUtil::compare_address),
+        OCEndpointUtil::StaticMethod("set_local_address", &OCEndpointUtil::set_local_address),
+    });
+}
+
+Napi::Value OCEndpointUtil::to_string(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  OCMmem& endpoint_str = *OCMmem::Unwrap(info[1].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_endpoint_to_string(endpoint, endpoint_str));
+}
+
+Napi::Value OCEndpointUtil::compare(const Napi::CallbackInfo& info) {
+  OCEndpoint& ep1 = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_endpoint_compare(ep1, ep2));
+}
+
+Napi::Value OCEndpointUtil::copy(const Napi::CallbackInfo& info) {
+  OCEndpoint& dst = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  OCEndpoint& src = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
+  (void)oc_endpoint_copy(dst, src);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCEndpointUtil::free_endpoint(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  (void)oc_free_endpoint(endpoint);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCEndpointUtil::string_to_endpoint(const Napi::CallbackInfo& info) {
+  OCMmem& endpoint_str = *OCMmem::Unwrap(info[0].As<Napi::Object>());
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
+  OCMmem& uri = *OCMmem::Unwrap(info[2].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_string_to_endpoint(endpoint_str, endpoint, uri));
+}
+
+Napi::Value OCEndpointUtil::new_endpoint(const Napi::CallbackInfo& info) {
+  std::shared_ptr<oc_endpoint_t> sp(oc_new_endpoint());
+  auto args = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+  return OCEndpoint::constructor.New({args});
+}
+
+Napi::Value OCEndpointUtil::endpoint_string_parse_path(const Napi::CallbackInfo& info) {
+  OCMmem& endpoint_str = *OCMmem::Unwrap(info[0].As<Napi::Object>());
+  OCMmem& path = *OCMmem::Unwrap(info[1].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_endpoint_string_parse_path(endpoint_str, path));
+}
+
+Napi::Value OCEndpointUtil::set_di(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  OCUuid& di = *OCUuid::Unwrap(info[1].As<Napi::Object>());
+  (void)oc_endpoint_set_di(endpoint, di);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCEndpointUtil::ipv6_endpoint_is_link_local(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_ipv6_endpoint_is_link_local(endpoint));
+}
+
+Napi::Value OCEndpointUtil::compare_address(const Napi::CallbackInfo& info) {
+  OCEndpoint& ep1 = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_endpoint_compare_address(ep1, ep2));
+}
+
+Napi::Value OCEndpointUtil::set_local_address(const Napi::CallbackInfo& info) {
+  OCEndpoint& ep = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  int interface_index = static_cast<int>(info[1].As<Napi::Number>());
+  (void)oc_endpoint_set_local_address(ep, interface_index);
+  return info.Env().Undefined();
+}
+
+Napi::FunctionReference OCEndpointUtil::constructor;
+
+OCEnumUtil::OCEnumUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCEnumUtil::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCEnumUtil", {
+        OCEnumUtil::StaticMethod("enum_to_str", &OCEnumUtil::enum_to_str),
+        OCEnumUtil::StaticMethod("pos_desc_to_str", &OCEnumUtil::pos_desc_to_str),
+    });
+}
+
+Napi::Value OCEnumUtil::enum_to_str(const Napi::CallbackInfo& info) {
+  oc_enum_t val = static_cast<oc_enum_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::String::New(info.Env(), oc_enum_to_str(val));
+}
+
+Napi::Value OCEnumUtil::pos_desc_to_str(const Napi::CallbackInfo& info) {
+  oc_pos_description_t pos = static_cast<oc_pos_description_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::String::New(info.Env(), oc_enum_pos_desc_to_str(pos));
+}
+
+Napi::FunctionReference OCEnumUtil::constructor;
+
+OCIntrospection::OCIntrospection(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCIntrospection::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCIntrospection", {
+        OCIntrospection::StaticMethod("set_introspection_data", &OCIntrospection::set_introspection_data),
+    });
+}
+
+#if defined(OC_IDD_API)
+Napi::Value OCIntrospection::set_introspection_data(const Napi::CallbackInfo& info) {
+  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
+  uint8_t* IDD = info[1].As<Napi::Buffer<uint8_t>>().Data();
+  size_t IDD_size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
+  (void)oc_set_introspection_data(device, IDD, IDD_size);
+  return info.Env().Undefined();
+}
+#endif
+
+Napi::FunctionReference OCIntrospection::constructor;
+
 OCMain::OCMain(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCMain::GetClass(Napi::Env env) {
@@ -1207,385 +1703,6 @@ Napi::Value OCObt::shutdown(const Napi::CallbackInfo& info) {
 
 Napi::FunctionReference OCObt::constructor;
 
-OCBufferSettings::OCBufferSettings(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCBufferSettings::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCBufferSettings", {
-        OCBufferSettings::StaticMethod("set_mtu_size", &OCBufferSettings::set_mtu_size),
-        OCBufferSettings::StaticMethod("get_mtu_size", &OCBufferSettings::get_mtu_size),
-        OCBufferSettings::StaticMethod("set_max_app_data_size", &OCBufferSettings::set_max_app_data_size),
-        OCBufferSettings::StaticMethod("get_max_app_data_size", &OCBufferSettings::get_max_app_data_size),
-        OCBufferSettings::StaticMethod("get_block_size", &OCBufferSettings::get_block_size),
-    });
-}
-
-Napi::Value OCBufferSettings::set_mtu_size(const Napi::CallbackInfo& info) {
-  size_t mtu_size = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  return Napi::Number::New(info.Env(), oc_set_mtu_size(mtu_size));
-}
-
-Napi::Value OCBufferSettings::get_mtu_size(const Napi::CallbackInfo& info) {
-  return Napi::Number::New(info.Env(), oc_get_mtu_size());
-}
-
-Napi::Value OCBufferSettings::set_max_app_data_size(const Napi::CallbackInfo& info) {
-  size_t size = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  (void)oc_set_max_app_data_size(size);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCBufferSettings::get_max_app_data_size(const Napi::CallbackInfo& info) {
-  return Napi::Number::New(info.Env(), oc_get_max_app_data_size());
-}
-
-Napi::Value OCBufferSettings::get_block_size(const Napi::CallbackInfo& info) {
-  return Napi::Number::New(info.Env(), oc_get_block_size());
-}
-
-Napi::FunctionReference OCBufferSettings::constructor;
-
-OCClock::OCClock(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCClock::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCClock", {
-        OCClock::StaticMethod("clock_init", &OCClock::clock_init),
-        OCClock::StaticMethod("clock_time", &OCClock::clock_time),
-        OCClock::StaticMethod("clock_seconds", &OCClock::clock_seconds),
-        OCClock::StaticMethod("clock_wait", &OCClock::clock_wait),
-    });
-}
-
-Napi::Value OCClock::clock_init(const Napi::CallbackInfo& info) {
-  (void)oc_clock_init();
-  return info.Env().Undefined();
-}
-
-Napi::Value OCClock::clock_time(const Napi::CallbackInfo& info) {
-  return Napi::Number::New(info.Env(), oc_clock_time());
-}
-
-Napi::Value OCClock::clock_seconds(const Napi::CallbackInfo& info) {
-  return Napi::Number::New(info.Env(), oc_clock_seconds());
-}
-
-Napi::Value OCClock::clock_wait(const Napi::CallbackInfo& info) {
-  oc_clock_time_t t = static_cast<uint64_t>(info[0].As<Napi::Number>().Int64Value());
-  (void)oc_clock_wait(t);
-  return info.Env().Undefined();
-}
-
-Napi::FunctionReference OCClock::constructor;
-
-OCCloud::OCCloud(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCCloud::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCCloud", {
-        OCCloud::StaticMethod("get_context", &OCCloud::get_context),
-        OCCloud::StaticMethod("manager_start", &OCCloud::manager_start),
-        OCCloud::StaticMethod("manager_stop", &OCCloud::manager_stop),
-        OCCloud::StaticMethod("login", &OCCloud::login),
-        OCCloud::StaticMethod("logout", &OCCloud::logout),
-        OCCloud::StaticMethod("refresh_token", &OCCloud::refresh_token),
-        OCCloud::StaticMethod("get_token_expiry", &OCCloud::get_token_expiry),
-        OCCloud::StaticMethod("add_resource", &OCCloud::add_resource),
-        OCCloud::StaticMethod("delete_resource", &OCCloud::delete_resource),
-        OCCloud::StaticMethod("publish_resources", &OCCloud::publish_resources),
-        OCCloud::StaticMethod("discover_resources", &OCCloud::discover_resources),
-        OCCloud::StaticMethod("provision_conf_resource", &OCCloud::provision_conf_resource),
-    });
-}
-
-#if defined(OC_CLOUD)
-Napi::Value OCCloud::get_context(const Napi::CallbackInfo& info) {
-  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_cloud_context_t> sp(oc_cloud_get_context(device));
-  auto args = Napi::External<std::shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
-  return OCCloudContext::constructor.New({args});
-}
-#endif
-
-#if defined(OC_CLOUD)
-Napi::Value OCCloud::manager_start(const Napi::CallbackInfo& info) {
-  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
-  oc_cloud_cb_t cb = nullptr;
-  Napi::Function cb_ = info[1].As<Napi::Function>();
-  void* data = info[2];
-  return Napi::Number::New(info.Env(), oc_cloud_manager_start(ctx, cb, data));
-}
-#endif
-
-#if defined(OC_CLOUD)
-Napi::Value OCCloud::manager_stop(const Napi::CallbackInfo& info) {
-  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_cloud_manager_stop(ctx));
-}
-#endif
-
-#if defined(OC_CLOUD)
-Napi::Value OCCloud::login(const Napi::CallbackInfo& info) {
-  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
-  oc_cloud_cb_t cb = nullptr;
-  Napi::Function cb_ = info[1].As<Napi::Function>();
-  void* data = info[2];
-  return Napi::Number::New(info.Env(), oc_cloud_login(ctx, cb, data));
-}
-#endif
-
-#if defined(OC_CLOUD)
-Napi::Value OCCloud::logout(const Napi::CallbackInfo& info) {
-  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
-  oc_cloud_cb_t cb = nullptr;
-  Napi::Function cb_ = info[1].As<Napi::Function>();
-  void* data = info[2];
-  return Napi::Number::New(info.Env(), oc_cloud_logout(ctx, cb, data));
-}
-#endif
-
-#if defined(OC_CLOUD)
-Napi::Value OCCloud::refresh_token(const Napi::CallbackInfo& info) {
-  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
-  oc_cloud_cb_t cb = nullptr;
-  Napi::Function cb_ = info[1].As<Napi::Function>();
-  void* data = info[2];
-  return Napi::Number::New(info.Env(), oc_cloud_refresh_token(ctx, cb, data));
-}
-#endif
-
-#if defined(OC_CLOUD)
-Napi::Value OCCloud::get_token_expiry(const Napi::CallbackInfo& info) {
-  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_cloud_get_token_expiry(ctx));
-}
-#endif
-
-#if defined(OC_CLOUD)
-Napi::Value OCCloud::add_resource(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_cloud_add_resource(resource));
-}
-#endif
-
-#if defined(OC_CLOUD)
-Napi::Value OCCloud::delete_resource(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_cloud_delete_resource(resource);
-  return info.Env().Undefined();
-}
-#endif
-
-#if defined(OC_CLOUD)
-Napi::Value OCCloud::publish_resources(const Napi::CallbackInfo& info) {
-  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  return Napi::Number::New(info.Env(), oc_cloud_publish_resources(device));
-}
-#endif
-
-#if defined(OC_CLOUD)
-Napi::Value OCCloud::discover_resources(const Napi::CallbackInfo& info) {
-  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
-  oc_discovery_all_handler_t handler = nullptr;
-  Napi::Function handler_ = info[1].As<Napi::Function>();
-  void* user_data = info[2];
-  return Napi::Number::New(info.Env(), oc_cloud_discover_resources(ctx, handler, user_data));
-}
-#endif
-
-#if defined(OC_CLOUD)
-Napi::Value OCCloud::provision_conf_resource(const Napi::CallbackInfo& info) {
-  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
-  std::string server_ = info[1].As<Napi::String>().Utf8Value();
-  const char* server = server_.c_str();
-  std::string access_token_ = info[2].As<Napi::String>().Utf8Value();
-  const char* access_token = access_token_.c_str();
-  std::string server_id_ = info[3].As<Napi::String>().Utf8Value();
-  const char* server_id = server_id_.c_str();
-  std::string auth_provider_ = info[4].As<Napi::String>().Utf8Value();
-  const char* auth_provider = auth_provider_.c_str();
-  return Napi::Number::New(info.Env(), oc_cloud_provision_conf_resource(ctx, server, access_token, server_id, auth_provider));
-}
-#endif
-
-Napi::FunctionReference OCCloud::constructor;
-
-OCCredUtil::OCCredUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCCredUtil::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCCredUtil", {
-        OCCredUtil::StaticMethod("read_credusage", &OCCredUtil::read_credusage),
-        OCCredUtil::StaticMethod("read_encoding", &OCCredUtil::read_encoding),
-        OCCredUtil::StaticMethod("parse_credusage", &OCCredUtil::parse_credusage),
-        OCCredUtil::StaticMethod("parse_encoding", &OCCredUtil::parse_encoding),
-        OCCredUtil::StaticMethod("credtype_string", &OCCredUtil::credtype_string),
-    });
-}
-
-#if defined(OC_SECURITY) && defined(OC_PKI)
-Napi::Value OCCredUtil::read_credusage(const Napi::CallbackInfo& info) {
-  oc_sec_credusage_t credusage = static_cast<oc_sec_credusage_t>(info[0].As<Napi::Number>().Uint32Value());
-  return Napi::String::New(info.Env(), oc_cred_read_credusage(credusage));
-}
-#endif
-
-#if defined(OC_SECURITY)
-Napi::Value OCCredUtil::read_encoding(const Napi::CallbackInfo& info) {
-  oc_sec_encoding_t encoding = static_cast<oc_sec_encoding_t>(info[0].As<Napi::Number>().Uint32Value());
-  return Napi::String::New(info.Env(), oc_cred_read_encoding(encoding));
-}
-#endif
-
-#if defined(OC_SECURITY) && defined(OC_PKI)
-Napi::Value OCCredUtil::parse_credusage(const Napi::CallbackInfo& info) {
-  OCMmem& credusage_string = *OCMmem::Unwrap(info[0].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_cred_parse_credusage(credusage_string));
-}
-#endif
-
-#if defined(OC_SECURITY)
-Napi::Value OCCredUtil::parse_encoding(const Napi::CallbackInfo& info) {
-  OCMmem& encoding_string = *OCMmem::Unwrap(info[0].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_cred_parse_encoding(encoding_string));
-}
-#endif
-
-#if defined(OC_SECURITY)
-Napi::Value OCCredUtil::credtype_string(const Napi::CallbackInfo& info) {
-  oc_sec_credtype_t credtype = static_cast<oc_sec_credtype_t>(info[0].As<Napi::Number>().Uint32Value());
-  return Napi::String::New(info.Env(), oc_cred_credtype_string(credtype));
-}
-#endif
-
-Napi::FunctionReference OCCredUtil::constructor;
-
-OCEndpointUtil::OCEndpointUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCEndpointUtil::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCEndpointUtil", {
-        OCEndpointUtil::StaticMethod("to_string", &OCEndpointUtil::to_string),
-        OCEndpointUtil::StaticMethod("compare", &OCEndpointUtil::compare),
-        OCEndpointUtil::StaticMethod("copy", &OCEndpointUtil::copy),
-        OCEndpointUtil::StaticMethod("free_endpoint", &OCEndpointUtil::free_endpoint),
-        OCEndpointUtil::StaticMethod("string_to_endpoint", &OCEndpointUtil::string_to_endpoint),
-        OCEndpointUtil::StaticMethod("new_endpoint", &OCEndpointUtil::new_endpoint),
-        OCEndpointUtil::StaticMethod("endpoint_string_parse_path", &OCEndpointUtil::endpoint_string_parse_path),
-        OCEndpointUtil::StaticMethod("set_di", &OCEndpointUtil::set_di),
-        OCEndpointUtil::StaticMethod("ipv6_endpoint_is_link_local", &OCEndpointUtil::ipv6_endpoint_is_link_local),
-        OCEndpointUtil::StaticMethod("compare_address", &OCEndpointUtil::compare_address),
-        OCEndpointUtil::StaticMethod("set_local_address", &OCEndpointUtil::set_local_address),
-    });
-}
-
-Napi::Value OCEndpointUtil::to_string(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCMmem& endpoint_str = *OCMmem::Unwrap(info[1].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_endpoint_to_string(endpoint, endpoint_str));
-}
-
-Napi::Value OCEndpointUtil::compare(const Napi::CallbackInfo& info) {
-  OCEndpoint& ep1 = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_endpoint_compare(ep1, ep2));
-}
-
-Napi::Value OCEndpointUtil::copy(const Napi::CallbackInfo& info) {
-  OCEndpoint& dst = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCEndpoint& src = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
-  (void)oc_endpoint_copy(dst, src);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCEndpointUtil::free_endpoint(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_free_endpoint(endpoint);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCEndpointUtil::string_to_endpoint(const Napi::CallbackInfo& info) {
-  OCMmem& endpoint_str = *OCMmem::Unwrap(info[0].As<Napi::Object>());
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
-  OCMmem& uri = *OCMmem::Unwrap(info[2].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_string_to_endpoint(endpoint_str, endpoint, uri));
-}
-
-Napi::Value OCEndpointUtil::new_endpoint(const Napi::CallbackInfo& info) {
-  std::shared_ptr<oc_endpoint_t> sp(oc_new_endpoint());
-  auto args = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
-  return OCEndpoint::constructor.New({args});
-}
-
-Napi::Value OCEndpointUtil::endpoint_string_parse_path(const Napi::CallbackInfo& info) {
-  OCMmem& endpoint_str = *OCMmem::Unwrap(info[0].As<Napi::Object>());
-  OCMmem& path = *OCMmem::Unwrap(info[1].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_endpoint_string_parse_path(endpoint_str, path));
-}
-
-Napi::Value OCEndpointUtil::set_di(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCUuid& di = *OCUuid::Unwrap(info[1].As<Napi::Object>());
-  (void)oc_endpoint_set_di(endpoint, di);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCEndpointUtil::ipv6_endpoint_is_link_local(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_ipv6_endpoint_is_link_local(endpoint));
-}
-
-Napi::Value OCEndpointUtil::compare_address(const Napi::CallbackInfo& info) {
-  OCEndpoint& ep1 = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_endpoint_compare_address(ep1, ep2));
-}
-
-Napi::Value OCEndpointUtil::set_local_address(const Napi::CallbackInfo& info) {
-  OCEndpoint& ep = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  int interface_index = static_cast<int>(info[1].As<Napi::Number>());
-  (void)oc_endpoint_set_local_address(ep, interface_index);
-  return info.Env().Undefined();
-}
-
-Napi::FunctionReference OCEndpointUtil::constructor;
-
-OCEnumUtil::OCEnumUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCEnumUtil::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCEnumUtil", {
-        OCEnumUtil::StaticMethod("enum_to_str", &OCEnumUtil::enum_to_str),
-        OCEnumUtil::StaticMethod("pos_desc_to_str", &OCEnumUtil::pos_desc_to_str),
-    });
-}
-
-Napi::Value OCEnumUtil::enum_to_str(const Napi::CallbackInfo& info) {
-  oc_enum_t val = static_cast<oc_enum_t>(info[0].As<Napi::Number>().Uint32Value());
-  return Napi::String::New(info.Env(), oc_enum_to_str(val));
-}
-
-Napi::Value OCEnumUtil::pos_desc_to_str(const Napi::CallbackInfo& info) {
-  oc_pos_description_t pos = static_cast<oc_pos_description_t>(info[0].As<Napi::Number>().Uint32Value());
-  return Napi::String::New(info.Env(), oc_enum_pos_desc_to_str(pos));
-}
-
-Napi::FunctionReference OCEnumUtil::constructor;
-
-OCIntrospection::OCIntrospection(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCIntrospection::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCIntrospection", {
-        OCIntrospection::StaticMethod("set_introspection_data", &OCIntrospection::set_introspection_data),
-    });
-}
-
-#if defined(OC_IDD_API)
-Napi::Value OCIntrospection::set_introspection_data(const Napi::CallbackInfo& info) {
-  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  uint8_t* IDD = info[1].As<Napi::Buffer<uint8_t>>().Data();
-  size_t IDD_size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
-  (void)oc_set_introspection_data(device, IDD, IDD_size);
-  return info.Env().Undefined();
-}
-#endif
-
-Napi::FunctionReference OCIntrospection::constructor;
-
 OCPki::OCPki(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCPki::GetClass(Napi::Env env) {
@@ -1675,282 +1792,6 @@ Napi::Value OCRandom::random_value(const Napi::CallbackInfo& info) {
 }
 
 Napi::FunctionReference OCRandom::constructor;
-
-OCSessionEvents::OCSessionEvents(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCSessionEvents::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCSessionEvents", {
-        OCSessionEvents::StaticMethod("start_event", &OCSessionEvents::start_event),
-        OCSessionEvents::StaticMethod("end_event", &OCSessionEvents::end_event),
-        OCSessionEvents::StaticMethod("set_event_delay", &OCSessionEvents::set_event_delay),
-    });
-}
-
-#if defined(OC_TCP)
-Napi::Value OCSessionEvents::start_event(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_session_start_event(endpoint);
-  return info.Env().Undefined();
-}
-#endif
-
-#if defined(OC_TCP)
-Napi::Value OCSessionEvents::end_event(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_session_end_event(endpoint);
-  return info.Env().Undefined();
-}
-#endif
-
-#if defined(OC_TCP)
-Napi::Value OCSessionEvents::set_event_delay(const Napi::CallbackInfo& info) {
-  int secs = static_cast<int>(info[0].As<Napi::Number>());
-  (void)oc_session_events_set_event_delay(secs);
-  return info.Env().Undefined();
-}
-#endif
-
-Napi::FunctionReference OCSessionEvents::constructor;
-
-OCSoftwareUpdate::OCSoftwareUpdate(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCSoftwareUpdate::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCSoftwareUpdate", {
-        OCSoftwareUpdate::StaticMethod("notify_downloaded", &OCSoftwareUpdate::notify_downloaded),
-        OCSoftwareUpdate::StaticMethod("notify_upgrading", &OCSoftwareUpdate::notify_upgrading),
-        OCSoftwareUpdate::StaticMethod("notify_done", &OCSoftwareUpdate::notify_done),
-        OCSoftwareUpdate::StaticMethod("notify_new_version_available", &OCSoftwareUpdate::notify_new_version_available),
-        OCSoftwareUpdate::StaticMethod("set_impl", &OCSoftwareUpdate::set_impl),
-    });
-}
-
-#if defined(OC_SOFTWARE_UPDATE)
-Napi::Value OCSoftwareUpdate::notify_downloaded(const Napi::CallbackInfo& info) {
-  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  std::string version_ = info[1].As<Napi::String>().Utf8Value();
-  const char* version = version_.c_str();
-  oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[2].As<Napi::Number>().Uint32Value());
-  (void)oc_swupdate_notify_downloaded(device, version, result);
-  return info.Env().Undefined();
-}
-#endif
-
-#if defined(OC_SOFTWARE_UPDATE)
-Napi::Value OCSoftwareUpdate::notify_upgrading(const Napi::CallbackInfo& info) {
-  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  std::string version_ = info[1].As<Napi::String>().Utf8Value();
-  const char* version = version_.c_str();
-  oc_clock_time_t timestamp = static_cast<uint64_t>(info[2].As<Napi::Number>().Int64Value());
-  oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[3].As<Napi::Number>().Uint32Value());
-  (void)oc_swupdate_notify_upgrading(device, version, timestamp, result);
-  return info.Env().Undefined();
-}
-#endif
-
-#if defined(OC_SOFTWARE_UPDATE)
-Napi::Value OCSoftwareUpdate::notify_done(const Napi::CallbackInfo& info) {
-  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[1].As<Napi::Number>().Uint32Value());
-  (void)oc_swupdate_notify_done(device, result);
-  return info.Env().Undefined();
-}
-#endif
-
-#if defined(OC_SOFTWARE_UPDATE)
-Napi::Value OCSoftwareUpdate::notify_new_version_available(const Napi::CallbackInfo& info) {
-  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  std::string version_ = info[1].As<Napi::String>().Utf8Value();
-  const char* version = version_.c_str();
-  oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[2].As<Napi::Number>().Uint32Value());
-  (void)oc_swupdate_notify_new_version_available(device, version, result);
-  return info.Env().Undefined();
-}
-#endif
-
-#if defined(OC_SOFTWARE_UPDATE)
-Napi::Value OCSoftwareUpdate::set_impl(const Napi::CallbackInfo& info) {
-  OCSoftwareUpdateHandler& swupdate_impl = *OCSoftwareUpdateHandler::Unwrap(info[0].As<Napi::Object>());
-  oc_swupdate_cb_validate_purl_ref.Reset(swupdate_impl.validate_purl.Value());
-  oc_swupdate_cb_check_new_version_ref.Reset(swupdate_impl.check_new_version.Value());
-  oc_swupdate_cb_download_update_ref.Reset(swupdate_impl.download_update.Value());
-  oc_swupdate_cb_perform_upgrade_ref.Reset(swupdate_impl.perform_upgrade.Value());
-  swupdate_impl.m_pvalue->validate_purl = oc_swupdate_cb_validate_purl_helper;
-  swupdate_impl.m_pvalue->check_new_version = oc_swupdate_cb_check_new_version_helper;
-  swupdate_impl.m_pvalue->download_update = oc_swupdate_cb_download_update_helper;
-  swupdate_impl.m_pvalue->perform_upgrade = oc_swupdate_cb_perform_upgrade_helper;
-  (void)oc_swupdate_set_impl(swupdate_impl);
-  return info.Env().Undefined();
-}
-#endif
-
-Napi::FunctionReference OCSoftwareUpdate::constructor;
-
-OCStorage::OCStorage(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCStorage::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCStorage", {
-        OCStorage::StaticMethod("storage_config", &OCStorage::storage_config),
-    });
-}
-
-Napi::Value OCStorage::storage_config(const Napi::CallbackInfo& info) {
-  std::string store_ = info[0].As<Napi::String>().Utf8Value();
-  const char* store = store_.c_str();
-  return Napi::Number::New(info.Env(), oc_storage_config(store));
-}
-
-Napi::FunctionReference OCStorage::constructor;
-
-OCUuidUtil::OCUuidUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCUuidUtil::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCUuidUtil", {
-        OCUuidUtil::StaticMethod("str_to_uuid", &OCUuidUtil::str_to_uuid),
-        OCUuidUtil::StaticMethod("uuid_to_str", &OCUuidUtil::uuid_to_str),
-        OCUuidUtil::StaticMethod("gen_uuid", &OCUuidUtil::gen_uuid),
-    });
-}
-
-Napi::Value OCUuidUtil::str_to_uuid(const Napi::CallbackInfo& info) {
-  std::string str_ = info[0].As<Napi::String>().Utf8Value();
-  const char* str = str_.c_str();
-  OCUuid& uuid = *OCUuid::Unwrap(info[1].As<Napi::Object>());
-  (void)oc_str_to_uuid(str, uuid);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCUuidUtil::uuid_to_str(const Napi::CallbackInfo& info) {
-  OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
-  char* buffer = const_cast<char*>(info[1].As<Napi::String>().Utf8Value().c_str());
-  int buflen = static_cast<int>(info[2].As<Napi::Number>());
-  (void)oc_uuid_to_str(uuid, buffer, buflen);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCUuidUtil::gen_uuid(const Napi::CallbackInfo& info) {
-  OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_gen_uuid(uuid);
-  return info.Env().Undefined();
-}
-
-Napi::FunctionReference OCUuidUtil::constructor;
-
-OCCoreRes::OCCoreRes(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCCoreRes::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCCoreRes", {
-        OCCoreRes::StaticMethod("init", &OCCoreRes::init),
-        OCCoreRes::StaticMethod("init_platform", &OCCoreRes::init_platform),
-        OCCoreRes::StaticMethod("shutdown", &OCCoreRes::shutdown),
-        OCCoreRes::StaticMethod("get_num_devices", &OCCoreRes::get_num_devices),
-        OCCoreRes::StaticMethod("get_device_id", &OCCoreRes::get_device_id),
-        OCCoreRes::StaticMethod("get_device_info", &OCCoreRes::get_device_info),
-        OCCoreRes::StaticMethod("get_platform_info", &OCCoreRes::get_platform_info),
-        OCCoreRes::StaticMethod("get_resource_by_uri", &OCCoreRes::get_resource_by_uri),
-        OCCoreRes::StaticMethod("filter_resource_by_rt", &OCCoreRes::filter_resource_by_rt),
-        OCCoreRes::StaticMethod("is_DCR", &OCCoreRes::is_DCR),
-        OCCoreRes::StaticMethod("set_latency", &OCCoreRes::set_latency),
-        OCCoreRes::StaticMethod("get_latency", &OCCoreRes::get_latency),
-        OCCoreRes::StaticMethod("add_new_device", &OCCoreRes::add_new_device),
-    });
-}
-
-Napi::Value OCCoreRes::init(const Napi::CallbackInfo& info) {
-  (void)oc_core_init();
-  return info.Env().Undefined();
-}
-
-Napi::Value OCCoreRes::init_platform(const Napi::CallbackInfo& info) {
-  std::string mfg_name_ = info[0].As<Napi::String>().Utf8Value();
-  const char* mfg_name = mfg_name_.c_str();
-  oc_core_init_platform_cb_t init_cb = nullptr;
-  Napi::Function init_cb_ = info[1].As<Napi::Function>();
-  void* data = info[2];
-  std::shared_ptr<oc_platform_info_t> sp(oc_core_init_platform(mfg_name, init_cb, data));
-  auto args = Napi::External<std::shared_ptr<oc_platform_info_t>>::New(info.Env(), &sp);
-  return OCPlatformInfo::constructor.New({args});
-}
-
-Napi::Value OCCoreRes::shutdown(const Napi::CallbackInfo& info) {
-  (void)oc_core_shutdown();
-  return info.Env().Undefined();
-}
-
-Napi::Value OCCoreRes::get_num_devices(const Napi::CallbackInfo& info) {
-  return Napi::Number::New(info.Env(), oc_core_get_num_devices());
-}
-
-Napi::Value OCCoreRes::get_device_id(const Napi::CallbackInfo& info) {
-  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_uuid_t> sp(oc_core_get_device_id(device));
-  auto args = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
-  return OCUuid::constructor.New({args});
-}
-
-Napi::Value OCCoreRes::get_device_info(const Napi::CallbackInfo& info) {
-  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_device_info_t> sp(oc_core_get_device_info(device));
-  auto args = Napi::External<std::shared_ptr<oc_device_info_t>>::New(info.Env(), &sp);
-  return OCDeviceInfo::constructor.New({args});
-}
-
-Napi::Value OCCoreRes::get_platform_info(const Napi::CallbackInfo& info) {
-  std::shared_ptr<oc_platform_info_t> sp(oc_core_get_platform_info());
-  auto args = Napi::External<std::shared_ptr<oc_platform_info_t>>::New(info.Env(), &sp);
-  return OCPlatformInfo::constructor.New({args});
-}
-
-Napi::Value OCCoreRes::get_resource_by_uri(const Napi::CallbackInfo& info) {
-  std::string uri_ = info[0].As<Napi::String>().Utf8Value();
-  const char* uri = uri_.c_str();
-  size_t device = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_resource_t> sp(oc_core_get_resource_by_uri(uri, device));
-  auto args = Napi::External<std::shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
-  return OCResource::constructor.New({args});
-}
-
-Napi::Value OCCoreRes::filter_resource_by_rt(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  OCRequest& request = *OCRequest::Unwrap(info[1].As<Napi::Object>());
-  return Napi::Boolean::New(info.Env(), oc_filter_resource_by_rt(resource, request));
-}
-
-Napi::Value OCCoreRes::is_DCR(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  size_t device = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-  return Napi::Boolean::New(info.Env(), oc_core_is_DCR(resource, device));
-}
-
-Napi::Value OCCoreRes::set_latency(const Napi::CallbackInfo& info) {
-  int latency = static_cast<int>(info[0].As<Napi::Number>());
-  (void)oc_core_set_latency(latency);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCCoreRes::get_latency(const Napi::CallbackInfo& info) {
-  return Napi::Number::New(info.Env(), oc_core_get_latency());
-}
-
-Napi::Value OCCoreRes::add_new_device(const Napi::CallbackInfo& info) {
-  std::string uri_ = info[0].As<Napi::String>().Utf8Value();
-  const char* uri = uri_.c_str();
-  std::string rt_ = info[1].As<Napi::String>().Utf8Value();
-  const char* rt = rt_.c_str();
-  std::string name_ = info[2].As<Napi::String>().Utf8Value();
-  const char* name = name_.c_str();
-  std::string spec_version_ = info[3].As<Napi::String>().Utf8Value();
-  const char* spec_version = spec_version_.c_str();
-  std::string data_model_version_ = info[4].As<Napi::String>().Utf8Value();
-  const char* data_model_version = data_model_version_.c_str();
-  oc_core_add_device_cb_t add_device_cb = nullptr;
-  Napi::Function add_device_cb_ = info[5].As<Napi::Function>();
-  void* data = info[6];
-  std::shared_ptr<oc_device_info_t> sp(oc_core_add_new_device(uri, rt, name, spec_version, data_model_version, add_device_cb, data));
-  auto args = Napi::External<std::shared_ptr<oc_device_info_t>>::New(info.Env(), &sp);
-  return OCDeviceInfo::constructor.New({args});
-}
-
-Napi::FunctionReference OCCoreRes::constructor;
 
 OCRep::OCRep(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
@@ -2385,4 +2226,163 @@ Napi::Value OCRep::to_json(const Napi::CallbackInfo& info) {
 }
 
 Napi::FunctionReference OCRep::constructor;
+
+OCSessionEvents::OCSessionEvents(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCSessionEvents::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCSessionEvents", {
+        OCSessionEvents::StaticMethod("start_event", &OCSessionEvents::start_event),
+        OCSessionEvents::StaticMethod("end_event", &OCSessionEvents::end_event),
+        OCSessionEvents::StaticMethod("set_event_delay", &OCSessionEvents::set_event_delay),
+    });
+}
+
+#if defined(OC_TCP)
+Napi::Value OCSessionEvents::start_event(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  (void)oc_session_start_event(endpoint);
+  return info.Env().Undefined();
+}
+#endif
+
+#if defined(OC_TCP)
+Napi::Value OCSessionEvents::end_event(const Napi::CallbackInfo& info) {
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  (void)oc_session_end_event(endpoint);
+  return info.Env().Undefined();
+}
+#endif
+
+#if defined(OC_TCP)
+Napi::Value OCSessionEvents::set_event_delay(const Napi::CallbackInfo& info) {
+  int secs = static_cast<int>(info[0].As<Napi::Number>());
+  (void)oc_session_events_set_event_delay(secs);
+  return info.Env().Undefined();
+}
+#endif
+
+Napi::FunctionReference OCSessionEvents::constructor;
+
+OCSoftwareUpdate::OCSoftwareUpdate(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCSoftwareUpdate::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCSoftwareUpdate", {
+        OCSoftwareUpdate::StaticMethod("notify_downloaded", &OCSoftwareUpdate::notify_downloaded),
+        OCSoftwareUpdate::StaticMethod("notify_upgrading", &OCSoftwareUpdate::notify_upgrading),
+        OCSoftwareUpdate::StaticMethod("notify_done", &OCSoftwareUpdate::notify_done),
+        OCSoftwareUpdate::StaticMethod("notify_new_version_available", &OCSoftwareUpdate::notify_new_version_available),
+        OCSoftwareUpdate::StaticMethod("set_impl", &OCSoftwareUpdate::set_impl),
+    });
+}
+
+#if defined(OC_SOFTWARE_UPDATE)
+Napi::Value OCSoftwareUpdate::notify_downloaded(const Napi::CallbackInfo& info) {
+  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
+  std::string version_ = info[1].As<Napi::String>().Utf8Value();
+  const char* version = version_.c_str();
+  oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[2].As<Napi::Number>().Uint32Value());
+  (void)oc_swupdate_notify_downloaded(device, version, result);
+  return info.Env().Undefined();
+}
+#endif
+
+#if defined(OC_SOFTWARE_UPDATE)
+Napi::Value OCSoftwareUpdate::notify_upgrading(const Napi::CallbackInfo& info) {
+  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
+  std::string version_ = info[1].As<Napi::String>().Utf8Value();
+  const char* version = version_.c_str();
+  oc_clock_time_t timestamp = static_cast<uint64_t>(info[2].As<Napi::Number>().Int64Value());
+  oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[3].As<Napi::Number>().Uint32Value());
+  (void)oc_swupdate_notify_upgrading(device, version, timestamp, result);
+  return info.Env().Undefined();
+}
+#endif
+
+#if defined(OC_SOFTWARE_UPDATE)
+Napi::Value OCSoftwareUpdate::notify_done(const Napi::CallbackInfo& info) {
+  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
+  oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[1].As<Napi::Number>().Uint32Value());
+  (void)oc_swupdate_notify_done(device, result);
+  return info.Env().Undefined();
+}
+#endif
+
+#if defined(OC_SOFTWARE_UPDATE)
+Napi::Value OCSoftwareUpdate::notify_new_version_available(const Napi::CallbackInfo& info) {
+  size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
+  std::string version_ = info[1].As<Napi::String>().Utf8Value();
+  const char* version = version_.c_str();
+  oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[2].As<Napi::Number>().Uint32Value());
+  (void)oc_swupdate_notify_new_version_available(device, version, result);
+  return info.Env().Undefined();
+}
+#endif
+
+#if defined(OC_SOFTWARE_UPDATE)
+Napi::Value OCSoftwareUpdate::set_impl(const Napi::CallbackInfo& info) {
+  OCSoftwareUpdateHandler& swupdate_impl = *OCSoftwareUpdateHandler::Unwrap(info[0].As<Napi::Object>());
+  oc_swupdate_cb_validate_purl_ref.Reset(swupdate_impl.validate_purl.Value());
+  oc_swupdate_cb_check_new_version_ref.Reset(swupdate_impl.check_new_version.Value());
+  oc_swupdate_cb_download_update_ref.Reset(swupdate_impl.download_update.Value());
+  oc_swupdate_cb_perform_upgrade_ref.Reset(swupdate_impl.perform_upgrade.Value());
+  swupdate_impl.m_pvalue->validate_purl = oc_swupdate_cb_validate_purl_helper;
+  swupdate_impl.m_pvalue->check_new_version = oc_swupdate_cb_check_new_version_helper;
+  swupdate_impl.m_pvalue->download_update = oc_swupdate_cb_download_update_helper;
+  swupdate_impl.m_pvalue->perform_upgrade = oc_swupdate_cb_perform_upgrade_helper;
+  (void)oc_swupdate_set_impl(swupdate_impl);
+  return info.Env().Undefined();
+}
+#endif
+
+Napi::FunctionReference OCSoftwareUpdate::constructor;
+
+OCStorage::OCStorage(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCStorage::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCStorage", {
+        OCStorage::StaticMethod("storage_config", &OCStorage::storage_config),
+    });
+}
+
+Napi::Value OCStorage::storage_config(const Napi::CallbackInfo& info) {
+  std::string store_ = info[0].As<Napi::String>().Utf8Value();
+  const char* store = store_.c_str();
+  return Napi::Number::New(info.Env(), oc_storage_config(store));
+}
+
+Napi::FunctionReference OCStorage::constructor;
+
+OCUuidUtil::OCUuidUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCUuidUtil::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCUuidUtil", {
+        OCUuidUtil::StaticMethod("str_to_uuid", &OCUuidUtil::str_to_uuid),
+        OCUuidUtil::StaticMethod("uuid_to_str", &OCUuidUtil::uuid_to_str),
+        OCUuidUtil::StaticMethod("gen_uuid", &OCUuidUtil::gen_uuid),
+    });
+}
+
+Napi::Value OCUuidUtil::str_to_uuid(const Napi::CallbackInfo& info) {
+  std::string str_ = info[0].As<Napi::String>().Utf8Value();
+  const char* str = str_.c_str();
+  OCUuid& uuid = *OCUuid::Unwrap(info[1].As<Napi::Object>());
+  (void)oc_str_to_uuid(str, uuid);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCUuidUtil::uuid_to_str(const Napi::CallbackInfo& info) {
+  OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
+  char* buffer = const_cast<char*>(info[1].As<Napi::String>().Utf8Value().c_str());
+  int buflen = static_cast<int>(info[2].As<Napi::Number>());
+  (void)oc_uuid_to_str(uuid, buffer, buflen);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCUuidUtil::gen_uuid(const Napi::CallbackInfo& info) {
+  OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
+  (void)oc_gen_uuid(uuid);
+  return info.Env().Undefined();
+}
+
+Napi::FunctionReference OCUuidUtil::constructor;
 

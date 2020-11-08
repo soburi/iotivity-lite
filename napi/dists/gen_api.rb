@@ -1802,7 +1802,8 @@ File.open('src/functions.h', 'w') do |f|
   #  end
   #end 
 
-  func_table.each do |key, h|
+  func_table.keys.sort.each do |key|
+    h = func_table[key]
     next if IGNORE_FUNCS.include?(key)
     next if apis.values.collect{|v| v.values }.flatten.include?(key)
     expset = gen_funcdecl(key, h) + "\n"
@@ -1825,7 +1826,8 @@ File.open('src/functions.cc', 'w') do |f|
   #    f.print gen_funcimpl(key, h) + "\n"
   #  end
   #end 
-  func_table.each do |key, h|
+  func_table.keys.sort.each do |key|
+    h = func_table[key]
     next if IGNORE_FUNCS.include?(key)
     next if apis.values.collect{|v| v.values }.flatten.include?(key)
     expset = gen_funcimpl("N_"+ key, key, h)
@@ -1842,7 +1844,8 @@ File.open('src/binding.cc', 'w') do |f|
   f.print "#include \"functions.h\"\n"
 
   f.print "Napi::Object module_init(Napi::Env env, Napi::Object exports) {\n"
-  struct_table.each do |key, h|
+  struct_table.keys.sort.each do |key|
+    h = func_table[key]
     if not (IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil)
       impl = "  exports.Set(\"#{gen_classname(key).gsub(/^OC/,'')}\", #{gen_classname(key)}::GetClass(env));\n"
       if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
@@ -1853,7 +1856,8 @@ File.open('src/binding.cc', 'w') do |f|
   end
 
 
-  enum_table.each do |key, h|
+  enum_table.keys.sort.each do |key|
+    h = func_table[key]
     if not (IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil)
       impl = "  exports.Set(\"#{gen_classname(key).gsub(/^OC/,'')}\", #{gen_classname(key)}::GetClass(env));\n"
       if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
@@ -1880,7 +1884,7 @@ end
 
 File.open('src/iotivity_lite.h', 'w') do |f|
   f.print HPROLOGUE
-  apis.keys.each do |cls|
+  apis.keys.sort.each do |cls|
     f.print APICLSDECL.gsub(/CLASS/, cls)
     apis[cls].keys.each do |mtd|
       f.print MTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
@@ -1892,13 +1896,13 @@ end
 
 File.open('src/iotivity_lite.cc', 'w') do |f|
   f.print CCPROLOGUE
-  apis.keys.each do |cls|
+  apis.keys.sort.each do |cls|
     f.print EXPORTIMPL.gsub(/NAMESPACE/, cls.gsub(/^OC/, '')).gsub(/CLASS/, cls)
   end
   f.print "    return module_init(env, exports);\n"
   f.print "}\n"
 
-  apis.keys.each do |cls|
+  apis.keys.sort.each do |cls|
     f.print BINDIMPL.gsub(/CLASS/, cls)
     apis[cls].keys.each do |mtd|
       f.print MTDBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
