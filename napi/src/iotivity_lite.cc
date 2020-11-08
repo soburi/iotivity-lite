@@ -24,6 +24,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("Pki", OCPki::GetClass(env));
     exports.Set("Random", OCRandom::GetClass(env));
     exports.Set("Representation", OCRepresentation::GetClass(env));
+    exports.Set("Resource", OCResource::GetClass(env));
     exports.Set("SessionEvents", OCSessionEvents::GetClass(env));
     exports.Set("SoftwareUpdate", OCSoftwareUpdate::GetClass(env));
     exports.Set("Storage", OCStorage::GetClass(env));

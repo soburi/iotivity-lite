@@ -291,5 +291,15 @@
 	"remove_network_interface_event_callback": "oc_remove_network_interface_event_callback",
 	"add_session_event_callback": "oc_add_session_event_callback",
 	"remove_session_event_callback": "oc_remove_session_event_callback"
+  },
+  "OCResource": {
+	"bind_resource_interface": "oc_resource_bind_resource_interface",
+	"bind_resource_type": "oc_resource_bind_resource_type",
+	"make_public": "oc_resource_make_public",
+	"set_discoverable": "oc_resource_set_discoverable",
+	"set_observable": "oc_resource_set_observable",
+	"set_periodic_observable": "oc_resource_set_periodic_observable",
+	"set_properties_cbs": "oc_resource_set_properties_cbs",
+	"set_request_handler": "oc_resource_set_request_handler"
   }
 }
