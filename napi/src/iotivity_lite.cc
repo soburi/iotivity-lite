@@ -1799,10 +1799,10 @@ Value OCSWUpdate::notify_new_version_available(const CallbackInfo& info) {
 #if defined(OC_SOFTWARE_UPDATE)
 Value OCSWUpdate::set_impl(const CallbackInfo& info) {
     OCSoftwareUpdateHandler& swupdate_impl = *OCSoftwareUpdateHandler::Unwrap(info[0].As<Object>());
-    oc_swupdate_cb_validate_purl_ref.Reset(swupdate_impl.validate_purl.Value());
-    oc_swupdate_cb_check_new_version_ref.Reset(swupdate_impl.check_new_version.Value());
-    oc_swupdate_cb_download_update_ref.Reset(swupdate_impl.download_update.Value());
-    oc_swupdate_cb_perform_upgrade_ref.Reset(swupdate_impl.perform_upgrade.Value());
+    main_context->oc_swupdate_cb_validate_purl_ref.Reset(swupdate_impl.validate_purl.Value());
+    main_context->oc_swupdate_cb_check_new_version_ref.Reset(swupdate_impl.check_new_version.Value());
+    main_context->oc_swupdate_cb_download_update_ref.Reset(swupdate_impl.download_update.Value());
+    main_context->oc_swupdate_cb_perform_upgrade_ref.Reset(swupdate_impl.perform_upgrade.Value());
     swupdate_impl.m_pvalue->validate_purl = oc_swupdate_cb_validate_purl_helper;
     swupdate_impl.m_pvalue->check_new_version = oc_swupdate_cb_check_new_version_helper;
     swupdate_impl.m_pvalue->download_update = oc_swupdate_cb_download_update_helper;

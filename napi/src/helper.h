@@ -35,6 +35,11 @@ struct main_context_t {
 
 
 
+    Napi::FunctionReference oc_swupdate_cb_validate_purl_ref;
+    Napi::FunctionReference oc_swupdate_cb_check_new_version_ref;
+    Napi::FunctionReference oc_swupdate_cb_download_update_ref;
+    Napi::FunctionReference oc_swupdate_cb_perform_upgrade_ref;
+
     std::vector< std::shared_ptr<SafeCallbackHelper> > callback_helper_array;
 
     int jni_quit;

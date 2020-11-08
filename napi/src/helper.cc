@@ -9,10 +9,6 @@ using namespace Napi;
 struct main_context_t* main_context;
 main_loop_t* main_loop_ctx;
 
-FunctionReference oc_swupdate_cb_validate_purl_ref;
-FunctionReference oc_swupdate_cb_check_new_version_ref;
-FunctionReference oc_swupdate_cb_download_update_ref;
-FunctionReference oc_swupdate_cb_perform_upgrade_ref;
 
 SafeCallbackHelper::SafeCallbackHelper(const Function& fn, const Value& val)
     : function(fn)
@@ -386,8 +382,8 @@ void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* dat
 
 int oc_swupdate_cb_validate_purl_helper(const char *url)
 {
-    String Nurl = String::New(oc_swupdate_cb_validate_purl_ref.Env(), url);
-    Value ret = oc_swupdate_cb_validate_purl_ref.Call({Nurl});
+    String Nurl = String::New(main_context->oc_swupdate_cb_validate_purl_ref.Env(), url);
+    Value ret = main_context->oc_swupdate_cb_validate_purl_ref.Call({Nurl});
     if(ret.IsNumber()) {
         return ret.As<Number>().Int32Value();
     }
@@ -396,10 +392,10 @@ int oc_swupdate_cb_validate_purl_helper(const char *url)
 
 int oc_swupdate_cb_check_new_version_helper(size_t device, const char *url, const char *version)
 {
-    Number Ndevice = Number::New(oc_swupdate_cb_check_new_version_ref.Env(), device);
-    String Nurl = String::New(oc_swupdate_cb_check_new_version_ref.Env(), url);
-    String Nversion = String::New(oc_swupdate_cb_check_new_version_ref.Env(), version);
-    Value ret = oc_swupdate_cb_check_new_version_ref.Call({Ndevice, Nurl, Nversion});
+    Number Ndevice = Number::New(main_context->oc_swupdate_cb_check_new_version_ref.Env(), device);
+    String Nurl = String::New(main_context->oc_swupdate_cb_check_new_version_ref.Env(), url);
+    String Nversion = String::New(main_context->oc_swupdate_cb_check_new_version_ref.Env(), version);
+    Value ret = main_context->oc_swupdate_cb_check_new_version_ref.Call({Ndevice, Nurl, Nversion});
     if(ret.IsNumber()) {
         return ret.As<Number>().Int32Value();
     }
@@ -408,9 +404,9 @@ int oc_swupdate_cb_check_new_version_helper(size_t device, const char *url, cons
 
 int oc_swupdate_cb_download_update_helper(size_t device, const char *url)
 {
-    Number Ndevice = Number::New(oc_swupdate_cb_download_update_ref.Env(), device);
-    String Nurl = String::New(oc_swupdate_cb_download_update_ref.Env(), url);
-    Value ret = oc_swupdate_cb_download_update_ref.Call({Ndevice, Nurl});
+    Number Ndevice = Number::New(main_context->oc_swupdate_cb_download_update_ref.Env(), device);
+    String Nurl = String::New(main_context->oc_swupdate_cb_download_update_ref.Env(), url);
+    Value ret = main_context->oc_swupdate_cb_download_update_ref.Call({Ndevice, Nurl});
     if(ret.IsNumber()) {
         return ret.As<Number>().Int32Value();
     }
@@ -419,9 +415,9 @@ int oc_swupdate_cb_download_update_helper(size_t device, const char *url)
 
 int oc_swupdate_cb_perform_upgrade_helper(size_t device, const char *url)
 {
-    Number Ndevice = Number::New(oc_swupdate_cb_perform_upgrade_ref.Env(), device);
-    String Nurl = String::New(oc_swupdate_cb_perform_upgrade_ref.Env(), url);
-    Value ret = oc_swupdate_cb_perform_upgrade_ref.Call({Ndevice, Nurl});
+    Number Ndevice = Number::New(main_context->oc_swupdate_cb_perform_upgrade_ref.Env(), device);
+    String Nurl = String::New(main_context->oc_swupdate_cb_perform_upgrade_ref.Env(), url);
+    Value ret = main_context->oc_swupdate_cb_perform_upgrade_ref.Call({Ndevice, Nurl});
     if(ret.IsNumber()) {
         return ret.As<Number>().Int32Value();
     }
