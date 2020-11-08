@@ -69,6 +69,7 @@ HPROLOGUE = <<HPROLOGUE
 #pragma once
 
 #include <napi.h>
+#include <oc_rep.h>
 
 HPROLOGUE
 
@@ -862,8 +863,9 @@ WRAPPERNAME = { 'oc_ipv4_addr_t' => "OCIPv4Addr",
                 'transport_flags' => 'OCTransportFlags',
                 'enum transport_flags' => 'OCTransportFlags',
                 'oc_rep_s::oc_rep_value' => 'OCValue',
-                'oc_rep_t*' => 'OCRepresentation',
+                'oc_rep_t' => 'OCRepresentation',
                 'oc_rep_s' => 'OCRepresentation',
+                'oc_rep_t*' => 'OCRepresentation',
                 'oc_rep_s*' => 'OCRepresentation',
                 'CborEncoder' => 'OCCborEncoder',
                 'oc_array_t' => 'OCArray',
