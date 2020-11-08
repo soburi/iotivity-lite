@@ -146,9 +146,6 @@ public:
   static Napi::Value main_shutdown(const Napi::CallbackInfo& info);
   static Napi::Value new_collection(const Napi::CallbackInfo& info);
   static Napi::Value new_link(const Napi::CallbackInfo& info);
-  static Napi::Value new_resource(const Napi::CallbackInfo& info);
-  static Napi::Value notify_observers(const Napi::CallbackInfo& info);
-  static Napi::Value process_baseline_interface(const Napi::CallbackInfo& info);
   static Napi::Value remove_delayed_callback(const Napi::CallbackInfo& info);
   static Napi::Value remove_ownership_status_cb(const Napi::CallbackInfo& info);
   static Napi::Value reset(const Napi::CallbackInfo& info);

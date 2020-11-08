@@ -457,6 +457,18 @@ Napi::Value N_oc_network_interface_event(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+Napi::Value N_oc_new_resource(const Napi::CallbackInfo& info) {
+  std::string name_ = info[0].As<Napi::String>().Utf8Value();
+  const char* name = name_.c_str();
+  std::string uri_ = info[1].As<Napi::String>().Utf8Value();
+  const char* uri = uri_.c_str();
+  uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
+  size_t device = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
+  std::shared_ptr<oc_resource_t> sp(oc_new_resource(name, uri, num_resource_types, device));
+  auto args = Napi::External<std::shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
+  return OCResource::constructor.New({args});
+}
+
 Napi::Value N_oc_recv_message(const Napi::CallbackInfo& info) {
   OCMessage& message = *OCMessage::Unwrap(info[0].As<Napi::Object>());
   (void)oc_recv_message(message);

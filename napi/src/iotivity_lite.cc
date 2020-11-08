@@ -465,9 +465,6 @@ Napi::Function OCMain::GetClass(Napi::Env env) {
         StaticMethod("main_shutdown", &OCMain::main_shutdown),
         StaticMethod("new_collection", &OCMain::new_collection),
         StaticMethod("new_link", &OCMain::new_link),
-        StaticMethod("new_resource", &OCMain::new_resource),
-        StaticMethod("notify_observers", &OCMain::notify_observers),
-        StaticMethod("process_baseline_interface", &OCMain::process_baseline_interface),
         StaticMethod("remove_delayed_callback", &OCMain::remove_delayed_callback),
         StaticMethod("remove_ownership_status_cb", &OCMain::remove_ownership_status_cb),
         StaticMethod("reset", &OCMain::reset),
@@ -888,7 +885,11 @@ Napi::Value OCMain::main_loop(const Napi::CallbackInfo& info) {
 //
   main_loop_ctx = new main_loop_t{ Napi::Promise::Deferred::New(info.Env()),
                                Napi::ThreadSafeFunction::New(info.Env(),
-                               Napi::Function::New(info.Env(), N_main_loop_resolve), "N_main_loop_resolve", 0, 1) };
+                               Napi::Function::New(info.Env(), [](const Napi::CallbackInfo& info) {
+  main_loop_ctx->deferred.Resolve(info.Env().Undefined() );
+  delete main_loop_ctx;
+  main_loop_ctx = nullptr;
+  }), "main_loop_resolve", 0, 1) };
   return main_loop_ctx->deferred.Promise();
 
 }
@@ -916,29 +917,6 @@ Napi::Value OCMain::new_link(const Napi::CallbackInfo& info) {
   std::shared_ptr<oc_link_t> sp(oc_new_link(resource));
   auto args = Napi::External<std::shared_ptr<oc_link_t>>::New(info.Env(), &sp);
   return OCLink::constructor.New({args});
-}
-
-Napi::Value OCMain::new_resource(const Napi::CallbackInfo& info) {
-  std::string name_ = info[0].As<Napi::String>().Utf8Value();
-  const char* name = name_.c_str();
-  std::string uri_ = info[1].As<Napi::String>().Utf8Value();
-  const char* uri = uri_.c_str();
-  uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
-  size_t device = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
-  std::shared_ptr<oc_resource_t> sp(oc_new_resource(name, uri, num_resource_types, device));
-  auto args = Napi::External<std::shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
-  return OCResource::constructor.New({args});
-}
-
-Napi::Value OCMain::notify_observers(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  return Napi::Number::New(info.Env(), oc_notify_observers(resource));
-}
-
-Napi::Value OCMain::process_baseline_interface(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_process_baseline_interface(resource);
-  return info.Env().Undefined();
 }
 
 Napi::Value OCMain::remove_delayed_callback(const Napi::CallbackInfo& info) {

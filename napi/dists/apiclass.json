@@ -50,9 +50,6 @@
 	"main_shutdown": "oc_main_shutdown",
 	"new_collection": "oc_new_collection",
 	"new_link": "oc_new_link",
-	"new_resource": "oc_new_resource",
-	"notify_observers": "oc_notify_observers",
-	"process_baseline_interface": "oc_process_baseline_interface",
 	"remove_delayed_callback": "oc_remove_delayed_callback",
 	"remove_ownership_status_cb": "oc_remove_ownership_status_cb",
 	"reset": "oc_reset",
@@ -291,6 +288,8 @@
 	"set_observable": "oc_resource_set_observable",
 	"set_periodic_observable": "oc_resource_set_periodic_observable",
 	"set_properties_cbs": "oc_resource_set_properties_cbs",
-	"set_request_handler": "oc_resource_set_request_handler"
+	"set_request_handler": "oc_resource_set_request_handler",
+	"process_baseline_interface": "oc_process_baseline_interface",
+	"notify_observers": "oc_notify_observers"
   }
 }

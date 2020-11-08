@@ -3753,6 +3753,17 @@ Napi::Value OCResource::set_request_handler(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+Napi::Value OCResource::process_baseline_interface(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+  (void)oc_process_baseline_interface(resource);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCResource::notify_observers(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_notify_observers(resource));
+}
+
 
 Napi::FunctionReference OCResponseBuffer::constructor;
 

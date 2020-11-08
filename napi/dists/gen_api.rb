@@ -1084,6 +1084,8 @@ INSTANCE_FUNCS = [
   'OCResource::set_observable',
   'OCResource::set_periodic_observable',
   'OCResource::set_properties_cbs',
+  'OCResource::process_baseline_interface',
+  'OCResource::notify_observers',
 ]
 
 IGNORE_FUNCS = [

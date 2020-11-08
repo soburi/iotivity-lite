@@ -984,6 +984,8 @@ public:
   Napi::Value set_periodic_observable(const Napi::CallbackInfo& info);
   Napi::Value set_properties_cbs(const Napi::CallbackInfo& info);
   Napi::Value set_request_handler(const Napi::CallbackInfo& info);
+  Napi::Value process_baseline_interface(const Napi::CallbackInfo& info);
+  Napi::Value notify_observers(const Napi::CallbackInfo& info);
 
   std::shared_ptr<oc_resource_s> m_pvalue;
 };
