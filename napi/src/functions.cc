@@ -478,23 +478,6 @@ Napi::Value N_oc_rep_get_encoder_buf(const Napi::CallbackInfo& info) {
 return Napi::Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(oc_rep_get_encoder_buf()), oc_rep_get_encoded_payload_size() );
 }
 
-Napi::Value N_oc_rep_get_int(const Napi::CallbackInfo& info) {
-  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
-  std::string key_ = info[1].As<Napi::String>().Utf8Value();
-  const char* key = key_.c_str();
-// 2 value, int64_t*
-  return Napi::Boolean::New(info.Env(), 0);
-}
-
-Napi::Value N_oc_rep_get_int_array(const Napi::CallbackInfo& info) {
-  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
-  std::string key_ = info[1].As<Napi::String>().Utf8Value();
-  const char* key = key_.c_str();
-// 2 value, int64_t**
-  size_t* size = reinterpret_cast<size_t*>(info[3].As<Napi::Uint32Array>().Data());
-  return Napi::Boolean::New(info.Env(), 0);
-}
-
 Napi::Value N_oc_rep_new(const Napi::CallbackInfo& info) {
   uint8_t* payload = info[0].As<Napi::Buffer<uint8_t>>().Data();
   int size = static_cast<int>(info[1].As<Napi::Number>());

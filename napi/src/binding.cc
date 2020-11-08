@@ -177,8 +177,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_parse_rep", Napi::Function::New(env, N_oc_parse_rep));
   exports.Set("oc_rep_get_encoded_payload_size", Napi::Function::New(env, N_oc_rep_get_encoded_payload_size));
   exports.Set("oc_rep_get_encoder_buf", Napi::Function::New(env, N_oc_rep_get_encoder_buf));
-  exports.Set("oc_rep_get_int", Napi::Function::New(env, N_oc_rep_get_int));
-  exports.Set("oc_rep_get_int_array", Napi::Function::New(env, N_oc_rep_get_int_array));
   exports.Set("oc_rep_new", Napi::Function::New(env, N_oc_rep_new));
   exports.Set("oc_rep_set_pool", Napi::Function::New(env, N_oc_rep_set_pool));
   exports.Set("oc_status_code", Napi::Function::New(env, N_oc_status_code));

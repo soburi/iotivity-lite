@@ -1858,22 +1858,6 @@ OCRep::OCRep(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCRep::GetClass(Napi::Env env) {
     return DefineClass(env, "OCRep", {
-        OCRep::StaticMethod("add_boolean", &OCRep::add_boolean),
-        OCRep::StaticMethod("add_byte_string", &OCRep::add_byte_string),
-        OCRep::StaticMethod("add_double", &OCRep::add_double),
-        OCRep::StaticMethod("add_text_string", &OCRep::add_text_string),
-        OCRep::StaticMethod("start_array", &OCRep::start_array),
-        OCRep::StaticMethod("start_links_array", &OCRep::start_links_array),
-        OCRep::StaticMethod("start_object", &OCRep::start_object),
-        OCRep::StaticMethod("start_root_object", &OCRep::start_root_object),
-        OCRep::StaticMethod("clear_cbor_errno", &OCRep::clear_cbor_errno),
-        OCRep::StaticMethod("close_array", &OCRep::close_array),
-        OCRep::StaticMethod("close_object", &OCRep::close_object),
-        OCRep::StaticMethod("delete_buffer", &OCRep::delete_buffer),
-        OCRep::StaticMethod("end_array", &OCRep::end_array),
-        OCRep::StaticMethod("end_links_array", &OCRep::end_links_array),
-        OCRep::StaticMethod("end_object", &OCRep::end_object),
-        OCRep::StaticMethod("end_root_object", &OCRep::end_root_object),
         OCRep::StaticMethod("get_bool", &OCRep::get_bool),
         OCRep::StaticMethod("get_bool_array", &OCRep::get_bool_array),
         OCRep::StaticMethod("get_byte_string", &OCRep::get_byte_string),
@@ -1883,9 +1867,24 @@ Napi::Function OCRep::GetClass(Napi::Env env) {
         OCRep::StaticMethod("get_double_array", &OCRep::get_double_array),
         OCRep::StaticMethod("get_object", &OCRep::get_object),
         OCRep::StaticMethod("get_object_array", &OCRep::get_object_array),
-        OCRep::StaticMethod("get_rep_from_root_object", &OCRep::get_rep_from_root_object),
         OCRep::StaticMethod("get_string", &OCRep::get_string),
         OCRep::StaticMethod("get_string_array", &OCRep::get_string_array),
+        OCRep::StaticMethod("get_int", &OCRep::get_int),
+        OCRep::StaticMethod("get_int_array", &OCRep::get_int_array),
+        OCRep::StaticMethod("to_json", &OCRep::to_json),
+        OCRep::StaticMethod("add_boolean", &OCRep::add_boolean),
+        OCRep::StaticMethod("add_byte_string", &OCRep::add_byte_string),
+        OCRep::StaticMethod("add_double", &OCRep::add_double),
+        OCRep::StaticMethod("add_text_string", &OCRep::add_text_string),
+        OCRep::StaticMethod("clear_cbor_errno", &OCRep::clear_cbor_errno),
+        OCRep::StaticMethod("close_array", &OCRep::close_array),
+        OCRep::StaticMethod("close_object", &OCRep::close_object),
+        OCRep::StaticMethod("delete_buffer", &OCRep::delete_buffer),
+        OCRep::StaticMethod("end_array", &OCRep::end_array),
+        OCRep::StaticMethod("end_links_array", &OCRep::end_links_array),
+        OCRep::StaticMethod("end_object", &OCRep::end_object),
+        OCRep::StaticMethod("end_root_object", &OCRep::end_root_object),
+        OCRep::StaticMethod("get_rep_from_root_object", &OCRep::get_rep_from_root_object),
         OCRep::StaticMethod("new_buffer", &OCRep::new_buffer),
         OCRep::StaticMethod("object_array_start_item", &OCRep::object_array_start_item),
         OCRep::StaticMethod("object_array_end_item", &OCRep::object_array_end_item),
@@ -1906,112 +1905,11 @@ Napi::Function OCRep::GetClass(Napi::Env env) {
         OCRep::StaticMethod("set_string_array", &OCRep::set_string_array),
         OCRep::StaticMethod("set_text_string", &OCRep::set_text_string),
         OCRep::StaticMethod("set_uint", &OCRep::set_uint),
-        OCRep::StaticMethod("to_json", &OCRep::to_json),
+        OCRep::StaticMethod("start_array", &OCRep::start_array),
+        OCRep::StaticMethod("start_links_array", &OCRep::start_links_array),
+        OCRep::StaticMethod("start_object", &OCRep::start_object),
+        OCRep::StaticMethod("start_root_object", &OCRep::start_root_object),
     });
-}
-
-Napi::Value OCRep::add_boolean(const Napi::CallbackInfo& info) {
-  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-// 1 value, const bool
-  (void)0;
-  return info.Env().Undefined();
-}
-
-Napi::Value OCRep::add_byte_string(const Napi::CallbackInfo& info) {
-  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-  const unsigned char* value = info[1].As<Napi::Buffer<const uint8_t>>().Data();
-// 2 length, const size_t
-  (void)0;
-  return info.Env().Undefined();
-}
-
-Napi::Value OCRep::add_double(const Napi::CallbackInfo& info) {
-  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-// 1 value, const double
-  (void)0;
-  return info.Env().Undefined();
-}
-
-Napi::Value OCRep::add_text_string(const Napi::CallbackInfo& info) {
-  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-  std::string value_ = info[1].As<Napi::String>().Utf8Value();
-  const char* value = value_.c_str();
-  (void)helper_rep_add_text_string(arrayObject, value);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCRep::start_array(const Napi::CallbackInfo& info) {
-  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-  std::shared_ptr<CborEncoder> sp(helper_rep_start_array(parent));
-  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
-  return OCCborEncoder::constructor.New({args});
-}
-
-Napi::Value OCRep::start_links_array(const Napi::CallbackInfo& info) {
-  std::shared_ptr<CborEncoder> sp(helper_rep_start_links_array());
-  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
-  return OCCborEncoder::constructor.New({args});
-}
-
-Napi::Value OCRep::start_object(const Napi::CallbackInfo& info) {
-  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-  std::shared_ptr<CborEncoder> sp(helper_rep_start_object(parent));
-  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
-  return OCCborEncoder::constructor.New({args});
-}
-
-Napi::Value OCRep::start_root_object(const Napi::CallbackInfo& info) {
-  std::shared_ptr<CborEncoder> sp(helper_rep_start_root_object());
-  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
-  return OCCborEncoder::constructor.New({args});
-}
-
-Napi::Value OCRep::clear_cbor_errno(const Napi::CallbackInfo& info) {
-  (void)helper_rep_clear_cbor_errno();
-  return info.Env().Undefined();
-}
-
-Napi::Value OCRep::close_array(const Napi::CallbackInfo& info) {
-  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[1].As<Napi::Object>());
-  (void)helper_rep_close_array(object, arrayObject);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCRep::close_object(const Napi::CallbackInfo& info) {
-  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[1].As<Napi::Object>());
-  (void)helper_rep_close_object(parent, object);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCRep::delete_buffer(const Napi::CallbackInfo& info) {
-  (void)helper_rep_delete_buffer();
-  return info.Env().Undefined();
-}
-
-Napi::Value OCRep::end_array(const Napi::CallbackInfo& info) {
-  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[1].As<Napi::Object>());
-  (void)helper_rep_end_array(parent, arrayObject);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCRep::end_links_array(const Napi::CallbackInfo& info) {
-  (void)helper_rep_end_links_array();
-  return info.Env().Undefined();
-}
-
-Napi::Value OCRep::end_object(const Napi::CallbackInfo& info) {
-  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[1].As<Napi::Object>());
-  (void)helper_rep_end_object(parent, object);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCRep::end_root_object(const Napi::CallbackInfo& info) {
-  (void)helper_rep_end_root_object();
-  return info.Env().Undefined();
 }
 
 Napi::Value OCRep::get_bool(const Napi::CallbackInfo& info) {
@@ -2086,12 +1984,6 @@ Napi::Value OCRep::get_object_array(const Napi::CallbackInfo& info) {
   return Napi::Boolean::New(info.Env(), 0);
 }
 
-Napi::Value OCRep::get_rep_from_root_object(const Napi::CallbackInfo& info) {
-  std::shared_ptr<oc_rep_t> sp(helper_rep_get_rep_from_root_object());
-  auto args = Napi::External<std::shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
-  return OCRep::constructor.New({args});
-}
-
 Napi::Value OCRep::get_string(const Napi::CallbackInfo& info) {
   OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
   std::string key_ = info[1].As<Napi::String>().Utf8Value();
@@ -2108,6 +2000,115 @@ Napi::Value OCRep::get_string_array(const Napi::CallbackInfo& info) {
   OCStringArray& value = *OCStringArray::Unwrap(info[2].As<Napi::Object>());
   size_t* size = reinterpret_cast<size_t*>(info[3].As<Napi::Uint32Array>().Data());
   return Napi::Boolean::New(info.Env(), oc_rep_get_string_array(rep, key, value, size));
+}
+
+Napi::Value OCRep::get_int(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+// 2 value, int64_t*
+  return Napi::Boolean::New(info.Env(), 0);
+}
+
+Napi::Value OCRep::get_int_array(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  std::string key_ = info[1].As<Napi::String>().Utf8Value();
+  const char* key = key_.c_str();
+// 2 value, int64_t**
+  size_t* size = reinterpret_cast<size_t*>(info[3].As<Napi::Uint32Array>().Data());
+  return Napi::Boolean::New(info.Env(), 0);
+}
+
+Napi::Value OCRep::to_json(const Napi::CallbackInfo& info) {
+  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
+  char* buf = const_cast<char*>(info[1].As<Napi::String>().Utf8Value().c_str());
+  size_t buf_size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
+  bool pretty_print = info[3].As<Napi::Boolean>().Value();
+  return Napi::Number::New(info.Env(), oc_rep_to_json(rep, buf, buf_size, pretty_print));
+}
+
+Napi::Value OCRep::add_boolean(const Napi::CallbackInfo& info) {
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+// 1 value, const bool
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value OCRep::add_byte_string(const Napi::CallbackInfo& info) {
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  const unsigned char* value = info[1].As<Napi::Buffer<const uint8_t>>().Data();
+// 2 length, const size_t
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value OCRep::add_double(const Napi::CallbackInfo& info) {
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+// 1 value, const double
+  (void)0;
+  return info.Env().Undefined();
+}
+
+Napi::Value OCRep::add_text_string(const Napi::CallbackInfo& info) {
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::string value_ = info[1].As<Napi::String>().Utf8Value();
+  const char* value = value_.c_str();
+  (void)helper_rep_add_text_string(arrayObject, value);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCRep::clear_cbor_errno(const Napi::CallbackInfo& info) {
+  (void)helper_rep_clear_cbor_errno();
+  return info.Env().Undefined();
+}
+
+Napi::Value OCRep::close_array(const Napi::CallbackInfo& info) {
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[1].As<Napi::Object>());
+  (void)helper_rep_close_array(object, arrayObject);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCRep::close_object(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[1].As<Napi::Object>());
+  (void)helper_rep_close_object(parent, object);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCRep::delete_buffer(const Napi::CallbackInfo& info) {
+  (void)helper_rep_delete_buffer();
+  return info.Env().Undefined();
+}
+
+Napi::Value OCRep::end_array(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[1].As<Napi::Object>());
+  (void)helper_rep_end_array(parent, arrayObject);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCRep::end_links_array(const Napi::CallbackInfo& info) {
+  (void)helper_rep_end_links_array();
+  return info.Env().Undefined();
+}
+
+Napi::Value OCRep::end_object(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  OCCborEncoder& object = *OCCborEncoder::Unwrap(info[1].As<Napi::Object>());
+  (void)helper_rep_end_object(parent, object);
+  return info.Env().Undefined();
+}
+
+Napi::Value OCRep::end_root_object(const Napi::CallbackInfo& info) {
+  (void)helper_rep_end_root_object();
+  return info.Env().Undefined();
+}
+
+Napi::Value OCRep::get_rep_from_root_object(const Napi::CallbackInfo& info) {
+  std::shared_ptr<oc_rep_t> sp(helper_rep_get_rep_from_root_object());
+  auto args = Napi::External<std::shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+  return OCRep::constructor.New({args});
 }
 
 Napi::Value OCRep::new_buffer(const Napi::CallbackInfo& info) {
@@ -2278,12 +2279,30 @@ Napi::Value OCRep::set_uint(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-Napi::Value OCRep::to_json(const Napi::CallbackInfo& info) {
-  OCRepresentation& rep = *OCRepresentation::Unwrap(info[0].As<Napi::Object>());
-  char* buf = const_cast<char*>(info[1].As<Napi::String>().Utf8Value().c_str());
-  size_t buf_size = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
-  bool pretty_print = info[3].As<Napi::Boolean>().Value();
-  return Napi::Number::New(info.Env(), oc_rep_to_json(rep, buf, buf_size, pretty_print));
+Napi::Value OCRep::start_array(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::shared_ptr<CborEncoder> sp(helper_rep_start_array(parent));
+  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+  return OCCborEncoder::constructor.New({args});
+}
+
+Napi::Value OCRep::start_links_array(const Napi::CallbackInfo& info) {
+  std::shared_ptr<CborEncoder> sp(helper_rep_start_links_array());
+  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+  return OCCborEncoder::constructor.New({args});
+}
+
+Napi::Value OCRep::start_object(const Napi::CallbackInfo& info) {
+  OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
+  std::shared_ptr<CborEncoder> sp(helper_rep_start_object(parent));
+  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+  return OCCborEncoder::constructor.New({args});
+}
+
+Napi::Value OCRep::start_root_object(const Napi::CallbackInfo& info) {
+  std::shared_ptr<CborEncoder> sp(helper_rep_start_root_object());
+  auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+  return OCCborEncoder::constructor.New({args});
 }
 
 Napi::FunctionReference OCRep::constructor;
