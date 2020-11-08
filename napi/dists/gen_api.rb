@@ -1093,6 +1093,13 @@ INSTANCE_FUNCS = [
   'OCResource::set_properties_cbs',
   'OCResource::process_baseline_interface',
   'OCResource::notify_observers',
+  'OCEndpoint::to_string',
+  'OCEndpoint::compare',
+  'OCEndpoint::copy',
+  'OCEndpoint::endpoint_string_parse_path',
+  'OCEndpoint::ipv6_endpoint_is_link_local',
+  'OCEndpoint::compare_address',
+  'OCEndpoint::set_local_address',
 ]
 
 IGNORE_FUNCS = [

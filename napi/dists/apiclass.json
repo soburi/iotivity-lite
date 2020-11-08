@@ -118,10 +118,10 @@
 	"get_block_size": "oc_get_block_size"
   },
   "OCClock": {
-	"clock_init": "oc_clock_init",
-	"clock_time": "oc_clock_time",
-	"clock_seconds": "oc_clock_seconds",
-	"clock_wait": "oc_clock_wait"
+	"init": "oc_clock_init",
+	"time": "oc_clock_time",
+	"seconds": "oc_clock_seconds",
+	"wait": "oc_clock_wait"
   },
   "OCCloud": {
 	"get_context": "oc_cloud_get_context",
@@ -150,11 +150,8 @@
 	"to_string": "oc_endpoint_to_string",
 	"compare": "oc_endpoint_compare",
 	"copy": "oc_endpoint_copy",
-	"free_endpoint": "oc_free_endpoint",
 	"string_to_endpoint": "oc_string_to_endpoint",
-	"new_endpoint": "oc_new_endpoint",
-	"endpoint_string_parse_path": "oc_endpoint_string_parse_path",
-	"set_di": "oc_endpoint_set_di",
+	"parse_path": "oc_endpoint_string_parse_path",
 	"ipv6_endpoint_is_link_local": "oc_ipv6_endpoint_is_link_local",
 	"compare_address": "oc_endpoint_compare_address",
 	"set_local_address": "oc_endpoint_set_local_address"

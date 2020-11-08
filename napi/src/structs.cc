@@ -1578,7 +1578,7 @@ OCEndpoint::~OCEndpoint()
 OCEndpoint::OCEndpoint(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
-     m_pvalue = std::shared_ptr<oc_endpoint_t>(new oc_endpoint_t());
+     m_pvalue = std::shared_ptr<oc_endpoint_t>(oc_new_endpoint(), nop_deleter /* TODO */);
   }
   else if (info.Length() == 1 && info[0].IsExternal() ) {
      m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data());
@@ -1631,7 +1631,7 @@ Napi::Value OCEndpoint::get_di(const Napi::CallbackInfo& info)
 
 void OCEndpoint::set_di(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-  m_pvalue->di = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
+  oc_endpoint_set_di(m_pvalue.get(), value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()->get() );
 }
 
 Napi::Value OCEndpoint::get_flags(const Napi::CallbackInfo& info)
