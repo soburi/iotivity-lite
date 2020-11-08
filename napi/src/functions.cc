@@ -30,15 +30,15 @@ Napi::Value N_oc_abort(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_allocate_message(const Napi::CallbackInfo& info) {
-    std::shared_ptr<oc_message_t> sp(oc_allocate_message());
-    auto args = Napi::External<std::shared_ptr<oc_message_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_message_t> sp(oc_allocate_message());
+    auto args = Napi::External<shared_ptr<oc_message_t>>::New(info.Env(), &sp);
     return OCMessage::constructor.New({args});
 }
 
 Napi::Value N_oc_allocate_message_from_pool(const Napi::CallbackInfo& info) {
     OCMemb& pool = *OCMemb::Unwrap(info[0].As<Napi::Object>());
-    std::shared_ptr<oc_message_t> sp(oc_allocate_message_from_pool(pool));
-    auto args = Napi::External<std::shared_ptr<oc_message_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_message_t> sp(oc_allocate_message_from_pool(pool));
+    auto args = Napi::External<shared_ptr<oc_message_t>>::New(info.Env(), &sp);
     return OCMessage::constructor.New({args});
 }
 
@@ -103,8 +103,8 @@ Napi::Value N_oc_collection_add(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_collection_alloc(const Napi::CallbackInfo& info) {
-    std::shared_ptr<oc_collection_t> sp(oc_collection_alloc());
-    auto args = Napi::External<std::shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_collection_t> sp(oc_collection_alloc());
+    auto args = Napi::External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
     return OCCollection::constructor.New({args});
 }
 
@@ -115,8 +115,8 @@ Napi::Value N_oc_collection_free(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_collection_get_all(const Napi::CallbackInfo& info) {
-    std::shared_ptr<oc_collection_t> sp(oc_collection_get_all());
-    auto args = Napi::External<std::shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_collection_t> sp(oc_collection_get_all());
+    auto args = Napi::External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
     return OCCollection::constructor.New({args});
 }
 
@@ -157,8 +157,8 @@ Napi::Value N_oc_connectivity_end_session(const Napi::CallbackInfo& info) {
 
 Napi::Value N_oc_connectivity_get_endpoints(const Napi::CallbackInfo& info) {
     size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-    std::shared_ptr<oc_endpoint_t> sp(oc_connectivity_get_endpoints(device));
-    auto args = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_endpoint_t> sp(oc_connectivity_get_endpoints(device));
+    auto args = Napi::External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
     return OCEndpoint::constructor.New({args});
 }
 
@@ -183,8 +183,8 @@ Napi::Value N_oc_core_encode_interfaces_mask(const Napi::CallbackInfo& info) {
 Napi::Value N_oc_core_get_resource_by_index(const Napi::CallbackInfo& info) {
     int type = static_cast<int>(info[0].As<Napi::Number>());
     size_t device = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-    std::shared_ptr<oc_resource_t> sp(oc_core_get_resource_by_index(type, device));
-    auto args = Napi::External<std::shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_resource_t> sp(oc_core_get_resource_by_index(type, device));
+    auto args = Napi::External<shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
     return OCResource::constructor.New({args});
 }
 
@@ -242,8 +242,8 @@ Napi::Value N_oc_get_collection_by_uri(const Napi::CallbackInfo& info) {
     const char* uri_path = uri_path_.c_str();
     size_t uri_path_len = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
     size_t device = static_cast<size_t>(info[2].As<Napi::Number>().Uint32Value());
-    std::shared_ptr<oc_collection_t> sp(oc_get_collection_by_uri(uri_path, uri_path_len, device));
-    auto args = Napi::External<std::shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_collection_t> sp(oc_get_collection_by_uri(uri_path, uri_path_len, device));
+    auto args = Napi::External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
     return OCCollection::constructor.New({args});
 }
 
@@ -259,16 +259,16 @@ Napi::Value N_oc_get_link_by_uri(const Napi::CallbackInfo& info) {
     std::string uri_path_ = info[1].As<Napi::String>().Utf8Value();
     const char* uri_path = uri_path_.c_str();
     int uri_path_len = static_cast<int>(info[2].As<Napi::Number>());
-    std::shared_ptr<oc_link_t> sp(oc_get_link_by_uri(collection, uri_path, uri_path_len));
-    auto args = Napi::External<std::shared_ptr<oc_link_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_link_t> sp(oc_get_link_by_uri(collection, uri_path, uri_path_len));
+    auto args = Napi::External<shared_ptr<oc_link_t>>::New(info.Env(), &sp);
     return OCLink::constructor.New({args});
 }
 
 Napi::Value N_oc_get_next_collection_with_link(const Napi::CallbackInfo& info) {
     OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
     OCCollection& start = *OCCollection::Unwrap(info[1].As<Napi::Object>());
-    std::shared_ptr<oc_collection_t> sp(oc_get_next_collection_with_link(resource, start));
-    auto args = Napi::External<std::shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_collection_t> sp(oc_get_next_collection_with_link(resource, start));
+    auto args = Napi::External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
     return OCCollection::constructor.New({args});
 }
 
@@ -310,8 +310,8 @@ Napi::Value N_oc_init_query_iterator(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value N_oc_internal_allocate_outgoing_message(const Napi::CallbackInfo& info) {
-    std::shared_ptr<oc_message_t> sp(oc_internal_allocate_outgoing_message());
-    auto args = Napi::External<std::shared_ptr<oc_message_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_message_t> sp(oc_internal_allocate_outgoing_message());
+    auto args = Napi::External<shared_ptr<oc_message_t>>::New(info.Env(), &sp);
     return OCMessage::constructor.New({args});
 }
 

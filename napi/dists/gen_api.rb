@@ -158,10 +158,10 @@ CTORIMPL = <<'CTORIMPL'
 CLASSNAME::CLASSNAME(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
-     m_pvalue = std::shared_ptr<STRUCTNAME>(new STRUCTNAME());
+     m_pvalue = shared_ptr<STRUCTNAME>(new STRUCTNAME());
   }
   else if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<STRUCTNAME>>>().Data());
+     m_pvalue = *(info[0].As<Napi::External<shared_ptr<STRUCTNAME>>>().Data());
   }
   else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -218,11 +218,11 @@ GENERIC_SET = {           "bool"  => "  m_pvalue->VALNAME = value.As<Napi::Boole
                 "size_t" => "  m_pvalue->VALNAME = static_cast<uint32_t>(value.As<Napi::Number>().Uint32Value());",
 }
 
-STRUCT_SET = "  m_pvalue->VALNAME = *(*(value.As<Napi::External<std::shared_ptr<STRUCTNAME>>>().Data()));"
+STRUCT_SET = "  m_pvalue->VALNAME = *(*(value.As<Napi::External<shared_ptr<STRUCTNAME>>>().Data()));"
 
 STRUCT_GET = "\
-  std::shared_ptr<STRUCTNAME> sp(&m_pvalue->VALNAME);
-  auto accessor = Napi::External<std::shared_ptr<STRUCTNAME>>::New(info.Env(), &sp);
+  shared_ptr<STRUCTNAME> sp(&m_pvalue->VALNAME);
+  auto accessor = Napi::External<shared_ptr<STRUCTNAME>>::New(info.Env(), &sp);
   return WRAPNAME::constructor.New({accessor});"
 
 ENUM_SET = "  m_pvalue->VALNAME = static_cast<STRUCTNAME>(value.As<Napi::Number>().Uint32Value());"
@@ -272,8 +272,6 @@ EXTRA_ACCESSOR = {
   "oc_rep_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
   "oc_endpoint_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
   "oc_string_array_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
-  'oc_endpoint_iterator_t' => '    InstanceMethod("next", &CLASSNAME::get_next), ',
-  'oc_string_array_iterator_t' => '    InstanceMethod("next", &CLASSNAME::get_next), ',
 }
 
 EXTRA_VALUE= {
@@ -341,10 +339,10 @@ OVERRIDE_CTOR = {
 OCRepresentation::OCRepresentation(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        //TODO m_pvalue = std::shared_ptr<oc_rep_s>( oc_rep_new(), oc_free_rep);
+        //TODO m_pvalue = shared_ptr<oc_rep_s>( oc_rep_new(), oc_free_rep);
     }
     else if (info.Length() == 1 && info[0].IsExternal()) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_rep_s>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_rep_s>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -355,20 +353,21 @@ OCRepresentation::OCRepresentation(const Napi::CallbackInfo& info) : ObjectWrap(
 OCEndpointIterator::OCEndpointIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue->current = info[0].As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data()->get();
+     m_pvalue = shared_ptr<oc_endpoint_iterator_t>(new oc_endpoint_iterator_t());
+     m_pvalue->current = info[0].As<Napi::External<shared_ptr<oc_endpoint_t>>>().Data()->get();
   }
   else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
-          .ThrowAsJavaScriptException();
+     Napi::TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
   }
 }',
+
   "oc_string_array_iterator_t" => '
 OCStringArrayIterator::OCStringArrayIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = std::shared_ptr<oc_string_array_iterator_t>(new oc_string_array_iterator_t());
+     m_pvalue = shared_ptr<oc_string_array_iterator_t>(new oc_string_array_iterator_t());
      m_pvalue->index = -1;
-     m_pvalue->array = *info[0].As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data()->get();
+     m_pvalue->array = *info[0].As<Napi::External<shared_ptr<oc_string_array_t>>>().Data()->get();
   }
   else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -380,17 +379,17 @@ OCStringArrayIterator::OCStringArrayIterator(const Napi::CallbackInfo& info) : O
 OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 4) {
-     std::string name_ = info[0].As<Napi::String>().Utf8Value();
+     string name_ = info[0].As<Napi::String>().Utf8Value();
      const char* name = name_.c_str();
-     std::string uri_ = info[1].As<Napi::String>().Utf8Value();
+     string uri_ = info[1].As<Napi::String>().Utf8Value();
      const char* uri = uri_.c_str();
      uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
      size_t device = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
 
-     m_pvalue = std::shared_ptr<oc_resource_s>( oc_new_resource(name, uri, num_resource_types, device), nop_deleter /* TODO */);
+     m_pvalue = shared_ptr<oc_resource_s>( oc_new_resource(name, uri, num_resource_types, device), nop_deleter /* TODO */);
   }
   else if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_resource_s>>>().Data());
+     m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_resource_s>>>().Data());
   }
   else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -402,125 +401,125 @@ OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 
 SETGET_OVERRIDE = {
 
-  "oc_collection_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_collection_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_collection_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_collection_s> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_collection_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_collection_s> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_collection_s>>::New(info.Env(), &sp);
     return OCCollection::constructor.New({ accessor });',
   },
 
-  "oc_link_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_link_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_link_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_link_s> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_link_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_link_s> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_link_s>>::New(info.Env(), &sp);
     return OCLink::constructor.New({ accessor });',
   },
 
-  "oc_sec_ace_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_sec_ace_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_sec_ace_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_sec_ace_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_sec_ace_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
     return OCSecurityAce::constructor.New({ accessor });',
   },
 
-  "oc_ace_res_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_ace_res_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_ace_res_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_ace_res_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_ace_res_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
     return OCAceResource::constructor.New({ accessor });',
   },
 
-  "oc_cloud_context_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_cloud_context_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_cloud_context_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_cloud_context_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_cloud_context_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
     return OCCloudContext::constructor.New({ accessor });',
   },
 
-  "oc_link_params_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_link_params_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_link_params_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_link_params_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_link_params_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_link_params_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_link_params_t>>::New(info.Env(), &sp);
     return OCLink::constructor.New({ accessor });',
   },
 
-  "oc_rt_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_rt_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_rt_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_rt_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_rt_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_rt_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_rt_t>>::New(info.Env(), &sp);
     return OCResourceType::constructor.New({ accessor });',
   },
 
-  "oc_etime_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_etime_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_etime_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_etimer> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_etimer>>::New(info.Env(), &sp);
+    shared_ptr<oc_etimer> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_etimer>>::New(info.Env(), &sp);
     return OCEtimer::constructor.New({ accessor });',
   },
 
-  "oc_event_callback_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_event_callback_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_event_callback_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_event_callback_s> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_event_callback_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_event_callback_s> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_event_callback_s>>::New(info.Env(), &sp);
     return OCEventCallback::constructor.New({ accessor });',
   },
 
-  "oc_message_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_message_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_message_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_message_s> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_message_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_message_s> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_message_s>>::New(info.Env(), &sp);
     return OCMessage::constructor.New({ accessor });',
   },
 
-  "oc_role_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_role_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_role_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_role_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_role_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_role_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_role_t>>::New(info.Env(), &sp);
     return OCRole::constructor.New({ accessor });',
   },
 
 
-  "oc_blockwise_state_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_blockwise_state_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_blockwise_state_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_blockwise_state_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_blockwise_state_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
     return OCBlockwiseState::constructor.New({ accessor });',
   },
 
-  "oc_session_event_cb_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_session_event_cb_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_session_event_cb_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_session_event_cb> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_session_event_cb>>::New(info.Env(), &sp);
+    shared_ptr<oc_session_event_cb> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_session_event_cb>>::New(info.Env(), &sp);
     return OCSessionEvents::constructor.New({ accessor });',
   },
 
 
-  "oc_rep_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_rep_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_rep_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_rep_s> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_rep_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_rep_s> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_rep_s>>::New(info.Env(), &sp);
     return OCRepresentation::constructor.New({ accessor });',
   },
 
-  "oc_endpoint_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_endpoint_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_endpoint_iterator_t::value" => { "set" => "",
     "get" => '
-    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_endpoint_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
     return OCEndpoint::constructor.New({ accessor });',
   },
   "oc_string_array_iterator_t::done" => {
@@ -532,10 +531,10 @@ SETGET_OVERRIDE = {
     "set" => "",
   },
   "oc_endpoint_t::di" => {
-    "get" => '  std::shared_ptr<oc_uuid_t> sp(&m_pvalue->di);
-  auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+    "get" => '  shared_ptr<oc_uuid_t> sp(&m_pvalue->di);
+  auto accessor = Napi::External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
   return OCUuid::constructor.New({accessor});',
-    "set" => '  oc_endpoint_set_di(m_pvalue.get(), value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()->get() );',
+    "set" => '  oc_endpoint_set_di(m_pvalue.get(), value.As<Napi::External<shared_ptr<oc_uuid_t>>>().Data()->get() );',
   },
   "oc_separate_response_s::buffer" => {
     "set" => "\
@@ -759,20 +758,20 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
    "get"=>
    "return init_platform_cb_data;"},
   "oc_sec_cred_t::chain"=>
-  {"set"=> "  m_pvalue->chain = *(*(value.As<Napi::External<std::shared_ptr<oc_sec_cred_t*>>>().Data()));",
+  {"set"=> "  m_pvalue->chain = *(*(value.As<Napi::External<shared_ptr<oc_sec_cred_t*>>>().Data()));",
    "get"=> <<~STR
     //
-      std::shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->chain);
-      auto accessor = Napi::External<std::shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
+      shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->chain);
+      auto accessor = Napi::External<shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
       return OCCred::constructor.New({accessor});
    STR
   },
   "oc_sec_cred_t::child"=>
-  {"set"=> "  m_pvalue->child = *(*(value.As<Napi::External<std::shared_ptr<oc_sec_cred_t*>>>().Data()));",
+  {"set"=> "  m_pvalue->child = *(*(value.As<Napi::External<shared_ptr<oc_sec_cred_t*>>>().Data()));",
    "get"=> <<~STR
     //
-      std::shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->child);
-      auto accessor = Napi::External<std::shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
+      shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->child);
+      auto accessor = Napi::External<shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
       return OCCred::constructor.New({accessor});
    STR
   }
@@ -788,8 +787,8 @@ FUNC_OVERRIDE = {
   int err = oc_parse_rep(payload, payload_size, &ret);
 
   if (err) { return info.Env().Undefined(); }
-  std::shared_ptr<oc_rep_t> sp(ret);
-  auto accessor = Napi::External<std::shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+  shared_ptr<oc_rep_t> sp(ret);
+  auto accessor = Napi::External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
   return OCRepresentation::constructor.New({ accessor });'
   },
   'oc_rep_get_object' => {
@@ -799,8 +798,8 @@ FUNC_OVERRIDE = {
   bool success = oc_rep_get_object(rep, key, &ret);
   if (!success) { return info.Env().Undefined(); }
 
-  std::shared_ptr<oc_rep_t> sp(ret);
-  auto accessor = Napi::External<std::shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+  shared_ptr<oc_rep_t> sp(ret);
+  auto accessor = Napi::External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
   return OCRepresentation::constructor.New({ accessor });'
   },
   'oc_rep_get_string' => {
@@ -1102,10 +1101,10 @@ STR
   }
 
   try {
-    mainctx->helper_poll_event_thread = std::thread(helper_poll_event_thread, mainctx);
+    mainctx->helper_poll_event_thread = thread(helper_poll_event_thread, mainctx);
     mainctx->helper_poll_event_thread.detach();
   }
-  catch(std::system_error) {
+  catch(system_error) {
     Napi::TypeError::New(info.Env(), "Fail to initialize poll_event thread.").ThrowAsJavaScriptException();
   }
 
@@ -2116,8 +2115,8 @@ def gen_funcimpl(func, name, param, instance)
   elsif type =~ /.*\*$/
     #p type
     type = type.gsub(/\*$/, "")
-    invoke += "  std::shared_ptr<#{type}> sp(#{call_func});\n"
-    invoke += "  auto args = Napi::External<std::shared_ptr<#{type}>>::New(info.Env(), &sp);\n"
+    invoke += "  shared_ptr<#{type}> sp(#{call_func});\n"
+    invoke += "  auto args = Napi::External<shared_ptr<#{type}>>::New(info.Env(), &sp);\n"
     invoke += "  return #{gen_classname(type).gsub(/\*+$/,'')}::constructor.New({args});\n"
   elsif ENUMS.include?(type)
     invoke += "  return Napi::Number::New(info.Env(), #{call_func});\n"

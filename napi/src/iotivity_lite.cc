@@ -154,8 +154,8 @@ Napi::FunctionReference OCCloud::constructor;
 #if defined(OC_CLOUD)
 Napi::Value OCCloud::get_context(const Napi::CallbackInfo& info) {
     size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-    std::shared_ptr<oc_cloud_context_t> sp(oc_cloud_get_context(device));
-    auto args = Napi::External<std::shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_cloud_context_t> sp(oc_cloud_get_context(device));
+    auto args = Napi::External<shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
     return OCCloudContext::constructor.New({args});
 }
 #endif
@@ -314,8 +314,8 @@ Napi::Value OCCoreRes::init_platform(const Napi::CallbackInfo& info) {
     oc_core_init_platform_cb_t init_cb = nullptr;
     Napi::Function init_cb_ = info[1].As<Napi::Function>();
     void* data = info[2];
-    std::shared_ptr<oc_platform_info_t> sp(oc_core_init_platform(mfg_name, init_cb, data));
-    auto args = Napi::External<std::shared_ptr<oc_platform_info_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_platform_info_t> sp(oc_core_init_platform(mfg_name, init_cb, data));
+    auto args = Napi::External<shared_ptr<oc_platform_info_t>>::New(info.Env(), &sp);
     return OCPlatformInfo::constructor.New({args});
 }
 
@@ -330,21 +330,21 @@ Napi::Value OCCoreRes::get_num_devices(const Napi::CallbackInfo& info) {
 
 Napi::Value OCCoreRes::get_device_id(const Napi::CallbackInfo& info) {
     size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-    std::shared_ptr<oc_uuid_t> sp(oc_core_get_device_id(device));
-    auto args = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_uuid_t> sp(oc_core_get_device_id(device));
+    auto args = Napi::External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
     return OCUuid::constructor.New({args});
 }
 
 Napi::Value OCCoreRes::get_device_info(const Napi::CallbackInfo& info) {
     size_t device = static_cast<size_t>(info[0].As<Napi::Number>().Uint32Value());
-    std::shared_ptr<oc_device_info_t> sp(oc_core_get_device_info(device));
-    auto args = Napi::External<std::shared_ptr<oc_device_info_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_device_info_t> sp(oc_core_get_device_info(device));
+    auto args = Napi::External<shared_ptr<oc_device_info_t>>::New(info.Env(), &sp);
     return OCDeviceInfo::constructor.New({args});
 }
 
 Napi::Value OCCoreRes::get_platform_info(const Napi::CallbackInfo& info) {
-    std::shared_ptr<oc_platform_info_t> sp(oc_core_get_platform_info());
-    auto args = Napi::External<std::shared_ptr<oc_platform_info_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_platform_info_t> sp(oc_core_get_platform_info());
+    auto args = Napi::External<shared_ptr<oc_platform_info_t>>::New(info.Env(), &sp);
     return OCPlatformInfo::constructor.New({args});
 }
 
@@ -352,8 +352,8 @@ Napi::Value OCCoreRes::get_resource_by_uri(const Napi::CallbackInfo& info) {
     std::string uri_ = info[0].As<Napi::String>().Utf8Value();
     const char* uri = uri_.c_str();
     size_t device = static_cast<size_t>(info[1].As<Napi::Number>().Uint32Value());
-    std::shared_ptr<oc_resource_t> sp(oc_core_get_resource_by_uri(uri, device));
-    auto args = Napi::External<std::shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_resource_t> sp(oc_core_get_resource_by_uri(uri, device));
+    auto args = Napi::External<shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
     return OCResource::constructor.New({args});
 }
 
@@ -393,8 +393,8 @@ Napi::Value OCCoreRes::add_new_device(const Napi::CallbackInfo& info) {
     oc_core_add_device_cb_t add_device_cb = nullptr;
     Napi::Function add_device_cb_ = info[5].As<Napi::Function>();
     void* data = info[6];
-    std::shared_ptr<oc_device_info_t> sp(oc_core_add_new_device(uri, rt, name, spec_version, data_model_version, add_device_cb, data));
-    auto args = Napi::External<std::shared_ptr<oc_device_info_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_device_info_t> sp(oc_core_add_new_device(uri, rt, name, spec_version, data_model_version, add_device_cb, data));
+    auto args = Napi::External<shared_ptr<oc_device_info_t>>::New(info.Env(), &sp);
     return OCDeviceInfo::constructor.New({args});
 }
 
@@ -645,15 +645,15 @@ Napi::Value OCMain::collection_add_supported_rt(const Napi::CallbackInfo& info) 
 }
 
 Napi::Value OCMain::collection_get_collections(const Napi::CallbackInfo& info) {
-    std::shared_ptr<oc_resource_t> sp(oc_collection_get_collections());
-    auto args = Napi::External<std::shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_resource_t> sp(oc_collection_get_collections());
+    auto args = Napi::External<shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
     return OCResource::constructor.New({args});
 }
 
 Napi::Value OCMain::collection_get_links(const Napi::CallbackInfo& info) {
     OCResource& collection = *OCResource::Unwrap(info[0].As<Napi::Object>());
-    std::shared_ptr<oc_link_t> sp(oc_collection_get_links(collection));
-    auto args = Napi::External<std::shared_ptr<oc_link_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_link_t> sp(oc_collection_get_links(collection));
+    auto args = Napi::External<shared_ptr<oc_link_t>>::New(info.Env(), &sp);
     return OCLink::constructor.New({args});
 }
 
@@ -844,8 +844,8 @@ Napi::Value OCMain::free_server_endpoints(const Napi::CallbackInfo& info) {
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Napi::Value OCMain::get_all_roles(const Napi::CallbackInfo& info) {
-    std::shared_ptr<oc_role_t> sp(oc_get_all_roles());
-    auto args = Napi::External<std::shared_ptr<oc_role_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_role_t> sp(oc_get_all_roles());
+    auto args = Napi::External<shared_ptr<oc_role_t>>::New(info.Env(), &sp);
     return OCRole::constructor.New({args});
 }
 #endif
@@ -961,10 +961,10 @@ Napi::Value OCMain::main_init(const Napi::CallbackInfo& info) {
     }
 
     try {
-        mainctx->helper_poll_event_thread = std::thread(helper_poll_event_thread, mainctx);
+        mainctx->helper_poll_event_thread = thread(helper_poll_event_thread, mainctx);
         mainctx->helper_poll_event_thread.detach();
     }
-    catch(std::system_error) {
+    catch(system_error) {
         Napi::TypeError::New(info.Env(), "Fail to initialize poll_event thread.").ThrowAsJavaScriptException();
     }
 
@@ -998,15 +998,15 @@ Napi::Value OCMain::new_collection(const Napi::CallbackInfo& info) {
     const char* uri = uri_.c_str();
     uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
     size_t device = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
-    std::shared_ptr<oc_resource_t> sp(oc_new_collection(name, uri, num_resource_types, device));
-    auto args = Napi::External<std::shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_resource_t> sp(oc_new_collection(name, uri, num_resource_types, device));
+    auto args = Napi::External<shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
     return OCResource::constructor.New({args});
 }
 
 Napi::Value OCMain::new_link(const Napi::CallbackInfo& info) {
     OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-    std::shared_ptr<oc_link_t> sp(oc_new_link(resource));
-    auto args = Napi::External<std::shared_ptr<oc_link_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_link_t> sp(oc_new_link(resource));
+    auto args = Napi::External<shared_ptr<oc_link_t>>::New(info.Env(), &sp);
     return OCLink::constructor.New({args});
 }
 
@@ -1336,8 +1336,8 @@ Napi::Value OCObt::ace_add_permission(const Napi::CallbackInfo& info) {
 #if defined(OC_SECURITY)
 Napi::Value OCObt::ace_new_resource(const Napi::CallbackInfo& info) {
     OCSecurityAce& ace = *OCSecurityAce::Unwrap(info[0].As<Napi::Object>());
-    std::shared_ptr<oc_ace_res_t> sp(oc_obt_ace_new_resource(ace));
-    auto args = Napi::External<std::shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_ace_res_t> sp(oc_obt_ace_new_resource(ace));
+    auto args = Napi::External<shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
     return OCAceResource::constructor.New({args});
 }
 #endif
@@ -1368,8 +1368,8 @@ Napi::Value OCObt::add_roleid(const Napi::CallbackInfo& info) {
     const char* role = role_.c_str();
     std::string authority_ = info[2].As<Napi::String>().Utf8Value();
     const char* authority = authority_.c_str();
-    std::shared_ptr<oc_role_t> sp(oc_obt_add_roleid(roles, role, authority));
-    auto args = Napi::External<std::shared_ptr<oc_role_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_role_t> sp(oc_obt_add_roleid(roles, role, authority));
+    auto args = Napi::External<shared_ptr<oc_role_t>>::New(info.Env(), &sp);
     return OCRole::constructor.New({args});
 }
 #endif
@@ -1518,8 +1518,8 @@ Napi::Value OCObt::init(const Napi::CallbackInfo& info) {
 #if defined(OC_SECURITY)
 Napi::Value OCObt::new_ace_for_connection(const Napi::CallbackInfo& info) {
     oc_ace_connection_type_t conn = static_cast<oc_ace_connection_type_t>(info[0].As<Napi::Number>().Uint32Value());
-    std::shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_connection(conn));
-    auto args = Napi::External<std::shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_connection(conn));
+    auto args = Napi::External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
     return OCSecurityAce::constructor.New({args});
 }
 #endif
@@ -1530,8 +1530,8 @@ Napi::Value OCObt::new_ace_for_role(const Napi::CallbackInfo& info) {
     const char* role = role_.c_str();
     std::string authority_ = info[1].As<Napi::String>().Utf8Value();
     const char* authority = authority_.c_str();
-    std::shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_role(role, authority));
-    auto args = Napi::External<std::shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_role(role, authority));
+    auto args = Napi::External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
     return OCSecurityAce::constructor.New({args});
 }
 #endif
@@ -1539,8 +1539,8 @@ Napi::Value OCObt::new_ace_for_role(const Napi::CallbackInfo& info) {
 #if defined(OC_SECURITY)
 Napi::Value OCObt::new_ace_for_subject(const Napi::CallbackInfo& info) {
     OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Napi::Object>());
-    std::shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_subject(uuid));
-    auto args = Napi::External<std::shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_subject(uuid));
+    auto args = Napi::External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
     return OCSecurityAce::constructor.New({args});
 }
 #endif
@@ -1676,8 +1676,8 @@ Napi::Value OCObt::retrieve_creds(const Napi::CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Napi::Value OCObt::retrieve_own_creds(const Napi::CallbackInfo& info) {
-    std::shared_ptr<oc_sec_creds_t> sp(oc_obt_retrieve_own_creds());
-    auto args = Napi::External<std::shared_ptr<oc_sec_creds_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_sec_creds_t> sp(oc_obt_retrieve_own_creds());
+    auto args = Napi::External<shared_ptr<oc_sec_creds_t>>::New(info.Env(), &sp);
     return OCCreds::constructor.New({args});
 }
 #endif

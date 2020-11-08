@@ -30,10 +30,10 @@ OCAceResource::~OCAceResource()
 OCAceResource::OCAceResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_ace_res_t>(new oc_ace_res_t());
+        m_pvalue = shared_ptr<oc_ace_res_t>(new oc_ace_res_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_ace_res_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_ace_res_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -42,14 +42,14 @@ OCAceResource::OCAceResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCAceResource::get_href(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->href);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->href);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCAceResource::set_href(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->href = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->href = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCAceResource::get_interfaces(const Napi::CallbackInfo& info)
@@ -64,14 +64,14 @@ void OCAceResource::set_interfaces(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCAceResource::get_types(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_string_array_t> sp(&m_pvalue->types);
-    auto accessor = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_string_array_t> sp(&m_pvalue->types);
+    auto accessor = Napi::External<shared_ptr<oc_string_array_t>>::New(info.Env(), &sp);
     return OCStringArray::constructor.New({accessor});
 }
 
 void OCAceResource::set_types(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->types = *(*(value.As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data()));
+    m_pvalue->types = *(*(value.As<Napi::External<shared_ptr<oc_string_array_t>>>().Data()));
 }
 
 Napi::Value OCAceResource::get_wildcard(const Napi::CallbackInfo& info)
@@ -104,10 +104,10 @@ OCBlockwiseRequestState::~OCBlockwiseRequestState()
 OCBlockwiseRequestState::OCBlockwiseRequestState(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_blockwise_request_state_s>(new oc_blockwise_request_state_s());
+        m_pvalue = shared_ptr<oc_blockwise_request_state_s>(new oc_blockwise_request_state_s());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_blockwise_request_state_s>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_blockwise_request_state_s>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -116,14 +116,14 @@ OCBlockwiseRequestState::OCBlockwiseRequestState(const Napi::CallbackInfo& info)
 }
 Napi::Value OCBlockwiseRequestState::get_base(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_blockwise_state_s> sp(&m_pvalue->base);
-    auto accessor = Napi::External<std::shared_ptr<oc_blockwise_state_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_blockwise_state_s> sp(&m_pvalue->base);
+    auto accessor = Napi::External<shared_ptr<oc_blockwise_state_s>>::New(info.Env(), &sp);
     return OCBlockwiseState::constructor.New({accessor});
 }
 
 void OCBlockwiseRequestState::set_base(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->base = *(*(value.As<Napi::External<std::shared_ptr<oc_blockwise_state_s>>>().Data()));
+    m_pvalue->base = *(*(value.As<Napi::External<shared_ptr<oc_blockwise_state_s>>>().Data()));
 }
 
 Napi::FunctionReference OCBlockwiseResponseState::constructor;
@@ -150,10 +150,10 @@ OCBlockwiseResponseState::~OCBlockwiseResponseState()
 OCBlockwiseResponseState::OCBlockwiseResponseState(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_blockwise_response_state_s>(new oc_blockwise_response_state_s());
+        m_pvalue = shared_ptr<oc_blockwise_response_state_s>(new oc_blockwise_response_state_s());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_blockwise_response_state_s>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_blockwise_response_state_s>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -162,14 +162,14 @@ OCBlockwiseResponseState::OCBlockwiseResponseState(const Napi::CallbackInfo& inf
 }
 Napi::Value OCBlockwiseResponseState::get_base(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_blockwise_state_s> sp(&m_pvalue->base);
-    auto accessor = Napi::External<std::shared_ptr<oc_blockwise_state_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_blockwise_state_s> sp(&m_pvalue->base);
+    auto accessor = Napi::External<shared_ptr<oc_blockwise_state_s>>::New(info.Env(), &sp);
     return OCBlockwiseState::constructor.New({accessor});
 }
 
 void OCBlockwiseResponseState::set_base(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->base = *(*(value.As<Napi::External<std::shared_ptr<oc_blockwise_state_s>>>().Data()));
+    m_pvalue->base = *(*(value.As<Napi::External<shared_ptr<oc_blockwise_state_s>>>().Data()));
 }
 
 Napi::Value OCBlockwiseResponseState::get_etag(const Napi::CallbackInfo& info)
@@ -236,10 +236,10 @@ OCBlockwiseState::~OCBlockwiseState()
 OCBlockwiseState::OCBlockwiseState(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_blockwise_state_s>(new oc_blockwise_state_s());
+        m_pvalue = shared_ptr<oc_blockwise_state_s>(new oc_blockwise_state_s());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_blockwise_state_s>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_blockwise_state_s>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -272,26 +272,26 @@ void OCBlockwiseState::set_client_cb(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCBlockwiseState::get_endpoint(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_endpoint_t> sp(&m_pvalue->endpoint);
-    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_endpoint_t> sp(&m_pvalue->endpoint);
+    auto accessor = Napi::External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
     return OCEndpoint::constructor.New({accessor});
 }
 
 void OCBlockwiseState::set_endpoint(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->endpoint = *(*(value.As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data()));
+    m_pvalue->endpoint = *(*(value.As<Napi::External<shared_ptr<oc_endpoint_t>>>().Data()));
 }
 
 Napi::Value OCBlockwiseState::get_href(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->href);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->href);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCBlockwiseState::set_href(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->href = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->href = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCBlockwiseState::get_method(const Napi::CallbackInfo& info)
@@ -384,14 +384,14 @@ void OCBlockwiseState::set_token_len(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCBlockwiseState::get_uri_query(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->uri_query);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->uri_query);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCBlockwiseState::set_uri_query(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->uri_query = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->uri_query = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::FunctionReference OCClientCallback::constructor;
@@ -429,10 +429,10 @@ OCClientCallback::~OCClientCallback()
 OCClientCallback::OCClientCallback(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_client_cb_t>(new oc_client_cb_t());
+        m_pvalue = shared_ptr<oc_client_cb_t>(new oc_client_cb_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_client_cb_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_client_cb_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -451,26 +451,26 @@ void OCClientCallback::set_discovery(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCClientCallback::get_endpoint(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_endpoint_t> sp(&m_pvalue->endpoint);
-    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_endpoint_t> sp(&m_pvalue->endpoint);
+    auto accessor = Napi::External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
     return OCEndpoint::constructor.New({accessor});
 }
 
 void OCClientCallback::set_endpoint(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->endpoint = *(*(value.As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data()));
+    m_pvalue->endpoint = *(*(value.As<Napi::External<shared_ptr<oc_endpoint_t>>>().Data()));
 }
 
 Napi::Value OCClientCallback::get_handler(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_client_handler_t> sp(&m_pvalue->handler);
-    auto accessor = Napi::External<std::shared_ptr<oc_client_handler_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_client_handler_t> sp(&m_pvalue->handler);
+    auto accessor = Napi::External<shared_ptr<oc_client_handler_t>>::New(info.Env(), &sp);
     return OCClientHandler::constructor.New({accessor});
 }
 
 void OCClientCallback::set_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->handler = *(*(value.As<Napi::External<std::shared_ptr<oc_client_handler_t>>>().Data()));
+    m_pvalue->handler = *(*(value.As<Napi::External<shared_ptr<oc_client_handler_t>>>().Data()));
 }
 
 Napi::Value OCClientCallback::get_method(const Napi::CallbackInfo& info)
@@ -525,14 +525,14 @@ void OCClientCallback::set_qos(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value OCClientCallback::get_query(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->query);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->query);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCClientCallback::set_query(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->query = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->query = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCClientCallback::get_ref_count(const Napi::CallbackInfo& info)
@@ -599,14 +599,14 @@ void OCClientCallback::set_token_len(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCClientCallback::get_uri(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->uri);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->uri);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCClientCallback::set_uri(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->uri = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->uri = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::FunctionReference OCClientHandler::constructor;
@@ -631,10 +631,10 @@ OCClientHandler::~OCClientHandler()
 OCClientHandler::OCClientHandler(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_client_handler_t>(new oc_client_handler_t());
+        m_pvalue = shared_ptr<oc_client_handler_t>(new oc_client_handler_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_client_handler_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_client_handler_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -697,10 +697,10 @@ OCClientResponse::~OCClientResponse()
 OCClientResponse::OCClientResponse(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_client_response_t>(new oc_client_response_t());
+        m_pvalue = shared_ptr<oc_client_response_t>(new oc_client_response_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_client_response_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_client_response_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -750,14 +750,14 @@ void OCClientResponse::set_content_format(const Napi::CallbackInfo& info, const 
 
 Napi::Value OCClientResponse::get_endpoint(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_endpoint_t*> sp(&m_pvalue->endpoint);
-    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_endpoint_t*> sp(&m_pvalue->endpoint);
+    auto accessor = Napi::External<shared_ptr<oc_endpoint_t*>>::New(info.Env(), &sp);
     return OCEndpoint::constructor.New({accessor});
 }
 
 void OCClientResponse::set_endpoint(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->endpoint = *(*(value.As<Napi::External<std::shared_ptr<oc_endpoint_t*>>>().Data()));
+    m_pvalue->endpoint = *(*(value.As<Napi::External<shared_ptr<oc_endpoint_t*>>>().Data()));
 }
 
 Napi::Value OCClientResponse::get_observe_option(const Napi::CallbackInfo& info)
@@ -772,14 +772,14 @@ void OCClientResponse::set_observe_option(const Napi::CallbackInfo& info, const 
 
 Napi::Value OCClientResponse::get_payload(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_rep_t*> sp(&m_pvalue->payload);
-    auto accessor = Napi::External<std::shared_ptr<oc_rep_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_rep_t*> sp(&m_pvalue->payload);
+    auto accessor = Napi::External<shared_ptr<oc_rep_t*>>::New(info.Env(), &sp);
     return OCRepresentation::constructor.New({accessor});
 }
 
 void OCClientResponse::set_payload(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->payload = *(*(value.As<Napi::External<std::shared_ptr<oc_rep_t*>>>().Data()));
+    m_pvalue->payload = *(*(value.As<Napi::External<shared_ptr<oc_rep_t*>>>().Data()));
 }
 
 Napi::FunctionReference OCCloudContext::constructor;
@@ -817,10 +817,10 @@ OCCloudContext::~OCCloudContext()
 OCCloudContext::OCCloudContext(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_cloud_context_t>(new oc_cloud_context_t());
+        m_pvalue = shared_ptr<oc_cloud_context_t>(new oc_cloud_context_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_cloud_context_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_cloud_context_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -839,26 +839,26 @@ void OCCloudContext::set_callback(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCCloudContext::get_cloud_conf(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_resource_t*> sp(&m_pvalue->cloud_conf);
-    auto accessor = Napi::External<std::shared_ptr<oc_resource_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_resource_t*> sp(&m_pvalue->cloud_conf);
+    auto accessor = Napi::External<shared_ptr<oc_resource_t*>>::New(info.Env(), &sp);
     return OCResource::constructor.New({accessor});
 }
 
 void OCCloudContext::set_cloud_conf(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->cloud_conf = *(*(value.As<Napi::External<std::shared_ptr<oc_resource_t*>>>().Data()));
+    m_pvalue->cloud_conf = *(*(value.As<Napi::External<shared_ptr<oc_resource_t*>>>().Data()));
 }
 
 Napi::Value OCCloudContext::get_cloud_ep(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_endpoint_t*> sp(&m_pvalue->cloud_ep);
-    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_endpoint_t*> sp(&m_pvalue->cloud_ep);
+    auto accessor = Napi::External<shared_ptr<oc_endpoint_t*>>::New(info.Env(), &sp);
     return OCEndpoint::constructor.New({accessor});
 }
 
 void OCCloudContext::set_cloud_ep(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->cloud_ep = *(*(value.As<Napi::External<std::shared_ptr<oc_endpoint_t*>>>().Data()));
+    m_pvalue->cloud_ep = *(*(value.As<Napi::External<shared_ptr<oc_endpoint_t*>>>().Data()));
 }
 
 Napi::Value OCCloudContext::get_cloud_ep_state(const Napi::CallbackInfo& info)
@@ -923,38 +923,38 @@ void OCCloudContext::set_rd_delete_all(const Napi::CallbackInfo& info, const Nap
 
 Napi::Value OCCloudContext::get_rd_delete_resources(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_link_t*> sp(&m_pvalue->rd_delete_resources);
-    auto accessor = Napi::External<std::shared_ptr<oc_link_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_link_t*> sp(&m_pvalue->rd_delete_resources);
+    auto accessor = Napi::External<shared_ptr<oc_link_t*>>::New(info.Env(), &sp);
     return OCLink::constructor.New({accessor});
 }
 
 void OCCloudContext::set_rd_delete_resources(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->rd_delete_resources = *(*(value.As<Napi::External<std::shared_ptr<oc_link_t*>>>().Data()));
+    m_pvalue->rd_delete_resources = *(*(value.As<Napi::External<shared_ptr<oc_link_t*>>>().Data()));
 }
 
 Napi::Value OCCloudContext::get_rd_publish_resources(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_link_t*> sp(&m_pvalue->rd_publish_resources);
-    auto accessor = Napi::External<std::shared_ptr<oc_link_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_link_t*> sp(&m_pvalue->rd_publish_resources);
+    auto accessor = Napi::External<shared_ptr<oc_link_t*>>::New(info.Env(), &sp);
     return OCLink::constructor.New({accessor});
 }
 
 void OCCloudContext::set_rd_publish_resources(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->rd_publish_resources = *(*(value.As<Napi::External<std::shared_ptr<oc_link_t*>>>().Data()));
+    m_pvalue->rd_publish_resources = *(*(value.As<Napi::External<shared_ptr<oc_link_t*>>>().Data()));
 }
 
 Napi::Value OCCloudContext::get_rd_published_resources(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_link_t*> sp(&m_pvalue->rd_published_resources);
-    auto accessor = Napi::External<std::shared_ptr<oc_link_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_link_t*> sp(&m_pvalue->rd_published_resources);
+    auto accessor = Napi::External<shared_ptr<oc_link_t*>>::New(info.Env(), &sp);
     return OCLink::constructor.New({accessor});
 }
 
 void OCCloudContext::set_rd_published_resources(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->rd_published_resources = *(*(value.As<Napi::External<std::shared_ptr<oc_link_t*>>>().Data()));
+    m_pvalue->rd_published_resources = *(*(value.As<Napi::External<shared_ptr<oc_link_t*>>>().Data()));
 }
 
 Napi::Value OCCloudContext::get_retry_count(const Napi::CallbackInfo& info)
@@ -979,14 +979,14 @@ void OCCloudContext::set_retry_refresh_token_count(const Napi::CallbackInfo& inf
 
 Napi::Value OCCloudContext::get_store(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_cloud_store_t> sp(&m_pvalue->store);
-    auto accessor = Napi::External<std::shared_ptr<oc_cloud_store_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_cloud_store_t> sp(&m_pvalue->store);
+    auto accessor = Napi::External<shared_ptr<oc_cloud_store_t>>::New(info.Env(), &sp);
     return OCCloudStore::constructor.New({accessor});
 }
 
 void OCCloudContext::set_store(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->store = *(*(value.As<Napi::External<std::shared_ptr<oc_cloud_store_t>>>().Data()));
+    m_pvalue->store = *(*(value.As<Napi::External<shared_ptr<oc_cloud_store_t>>>().Data()));
 }
 
 Napi::Value OCCloudContext::get_user_data(const Napi::CallbackInfo& info)
@@ -1027,10 +1027,10 @@ OCCloudStore::~OCCloudStore()
 OCCloudStore::OCCloudStore(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_cloud_store_t>(new oc_cloud_store_t());
+        m_pvalue = shared_ptr<oc_cloud_store_t>(new oc_cloud_store_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_cloud_store_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_cloud_store_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -1039,38 +1039,38 @@ OCCloudStore::OCCloudStore(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCCloudStore::get_access_token(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->access_token);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->access_token);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCCloudStore::set_access_token(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->access_token = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->access_token = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCCloudStore::get_auth_provider(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->auth_provider);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->auth_provider);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCCloudStore::set_auth_provider(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->auth_provider = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->auth_provider = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCCloudStore::get_ci_server(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->ci_server);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->ci_server);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCCloudStore::set_ci_server(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->ci_server = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->ci_server = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCCloudStore::get_cps(const Napi::CallbackInfo& info)
@@ -1095,26 +1095,26 @@ void OCCloudStore::set_device(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCCloudStore::get_refresh_token(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->refresh_token);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->refresh_token);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCCloudStore::set_refresh_token(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->refresh_token = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->refresh_token = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCCloudStore::get_sid(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->sid);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->sid);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCCloudStore::set_sid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->sid = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->sid = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCCloudStore::get_status(const Napi::CallbackInfo& info)
@@ -1129,14 +1129,14 @@ void OCCloudStore::set_status(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCCloudStore::get_uid(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->uid);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->uid);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCCloudStore::set_uid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->uid = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->uid = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::FunctionReference OCCollection::constructor;
@@ -1176,10 +1176,10 @@ OCCollection::~OCCollection()
 OCCollection::OCCollection(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_collection_s>(new oc_collection_s());
+        m_pvalue = shared_ptr<oc_collection_s>(new oc_collection_s());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_collection_s>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_collection_s>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -1198,14 +1198,14 @@ void OCCollection::set_default_interface(const Napi::CallbackInfo& info, const N
 
 Napi::Value OCCollection::get_delete_handler(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->delete_handler);
-    auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_request_handler_s> sp(&m_pvalue->delete_handler);
+    auto accessor = Napi::External<shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
     return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCCollection::set_delete_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->delete_handler = *(*(value.As<Napi::External<std::shared_ptr<oc_request_handler_s>>>().Data()));
+    m_pvalue->delete_handler = *(*(value.As<Napi::External<shared_ptr<oc_request_handler_s>>>().Data()));
 }
 
 Napi::Value OCCollection::get_device(const Napi::CallbackInfo& info)
@@ -1220,26 +1220,26 @@ void OCCollection::set_device(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCCollection::get_get_handler(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->get_handler);
-    auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_request_handler_s> sp(&m_pvalue->get_handler);
+    auto accessor = Napi::External<shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
     return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCCollection::set_get_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->get_handler = *(*(value.As<Napi::External<std::shared_ptr<oc_request_handler_s>>>().Data()));
+    m_pvalue->get_handler = *(*(value.As<Napi::External<shared_ptr<oc_request_handler_s>>>().Data()));
 }
 
 Napi::Value OCCollection::get_get_properties(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_properties_cb_t> sp(&m_pvalue->get_properties);
-    auto accessor = Napi::External<std::shared_ptr<oc_properties_cb_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_properties_cb_t> sp(&m_pvalue->get_properties);
+    auto accessor = Napi::External<shared_ptr<oc_properties_cb_t>>::New(info.Env(), &sp);
     return OCPropertiesCb::constructor.New({accessor});
 }
 
 void OCCollection::set_get_properties(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->get_properties = *(*(value.As<Napi::External<std::shared_ptr<oc_properties_cb_t>>>().Data()));
+    m_pvalue->get_properties = *(*(value.As<Napi::External<shared_ptr<oc_properties_cb_t>>>().Data()));
 }
 
 Napi::Value OCCollection::get_interfaces(const Napi::CallbackInfo& info)
@@ -1254,14 +1254,14 @@ void OCCollection::set_interfaces(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCCollection::get_name(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->name);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->name);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCCollection::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->name = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->name = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCCollection::get_num_links(const Napi::CallbackInfo& info)
@@ -1286,14 +1286,14 @@ void OCCollection::set_num_observers(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCCollection::get_post_handler(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->post_handler);
-    auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_request_handler_s> sp(&m_pvalue->post_handler);
+    auto accessor = Napi::External<shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
     return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCCollection::set_post_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->post_handler = *(*(value.As<Napi::External<std::shared_ptr<oc_request_handler_s>>>().Data()));
+    m_pvalue->post_handler = *(*(value.As<Napi::External<shared_ptr<oc_request_handler_s>>>().Data()));
 }
 
 Napi::Value OCCollection::get_properties(const Napi::CallbackInfo& info)
@@ -1308,26 +1308,26 @@ void OCCollection::set_properties(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCCollection::get_put_handler(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->put_handler);
-    auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_request_handler_s> sp(&m_pvalue->put_handler);
+    auto accessor = Napi::External<shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
     return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCCollection::set_put_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->put_handler = *(*(value.As<Napi::External<std::shared_ptr<oc_request_handler_s>>>().Data()));
+    m_pvalue->put_handler = *(*(value.As<Napi::External<shared_ptr<oc_request_handler_s>>>().Data()));
 }
 
 Napi::Value OCCollection::get_set_properties(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_properties_cb_t> sp(&m_pvalue->set_properties);
-    auto accessor = Napi::External<std::shared_ptr<oc_properties_cb_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_properties_cb_t> sp(&m_pvalue->set_properties);
+    auto accessor = Napi::External<shared_ptr<oc_properties_cb_t>>::New(info.Env(), &sp);
     return OCPropertiesCb::constructor.New({accessor});
 }
 
 void OCCollection::set_set_properties(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->set_properties = *(*(value.As<Napi::External<std::shared_ptr<oc_properties_cb_t>>>().Data()));
+    m_pvalue->set_properties = *(*(value.As<Napi::External<shared_ptr<oc_properties_cb_t>>>().Data()));
 }
 
 Napi::Value OCCollection::get_tag_pos_desc(const Napi::CallbackInfo& info)
@@ -1368,26 +1368,26 @@ void OCCollection::set_tag_pos_rel(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCCollection::get_types(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_string_array_t> sp(&m_pvalue->types);
-    auto accessor = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_string_array_t> sp(&m_pvalue->types);
+    auto accessor = Napi::External<shared_ptr<oc_string_array_t>>::New(info.Env(), &sp);
     return OCStringArray::constructor.New({accessor});
 }
 
 void OCCollection::set_types(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->types = *(*(value.As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data()));
+    m_pvalue->types = *(*(value.As<Napi::External<shared_ptr<oc_string_array_t>>>().Data()));
 }
 
 Napi::Value OCCollection::get_uri(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->uri);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->uri);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCCollection::set_uri(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->uri = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->uri = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::FunctionReference OCCredData::constructor;
@@ -1411,10 +1411,10 @@ OCCredData::~OCCredData()
 OCCredData::OCCredData(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_cred_data_t>(new oc_cred_data_t());
+        m_pvalue = shared_ptr<oc_cred_data_t>(new oc_cred_data_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_cred_data_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_cred_data_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -1423,14 +1423,14 @@ OCCredData::OCCredData(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCCredData::get_data(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->data);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->data);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCCredData::set_data(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->data = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->data = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCCredData::get_encoding(const Napi::CallbackInfo& info)
@@ -1469,10 +1469,10 @@ OCDeviceInfo::~OCDeviceInfo()
 OCDeviceInfo::OCDeviceInfo(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_device_info_t>(new oc_device_info_t());
+        m_pvalue = shared_ptr<oc_device_info_t>(new oc_device_info_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_device_info_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_device_info_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -1501,62 +1501,62 @@ void OCDeviceInfo::set_data(const Napi::CallbackInfo& info, const Napi::Value& v
 
 Napi::Value OCDeviceInfo::get_di(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_uuid_t> sp(&m_pvalue->di);
-    auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_uuid_t> sp(&m_pvalue->di);
+    auto accessor = Napi::External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
     return OCUuid::constructor.New({accessor});
 }
 
 void OCDeviceInfo::set_di(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->di = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
+    m_pvalue->di = *(*(value.As<Napi::External<shared_ptr<oc_uuid_t>>>().Data()));
 }
 
 Napi::Value OCDeviceInfo::get_dmv(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->dmv);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->dmv);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCDeviceInfo::set_dmv(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->dmv = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->dmv = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCDeviceInfo::get_icv(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->icv);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->icv);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCDeviceInfo::set_icv(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->icv = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->icv = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCDeviceInfo::get_name(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->name);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->name);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCDeviceInfo::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->name = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->name = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCDeviceInfo::get_piid(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_uuid_t> sp(&m_pvalue->piid);
-    auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_uuid_t> sp(&m_pvalue->piid);
+    auto accessor = Napi::External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
     return OCUuid::constructor.New({accessor});
 }
 
 void OCDeviceInfo::set_piid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->piid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
+    m_pvalue->piid = *(*(value.As<Napi::External<shared_ptr<oc_uuid_t>>>().Data()));
 }
 
 Napi::FunctionReference OCEndpoint::constructor;
@@ -1586,10 +1586,10 @@ OCEndpoint::~OCEndpoint()
 OCEndpoint::OCEndpoint(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_endpoint_t>(new oc_endpoint_t(), nop_deleter);
+        m_pvalue = shared_ptr<oc_endpoint_t>(new oc_endpoint_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_endpoint_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -1598,26 +1598,26 @@ OCEndpoint::OCEndpoint(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCEndpoint::get_addr(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_endpoint_t::dev_addr> sp(&m_pvalue->addr);
-    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t::dev_addr>>::New(info.Env(), &sp);
+    shared_ptr<oc_endpoint_t::dev_addr> sp(&m_pvalue->addr);
+    auto accessor = Napi::External<shared_ptr<oc_endpoint_t::dev_addr>>::New(info.Env(), &sp);
     return DevAddr::constructor.New({accessor});
 }
 
 void OCEndpoint::set_addr(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->addr = *(*(value.As<Napi::External<std::shared_ptr<oc_endpoint_t::dev_addr>>>().Data()));
+    m_pvalue->addr = *(*(value.As<Napi::External<shared_ptr<oc_endpoint_t::dev_addr>>>().Data()));
 }
 
 Napi::Value OCEndpoint::get_addr_local(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_endpoint_t::dev_addr> sp(&m_pvalue->addr_local);
-    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t::dev_addr>>::New(info.Env(), &sp);
+    shared_ptr<oc_endpoint_t::dev_addr> sp(&m_pvalue->addr_local);
+    auto accessor = Napi::External<shared_ptr<oc_endpoint_t::dev_addr>>::New(info.Env(), &sp);
     return DevAddr::constructor.New({accessor});
 }
 
 void OCEndpoint::set_addr_local(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->addr_local = *(*(value.As<Napi::External<std::shared_ptr<oc_endpoint_t::dev_addr>>>().Data()));
+    m_pvalue->addr_local = *(*(value.As<Napi::External<shared_ptr<oc_endpoint_t::dev_addr>>>().Data()));
 }
 
 Napi::Value OCEndpoint::get_device(const Napi::CallbackInfo& info)
@@ -1632,14 +1632,14 @@ void OCEndpoint::set_device(const Napi::CallbackInfo& info, const Napi::Value& v
 
 Napi::Value OCEndpoint::get_di(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_uuid_t> sp(&m_pvalue->di);
-    auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_uuid_t> sp(&m_pvalue->di);
+    auto accessor = Napi::External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
     return OCUuid::constructor.New({accessor});
 }
 
 void OCEndpoint::set_di(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    oc_endpoint_set_di(m_pvalue.get(), value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()->get() );
+    oc_endpoint_set_di(m_pvalue.get(), value.As<Napi::External<shared_ptr<oc_uuid_t>>>().Data()->get() );
 }
 
 Napi::Value OCEndpoint::get_flags(const Napi::CallbackInfo& info)
@@ -1754,10 +1754,10 @@ OCEtimer::~OCEtimer()
 OCEtimer::OCEtimer(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_etimer>(new oc_etimer());
+        m_pvalue = shared_ptr<oc_etimer>(new oc_etimer());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_etimer>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_etimer>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -1766,26 +1766,26 @@ OCEtimer::OCEtimer(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCEtimer::get_p(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_process*> sp(&m_pvalue->p);
-    auto accessor = Napi::External<std::shared_ptr<oc_process*>>::New(info.Env(), &sp);
+    shared_ptr<oc_process*> sp(&m_pvalue->p);
+    auto accessor = Napi::External<shared_ptr<oc_process*>>::New(info.Env(), &sp);
     return OCProcess::constructor.New({accessor});
 }
 
 void OCEtimer::set_p(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->p = *(*(value.As<Napi::External<std::shared_ptr<oc_process*>>>().Data()));
+    m_pvalue->p = *(*(value.As<Napi::External<shared_ptr<oc_process*>>>().Data()));
 }
 
 Napi::Value OCEtimer::get_timer(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_timer> sp(&m_pvalue->timer);
-    auto accessor = Napi::External<std::shared_ptr<oc_timer>>::New(info.Env(), &sp);
+    shared_ptr<oc_timer> sp(&m_pvalue->timer);
+    auto accessor = Napi::External<shared_ptr<oc_timer>>::New(info.Env(), &sp);
     return OCTimer::constructor.New({accessor});
 }
 
 void OCEtimer::set_timer(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->timer = *(*(value.As<Napi::External<std::shared_ptr<oc_timer>>>().Data()));
+    m_pvalue->timer = *(*(value.As<Napi::External<shared_ptr<oc_timer>>>().Data()));
 }
 
 Napi::FunctionReference OCEventCallback::constructor;
@@ -1810,10 +1810,10 @@ OCEventCallback::~OCEventCallback()
 OCEventCallback::OCEventCallback(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_event_callback_s>(new oc_event_callback_s());
+        m_pvalue = shared_ptr<oc_event_callback_s>(new oc_event_callback_s());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_event_callback_s>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_event_callback_s>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -1842,14 +1842,14 @@ void OCEventCallback::set_data(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value OCEventCallback::get_timer(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_etimer> sp(&m_pvalue->timer);
-    auto accessor = Napi::External<std::shared_ptr<oc_etimer>>::New(info.Env(), &sp);
+    shared_ptr<oc_etimer> sp(&m_pvalue->timer);
+    auto accessor = Napi::External<shared_ptr<oc_etimer>>::New(info.Env(), &sp);
     return OCEtimer::constructor.New({accessor});
 }
 
 void OCEventCallback::set_timer(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->timer = *(*(value.As<Napi::External<std::shared_ptr<oc_etimer>>>().Data()));
+    m_pvalue->timer = *(*(value.As<Napi::External<shared_ptr<oc_etimer>>>().Data()));
 }
 
 Napi::FunctionReference OCHandler::constructor;
@@ -1878,10 +1878,10 @@ OCHandler::~OCHandler()
 OCHandler::OCHandler(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_handler_t>(new oc_handler_t());
+        m_pvalue = shared_ptr<oc_handler_t>(new oc_handler_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_handler_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_handler_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -1947,10 +1947,10 @@ OCIPv4Addr::~OCIPv4Addr()
 OCIPv4Addr::OCIPv4Addr(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_ipv4_addr_t>(new oc_ipv4_addr_t());
+        m_pvalue = shared_ptr<oc_ipv4_addr_t>(new oc_ipv4_addr_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_ipv4_addr_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_ipv4_addr_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -2007,10 +2007,10 @@ OCIPv6Addr::~OCIPv6Addr()
 OCIPv6Addr::OCIPv6Addr(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_ipv6_addr_t>(new oc_ipv6_addr_t());
+        m_pvalue = shared_ptr<oc_ipv6_addr_t>(new oc_ipv6_addr_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_ipv6_addr_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_ipv6_addr_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -2084,10 +2084,10 @@ OCLEAddr::~OCLEAddr()
 OCLEAddr::OCLEAddr(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_le_addr_t>(new oc_le_addr_t());
+        m_pvalue = shared_ptr<oc_le_addr_t>(new oc_le_addr_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_le_addr_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_le_addr_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -2147,10 +2147,10 @@ OCLinkParams::~OCLinkParams()
 OCLinkParams::OCLinkParams(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_link_params_t>(new oc_link_params_t());
+        m_pvalue = shared_ptr<oc_link_params_t>(new oc_link_params_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_link_params_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_link_params_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -2159,26 +2159,26 @@ OCLinkParams::OCLinkParams(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCLinkParams::get_key(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->key);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->key);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCLinkParams::set_key(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->key = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->key = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCLinkParams::get_value(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->value);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->value);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCLinkParams::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->value = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->value = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::FunctionReference OCLink::constructor;
@@ -2204,10 +2204,10 @@ OCLink::~OCLink()
 OCLink::OCLink(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_link_s>(new oc_link_s());
+        m_pvalue = shared_ptr<oc_link_s>(new oc_link_s());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_link_s>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_link_s>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -2236,26 +2236,26 @@ void OCLink::set_interfaces(const Napi::CallbackInfo& info, const Napi::Value& v
 
 Napi::Value OCLink::get_rel(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_string_array_t> sp(&m_pvalue->rel);
-    auto accessor = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_string_array_t> sp(&m_pvalue->rel);
+    auto accessor = Napi::External<shared_ptr<oc_string_array_t>>::New(info.Env(), &sp);
     return OCStringArray::constructor.New({accessor});
 }
 
 void OCLink::set_rel(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->rel = *(*(value.As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data()));
+    m_pvalue->rel = *(*(value.As<Napi::External<shared_ptr<oc_string_array_t>>>().Data()));
 }
 
 Napi::Value OCLink::get_resource(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_resource_t*> sp(&m_pvalue->resource);
-    auto accessor = Napi::External<std::shared_ptr<oc_resource_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_resource_t*> sp(&m_pvalue->resource);
+    auto accessor = Napi::External<shared_ptr<oc_resource_t*>>::New(info.Env(), &sp);
     return OCResource::constructor.New({accessor});
 }
 
 void OCLink::set_resource(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->resource = *(*(value.As<Napi::External<std::shared_ptr<oc_resource_t*>>>().Data()));
+    m_pvalue->resource = *(*(value.As<Napi::External<shared_ptr<oc_resource_t*>>>().Data()));
 }
 
 Napi::FunctionReference OCMemb::constructor;
@@ -2280,10 +2280,10 @@ OCMemb::~OCMemb()
 OCMemb::OCMemb(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_memb>(new oc_memb());
+        m_pvalue = shared_ptr<oc_memb>(new oc_memb());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_memb>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_memb>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -2352,10 +2352,10 @@ OCMessage::~OCMessage()
 OCMessage::OCMessage(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_message_s>(new oc_message_s());
+        m_pvalue = shared_ptr<oc_message_s>(new oc_message_s());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_message_s>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_message_s>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -2388,14 +2388,14 @@ void OCMessage::set_encrypted(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCMessage::get_endpoint(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_endpoint_t> sp(&m_pvalue->endpoint);
-    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_endpoint_t> sp(&m_pvalue->endpoint);
+    auto accessor = Napi::External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
     return OCEndpoint::constructor.New({accessor});
 }
 
 void OCMessage::set_endpoint(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->endpoint = *(*(value.As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data()));
+    m_pvalue->endpoint = *(*(value.As<Napi::External<shared_ptr<oc_endpoint_t>>>().Data()));
 }
 
 Napi::Value OCMessage::get_length(const Napi::CallbackInfo& info)
@@ -2410,14 +2410,14 @@ void OCMessage::set_length(const Napi::CallbackInfo& info, const Napi::Value& va
 
 Napi::Value OCMessage::get_pool(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_memb*> sp(&m_pvalue->pool);
-    auto accessor = Napi::External<std::shared_ptr<oc_memb*>>::New(info.Env(), &sp);
+    shared_ptr<oc_memb*> sp(&m_pvalue->pool);
+    auto accessor = Napi::External<shared_ptr<oc_memb*>>::New(info.Env(), &sp);
     return OCMemb::constructor.New({accessor});
 }
 
 void OCMessage::set_pool(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->pool = *(*(value.As<Napi::External<std::shared_ptr<oc_memb*>>>().Data()));
+    m_pvalue->pool = *(*(value.As<Napi::External<shared_ptr<oc_memb*>>>().Data()));
 }
 
 #if defined(OC_TCP)
@@ -2462,10 +2462,10 @@ OCMmem::~OCMmem()
 OCMmem::OCMmem(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_mmem>(new oc_mmem());
+        m_pvalue = shared_ptr<oc_mmem>(new oc_mmem());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_mmem>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_mmem>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -2502,10 +2502,10 @@ OCNetworkInterfaceCb::~OCNetworkInterfaceCb()
 OCNetworkInterfaceCb::OCNetworkInterfaceCb(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_network_interface_cb>(new oc_network_interface_cb());
+        m_pvalue = shared_ptr<oc_network_interface_cb>(new oc_network_interface_cb());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_network_interface_cb>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_network_interface_cb>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -2545,10 +2545,10 @@ OCPlatformInfo::~OCPlatformInfo()
 OCPlatformInfo::OCPlatformInfo(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_platform_info_t>(new oc_platform_info_t());
+        m_pvalue = shared_ptr<oc_platform_info_t>(new oc_platform_info_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_platform_info_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_platform_info_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -2577,26 +2577,26 @@ void OCPlatformInfo::set_init_platform_cb(const Napi::CallbackInfo& info, const 
 
 Napi::Value OCPlatformInfo::get_mfg_name(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->mfg_name);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->mfg_name);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCPlatformInfo::set_mfg_name(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->mfg_name = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->mfg_name = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCPlatformInfo::get_pi(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_uuid_t> sp(&m_pvalue->pi);
-    auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_uuid_t> sp(&m_pvalue->pi);
+    auto accessor = Napi::External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
     return OCUuid::constructor.New({accessor});
 }
 
 void OCPlatformInfo::set_pi(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->pi = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
+    m_pvalue->pi = *(*(value.As<Napi::External<shared_ptr<oc_uuid_t>>>().Data()));
 }
 
 Napi::FunctionReference OCProcess::constructor;
@@ -2621,10 +2621,10 @@ OCProcess::~OCProcess()
 OCProcess::OCProcess(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_process>(new oc_process());
+        m_pvalue = shared_ptr<oc_process>(new oc_process());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_process>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_process>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -2680,10 +2680,10 @@ OCPropertiesCb::~OCPropertiesCb()
 OCPropertiesCb::OCPropertiesCb(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_properties_cb_t>(new oc_properties_cb_t());
+        m_pvalue = shared_ptr<oc_properties_cb_t>(new oc_properties_cb_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_properties_cb_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_properties_cb_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -2714,10 +2714,10 @@ OCRepresentation::~OCRepresentation()
 OCRepresentation::OCRepresentation(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        //TODO m_pvalue = std::shared_ptr<oc_rep_s>( oc_rep_new(), oc_free_rep);
+        //TODO m_pvalue = shared_ptr<oc_rep_s>( oc_rep_new(), oc_free_rep);
     }
     else if (info.Length() == 1 && info[0].IsExternal()) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_rep_s>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_rep_s>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -2726,14 +2726,14 @@ OCRepresentation::OCRepresentation(const Napi::CallbackInfo& info) : ObjectWrap(
 }
 Napi::Value OCRepresentation::get_name(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->name);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->name);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCRepresentation::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->name = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->name = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCRepresentation::get_type(const Napi::CallbackInfo& info)
@@ -2748,14 +2748,14 @@ void OCRepresentation::set_type(const Napi::CallbackInfo& info, const Napi::Valu
 
 Napi::Value OCRepresentation::get_value(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_rep_s::oc_rep_value> sp(&m_pvalue->value);
-    auto accessor = Napi::External<std::shared_ptr<oc_rep_s::oc_rep_value>>::New(info.Env(), &sp);
+    shared_ptr<oc_rep_s::oc_rep_value> sp(&m_pvalue->value);
+    auto accessor = Napi::External<shared_ptr<oc_rep_s::oc_rep_value>>::New(info.Env(), &sp);
     return OCValue::constructor.New({accessor});
 }
 
 void OCRepresentation::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->value = *(*(value.As<Napi::External<std::shared_ptr<oc_rep_s::oc_rep_value>>>().Data()));
+    m_pvalue->value = *(*(value.As<Napi::External<shared_ptr<oc_rep_s::oc_rep_value>>>().Data()));
 }
 
 Napi::Value OCRepresentation::get_bool(const Napi::CallbackInfo& info) {
@@ -2844,8 +2844,8 @@ Napi::Value OCRepresentation::get_object(const Napi::CallbackInfo& info) {
         return info.Env().Undefined();
     }
 
-    std::shared_ptr<oc_rep_t> sp(ret);
-    auto accessor = Napi::External<std::shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_rep_t> sp(ret);
+    auto accessor = Napi::External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
     return OCRepresentation::constructor.New({ accessor });
 }
 
@@ -2929,8 +2929,8 @@ Napi::Value OCRepresentation::parse(const Napi::CallbackInfo& info) {
     if (err) {
         return info.Env().Undefined();
     }
-    std::shared_ptr<oc_rep_t> sp(ret);
-    auto accessor = Napi::External<std::shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_rep_t> sp(ret);
+    auto accessor = Napi::External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
     return OCRepresentation::constructor.New({ accessor });
 }
 
@@ -3027,8 +3027,8 @@ Napi::Value OCRepresentation::end_root_object(const Napi::CallbackInfo& info) {
 }
 
 Napi::Value OCRepresentation::get_rep_from_root_object(const Napi::CallbackInfo& info) {
-    std::shared_ptr<oc_rep_t> sp(helper_rep_get_rep_from_root_object());
-    auto args = Napi::External<std::shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_rep_t> sp(helper_rep_get_rep_from_root_object());
+    auto args = Napi::External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
     return OCRepresentation::constructor.New({args});
 }
 
@@ -3040,8 +3040,8 @@ Napi::Value OCRepresentation::new_buffer(const Napi::CallbackInfo& info) {
 
 Napi::Value OCRepresentation::object_array_start_item(const Napi::CallbackInfo& info) {
     OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-    std::shared_ptr<CborEncoder> sp(helper_rep_object_array_start_item(arrayObject));
-    auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+    shared_ptr<CborEncoder> sp(helper_rep_object_array_start_item(arrayObject));
+    auto args = Napi::External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
     return OCCborEncoder::constructor.New({args});
 }
 
@@ -3083,8 +3083,8 @@ Napi::Value OCRepresentation::open_array(const Napi::CallbackInfo& info) {
     OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
     std::string key_ = info[1].As<Napi::String>().Utf8Value();
     const char* key = key_.c_str();
-    std::shared_ptr<CborEncoder> sp(helper_rep_open_array(parent, key));
-    auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+    shared_ptr<CborEncoder> sp(helper_rep_open_array(parent, key));
+    auto args = Napi::External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
     return OCCborEncoder::constructor.New({args});
 }
 
@@ -3092,8 +3092,8 @@ Napi::Value OCRepresentation::open_object(const Napi::CallbackInfo& info) {
     OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
     std::string key_ = info[1].As<Napi::String>().Utf8Value();
     const char* key = key_.c_str();
-    std::shared_ptr<CborEncoder> sp(helper_rep_open_object(parent, key));
-    auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+    shared_ptr<CborEncoder> sp(helper_rep_open_object(parent, key));
+    auto args = Napi::External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
     return OCCborEncoder::constructor.New({args});
 }
 
@@ -3202,27 +3202,27 @@ Napi::Value OCRepresentation::set_uint(const Napi::CallbackInfo& info) {
 
 Napi::Value OCRepresentation::start_array(const Napi::CallbackInfo& info) {
     OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-    std::shared_ptr<CborEncoder> sp(helper_rep_start_array(parent));
-    auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+    shared_ptr<CborEncoder> sp(helper_rep_start_array(parent));
+    auto args = Napi::External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
     return OCCborEncoder::constructor.New({args});
 }
 
 Napi::Value OCRepresentation::start_links_array(const Napi::CallbackInfo& info) {
-    std::shared_ptr<CborEncoder> sp(helper_rep_start_links_array());
-    auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+    shared_ptr<CborEncoder> sp(helper_rep_start_links_array());
+    auto args = Napi::External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
     return OCCborEncoder::constructor.New({args});
 }
 
 Napi::Value OCRepresentation::start_object(const Napi::CallbackInfo& info) {
     OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Napi::Object>());
-    std::shared_ptr<CborEncoder> sp(helper_rep_start_object(parent));
-    auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+    shared_ptr<CborEncoder> sp(helper_rep_start_object(parent));
+    auto args = Napi::External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
     return OCCborEncoder::constructor.New({args});
 }
 
 Napi::Value OCRepresentation::start_root_object(const Napi::CallbackInfo& info) {
-    std::shared_ptr<CborEncoder> sp(helper_rep_start_root_object());
-    auto args = Napi::External<std::shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+    shared_ptr<CborEncoder> sp(helper_rep_start_root_object());
+    auto args = Napi::External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
     return OCCborEncoder::constructor.New({args});
 }
 
@@ -3248,10 +3248,10 @@ OCRequestHandler::~OCRequestHandler()
 OCRequestHandler::OCRequestHandler(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_request_handler_s>(new oc_request_handler_s());
+        m_pvalue = shared_ptr<oc_request_handler_s>(new oc_request_handler_s());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_request_handler_s>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_request_handler_s>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -3306,10 +3306,10 @@ OCRequest::~OCRequest()
 OCRequest::OCRequest(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_request_t>(new oc_request_t());
+        m_pvalue = shared_ptr<oc_request_t>(new oc_request_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_request_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_request_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -3348,14 +3348,14 @@ void OCRequest::set_content_format(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCRequest::get_origin(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_endpoint_t*> sp(&m_pvalue->origin);
-    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_endpoint_t*> sp(&m_pvalue->origin);
+    auto accessor = Napi::External<shared_ptr<oc_endpoint_t*>>::New(info.Env(), &sp);
     return OCEndpoint::constructor.New({accessor});
 }
 
 void OCRequest::set_origin(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->origin = *(*(value.As<Napi::External<std::shared_ptr<oc_endpoint_t*>>>().Data()));
+    m_pvalue->origin = *(*(value.As<Napi::External<shared_ptr<oc_endpoint_t*>>>().Data()));
 }
 
 Napi::Value OCRequest::get_query(const Napi::CallbackInfo& info)
@@ -3380,38 +3380,38 @@ void OCRequest::set_query_len(const Napi::CallbackInfo& info, const Napi::Value&
 
 Napi::Value OCRequest::get_request_payload(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_rep_t*> sp(&m_pvalue->request_payload);
-    auto accessor = Napi::External<std::shared_ptr<oc_rep_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_rep_t*> sp(&m_pvalue->request_payload);
+    auto accessor = Napi::External<shared_ptr<oc_rep_t*>>::New(info.Env(), &sp);
     return OCRepresentation::constructor.New({accessor});
 }
 
 void OCRequest::set_request_payload(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->request_payload = *(*(value.As<Napi::External<std::shared_ptr<oc_rep_t*>>>().Data()));
+    m_pvalue->request_payload = *(*(value.As<Napi::External<shared_ptr<oc_rep_t*>>>().Data()));
 }
 
 Napi::Value OCRequest::get_resource(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_resource_t*> sp(&m_pvalue->resource);
-    auto accessor = Napi::External<std::shared_ptr<oc_resource_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_resource_t*> sp(&m_pvalue->resource);
+    auto accessor = Napi::External<shared_ptr<oc_resource_t*>>::New(info.Env(), &sp);
     return OCResource::constructor.New({accessor});
 }
 
 void OCRequest::set_resource(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->resource = *(*(value.As<Napi::External<std::shared_ptr<oc_resource_t*>>>().Data()));
+    m_pvalue->resource = *(*(value.As<Napi::External<shared_ptr<oc_resource_t*>>>().Data()));
 }
 
 Napi::Value OCRequest::get_response(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_response_t*> sp(&m_pvalue->response);
-    auto accessor = Napi::External<std::shared_ptr<oc_response_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_response_t*> sp(&m_pvalue->response);
+    auto accessor = Napi::External<shared_ptr<oc_response_t*>>::New(info.Env(), &sp);
     return OCResponse::constructor.New({accessor});
 }
 
 void OCRequest::set_response(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->response = *(*(value.As<Napi::External<std::shared_ptr<oc_response_t*>>>().Data()));
+    m_pvalue->response = *(*(value.As<Napi::External<shared_ptr<oc_response_t*>>>().Data()));
 }
 
 Napi::FunctionReference OCResource::constructor;
@@ -3454,17 +3454,17 @@ OCResource::~OCResource()
 OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 4) {
-        std::string name_ = info[0].As<Napi::String>().Utf8Value();
+        string name_ = info[0].As<Napi::String>().Utf8Value();
         const char* name = name_.c_str();
-        std::string uri_ = info[1].As<Napi::String>().Utf8Value();
+        string uri_ = info[1].As<Napi::String>().Utf8Value();
         const char* uri = uri_.c_str();
         uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Napi::Number>().Uint32Value());
         size_t device = static_cast<size_t>(info[3].As<Napi::Number>().Uint32Value());
 
-        m_pvalue = std::shared_ptr<oc_resource_s>( oc_new_resource(name, uri, num_resource_types, device), nop_deleter /* TODO */);
+        m_pvalue = shared_ptr<oc_resource_s>( oc_new_resource(name, uri, num_resource_types, device), nop_deleter /* TODO */);
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_resource_s>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_resource_s>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -3483,14 +3483,14 @@ void OCResource::set_default_interface(const Napi::CallbackInfo& info, const Nap
 
 Napi::Value OCResource::get_delete_handler(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->delete_handler);
-    auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_request_handler_s> sp(&m_pvalue->delete_handler);
+    auto accessor = Napi::External<shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
     return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCResource::set_delete_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->delete_handler = *(*(value.As<Napi::External<std::shared_ptr<oc_request_handler_s>>>().Data()));
+    m_pvalue->delete_handler = *(*(value.As<Napi::External<shared_ptr<oc_request_handler_s>>>().Data()));
 }
 
 Napi::Value OCResource::get_device(const Napi::CallbackInfo& info)
@@ -3505,26 +3505,26 @@ void OCResource::set_device(const Napi::CallbackInfo& info, const Napi::Value& v
 
 Napi::Value OCResource::get_get_handler(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->get_handler);
-    auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_request_handler_s> sp(&m_pvalue->get_handler);
+    auto accessor = Napi::External<shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
     return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCResource::set_get_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->get_handler = *(*(value.As<Napi::External<std::shared_ptr<oc_request_handler_s>>>().Data()));
+    m_pvalue->get_handler = *(*(value.As<Napi::External<shared_ptr<oc_request_handler_s>>>().Data()));
 }
 
 Napi::Value OCResource::get_get_properties(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_properties_cb_t> sp(&m_pvalue->get_properties);
-    auto accessor = Napi::External<std::shared_ptr<oc_properties_cb_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_properties_cb_t> sp(&m_pvalue->get_properties);
+    auto accessor = Napi::External<shared_ptr<oc_properties_cb_t>>::New(info.Env(), &sp);
     return OCPropertiesCb::constructor.New({accessor});
 }
 
 void OCResource::set_get_properties(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->get_properties = *(*(value.As<Napi::External<std::shared_ptr<oc_properties_cb_t>>>().Data()));
+    m_pvalue->get_properties = *(*(value.As<Napi::External<shared_ptr<oc_properties_cb_t>>>().Data()));
 }
 
 Napi::Value OCResource::get_interfaces(const Napi::CallbackInfo& info)
@@ -3539,14 +3539,14 @@ void OCResource::set_interfaces(const Napi::CallbackInfo& info, const Napi::Valu
 
 Napi::Value OCResource::get_name(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->name);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->name);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCResource::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->name = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->name = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 #if defined(OC_COLLECTIONS)
@@ -3583,14 +3583,14 @@ void OCResource::set_observe_period_seconds(const Napi::CallbackInfo& info, cons
 
 Napi::Value OCResource::get_post_handler(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->post_handler);
-    auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_request_handler_s> sp(&m_pvalue->post_handler);
+    auto accessor = Napi::External<shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
     return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCResource::set_post_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->post_handler = *(*(value.As<Napi::External<std::shared_ptr<oc_request_handler_s>>>().Data()));
+    m_pvalue->post_handler = *(*(value.As<Napi::External<shared_ptr<oc_request_handler_s>>>().Data()));
 }
 
 Napi::Value OCResource::get_properties(const Napi::CallbackInfo& info)
@@ -3605,26 +3605,26 @@ void OCResource::set_properties(const Napi::CallbackInfo& info, const Napi::Valu
 
 Napi::Value OCResource::get_put_handler(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_request_handler_s> sp(&m_pvalue->put_handler);
-    auto accessor = Napi::External<std::shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_request_handler_s> sp(&m_pvalue->put_handler);
+    auto accessor = Napi::External<shared_ptr<oc_request_handler_s>>::New(info.Env(), &sp);
     return OCRequestHandler::constructor.New({accessor});
 }
 
 void OCResource::set_put_handler(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->put_handler = *(*(value.As<Napi::External<std::shared_ptr<oc_request_handler_s>>>().Data()));
+    m_pvalue->put_handler = *(*(value.As<Napi::External<shared_ptr<oc_request_handler_s>>>().Data()));
 }
 
 Napi::Value OCResource::get_set_properties(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_properties_cb_t> sp(&m_pvalue->set_properties);
-    auto accessor = Napi::External<std::shared_ptr<oc_properties_cb_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_properties_cb_t> sp(&m_pvalue->set_properties);
+    auto accessor = Napi::External<shared_ptr<oc_properties_cb_t>>::New(info.Env(), &sp);
     return OCPropertiesCb::constructor.New({accessor});
 }
 
 void OCResource::set_set_properties(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->set_properties = *(*(value.As<Napi::External<std::shared_ptr<oc_properties_cb_t>>>().Data()));
+    m_pvalue->set_properties = *(*(value.As<Napi::External<shared_ptr<oc_properties_cb_t>>>().Data()));
 }
 
 Napi::Value OCResource::get_tag_func_desc(const Napi::CallbackInfo& info)
@@ -3665,26 +3665,26 @@ void OCResource::set_tag_pos_rel(const Napi::CallbackInfo& info, const Napi::Val
 
 Napi::Value OCResource::get_types(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_string_array_t> sp(&m_pvalue->types);
-    auto accessor = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_string_array_t> sp(&m_pvalue->types);
+    auto accessor = Napi::External<shared_ptr<oc_string_array_t>>::New(info.Env(), &sp);
     return OCStringArray::constructor.New({accessor});
 }
 
 void OCResource::set_types(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->types = *(*(value.As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data()));
+    m_pvalue->types = *(*(value.As<Napi::External<shared_ptr<oc_string_array_t>>>().Data()));
 }
 
 Napi::Value OCResource::get_uri(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->uri);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->uri);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCResource::set_uri(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->uri = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->uri = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCResource::bind_resource_interface(const Napi::CallbackInfo& info) {
@@ -3809,10 +3809,10 @@ OCResponseBuffer::~OCResponseBuffer()
 OCResponseBuffer::OCResponseBuffer(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_response_buffer_s>(new oc_response_buffer_s());
+        m_pvalue = shared_ptr<oc_response_buffer_s>(new oc_response_buffer_s());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_response_buffer_s>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_response_buffer_s>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -3891,10 +3891,10 @@ OCResponse::~OCResponse()
 OCResponse::OCResponse(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_response_t>(new oc_response_t());
+        m_pvalue = shared_ptr<oc_response_t>(new oc_response_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_response_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_response_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -3903,26 +3903,26 @@ OCResponse::OCResponse(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCResponse::get_response_buffer(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_response_buffer_t*> sp(&m_pvalue->response_buffer);
-    auto accessor = Napi::External<std::shared_ptr<oc_response_buffer_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_response_buffer_t*> sp(&m_pvalue->response_buffer);
+    auto accessor = Napi::External<shared_ptr<oc_response_buffer_t*>>::New(info.Env(), &sp);
     return OCResponseBuffer::constructor.New({accessor});
 }
 
 void OCResponse::set_response_buffer(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->response_buffer = *(*(value.As<Napi::External<std::shared_ptr<oc_response_buffer_t*>>>().Data()));
+    m_pvalue->response_buffer = *(*(value.As<Napi::External<shared_ptr<oc_response_buffer_t*>>>().Data()));
 }
 
 Napi::Value OCResponse::get_separate_response(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_separate_response_t*> sp(&m_pvalue->separate_response);
-    auto accessor = Napi::External<std::shared_ptr<oc_separate_response_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_separate_response_t*> sp(&m_pvalue->separate_response);
+    auto accessor = Napi::External<shared_ptr<oc_separate_response_t*>>::New(info.Env(), &sp);
     return OCSeparateResponse::constructor.New({accessor});
 }
 
 void OCResponse::set_separate_response(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->separate_response = *(*(value.As<Napi::External<std::shared_ptr<oc_separate_response_t*>>>().Data()));
+    m_pvalue->separate_response = *(*(value.As<Napi::External<shared_ptr<oc_separate_response_t*>>>().Data()));
 }
 
 Napi::FunctionReference OCRole::constructor;
@@ -3946,10 +3946,10 @@ OCRole::~OCRole()
 OCRole::OCRole(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_role_t>(new oc_role_t());
+        m_pvalue = shared_ptr<oc_role_t>(new oc_role_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_role_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_role_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -3958,26 +3958,26 @@ OCRole::OCRole(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCRole::get_authority(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->authority);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->authority);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCRole::set_authority(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->authority = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->authority = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::Value OCRole::get_role(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->role);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->role);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCRole::set_role(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->role = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->role = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::FunctionReference OCResourceType::constructor;
@@ -4000,10 +4000,10 @@ OCResourceType::~OCResourceType()
 OCResourceType::OCResourceType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_rt_t>(new oc_rt_t());
+        m_pvalue = shared_ptr<oc_rt_t>(new oc_rt_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_rt_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_rt_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4012,14 +4012,14 @@ OCResourceType::OCResourceType(const Napi::CallbackInfo& info) : ObjectWrap(info
 }
 Napi::Value OCResourceType::get_rt(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->rt);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->rt);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCResourceType::set_rt(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->rt = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->rt = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::FunctionReference OCSecurityAce::constructor;
@@ -4045,10 +4045,10 @@ OCSecurityAce::~OCSecurityAce()
 OCSecurityAce::OCSecurityAce(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_sec_ace_t>(new oc_sec_ace_t());
+        m_pvalue = shared_ptr<oc_sec_ace_t>(new oc_sec_ace_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_sec_ace_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_sec_ace_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4077,14 +4077,14 @@ void OCSecurityAce::set_permission(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCSecurityAce::get_subject(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_ace_subject_t> sp(&m_pvalue->subject);
-    auto accessor = Napi::External<std::shared_ptr<oc_ace_subject_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_ace_subject_t> sp(&m_pvalue->subject);
+    auto accessor = Napi::External<shared_ptr<oc_ace_subject_t>>::New(info.Env(), &sp);
     return OCAceSubject::constructor.New({accessor});
 }
 
 void OCSecurityAce::set_subject(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->subject = *(*(value.As<Napi::External<std::shared_ptr<oc_ace_subject_t>>>().Data()));
+    m_pvalue->subject = *(*(value.As<Napi::External<shared_ptr<oc_ace_subject_t>>>().Data()));
 }
 
 Napi::Value OCSecurityAce::get_subject_type(const Napi::CallbackInfo& info)
@@ -4117,10 +4117,10 @@ OCSecurityAcl::~OCSecurityAcl()
 OCSecurityAcl::OCSecurityAcl(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_sec_acl_s>(new oc_sec_acl_s());
+        m_pvalue = shared_ptr<oc_sec_acl_s>(new oc_sec_acl_s());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_sec_acl_s>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_sec_acl_s>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4129,14 +4129,14 @@ OCSecurityAcl::OCSecurityAcl(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCSecurityAcl::get_rowneruuid(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_uuid_t> sp(&m_pvalue->rowneruuid);
-    auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_uuid_t> sp(&m_pvalue->rowneruuid);
+    auto accessor = Napi::External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
     return OCUuid::constructor.New({accessor});
 }
 
 void OCSecurityAcl::set_rowneruuid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->rowneruuid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
+    m_pvalue->rowneruuid = *(*(value.As<Napi::External<shared_ptr<oc_uuid_t>>>().Data()));
 }
 
 Napi::FunctionReference OCCreds::constructor;
@@ -4159,10 +4159,10 @@ OCCreds::~OCCreds()
 OCCreds::OCCreds(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_sec_creds_t>(new oc_sec_creds_t());
+        m_pvalue = shared_ptr<oc_sec_creds_t>(new oc_sec_creds_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_sec_creds_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_sec_creds_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4171,14 +4171,14 @@ OCCreds::OCCreds(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCCreds::get_rowneruuid(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_uuid_t> sp(&m_pvalue->rowneruuid);
-    auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_uuid_t> sp(&m_pvalue->rowneruuid);
+    auto accessor = Napi::External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
     return OCUuid::constructor.New({accessor});
 }
 
 void OCCreds::set_rowneruuid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->rowneruuid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
+    m_pvalue->rowneruuid = *(*(value.As<Napi::External<shared_ptr<oc_uuid_t>>>().Data()));
 }
 
 Napi::FunctionReference OCCred::constructor;
@@ -4217,10 +4217,10 @@ OCCred::~OCCred()
 OCCred::OCCred(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_sec_cred_t>(new oc_sec_cred_t());
+        m_pvalue = shared_ptr<oc_sec_cred_t>(new oc_sec_cred_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_sec_cred_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_sec_cred_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4231,15 +4231,15 @@ OCCred::OCCred(const Napi::CallbackInfo& info) : ObjectWrap(info)
 Napi::Value OCCred::get_chain(const Napi::CallbackInfo& info)
 {
 //
-    std::shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->chain);
-    auto accessor = Napi::External<std::shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->chain);
+    auto accessor = Napi::External<shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
     return OCCred::constructor.New({accessor});
 
 }
 
 void OCCred::set_chain(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->chain = *(*(value.As<Napi::External<std::shared_ptr<oc_sec_cred_t*>>>().Data()));
+    m_pvalue->chain = *(*(value.As<Napi::External<shared_ptr<oc_sec_cred_t*>>>().Data()));
 }
 #endif
 
@@ -4247,15 +4247,15 @@ void OCCred::set_chain(const Napi::CallbackInfo& info, const Napi::Value& value)
 Napi::Value OCCred::get_child(const Napi::CallbackInfo& info)
 {
 //
-    std::shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->child);
-    auto accessor = Napi::External<std::shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
+    shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->child);
+    auto accessor = Napi::External<shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
     return OCCred::constructor.New({accessor});
 
 }
 
 void OCCred::set_child(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->child = *(*(value.As<Napi::External<std::shared_ptr<oc_sec_cred_t*>>>().Data()));
+    m_pvalue->child = *(*(value.As<Napi::External<shared_ptr<oc_sec_cred_t*>>>().Data()));
 }
 #endif
 
@@ -4303,40 +4303,40 @@ void OCCred::set_owner_cred(const Napi::CallbackInfo& info, const Napi::Value& v
 
 Napi::Value OCCred::get_privatedata(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_cred_data_t> sp(&m_pvalue->privatedata);
-    auto accessor = Napi::External<std::shared_ptr<oc_cred_data_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_cred_data_t> sp(&m_pvalue->privatedata);
+    auto accessor = Napi::External<shared_ptr<oc_cred_data_t>>::New(info.Env(), &sp);
     return OCCredData::constructor.New({accessor});
 }
 
 void OCCred::set_privatedata(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->privatedata = *(*(value.As<Napi::External<std::shared_ptr<oc_cred_data_t>>>().Data()));
+    m_pvalue->privatedata = *(*(value.As<Napi::External<shared_ptr<oc_cred_data_t>>>().Data()));
 }
 
 #if defined(OC_PKI)
 Napi::Value OCCred::get_publicdata(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_cred_data_t> sp(&m_pvalue->publicdata);
-    auto accessor = Napi::External<std::shared_ptr<oc_cred_data_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_cred_data_t> sp(&m_pvalue->publicdata);
+    auto accessor = Napi::External<shared_ptr<oc_cred_data_t>>::New(info.Env(), &sp);
     return OCCredData::constructor.New({accessor});
 }
 
 void OCCred::set_publicdata(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->publicdata = *(*(value.As<Napi::External<std::shared_ptr<oc_cred_data_t>>>().Data()));
+    m_pvalue->publicdata = *(*(value.As<Napi::External<shared_ptr<oc_cred_data_t>>>().Data()));
 }
 #endif
 
 Napi::Value OCCred::get_subjectuuid(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_uuid_t> sp(&m_pvalue->subjectuuid);
-    auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_uuid_t> sp(&m_pvalue->subjectuuid);
+    auto accessor = Napi::External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
     return OCUuid::constructor.New({accessor});
 }
 
 void OCCred::set_subjectuuid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->subjectuuid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
+    m_pvalue->subjectuuid = *(*(value.As<Napi::External<shared_ptr<oc_uuid_t>>>().Data()));
 }
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
@@ -4396,10 +4396,10 @@ OCSeparateResponse::~OCSeparateResponse()
 OCSeparateResponse::OCSeparateResponse(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_separate_response_s>(new oc_separate_response_s());
+        m_pvalue = shared_ptr<oc_separate_response_s>(new oc_separate_response_s());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_separate_response_s>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_separate_response_s>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4446,10 +4446,10 @@ OCSessionEventCb::~OCSessionEventCb()
 OCSessionEventCb::OCSessionEventCb(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_session_event_cb>(new oc_session_event_cb());
+        m_pvalue = shared_ptr<oc_session_event_cb>(new oc_session_event_cb());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_session_event_cb>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_session_event_cb>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4489,10 +4489,10 @@ OCSoftwareUpdateHandler::~OCSoftwareUpdateHandler()
 OCSoftwareUpdateHandler::OCSoftwareUpdateHandler(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_swupdate_cb_t>(new oc_swupdate_cb_t());
+        m_pvalue = shared_ptr<oc_swupdate_cb_t>(new oc_swupdate_cb_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_swupdate_cb_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_swupdate_cb_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4560,10 +4560,10 @@ OCTimer::~OCTimer()
 OCTimer::OCTimer(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_timer>(new oc_timer());
+        m_pvalue = shared_ptr<oc_timer>(new oc_timer());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_timer>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_timer>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4610,10 +4610,10 @@ OCUuid::~OCUuid()
 OCUuid::OCUuid(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_uuid_t>(new oc_uuid_t());
+        m_pvalue = shared_ptr<oc_uuid_t>(new oc_uuid_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_uuid_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4676,10 +4676,10 @@ OCAceSubject::~OCAceSubject()
 OCAceSubject::OCAceSubject(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_ace_subject_t>(new oc_ace_subject_t());
+        m_pvalue = shared_ptr<oc_ace_subject_t>(new oc_ace_subject_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_ace_subject_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_ace_subject_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4698,14 +4698,14 @@ void OCAceSubject::set_conn(const Napi::CallbackInfo& info, const Napi::Value& v
 
 Napi::Value OCAceSubject::get_uuid(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_uuid_t> sp(&m_pvalue->uuid);
-    auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_uuid_t> sp(&m_pvalue->uuid);
+    auto accessor = Napi::External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
     return OCUuid::constructor.New({accessor});
 }
 
 void OCAceSubject::set_uuid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->uuid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
+    m_pvalue->uuid = *(*(value.As<Napi::External<shared_ptr<oc_uuid_t>>>().Data()));
 }
 
 Napi::FunctionReference DevAddr::constructor;
@@ -4730,10 +4730,10 @@ DevAddr::~DevAddr()
 DevAddr::DevAddr(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_endpoint_t::dev_addr>(new oc_endpoint_t::dev_addr());
+        m_pvalue = shared_ptr<oc_endpoint_t::dev_addr>(new oc_endpoint_t::dev_addr());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_endpoint_t::dev_addr>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_endpoint_t::dev_addr>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4742,38 +4742,38 @@ DevAddr::DevAddr(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value DevAddr::get_bt(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_le_addr_t> sp(&m_pvalue->bt);
-    auto accessor = Napi::External<std::shared_ptr<oc_le_addr_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_le_addr_t> sp(&m_pvalue->bt);
+    auto accessor = Napi::External<shared_ptr<oc_le_addr_t>>::New(info.Env(), &sp);
     return OCLEAddr::constructor.New({accessor});
 }
 
 void DevAddr::set_bt(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->bt = *(*(value.As<Napi::External<std::shared_ptr<oc_le_addr_t>>>().Data()));
+    m_pvalue->bt = *(*(value.As<Napi::External<shared_ptr<oc_le_addr_t>>>().Data()));
 }
 
 Napi::Value DevAddr::get_ipv4(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_ipv4_addr_t> sp(&m_pvalue->ipv4);
-    auto accessor = Napi::External<std::shared_ptr<oc_ipv4_addr_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_ipv4_addr_t> sp(&m_pvalue->ipv4);
+    auto accessor = Napi::External<shared_ptr<oc_ipv4_addr_t>>::New(info.Env(), &sp);
     return OCIPv4Addr::constructor.New({accessor});
 }
 
 void DevAddr::set_ipv4(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->ipv4 = *(*(value.As<Napi::External<std::shared_ptr<oc_ipv4_addr_t>>>().Data()));
+    m_pvalue->ipv4 = *(*(value.As<Napi::External<shared_ptr<oc_ipv4_addr_t>>>().Data()));
 }
 
 Napi::Value DevAddr::get_ipv6(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_ipv6_addr_t> sp(&m_pvalue->ipv6);
-    auto accessor = Napi::External<std::shared_ptr<oc_ipv6_addr_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_ipv6_addr_t> sp(&m_pvalue->ipv6);
+    auto accessor = Napi::External<shared_ptr<oc_ipv6_addr_t>>::New(info.Env(), &sp);
     return OCIPv6Addr::constructor.New({accessor});
 }
 
 void DevAddr::set_ipv6(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->ipv6 = *(*(value.As<Napi::External<std::shared_ptr<oc_ipv6_addr_t>>>().Data()));
+    m_pvalue->ipv6 = *(*(value.As<Napi::External<shared_ptr<oc_ipv6_addr_t>>>().Data()));
 }
 
 Napi::FunctionReference OCValue::constructor;
@@ -4802,10 +4802,10 @@ OCValue::~OCValue()
 OCValue::OCValue(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_rep_s::oc_rep_value>(new oc_rep_s::oc_rep_value());
+        m_pvalue = shared_ptr<oc_rep_s::oc_rep_value>(new oc_rep_s::oc_rep_value());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_rep_s::oc_rep_value>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_rep_s::oc_rep_value>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4814,14 +4814,14 @@ OCValue::OCValue(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCValue::get_array(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_array_t> sp(&m_pvalue->array);
-    auto accessor = Napi::External<std::shared_ptr<oc_array_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_array_t> sp(&m_pvalue->array);
+    auto accessor = Napi::External<shared_ptr<oc_array_t>>::New(info.Env(), &sp);
     return OCArray::constructor.New({accessor});
 }
 
 void OCValue::set_array(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->array = *(*(value.As<Napi::External<std::shared_ptr<oc_array_t>>>().Data()));
+    m_pvalue->array = *(*(value.As<Napi::External<shared_ptr<oc_array_t>>>().Data()));
 }
 
 Napi::Value OCValue::get_boolean(const Napi::CallbackInfo& info)
@@ -4856,38 +4856,38 @@ void OCValue::set_integer(const Napi::CallbackInfo& info, const Napi::Value& val
 
 Napi::Value OCValue::get_object(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_rep_s*> sp(&m_pvalue->object);
-    auto accessor = Napi::External<std::shared_ptr<oc_rep_s*>>::New(info.Env(), &sp);
+    shared_ptr<oc_rep_s*> sp(&m_pvalue->object);
+    auto accessor = Napi::External<shared_ptr<oc_rep_s*>>::New(info.Env(), &sp);
     return OCRepresentation::constructor.New({accessor});
 }
 
 void OCValue::set_object(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->object = *(*(value.As<Napi::External<std::shared_ptr<oc_rep_s*>>>().Data()));
+    m_pvalue->object = *(*(value.As<Napi::External<shared_ptr<oc_rep_s*>>>().Data()));
 }
 
 Napi::Value OCValue::get_object_array(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_rep_s*> sp(&m_pvalue->object_array);
-    auto accessor = Napi::External<std::shared_ptr<oc_rep_s*>>::New(info.Env(), &sp);
+    shared_ptr<oc_rep_s*> sp(&m_pvalue->object_array);
+    auto accessor = Napi::External<shared_ptr<oc_rep_s*>>::New(info.Env(), &sp);
     return OCRepresentation::constructor.New({accessor});
 }
 
 void OCValue::set_object_array(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->object_array = *(*(value.As<Napi::External<std::shared_ptr<oc_rep_s*>>>().Data()));
+    m_pvalue->object_array = *(*(value.As<Napi::External<shared_ptr<oc_rep_s*>>>().Data()));
 }
 
 Napi::Value OCValue::get_string(const Napi::CallbackInfo& info)
 {
-    std::shared_ptr<oc_mmem> sp(&m_pvalue->string);
-    auto accessor = Napi::External<std::shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+    shared_ptr<oc_mmem> sp(&m_pvalue->string);
+    auto accessor = Napi::External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
     return OCMmem::constructor.New({accessor});
 }
 
 void OCValue::set_string(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->string = *(*(value.As<Napi::External<std::shared_ptr<oc_mmem>>>().Data()));
+    m_pvalue->string = *(*(value.As<Napi::External<shared_ptr<oc_mmem>>>().Data()));
 }
 
 Napi::FunctionReference OCCborEncoder::constructor;
@@ -4909,10 +4909,10 @@ OCCborEncoder::~OCCborEncoder()
 OCCborEncoder::OCCborEncoder(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<CborEncoder>(new CborEncoder());
+        m_pvalue = shared_ptr<CborEncoder>(new CborEncoder());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<CborEncoder>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<CborEncoder>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4939,10 +4939,10 @@ OCArray::~OCArray()
 OCArray::OCArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_array_t>(new oc_array_t());
+        m_pvalue = shared_ptr<oc_array_t>(new oc_array_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_array_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_array_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -4969,10 +4969,10 @@ OCStringArray::~OCStringArray()
 OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_string_array_t>(new oc_string_array_t());
+        m_pvalue = shared_ptr<oc_string_array_t>(new oc_string_array_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_string_array_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5002,9 +5002,9 @@ OCStringArrayIterator::~OCStringArrayIterator()
 OCStringArrayIterator::OCStringArrayIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = std::shared_ptr<oc_string_array_iterator_t>(new oc_string_array_iterator_t());
+        m_pvalue = shared_ptr<oc_string_array_iterator_t>(new oc_string_array_iterator_t());
         m_pvalue->index = -1;
-        m_pvalue->array = *info[0].As<Napi::External<std::shared_ptr<oc_string_array_t>>>().Data()->get();
+        m_pvalue->array = *info[0].As<Napi::External<shared_ptr<oc_string_array_t>>>().Data()->get();
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5053,19 +5053,18 @@ OCEndpointIterator::~OCEndpointIterator()
 OCEndpointIterator::OCEndpointIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = std::shared_ptr<oc_endpoint_iterator_t>(new oc_endpoint_iterator_t());
-        m_pvalue->current = info[0].As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data()->get();
+        m_pvalue = shared_ptr<oc_endpoint_iterator_t>(new oc_endpoint_iterator_t());
+        m_pvalue->current = info[0].As<Napi::External<shared_ptr<oc_endpoint_t>>>().Data()->get();
     }
     else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
-        .ThrowAsJavaScriptException();
+        Napi::TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
     }
 }
 Napi::Value OCEndpointIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_endpoint_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
     return OCEndpoint::constructor.New({ accessor });
 }
 
@@ -5105,10 +5104,10 @@ OCCollectionIterator::~OCCollectionIterator()
 OCCollectionIterator::OCCollectionIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_collection_iterator_t>(new oc_collection_iterator_t());
+        m_pvalue = shared_ptr<oc_collection_iterator_t>(new oc_collection_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_collection_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_collection_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5118,8 +5117,8 @@ OCCollectionIterator::OCCollectionIterator(const Napi::CallbackInfo& info) : Obj
 Napi::Value OCCollectionIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_collection_s> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_collection_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_collection_s> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_collection_s>>::New(info.Env(), &sp);
     return OCCollection::constructor.New({ accessor });
 }
 
@@ -5130,7 +5129,7 @@ void OCCollectionIterator::set_value(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCCollectionIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCCollectionIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5159,10 +5158,10 @@ OCLinkIterator::~OCLinkIterator()
 OCLinkIterator::OCLinkIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_link_iterator_t>(new oc_link_iterator_t());
+        m_pvalue = shared_ptr<oc_link_iterator_t>(new oc_link_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_link_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_link_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5172,8 +5171,8 @@ OCLinkIterator::OCLinkIterator(const Napi::CallbackInfo& info) : ObjectWrap(info
 Napi::Value OCLinkIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_link_s> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_link_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_link_s> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_link_s>>::New(info.Env(), &sp);
     return OCLink::constructor.New({ accessor });
 }
 
@@ -5184,7 +5183,7 @@ void OCLinkIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value OCLinkIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCLinkIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5213,10 +5212,10 @@ OCSecurityAceIterator::~OCSecurityAceIterator()
 OCSecurityAceIterator::OCSecurityAceIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_sec_ace_iterator_t>(new oc_sec_ace_iterator_t());
+        m_pvalue = shared_ptr<oc_sec_ace_iterator_t>(new oc_sec_ace_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_sec_ace_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_sec_ace_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5226,8 +5225,8 @@ OCSecurityAceIterator::OCSecurityAceIterator(const Napi::CallbackInfo& info) : O
 Napi::Value OCSecurityAceIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_sec_ace_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_sec_ace_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
     return OCSecurityAce::constructor.New({ accessor });
 }
 
@@ -5238,7 +5237,7 @@ void OCSecurityAceIterator::set_value(const Napi::CallbackInfo& info, const Napi
 
 Napi::Value OCSecurityAceIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCSecurityAceIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5267,10 +5266,10 @@ OCAceResourceIterator::~OCAceResourceIterator()
 OCAceResourceIterator::OCAceResourceIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_ace_res_iterator_t>(new oc_ace_res_iterator_t());
+        m_pvalue = shared_ptr<oc_ace_res_iterator_t>(new oc_ace_res_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_ace_res_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_ace_res_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5280,8 +5279,8 @@ OCAceResourceIterator::OCAceResourceIterator(const Napi::CallbackInfo& info) : O
 Napi::Value OCAceResourceIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_ace_res_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_ace_res_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
     return OCAceResource::constructor.New({ accessor });
 }
 
@@ -5292,7 +5291,7 @@ void OCAceResourceIterator::set_value(const Napi::CallbackInfo& info, const Napi
 
 Napi::Value OCAceResourceIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCAceResourceIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5321,10 +5320,10 @@ OCCloudContextIterator::~OCCloudContextIterator()
 OCCloudContextIterator::OCCloudContextIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_cloud_context_iterator_t>(new oc_cloud_context_iterator_t());
+        m_pvalue = shared_ptr<oc_cloud_context_iterator_t>(new oc_cloud_context_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_cloud_context_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_cloud_context_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5334,8 +5333,8 @@ OCCloudContextIterator::OCCloudContextIterator(const Napi::CallbackInfo& info) :
 Napi::Value OCCloudContextIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_cloud_context_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_cloud_context_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
     return OCCloudContext::constructor.New({ accessor });
 }
 
@@ -5346,7 +5345,7 @@ void OCCloudContextIterator::set_value(const Napi::CallbackInfo& info, const Nap
 
 Napi::Value OCCloudContextIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCCloudContextIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5375,10 +5374,10 @@ OCLinkParamsIterator::~OCLinkParamsIterator()
 OCLinkParamsIterator::OCLinkParamsIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_link_params_iterator_t>(new oc_link_params_iterator_t());
+        m_pvalue = shared_ptr<oc_link_params_iterator_t>(new oc_link_params_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_link_params_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_link_params_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5388,8 +5387,8 @@ OCLinkParamsIterator::OCLinkParamsIterator(const Napi::CallbackInfo& info) : Obj
 Napi::Value OCLinkParamsIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_link_params_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_link_params_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_link_params_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_link_params_t>>::New(info.Env(), &sp);
     return OCLink::constructor.New({ accessor });
 }
 
@@ -5400,7 +5399,7 @@ void OCLinkParamsIterator::set_value(const Napi::CallbackInfo& info, const Napi:
 
 Napi::Value OCLinkParamsIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCLinkParamsIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5429,10 +5428,10 @@ OCResourceTypeIterator::~OCResourceTypeIterator()
 OCResourceTypeIterator::OCResourceTypeIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_rt_iterator_t>(new oc_rt_iterator_t());
+        m_pvalue = shared_ptr<oc_rt_iterator_t>(new oc_rt_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_rt_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_rt_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5442,8 +5441,8 @@ OCResourceTypeIterator::OCResourceTypeIterator(const Napi::CallbackInfo& info) :
 Napi::Value OCResourceTypeIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_rt_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_rt_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_rt_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_rt_t>>::New(info.Env(), &sp);
     return OCResourceType::constructor.New({ accessor });
 }
 
@@ -5454,7 +5453,7 @@ void OCResourceTypeIterator::set_value(const Napi::CallbackInfo& info, const Nap
 
 Napi::Value OCResourceTypeIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCResourceTypeIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5483,10 +5482,10 @@ OCEtimeIterator::~OCEtimeIterator()
 OCEtimeIterator::OCEtimeIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_etime_iterator_t>(new oc_etime_iterator_t());
+        m_pvalue = shared_ptr<oc_etime_iterator_t>(new oc_etime_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_etime_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_etime_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5496,8 +5495,8 @@ OCEtimeIterator::OCEtimeIterator(const Napi::CallbackInfo& info) : ObjectWrap(in
 Napi::Value OCEtimeIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_etimer> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_etimer>>::New(info.Env(), &sp);
+    shared_ptr<oc_etimer> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_etimer>>::New(info.Env(), &sp);
     return OCEtimer::constructor.New({ accessor });
 }
 
@@ -5508,7 +5507,7 @@ void OCEtimeIterator::set_value(const Napi::CallbackInfo& info, const Napi::Valu
 
 Napi::Value OCEtimeIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCEtimeIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5537,10 +5536,10 @@ OCEventCallbackIterator::~OCEventCallbackIterator()
 OCEventCallbackIterator::OCEventCallbackIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_event_callback_iterator_t>(new oc_event_callback_iterator_t());
+        m_pvalue = shared_ptr<oc_event_callback_iterator_t>(new oc_event_callback_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_event_callback_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_event_callback_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5550,8 +5549,8 @@ OCEventCallbackIterator::OCEventCallbackIterator(const Napi::CallbackInfo& info)
 Napi::Value OCEventCallbackIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_event_callback_s> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_event_callback_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_event_callback_s> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_event_callback_s>>::New(info.Env(), &sp);
     return OCEventCallback::constructor.New({ accessor });
 }
 
@@ -5562,7 +5561,7 @@ void OCEventCallbackIterator::set_value(const Napi::CallbackInfo& info, const Na
 
 Napi::Value OCEventCallbackIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCEventCallbackIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5591,10 +5590,10 @@ OCMessageIterator::~OCMessageIterator()
 OCMessageIterator::OCMessageIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_message_iterator_t>(new oc_message_iterator_t());
+        m_pvalue = shared_ptr<oc_message_iterator_t>(new oc_message_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_message_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_message_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5604,8 +5603,8 @@ OCMessageIterator::OCMessageIterator(const Napi::CallbackInfo& info) : ObjectWra
 Napi::Value OCMessageIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_message_s> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_message_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_message_s> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_message_s>>::New(info.Env(), &sp);
     return OCMessage::constructor.New({ accessor });
 }
 
@@ -5616,7 +5615,7 @@ void OCMessageIterator::set_value(const Napi::CallbackInfo& info, const Napi::Va
 
 Napi::Value OCMessageIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCMessageIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5645,10 +5644,10 @@ OCRoleIterator::~OCRoleIterator()
 OCRoleIterator::OCRoleIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_role_iterator_t>(new oc_role_iterator_t());
+        m_pvalue = shared_ptr<oc_role_iterator_t>(new oc_role_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_role_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_role_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5658,8 +5657,8 @@ OCRoleIterator::OCRoleIterator(const Napi::CallbackInfo& info) : ObjectWrap(info
 Napi::Value OCRoleIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_role_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_role_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_role_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_role_t>>::New(info.Env(), &sp);
     return OCRole::constructor.New({ accessor });
 }
 
@@ -5670,7 +5669,7 @@ void OCRoleIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value
 
 Napi::Value OCRoleIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCRoleIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5699,10 +5698,10 @@ OCBlockwiseStateIterator::~OCBlockwiseStateIterator()
 OCBlockwiseStateIterator::OCBlockwiseStateIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_blockwise_state_iterator_t>(new oc_blockwise_state_iterator_t());
+        m_pvalue = shared_ptr<oc_blockwise_state_iterator_t>(new oc_blockwise_state_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_blockwise_state_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_blockwise_state_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5712,8 +5711,8 @@ OCBlockwiseStateIterator::OCBlockwiseStateIterator(const Napi::CallbackInfo& inf
 Napi::Value OCBlockwiseStateIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_blockwise_state_t> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
+    shared_ptr<oc_blockwise_state_t> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
     return OCBlockwiseState::constructor.New({ accessor });
 }
 
@@ -5724,7 +5723,7 @@ void OCBlockwiseStateIterator::set_value(const Napi::CallbackInfo& info, const N
 
 Napi::Value OCBlockwiseStateIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCBlockwiseStateIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5753,10 +5752,10 @@ OCSessionEventCbIterator::~OCSessionEventCbIterator()
 OCSessionEventCbIterator::OCSessionEventCbIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_session_event_cb_iterator_t>(new oc_session_event_cb_iterator_t());
+        m_pvalue = shared_ptr<oc_session_event_cb_iterator_t>(new oc_session_event_cb_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_session_event_cb_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_session_event_cb_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5766,8 +5765,8 @@ OCSessionEventCbIterator::OCSessionEventCbIterator(const Napi::CallbackInfo& inf
 Napi::Value OCSessionEventCbIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_session_event_cb> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_session_event_cb>>::New(info.Env(), &sp);
+    shared_ptr<oc_session_event_cb> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_session_event_cb>>::New(info.Env(), &sp);
     return OCSessionEvents::constructor.New({ accessor });
 }
 
@@ -5778,7 +5777,7 @@ void OCSessionEventCbIterator::set_value(const Napi::CallbackInfo& info, const N
 
 Napi::Value OCSessionEventCbIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCSessionEventCbIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5807,10 +5806,10 @@ OCRepresentationIterator::~OCRepresentationIterator()
 OCRepresentationIterator::OCRepresentationIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_rep_iterator_t>(new oc_rep_iterator_t());
+        m_pvalue = shared_ptr<oc_rep_iterator_t>(new oc_rep_iterator_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_rep_iterator_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_rep_iterator_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5820,8 +5819,8 @@ OCRepresentationIterator::OCRepresentationIterator(const Napi::CallbackInfo& inf
 Napi::Value OCRepresentationIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_rep_s> sp(m_pvalue->current);
-    auto accessor = Napi::External<std::shared_ptr<oc_rep_s>>::New(info.Env(), &sp);
+    shared_ptr<oc_rep_s> sp(m_pvalue->current, nop_deleter);
+    auto accessor = Napi::External<shared_ptr<oc_rep_s>>::New(info.Env(), &sp);
     return OCRepresentation::constructor.New({ accessor });
 }
 
@@ -5832,7 +5831,7 @@ void OCRepresentationIterator::set_value(const Napi::CallbackInfo& info, const N
 
 Napi::Value OCRepresentationIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCRepresentationIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5869,10 +5868,10 @@ OCAceConnectionType::~OCAceConnectionType()
 OCAceConnectionType::OCAceConnectionType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_ace_connection_type_t>(new oc_ace_connection_type_t());
+        m_pvalue = shared_ptr<oc_ace_connection_type_t>(new oc_ace_connection_type_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_ace_connection_type_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_ace_connection_type_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5914,10 +5913,10 @@ OCAcePermissionsMask::~OCAcePermissionsMask()
 OCAcePermissionsMask::OCAcePermissionsMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_ace_permissions_t>(new oc_ace_permissions_t());
+        m_pvalue = shared_ptr<oc_ace_permissions_t>(new oc_ace_permissions_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_ace_permissions_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_ace_permissions_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -5976,10 +5975,10 @@ OCAceSubjectType::~OCAceSubjectType()
 OCAceSubjectType::OCAceSubjectType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_ace_subject_type_t>(new oc_ace_subject_type_t());
+        m_pvalue = shared_ptr<oc_ace_subject_type_t>(new oc_ace_subject_type_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_ace_subject_type_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_ace_subject_type_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -6024,10 +6023,10 @@ OCAceWildcard::~OCAceWildcard()
 OCAceWildcard::OCAceWildcard(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_ace_wildcard_t>(new oc_ace_wildcard_t());
+        m_pvalue = shared_ptr<oc_ace_wildcard_t>(new oc_ace_wildcard_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_ace_wildcard_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_ace_wildcard_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -6075,10 +6074,10 @@ OCBlockwiseRole::~OCBlockwiseRole()
 OCBlockwiseRole::OCBlockwiseRole(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_blockwise_role_t>(new oc_blockwise_role_t());
+        m_pvalue = shared_ptr<oc_blockwise_role_t>(new oc_blockwise_role_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_blockwise_role_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_blockwise_role_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -6116,10 +6115,10 @@ OCDiscoveryFlags::~OCDiscoveryFlags()
 OCDiscoveryFlags::OCDiscoveryFlags(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_discovery_flags_t>(new oc_discovery_flags_t());
+        m_pvalue = shared_ptr<oc_discovery_flags_t>(new oc_discovery_flags_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_discovery_flags_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_discovery_flags_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -6157,10 +6156,10 @@ OCQos::~OCQos()
 OCQos::OCQos(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_qos_t>(new oc_qos_t());
+        m_pvalue = shared_ptr<oc_qos_t>(new oc_qos_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_qos_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_qos_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -6200,10 +6199,10 @@ OCCloudError::~OCCloudError()
 OCCloudError::OCCloudError(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_cloud_error_t>(new oc_cloud_error_t());
+        m_pvalue = shared_ptr<oc_cloud_error_t>(new oc_cloud_error_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_cloud_error_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_cloud_error_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -6257,10 +6256,10 @@ OCCloudStatusMask::~OCCloudStatusMask()
 OCCloudStatusMask::OCCloudStatusMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_cloud_status_t>(new oc_cloud_status_t());
+        m_pvalue = shared_ptr<oc_cloud_status_t>(new oc_cloud_status_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_cloud_status_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_cloud_status_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -6331,10 +6330,10 @@ OCCloudPrivisoningStatus::~OCCloudPrivisoningStatus()
 OCCloudPrivisoningStatus::OCCloudPrivisoningStatus(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_cps_t>(new oc_cps_t());
+        m_pvalue = shared_ptr<oc_cps_t>(new oc_cps_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_cps_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_cps_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -6390,10 +6389,10 @@ tcpCsmState::~tcpCsmState()
 tcpCsmState::tcpCsmState(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<tcp_csm_state_t>(new tcp_csm_state_t());
+        m_pvalue = shared_ptr<tcp_csm_state_t>(new tcp_csm_state_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<tcp_csm_state_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<tcp_csm_state_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -6443,10 +6442,10 @@ OCCredType::~OCCredType()
 OCCredType::OCCredType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_sec_credtype_t>(new oc_sec_credtype_t());
+        m_pvalue = shared_ptr<oc_sec_credtype_t>(new oc_sec_credtype_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_sec_credtype_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_sec_credtype_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -6493,10 +6492,10 @@ OCCredUsage::~OCCredUsage()
 OCCredUsage::OCCredUsage(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_sec_credusage_t>(new oc_sec_credusage_t());
+        m_pvalue = shared_ptr<oc_sec_credusage_t>(new oc_sec_credusage_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_sec_credusage_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_sec_credusage_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -6557,10 +6556,10 @@ OCEncoding::~OCEncoding()
 OCEncoding::OCEncoding(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_sec_encoding_t>(new oc_sec_encoding_t());
+        m_pvalue = shared_ptr<oc_sec_encoding_t>(new oc_sec_encoding_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_sec_encoding_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_sec_encoding_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -6613,10 +6612,10 @@ OCFVersion::~OCFVersion()
 OCFVersion::OCFVersion(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<ocf_version_t>(new ocf_version_t());
+        m_pvalue = shared_ptr<ocf_version_t>(new ocf_version_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<ocf_version_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<ocf_version_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -6659,10 +6658,10 @@ OCTransportFlags::~OCTransportFlags()
 OCTransportFlags::OCTransportFlags(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<transport_flags>(new transport_flags());
+        m_pvalue = shared_ptr<transport_flags>(new transport_flags());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<transport_flags>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<transport_flags>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -6796,10 +6795,10 @@ OCEnum::~OCEnum()
 OCEnum::OCEnum(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_enum_t>(new oc_enum_t());
+        m_pvalue = shared_ptr<oc_enum_t>(new oc_enum_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_enum_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_enum_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -7204,10 +7203,10 @@ OCPositionDescription::~OCPositionDescription()
 OCPositionDescription::OCPositionDescription(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_pos_description_t>(new oc_pos_description_t());
+        m_pvalue = shared_ptr<oc_pos_description_t>(new oc_pos_description_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_pos_description_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_pos_description_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -7306,10 +7305,10 @@ OCInterfaceEvent::~OCInterfaceEvent()
 OCInterfaceEvent::OCInterfaceEvent(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_interface_event_t>(new oc_interface_event_t());
+        m_pvalue = shared_ptr<oc_interface_event_t>(new oc_interface_event_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_interface_event_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_interface_event_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -7349,10 +7348,10 @@ OCSpTypesMask::~OCSpTypesMask()
 OCSpTypesMask::OCSpTypesMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_sp_types_t>(new oc_sp_types_t());
+        m_pvalue = shared_ptr<oc_sp_types_t>(new oc_sp_types_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_sp_types_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_sp_types_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -7412,10 +7411,10 @@ OCRepValueType::~OCRepValueType()
 OCRepValueType::OCRepValueType(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_rep_value_type_t>(new oc_rep_value_type_t());
+        m_pvalue = shared_ptr<oc_rep_value_type_t>(new oc_rep_value_type_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_rep_value_type_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_rep_value_type_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -7535,10 +7534,10 @@ OCContentFormat::~OCContentFormat()
 OCContentFormat::OCContentFormat(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_content_format_t>(new oc_content_format_t());
+        m_pvalue = shared_ptr<oc_content_format_t>(new oc_content_format_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_content_format_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_content_format_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -7726,10 +7725,10 @@ OCCoreResource::~OCCoreResource()
 OCCoreResource::OCCoreResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_core_resource_t>(new oc_core_resource_t());
+        m_pvalue = shared_ptr<oc_core_resource_t>(new oc_core_resource_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_core_resource_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_core_resource_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -7871,10 +7870,10 @@ OCEventCallbackResult::~OCEventCallbackResult()
 OCEventCallbackResult::OCEventCallbackResult(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_event_callback_retval_t>(new oc_event_callback_retval_t());
+        m_pvalue = shared_ptr<oc_event_callback_retval_t>(new oc_event_callback_retval_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_event_callback_retval_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_event_callback_retval_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -7918,10 +7917,10 @@ OCInterfaceMask::~OCInterfaceMask()
 OCInterfaceMask::OCInterfaceMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_interface_mask_t>(new oc_interface_mask_t());
+        m_pvalue = shared_ptr<oc_interface_mask_t>(new oc_interface_mask_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_interface_mask_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_interface_mask_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -7991,10 +7990,10 @@ OCMethod::~OCMethod()
 OCMethod::OCMethod(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_method_t>(new oc_method_t());
+        m_pvalue = shared_ptr<oc_method_t>(new oc_method_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_method_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_method_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -8044,10 +8043,10 @@ OCResourcePropertiesMask::~OCResourcePropertiesMask()
 OCResourcePropertiesMask::OCResourcePropertiesMask(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_resource_properties_t>(new oc_resource_properties_t());
+        m_pvalue = shared_ptr<oc_resource_properties_t>(new oc_resource_properties_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_resource_properties_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_resource_properties_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -8116,10 +8115,10 @@ OCStatus::~OCStatus()
 OCStatus::OCStatus(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_status_t>(new oc_status_t());
+        m_pvalue = shared_ptr<oc_status_t>(new oc_status_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_status_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_status_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -8262,10 +8261,10 @@ OCSessionState::~OCSessionState()
 OCSessionState::OCSessionState(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_session_state_t>(new oc_session_state_t());
+        m_pvalue = shared_ptr<oc_session_state_t>(new oc_session_state_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_session_state_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_session_state_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
@@ -8309,10 +8308,10 @@ OCSoftwareUpdateResult::~OCSoftwareUpdateResult()
 OCSoftwareUpdateResult::OCSoftwareUpdateResult(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_swupdate_result_t>(new oc_swupdate_result_t());
+        m_pvalue = shared_ptr<oc_swupdate_result_t>(new oc_swupdate_result_t());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_swupdate_result_t>>>().Data());
+        m_pvalue = *(info[0].As<Napi::External<shared_ptr<oc_swupdate_result_t>>>().Data());
     }
     else {
         Napi::TypeError::New(info.Env(), "You need to name yourself")
