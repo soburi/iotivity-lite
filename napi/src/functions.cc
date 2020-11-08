@@ -96,26 +96,6 @@ Napi::Value N_oc_close_all_tls_sessions_for_device(const Napi::CallbackInfo& inf
 }
 #endif
 
-#if defined(OC_CLOUD)
-Napi::Value N_oc_cloud_deregister(const Napi::CallbackInfo& info) {
-  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
-  oc_cloud_cb_t cb = nullptr;
-  Napi::Function cb_ = info[1].As<Napi::Function>();
-  void* data = info[2];
-  return Napi::Number::New(info.Env(), oc_cloud_deregister(ctx, cb, data));
-}
-#endif
-
-#if defined(OC_CLOUD)
-Napi::Value N_oc_cloud_register(const Napi::CallbackInfo& info) {
-  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
-  oc_cloud_cb_t cb = nullptr;
-  Napi::Function cb_ = info[1].As<Napi::Function>();
-  void* data = info[2];
-  return Napi::Number::New(info.Env(), oc_cloud_register(ctx, cb, data));
-}
-#endif
-
 Napi::Value N_oc_collection_add(const Napi::CallbackInfo& info) {
   OCCollection& collection = *OCCollection::Unwrap(info[0].As<Napi::Object>());
   (void)oc_collection_add(collection);

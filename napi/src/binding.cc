@@ -121,12 +121,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_clock_encode_time_rfc3339", Napi::Function::New(env, N_oc_clock_encode_time_rfc3339));
   exports.Set("oc_clock_parse_time_rfc3339", Napi::Function::New(env, N_oc_clock_parse_time_rfc3339));
   exports.Set("oc_clock_time_rfc3339", Napi::Function::New(env, N_oc_clock_time_rfc3339));
-#if defined(OC_CLOUD)
-  exports.Set("oc_cloud_deregister", Napi::Function::New(env, N_oc_cloud_deregister));
-#endif
-#if defined(OC_CLOUD)
-  exports.Set("oc_cloud_register", Napi::Function::New(env, N_oc_cloud_register));
-#endif
   exports.Set("oc_check_if_collection", Napi::Function::New(env, N_oc_check_if_collection));
   exports.Set("oc_collection_add", Napi::Function::New(env, N_oc_collection_add));
   exports.Set("oc_collection_alloc", Napi::Function::New(env, N_oc_collection_alloc));

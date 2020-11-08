@@ -106,15 +106,17 @@ Napi::Function OCCloud::GetClass(Napi::Env env) {
         OCCloud::StaticMethod("get_context", &OCCloud::get_context),
         OCCloud::StaticMethod("manager_start", &OCCloud::manager_start),
         OCCloud::StaticMethod("manager_stop", &OCCloud::manager_stop),
-        OCCloud::StaticMethod("login", &OCCloud::login),
-        OCCloud::StaticMethod("logout", &OCCloud::logout),
-        OCCloud::StaticMethod("refresh_token", &OCCloud::refresh_token),
+        OCCloud::StaticMethod("cloud_login", &OCCloud::cloud_login),
+        OCCloud::StaticMethod("cloud_logout", &OCCloud::cloud_logout),
+        OCCloud::StaticMethod("cloud_refresh_token", &OCCloud::cloud_refresh_token),
         OCCloud::StaticMethod("get_token_expiry", &OCCloud::get_token_expiry),
         OCCloud::StaticMethod("add_resource", &OCCloud::add_resource),
         OCCloud::StaticMethod("delete_resource", &OCCloud::delete_resource),
         OCCloud::StaticMethod("publish_resources", &OCCloud::publish_resources),
         OCCloud::StaticMethod("discover_resources", &OCCloud::discover_resources),
         OCCloud::StaticMethod("provision_conf_resource", &OCCloud::provision_conf_resource),
+        OCCloud::StaticMethod("cloud_register", &OCCloud::cloud_register),
+        OCCloud::StaticMethod("cloud_deregister", &OCCloud::cloud_deregister),
     });
 }
 
@@ -145,7 +147,7 @@ Napi::Value OCCloud::manager_stop(const Napi::CallbackInfo& info) {
 #endif
 
 #if defined(OC_CLOUD)
-Napi::Value OCCloud::login(const Napi::CallbackInfo& info) {
+Napi::Value OCCloud::cloud_login(const Napi::CallbackInfo& info) {
   OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
   oc_cloud_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
@@ -155,7 +157,7 @@ Napi::Value OCCloud::login(const Napi::CallbackInfo& info) {
 #endif
 
 #if defined(OC_CLOUD)
-Napi::Value OCCloud::logout(const Napi::CallbackInfo& info) {
+Napi::Value OCCloud::cloud_logout(const Napi::CallbackInfo& info) {
   OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
   oc_cloud_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
@@ -165,7 +167,7 @@ Napi::Value OCCloud::logout(const Napi::CallbackInfo& info) {
 #endif
 
 #if defined(OC_CLOUD)
-Napi::Value OCCloud::refresh_token(const Napi::CallbackInfo& info) {
+Napi::Value OCCloud::cloud_refresh_token(const Napi::CallbackInfo& info) {
   OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
   oc_cloud_cb_t cb = nullptr;
   Napi::Function cb_ = info[1].As<Napi::Function>();
@@ -225,6 +227,26 @@ Napi::Value OCCloud::provision_conf_resource(const Napi::CallbackInfo& info) {
   std::string auth_provider_ = info[4].As<Napi::String>().Utf8Value();
   const char* auth_provider = auth_provider_.c_str();
   return Napi::Number::New(info.Env(), oc_cloud_provision_conf_resource(ctx, server, access_token, server_id, auth_provider));
+}
+#endif
+
+#if defined(OC_CLOUD)
+Napi::Value OCCloud::cloud_register(const Napi::CallbackInfo& info) {
+  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
+  oc_cloud_cb_t cb = nullptr;
+  Napi::Function cb_ = info[1].As<Napi::Function>();
+  void* data = info[2];
+  return Napi::Number::New(info.Env(), oc_cloud_register(ctx, cb, data));
+}
+#endif
+
+#if defined(OC_CLOUD)
+Napi::Value OCCloud::cloud_deregister(const Napi::CallbackInfo& info) {
+  OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Napi::Object>());
+  oc_cloud_cb_t cb = nullptr;
+  Napi::Function cb_ = info[1].As<Napi::Function>();
+  void* data = info[2];
+  return Napi::Number::New(info.Env(), oc_cloud_deregister(ctx, cb, data));
 }
 #endif
 

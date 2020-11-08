@@ -36,15 +36,17 @@ public:
   static Napi::Value get_context(const Napi::CallbackInfo& info);
   static Napi::Value manager_start(const Napi::CallbackInfo& info);
   static Napi::Value manager_stop(const Napi::CallbackInfo& info);
-  static Napi::Value login(const Napi::CallbackInfo& info);
-  static Napi::Value logout(const Napi::CallbackInfo& info);
-  static Napi::Value refresh_token(const Napi::CallbackInfo& info);
+  static Napi::Value cloud_login(const Napi::CallbackInfo& info);
+  static Napi::Value cloud_logout(const Napi::CallbackInfo& info);
+  static Napi::Value cloud_refresh_token(const Napi::CallbackInfo& info);
   static Napi::Value get_token_expiry(const Napi::CallbackInfo& info);
   static Napi::Value add_resource(const Napi::CallbackInfo& info);
   static Napi::Value delete_resource(const Napi::CallbackInfo& info);
   static Napi::Value publish_resources(const Napi::CallbackInfo& info);
   static Napi::Value discover_resources(const Napi::CallbackInfo& info);
   static Napi::Value provision_conf_resource(const Napi::CallbackInfo& info);
+  static Napi::Value cloud_register(const Napi::CallbackInfo& info);
+  static Napi::Value cloud_deregister(const Napi::CallbackInfo& info);
 };
 
 class OCCoreRes : public Napi::ObjectWrap<OCCoreRes>

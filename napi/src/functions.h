@@ -17,12 +17,6 @@ Napi::Value N_oc_close_all_tls_sessions(const Napi::CallbackInfo&);
 #if defined(OC_SECURITY)
 Napi::Value N_oc_close_all_tls_sessions_for_device(const Napi::CallbackInfo&);
 #endif
-#if defined(OC_CLOUD)
-Napi::Value N_oc_cloud_deregister(const Napi::CallbackInfo&);
-#endif
-#if defined(OC_CLOUD)
-Napi::Value N_oc_cloud_register(const Napi::CallbackInfo&);
-#endif
 Napi::Value N_oc_collection_add(const Napi::CallbackInfo&);
 Napi::Value N_oc_collection_alloc(const Napi::CallbackInfo&);
 Napi::Value N_oc_collection_free(const Napi::CallbackInfo&);
