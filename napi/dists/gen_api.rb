@@ -344,6 +344,165 @@ OCRepresentation::OCRepresentation(const CallbackInfo& info) : ObjectWrap(info)
             .ThrowAsJavaScriptException();
     }
 }',
+
+  "oc_collection_iterator_t" => '
+OCCollectionIterator::OCCollectionIterator(const CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = shared_ptr<oc_collection_iterator_t>(new oc_collection_iterator_t());
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_collection_s>>>().Data()->get();
+  }
+  else {
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+}',
+  "oc_link_iterator_t" => '
+OCLinkIterator::OCLinkIterator(const CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = shared_ptr<oc_link_iterator_t>(new oc_link_iterator_t());
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_link_s>>>().Data()->get();
+  }
+  else {
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+}',
+  "oc_sec_ace_iterator_t" => '
+OCSecurityAceIterator::OCSecurityAceIterator(const CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = shared_ptr<oc_sec_ace_iterator_t>(new oc_sec_ace_iterator_t());
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_sec_ace_t>>>().Data()->get();
+  }
+  else {
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+}',
+  "oc_ace_res_iterator_t" => '
+OCAceResourceIterator::OCAceResourceIterator(const CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = shared_ptr<oc_ace_res_iterator_t>(new oc_ace_res_iterator_t());
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_ace_res_t>>>().Data()->get();
+  }
+  else {
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+}',
+  "oc_cloud_context_iterator_t" => '
+OCCloudContextIterator::OCCloudContextIterator(const CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = shared_ptr<oc_cloud_context_iterator_t>(new oc_cloud_context_iterator_t());
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_cloud_context_t>>>().Data()->get();
+  }
+  else {
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+}',
+  "oc_link_params_iterator_t" => '
+OCLinkParamsIterator::OCLinkParamsIterator(const CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = shared_ptr<oc_link_params_iterator_t>(new oc_link_params_iterator_t());
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_link_params_t>>>().Data()->get();
+  }
+  else {
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+}',
+  "oc_rt_iterator_t" => '
+OCResourceTypeIterator::OCResourceTypeIterator(const CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = shared_ptr<oc_rt_iterator_t>(new oc_rt_iterator_t());
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_rt_t>>>().Data()->get();
+  }
+  else {
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+}',
+  "oc_etime_iterator_t" => '
+OCEtimerIterator::OCEtimerIterator(const CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = shared_ptr<oc_etime_iterator_t>(new oc_etime_iterator_t());
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_etimer>>>().Data()->get();
+  }
+  else {
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+}',
+
+  "oc_event_callback_iterator_t" => '
+OCEventCallbackIterator::OCEventCallbackIterator(const CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = shared_ptr<oc_event_callback_iterator_t>(new oc_event_callback_iterator_t());
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_event_callback_t>>>().Data()->get();
+  }
+  else {
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+}',
+
+  "oc_message_iterator_t" => '
+OCMessageIterator::OCMessageIterator(const CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = shared_ptr<oc_message_iterator_t>(new oc_message_iterator_t());
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_message_s>>>().Data()->get();
+  }
+  else {
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+}',
+  "oc_role_iterator_t" => '
+OCRoleIterator::OCRoleIterator(const CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = shared_ptr<oc_role_iterator_t>(new oc_role_iterator_t());
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_role_t>>>().Data()->get();
+  }
+  else {
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+}',
+  "oc_blockwise_state_iterator_t" => '
+OCBlockwiseStateIterator::OCBlockwiseStateIterator(const CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = shared_ptr<oc_blockwise_state_iterator_t>(new oc_blockwise_state_iterator_t());
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_blockwise_state_t>>>().Data()->get();
+  }
+  else {
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+}',
+  "oc_session_event_cb_iterator_t" => '
+OCSessionEventCbIterator::OCSessionEventCbIterator(const CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = shared_ptr<oc_session_event_cb_iterator_t>(new oc_session_event_cb_iterator_t());
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_session_event_cb_s>>>().Data()->get();
+  }
+  else {
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+}',
+  "oc_rep_iterator_t" => '
+OCRepresentationIterator::OCRepresentationIterator(const CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue = shared_ptr<oc_rep_iterator_t>(new oc_rep_iterator_t());
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_rep_s>>>().Data()->get();
+  }
+  else {
+     TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
+  }
+}',
+
+
   "oc_endpoint_iterator_t" => '
 OCEndpointIterator::OCEndpointIterator(const CallbackInfo& info) : ObjectWrap(info)
 {
