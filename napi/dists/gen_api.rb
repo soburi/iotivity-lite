@@ -69,8 +69,6 @@ HPROLOGUE = <<HPROLOGUE
 
 #include <napi.h>
 
-using namespace std;
-
 HPROLOGUE
 
 EXPORTIMPL = <<EXPORTIMPL
@@ -797,7 +795,7 @@ STR
     mainctx->helper_poll_event_thread = std::thread(helper_poll_event_thread, mainctx);
     mainctx->helper_poll_event_thread.detach();
   }
-  catch(system_error) {
+  catch(std::system_error) {
     Napi::TypeError::New(info.Env(), "Fail to initialize poll_event thread.").ThrowAsJavaScriptException();
   }
 

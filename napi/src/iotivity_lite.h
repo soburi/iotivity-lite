@@ -2,8 +2,6 @@
 
 #include <napi.h>
 
-using namespace std;
-
 class OCBufferSettings : public Napi::ObjectWrap<OCBufferSettings>
 {
 public:

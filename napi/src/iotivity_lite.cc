@@ -996,7 +996,7 @@ Napi::Value OCMain::main_init(const Napi::CallbackInfo& info) {
     mainctx->helper_poll_event_thread = std::thread(helper_poll_event_thread, mainctx);
     mainctx->helper_poll_event_thread.detach();
   }
-  catch(system_error) {
+  catch(std::system_error) {
     Napi::TypeError::New(info.Env(), "Fail to initialize poll_event thread.").ThrowAsJavaScriptException();
   }
 
