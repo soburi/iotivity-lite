@@ -71,19 +71,6 @@ public:
   static Napi::Value add_new_device(const Napi::CallbackInfo& info);
 };
 
-class OCCredUtil : public Napi::ObjectWrap<OCCredUtil>
-{
-public:
-  OCCredUtil(const Napi::CallbackInfo&);
-  static Napi::Function GetClass(Napi::Env);
-  static Napi::FunctionReference constructor;
-  static Napi::Value read_credusage(const Napi::CallbackInfo& info);
-  static Napi::Value read_encoding(const Napi::CallbackInfo& info);
-  static Napi::Value parse_credusage(const Napi::CallbackInfo& info);
-  static Napi::Value parse_encoding(const Napi::CallbackInfo& info);
-  static Napi::Value credtype_string(const Napi::CallbackInfo& info);
-};
-
 class OCEnumUtil : public Napi::ObjectWrap<OCEnumUtil>
 {
 public:

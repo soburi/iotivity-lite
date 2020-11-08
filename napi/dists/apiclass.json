@@ -151,7 +151,7 @@
 	"cloud_register": "oc_cloud_register",
 	"cloud_deregister": "oc_cloud_deregister"
   },
-  "OCCredUtil": {
+  "OCCred": {
 	"read_credusage": "oc_cred_read_credusage",
 	"read_encoding": "oc_cred_read_encoding",
 	"parse_credusage": "oc_cred_parse_credusage",

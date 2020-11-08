@@ -1154,6 +1154,11 @@ public:
          void set_subjectuuid(const Napi::CallbackInfo&, const Napi::Value&);
 
 
+  static Napi::Value read_credusage(const Napi::CallbackInfo& info);
+  static Napi::Value read_encoding(const Napi::CallbackInfo& info);
+  static Napi::Value parse_credusage(const Napi::CallbackInfo& info);
+  static Napi::Value parse_encoding(const Napi::CallbackInfo& info);
+  static Napi::Value credtype_string(const Napi::CallbackInfo& info);
 
   std::shared_ptr<oc_sec_cred_t> m_pvalue;
 };

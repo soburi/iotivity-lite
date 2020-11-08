@@ -4297,6 +4297,42 @@ void OCCred::set_subjectuuid(const Napi::CallbackInfo& info, const Napi::Value& 
   m_pvalue->subjectuuid = *(*(value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()));
 }
 
+#if defined(OC_SECURITY) && defined(OC_PKI)
+Napi::Value OCCred::read_credusage(const Napi::CallbackInfo& info) {
+  oc_sec_credusage_t credusage = static_cast<oc_sec_credusage_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::String::New(info.Env(), oc_cred_read_credusage(credusage));
+}
+#endif
+
+#if defined(OC_SECURITY)
+Napi::Value OCCred::read_encoding(const Napi::CallbackInfo& info) {
+  oc_sec_encoding_t encoding = static_cast<oc_sec_encoding_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::String::New(info.Env(), oc_cred_read_encoding(encoding));
+}
+#endif
+
+#if defined(OC_SECURITY) && defined(OC_PKI)
+Napi::Value OCCred::parse_credusage(const Napi::CallbackInfo& info) {
+  OCMmem& credusage_string = *OCMmem::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_cred_parse_credusage(credusage_string));
+}
+#endif
+
+#if defined(OC_SECURITY)
+Napi::Value OCCred::parse_encoding(const Napi::CallbackInfo& info) {
+  OCMmem& encoding_string = *OCMmem::Unwrap(info[0].As<Napi::Object>());
+  return Napi::Number::New(info.Env(), oc_cred_parse_encoding(encoding_string));
+}
+#endif
+
+#if defined(OC_SECURITY)
+Napi::Value OCCred::credtype_string(const Napi::CallbackInfo& info) {
+  oc_sec_credtype_t credtype = static_cast<oc_sec_credtype_t>(info[0].As<Napi::Number>().Uint32Value());
+  return Napi::String::New(info.Env(), oc_cred_credtype_string(credtype));
+}
+#endif
+
+
 Napi::FunctionReference OCSeparateResponse::constructor;
 
 Napi::Function OCSeparateResponse::GetClass(Napi::Env env) {
