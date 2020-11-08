@@ -1564,6 +1564,8 @@ Napi::Function OCEndpoint::GetClass(Napi::Env env) {
     InstanceAccessor("priority", &OCEndpoint::get_priority, &OCEndpoint::set_priority),
     InstanceAccessor("version", &OCEndpoint::get_version, &OCEndpoint::set_version),
 
+    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCEndpoint::get_iterator),
+  
   });
 
   constructor = Napi::Persistent(func);
@@ -1578,7 +1580,7 @@ OCEndpoint::~OCEndpoint()
 OCEndpoint::OCEndpoint(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 0) {
-     m_pvalue = std::shared_ptr<oc_endpoint_t>(oc_new_endpoint(), nop_deleter /* TODO */);
+     m_pvalue = std::shared_ptr<oc_endpoint_t>(new oc_endpoint_t());
   }
   else if (info.Length() == 1 && info[0].IsExternal() ) {
      m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data());
@@ -1675,27 +1677,21 @@ void OCEndpoint::set_version(const Napi::CallbackInfo& info, const Napi::Value& 
 }
 
 Napi::Value OCEndpoint::to_string(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCMmem& endpoint_str = *OCMmem::Unwrap(info[1].As<Napi::Object>());
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info.This().As<Napi::Object>());
+  OCMmem& endpoint_str = *OCMmem::Unwrap(info[0].As<Napi::Object>());
   return Napi::Number::New(info.Env(), oc_endpoint_to_string(endpoint, endpoint_str));
 }
 
 Napi::Value OCEndpoint::compare(const Napi::CallbackInfo& info) {
-  OCEndpoint& ep1 = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
+  OCEndpoint& ep1 = *OCEndpoint::Unwrap(info.This().As<Napi::Object>());
+  OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
   return Napi::Number::New(info.Env(), oc_endpoint_compare(ep1, ep2));
 }
 
 Napi::Value OCEndpoint::copy(const Napi::CallbackInfo& info) {
-  OCEndpoint& dst = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCEndpoint& src = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
+  OCEndpoint& dst = *OCEndpoint::Unwrap(info.This().As<Napi::Object>());
+  OCEndpoint& src = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
   (void)oc_endpoint_copy(dst, src);
-  return info.Env().Undefined();
-}
-
-Napi::Value OCEndpoint::free_endpoint(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  (void)oc_free_endpoint(endpoint);
   return info.Env().Undefined();
 }
 
@@ -1706,39 +1702,26 @@ Napi::Value OCEndpoint::string_to_endpoint(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_string_to_endpoint(endpoint_str, endpoint, uri));
 }
 
-Napi::Value OCEndpoint::new_endpoint(const Napi::CallbackInfo& info) {
-  std::shared_ptr<oc_endpoint_t> sp(oc_new_endpoint());
-  auto args = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
-  return OCEndpoint::constructor.New({args});
-}
-
 Napi::Value OCEndpoint::endpoint_string_parse_path(const Napi::CallbackInfo& info) {
-  OCMmem& endpoint_str = *OCMmem::Unwrap(info[0].As<Napi::Object>());
-  OCMmem& path = *OCMmem::Unwrap(info[1].As<Napi::Object>());
+  OCMmem& endpoint_str = *OCMmem::Unwrap(info.This().As<Napi::Object>());
+  OCMmem& path = *OCMmem::Unwrap(info[0].As<Napi::Object>());
   return Napi::Number::New(info.Env(), oc_endpoint_string_parse_path(endpoint_str, path));
 }
 
-Napi::Value OCEndpoint::set_di(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCUuid& di = *OCUuid::Unwrap(info[1].As<Napi::Object>());
-  (void)oc_endpoint_set_di(endpoint, di);
-  return info.Env().Undefined();
-}
-
 Napi::Value OCEndpoint::ipv6_endpoint_is_link_local(const Napi::CallbackInfo& info) {
-  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
+  OCEndpoint& endpoint = *OCEndpoint::Unwrap(info.This().As<Napi::Object>());
   return Napi::Number::New(info.Env(), oc_ipv6_endpoint_is_link_local(endpoint));
 }
 
 Napi::Value OCEndpoint::compare_address(const Napi::CallbackInfo& info) {
-  OCEndpoint& ep1 = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());
+  OCEndpoint& ep1 = *OCEndpoint::Unwrap(info.This().As<Napi::Object>());
+  OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
   return Napi::Number::New(info.Env(), oc_endpoint_compare_address(ep1, ep2));
 }
 
 Napi::Value OCEndpoint::set_local_address(const Napi::CallbackInfo& info) {
-  OCEndpoint& ep = *OCEndpoint::Unwrap(info[0].As<Napi::Object>());
-  int interface_index = static_cast<int>(info[1].As<Napi::Number>());
+  OCEndpoint& ep = *OCEndpoint::Unwrap(info.This().As<Napi::Object>());
+  int interface_index = static_cast<int>(info[0].As<Napi::Number>());
   (void)oc_endpoint_set_local_address(ep, interface_index);
   return info.Env().Undefined();
 }
@@ -4953,6 +4936,59 @@ return Napi::Boolean::New(info.Env(), m_pvalue->index >= oc_string_array_get_all
 }
 
 void OCStringArrayIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::FunctionReference OCEndpointIterator::constructor;
+
+Napi::Function OCEndpointIterator::GetClass(Napi::Env env) {
+  auto func = DefineClass(env, "OCEndpointIterator", {
+    InstanceAccessor("value", &OCEndpointIterator::get_value, &OCEndpointIterator::set_value),
+    InstanceAccessor("done", &OCEndpointIterator::get_done, &OCEndpointIterator::set_done),
+
+    InstanceMethod("next", &OCEndpointIterator::get_next),
+  
+  });
+
+  constructor = Napi::Persistent(func);
+  constructor.SuppressDestruct();
+
+  return func;
+}
+
+OCEndpointIterator::~OCEndpointIterator()
+{
+}
+
+OCEndpointIterator::OCEndpointIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue->current = info[0].As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data()->get();
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}Napi::Value OCEndpointIterator::get_value(const Napi::CallbackInfo& info)
+{
+
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });
+}
+
+void OCEndpointIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+}
+
+Napi::Value OCEndpointIterator::get_done(const Napi::CallbackInfo& info)
+{
+  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+}
+
+void OCEndpointIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }

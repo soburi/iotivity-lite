@@ -22,10 +22,10 @@ public:
   OCClock(const Napi::CallbackInfo&);
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
-  static Napi::Value clock_init(const Napi::CallbackInfo& info);
-  static Napi::Value clock_time(const Napi::CallbackInfo& info);
-  static Napi::Value clock_seconds(const Napi::CallbackInfo& info);
-  static Napi::Value clock_wait(const Napi::CallbackInfo& info);
+  static Napi::Value init(const Napi::CallbackInfo& info);
+  static Napi::Value time(const Napi::CallbackInfo& info);
+  static Napi::Value seconds(const Napi::CallbackInfo& info);
+  static Napi::Value wait(const Napi::CallbackInfo& info);
 };
 
 class OCCloud : public Napi::ObjectWrap<OCCloud>

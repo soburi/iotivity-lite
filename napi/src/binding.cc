@@ -18,6 +18,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("Collection", OCCollection::GetClass(env));
   exports.Set("CredData", OCCredData::GetClass(env));
   exports.Set("DeviceInfo", OCDeviceInfo::GetClass(env));
+  exports.Set("EndpointIterator", OCEndpointIterator::GetClass(env));
   exports.Set("Endpoint", OCEndpoint::GetClass(env));
   exports.Set("DevAddr", DevAddr::GetClass(env));
   exports.Set("Etimer", OCEtimer::GetClass(env));

@@ -40,7 +40,17 @@ SafeCallbackHelper::SafeCallbackHelper(const Napi::Function& fn, const Napi::Val
   , env(fn.Env())
 {
 }
+Napi::Value OCEndpoint::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &m_pvalue);
+    return OCStringArrayIterator::constructor.New({ args });
+}
 
+Napi::Value OCEndpointIterator::get_next(const Napi::CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
 Napi::Value OCStringArray::get_iterator(const Napi::CallbackInfo& info)
 {
   auto args = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &m_pvalue);

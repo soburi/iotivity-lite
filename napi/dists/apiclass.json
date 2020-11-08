@@ -151,7 +151,7 @@
 	"compare": "oc_endpoint_compare",
 	"copy": "oc_endpoint_copy",
 	"string_to_endpoint": "oc_string_to_endpoint",
-	"parse_path": "oc_endpoint_string_parse_path",
+	"endpoint_string_parse_path": "oc_endpoint_string_parse_path",
 	"ipv6_endpoint_is_link_local": "oc_ipv6_endpoint_is_link_local",
 	"compare_address": "oc_endpoint_compare_address",
 	"set_local_address": "oc_endpoint_set_local_address"

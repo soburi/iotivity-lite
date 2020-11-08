@@ -459,6 +459,10 @@
     "value": "void*",
     "done": "bool"
   },
+  "oc_endpoint_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
   "oc_string_array_t": {
   },
   "CborEncoder": {

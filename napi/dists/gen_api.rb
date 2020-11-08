@@ -237,7 +237,14 @@ EXTRA_ACCESSOR = {
   'OCRepresentation' => '
     InstanceAccessor("name", &OCRepresentation::get_name, &OCRepresentation::set_name),
     InstanceAccessor("type", &OCRepresentation::get_type, &OCRepresentation::set_type),
-    InstanceAccessor("value", &OCRepresentation::get_value, &OCRepresentation::set_value),',
+    InstanceAccessor("value", &OCRepresentation::get_value, &OCRepresentation::set_value),
+  ',
+  'oc_endpoint_iterator_t' => '
+    InstanceMethod("next", &OCEndpointIterator::get_next),
+  ',
+  'oc_endpoint_t' => '
+    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCEndpoint::get_iterator),
+  ',
   'oc_string_array_iterator_t' => '
     InstanceMethod("next", &OCStringArrayIterator::get_next),
   ',
@@ -247,6 +254,12 @@ EXTRA_ACCESSOR = {
 }
 
 EXTRA_VALUE= {
+  'oc_endpoint_iterator_t' => '
+    Napi::Value get_next(const Napi::CallbackInfo& info);
+  ',
+  'oc_endpoint_t' => '
+    Napi::Value get_iterator(const Napi::CallbackInfo& info);
+  ',
   'oc_string_array_iterator_t' => '
     Napi::Value get_next(const Napi::CallbackInfo& info);
   ',
@@ -292,6 +305,17 @@ OCRepresentation::OCRepresentation(const Napi::CallbackInfo& info) : ObjectWrap(
             .ThrowAsJavaScriptException();
     }
 }',
+  "oc_endpoint_iterator_t" => '
+OCEndpointIterator::OCEndpointIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+  if (info.Length() == 1 && info[0].IsExternal() ) {
+     m_pvalue->current = info[0].As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data()->get();
+  }
+  else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+          .ThrowAsJavaScriptException();
+  }
+}',
   "oc_string_array_iterator_t" => '
 OCStringArrayIterator::OCStringArrayIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -331,6 +355,23 @@ OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 
 SETGET_OVERRIDE = {
+  "oc_endpoint_t::di" => {
+    "get" => '  std::shared_ptr<oc_uuid_t> sp(&m_pvalue->di);
+  auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+  return OCUuid::constructor.New({accessor});',
+    "set" => '  oc_endpoint_set_di(m_pvalue.get(), value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()->get() );',
+  },
+  "oc_endpoint_iterator_t::done" => {
+    "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);',
+    "set" => "",
+  },
+  "oc_endpoint_iterator_t::value" => {
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+    "set" => "",
+  },
   "oc_string_array_iterator_t::done" => {
     "get" => "return Napi::Boolean::New(info.Env(), m_pvalue->index >= oc_string_array_get_allocated_size(m_pvalue->array));",
     "set" => "",
@@ -1292,6 +1333,9 @@ IGNORE_FUNCS = [
 'oc_free_rep',
 'oc_new_resource',
 'oc_main_poll',
+'oc_endpoint_set_di',
+'oc_free_endpoint',
+'oc_new_endpoint',
 ]
 
 IFDEF_TYPES = {
@@ -1973,13 +2017,7 @@ File.open('src/structs.h', 'w') do |f|
   f.print "#include <separate.h>\n"
   f.print "#include <transactions.h>\n"
   f.print "}\n"
-
-  f.print <<~STR
-    struct oc_string_array_iterator_t {
-        oc_string_array_t array;
-        uint32_t index;
-    };
-  STR
+  f.print "#include \"extra.h\"\n"
 
   struct_table.each do |key, h|
     f.print gen_classdecl(key, h)

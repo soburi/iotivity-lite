@@ -72,29 +72,29 @@ OCClock::OCClock(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCClock::GetClass(Napi::Env env) {
     return DefineClass(env, "OCClock", {
-        StaticMethod("clock_init", &OCClock::clock_init),
-        StaticMethod("clock_time", &OCClock::clock_time),
-        StaticMethod("clock_seconds", &OCClock::clock_seconds),
-        StaticMethod("clock_wait", &OCClock::clock_wait),
+        StaticMethod("init", &OCClock::init),
+        StaticMethod("time", &OCClock::time),
+        StaticMethod("seconds", &OCClock::seconds),
+        StaticMethod("wait", &OCClock::wait),
     });
 }
 Napi::FunctionReference OCClock::constructor;
 
 
-Napi::Value OCClock::clock_init(const Napi::CallbackInfo& info) {
+Napi::Value OCClock::init(const Napi::CallbackInfo& info) {
   (void)oc_clock_init();
   return info.Env().Undefined();
 }
 
-Napi::Value OCClock::clock_time(const Napi::CallbackInfo& info) {
+Napi::Value OCClock::time(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_clock_time());
 }
 
-Napi::Value OCClock::clock_seconds(const Napi::CallbackInfo& info) {
+Napi::Value OCClock::seconds(const Napi::CallbackInfo& info) {
   return Napi::Number::New(info.Env(), oc_clock_seconds());
 }
 
-Napi::Value OCClock::clock_wait(const Napi::CallbackInfo& info) {
+Napi::Value OCClock::wait(const Napi::CallbackInfo& info) {
   oc_clock_time_t t = static_cast<uint64_t>(info[0].As<Napi::Number>().Int64Value());
   (void)oc_clock_wait(t);
   return info.Env().Undefined();
