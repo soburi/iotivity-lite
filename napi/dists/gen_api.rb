@@ -19,6 +19,7 @@ apis = open(ARGV[3]) do |io|
   JSON.load(io)
 end
 
+FUNC_TABLE = func_table
 APIS = apis
 
 
@@ -237,6 +238,7 @@ EXTRA_ACCESSOR = {
   'oc_string_array_t' => '
     InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCStringArray::get_iterator),
   ',
+=begin
   'oc_resource_s' => '
     InstanceMethod("bind_resource_interface", &OCResource::bind_resource_interface),
     InstanceMethod("bind_resource_type",      &OCResource::bind_resource_type),
@@ -249,6 +251,7 @@ EXTRA_ACCESSOR = {
     InstanceMethod("set_properties_cbs",      &OCResource::set_properties_cbs),
     InstanceMethod("set_request_handler",     &OCResource::set_request_handler),
   ',
+=end
 }
 
 EXTRA_VALUE= {
@@ -279,7 +282,8 @@ EXTRA_VALUE= {
   Napi::FunctionReference put_handler;\n\
   Napi::Value get_value;\n\
   Napi::Value post_value;\n\
-  Napi::Value put_value;\n\
+  Napi::Value put_value;\n"
+=begin
   Napi::Value bind_resource_interface(const Napi::CallbackInfo& info);
   Napi::Value bind_resource_type(const Napi::CallbackInfo& info);
 #if defined(OC_SECURITY)
@@ -291,10 +295,11 @@ EXTRA_VALUE= {
   Napi::Value set_properties_cbs(const Napi::CallbackInfo& info);
   Napi::Value set_request_handler(const Napi::CallbackInfo& info);
 "
+=end
 }
 
 OVERRIDE_CTOR = {
-  "OCRepresentation" => '
+  "oc_rep_s" => '
 OCRepresentation::OCRepresentation(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
@@ -844,6 +849,7 @@ STR
   'oc_rep_get_encoder_buf' => {
     'invoke' => 'return Napi::Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(oc_rep_get_encoder_buf()), oc_rep_get_encoded_payload_size() );'
   },
+=begin
   'oc_resource_set_request_handler' => {
     '2' => "  oc_request_callback_t callback = nullptr;\n",
     '3' => <<~STR
@@ -851,6 +857,7 @@ STR
                    if(!user_data) callback = nullptr;
               STR
   },
+=end
   'oc_resource_set_properties_cbs' => {
     '1' => "  oc_get_properties_cb_t get_properties = oc_resource_set_properties_cbs_get_helper;\n",
     '3' => "  oc_set_properties_cb_t set_properties = oc_resource_set_properties_cbs_set_helper;\n",
@@ -1083,6 +1090,7 @@ INSTANCE_FUNCS = [
   "OCRepresentation::get_int",
   "OCRepresentation::get_int_array",
   "OCRepresentation::to_json",
+  "OCResource::set_request_handler",
 ]
 
 IGNORE_FUNCS = [
@@ -1545,13 +1553,31 @@ def gen_apimtd_decl(cls, f)
 end
 
 
+def gen_apimtd_impl(cls, f)
+    f.print "\n"
+    APIS[cls].each do |name, mtd|
+      next if IGNORE_FUNCS.include?(mtd)
+      if not FUNC_TABLE.has_key?(mtd)
+        print mtd
+        print "\n"
+        next
+      end
+      expset = gen_funcimpl(cls + "::" + name, mtd, FUNC_TABLE[mtd], INSTANCE_FUNCS.include?(cls + "::" + name) )
+      if IFDEF_FUNCS.include?(mtd)
+        expset = "#if #{IFDEF_FUNCS[mtd]}\n" + expset + "#endif\n"
+      end
+      f.print "#{expset}\n"
+    end
+end
+
+
 def gen_classdecl(key, h)
   return "" if IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil
   hh = format_ignore(key, h)
 
   apidecl = ""
   if APIS.keys.include?(gen_classname(key))
-    print gen_classname(key)
+    print gen_classname(key) + "\n"
     sio = StringIO.new()
     gen_apimtd_decl(gen_classname(key), sio)
     sio.rewind
@@ -1625,7 +1651,18 @@ def gen_setget_impl(key, h)
     end
     impl
   end
-  list.join("\n")
+
+  apiimpl = ""
+  if APIS.keys.include?(gen_classname(key))
+    print gen_classname(key) + "\n"
+    sio = StringIO.new()
+    gen_apimtd_impl(gen_classname(key), sio)
+    sio.rewind
+    apiimpl = sio.read
+    #raise
+  end
+
+  list.join("\n") + apiimpl
 end
 
 def gen_enum_entry_impl(key, h)
@@ -2012,6 +2049,7 @@ File.open('src/binding.cc', 'w') do |f|
   f.print "Napi::Object module_init(Napi::Env env, Napi::Object exports) {\n"
   struct_table.keys.sort.each do |key|
     h = func_table[key]
+    next if struct_table.keys.collect{|k| gen_classname(k)}.include?(key)
     if not (IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil)
       impl = "  exports.Set(\"#{gen_classname(key).gsub(/^OC/,'')}\", #{gen_classname(key)}::GetClass(env));\n"
       if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
@@ -2092,25 +2130,11 @@ File.open('src/iotivity_lite.cc', 'w') do |f|
     f.print "    });\n"
     f.print "}\n"
 
-    f.print "\n"
-    apis[cls].each do |name, mtd|
-      next if IGNORE_FUNCS.include?(mtd)
-      if not func_table.has_key?(mtd)
-        print mtd
-        print "\n"
-        next
-      end
-      expset = gen_funcimpl(cls + "::" + name, mtd, func_table[mtd], INSTANCE_FUNCS.include?(cls + "::" + name) )
-      if IFDEF_FUNCS.include?(mtd)
-        expset = "#if #{IFDEF_FUNCS[mtd]}\n" + expset + "#endif\n"
-      end
-      f.print "#{expset}\n"
-    end
-
     f.print "Napi::FunctionReference CLASS::constructor;".gsub(/CLASS/, cls)
 
     f.print "\n"
     f.print "\n"
+    gen_apimtd_impl(cls, f)
   end
 end
 

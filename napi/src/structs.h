@@ -963,16 +963,6 @@ public:
   Napi::Value get_value;
   Napi::Value post_value;
   Napi::Value put_value;
-  Napi::Value bind_resource_interface(const Napi::CallbackInfo& info);
-  Napi::Value bind_resource_type(const Napi::CallbackInfo& info);
-#if defined(OC_SECURITY)
-  Napi::Value make_public(const Napi::CallbackInfo& info);
-#endif
-  Napi::Value set_discoverable(const Napi::CallbackInfo& info);
-  Napi::Value set_observable(const Napi::CallbackInfo& info);
-  Napi::Value set_periodic_observable(const Napi::CallbackInfo& info);
-  Napi::Value set_properties_cbs(const Napi::CallbackInfo& info);
-  Napi::Value set_request_handler(const Napi::CallbackInfo& info);
 
 
   static Napi::Value bind_resource_interface(const Napi::CallbackInfo& info);
@@ -982,7 +972,7 @@ public:
   static Napi::Value set_observable(const Napi::CallbackInfo& info);
   static Napi::Value set_periodic_observable(const Napi::CallbackInfo& info);
   static Napi::Value set_properties_cbs(const Napi::CallbackInfo& info);
-  static Napi::Value set_request_handler(const Napi::CallbackInfo& info);
+  Napi::Value set_request_handler(const Napi::CallbackInfo& info);
 
   std::shared_ptr<oc_resource_s> m_pvalue;
 };

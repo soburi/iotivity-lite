@@ -53,7 +53,7 @@ Napi::Value OCStringArrayIterator::get_next(const Napi::CallbackInfo& info)
   return info.This();
 }
 
-
+#if 0
 Napi::Value OCResource::bind_resource_interface(const Napi::CallbackInfo& info) {
   OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
   oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[0].As<Napi::Number>().Uint32Value());
@@ -134,7 +134,7 @@ Napi::Value OCResource::set_request_handler(const Napi::CallbackInfo& info) {
   (void)oc_resource_set_request_handler(resource, method, helper_oc_resource_set_request_handler, this);
   return info.Env().Undefined();
 }
-
+#endif
 /*
 Napi::Value OCResource::tag_func_desc(const Napi::CallbackInfo& info) {
   OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
