@@ -331,6 +331,23 @@ EXTRA_VALUE= {
 }
 
 OVERRIDE_CTOR = {
+  "oc_collection_s" => '
+OCCollection::OCCollection(const CallbackInfo& info) : ObjectWrap(info)
+{
+    if (info.Length() == 0) {
+        m_pvalue = shared_ptr<oc_collection_s>(
+          reinterpret_cast<oc_collection_s*>(oc_new_collection()),
+          [](oc_collection_s* x){ oc_delete_collection( reinterpret_cast<oc_collection_s*>(x) );} );
+    }
+    else if (info.Length() == 1 && info[0].IsExternal()) {
+        m_pvalue = *(info[0].As<External<shared_ptr<oc_collections>>>().Data());
+    }
+    else {
+        TypeError::New(info.Env(), "You need to name yourself")
+            .ThrowAsJavaScriptException();
+    }
+}',
+
   "oc_rep_s" => '
 OCRepresentation::OCRepresentation(const CallbackInfo& info) : ObjectWrap(info)
 {

@@ -1173,12 +1173,19 @@ Napi::Function OCCollection::GetClass(Napi::Env env) {
 OCCollection::~OCCollection()
 {
 }
-OCCollection::OCCollection(const Napi::CallbackInfo& info) : ObjectWrap(info)
+
+OCCollection::OCCollection(const CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = shared_ptr<oc_collection_s>(new oc_collection_s());
+        /*
+        m_pvalue = shared_ptr<oc_collection_s>(
+                       reinterpret_cast<oc_collection_s*>(oc_new_collection()),
+        [](oc_collection_s* x) {
+            oc_delete_collection( reinterpret_cast<oc_collection_s*>(x) );
+        } );
+        */
     }
-    else if (info.Length() == 1 && info[0].IsExternal() ) {
+    else if (info.Length() == 1 && info[0].IsExternal()) {
         m_pvalue = *(info[0].As<External<shared_ptr<oc_collection_s>>>().Data());
     }
     else {
