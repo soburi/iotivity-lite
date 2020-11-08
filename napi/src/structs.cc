@@ -1586,7 +1586,7 @@ OCEndpoint::~OCEndpoint()
 OCEndpoint::OCEndpoint(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_endpoint_t>(new oc_endpoint_t());
+        m_pvalue = std::shared_ptr<oc_endpoint_t>(new oc_endpoint_t(), nop_deleter);
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
         m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data());
@@ -5053,6 +5053,7 @@ OCEndpointIterator::~OCEndpointIterator()
 OCEndpointIterator::OCEndpointIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 1 && info[0].IsExternal() ) {
+        m_pvalue = std::shared_ptr<oc_endpoint_iterator_t>(new oc_endpoint_iterator_t());
         m_pvalue->current = info[0].As<Napi::External<std::shared_ptr<oc_endpoint_t>>>().Data()->get();
     }
     else {
@@ -5063,7 +5064,7 @@ OCEndpointIterator::OCEndpointIterator(const Napi::CallbackInfo& info) : ObjectW
 Napi::Value OCEndpointIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current, nop_deleter);
     auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
     return OCEndpoint::constructor.New({ accessor });
 }
@@ -5075,7 +5076,7 @@ void OCEndpointIterator::set_value(const Napi::CallbackInfo& info, const Napi::V
 
 Napi::Value OCEndpointIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
+    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
 void OCEndpointIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)

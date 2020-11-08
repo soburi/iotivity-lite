@@ -147,7 +147,7 @@ Napi::Value OCSessionEventCb::get_iterator(const Napi::CallbackInfo& info)
 Napi::Value OCEndpoint::get_iterator(const Napi::CallbackInfo& info)
 {
     auto args = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &m_pvalue);
-    return OCStringArrayIterator::constructor.New({ args });
+    return OCEndpointIterator::constructor.New({ args });
 }
 
 Napi::Value OCStringArray::get_iterator(const Napi::CallbackInfo& info)
