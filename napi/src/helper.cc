@@ -3,18 +3,21 @@
 #include "iotivity_lite.h"
 #include <chrono>
 
+using namespace std;
+using namespace Napi;
+
 struct main_context_t* main_context;
 main_loop_t* main_loop_ctx;
 
-Napi::FunctionReference oc_swupdate_cb_validate_purl_ref;
-Napi::FunctionReference oc_swupdate_cb_check_new_version_ref;
-Napi::FunctionReference oc_swupdate_cb_download_update_ref;
-Napi::FunctionReference oc_swupdate_cb_perform_upgrade_ref;
+FunctionReference oc_swupdate_cb_validate_purl_ref;
+FunctionReference oc_swupdate_cb_check_new_version_ref;
+FunctionReference oc_swupdate_cb_download_update_ref;
+FunctionReference oc_swupdate_cb_perform_upgrade_ref;
 
 int helper_oc_handler_init()
 {
-    Napi::Value ret = main_context->oc_handler_init_ref.Call({});
-    if(ret.IsNumber()) return ret.As<Napi::Number>().Int32Value();
+    Value ret = main_context->oc_handler_init_ref.Call({});
+    if(ret.IsNumber()) return ret.As<Number>().Int32Value();
     return 0;
 }
 
@@ -33,218 +36,192 @@ void helper_oc_handler_requests_entry()
     main_context->oc_handler_requests_entry_ref.Call({});
 }
 
-SafeCallbackHelper::SafeCallbackHelper(const Napi::Function& fn, const Napi::Value& val)
+SafeCallbackHelper::SafeCallbackHelper(const Function& fn, const Value& val)
     : function(fn)
     , value(val)
     , env(fn.Env())
 {
 }
 
-Napi::Value OCAceResource::get_iterator(const Napi::CallbackInfo& info)
+Value OCAceResource::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_ace_res_t>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_ace_res_t>>::New(info.Env(), &m_pvalue);
     return OCAceResourceIterator::constructor.New({ args });
 }
 
-Napi::Value OCCloudContext::get_iterator(const Napi::CallbackInfo& info)
+Value OCCloudContext::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_cloud_context_t>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_cloud_context_t>>::New(info.Env(), &m_pvalue);
     return OCCloudContextIterator::constructor.New({ args });
 }
 
-
-
-Napi::Value OCCollection::get_iterator(const Napi::CallbackInfo& info)
+Value OCCollection::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_collection_s>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_collection_s>>::New(info.Env(), &m_pvalue);
     return OCCollectionIterator::constructor.New({ args });
 }
 
-Napi::Value OCEtimer::get_iterator(const Napi::CallbackInfo& info)
+Value OCEtimer::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_etimer>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_etimer>>::New(info.Env(), &m_pvalue);
     return OCStringArrayIterator::constructor.New({ args });
 }
 
-Napi::Value OCEventCallback::get_iterator(const Napi::CallbackInfo& info)
+Value OCEventCallback::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_event_callback_s>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_event_callback_s>>::New(info.Env(), &m_pvalue);
     return OCEventCallbackIterator::constructor.New({ args });
 }
 
-Napi::Value OCLinkParams::get_iterator(const Napi::CallbackInfo& info)
+Value OCLinkParams::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_link_params_t>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_link_params_t>>::New(info.Env(), &m_pvalue);
     return OCLinkParamsIterator::constructor.New({ args });
 }
 
-Napi::Value OCLink::get_iterator(const Napi::CallbackInfo& info)
+Value OCLink::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_link_s>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_link_s>>::New(info.Env(), &m_pvalue);
     return OCLinkIterator::constructor.New({ args });
 }
 
-
-Napi::Value OCMessage::get_iterator(const Napi::CallbackInfo& info)
+Value OCMessage::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_message_s>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_message_s>>::New(info.Env(), &m_pvalue);
     return OCMessageIterator::constructor.New({ args });
 }
 
-
-Napi::Value OCRepresentation::get_iterator(const Napi::CallbackInfo& info)
+Value OCRepresentation::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_rep_s>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_rep_s>>::New(info.Env(), &m_pvalue);
     return OCRepresentationIterator::constructor.New({ args });
 }
 
-Napi::Value OCRole::get_iterator(const Napi::CallbackInfo& info)
+Value OCRole::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_role_t>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_role_t>>::New(info.Env(), &m_pvalue);
     return OCRoleIterator::constructor.New({ args });
 }
 
-
-Napi::Value OCResourceType::get_iterator(const Napi::CallbackInfo& info)
+Value OCResourceType::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_rt_t>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_rt_t>>::New(info.Env(), &m_pvalue);
     return OCResourceTypeIterator::constructor.New({ args });
 }
 
-Napi::Value OCSecurityAce::get_iterator(const Napi::CallbackInfo& info)
+Value OCSecurityAce::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_sec_ace_t>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &m_pvalue);
     return OCSecurityAceIterator::constructor.New({ args });
 }
 
-
-Napi::Value OCSessionEventCb::get_iterator(const Napi::CallbackInfo& info)
+Value OCSessionEventCb::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_session_event_cb>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_session_event_cb>>::New(info.Env(), &m_pvalue);
     return OCSessionEventCbIterator::constructor.New({ args });
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Napi::Value OCEndpoint::get_iterator(const Napi::CallbackInfo& info)
+Value OCEndpoint::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &m_pvalue);
     return OCEndpointIterator::constructor.New({ args });
 }
 
-Napi::Value OCStringArray::get_iterator(const Napi::CallbackInfo& info)
+Value OCStringArray::get_iterator(const CallbackInfo& info)
 {
-    auto args = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &m_pvalue);
+    auto args = External<shared_ptr<oc_string_array_t>>::New(info.Env(), &m_pvalue);
     return OCStringArrayIterator::constructor.New({ args });
 }
 
+Value OCCollectionIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Value OCLinkIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Value OCSecurityAceIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Value OCAceResourceIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Value OCCloudContextIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Value OCLinkParamsIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Value OCResourceTypeIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Value OCEtimerIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Value OCEventCallbackIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Value OCMessageIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Value OCRoleIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Value OCBlockwiseStateIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Value OCSessionEventCbIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Value OCRepresentationIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
+Value OCEndpointIterator::get_next(const CallbackInfo& info)
+{
+    m_pvalue->current = m_pvalue->current->next;
+    return info.This();
+}
 
-Napi::Value OCCollectionIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Napi::Value OCLinkIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Napi::Value OCSecurityAceIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Napi::Value OCAceResourceIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Napi::Value OCCloudContextIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Napi::Value OCLinkParamsIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Napi::Value OCResourceTypeIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Napi::Value OCEtimerIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Napi::Value OCEventCallbackIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Napi::Value OCMessageIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Napi::Value OCRoleIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Napi::Value OCBlockwiseStateIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Napi::Value OCSessionEventCbIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Napi::Value OCRepresentationIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Napi::Value OCEndpointIterator::get_next(const Napi::CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-
-Napi::Value OCStringArrayIterator::get_next(const Napi::CallbackInfo& info)
+Value OCStringArrayIterator::get_next(const CallbackInfo& info)
 {
     m_pvalue->index++;
     return info.This();
 }
 
-callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, int idx_func, int idx_val)
+callback_helper_t* new_callback_helper_t(const CallbackInfo& info, int idx_func, int idx_val)
 {
     if(info.Length() < idx_func || !info[idx_func].IsFunction() ) return nullptr;
     callback_helper_t* helper = new callback_helper_t(info);
-    helper->function = Napi::Persistent(info[idx_func].As<Napi::Function>());
+    helper->function = Persistent(info[idx_func].As<Function>());
     if(info.Length() > idx_val) {
-        //helper->value = Napi::Persistent(info[idx_val].As<Napi::Object>());
+        //helper->value = Persistent(info[idx_val].As<Object>());
     }
 
     return helper;
@@ -255,8 +232,8 @@ void oc_init_platform_helper(void* param)
     printf("oc_init_platform_helper");
     /*
       callback_helper_t* helper = (callback_helper_t*)param;
-    //  Napi::HandleScope(helper->function.Env());
-    //  Napi::CallbackScope scope(helper->function.Env(), helper->async_context);
+    //  HandleScope(helper->function.Env());
+    //  CallbackScope scope(helper->function.Env(), helper->async_context);
       helper->function.MakeCallback(helper->function.Env().Null(), {helper->value.Value()});
     printf("end oc_init_platform_helper\n");
     */
@@ -266,7 +243,7 @@ void oc_add_device_helper(void* param)
 {
     printf("oc_add_device_helper\n");
     callback_helper_t* helper = (callback_helper_t*)param;
-    Napi::CallbackScope scope(helper->function.Env(), helper->async_context);
+    CallbackScope scope(helper->function.Env(), helper->async_context);
     helper->function.MakeCallback(helper->function.Env().Null(), {helper->value.Value()});
     printf("end oc_add_device_helper\n");
 }
@@ -279,20 +256,20 @@ helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t t
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(user_data);
 
     auto future = helper->function.call<oc_discovery_flags_t>(
-    [&](Napi::Env env, std::vector<napi_value>& args) {
-        auto         di_ = Napi::String::New(helper->env, di);
-        auto        uri_ = Napi::String::New(helper->env, uri);
-        std::shared_ptr<oc_string_array_t> types_sp(&types, nop_deleter);
-        auto      types_ = OCStringArray::constructor.New({ Napi::External<std::shared_ptr<oc_string_array_t>>::New(helper->env, &types_sp) });
-        std::shared_ptr<oc_endpoint_t> endpoint_sp(endpoint, nop_deleter);
-        auto   endpoint_ = OCEndpoint::constructor.New({ Napi::External<std::shared_ptr<oc_endpoint_t>>::New(helper->env, &endpoint_sp) });
-        auto iface_mask_ = Napi::Number::New(helper->env, iface_mask);
-        auto         bm_ = Napi::Number::New(helper->env, bm);
+    [&](Env env, vector<napi_value>& args) {
+        auto         di_ = String::New(helper->env, di);
+        auto        uri_ = String::New(helper->env, uri);
+        shared_ptr<oc_string_array_t> types_sp(&types, nop_deleter);
+        auto      types_ = OCStringArray::constructor.New({ External<shared_ptr<oc_string_array_t>>::New(helper->env, &types_sp) });
+        shared_ptr<oc_endpoint_t> endpoint_sp(endpoint, nop_deleter);
+        auto   endpoint_ = OCEndpoint::constructor.New({ External<shared_ptr<oc_endpoint_t>>::New(helper->env, &endpoint_sp) });
+        auto iface_mask_ = Number::New(helper->env, iface_mask);
+        auto         bm_ = Number::New(helper->env, bm);
         args = {di_, uri_, types_, iface_mask_, endpoint_, bm_, helper->value };
     },
-    [&](const Napi::Value& val) {
+    [&](const Value& val) {
         if (val.IsNumber()) {
-            return static_cast<oc_discovery_flags_t>(val.As<Napi::Number>().Uint32Value());
+            return static_cast<oc_discovery_flags_t>(val.As<Number>().Uint32Value());
         }
         else {
             helper->function.callError("invalid return type");
@@ -310,21 +287,21 @@ helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(user_data);
 
     auto future = helper->function.call<oc_discovery_flags_t>(
-    [&](Napi::Env env, std::vector<napi_value>& args) {
-        auto         di_ = Napi::String::New(helper->env, di);
-        auto        uri_ = Napi::String::New(helper->env, uri);
-        std::shared_ptr<oc_string_array_t> types_sp(&types, nop_deleter);
-        auto      types_ = OCStringArray::constructor.New({ Napi::External<std::shared_ptr<oc_string_array_t>>::New(helper->env, &types_sp) });
-        std::shared_ptr<oc_endpoint_t> endpoint_sp(endpoint, nop_deleter);
-        auto   endpoint_ = OCEndpoint::constructor.New({ Napi::External<std::shared_ptr<oc_endpoint_t>>::New(helper->env, &endpoint_sp) });
-        auto iface_mask_ = Napi::Number::New(helper->env, iface_mask);
-        auto       more_ = Napi::Boolean::New(helper->env, more);
-        auto         bm_ = Napi::Number::New(helper->env, bm);
+    [&](Env env, vector<napi_value>& args) {
+        auto         di_ = String::New(helper->env, di);
+        auto        uri_ = String::New(helper->env, uri);
+        shared_ptr<oc_string_array_t> types_sp(&types, nop_deleter);
+        auto      types_ = OCStringArray::constructor.New({ External<shared_ptr<oc_string_array_t>>::New(helper->env, &types_sp) });
+        shared_ptr<oc_endpoint_t> endpoint_sp(endpoint, nop_deleter);
+        auto   endpoint_ = OCEndpoint::constructor.New({ External<shared_ptr<oc_endpoint_t>>::New(helper->env, &endpoint_sp) });
+        auto iface_mask_ = Number::New(helper->env, iface_mask);
+        auto       more_ = Boolean::New(helper->env, more);
+        auto         bm_ = Number::New(helper->env, bm);
         args = { di_, uri_, types_, iface_mask_, endpoint_, bm_, more_, helper->value };
     },
-    [&](const Napi::Value& val) {
+    [&](const Value& val) {
         if (val.IsNumber()) {
-            return static_cast<oc_discovery_flags_t>(val.As<Napi::Number>().Uint32Value());
+            return static_cast<oc_discovery_flags_t>(val.As<Number>().Uint32Value());
         }
         else {
             helper->function.callError("invalid return type");
@@ -339,10 +316,10 @@ void helper_oc_response_handler(oc_client_response_t* response)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(response->user_data);
     helper->function.call(
-        [&](Napi::Env env, std::vector<napi_value>& args)
+        [&](Env env, vector<napi_value>& args)
     {
-        std::shared_ptr<oc_client_response_t> sp(response, nop_deleter);
-        auto accessor = Napi::External<std::shared_ptr<oc_client_response_t>>::New(helper->env, &sp);
+        shared_ptr<oc_client_response_t> sp(response, nop_deleter);
+        auto accessor = External<shared_ptr<oc_client_response_t>>::New(helper->env, &sp);
         args = { OCClientResponse::constructor.New({ accessor }) };
     });
 }
@@ -352,12 +329,12 @@ void helper_oc_ownership_status_cb(const oc_uuid_t* device_uuid,
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(user_data);
     helper->function.call(
-        [&](Napi::Env env, std::vector<napi_value>& args)
+        [&](Env env, vector<napi_value>& args)
     {
-        std::shared_ptr<oc_uuid_t> uuid_sp(const_cast<oc_uuid_t*>(device_uuid), nop_deleter);
-        auto  device_uuid_ = OCUuid::constructor.New({ Napi::External<std::shared_ptr<oc_uuid_t>>::New(helper->env, &uuid_sp) });
-        auto device_index_ = Napi::Number::New(helper->env, device_index);
-        auto        owned_ = Napi::Boolean::New(helper->env, owned);
+        shared_ptr<oc_uuid_t> uuid_sp(const_cast<oc_uuid_t*>(device_uuid), nop_deleter);
+        auto  device_uuid_ = OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(helper->env, &uuid_sp) });
+        auto device_index_ = Number::New(helper->env, device_index);
+        auto        owned_ = Boolean::New(helper->env, owned);
         args = { device_uuid_, device_index_, owned_, helper->value };
     });
 }
@@ -366,13 +343,13 @@ oc_event_callback_retval_t helper_oc_trigger(void* data)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
     auto future = helper->function.call< oc_event_callback_retval_t>(
-                      [&](Napi::Env env, std::vector<napi_value>& args)
+                      [&](Env env, vector<napi_value>& args)
     {
         args = { helper->value };
     },
-    [&](const Napi::Value& val) {
+    [&](const Value& val) {
         if (val.IsNumber()) {
-            return static_cast<oc_event_callback_retval_t>(val.As<Napi::Number>().Uint32Value());
+            return static_cast<oc_event_callback_retval_t>(val.As<Number>().Uint32Value());
         }
         else {
             helper->function.callError("invalid return type");
@@ -386,9 +363,9 @@ void helper_oc_factory_presets_cb(size_t device, void* data)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
     helper->function.call(
-        [&](Napi::Env env, std::vector<napi_value>& args)
+        [&](Env env, vector<napi_value>& args)
     {
-        auto device_ = Napi::Number::New(helper->env, device);
+        auto device_ = Number::New(helper->env, device);
         args = { device_, helper->value };
     });
 }
@@ -397,9 +374,9 @@ void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* dat
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
     helper->function.call(
-        [&](Napi::Env env, std::vector<napi_value>& args)
+        [&](Env env, vector<napi_value>& args)
     {
-        auto pin_ = Napi::Uint8Array::New(helper->env, pin_len);
+        auto pin_ = Uint8Array::New(helper->env, pin_len);
         for (uint32_t i = 0; i < pin_len; i++)
         {
             pin_[i] = pin[i];
@@ -410,44 +387,44 @@ void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* dat
 
 int oc_swupdate_cb_validate_purl_helper(const char *url)
 {
-    Napi::String Nurl = Napi::String::New(oc_swupdate_cb_validate_purl_ref.Env(), url);
-    Napi::Value ret = oc_swupdate_cb_validate_purl_ref.Call({Nurl});
+    String Nurl = String::New(oc_swupdate_cb_validate_purl_ref.Env(), url);
+    Value ret = oc_swupdate_cb_validate_purl_ref.Call({Nurl});
     if(ret.IsNumber()) {
-        return ret.As<Napi::Number>().Int32Value();
+        return ret.As<Number>().Int32Value();
     }
     return 0;
 }
 
 int oc_swupdate_cb_check_new_version_helper(size_t device, const char *url, const char *version)
 {
-    Napi::Number Ndevice = Napi::Number::New(oc_swupdate_cb_check_new_version_ref.Env(), device);
-    Napi::String Nurl = Napi::String::New(oc_swupdate_cb_check_new_version_ref.Env(), url);
-    Napi::String Nversion = Napi::String::New(oc_swupdate_cb_check_new_version_ref.Env(), version);
-    Napi::Value ret = oc_swupdate_cb_check_new_version_ref.Call({Ndevice, Nurl, Nversion});
+    Number Ndevice = Number::New(oc_swupdate_cb_check_new_version_ref.Env(), device);
+    String Nurl = String::New(oc_swupdate_cb_check_new_version_ref.Env(), url);
+    String Nversion = String::New(oc_swupdate_cb_check_new_version_ref.Env(), version);
+    Value ret = oc_swupdate_cb_check_new_version_ref.Call({Ndevice, Nurl, Nversion});
     if(ret.IsNumber()) {
-        return ret.As<Napi::Number>().Int32Value();
+        return ret.As<Number>().Int32Value();
     }
     return 0;
 }
 
 int oc_swupdate_cb_download_update_helper(size_t device, const char *url)
 {
-    Napi::Number Ndevice = Napi::Number::New(oc_swupdate_cb_download_update_ref.Env(), device);
-    Napi::String Nurl = Napi::String::New(oc_swupdate_cb_download_update_ref.Env(), url);
-    Napi::Value ret = oc_swupdate_cb_download_update_ref.Call({Ndevice, Nurl});
+    Number Ndevice = Number::New(oc_swupdate_cb_download_update_ref.Env(), device);
+    String Nurl = String::New(oc_swupdate_cb_download_update_ref.Env(), url);
+    Value ret = oc_swupdate_cb_download_update_ref.Call({Ndevice, Nurl});
     if(ret.IsNumber()) {
-        return ret.As<Napi::Number>().Int32Value();
+        return ret.As<Number>().Int32Value();
     }
     return 0;
 }
 
 int oc_swupdate_cb_perform_upgrade_helper(size_t device, const char *url)
 {
-    Napi::Number Ndevice = Napi::Number::New(oc_swupdate_cb_perform_upgrade_ref.Env(), device);
-    Napi::String Nurl = Napi::String::New(oc_swupdate_cb_perform_upgrade_ref.Env(), url);
-    Napi::Value ret = oc_swupdate_cb_perform_upgrade_ref.Call({Ndevice, Nurl});
+    Number Ndevice = Number::New(oc_swupdate_cb_perform_upgrade_ref.Env(), device);
+    String Nurl = String::New(oc_swupdate_cb_perform_upgrade_ref.Env(), url);
+    Value ret = oc_swupdate_cb_perform_upgrade_ref.Call({Ndevice, Nurl});
     if(ret.IsNumber()) {
-        return ret.As<Napi::Number>().Int32Value();
+        return ret.As<Number>().Int32Value();
     }
     return 0;
 }
@@ -462,7 +439,7 @@ void helper_oc_resource_set_request_handler(oc_request_t* req, oc_interface_mask
 
 }
 
-void N_main_loop_resolve(const Napi::CallbackInfo& info) {
+void N_main_loop_resolve(const CallbackInfo& info) {
     OC_DBG("JNI: - resolve %s", __func__);
     main_loop_ctx->deferred.Resolve(info.Env().Undefined() );
     delete main_loop_ctx;
@@ -492,14 +469,14 @@ void helper_poll_event_thread(struct main_context_t* mainctx)
         OC_DBG("JNI: - unlock %s\n", __func__);
 
         if (next_event == 0) {
-            std::unique_lock<std::mutex> helper_cs(main_context->helper_cs_mutex);
+            unique_lock<mutex> helper_cs(main_context->helper_cs_mutex);
             main_context->helper_cv.wait(helper_cs);
         }
         else {
             oc_clock_time_t now = oc_clock_time();
             if (now < next_event) {
-                std::chrono::milliseconds duration((next_event - now) * 1000 / OC_CLOCK_SECOND);
-                std::unique_lock<std::mutex> helper_cs(main_context->helper_cs_mutex);
+                chrono::milliseconds duration((next_event - now) * 1000 / OC_CLOCK_SECOND);
+                unique_lock<mutex> helper_cs(main_context->helper_cs_mutex);
                 main_context->helper_cv.wait_for(helper_cs, duration);
             }
         }
