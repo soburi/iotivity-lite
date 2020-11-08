@@ -453,7 +453,11 @@
     "object_array": "oc_rep_s*",
     "string": "oc_string_t"
   },
+  "CborEncoder": {
+  },
   "oc_array_t": {
+  },
+  "oc_string_array_t": {
   },
   "oc_string_array_iterator_t": {
     "value": "void*",
@@ -463,8 +467,64 @@
     "value": "void*",
     "done": "bool"
   },
-  "oc_string_array_t": {
+  "oc_separate_response_iterator_t": {
+    "value": "void*",
+    "done": "bool"
   },
-  "CborEncoder": {
+  "oc_collection_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
+  "oc_link_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
+  "oc_sec_ace_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
+  "oc_ace_res_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
+  "oc_cloud_context_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
+  "oc_link_params_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
+  "oc_rt_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
+  "oc_etime_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
+  "oc_event_callback_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
+  "oc_message_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
+  "oc_role_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
+  "oc_blockwise_status_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
+  "oc_session_event_iterator_t": {
+    "value": "void*",
+    "done": "bool"
+  },
+  "oc_rep_iterator_t": {
+    "value": "void*",
+    "done": "bool"
   }
 }

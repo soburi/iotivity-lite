@@ -1475,6 +1475,22 @@ public:
     std::shared_ptr<oc_rep_s::oc_rep_value> m_pvalue;
 };
 
+class OCCborEncoder : public Napi::ObjectWrap<OCCborEncoder>
+{
+public:
+    OCCborEncoder(const Napi::CallbackInfo&);
+    virtual ~OCCborEncoder();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator CborEncoder*() {
+        return m_pvalue.get();
+    }
+
+
+
+    std::shared_ptr<CborEncoder> m_pvalue;
+};
+
 class OCArray : public Napi::ObjectWrap<OCArray>
 {
 public:
@@ -1489,6 +1505,23 @@ public:
 
 
     std::shared_ptr<oc_array_t> m_pvalue;
+};
+
+class OCStringArray : public Napi::ObjectWrap<OCStringArray>
+{
+public:
+    OCStringArray(const Napi::CallbackInfo&);
+    virtual ~OCStringArray();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator oc_string_array_t*() {
+        return m_pvalue.get();
+    }
+
+    Napi::Value get_iterator(const Napi::CallbackInfo& info);
+
+
+    std::shared_ptr<oc_string_array_t> m_pvalue;
 };
 
 class OCStringArrayIterator : public Napi::ObjectWrap<OCStringArrayIterator>
@@ -1533,37 +1566,304 @@ public:
     std::shared_ptr<oc_endpoint_iterator_t> m_pvalue;
 };
 
-class OCStringArray : public Napi::ObjectWrap<OCStringArray>
+class OCSeparateResponseIterator : public Napi::ObjectWrap<OCSeparateResponseIterator>
 {
 public:
-    OCStringArray(const Napi::CallbackInfo&);
-    virtual ~OCStringArray();
+    OCSeparateResponseIterator(const Napi::CallbackInfo&);
+    virtual ~OCSeparateResponseIterator();
     static Napi::Function GetClass(Napi::Env);
     static Napi::FunctionReference constructor;
-    operator oc_string_array_t*() {
+    operator oc_separate_response_iterator_t*() {
         return m_pvalue.get();
     }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
-    Napi::Value get_iterator(const Napi::CallbackInfo& info);
 
 
-    std::shared_ptr<oc_string_array_t> m_pvalue;
+    std::shared_ptr<oc_separate_response_iterator_t> m_pvalue;
 };
 
-class OCCborEncoder : public Napi::ObjectWrap<OCCborEncoder>
+class OCCollectionIterator : public Napi::ObjectWrap<OCCollectionIterator>
 {
 public:
-    OCCborEncoder(const Napi::CallbackInfo&);
-    virtual ~OCCborEncoder();
+    OCCollectionIterator(const Napi::CallbackInfo&);
+    virtual ~OCCollectionIterator();
     static Napi::Function GetClass(Napi::Env);
     static Napi::FunctionReference constructor;
-    operator CborEncoder*() {
+    operator oc_collection_iterator_t*() {
         return m_pvalue.get();
     }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
 
 
 
-    std::shared_ptr<CborEncoder> m_pvalue;
+    std::shared_ptr<oc_collection_iterator_t> m_pvalue;
+};
+
+class OCLinkIterator : public Napi::ObjectWrap<OCLinkIterator>
+{
+public:
+    OCLinkIterator(const Napi::CallbackInfo&);
+    virtual ~OCLinkIterator();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator oc_link_iterator_t*() {
+        return m_pvalue.get();
+    }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+
+    std::shared_ptr<oc_link_iterator_t> m_pvalue;
+};
+
+class OCSecAceIterator : public Napi::ObjectWrap<OCSecAceIterator>
+{
+public:
+    OCSecAceIterator(const Napi::CallbackInfo&);
+    virtual ~OCSecAceIterator();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator oc_sec_ace_iterator_t*() {
+        return m_pvalue.get();
+    }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+
+    std::shared_ptr<oc_sec_ace_iterator_t> m_pvalue;
+};
+
+class OCAceResIterator : public Napi::ObjectWrap<OCAceResIterator>
+{
+public:
+    OCAceResIterator(const Napi::CallbackInfo&);
+    virtual ~OCAceResIterator();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator oc_ace_res_iterator_t*() {
+        return m_pvalue.get();
+    }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+
+    std::shared_ptr<oc_ace_res_iterator_t> m_pvalue;
+};
+
+class OCCloudContextIterator : public Napi::ObjectWrap<OCCloudContextIterator>
+{
+public:
+    OCCloudContextIterator(const Napi::CallbackInfo&);
+    virtual ~OCCloudContextIterator();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator oc_cloud_context_iterator_t*() {
+        return m_pvalue.get();
+    }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+
+    std::shared_ptr<oc_cloud_context_iterator_t> m_pvalue;
+};
+
+class OCLinkParamsIterator : public Napi::ObjectWrap<OCLinkParamsIterator>
+{
+public:
+    OCLinkParamsIterator(const Napi::CallbackInfo&);
+    virtual ~OCLinkParamsIterator();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator oc_link_params_iterator_t*() {
+        return m_pvalue.get();
+    }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+
+    std::shared_ptr<oc_link_params_iterator_t> m_pvalue;
+};
+
+class OCRtIterator : public Napi::ObjectWrap<OCRtIterator>
+{
+public:
+    OCRtIterator(const Napi::CallbackInfo&);
+    virtual ~OCRtIterator();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator oc_rt_iterator_t*() {
+        return m_pvalue.get();
+    }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+
+    std::shared_ptr<oc_rt_iterator_t> m_pvalue;
+};
+
+class OCEtimeIterator : public Napi::ObjectWrap<OCEtimeIterator>
+{
+public:
+    OCEtimeIterator(const Napi::CallbackInfo&);
+    virtual ~OCEtimeIterator();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator oc_etime_iterator_t*() {
+        return m_pvalue.get();
+    }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+
+    std::shared_ptr<oc_etime_iterator_t> m_pvalue;
+};
+
+class OCEventCallbackIterator : public Napi::ObjectWrap<OCEventCallbackIterator>
+{
+public:
+    OCEventCallbackIterator(const Napi::CallbackInfo&);
+    virtual ~OCEventCallbackIterator();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator oc_event_callback_iterator_t*() {
+        return m_pvalue.get();
+    }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+
+    std::shared_ptr<oc_event_callback_iterator_t> m_pvalue;
+};
+
+class OCMessageIterator : public Napi::ObjectWrap<OCMessageIterator>
+{
+public:
+    OCMessageIterator(const Napi::CallbackInfo&);
+    virtual ~OCMessageIterator();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator oc_message_iterator_t*() {
+        return m_pvalue.get();
+    }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+
+    std::shared_ptr<oc_message_iterator_t> m_pvalue;
+};
+
+class OCRoleIterator : public Napi::ObjectWrap<OCRoleIterator>
+{
+public:
+    OCRoleIterator(const Napi::CallbackInfo&);
+    virtual ~OCRoleIterator();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator oc_role_iterator_t*() {
+        return m_pvalue.get();
+    }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+
+    std::shared_ptr<oc_role_iterator_t> m_pvalue;
+};
+
+class OCBlockwiseStatusIterator : public Napi::ObjectWrap<OCBlockwiseStatusIterator>
+{
+public:
+    OCBlockwiseStatusIterator(const Napi::CallbackInfo&);
+    virtual ~OCBlockwiseStatusIterator();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator oc_blockwise_state_iterator_t*() {
+        return m_pvalue.get();
+    }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+
+    std::shared_ptr<oc_blockwise_state_iterator_t> m_pvalue;
+};
+
+class OCSessionEventIterator : public Napi::ObjectWrap<OCSessionEventIterator>
+{
+public:
+    OCSessionEventIterator(const Napi::CallbackInfo&);
+    virtual ~OCSessionEventIterator();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator oc_session_event_iterator_t*() {
+        return m_pvalue.get();
+    }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+
+    std::shared_ptr<oc_session_event_iterator_t> m_pvalue;
+};
+
+class OCRepIterator : public Napi::ObjectWrap<OCRepIterator>
+{
+public:
+    OCRepIterator(const Napi::CallbackInfo&);
+    virtual ~OCRepIterator();
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+    operator oc_rep_iterator_t*() {
+        return m_pvalue.get();
+    }
+    Napi::Value get_value(const Napi::CallbackInfo&);
+    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_done(const Napi::CallbackInfo&);
+    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
+
+
+
+    std::shared_ptr<oc_rep_iterator_t> m_pvalue;
 };
 
 

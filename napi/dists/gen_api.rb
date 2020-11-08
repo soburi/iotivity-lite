@@ -239,9 +239,25 @@ EXTRA_ACCESSOR = {
     InstanceAccessor("type", &OCRepresentation::get_type, &OCRepresentation::set_type),
     InstanceAccessor("value", &OCRepresentation::get_value, &OCRepresentation::set_value),
   ',
+=begin
+  'oc_separate_response_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_collection_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_link_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_sec_ace_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_ace_res_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_cloud_context_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_link_params_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_rt_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_etimer' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_event_callback_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_message_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_role_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_blockwise_status_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_session_event_cb' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_rep_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
   'oc_endpoint_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
   'oc_string_array_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
-
+=end
   'oc_endpoint_iterator_t' => '    InstanceMethod("next", &CLASSNAME::get_next), ',
   'oc_string_array_iterator_t' => '    InstanceMethod("next", &CLASSNAME::get_next), ',
 }
@@ -259,7 +275,7 @@ EXTRA_VALUE= {
   'oc_event_callback_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
   'oc_message_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
   'oc_role_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
-  'oc_blockwise_status_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_blockwise_state_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
   'oc_session_event_cb' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
   'oc_rep_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
 
@@ -358,23 +374,121 @@ OCResource::OCResource(const Napi::CallbackInfo& info) : ObjectWrap(info)
 }
 
 SETGET_OVERRIDE = {
-  "oc_endpoint_t::di" => {
-    "get" => '  std::shared_ptr<oc_uuid_t> sp(&m_pvalue->di);
-  auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
-  return OCUuid::constructor.New({accessor});',
-    "set" => '  oc_endpoint_set_di(m_pvalue.get(), value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()->get() );',
-  },
-  "oc_endpoint_iterator_t::done" => {
-    "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);',
-    "set" => "",
-  },
-  "oc_endpoint_iterator_t::value" => {
+
+  "oc_collection_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_collection_iterator_t::value" => { "set" => "",
     "get" => '
     std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
     return OCEndpoint::constructor.New({ accessor });',
-    "set" => "",
   },
+
+  "oc_link_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_link_iterator_t::value" => { "set" => "",
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+  },
+
+  "oc_sec_ace_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_sec_ace_iterator_t::value" => { "set" => "",
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+  },
+
+  "oc_ace_res_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_ace_res_iterator_t::value" => { "set" => "",
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+  },
+
+  "oc_cloud_context_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_cloud_context_iterator_t::value" => { "set" => "",
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+  },
+
+  "oc_link_params_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_link_params_iterator_t::value" => { "set" => "",
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+  },
+
+  "oc_rt_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_rt_iterator_t::value" => { "set" => "",
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+  },
+
+  "oc_etime_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_etime_iterator_t::value" => { "set" => "",
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+  },
+
+  "oc_event_callback_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_event_callback_iterator_t::value" => { "set" => "",
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+  },
+
+  "oc_message_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_message_iterator_t::value" => { "set" => "",
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+  },
+
+  "oc_role_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_role_iterator_t::value" => { "set" => "",
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+  },
+
+
+  "oc_blockwise_state_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_blockwise_state_iterator_t::value" => { "set" => "",
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+  },
+
+  "oc_session_event_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_session_event_iterator_t::value" => { "set" => "",
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+  },
+
+
+  "oc_rep_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_rep_iterator_t::value" => { "set" => "",
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+  },
+
   "oc_string_array_iterator_t::done" => {
     "get" => "return Napi::Boolean::New(info.Env(), m_pvalue->index >= oc_string_array_get_allocated_size(m_pvalue->array));",
     "set" => "",
@@ -382,6 +496,12 @@ SETGET_OVERRIDE = {
   "oc_string_array_iterator_t::value" => {
     "get" => "return Napi::String::New(info.Env(), oc_string_array_get_item(m_pvalue->array, m_pvalue->index));",
     "set" => "",
+  },
+  "oc_endpoint_t::di" => {
+    "get" => '  std::shared_ptr<oc_uuid_t> sp(&m_pvalue->di);
+  auto accessor = Napi::External<std::shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+  return OCUuid::constructor.New({accessor});',
+    "set" => '  oc_endpoint_set_di(m_pvalue.get(), value.As<Napi::External<std::shared_ptr<oc_uuid_t>>>().Data()->get() );',
   },
   "oc_separate_response_s::buffer" => {
     "set" => "\
