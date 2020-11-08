@@ -221,7 +221,7 @@ GENERIC_SET = {           "bool"  => "  m_pvalue->VALNAME = value.As<Boolean>().
 STRUCT_SET = "  m_pvalue->VALNAME = *(*(value.As<External<shared_ptr<STRUCTNAME>>>().Data()));"
 
 STRUCT_GET = "\
-  shared_ptr<STRUCTNAME> sp(&m_pvalue->VALNAME);
+  shared_ptr<STRUCTNAME> sp(&m_pvalue->VALNAME, nop_deleter);
   auto accessor = External<shared_ptr<STRUCTNAME>>::New(info.Env(), &sp);
   return WRAPNAME::constructor.New({accessor});"
 
@@ -531,7 +531,7 @@ SETGET_OVERRIDE = {
     "set" => "",
   },
   "oc_endpoint_t::di" => {
-    "get" => '  shared_ptr<oc_uuid_t> sp(&m_pvalue->di);
+    "get" => '  shared_ptr<oc_uuid_t> sp(&m_pvalue->di, nop_deleter);
   auto accessor = External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
   return OCUuid::constructor.New({accessor});',
     "set" => '  oc_endpoint_set_di(m_pvalue.get(), value.As<External<shared_ptr<oc_uuid_t>>>().Data()->get() );',
@@ -787,7 +787,7 @@ FUNC_OVERRIDE = {
   int err = oc_parse_rep(payload, payload_size, &ret);
 
   if (err) { return info.Env().Undefined(); }
-  shared_ptr<oc_rep_t> sp(ret);
+  shared_ptr<oc_rep_t> sp(ret, nop_deleter);
   auto accessor = External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
   return OCRepresentation::constructor.New({ accessor });'
   },
@@ -798,7 +798,7 @@ FUNC_OVERRIDE = {
   bool success = oc_rep_get_object(rep, key, &ret);
   if (!success) { return info.Env().Undefined(); }
 
-  shared_ptr<oc_rep_t> sp(ret);
+  shared_ptr<oc_rep_t> sp(ret, nop_deleter);
   auto accessor = External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
   return OCRepresentation::constructor.New({ accessor });'
   },
@@ -2115,7 +2115,7 @@ def gen_funcimpl(func, name, param, instance)
   elsif type =~ /.*\*$/
     #p type
     type = type.gsub(/\*$/, "")
-    invoke += "  shared_ptr<#{type}> sp(#{call_func});\n"
+    invoke += "  shared_ptr<#{type}> sp(#{call_func}, nop_deleter);\n"
     invoke += "  auto args = External<shared_ptr<#{type}>>::New(info.Env(), &sp);\n"
     invoke += "  return #{gen_classname(type).gsub(/\*+$/,'')}::constructor.New({args});\n"
   elsif ENUMS.include?(type)
