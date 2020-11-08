@@ -495,7 +495,7 @@
     "value": "void*",
     "done": "bool"
   },
-  "oc_etime_iterator_t": {
+  "oc_etimer_iterator_t": {
     "value": "void*",
     "done": "bool"
   },

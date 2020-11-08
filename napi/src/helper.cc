@@ -192,7 +192,7 @@ Napi::Value OCResourceTypeIterator::get_next(const Napi::CallbackInfo& info)
     m_pvalue->current = m_pvalue->current->next;
     return info.This();
 }
-Napi::Value OCEtimeIterator::get_next(const Napi::CallbackInfo& info)
+Napi::Value OCEtimerIterator::get_next(const Napi::CallbackInfo& info)
 {
     m_pvalue->current = m_pvalue->current->next;
     return info.This();

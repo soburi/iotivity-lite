@@ -5447,13 +5447,13 @@ void OCResourceTypeIterator::set_done(const Napi::CallbackInfo& info, const Napi
 
 }
 
-Napi::FunctionReference OCEtimeIterator::constructor;
+Napi::FunctionReference OCEtimerIterator::constructor;
 
-Napi::Function OCEtimeIterator::GetClass(Napi::Env env) {
-    auto func = DefineClass(env, "OCEtimeIterator", {
-        InstanceAccessor("value", &OCEtimeIterator::get_value, &OCEtimeIterator::set_value),
-        InstanceAccessor("done", &OCEtimeIterator::get_done, &OCEtimeIterator::set_done),
-        InstanceMethod("next", &OCEtimeIterator::get_next),
+Napi::Function OCEtimerIterator::GetClass(Napi::Env env) {
+    auto func = DefineClass(env, "OCEtimerIterator", {
+        InstanceAccessor("value", &OCEtimerIterator::get_value, &OCEtimerIterator::set_value),
+        InstanceAccessor("done", &OCEtimerIterator::get_done, &OCEtimerIterator::set_done),
+        InstanceMethod("next", &OCEtimerIterator::get_next),
     });
 
     constructor = Napi::Persistent(func);
@@ -5462,21 +5462,21 @@ Napi::Function OCEtimeIterator::GetClass(Napi::Env env) {
     return func;
 }
 
-OCEtimeIterator::~OCEtimeIterator()
+OCEtimerIterator::~OCEtimerIterator()
 {
 }
 
-OCEtimeIterator::OCEtimeIterator(const CallbackInfo& info) : ObjectWrap(info)
+OCEtimerIterator::OCEtimerIterator(const CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = shared_ptr<oc_etime_iterator_t>(new oc_etime_iterator_t());
+        m_pvalue = shared_ptr<oc_etimer_iterator_t>(new oc_etimer_iterator_t());
         m_pvalue->current = info[0].As<External<shared_ptr<oc_etimer>>>().Data()->get();
     }
     else {
         TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
     }
 }
-Napi::Value OCEtimeIterator::get_value(const Napi::CallbackInfo& info)
+Napi::Value OCEtimerIterator::get_value(const Napi::CallbackInfo& info)
 {
 
     shared_ptr<oc_etimer> sp(m_pvalue->current, nop_deleter);
@@ -5484,17 +5484,17 @@ Napi::Value OCEtimeIterator::get_value(const Napi::CallbackInfo& info)
     return OCEtimer::constructor.New({ accessor });
 }
 
-void OCEtimeIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCEtimerIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCEtimeIterator::get_done(const Napi::CallbackInfo& info)
+Napi::Value OCEtimerIterator::get_done(const Napi::CallbackInfo& info)
 {
     return Boolean::New(info.Env(), m_pvalue->current == nullptr);
 }
 
-void OCEtimeIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCEtimerIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }

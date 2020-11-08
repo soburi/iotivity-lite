@@ -1713,14 +1713,14 @@ public:
     std::shared_ptr<oc_rt_iterator_t> m_pvalue;
 };
 
-class OCEtimeIterator : public Napi::ObjectWrap<OCEtimeIterator>
+class OCEtimerIterator : public Napi::ObjectWrap<OCEtimerIterator>
 {
 public:
-    OCEtimeIterator(const Napi::CallbackInfo&);
-    virtual ~OCEtimeIterator();
+    OCEtimerIterator(const Napi::CallbackInfo&);
+    virtual ~OCEtimerIterator();
     static Napi::Function GetClass(Napi::Env);
     static Napi::FunctionReference constructor;
-    operator oc_etime_iterator_t*() {
+    operator oc_etimer_iterator_t*() {
         return m_pvalue.get();
     }
     Napi::Value get_value(const Napi::CallbackInfo&);
@@ -1731,7 +1731,7 @@ public:
     Napi::Value get_next(const Napi::CallbackInfo& info);
 
 
-    std::shared_ptr<oc_etime_iterator_t> m_pvalue;
+    std::shared_ptr<oc_etimer_iterator_t> m_pvalue;
 };
 
 class OCEventCallbackIterator : public Napi::ObjectWrap<OCEventCallbackIterator>

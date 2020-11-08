@@ -258,7 +258,7 @@ EXTRA_ACCESSOR = {
   "oc_cloud_context_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
   "oc_link_params_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
   "oc_rt_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
-  "oc_etime_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  "oc_etimer_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
   "oc_event_callback_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
   "oc_message_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
   "oc_role_iterator_t" => '    InstanceMethod("next", &CLASSNAME::get_next), ',
@@ -294,7 +294,7 @@ EXTRA_VALUE= {
   "oc_cloud_context_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
   "oc_link_params_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
   "oc_rt_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
-  "oc_etime_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  "oc_etimer_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
   "oc_event_callback_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
   "oc_message_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
   "oc_role_iterator_t" =>  ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
@@ -422,11 +422,11 @@ OCResourceTypeIterator::OCResourceTypeIterator(const CallbackInfo& info) : Objec
      TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
   }
 }',
-  "oc_etime_iterator_t" => '
+  "oc_etimer_iterator_t" => '
 OCEtimerIterator::OCEtimerIterator(const CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 1 && info[0].IsExternal() ) {
-     m_pvalue = shared_ptr<oc_etime_iterator_t>(new oc_etime_iterator_t());
+     m_pvalue = shared_ptr<oc_etimer_iterator_t>(new oc_etimer_iterator_t());
      m_pvalue->current = info[0].As<External<shared_ptr<oc_etimer>>>().Data()->get();
   }
   else {
@@ -484,7 +484,7 @@ OCSessionEventCbIterator::OCSessionEventCbIterator(const CallbackInfo& info) : O
 {
   if (info.Length() == 1 && info[0].IsExternal() ) {
      m_pvalue = shared_ptr<oc_session_event_cb_iterator_t>(new oc_session_event_cb_iterator_t());
-     m_pvalue->current = info[0].As<External<shared_ptr<oc_session_event_cb_s>>>().Data()->get();
+     m_pvalue->current = info[0].As<External<shared_ptr<oc_session_event_cb_t>>>().Data()->get();
   }
   else {
      TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
@@ -611,8 +611,8 @@ SETGET_OVERRIDE = {
     return OCResourceType::constructor.New({ accessor });',
   },
 
-  "oc_etime_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
-  "oc_etime_iterator_t::value" => { "set" => "",
+  "oc_etimer_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
+  "oc_etimer_iterator_t::value" => { "set" => "",
     "get" => '
     shared_ptr<oc_etimer> sp(m_pvalue->current, nop_deleter);
     auto accessor = External<shared_ptr<oc_etimer>>::New(info.Env(), &sp);
