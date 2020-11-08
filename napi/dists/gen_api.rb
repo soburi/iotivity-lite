@@ -31,8 +31,11 @@ public:
   static Napi::Function GetClass(Napi::Env);
   static Napi::FunctionReference constructor;
 APICLSDECL
-MTDDECL = <<MTDDECL
+STATICMTDDECL = <<MTDDECL
   static Napi::Value METHOD(const Napi::CallbackInfo& info);
+MTDDECL
+INSTANCEMTDDECL = <<MTDDECL
+  Napi::Value METHOD(const Napi::CallbackInfo& info);
 MTDDECL
 
 MTDIMPL = <<MTDIMPL
@@ -46,8 +49,11 @@ Napi::Function CLASS::GetClass(Napi::Env env) {
     return DefineClass(env, "CLASS", {
 BINDIMPL
 
-MTDBIND = <<MTDBIND
+STATICBIND = <<MTDBIND
         StaticMethod("METHOD", &CLASS::METHOD),
+MTDBIND
+INSTANCEBIND = <<MTDBIND
+        InstanceMethod("METHOD", &CLASS::METHOD),
 MTDBIND
 
 CCPROLOGUE = <<CCPROLOGUE
@@ -973,6 +979,23 @@ IGNORE_TYPES = {
 #  "oc_timer" => nil,
 }
 
+INSTANCE_FUNCS = [
+  "OCRepresentation::get_bool",
+  "OCRepresentation::get_bool_array",
+  "OCRepresentation::get_byte_string",
+  "OCRepresentation::get_byte_string_array",
+  "OCRepresentation::get_cbor_errno",
+  "OCRepresentation::get_double",
+  "OCRepresentation::get_double_array",
+  "OCRepresentation::get_object",
+  "OCRepresentation::get_object_array",
+  "OCRepresentation::get_string",
+  "OCRepresentation::get_string_array",
+  "OCRepresentation::get_int",
+  "OCRepresentation::get_int_array",
+  "OCRepresentation::to_json",
+]
+
 IGNORE_FUNCS = [
   '_oc_memb_alloc',
   '_oc_memb_free',
@@ -1576,7 +1599,7 @@ def is_struct_ptr?(ty)
   return false
 end
 
-def gen_funcimpl(func, name, param, static)
+def gen_funcimpl(func, name, param, instance)
   type = param['type']
   type = FUNC_TYPEMAP[type] if FUNC_TYPEMAP.include?(type)
 
@@ -1592,7 +1615,7 @@ def gen_funcimpl(func, name, param, static)
 
   param['param'].each.with_index do |(n, ty), ii|
     i = ii
-    i = ii-1 if !static
+    i = ii-1 if instance
 
     index = "[#{i}]"
     index = ".This()" if i == -1
@@ -1858,7 +1881,7 @@ File.open('src/functions.cc', 'w') do |f|
     h = func_table[key]
     next if IGNORE_FUNCS.include?(key)
     next if apis.values.collect{|v| v.values }.flatten.include?(key)
-    expset = gen_funcimpl("N_"+ key, key, h, true)
+    expset = gen_funcimpl("N_"+ key, key, h, false)
     if IFDEF_FUNCS.include?(key)
       expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
     end
@@ -1917,7 +1940,11 @@ File.open('src/iotivity_lite.h', 'w') do |f|
   apis.keys.sort.each do |cls|
     f.print APICLSDECL.gsub(/CLASS/, cls)
     apis[cls].keys.each do |mtd|
-      f.print MTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
+      if INSTANCE_FUNCS.include?(cls + "::" + mtd)
+        f.print INSTANCEMTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
+      else
+        f.print STATICMTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
+      end
     end
     if EXTRA_VALUE[cls] != nil
       f.print "#{EXTRA_VALUE[cls]}\n"
@@ -1938,7 +1965,11 @@ File.open('src/iotivity_lite.cc', 'w') do |f|
   apis.keys.sort.each do |cls|
     f.print BINDIMPL.gsub(/CLASS/, cls)
     apis[cls].keys.each do |mtd|
-      f.print MTDBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
+      if INSTANCE_FUNCS.include?(cls + "::" + mtd)
+        f.print INSTANCEBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
+      else
+        f.print STATICBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
+      end
     end
 
     if EXTRA_ACCESSOR.has_key?(cls)
@@ -1956,7 +1987,7 @@ File.open('src/iotivity_lite.cc', 'w') do |f|
         print "\n"
         next
       end
-      expset = gen_funcimpl(cls + "::" + name, mtd, func_table[mtd], true)
+      expset = gen_funcimpl(cls + "::" + name, mtd, func_table[mtd], INSTANCE_FUNCS.include?(cls + "::" + name) )
       if IFDEF_FUNCS.include?(mtd)
         expset = "#if #{IFDEF_FUNCS[mtd]}\n" + expset + "#endif\n"
       end
