@@ -40,9 +40,119 @@ SafeCallbackHelper::SafeCallbackHelper(const Napi::Function& fn, const Napi::Val
     , env(fn.Env())
 {
 }
+
+Napi::Value OCAceResource::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_ace_res_t>>::New(info.Env(), &m_pvalue);
+    return OCAceResourceIterator::constructor.New({ args });
+}
+
+Napi::Value OCCloudContext::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_cloud_context_t>>::New(info.Env(), &m_pvalue);
+    return OCCloudContextIterator::constructor.New({ args });
+}
+
+
+
+Napi::Value OCCollection::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_collection_s>>::New(info.Env(), &m_pvalue);
+    return OCCollectionIterator::constructor.New({ args });
+}
+
+Napi::Value OCEtimer::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_etimer>>::New(info.Env(), &m_pvalue);
+    return OCStringArrayIterator::constructor.New({ args });
+}
+
+Napi::Value OCEventCallback::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_event_callback_s>>::New(info.Env(), &m_pvalue);
+    return OCEventCallbackIterator::constructor.New({ args });
+}
+
+Napi::Value OCLinkParams::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_link_params_t>>::New(info.Env(), &m_pvalue);
+    return OCLinkParamsIterator::constructor.New({ args });
+}
+
+Napi::Value OCLink::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_link_s>>::New(info.Env(), &m_pvalue);
+    return OCLinkIterator::constructor.New({ args });
+}
+
+
+Napi::Value OCMessage::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_message_s>>::New(info.Env(), &m_pvalue);
+    return OCMessageIterator::constructor.New({ args });
+}
+
+
+Napi::Value OCRepresentation::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_rep_s>>::New(info.Env(), &m_pvalue);
+    return OCRepresentationIterator::constructor.New({ args });
+}
+
+Napi::Value OCRole::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_role_t>>::New(info.Env(), &m_pvalue);
+    return OCRoleIterator::constructor.New({ args });
+}
+
+
+Napi::Value OCResourceType::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_rt_t>>::New(info.Env(), &m_pvalue);
+    return OCResourceTypeIterator::constructor.New({ args });
+}
+
+Napi::Value OCSecurityAce::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_sec_ace_t>>::New(info.Env(), &m_pvalue);
+    return OCSecurityAceIterator::constructor.New({ args });
+}
+
+
+Napi::Value OCSessionEventCb::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_session_event_cb>>::New(info.Env(), &m_pvalue);
+    return OCSessionEventCbIterator::constructor.New({ args });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Napi::Value OCEndpoint::get_iterator(const Napi::CallbackInfo& info)
 {
     auto args = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &m_pvalue);
+    return OCStringArrayIterator::constructor.New({ args });
+}
+
+Napi::Value OCStringArray::get_iterator(const Napi::CallbackInfo& info)
+{
+    auto args = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &m_pvalue);
     return OCStringArrayIterator::constructor.New({ args });
 }
 
@@ -50,11 +160,6 @@ Napi::Value OCEndpointIterator::get_next(const Napi::CallbackInfo& info)
 {
     m_pvalue->current = m_pvalue->current->next;
     return info.This();
-}
-Napi::Value OCStringArray::get_iterator(const Napi::CallbackInfo& info)
-{
-    auto args = Napi::External<std::shared_ptr<oc_string_array_t>>::New(info.Env(), &m_pvalue);
-    return OCStringArrayIterator::constructor.New({ args });
 }
 
 Napi::Value OCStringArrayIterator::get_next(const Napi::CallbackInfo& info)

@@ -239,6 +239,23 @@ EXTRA_ACCESSOR = {
     InstanceAccessor("type", &OCRepresentation::get_type, &OCRepresentation::set_type),
     InstanceAccessor("value", &OCRepresentation::get_value, &OCRepresentation::set_value),
   ',
+  'oc_collection_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_link_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_sec_ace_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_ace_res_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_cloud_context_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_link_params_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_rt_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_etimer' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_event_callback_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_message_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_role_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_blockwise_status_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_session_event_cb' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_rep_s' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_endpoint_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_string_array_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+
   'oc_endpoint_iterator_t' => '    InstanceMethod("next", &CLASSNAME::get_next), ',
   'oc_string_array_iterator_t' => '    InstanceMethod("next", &CLASSNAME::get_next), ',
 }
@@ -468,6 +485,13 @@ SETGET_OVERRIDE = {
     return OCRepresentation::constructor.New({ accessor });',
   },
 
+  "oc_endpoint_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
+  "oc_endpoint_iterator_t::value" => { "set" => "",
+    "get" => '
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });',
+  },
   "oc_string_array_iterator_t::done" => {
     "get" => "return Napi::Boolean::New(info.Env(), m_pvalue->index >= oc_string_array_get_allocated_size(m_pvalue->array));",
     "set" => "",
