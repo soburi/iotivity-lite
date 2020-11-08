@@ -1854,7 +1854,18 @@ Napi::Value OCRandom::random_value(const Napi::CallbackInfo& info) {
 
 Napi::FunctionReference OCRandom::constructor;
 
-OCRepresentation::OCRepresentation(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+OCRepresentation::OCRepresentation(const Napi::CallbackInfo& info) : ObjectWrap(info) {
+    if (info.Length() == 0) {
+        //TODO m_pvalue = std::shared_ptr<oc_rep_s>( oc_rep_new(), oc_free_rep);
+    }
+    else if (info.Length() == 1 && info[0].IsExternal()) {
+        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_rep_s>>>().Data());
+    }
+    else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+            .ThrowAsJavaScriptException();
+    }
+}
 
 Napi::Function OCRepresentation::GetClass(Napi::Env env) {
     return DefineClass(env, "OCRepresentation", {
