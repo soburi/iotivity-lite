@@ -11,7 +11,6 @@ Napi::FunctionReference oc_swupdate_cb_check_new_version_ref;
 Napi::FunctionReference oc_swupdate_cb_download_update_ref;
 Napi::FunctionReference oc_swupdate_cb_perform_upgrade_ref;
 
-
 int helper_oc_handler_init()
 {
     Napi::Value ret = main_context->oc_handler_init_ref.Call({});

@@ -9,6 +9,18 @@
 
 
 static void nop_deleter(void*) { }
+extern struct main_context_t* main_context;
+
+class SafeCallbackHelper {
+public:
+    ThreadSafeCallback function;
+    Napi::Value value;
+    Napi::Env env;
+
+    SafeCallbackHelper(const Napi::Function&, const Napi::Value&);
+    virtual ~SafeCallbackHelper() {}
+};
+
 
 struct main_context_t {
     std::thread helper_poll_event_thread;
@@ -16,9 +28,15 @@ struct main_context_t {
     std::mutex helper_cs_mutex;
     std::unique_lock<std::mutex> helper_cs;
     std::condition_variable helper_cv;
+
     Napi::FunctionReference oc_handler_init_ref;
     Napi::FunctionReference oc_handler_register_resources_ref;
     Napi::FunctionReference oc_handler_requests_entry_ref;
+
+
+
+    std::vector< std::shared_ptr<SafeCallbackHelper> > callback_helper_array;
+
     int jni_quit;
 };
 
@@ -38,16 +56,6 @@ public:
     Napi::AsyncContext async_context;
 
     callback_helper_t(const Napi::CallbackInfo& info) : async_context(info.Env(), "") { }
-};
-
-class SafeCallbackHelper {
-public:
-    ThreadSafeCallback function;
-    Napi::Value value;
-    Napi::Env env;
-
-    SafeCallbackHelper(const Napi::Function&, const Napi::Value&);
-    virtual ~SafeCallbackHelper() {}
 };
 
 
