@@ -2,6 +2,7 @@
 #include "structs.h"
 #include "functions.h"
 #include "helper.h"
+using namespace std;
 using namespace Napi;
 
 Napi::Object module_init(Napi::Env env, Napi::Object exports);

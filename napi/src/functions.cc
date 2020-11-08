@@ -1,6 +1,8 @@
 #include "functions.h"
 #include "iotivity_lite.h"
 #include "helper.h"
+using namespace std;
+using namespace Napi;
 Napi::Value N_handle_coap_signal_message(const Napi::CallbackInfo& info) {
   void* packet = info[0];
   OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Napi::Object>());

@@ -55,6 +55,7 @@ CCPROLOGUE = <<CCPROLOGUE
 #include "structs.h"
 #include "functions.h"
 #include "helper.h"
+using namespace std;
 using namespace Napi;
 
 Napi::Object module_init(Napi::Env env, Napi::Object exports);
@@ -1778,6 +1779,8 @@ end
 File.open('src/structs.cc', 'w') do |f|
   f.print "#include \"structs.h\"\n"
   f.print "#include \"helper.h\"\n"
+  f.print "using namespace std;\n"
+  f.print "using namespace Napi;\n"
 
   struct_table.each do |key, h|
     f.print gen_classimpl(key, h)
@@ -1818,6 +1821,8 @@ File.open('src/functions.cc', 'w') do |f|
   f.print "#include \"functions.h\"\n"
   f.print "#include \"iotivity_lite.h\"\n"
   f.print "#include \"helper.h\"\n"
+  f.print "using namespace std;\n"
+  f.print "using namespace Napi;\n"
 
   #func_table.each do |key, h|
   #  if not IFDEF_FUNCS.include?(key)
@@ -1840,6 +1845,8 @@ end
 File.open('src/binding.cc', 'w') do |f|
   f.print "#include \"structs.h\"\n"
   f.print "#include \"functions.h\"\n"
+  f.print "using namespace std;\n"
+  f.print "using namespace Napi;\n"
 
   f.print "Napi::Object module_init(Napi::Env env, Napi::Object exports) {\n"
   struct_table.keys.sort.each do |key|

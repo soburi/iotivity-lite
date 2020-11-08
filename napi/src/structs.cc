@@ -1,5 +1,7 @@
 #include "structs.h"
 #include "helper.h"
+using namespace std;
+using namespace Napi;
 
 
 

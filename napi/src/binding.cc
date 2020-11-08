@@ -1,5 +1,7 @@
 #include "structs.h"
 #include "functions.h"
+using namespace std;
+using namespace Napi;
 Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("CborEncoder", OCCborEncoder::GetClass(env));
   exports.Set("AceResource", OCAceResource::GetClass(env));
