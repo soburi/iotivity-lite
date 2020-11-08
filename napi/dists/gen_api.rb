@@ -66,8 +66,9 @@ CCPROLOGUE = <<CCPROLOGUE
 #include "functions.h"
 #include "helper.h"
 
-#define CHECK_CALLBACK_FUNC(info, order, helper) ((info.Length() >= order && info[order].IsFunction()) ? helper : nullptr)
-#
+#define CHECK_CALLBACK_FUNC(info, order, helper)  ((info.Length() >= order &&                           info[order].IsFunction()) ? helper : nullptr)
+#define CHECK_CALLBACK_CONTEXT(info, fn_i, ctx_i) ((info.Length() >= fn_i  && info.Length() >= ctx_i &&  info[fn_i].IsFunction()) ? new SafeCallbackHelper(info[fn_i].As<Function>(), info[ctx_i]));
+
 using namespace std;
 using namespace Napi;
 
@@ -1122,9 +1123,9 @@ STR
     '3' => "  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[2].As<Function>(), info[3]);\n"
   },
   'oc_do_ip_discovery' => {
-    '1' => '  oc_discovery_handler_t handler = check_callback_func(info, ORDER, helper_oc_discovery_handler);',
-    '2' => '  SafeCallbackHelper* user_data = new SafeCallbackHelper(info[1].As<Function>(), info[2]);
-  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));'
+    '1' => '  oc_discovery_handler_t handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_discovery_handler); const int O_FUNC = ORDER;',
+    '2' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_ip_discovery_all' => {
     '0' => "  oc_discovery_all_handler_t handler = helper_oc_discovery_all_handler;\n",
