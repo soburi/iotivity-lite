@@ -591,6 +591,19 @@ m_pvalue->_payload_len = value.As<Napi::Buffer<uint8_t>>().Length();",
 }
 
 FUNC_OVERRIDE = {
+  'oc_parse_rep' => {
+    '1' => '  int payload_size = info[0].As<Napi::Buffer<const uint8_t>>().Length();',
+    '2' => '',
+    'invoke' => '
+
+  oc_rep_t* ret;
+  int err = oc_parse_rep(payload, payload_size, &ret);
+
+  if (err) { return info.Env().Undefined(); }
+  std::shared_ptr<oc_rep_t> sp(ret);
+  auto accessor = Napi::External<std::shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+  return OCRepresentation::constructor.New({ accessor });'
+  },
   'oc_rep_get_object' => {
     '1' => '',
     'invoke' => '

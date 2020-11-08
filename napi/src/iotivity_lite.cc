@@ -2066,7 +2066,8 @@ Napi::Value OCRepresentation::to_json(const Napi::CallbackInfo& info) {
 
 Napi::Value OCRepresentation::parse(const Napi::CallbackInfo& info) {
   const uint8_t* payload = info[0].As<Napi::Buffer<const uint8_t>>().Data();
-  int payload_size = static_cast<int>(info[1].As<Napi::Number>());
+  int payload_size = info[0].As<Napi::Buffer<const uint8_t>>().Length();
+
   oc_rep_t* ret;
   int err = oc_parse_rep(payload, payload_size, &ret);
 
