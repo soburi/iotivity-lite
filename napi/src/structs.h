@@ -157,6 +157,7 @@ public:
     Napi::Value get_uri_query(const Napi::CallbackInfo&);
     void set_uri_query(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::Value get_iterator(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_blockwise_state_s> m_pvalue;
@@ -1293,7 +1294,6 @@ public:
     Napi::Value get_buffer(const Napi::CallbackInfo&);
     void set_buffer(const Napi::CallbackInfo&, const Napi::Value&);
 
-    Napi::Value get_iterator(const Napi::CallbackInfo& info);
 
 
     std::shared_ptr<oc_separate_response_s> m_pvalue;
@@ -1566,26 +1566,6 @@ public:
     std::shared_ptr<oc_endpoint_iterator_t> m_pvalue;
 };
 
-class OCSeparateResponseIterator : public Napi::ObjectWrap<OCSeparateResponseIterator>
-{
-public:
-    OCSeparateResponseIterator(const Napi::CallbackInfo&);
-    virtual ~OCSeparateResponseIterator();
-    static Napi::Function GetClass(Napi::Env);
-    static Napi::FunctionReference constructor;
-    operator oc_separate_response_iterator_t*() {
-        return m_pvalue.get();
-    }
-    Napi::Value get_value(const Napi::CallbackInfo&);
-    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_done(const Napi::CallbackInfo&);
-    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
-
-
-
-    std::shared_ptr<oc_separate_response_iterator_t> m_pvalue;
-};
-
 class OCCollectionIterator : public Napi::ObjectWrap<OCCollectionIterator>
 {
 public:
@@ -1806,11 +1786,11 @@ public:
     std::shared_ptr<oc_role_iterator_t> m_pvalue;
 };
 
-class OCBlockwiseStatusIterator : public Napi::ObjectWrap<OCBlockwiseStatusIterator>
+class OCBlockwiseStateIterator : public Napi::ObjectWrap<OCBlockwiseStateIterator>
 {
 public:
-    OCBlockwiseStatusIterator(const Napi::CallbackInfo&);
-    virtual ~OCBlockwiseStatusIterator();
+    OCBlockwiseStateIterator(const Napi::CallbackInfo&);
+    virtual ~OCBlockwiseStateIterator();
     static Napi::Function GetClass(Napi::Env);
     static Napi::FunctionReference constructor;
     operator oc_blockwise_state_iterator_t*() {

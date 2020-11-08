@@ -467,10 +467,6 @@
     "value": "void*",
     "done": "bool"
   },
-  "oc_separate_response_iterator_t": {
-    "value": "void*",
-    "done": "bool"
-  },
   "oc_collection_iterator_t": {
     "value": "void*",
     "done": "bool"
@@ -515,7 +511,7 @@
     "value": "void*",
     "done": "bool"
   },
-  "oc_blockwise_status_iterator_t": {
+  "oc_blockwise_state_iterator_t": {
     "value": "void*",
     "done": "bool"
   },

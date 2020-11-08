@@ -10,8 +10,8 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("Array", OCArray::GetClass(env));
     exports.Set("BlockwiseRequestState", OCBlockwiseRequestState::GetClass(env));
     exports.Set("BlockwiseResponseState", OCBlockwiseResponseState::GetClass(env));
+    exports.Set("BlockwiseStateIterator", OCBlockwiseStateIterator::GetClass(env));
     exports.Set("BlockwiseState", OCBlockwiseState::GetClass(env));
-    exports.Set("BlockwiseStatusIterator", OCBlockwiseStatusIterator::GetClass(env));
     exports.Set("ClientCallback", OCClientCallback::GetClass(env));
     exports.Set("ClientHandler", OCClientHandler::GetClass(env));
     exports.Set("ClientResponse", OCClientResponse::GetClass(env));
@@ -62,7 +62,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("SecurityAcl", OCSecurityAcl::GetClass(env));
     exports.Set("Cred", OCCred::GetClass(env));
     exports.Set("Creds", OCCreds::GetClass(env));
-    exports.Set("SeparateResponseIterator", OCSeparateResponseIterator::GetClass(env));
     exports.Set("SeparateResponse", OCSeparateResponse::GetClass(env));
     exports.Set("SessionEventCb", OCSessionEventCb::GetClass(env));
     exports.Set("SessionEventIterator", OCSessionEventIterator::GetClass(env));

@@ -5062,12 +5062,15 @@ OCEndpointIterator::OCEndpointIterator(const Napi::CallbackInfo& info) : ObjectW
 }
 Napi::Value OCEndpointIterator::get_value(const Napi::CallbackInfo& info)
 {
-    return info.Env().Undefined();
+
+    std::shared_ptr<oc_endpoint_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });
 }
 
 void OCEndpointIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-//#error void* OCEndpointIterator::value gen_setter_impl
+
 }
 
 Napi::Value OCEndpointIterator::get_done(const Napi::CallbackInfo& info)
@@ -5077,58 +5080,7 @@ Napi::Value OCEndpointIterator::get_done(const Napi::CallbackInfo& info)
 
 void OCEndpointIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    //m_pvalue->done = value.As<Napi::Boolean>().Value();
-}
 
-Napi::FunctionReference OCSeparateResponseIterator::constructor;
-
-Napi::Function OCSeparateResponseIterator::GetClass(Napi::Env env) {
-    auto func = DefineClass(env, "OCSeparateResponseIterator", {
-        InstanceAccessor("value", &OCSeparateResponseIterator::get_value, &OCSeparateResponseIterator::set_value),
-        InstanceAccessor("done", &OCSeparateResponseIterator::get_done, &OCSeparateResponseIterator::set_done),
-
-    });
-
-    constructor = Napi::Persistent(func);
-    constructor.SuppressDestruct();
-
-    return func;
-}
-
-OCSeparateResponseIterator::~OCSeparateResponseIterator()
-{
-}
-OCSeparateResponseIterator::OCSeparateResponseIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
-{
-    if (info.Length() == 0) {
-        m_pvalue = std::shared_ptr<oc_separate_response_iterator_t>(new oc_separate_response_iterator_t());
-    }
-    else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_separate_response_iterator_t>>>().Data());
-    }
-    else {
-        Napi::TypeError::New(info.Env(), "You need to name yourself")
-        .ThrowAsJavaScriptException();
-    }
-}
-Napi::Value OCSeparateResponseIterator::get_value(const Napi::CallbackInfo& info)
-{
-    return info.Env().Undefined();
-}
-
-void OCSeparateResponseIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-//#error void* OCSeparateResponseIterator::value gen_setter_impl
-}
-
-Napi::Value OCSeparateResponseIterator::get_done(const Napi::CallbackInfo& info)
-{
-    return Napi::Boolean::New(info.Env(), m_pvalue->current == nullptr);
-}
-
-void OCSeparateResponseIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-    //m_pvalue->done = value.As<Napi::Boolean>().Value();
 }
 
 Napi::FunctionReference OCCollectionIterator::constructor;
@@ -5167,7 +5119,7 @@ Napi::Value OCCollectionIterator::get_value(const Napi::CallbackInfo& info)
 
     std::shared_ptr<oc_collection_s> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_collection_s>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });
+    return OCCollection::constructor.New({ accessor });
 }
 
 void OCCollectionIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5221,7 +5173,7 @@ Napi::Value OCLinkIterator::get_value(const Napi::CallbackInfo& info)
 
     std::shared_ptr<oc_link_s> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_link_s>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });
+    return OCLink::constructor.New({ accessor });
 }
 
 void OCLinkIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5383,7 +5335,7 @@ Napi::Value OCCloudContextIterator::get_value(const Napi::CallbackInfo& info)
 
     std::shared_ptr<oc_cloud_context_t> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });
+    return OCCloudContext::constructor.New({ accessor });
 }
 
 void OCCloudContextIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5725,12 +5677,12 @@ void OCRoleIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value&
 
 }
 
-Napi::FunctionReference OCBlockwiseStatusIterator::constructor;
+Napi::FunctionReference OCBlockwiseStateIterator::constructor;
 
-Napi::Function OCBlockwiseStatusIterator::GetClass(Napi::Env env) {
-    auto func = DefineClass(env, "OCBlockwiseStatusIterator", {
-        InstanceAccessor("value", &OCBlockwiseStatusIterator::get_value, &OCBlockwiseStatusIterator::set_value),
-        InstanceAccessor("done", &OCBlockwiseStatusIterator::get_done, &OCBlockwiseStatusIterator::set_done),
+Napi::Function OCBlockwiseStateIterator::GetClass(Napi::Env env) {
+    auto func = DefineClass(env, "OCBlockwiseStateIterator", {
+        InstanceAccessor("value", &OCBlockwiseStateIterator::get_value, &OCBlockwiseStateIterator::set_value),
+        InstanceAccessor("done", &OCBlockwiseStateIterator::get_done, &OCBlockwiseStateIterator::set_done),
 
     });
 
@@ -5740,10 +5692,10 @@ Napi::Function OCBlockwiseStatusIterator::GetClass(Napi::Env env) {
     return func;
 }
 
-OCBlockwiseStatusIterator::~OCBlockwiseStatusIterator()
+OCBlockwiseStateIterator::~OCBlockwiseStateIterator()
 {
 }
-OCBlockwiseStatusIterator::OCBlockwiseStatusIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
+OCBlockwiseStateIterator::OCBlockwiseStateIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
         m_pvalue = std::shared_ptr<oc_blockwise_state_iterator_t>(new oc_blockwise_state_iterator_t());
@@ -5756,24 +5708,25 @@ OCBlockwiseStatusIterator::OCBlockwiseStatusIterator(const Napi::CallbackInfo& i
         .ThrowAsJavaScriptException();
     }
 }
-
-Napi::Value OCBlockwiseStatusIterator::get_value(const Napi::CallbackInfo& info)
+Napi::Value OCBlockwiseStateIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    return info.Env().Undefined();
+    std::shared_ptr<oc_blockwise_state_t> sp(m_pvalue->current);
+    auto accessor = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({ accessor });
 }
 
-void OCBlockwiseStatusIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCBlockwiseStateIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
 
-Napi::Value OCBlockwiseStatusIterator::get_done(const Napi::CallbackInfo& info)
+Napi::Value OCBlockwiseStateIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return info.Env().Undefined();
+    return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);
 }
 
-void OCBlockwiseStatusIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
+void OCBlockwiseStateIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }
