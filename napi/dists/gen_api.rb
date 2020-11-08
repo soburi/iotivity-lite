@@ -375,7 +375,7 @@ SETGET_OVERRIDE = {
     "get" => '
     std::shared_ptr<oc_sec_ace_t> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });',
+    return OCSecurityAce::constructor.New({ accessor });',
   },
 
   "oc_ace_res_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
@@ -383,7 +383,7 @@ SETGET_OVERRIDE = {
     "get" => '
     std::shared_ptr<oc_ace_res_t> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });',
+    return OCAceResource::constructor.New({ accessor });',
   },
 
   "oc_cloud_context_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
@@ -399,7 +399,7 @@ SETGET_OVERRIDE = {
     "get" => '
     std::shared_ptr<oc_link_params_t> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_link_params_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });',
+    return OCLink::constructor.New({ accessor });',
   },
 
   "oc_rt_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
@@ -407,7 +407,7 @@ SETGET_OVERRIDE = {
     "get" => '
     std::shared_ptr<oc_rt_t> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_rt_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });',
+    return OCResourceType::constructor.New({ accessor });',
   },
 
   "oc_etime_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
@@ -415,7 +415,7 @@ SETGET_OVERRIDE = {
     "get" => '
     std::shared_ptr<oc_etimer> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_etimer>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });',
+    return OCEtimer::constructor.New({ accessor });',
   },
 
   "oc_event_callback_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
@@ -423,7 +423,7 @@ SETGET_OVERRIDE = {
     "get" => '
     std::shared_ptr<oc_event_callback_s> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_event_callback_s>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });',
+    return OCEventCallback::constructor.New({ accessor });',
   },
 
   "oc_message_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
@@ -431,7 +431,7 @@ SETGET_OVERRIDE = {
     "get" => '
     std::shared_ptr<oc_message_s> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_message_s>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });',
+    return OCMessage::constructor.New({ accessor });',
   },
 
   "oc_role_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
@@ -439,7 +439,7 @@ SETGET_OVERRIDE = {
     "get" => '
     std::shared_ptr<oc_role_t> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_role_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });',
+    return OCRole::constructor.New({ accessor });',
   },
 
 
@@ -448,7 +448,7 @@ SETGET_OVERRIDE = {
     "get" => '
     std::shared_ptr<oc_blockwise_state_t> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });',
+    return OCBlockwiseState::constructor.New({ accessor });',
   },
 
   "oc_session_event_iterator_t::done" => { "set" => "", "get" => '  return Napi::Boolean::New(info.Env(), m_pvalue->current->next == nullptr);', },
@@ -456,7 +456,7 @@ SETGET_OVERRIDE = {
     "get" => '
     std::shared_ptr<oc_session_event_cb> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_session_event_cb>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });',
+    return OCSessionEvents::constructor.New({ accessor });',
   },
 
 
@@ -465,7 +465,7 @@ SETGET_OVERRIDE = {
     "get" => '
     std::shared_ptr<oc_rep_s> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_rep_s>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });',
+    return OCRepresentation::constructor.New({ accessor });',
   },
 
   "oc_string_array_iterator_t::done" => {

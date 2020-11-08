@@ -5227,7 +5227,7 @@ Napi::Value OCSecAceIterator::get_value(const Napi::CallbackInfo& info)
 
     std::shared_ptr<oc_sec_ace_t> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });
+    return OCSecurityAce::constructor.New({ accessor });
 }
 
 void OCSecAceIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5281,7 +5281,7 @@ Napi::Value OCAceResIterator::get_value(const Napi::CallbackInfo& info)
 
     std::shared_ptr<oc_ace_res_t> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });
+    return OCAceResource::constructor.New({ accessor });
 }
 
 void OCAceResIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5389,7 +5389,7 @@ Napi::Value OCLinkParamsIterator::get_value(const Napi::CallbackInfo& info)
 
     std::shared_ptr<oc_link_params_t> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_link_params_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });
+    return OCLink::constructor.New({ accessor });
 }
 
 void OCLinkParamsIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5443,7 +5443,7 @@ Napi::Value OCRtIterator::get_value(const Napi::CallbackInfo& info)
 
     std::shared_ptr<oc_rt_t> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_rt_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });
+    return OCResourceType::constructor.New({ accessor });
 }
 
 void OCRtIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5497,7 +5497,7 @@ Napi::Value OCEtimeIterator::get_value(const Napi::CallbackInfo& info)
 
     std::shared_ptr<oc_etimer> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_etimer>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });
+    return OCEtimer::constructor.New({ accessor });
 }
 
 void OCEtimeIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5551,7 +5551,7 @@ Napi::Value OCEventCallbackIterator::get_value(const Napi::CallbackInfo& info)
 
     std::shared_ptr<oc_event_callback_s> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_event_callback_s>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });
+    return OCEventCallback::constructor.New({ accessor });
 }
 
 void OCEventCallbackIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5605,7 +5605,7 @@ Napi::Value OCMessageIterator::get_value(const Napi::CallbackInfo& info)
 
     std::shared_ptr<oc_message_s> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_message_s>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });
+    return OCMessage::constructor.New({ accessor });
 }
 
 void OCMessageIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5659,7 +5659,7 @@ Napi::Value OCRoleIterator::get_value(const Napi::CallbackInfo& info)
 
     std::shared_ptr<oc_role_t> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_role_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });
+    return OCRole::constructor.New({ accessor });
 }
 
 void OCRoleIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5713,7 +5713,7 @@ Napi::Value OCBlockwiseStateIterator::get_value(const Napi::CallbackInfo& info)
 
     std::shared_ptr<oc_blockwise_state_t> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });
+    return OCBlockwiseState::constructor.New({ accessor });
 }
 
 void OCBlockwiseStateIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5767,7 +5767,7 @@ Napi::Value OCSessionEventIterator::get_value(const Napi::CallbackInfo& info)
 
     std::shared_ptr<oc_session_event_cb> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_session_event_cb>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });
+    return OCSessionEvents::constructor.New({ accessor });
 }
 
 void OCSessionEventIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -5821,7 +5821,7 @@ Napi::Value OCRepIterator::get_value(const Napi::CallbackInfo& info)
 
     std::shared_ptr<oc_rep_s> sp(m_pvalue->current);
     auto accessor = Napi::External<std::shared_ptr<oc_rep_s>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({ accessor });
+    return OCRepresentation::constructor.New({ accessor });
 }
 
 void OCRepIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
