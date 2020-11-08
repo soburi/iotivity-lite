@@ -34,11 +34,11 @@ OCBufferSettings::OCBufferSettings(const Napi::CallbackInfo& info) : ObjectWrap(
 
 Napi::Function OCBufferSettings::GetClass(Napi::Env env) {
     return DefineClass(env, "OCBufferSettings", {
-        OCBufferSettings::StaticMethod("set_mtu_size", &OCBufferSettings::set_mtu_size),
-        OCBufferSettings::StaticMethod("get_mtu_size", &OCBufferSettings::get_mtu_size),
-        OCBufferSettings::StaticMethod("set_max_app_data_size", &OCBufferSettings::set_max_app_data_size),
-        OCBufferSettings::StaticMethod("get_max_app_data_size", &OCBufferSettings::get_max_app_data_size),
-        OCBufferSettings::StaticMethod("get_block_size", &OCBufferSettings::get_block_size),
+        StaticMethod("set_mtu_size", &OCBufferSettings::set_mtu_size),
+        StaticMethod("get_mtu_size", &OCBufferSettings::get_mtu_size),
+        StaticMethod("set_max_app_data_size", &OCBufferSettings::set_max_app_data_size),
+        StaticMethod("get_max_app_data_size", &OCBufferSettings::get_max_app_data_size),
+        StaticMethod("get_block_size", &OCBufferSettings::get_block_size),
     });
 }
 
@@ -71,10 +71,10 @@ OCClock::OCClock(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCClock::GetClass(Napi::Env env) {
     return DefineClass(env, "OCClock", {
-        OCClock::StaticMethod("clock_init", &OCClock::clock_init),
-        OCClock::StaticMethod("clock_time", &OCClock::clock_time),
-        OCClock::StaticMethod("clock_seconds", &OCClock::clock_seconds),
-        OCClock::StaticMethod("clock_wait", &OCClock::clock_wait),
+        StaticMethod("clock_init", &OCClock::clock_init),
+        StaticMethod("clock_time", &OCClock::clock_time),
+        StaticMethod("clock_seconds", &OCClock::clock_seconds),
+        StaticMethod("clock_wait", &OCClock::clock_wait),
     });
 }
 
@@ -103,20 +103,20 @@ OCCloud::OCCloud(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCCloud::GetClass(Napi::Env env) {
     return DefineClass(env, "OCCloud", {
-        OCCloud::StaticMethod("get_context", &OCCloud::get_context),
-        OCCloud::StaticMethod("manager_start", &OCCloud::manager_start),
-        OCCloud::StaticMethod("manager_stop", &OCCloud::manager_stop),
-        OCCloud::StaticMethod("cloud_login", &OCCloud::cloud_login),
-        OCCloud::StaticMethod("cloud_logout", &OCCloud::cloud_logout),
-        OCCloud::StaticMethod("cloud_refresh_token", &OCCloud::cloud_refresh_token),
-        OCCloud::StaticMethod("get_token_expiry", &OCCloud::get_token_expiry),
-        OCCloud::StaticMethod("add_resource", &OCCloud::add_resource),
-        OCCloud::StaticMethod("delete_resource", &OCCloud::delete_resource),
-        OCCloud::StaticMethod("publish_resources", &OCCloud::publish_resources),
-        OCCloud::StaticMethod("discover_resources", &OCCloud::discover_resources),
-        OCCloud::StaticMethod("provision_conf_resource", &OCCloud::provision_conf_resource),
-        OCCloud::StaticMethod("cloud_register", &OCCloud::cloud_register),
-        OCCloud::StaticMethod("cloud_deregister", &OCCloud::cloud_deregister),
+        StaticMethod("get_context", &OCCloud::get_context),
+        StaticMethod("manager_start", &OCCloud::manager_start),
+        StaticMethod("manager_stop", &OCCloud::manager_stop),
+        StaticMethod("cloud_login", &OCCloud::cloud_login),
+        StaticMethod("cloud_logout", &OCCloud::cloud_logout),
+        StaticMethod("cloud_refresh_token", &OCCloud::cloud_refresh_token),
+        StaticMethod("get_token_expiry", &OCCloud::get_token_expiry),
+        StaticMethod("add_resource", &OCCloud::add_resource),
+        StaticMethod("delete_resource", &OCCloud::delete_resource),
+        StaticMethod("publish_resources", &OCCloud::publish_resources),
+        StaticMethod("discover_resources", &OCCloud::discover_resources),
+        StaticMethod("provision_conf_resource", &OCCloud::provision_conf_resource),
+        StaticMethod("cloud_register", &OCCloud::cloud_register),
+        StaticMethod("cloud_deregister", &OCCloud::cloud_deregister),
     });
 }
 
@@ -256,19 +256,19 @@ OCCoreRes::OCCoreRes(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCCoreRes::GetClass(Napi::Env env) {
     return DefineClass(env, "OCCoreRes", {
-        OCCoreRes::StaticMethod("init", &OCCoreRes::init),
-        OCCoreRes::StaticMethod("init_platform", &OCCoreRes::init_platform),
-        OCCoreRes::StaticMethod("shutdown", &OCCoreRes::shutdown),
-        OCCoreRes::StaticMethod("get_num_devices", &OCCoreRes::get_num_devices),
-        OCCoreRes::StaticMethod("get_device_id", &OCCoreRes::get_device_id),
-        OCCoreRes::StaticMethod("get_device_info", &OCCoreRes::get_device_info),
-        OCCoreRes::StaticMethod("get_platform_info", &OCCoreRes::get_platform_info),
-        OCCoreRes::StaticMethod("get_resource_by_uri", &OCCoreRes::get_resource_by_uri),
-        OCCoreRes::StaticMethod("filter_resource_by_rt", &OCCoreRes::filter_resource_by_rt),
-        OCCoreRes::StaticMethod("is_DCR", &OCCoreRes::is_DCR),
-        OCCoreRes::StaticMethod("set_latency", &OCCoreRes::set_latency),
-        OCCoreRes::StaticMethod("get_latency", &OCCoreRes::get_latency),
-        OCCoreRes::StaticMethod("add_new_device", &OCCoreRes::add_new_device),
+        StaticMethod("init", &OCCoreRes::init),
+        StaticMethod("init_platform", &OCCoreRes::init_platform),
+        StaticMethod("shutdown", &OCCoreRes::shutdown),
+        StaticMethod("get_num_devices", &OCCoreRes::get_num_devices),
+        StaticMethod("get_device_id", &OCCoreRes::get_device_id),
+        StaticMethod("get_device_info", &OCCoreRes::get_device_info),
+        StaticMethod("get_platform_info", &OCCoreRes::get_platform_info),
+        StaticMethod("get_resource_by_uri", &OCCoreRes::get_resource_by_uri),
+        StaticMethod("filter_resource_by_rt", &OCCoreRes::filter_resource_by_rt),
+        StaticMethod("is_DCR", &OCCoreRes::is_DCR),
+        StaticMethod("set_latency", &OCCoreRes::set_latency),
+        StaticMethod("get_latency", &OCCoreRes::get_latency),
+        StaticMethod("add_new_device", &OCCoreRes::add_new_device),
     });
 }
 
@@ -373,11 +373,11 @@ OCCredUtil::OCCredUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCCredUtil::GetClass(Napi::Env env) {
     return DefineClass(env, "OCCredUtil", {
-        OCCredUtil::StaticMethod("read_credusage", &OCCredUtil::read_credusage),
-        OCCredUtil::StaticMethod("read_encoding", &OCCredUtil::read_encoding),
-        OCCredUtil::StaticMethod("parse_credusage", &OCCredUtil::parse_credusage),
-        OCCredUtil::StaticMethod("parse_encoding", &OCCredUtil::parse_encoding),
-        OCCredUtil::StaticMethod("credtype_string", &OCCredUtil::credtype_string),
+        StaticMethod("read_credusage", &OCCredUtil::read_credusage),
+        StaticMethod("read_encoding", &OCCredUtil::read_encoding),
+        StaticMethod("parse_credusage", &OCCredUtil::parse_credusage),
+        StaticMethod("parse_encoding", &OCCredUtil::parse_encoding),
+        StaticMethod("credtype_string", &OCCredUtil::credtype_string),
     });
 }
 
@@ -422,17 +422,17 @@ OCEndpointUtil::OCEndpointUtil(const Napi::CallbackInfo& info) : ObjectWrap(info
 
 Napi::Function OCEndpointUtil::GetClass(Napi::Env env) {
     return DefineClass(env, "OCEndpointUtil", {
-        OCEndpointUtil::StaticMethod("to_string", &OCEndpointUtil::to_string),
-        OCEndpointUtil::StaticMethod("compare", &OCEndpointUtil::compare),
-        OCEndpointUtil::StaticMethod("copy", &OCEndpointUtil::copy),
-        OCEndpointUtil::StaticMethod("free_endpoint", &OCEndpointUtil::free_endpoint),
-        OCEndpointUtil::StaticMethod("string_to_endpoint", &OCEndpointUtil::string_to_endpoint),
-        OCEndpointUtil::StaticMethod("new_endpoint", &OCEndpointUtil::new_endpoint),
-        OCEndpointUtil::StaticMethod("endpoint_string_parse_path", &OCEndpointUtil::endpoint_string_parse_path),
-        OCEndpointUtil::StaticMethod("set_di", &OCEndpointUtil::set_di),
-        OCEndpointUtil::StaticMethod("ipv6_endpoint_is_link_local", &OCEndpointUtil::ipv6_endpoint_is_link_local),
-        OCEndpointUtil::StaticMethod("compare_address", &OCEndpointUtil::compare_address),
-        OCEndpointUtil::StaticMethod("set_local_address", &OCEndpointUtil::set_local_address),
+        StaticMethod("to_string", &OCEndpointUtil::to_string),
+        StaticMethod("compare", &OCEndpointUtil::compare),
+        StaticMethod("copy", &OCEndpointUtil::copy),
+        StaticMethod("free_endpoint", &OCEndpointUtil::free_endpoint),
+        StaticMethod("string_to_endpoint", &OCEndpointUtil::string_to_endpoint),
+        StaticMethod("new_endpoint", &OCEndpointUtil::new_endpoint),
+        StaticMethod("endpoint_string_parse_path", &OCEndpointUtil::endpoint_string_parse_path),
+        StaticMethod("set_di", &OCEndpointUtil::set_di),
+        StaticMethod("ipv6_endpoint_is_link_local", &OCEndpointUtil::ipv6_endpoint_is_link_local),
+        StaticMethod("compare_address", &OCEndpointUtil::compare_address),
+        StaticMethod("set_local_address", &OCEndpointUtil::set_local_address),
     });
 }
 
@@ -511,8 +511,8 @@ OCEnumUtil::OCEnumUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCEnumUtil::GetClass(Napi::Env env) {
     return DefineClass(env, "OCEnumUtil", {
-        OCEnumUtil::StaticMethod("enum_to_str", &OCEnumUtil::enum_to_str),
-        OCEnumUtil::StaticMethod("pos_desc_to_str", &OCEnumUtil::pos_desc_to_str),
+        StaticMethod("enum_to_str", &OCEnumUtil::enum_to_str),
+        StaticMethod("pos_desc_to_str", &OCEnumUtil::pos_desc_to_str),
     });
 }
 
@@ -532,7 +532,7 @@ OCIntrospection::OCIntrospection(const Napi::CallbackInfo& info) : ObjectWrap(in
 
 Napi::Function OCIntrospection::GetClass(Napi::Env env) {
     return DefineClass(env, "OCIntrospection", {
-        OCIntrospection::StaticMethod("set_introspection_data", &OCIntrospection::set_introspection_data),
+        StaticMethod("set_introspection_data", &OCIntrospection::set_introspection_data),
     });
 }
 
@@ -552,86 +552,86 @@ OCMain::OCMain(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCMain::GetClass(Napi::Env env) {
     return DefineClass(env, "OCMain", {
-        OCMain::StaticMethod("add_collection", &OCMain::add_collection),
-        OCMain::StaticMethod("add_device", &OCMain::add_device),
-        OCMain::StaticMethod("add_ownership_status_cb", &OCMain::add_ownership_status_cb),
-        OCMain::StaticMethod("add_resource", &OCMain::add_resource),
-        OCMain::StaticMethod("assert_all_roles", &OCMain::assert_all_roles),
-        OCMain::StaticMethod("assert_role", &OCMain::assert_role),
-        OCMain::StaticMethod("auto_assert_roles", &OCMain::auto_assert_roles),
-        OCMain::StaticMethod("close_session", &OCMain::close_session),
-        OCMain::StaticMethod("collection_add_link", &OCMain::collection_add_link),
-        OCMain::StaticMethod("collection_add_mandatory_rt", &OCMain::collection_add_mandatory_rt),
-        OCMain::StaticMethod("collection_add_supported_rt", &OCMain::collection_add_supported_rt),
-        OCMain::StaticMethod("collection_get_collections", &OCMain::collection_get_collections),
-        OCMain::StaticMethod("collection_get_links", &OCMain::collection_get_links),
-        OCMain::StaticMethod("collection_remove_link", &OCMain::collection_remove_link),
-        OCMain::StaticMethod("delete_collection", &OCMain::delete_collection),
-        OCMain::StaticMethod("delete_link", &OCMain::delete_link),
-        OCMain::StaticMethod("delete_resource", &OCMain::delete_resource),
-        OCMain::StaticMethod("device_bind_resource_type", &OCMain::device_bind_resource_type),
-        OCMain::StaticMethod("do_delete", &OCMain::do_delete),
-        OCMain::StaticMethod("do_get", &OCMain::do_get),
-        OCMain::StaticMethod("do_ip_discovery", &OCMain::do_ip_discovery),
-        OCMain::StaticMethod("do_ip_discovery_all", &OCMain::do_ip_discovery_all),
-        OCMain::StaticMethod("do_ip_discovery_all_at_endpoint", &OCMain::do_ip_discovery_all_at_endpoint),
-        OCMain::StaticMethod("do_ip_discovery_at_endpoint", &OCMain::do_ip_discovery_at_endpoint),
-        OCMain::StaticMethod("do_ip_multicast", &OCMain::do_ip_multicast),
-        OCMain::StaticMethod("do_observe", &OCMain::do_observe),
-        OCMain::StaticMethod("do_post", &OCMain::do_post),
-        OCMain::StaticMethod("do_put", &OCMain::do_put),
-        OCMain::StaticMethod("do_realm_local_ipv6_discovery", &OCMain::do_realm_local_ipv6_discovery),
-        OCMain::StaticMethod("do_realm_local_ipv6_discovery_all", &OCMain::do_realm_local_ipv6_discovery_all),
-        OCMain::StaticMethod("do_realm_local_ipv6_multicast", &OCMain::do_realm_local_ipv6_multicast),
-        OCMain::StaticMethod("do_site_local_ipv6_discovery", &OCMain::do_site_local_ipv6_discovery),
-        OCMain::StaticMethod("do_site_local_ipv6_discovery_all", &OCMain::do_site_local_ipv6_discovery_all),
-        OCMain::StaticMethod("do_site_local_ipv6_multicast", &OCMain::do_site_local_ipv6_multicast),
-        OCMain::StaticMethod("free_server_endpoints", &OCMain::free_server_endpoints),
-        OCMain::StaticMethod("get_all_roles", &OCMain::get_all_roles),
-        OCMain::StaticMethod("get_con_res_announced", &OCMain::get_con_res_announced),
-        OCMain::StaticMethod("ignore_request", &OCMain::ignore_request),
-        OCMain::StaticMethod("indicate_separate_response", &OCMain::indicate_separate_response),
-        OCMain::StaticMethod("init_platform", &OCMain::init_platform),
-        OCMain::StaticMethod("init_post", &OCMain::init_post),
-        OCMain::StaticMethod("init_put", &OCMain::init_put),
-        OCMain::StaticMethod("is_owned_device", &OCMain::is_owned_device),
-        OCMain::StaticMethod("link_add_link_param", &OCMain::link_add_link_param),
-        OCMain::StaticMethod("link_add_rel", &OCMain::link_add_rel),
-        OCMain::StaticMethod("main_init", &OCMain::main_init),
-        OCMain::StaticMethod("main_loop", &OCMain::main_loop),
-        OCMain::StaticMethod("main_shutdown", &OCMain::main_shutdown),
-        OCMain::StaticMethod("new_collection", &OCMain::new_collection),
-        OCMain::StaticMethod("new_link", &OCMain::new_link),
-        OCMain::StaticMethod("new_resource", &OCMain::new_resource),
-        OCMain::StaticMethod("notify_observers", &OCMain::notify_observers),
-        OCMain::StaticMethod("process_baseline_interface", &OCMain::process_baseline_interface),
-        OCMain::StaticMethod("remove_delayed_callback", &OCMain::remove_delayed_callback),
-        OCMain::StaticMethod("remove_ownership_status_cb", &OCMain::remove_ownership_status_cb),
-        OCMain::StaticMethod("reset", &OCMain::reset),
-        OCMain::StaticMethod("reset_device", &OCMain::reset_device),
-        OCMain::StaticMethod("resource_bind_resource_interface", &OCMain::resource_bind_resource_interface),
-        OCMain::StaticMethod("resource_bind_resource_type", &OCMain::resource_bind_resource_type),
-        OCMain::StaticMethod("resource_make_public", &OCMain::resource_make_public),
-        OCMain::StaticMethod("resource_set_default_interface", &OCMain::resource_set_default_interface),
-        OCMain::StaticMethod("resource_set_discoverable", &OCMain::resource_set_discoverable),
-        OCMain::StaticMethod("resource_set_observable", &OCMain::resource_set_observable),
-        OCMain::StaticMethod("resource_set_periodic_observable", &OCMain::resource_set_periodic_observable),
-        OCMain::StaticMethod("resource_set_properties_cbs", &OCMain::resource_set_properties_cbs),
-        OCMain::StaticMethod("resource_set_request_handler", &OCMain::resource_set_request_handler),
-        OCMain::StaticMethod("ri_is_app_resource_valid", &OCMain::ri_is_app_resource_valid),
-        OCMain::StaticMethod("send_diagnostic_message", &OCMain::send_diagnostic_message),
-        OCMain::StaticMethod("send_ping", &OCMain::send_ping),
-        OCMain::StaticMethod("send_response", &OCMain::send_response),
-        OCMain::StaticMethod("send_response_raw", &OCMain::send_response_raw),
-        OCMain::StaticMethod("send_separate_response", &OCMain::send_separate_response),
-        OCMain::StaticMethod("set_con_res_announced", &OCMain::set_con_res_announced),
-        OCMain::StaticMethod("set_con_write_cb", &OCMain::set_con_write_cb),
-        OCMain::StaticMethod("set_delayed_callback", &OCMain::set_delayed_callback),
-        OCMain::StaticMethod("set_factory_presets_cb", &OCMain::set_factory_presets_cb),
-        OCMain::StaticMethod("set_random_pin_callback", &OCMain::set_random_pin_callback),
-        OCMain::StaticMethod("set_separate_response_buffer", &OCMain::set_separate_response_buffer),
-        OCMain::StaticMethod("stop_multicast", &OCMain::stop_multicast),
-        OCMain::StaticMethod("stop_observe", &OCMain::stop_observe),
+        StaticMethod("add_collection", &OCMain::add_collection),
+        StaticMethod("add_device", &OCMain::add_device),
+        StaticMethod("add_ownership_status_cb", &OCMain::add_ownership_status_cb),
+        StaticMethod("add_resource", &OCMain::add_resource),
+        StaticMethod("assert_all_roles", &OCMain::assert_all_roles),
+        StaticMethod("assert_role", &OCMain::assert_role),
+        StaticMethod("auto_assert_roles", &OCMain::auto_assert_roles),
+        StaticMethod("close_session", &OCMain::close_session),
+        StaticMethod("collection_add_link", &OCMain::collection_add_link),
+        StaticMethod("collection_add_mandatory_rt", &OCMain::collection_add_mandatory_rt),
+        StaticMethod("collection_add_supported_rt", &OCMain::collection_add_supported_rt),
+        StaticMethod("collection_get_collections", &OCMain::collection_get_collections),
+        StaticMethod("collection_get_links", &OCMain::collection_get_links),
+        StaticMethod("collection_remove_link", &OCMain::collection_remove_link),
+        StaticMethod("delete_collection", &OCMain::delete_collection),
+        StaticMethod("delete_link", &OCMain::delete_link),
+        StaticMethod("delete_resource", &OCMain::delete_resource),
+        StaticMethod("device_bind_resource_type", &OCMain::device_bind_resource_type),
+        StaticMethod("do_delete", &OCMain::do_delete),
+        StaticMethod("do_get", &OCMain::do_get),
+        StaticMethod("do_ip_discovery", &OCMain::do_ip_discovery),
+        StaticMethod("do_ip_discovery_all", &OCMain::do_ip_discovery_all),
+        StaticMethod("do_ip_discovery_all_at_endpoint", &OCMain::do_ip_discovery_all_at_endpoint),
+        StaticMethod("do_ip_discovery_at_endpoint", &OCMain::do_ip_discovery_at_endpoint),
+        StaticMethod("do_ip_multicast", &OCMain::do_ip_multicast),
+        StaticMethod("do_observe", &OCMain::do_observe),
+        StaticMethod("do_post", &OCMain::do_post),
+        StaticMethod("do_put", &OCMain::do_put),
+        StaticMethod("do_realm_local_ipv6_discovery", &OCMain::do_realm_local_ipv6_discovery),
+        StaticMethod("do_realm_local_ipv6_discovery_all", &OCMain::do_realm_local_ipv6_discovery_all),
+        StaticMethod("do_realm_local_ipv6_multicast", &OCMain::do_realm_local_ipv6_multicast),
+        StaticMethod("do_site_local_ipv6_discovery", &OCMain::do_site_local_ipv6_discovery),
+        StaticMethod("do_site_local_ipv6_discovery_all", &OCMain::do_site_local_ipv6_discovery_all),
+        StaticMethod("do_site_local_ipv6_multicast", &OCMain::do_site_local_ipv6_multicast),
+        StaticMethod("free_server_endpoints", &OCMain::free_server_endpoints),
+        StaticMethod("get_all_roles", &OCMain::get_all_roles),
+        StaticMethod("get_con_res_announced", &OCMain::get_con_res_announced),
+        StaticMethod("ignore_request", &OCMain::ignore_request),
+        StaticMethod("indicate_separate_response", &OCMain::indicate_separate_response),
+        StaticMethod("init_platform", &OCMain::init_platform),
+        StaticMethod("init_post", &OCMain::init_post),
+        StaticMethod("init_put", &OCMain::init_put),
+        StaticMethod("is_owned_device", &OCMain::is_owned_device),
+        StaticMethod("link_add_link_param", &OCMain::link_add_link_param),
+        StaticMethod("link_add_rel", &OCMain::link_add_rel),
+        StaticMethod("main_init", &OCMain::main_init),
+        StaticMethod("main_loop", &OCMain::main_loop),
+        StaticMethod("main_shutdown", &OCMain::main_shutdown),
+        StaticMethod("new_collection", &OCMain::new_collection),
+        StaticMethod("new_link", &OCMain::new_link),
+        StaticMethod("new_resource", &OCMain::new_resource),
+        StaticMethod("notify_observers", &OCMain::notify_observers),
+        StaticMethod("process_baseline_interface", &OCMain::process_baseline_interface),
+        StaticMethod("remove_delayed_callback", &OCMain::remove_delayed_callback),
+        StaticMethod("remove_ownership_status_cb", &OCMain::remove_ownership_status_cb),
+        StaticMethod("reset", &OCMain::reset),
+        StaticMethod("reset_device", &OCMain::reset_device),
+        StaticMethod("resource_bind_resource_interface", &OCMain::resource_bind_resource_interface),
+        StaticMethod("resource_bind_resource_type", &OCMain::resource_bind_resource_type),
+        StaticMethod("resource_make_public", &OCMain::resource_make_public),
+        StaticMethod("resource_set_default_interface", &OCMain::resource_set_default_interface),
+        StaticMethod("resource_set_discoverable", &OCMain::resource_set_discoverable),
+        StaticMethod("resource_set_observable", &OCMain::resource_set_observable),
+        StaticMethod("resource_set_periodic_observable", &OCMain::resource_set_periodic_observable),
+        StaticMethod("resource_set_properties_cbs", &OCMain::resource_set_properties_cbs),
+        StaticMethod("resource_set_request_handler", &OCMain::resource_set_request_handler),
+        StaticMethod("ri_is_app_resource_valid", &OCMain::ri_is_app_resource_valid),
+        StaticMethod("send_diagnostic_message", &OCMain::send_diagnostic_message),
+        StaticMethod("send_ping", &OCMain::send_ping),
+        StaticMethod("send_response", &OCMain::send_response),
+        StaticMethod("send_response_raw", &OCMain::send_response_raw),
+        StaticMethod("send_separate_response", &OCMain::send_separate_response),
+        StaticMethod("set_con_res_announced", &OCMain::set_con_res_announced),
+        StaticMethod("set_con_write_cb", &OCMain::set_con_write_cb),
+        StaticMethod("set_delayed_callback", &OCMain::set_delayed_callback),
+        StaticMethod("set_factory_presets_cb", &OCMain::set_factory_presets_cb),
+        StaticMethod("set_random_pin_callback", &OCMain::set_random_pin_callback),
+        StaticMethod("set_separate_response_buffer", &OCMain::set_separate_response_buffer),
+        StaticMethod("stop_multicast", &OCMain::stop_multicast),
+        StaticMethod("stop_observe", &OCMain::stop_observe),
     });
 }
 
@@ -1309,10 +1309,10 @@ OCNetworkMonitor::OCNetworkMonitor(const Napi::CallbackInfo& info) : ObjectWrap(
 
 Napi::Function OCNetworkMonitor::GetClass(Napi::Env env) {
     return DefineClass(env, "OCNetworkMonitor", {
-        OCNetworkMonitor::StaticMethod("add_network_interface_event_callback", &OCNetworkMonitor::add_network_interface_event_callback),
-        OCNetworkMonitor::StaticMethod("remove_network_interface_event_callback", &OCNetworkMonitor::remove_network_interface_event_callback),
-        OCNetworkMonitor::StaticMethod("add_session_event_callback", &OCNetworkMonitor::add_session_event_callback),
-        OCNetworkMonitor::StaticMethod("remove_session_event_callback", &OCNetworkMonitor::remove_session_event_callback),
+        StaticMethod("add_network_interface_event_callback", &OCNetworkMonitor::add_network_interface_event_callback),
+        StaticMethod("remove_network_interface_event_callback", &OCNetworkMonitor::remove_network_interface_event_callback),
+        StaticMethod("add_session_event_callback", &OCNetworkMonitor::add_session_event_callback),
+        StaticMethod("remove_session_event_callback", &OCNetworkMonitor::remove_session_event_callback),
     });
 }
 
@@ -1346,45 +1346,45 @@ OCObt::OCObt(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCObt::GetClass(Napi::Env env) {
     return DefineClass(env, "OCObt", {
-        OCObt::StaticMethod("ace_add_permission", &OCObt::ace_add_permission),
-        OCObt::StaticMethod("ace_new_resource", &OCObt::ace_new_resource),
-        OCObt::StaticMethod("ace_resource_set_href", &OCObt::ace_resource_set_href),
-        OCObt::StaticMethod("ace_resource_set_wc", &OCObt::ace_resource_set_wc),
-        OCObt::StaticMethod("add_roleid", &OCObt::add_roleid),
-        OCObt::StaticMethod("delete_ace_by_aceid", &OCObt::delete_ace_by_aceid),
-        OCObt::StaticMethod("delete_cred_by_credid", &OCObt::delete_cred_by_credid),
-        OCObt::StaticMethod("delete_own_cred_by_credid", &OCObt::delete_own_cred_by_credid),
-        OCObt::StaticMethod("device_hard_reset", &OCObt::device_hard_reset),
-        OCObt::StaticMethod("discover_all_resources", &OCObt::discover_all_resources),
-        OCObt::StaticMethod("discover_owned_devices", &OCObt::discover_owned_devices),
-        OCObt::StaticMethod("discover_owned_devices_realm_local_ipv6", &OCObt::discover_owned_devices_realm_local_ipv6),
-        OCObt::StaticMethod("discover_owned_devices_site_local_ipv6", &OCObt::discover_owned_devices_site_local_ipv6),
-        OCObt::StaticMethod("discover_unowned_devices", &OCObt::discover_unowned_devices),
-        OCObt::StaticMethod("discover_unowned_devices_realm_local_ipv6", &OCObt::discover_unowned_devices_realm_local_ipv6),
-        OCObt::StaticMethod("discover_unowned_devices_site_local_ipv6", &OCObt::discover_unowned_devices_site_local_ipv6),
-        OCObt::StaticMethod("free_ace", &OCObt::free_ace),
-        OCObt::StaticMethod("free_acl", &OCObt::free_acl),
-        OCObt::StaticMethod("free_creds", &OCObt::free_creds),
-        OCObt::StaticMethod("free_roleid", &OCObt::free_roleid),
-        OCObt::StaticMethod("init", &OCObt::init),
-        OCObt::StaticMethod("new_ace_for_connection", &OCObt::new_ace_for_connection),
-        OCObt::StaticMethod("new_ace_for_role", &OCObt::new_ace_for_role),
-        OCObt::StaticMethod("new_ace_for_subject", &OCObt::new_ace_for_subject),
-        OCObt::StaticMethod("perform_cert_otm", &OCObt::perform_cert_otm),
-        OCObt::StaticMethod("perform_just_works_otm", &OCObt::perform_just_works_otm),
-        OCObt::StaticMethod("perform_random_pin_otm", &OCObt::perform_random_pin_otm),
-        OCObt::StaticMethod("provision_ace", &OCObt::provision_ace),
-        OCObt::StaticMethod("provision_auth_wildcard_ace", &OCObt::provision_auth_wildcard_ace),
-        OCObt::StaticMethod("provision_identity_certificate", &OCObt::provision_identity_certificate),
-        OCObt::StaticMethod("provision_pairwise_credentials", &OCObt::provision_pairwise_credentials),
-        OCObt::StaticMethod("provision_role_certificate", &OCObt::provision_role_certificate),
-        OCObt::StaticMethod("provision_role_wildcard_ace", &OCObt::provision_role_wildcard_ace),
-        OCObt::StaticMethod("request_random_pin", &OCObt::request_random_pin),
-        OCObt::StaticMethod("retrieve_acl", &OCObt::retrieve_acl),
-        OCObt::StaticMethod("retrieve_creds", &OCObt::retrieve_creds),
-        OCObt::StaticMethod("retrieve_own_creds", &OCObt::retrieve_own_creds),
-        OCObt::StaticMethod("set_sd_info", &OCObt::set_sd_info),
-        OCObt::StaticMethod("shutdown", &OCObt::shutdown),
+        StaticMethod("ace_add_permission", &OCObt::ace_add_permission),
+        StaticMethod("ace_new_resource", &OCObt::ace_new_resource),
+        StaticMethod("ace_resource_set_href", &OCObt::ace_resource_set_href),
+        StaticMethod("ace_resource_set_wc", &OCObt::ace_resource_set_wc),
+        StaticMethod("add_roleid", &OCObt::add_roleid),
+        StaticMethod("delete_ace_by_aceid", &OCObt::delete_ace_by_aceid),
+        StaticMethod("delete_cred_by_credid", &OCObt::delete_cred_by_credid),
+        StaticMethod("delete_own_cred_by_credid", &OCObt::delete_own_cred_by_credid),
+        StaticMethod("device_hard_reset", &OCObt::device_hard_reset),
+        StaticMethod("discover_all_resources", &OCObt::discover_all_resources),
+        StaticMethod("discover_owned_devices", &OCObt::discover_owned_devices),
+        StaticMethod("discover_owned_devices_realm_local_ipv6", &OCObt::discover_owned_devices_realm_local_ipv6),
+        StaticMethod("discover_owned_devices_site_local_ipv6", &OCObt::discover_owned_devices_site_local_ipv6),
+        StaticMethod("discover_unowned_devices", &OCObt::discover_unowned_devices),
+        StaticMethod("discover_unowned_devices_realm_local_ipv6", &OCObt::discover_unowned_devices_realm_local_ipv6),
+        StaticMethod("discover_unowned_devices_site_local_ipv6", &OCObt::discover_unowned_devices_site_local_ipv6),
+        StaticMethod("free_ace", &OCObt::free_ace),
+        StaticMethod("free_acl", &OCObt::free_acl),
+        StaticMethod("free_creds", &OCObt::free_creds),
+        StaticMethod("free_roleid", &OCObt::free_roleid),
+        StaticMethod("init", &OCObt::init),
+        StaticMethod("new_ace_for_connection", &OCObt::new_ace_for_connection),
+        StaticMethod("new_ace_for_role", &OCObt::new_ace_for_role),
+        StaticMethod("new_ace_for_subject", &OCObt::new_ace_for_subject),
+        StaticMethod("perform_cert_otm", &OCObt::perform_cert_otm),
+        StaticMethod("perform_just_works_otm", &OCObt::perform_just_works_otm),
+        StaticMethod("perform_random_pin_otm", &OCObt::perform_random_pin_otm),
+        StaticMethod("provision_ace", &OCObt::provision_ace),
+        StaticMethod("provision_auth_wildcard_ace", &OCObt::provision_auth_wildcard_ace),
+        StaticMethod("provision_identity_certificate", &OCObt::provision_identity_certificate),
+        StaticMethod("provision_pairwise_credentials", &OCObt::provision_pairwise_credentials),
+        StaticMethod("provision_role_certificate", &OCObt::provision_role_certificate),
+        StaticMethod("provision_role_wildcard_ace", &OCObt::provision_role_wildcard_ace),
+        StaticMethod("request_random_pin", &OCObt::request_random_pin),
+        StaticMethod("retrieve_acl", &OCObt::retrieve_acl),
+        StaticMethod("retrieve_creds", &OCObt::retrieve_creds),
+        StaticMethod("retrieve_own_creds", &OCObt::retrieve_own_creds),
+        StaticMethod("set_sd_info", &OCObt::set_sd_info),
+        StaticMethod("shutdown", &OCObt::shutdown),
     });
 }
 
@@ -1768,11 +1768,11 @@ OCPki::OCPki(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCPki::GetClass(Napi::Env env) {
     return DefineClass(env, "OCPki", {
-        OCPki::StaticMethod("add_mfg_cert", &OCPki::add_mfg_cert),
-        OCPki::StaticMethod("add_mfg_trust_anchor", &OCPki::add_mfg_trust_anchor),
-        OCPki::StaticMethod("add_mfg_intermediate_cert", &OCPki::add_mfg_intermediate_cert),
-        OCPki::StaticMethod("add_trust_anchor", &OCPki::add_trust_anchor),
-        OCPki::StaticMethod("set_security_profile", &OCPki::set_security_profile),
+        StaticMethod("add_mfg_cert", &OCPki::add_mfg_cert),
+        StaticMethod("add_mfg_trust_anchor", &OCPki::add_mfg_trust_anchor),
+        StaticMethod("add_mfg_intermediate_cert", &OCPki::add_mfg_intermediate_cert),
+        StaticMethod("add_trust_anchor", &OCPki::add_trust_anchor),
+        StaticMethod("set_security_profile", &OCPki::set_security_profile),
     });
 }
 
@@ -1832,9 +1832,9 @@ OCRandom::OCRandom(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCRandom::GetClass(Napi::Env env) {
     return DefineClass(env, "OCRandom", {
-        OCRandom::StaticMethod("init", &OCRandom::init),
-        OCRandom::StaticMethod("destroy", &OCRandom::destroy),
-        OCRandom::StaticMethod("random_value", &OCRandom::random_value),
+        StaticMethod("init", &OCRandom::init),
+        StaticMethod("destroy", &OCRandom::destroy),
+        StaticMethod("random_value", &OCRandom::random_value),
     });
 }
 
@@ -1858,57 +1858,61 @@ OCRepresentation::OCRepresentation(const Napi::CallbackInfo& info) : ObjectWrap(
 
 Napi::Function OCRepresentation::GetClass(Napi::Env env) {
     return DefineClass(env, "OCRepresentation", {
-        OCRepresentation::StaticMethod("get_bool", &OCRepresentation::get_bool),
-        OCRepresentation::StaticMethod("get_bool_array", &OCRepresentation::get_bool_array),
-        OCRepresentation::StaticMethod("get_byte_string", &OCRepresentation::get_byte_string),
-        OCRepresentation::StaticMethod("get_byte_string_array", &OCRepresentation::get_byte_string_array),
-        OCRepresentation::StaticMethod("get_cbor_errno", &OCRepresentation::get_cbor_errno),
-        OCRepresentation::StaticMethod("get_double", &OCRepresentation::get_double),
-        OCRepresentation::StaticMethod("get_double_array", &OCRepresentation::get_double_array),
-        OCRepresentation::StaticMethod("get_object", &OCRepresentation::get_object),
-        OCRepresentation::StaticMethod("get_object_array", &OCRepresentation::get_object_array),
-        OCRepresentation::StaticMethod("get_string", &OCRepresentation::get_string),
-        OCRepresentation::StaticMethod("get_string_array", &OCRepresentation::get_string_array),
-        OCRepresentation::StaticMethod("get_int", &OCRepresentation::get_int),
-        OCRepresentation::StaticMethod("get_int_array", &OCRepresentation::get_int_array),
-        OCRepresentation::StaticMethod("to_json", &OCRepresentation::to_json),
-        OCRepresentation::StaticMethod("add_boolean", &OCRepresentation::add_boolean),
-        OCRepresentation::StaticMethod("add_byte_string", &OCRepresentation::add_byte_string),
-        OCRepresentation::StaticMethod("add_double", &OCRepresentation::add_double),
-        OCRepresentation::StaticMethod("add_text_string", &OCRepresentation::add_text_string),
-        OCRepresentation::StaticMethod("clear_cbor_errno", &OCRepresentation::clear_cbor_errno),
-        OCRepresentation::StaticMethod("close_array", &OCRepresentation::close_array),
-        OCRepresentation::StaticMethod("close_object", &OCRepresentation::close_object),
-        OCRepresentation::StaticMethod("delete_buffer", &OCRepresentation::delete_buffer),
-        OCRepresentation::StaticMethod("end_array", &OCRepresentation::end_array),
-        OCRepresentation::StaticMethod("end_links_array", &OCRepresentation::end_links_array),
-        OCRepresentation::StaticMethod("end_object", &OCRepresentation::end_object),
-        OCRepresentation::StaticMethod("end_root_object", &OCRepresentation::end_root_object),
-        OCRepresentation::StaticMethod("get_rep_from_root_object", &OCRepresentation::get_rep_from_root_object),
-        OCRepresentation::StaticMethod("new_buffer", &OCRepresentation::new_buffer),
-        OCRepresentation::StaticMethod("object_array_start_item", &OCRepresentation::object_array_start_item),
-        OCRepresentation::StaticMethod("object_array_end_item", &OCRepresentation::object_array_end_item),
-        OCRepresentation::StaticMethod("oc_array_to_bool_array", &OCRepresentation::oc_array_to_bool_array),
-        OCRepresentation::StaticMethod("oc_array_to_double_array", &OCRepresentation::oc_array_to_double_array),
-        OCRepresentation::StaticMethod("oc_array_to_int_array", &OCRepresentation::oc_array_to_int_array),
-        OCRepresentation::StaticMethod("oc_array_to_string_array", &OCRepresentation::oc_array_to_string_array),
-        OCRepresentation::StaticMethod("open_array", &OCRepresentation::open_array),
-        OCRepresentation::StaticMethod("open_object", &OCRepresentation::open_object),
-        OCRepresentation::StaticMethod("set_boolean", &OCRepresentation::set_boolean),
-        OCRepresentation::StaticMethod("set_bool_array", &OCRepresentation::set_bool_array),
-        OCRepresentation::StaticMethod("set_byte_string", &OCRepresentation::set_byte_string),
-        OCRepresentation::StaticMethod("set_double", &OCRepresentation::set_double),
-        OCRepresentation::StaticMethod("set_double_array", &OCRepresentation::set_double_array),
-        OCRepresentation::StaticMethod("set_key", &OCRepresentation::set_key),
-        OCRepresentation::StaticMethod("set_long", &OCRepresentation::set_long),
-        OCRepresentation::StaticMethod("set_long_array", &OCRepresentation::set_long_array),
-        OCRepresentation::StaticMethod("set_string_array", &OCRepresentation::set_string_array),
-        OCRepresentation::StaticMethod("set_text_string", &OCRepresentation::set_text_string),
-        OCRepresentation::StaticMethod("set_uint", &OCRepresentation::set_uint),
-        OCRepresentation::StaticMethod("start_array", &OCRepresentation::start_array),
-        OCRepresentation::StaticMethod("start_links_array", &OCRepresentation::start_links_array),
-        OCRepresentation::StaticMethod("start_object", &OCRepresentation::start_object),
-        OCRepresentation::StaticMethod("start_root_object", &OCRepresentation::start_root_object),
+        StaticMethod("get_bool", &OCRepresentation::get_bool),
+        StaticMethod("get_bool_array", &OCRepresentation::get_bool_array),
+        StaticMethod("get_byte_string", &OCRepresentation::get_byte_string),
+        StaticMethod("get_byte_string_array", &OCRepresentation::get_byte_string_array),
+        StaticMethod("get_cbor_errno", &OCRepresentation::get_cbor_errno),
+        StaticMethod("get_double", &OCRepresentation::get_double),
+        StaticMethod("get_double_array", &OCRepresentation::get_double_array),
+        StaticMethod("get_object", &OCRepresentation::get_object),
+        StaticMethod("get_object_array", &OCRepresentation::get_object_array),
+        StaticMethod("get_string", &OCRepresentation::get_string),
+        StaticMethod("get_string_array", &OCRepresentation::get_string_array),
+        StaticMethod("get_int", &OCRepresentation::get_int),
+        StaticMethod("get_int_array", &OCRepresentation::get_int_array),
+        StaticMethod("to_json", &OCRepresentation::to_json),
+        StaticMethod("add_boolean", &OCRepresentation::add_boolean),
+        StaticMethod("add_byte_string", &OCRepresentation::add_byte_string),
+        StaticMethod("add_double", &OCRepresentation::add_double),
+        StaticMethod("add_text_string", &OCRepresentation::add_text_string),
+        StaticMethod("clear_cbor_errno", &OCRepresentation::clear_cbor_errno),
+        StaticMethod("close_array", &OCRepresentation::close_array),
+        StaticMethod("close_object", &OCRepresentation::close_object),
+        StaticMethod("delete_buffer", &OCRepresentation::delete_buffer),
+        StaticMethod("end_array", &OCRepresentation::end_array),
+        StaticMethod("end_links_array", &OCRepresentation::end_links_array),
+        StaticMethod("end_object", &OCRepresentation::end_object),
+        StaticMethod("end_root_object", &OCRepresentation::end_root_object),
+        StaticMethod("get_rep_from_root_object", &OCRepresentation::get_rep_from_root_object),
+        StaticMethod("new_buffer", &OCRepresentation::new_buffer),
+        StaticMethod("object_array_start_item", &OCRepresentation::object_array_start_item),
+        StaticMethod("object_array_end_item", &OCRepresentation::object_array_end_item),
+        StaticMethod("oc_array_to_bool_array", &OCRepresentation::oc_array_to_bool_array),
+        StaticMethod("oc_array_to_double_array", &OCRepresentation::oc_array_to_double_array),
+        StaticMethod("oc_array_to_int_array", &OCRepresentation::oc_array_to_int_array),
+        StaticMethod("oc_array_to_string_array", &OCRepresentation::oc_array_to_string_array),
+        StaticMethod("open_array", &OCRepresentation::open_array),
+        StaticMethod("open_object", &OCRepresentation::open_object),
+        StaticMethod("set_boolean", &OCRepresentation::set_boolean),
+        StaticMethod("set_bool_array", &OCRepresentation::set_bool_array),
+        StaticMethod("set_byte_string", &OCRepresentation::set_byte_string),
+        StaticMethod("set_double", &OCRepresentation::set_double),
+        StaticMethod("set_double_array", &OCRepresentation::set_double_array),
+        StaticMethod("set_key", &OCRepresentation::set_key),
+        StaticMethod("set_long", &OCRepresentation::set_long),
+        StaticMethod("set_long_array", &OCRepresentation::set_long_array),
+        StaticMethod("set_string_array", &OCRepresentation::set_string_array),
+        StaticMethod("set_text_string", &OCRepresentation::set_text_string),
+        StaticMethod("set_uint", &OCRepresentation::set_uint),
+        StaticMethod("start_array", &OCRepresentation::start_array),
+        StaticMethod("start_links_array", &OCRepresentation::start_links_array),
+        StaticMethod("start_object", &OCRepresentation::start_object),
+        StaticMethod("start_root_object", &OCRepresentation::start_root_object),
+
+    InstanceAccessor("name", &OCRepresentation::get_name, &OCRepresentation::set_name),
+    InstanceAccessor("type", &OCRepresentation::get_type, &OCRepresentation::set_type),
+    InstanceAccessor("value", &OCRepresentation::get_value, &OCRepresentation::set_value),
     });
 }
 
@@ -2311,9 +2315,9 @@ OCSessionEvents::OCSessionEvents(const Napi::CallbackInfo& info) : ObjectWrap(in
 
 Napi::Function OCSessionEvents::GetClass(Napi::Env env) {
     return DefineClass(env, "OCSessionEvents", {
-        OCSessionEvents::StaticMethod("start_event", &OCSessionEvents::start_event),
-        OCSessionEvents::StaticMethod("end_event", &OCSessionEvents::end_event),
-        OCSessionEvents::StaticMethod("set_event_delay", &OCSessionEvents::set_event_delay),
+        StaticMethod("start_event", &OCSessionEvents::start_event),
+        StaticMethod("end_event", &OCSessionEvents::end_event),
+        StaticMethod("set_event_delay", &OCSessionEvents::set_event_delay),
     });
 }
 
@@ -2347,11 +2351,11 @@ OCSoftwareUpdate::OCSoftwareUpdate(const Napi::CallbackInfo& info) : ObjectWrap(
 
 Napi::Function OCSoftwareUpdate::GetClass(Napi::Env env) {
     return DefineClass(env, "OCSoftwareUpdate", {
-        OCSoftwareUpdate::StaticMethod("notify_downloaded", &OCSoftwareUpdate::notify_downloaded),
-        OCSoftwareUpdate::StaticMethod("notify_upgrading", &OCSoftwareUpdate::notify_upgrading),
-        OCSoftwareUpdate::StaticMethod("notify_done", &OCSoftwareUpdate::notify_done),
-        OCSoftwareUpdate::StaticMethod("notify_new_version_available", &OCSoftwareUpdate::notify_new_version_available),
-        OCSoftwareUpdate::StaticMethod("set_impl", &OCSoftwareUpdate::set_impl),
+        StaticMethod("notify_downloaded", &OCSoftwareUpdate::notify_downloaded),
+        StaticMethod("notify_upgrading", &OCSoftwareUpdate::notify_upgrading),
+        StaticMethod("notify_done", &OCSoftwareUpdate::notify_done),
+        StaticMethod("notify_new_version_available", &OCSoftwareUpdate::notify_new_version_available),
+        StaticMethod("set_impl", &OCSoftwareUpdate::set_impl),
     });
 }
 
@@ -2420,9 +2424,9 @@ OCStorage::OCStorage(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCStorage::GetClass(Napi::Env env) {
     return DefineClass(env, "OCStorage", {
-        OCStorage::StaticMethod("config", &OCStorage::config),
-        OCStorage::StaticMethod("read", &OCStorage::read),
-        OCStorage::StaticMethod("write", &OCStorage::write),
+        StaticMethod("config", &OCStorage::config),
+        StaticMethod("read", &OCStorage::read),
+        StaticMethod("write", &OCStorage::write),
     });
 }
 
@@ -2454,9 +2458,9 @@ OCUuidUtil::OCUuidUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCUuidUtil::GetClass(Napi::Env env) {
     return DefineClass(env, "OCUuidUtil", {
-        OCUuidUtil::StaticMethod("str_to_uuid", &OCUuidUtil::str_to_uuid),
-        OCUuidUtil::StaticMethod("uuid_to_str", &OCUuidUtil::uuid_to_str),
-        OCUuidUtil::StaticMethod("gen_uuid", &OCUuidUtil::gen_uuid),
+        StaticMethod("str_to_uuid", &OCUuidUtil::str_to_uuid),
+        StaticMethod("uuid_to_str", &OCUuidUtil::uuid_to_str),
+        StaticMethod("gen_uuid", &OCUuidUtil::gen_uuid),
     });
 }
 

@@ -47,7 +47,7 @@ Napi::Function CLASS::GetClass(Napi::Env env) {
 BINDIMPL
 
 MTDBIND = <<MTDBIND
-        CLASS::StaticMethod("METHOD", &CLASS::METHOD),
+        StaticMethod("METHOD", &CLASS::METHOD),
 MTDBIND
 
 CCPROLOGUE = <<CCPROLOGUE
@@ -217,6 +217,10 @@ STRUCTS = struct_table.keys
 ENUMS = enum_table.keys
 
 EXTRA_ACCESSOR = {
+  'OCRepresentation' => '
+    InstanceAccessor("name", &OCRepresentation::get_name, &OCRepresentation::set_name),
+    InstanceAccessor("type", &OCRepresentation::get_type, &OCRepresentation::set_type),
+    InstanceAccessor("value", &OCRepresentation::get_value, &OCRepresentation::set_value),',
   'oc_string_array_iterator_t' => '
     InstanceMethod("next", &OCStringArrayIterator::get_next),
   ',
@@ -1930,6 +1934,11 @@ File.open('src/iotivity_lite.cc', 'w') do |f|
     apis[cls].keys.each do |mtd|
       f.print MTDBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
     end
+
+    if EXTRA_ACCESSOR.has_key?(cls)
+      f.print EXTRA_ACCESSOR[cls] + "\n"
+    end
+
     f.print "    });\n"
     f.print "}\n"
 
