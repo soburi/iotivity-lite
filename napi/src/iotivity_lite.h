@@ -3,19 +3,6 @@
 #include <napi.h>
 #include <oc_rep.h>
 
-class OCBufferSettings : public Napi::ObjectWrap<OCBufferSettings>
-{
-public:
-    OCBufferSettings(const Napi::CallbackInfo&);
-    static Napi::Function GetClass(Napi::Env);
-    static Napi::FunctionReference constructor;
-    static Napi::Value set_mtu_size(const Napi::CallbackInfo& info);
-    static Napi::Value get_mtu_size(const Napi::CallbackInfo& info);
-    static Napi::Value set_max_app_data_size(const Napi::CallbackInfo& info);
-    static Napi::Value get_max_app_data_size(const Napi::CallbackInfo& info);
-    static Napi::Value get_block_size(const Napi::CallbackInfo& info);
-};
-
 class OCClock : public Napi::ObjectWrap<OCClock>
 {
 public:
@@ -78,10 +65,10 @@ public:
 #endif
 };
 
-class OCCoreRes : public Napi::ObjectWrap<OCCoreRes>
+class OCCore : public Napi::ObjectWrap<OCCore>
 {
 public:
-    OCCoreRes(const Napi::CallbackInfo&);
+    OCCore(const Napi::CallbackInfo&);
     static Napi::Function GetClass(Napi::Env);
     static Napi::FunctionReference constructor;
     static Napi::Value init(const Napi::CallbackInfo& info);
@@ -208,14 +195,11 @@ public:
     static Napi::Value set_separate_response_buffer(const Napi::CallbackInfo& info);
     static Napi::Value stop_multicast(const Napi::CallbackInfo& info);
     static Napi::Value stop_observe(const Napi::CallbackInfo& info);
-};
-
-class OCNetworkMonitor : public Napi::ObjectWrap<OCNetworkMonitor>
-{
-public:
-    OCNetworkMonitor(const Napi::CallbackInfo&);
-    static Napi::Function GetClass(Napi::Env);
-    static Napi::FunctionReference constructor;
+    static Napi::Value set_mtu_size(const Napi::CallbackInfo& info);
+    static Napi::Value get_mtu_size(const Napi::CallbackInfo& info);
+    static Napi::Value set_max_app_data_size(const Napi::CallbackInfo& info);
+    static Napi::Value get_max_app_data_size(const Napi::CallbackInfo& info);
+    static Napi::Value get_block_size(const Napi::CallbackInfo& info);
     static Napi::Value add_network_interface_event_callback(const Napi::CallbackInfo& info);
     static Napi::Value remove_network_interface_event_callback(const Napi::CallbackInfo& info);
     static Napi::Value add_session_event_callback(const Napi::CallbackInfo& info);
@@ -381,27 +365,10 @@ public:
     static Napi::Value random_value(const Napi::CallbackInfo& info);
 };
 
-class OCSessionEvents : public Napi::ObjectWrap<OCSessionEvents>
+class OCSWUpdate : public Napi::ObjectWrap<OCSWUpdate>
 {
 public:
-    OCSessionEvents(const Napi::CallbackInfo&);
-    static Napi::Function GetClass(Napi::Env);
-    static Napi::FunctionReference constructor;
-#if defined(OC_TCP)
-    static Napi::Value start_event(const Napi::CallbackInfo& info);
-#endif
-#if defined(OC_TCP)
-    static Napi::Value end_event(const Napi::CallbackInfo& info);
-#endif
-#if defined(OC_TCP)
-    static Napi::Value set_event_delay(const Napi::CallbackInfo& info);
-#endif
-};
-
-class OCSoftwareUpdate : public Napi::ObjectWrap<OCSoftwareUpdate>
-{
-public:
-    OCSoftwareUpdate(const Napi::CallbackInfo&);
+    OCSWUpdate(const Napi::CallbackInfo&);
     static Napi::Function GetClass(Napi::Env);
     static Napi::FunctionReference constructor;
 #if defined(OC_SOFTWARE_UPDATE)
@@ -418,6 +385,23 @@ public:
 #endif
 #if defined(OC_SOFTWARE_UPDATE)
     static Napi::Value set_impl(const Napi::CallbackInfo& info);
+#endif
+};
+
+class OCSession : public Napi::ObjectWrap<OCSession>
+{
+public:
+    OCSession(const Napi::CallbackInfo&);
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+#if defined(OC_TCP)
+    static Napi::Value start_event(const Napi::CallbackInfo& info);
+#endif
+#if defined(OC_TCP)
+    static Napi::Value end_event(const Napi::CallbackInfo& info);
+#endif
+#if defined(OC_TCP)
+    static Napi::Value set_event_delay(const Napi::CallbackInfo& info);
 #endif
 };
 

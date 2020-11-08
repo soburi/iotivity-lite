@@ -5788,7 +5788,7 @@ Napi::Value OCSessionEventCbIterator::get_value(const Napi::CallbackInfo& info)
 
     shared_ptr<oc_session_event_cb> sp(m_pvalue->current, nop_deleter);
     auto accessor = External<shared_ptr<oc_session_event_cb>>::New(info.Env(), &sp);
-    return OCSessionEvents::constructor.New({ accessor });
+    return OCSessionEventCb::constructor.New({ accessor });
 }
 
 void OCSessionEventCbIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)

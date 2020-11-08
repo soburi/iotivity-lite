@@ -10,65 +10,26 @@ Napi::Object Init(Napi::Env env, Napi::Object exports);
 NODE_API_MODULE(addon, Init)
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
-    exports.Set("BufferSettings", OCBufferSettings::GetClass(env));
     exports.Set("Clock", OCClock::GetClass(env));
     exports.Set("Cloud", OCCloud::GetClass(env));
     exports.Set("Collection", OCCollection::GetClass(env));
-    exports.Set("CoreRes", OCCoreRes::GetClass(env));
+    exports.Set("Core", OCCore::GetClass(env));
     exports.Set("Cred", OCCred::GetClass(env));
     exports.Set("Endpoint", OCEndpoint::GetClass(env));
     exports.Set("EnumUtil", OCEnumUtil::GetClass(env));
     exports.Set("Introspection", OCIntrospection::GetClass(env));
     exports.Set("Main", OCMain::GetClass(env));
-    exports.Set("NetworkMonitor", OCNetworkMonitor::GetClass(env));
     exports.Set("Obt", OCObt::GetClass(env));
     exports.Set("Pki", OCPki::GetClass(env));
     exports.Set("Random", OCRandom::GetClass(env));
     exports.Set("Representation", OCRepresentation::GetClass(env));
     exports.Set("Resource", OCResource::GetClass(env));
-    exports.Set("SessionEvents", OCSessionEvents::GetClass(env));
-    exports.Set("SoftwareUpdate", OCSoftwareUpdate::GetClass(env));
+    exports.Set("SWUpdate", OCSWUpdate::GetClass(env));
+    exports.Set("Session", OCSession::GetClass(env));
     exports.Set("Storage", OCStorage::GetClass(env));
     exports.Set("Uuid", OCUuid::GetClass(env));
     return module_init(env, exports);
 }
-OCBufferSettings::OCBufferSettings(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCBufferSettings::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCBufferSettings", {
-        StaticMethod("set_mtu_size", &OCBufferSettings::set_mtu_size),
-        StaticMethod("get_mtu_size", &OCBufferSettings::get_mtu_size),
-        StaticMethod("set_max_app_data_size", &OCBufferSettings::set_max_app_data_size),
-        StaticMethod("get_max_app_data_size", &OCBufferSettings::get_max_app_data_size),
-        StaticMethod("get_block_size", &OCBufferSettings::get_block_size),
-    });
-}
-Napi::FunctionReference OCBufferSettings::constructor;
-
-
-Value OCBufferSettings::set_mtu_size(const CallbackInfo& info) {
-    size_t mtu_size = static_cast<size_t>(info[0].As<Number>().Uint32Value());
-    return Number::New(info.Env(), oc_set_mtu_size(mtu_size));
-}
-
-Value OCBufferSettings::get_mtu_size(const CallbackInfo& info) {
-    return Number::New(info.Env(), oc_get_mtu_size());
-}
-
-Value OCBufferSettings::set_max_app_data_size(const CallbackInfo& info) {
-    size_t size = static_cast<size_t>(info[0].As<Number>().Uint32Value());
-    (void)oc_set_max_app_data_size(size);
-    return info.Env().Undefined();
-}
-
-Value OCBufferSettings::get_max_app_data_size(const CallbackInfo& info) {
-    return Number::New(info.Env(), oc_get_max_app_data_size());
-}
-
-Value OCBufferSettings::get_block_size(const CallbackInfo& info) {
-    return Number::New(info.Env(), oc_get_block_size());
-}
-
 OCClock::OCClock(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
 Napi::Function OCClock::GetClass(Napi::Env env) {
@@ -282,34 +243,34 @@ Value OCCloud::cloud_deregister(const CallbackInfo& info) {
 }
 #endif
 
-OCCoreRes::OCCoreRes(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+OCCore::OCCore(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
-Napi::Function OCCoreRes::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCCoreRes", {
-        StaticMethod("init", &OCCoreRes::init),
-        StaticMethod("init_platform", &OCCoreRes::init_platform),
-        StaticMethod("shutdown", &OCCoreRes::shutdown),
-        StaticMethod("get_num_devices", &OCCoreRes::get_num_devices),
-        StaticMethod("get_device_id", &OCCoreRes::get_device_id),
-        StaticMethod("get_device_info", &OCCoreRes::get_device_info),
-        StaticMethod("get_platform_info", &OCCoreRes::get_platform_info),
-        StaticMethod("get_resource_by_uri", &OCCoreRes::get_resource_by_uri),
-        StaticMethod("filter_resource_by_rt", &OCCoreRes::filter_resource_by_rt),
-        StaticMethod("is_DCR", &OCCoreRes::is_DCR),
-        StaticMethod("set_latency", &OCCoreRes::set_latency),
-        StaticMethod("get_latency", &OCCoreRes::get_latency),
-        StaticMethod("add_new_device", &OCCoreRes::add_new_device),
+Napi::Function OCCore::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCCore", {
+        StaticMethod("init", &OCCore::init),
+        StaticMethod("init_platform", &OCCore::init_platform),
+        StaticMethod("shutdown", &OCCore::shutdown),
+        StaticMethod("get_num_devices", &OCCore::get_num_devices),
+        StaticMethod("get_device_id", &OCCore::get_device_id),
+        StaticMethod("get_device_info", &OCCore::get_device_info),
+        StaticMethod("get_platform_info", &OCCore::get_platform_info),
+        StaticMethod("get_resource_by_uri", &OCCore::get_resource_by_uri),
+        StaticMethod("filter_resource_by_rt", &OCCore::filter_resource_by_rt),
+        StaticMethod("is_DCR", &OCCore::is_DCR),
+        StaticMethod("set_latency", &OCCore::set_latency),
+        StaticMethod("get_latency", &OCCore::get_latency),
+        StaticMethod("add_new_device", &OCCore::add_new_device),
     });
 }
-Napi::FunctionReference OCCoreRes::constructor;
+Napi::FunctionReference OCCore::constructor;
 
 
-Value OCCoreRes::init(const CallbackInfo& info) {
+Value OCCore::init(const CallbackInfo& info) {
     (void)oc_core_init();
     return info.Env().Undefined();
 }
 
-Value OCCoreRes::init_platform(const CallbackInfo& info) {
+Value OCCore::init_platform(const CallbackInfo& info) {
     std::string mfg_name_ = info[0].As<String>().Utf8Value();
     const char* mfg_name = mfg_name_.c_str();
     oc_core_init_platform_cb_t init_cb = nullptr;
@@ -320,36 +281,36 @@ Value OCCoreRes::init_platform(const CallbackInfo& info) {
     return OCPlatformInfo::constructor.New({args});
 }
 
-Value OCCoreRes::shutdown(const CallbackInfo& info) {
+Value OCCore::shutdown(const CallbackInfo& info) {
     (void)oc_core_shutdown();
     return info.Env().Undefined();
 }
 
-Value OCCoreRes::get_num_devices(const CallbackInfo& info) {
+Value OCCore::get_num_devices(const CallbackInfo& info) {
     return Number::New(info.Env(), oc_core_get_num_devices());
 }
 
-Value OCCoreRes::get_device_id(const CallbackInfo& info) {
+Value OCCore::get_device_id(const CallbackInfo& info) {
     size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
     shared_ptr<oc_uuid_t> sp(oc_core_get_device_id(device), nop_deleter);
     auto args = External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
     return OCUuid::constructor.New({args});
 }
 
-Value OCCoreRes::get_device_info(const CallbackInfo& info) {
+Value OCCore::get_device_info(const CallbackInfo& info) {
     size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
     shared_ptr<oc_device_info_t> sp(oc_core_get_device_info(device), nop_deleter);
     auto args = External<shared_ptr<oc_device_info_t>>::New(info.Env(), &sp);
     return OCDeviceInfo::constructor.New({args});
 }
 
-Value OCCoreRes::get_platform_info(const CallbackInfo& info) {
+Value OCCore::get_platform_info(const CallbackInfo& info) {
     shared_ptr<oc_platform_info_t> sp(oc_core_get_platform_info(), nop_deleter);
     auto args = External<shared_ptr<oc_platform_info_t>>::New(info.Env(), &sp);
     return OCPlatformInfo::constructor.New({args});
 }
 
-Value OCCoreRes::get_resource_by_uri(const CallbackInfo& info) {
+Value OCCore::get_resource_by_uri(const CallbackInfo& info) {
     std::string uri_ = info[0].As<String>().Utf8Value();
     const char* uri = uri_.c_str();
     size_t device = static_cast<size_t>(info[1].As<Number>().Uint32Value());
@@ -358,29 +319,29 @@ Value OCCoreRes::get_resource_by_uri(const CallbackInfo& info) {
     return OCResource::constructor.New({args});
 }
 
-Value OCCoreRes::filter_resource_by_rt(const CallbackInfo& info) {
+Value OCCore::filter_resource_by_rt(const CallbackInfo& info) {
     OCResource& resource = *OCResource::Unwrap(info[0].As<Object>());
     OCRequest& request = *OCRequest::Unwrap(info[1].As<Object>());
     return Boolean::New(info.Env(), oc_filter_resource_by_rt(resource, request));
 }
 
-Value OCCoreRes::is_DCR(const CallbackInfo& info) {
+Value OCCore::is_DCR(const CallbackInfo& info) {
     OCResource& resource = *OCResource::Unwrap(info[0].As<Object>());
     size_t device = static_cast<size_t>(info[1].As<Number>().Uint32Value());
     return Boolean::New(info.Env(), oc_core_is_DCR(resource, device));
 }
 
-Value OCCoreRes::set_latency(const CallbackInfo& info) {
+Value OCCore::set_latency(const CallbackInfo& info) {
     int latency = static_cast<int>(info[0].As<Number>());
     (void)oc_core_set_latency(latency);
     return info.Env().Undefined();
 }
 
-Value OCCoreRes::get_latency(const CallbackInfo& info) {
+Value OCCore::get_latency(const CallbackInfo& info) {
     return Number::New(info.Env(), oc_core_get_latency());
 }
 
-Value OCCoreRes::add_new_device(const CallbackInfo& info) {
+Value OCCore::add_new_device(const CallbackInfo& info) {
     std::string uri_ = info[0].As<String>().Utf8Value();
     const char* uri = uri_.c_str();
     std::string rt_ = info[1].As<String>().Utf8Value();
@@ -528,6 +489,15 @@ Napi::Function OCMain::GetClass(Napi::Env env) {
         StaticMethod("set_separate_response_buffer", &OCMain::set_separate_response_buffer),
         StaticMethod("stop_multicast", &OCMain::stop_multicast),
         StaticMethod("stop_observe", &OCMain::stop_observe),
+        StaticMethod("set_mtu_size", &OCMain::set_mtu_size),
+        StaticMethod("get_mtu_size", &OCMain::get_mtu_size),
+        StaticMethod("set_max_app_data_size", &OCMain::set_max_app_data_size),
+        StaticMethod("get_max_app_data_size", &OCMain::get_max_app_data_size),
+        StaticMethod("get_block_size", &OCMain::get_block_size),
+        StaticMethod("add_network_interface_event_callback", &OCMain::add_network_interface_event_callback),
+        StaticMethod("remove_network_interface_event_callback", &OCMain::remove_network_interface_event_callback),
+        StaticMethod("add_session_event_callback", &OCMain::add_session_event_callback),
+        StaticMethod("remove_session_event_callback", &OCMain::remove_session_event_callback),
     });
 }
 Napi::FunctionReference OCMain::constructor;
@@ -1095,38 +1065,48 @@ Value OCMain::stop_observe(const CallbackInfo& info) {
     return Boolean::New(info.Env(), oc_stop_observe(uri, endpoint));
 }
 
-OCNetworkMonitor::OCNetworkMonitor(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCNetworkMonitor::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCNetworkMonitor", {
-        StaticMethod("add_network_interface_event_callback", &OCNetworkMonitor::add_network_interface_event_callback),
-        StaticMethod("remove_network_interface_event_callback", &OCNetworkMonitor::remove_network_interface_event_callback),
-        StaticMethod("add_session_event_callback", &OCNetworkMonitor::add_session_event_callback),
-        StaticMethod("remove_session_event_callback", &OCNetworkMonitor::remove_session_event_callback),
-    });
+Value OCMain::set_mtu_size(const CallbackInfo& info) {
+    size_t mtu_size = static_cast<size_t>(info[0].As<Number>().Uint32Value());
+    return Number::New(info.Env(), oc_set_mtu_size(mtu_size));
 }
-Napi::FunctionReference OCNetworkMonitor::constructor;
 
+Value OCMain::get_mtu_size(const CallbackInfo& info) {
+    return Number::New(info.Env(), oc_get_mtu_size());
+}
 
-Value OCNetworkMonitor::add_network_interface_event_callback(const CallbackInfo& info) {
+Value OCMain::set_max_app_data_size(const CallbackInfo& info) {
+    size_t size = static_cast<size_t>(info[0].As<Number>().Uint32Value());
+    (void)oc_set_max_app_data_size(size);
+    return info.Env().Undefined();
+}
+
+Value OCMain::get_max_app_data_size(const CallbackInfo& info) {
+    return Number::New(info.Env(), oc_get_max_app_data_size());
+}
+
+Value OCMain::get_block_size(const CallbackInfo& info) {
+    return Number::New(info.Env(), oc_get_block_size());
+}
+
+Value OCMain::add_network_interface_event_callback(const CallbackInfo& info) {
     interface_event_handler_t cb = nullptr;
     Function cb_ = info[0].As<Function>();
     return Number::New(info.Env(), oc_add_network_interface_event_callback(cb));
 }
 
-Value OCNetworkMonitor::remove_network_interface_event_callback(const CallbackInfo& info) {
+Value OCMain::remove_network_interface_event_callback(const CallbackInfo& info) {
     interface_event_handler_t cb = nullptr;
     Function cb_ = info[0].As<Function>();
     return Number::New(info.Env(), oc_remove_network_interface_event_callback(cb));
 }
 
-Value OCNetworkMonitor::add_session_event_callback(const CallbackInfo& info) {
+Value OCMain::add_session_event_callback(const CallbackInfo& info) {
     session_event_handler_t cb = nullptr;
     Function cb_ = info[0].As<Function>();
     return Number::New(info.Env(), oc_add_session_event_callback(cb));
 }
 
-Value OCNetworkMonitor::remove_session_event_callback(const CallbackInfo& info) {
+Value OCMain::remove_session_event_callback(const CallbackInfo& info) {
     session_event_handler_t cb = nullptr;
     Function cb_ = info[0].As<Function>();
     return Number::New(info.Env(), oc_remove_session_event_callback(cb));
@@ -1732,74 +1712,32 @@ Value OCRandom::random_value(const CallbackInfo& info) {
     return Number::New(info.Env(), oc_random_value());
 }
 
-OCSessionEvents::OCSessionEvents(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+OCSWUpdate::OCSWUpdate(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
-Napi::Function OCSessionEvents::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCSessionEvents", {
-#if defined(OC_TCP)
-        StaticMethod("start_event", &OCSessionEvents::start_event),
+Napi::Function OCSWUpdate::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCSWUpdate", {
+#if defined(OC_SOFTWARE_UPDATE)
+        StaticMethod("notify_downloaded", &OCSWUpdate::notify_downloaded),
 #endif
-#if defined(OC_TCP)
-        StaticMethod("end_event", &OCSessionEvents::end_event),
+#if defined(OC_SOFTWARE_UPDATE)
+        StaticMethod("notify_upgrading", &OCSWUpdate::notify_upgrading),
 #endif
-#if defined(OC_TCP)
-        StaticMethod("set_event_delay", &OCSessionEvents::set_event_delay),
+#if defined(OC_SOFTWARE_UPDATE)
+        StaticMethod("notify_done", &OCSWUpdate::notify_done),
+#endif
+#if defined(OC_SOFTWARE_UPDATE)
+        StaticMethod("notify_new_version_available", &OCSWUpdate::notify_new_version_available),
+#endif
+#if defined(OC_SOFTWARE_UPDATE)
+        StaticMethod("set_impl", &OCSWUpdate::set_impl),
 #endif
     });
 }
-Napi::FunctionReference OCSessionEvents::constructor;
-
-
-#if defined(OC_TCP)
-Value OCSessionEvents::start_event(const CallbackInfo& info) {
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Object>());
-    (void)oc_session_start_event(endpoint);
-    return info.Env().Undefined();
-}
-#endif
-
-#if defined(OC_TCP)
-Value OCSessionEvents::end_event(const CallbackInfo& info) {
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Object>());
-    (void)oc_session_end_event(endpoint);
-    return info.Env().Undefined();
-}
-#endif
-
-#if defined(OC_TCP)
-Value OCSessionEvents::set_event_delay(const CallbackInfo& info) {
-    int secs = static_cast<int>(info[0].As<Number>());
-    (void)oc_session_events_set_event_delay(secs);
-    return info.Env().Undefined();
-}
-#endif
-
-OCSoftwareUpdate::OCSoftwareUpdate(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
-
-Napi::Function OCSoftwareUpdate::GetClass(Napi::Env env) {
-    return DefineClass(env, "OCSoftwareUpdate", {
-#if defined(OC_SOFTWARE_UPDATE)
-        StaticMethod("notify_downloaded", &OCSoftwareUpdate::notify_downloaded),
-#endif
-#if defined(OC_SOFTWARE_UPDATE)
-        StaticMethod("notify_upgrading", &OCSoftwareUpdate::notify_upgrading),
-#endif
-#if defined(OC_SOFTWARE_UPDATE)
-        StaticMethod("notify_done", &OCSoftwareUpdate::notify_done),
-#endif
-#if defined(OC_SOFTWARE_UPDATE)
-        StaticMethod("notify_new_version_available", &OCSoftwareUpdate::notify_new_version_available),
-#endif
-#if defined(OC_SOFTWARE_UPDATE)
-        StaticMethod("set_impl", &OCSoftwareUpdate::set_impl),
-#endif
-    });
-}
-Napi::FunctionReference OCSoftwareUpdate::constructor;
+Napi::FunctionReference OCSWUpdate::constructor;
 
 
 #if defined(OC_SOFTWARE_UPDATE)
-Value OCSoftwareUpdate::notify_downloaded(const CallbackInfo& info) {
+Value OCSWUpdate::notify_downloaded(const CallbackInfo& info) {
     size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
     std::string version_ = info[1].As<String>().Utf8Value();
     const char* version = version_.c_str();
@@ -1810,7 +1748,7 @@ Value OCSoftwareUpdate::notify_downloaded(const CallbackInfo& info) {
 #endif
 
 #if defined(OC_SOFTWARE_UPDATE)
-Value OCSoftwareUpdate::notify_upgrading(const CallbackInfo& info) {
+Value OCSWUpdate::notify_upgrading(const CallbackInfo& info) {
     size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
     std::string version_ = info[1].As<String>().Utf8Value();
     const char* version = version_.c_str();
@@ -1822,7 +1760,7 @@ Value OCSoftwareUpdate::notify_upgrading(const CallbackInfo& info) {
 #endif
 
 #if defined(OC_SOFTWARE_UPDATE)
-Value OCSoftwareUpdate::notify_done(const CallbackInfo& info) {
+Value OCSWUpdate::notify_done(const CallbackInfo& info) {
     size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
     oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[1].As<Number>().Uint32Value());
     (void)oc_swupdate_notify_done(device, result);
@@ -1831,7 +1769,7 @@ Value OCSoftwareUpdate::notify_done(const CallbackInfo& info) {
 #endif
 
 #if defined(OC_SOFTWARE_UPDATE)
-Value OCSoftwareUpdate::notify_new_version_available(const CallbackInfo& info) {
+Value OCSWUpdate::notify_new_version_available(const CallbackInfo& info) {
     size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
     std::string version_ = info[1].As<String>().Utf8Value();
     const char* version = version_.c_str();
@@ -1842,7 +1780,7 @@ Value OCSoftwareUpdate::notify_new_version_available(const CallbackInfo& info) {
 #endif
 
 #if defined(OC_SOFTWARE_UPDATE)
-Value OCSoftwareUpdate::set_impl(const CallbackInfo& info) {
+Value OCSWUpdate::set_impl(const CallbackInfo& info) {
     OCSoftwareUpdateHandler& swupdate_impl = *OCSoftwareUpdateHandler::Unwrap(info[0].As<Object>());
     oc_swupdate_cb_validate_purl_ref.Reset(swupdate_impl.validate_purl.Value());
     oc_swupdate_cb_check_new_version_ref.Reset(swupdate_impl.check_new_version.Value());
@@ -1853,6 +1791,48 @@ Value OCSoftwareUpdate::set_impl(const CallbackInfo& info) {
     swupdate_impl.m_pvalue->download_update = oc_swupdate_cb_download_update_helper;
     swupdate_impl.m_pvalue->perform_upgrade = oc_swupdate_cb_perform_upgrade_helper;
     (void)oc_swupdate_set_impl(swupdate_impl);
+    return info.Env().Undefined();
+}
+#endif
+
+OCSession::OCSession(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCSession::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCSession", {
+#if defined(OC_TCP)
+        StaticMethod("start_event", &OCSession::start_event),
+#endif
+#if defined(OC_TCP)
+        StaticMethod("end_event", &OCSession::end_event),
+#endif
+#if defined(OC_TCP)
+        StaticMethod("set_event_delay", &OCSession::set_event_delay),
+#endif
+    });
+}
+Napi::FunctionReference OCSession::constructor;
+
+
+#if defined(OC_TCP)
+Value OCSession::start_event(const CallbackInfo& info) {
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Object>());
+    (void)oc_session_start_event(endpoint);
+    return info.Env().Undefined();
+}
+#endif
+
+#if defined(OC_TCP)
+Value OCSession::end_event(const CallbackInfo& info) {
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Object>());
+    (void)oc_session_end_event(endpoint);
+    return info.Env().Undefined();
+}
+#endif
+
+#if defined(OC_TCP)
+Value OCSession::set_event_delay(const CallbackInfo& info) {
+    int secs = static_cast<int>(info[0].As<Number>());
+    (void)oc_session_events_set_event_delay(secs);
     return info.Env().Undefined();
 }
 #endif

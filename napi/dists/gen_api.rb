@@ -677,7 +677,7 @@ SETGET_OVERRIDE = {
     "get" => '
     shared_ptr<oc_session_event_cb> sp(m_pvalue->current, nop_deleter);
     auto accessor = External<shared_ptr<oc_session_event_cb>>::New(info.Env(), &sp);
-    return OCSessionEvents::constructor.New({ accessor });',
+    return OCSessionEventCb::constructor.New({ accessor });',
   },
 
 
