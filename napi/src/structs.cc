@@ -1390,6 +1390,66 @@ void OCCollection::set_uri(const Napi::CallbackInfo& info, const Napi::Value& va
     m_pvalue->uri = *(*(value.As<External<shared_ptr<oc_mmem>>>().Data()));
 }
 
+Value OCCollection::add_link(const CallbackInfo& info) {
+    OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());
+    OCLink& link = *OCLink::Unwrap(info[0].As<Object>());
+    (void)oc_collection_add_link(collection, link);
+    return info.Env().Undefined();
+}
+
+Value OCCollection::add_mandatory_rt(const CallbackInfo& info) {
+    OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());
+    std::string rt_ = info[0].As<String>().Utf8Value();
+    const char* rt = rt_.c_str();
+    return Boolean::New(info.Env(), oc_collection_add_mandatory_rt(collection, rt));
+}
+
+Value OCCollection::add_supported_rt(const CallbackInfo& info) {
+    OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());
+    std::string rt_ = info[0].As<String>().Utf8Value();
+    const char* rt = rt_.c_str();
+    return Boolean::New(info.Env(), oc_collection_add_supported_rt(collection, rt));
+}
+
+Value OCCollection::get_collections(const CallbackInfo& info) {
+    shared_ptr<oc_resource_t> sp(oc_collection_get_collections(), nop_deleter);
+    auto args = External<shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
+    return OCResource::constructor.New({args});
+}
+
+Value OCCollection::get_links(const CallbackInfo& info) {
+    OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());
+    shared_ptr<oc_link_t> sp(oc_collection_get_links(collection), nop_deleter);
+    auto args = External<shared_ptr<oc_link_t>>::New(info.Env(), &sp);
+    return OCLink::constructor.New({args});
+}
+
+Value OCCollection::remove_link(const CallbackInfo& info) {
+    OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());
+    OCLink& link = *OCLink::Unwrap(info[0].As<Object>());
+    (void)oc_collection_remove_link(collection, link);
+    return info.Env().Undefined();
+}
+
+Value OCCollection::delete_collection(const CallbackInfo& info) {
+    OCCollection& collection = *OCCollection::Unwrap(info[0].As<Object>());
+    (void)oc_delete_collection(collection);
+    return info.Env().Undefined();
+}
+
+Value OCCollection::new_collection(const CallbackInfo& info) {
+    std::string name_ = info[0].As<String>().Utf8Value();
+    const char* name = name_.c_str();
+    std::string uri_ = info[1].As<String>().Utf8Value();
+    const char* uri = uri_.c_str();
+    uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Number>().Uint32Value());
+    size_t device = static_cast<size_t>(info[3].As<Number>().Uint32Value());
+    shared_ptr<oc_resource_t> sp(oc_new_collection(name, uri, num_resource_types, device), nop_deleter);
+    auto args = External<shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
+    return OCResource::constructor.New({args});
+}
+
+
 Napi::FunctionReference OCCredData::constructor;
 
 Napi::Function OCCredData::GetClass(Napi::Env env) {
@@ -1726,8 +1786,8 @@ Value OCEndpoint::compare_address(const CallbackInfo& info) {
 }
 
 Value OCEndpoint::set_local_address(const CallbackInfo& info) {
-    OCEndpoint& ep = *OCEndpoint::Unwrap(info.This().As<Object>());
-    int interface_index = static_cast<int>(info[0].As<Number>());
+    OCEndpoint& ep = *OCEndpoint::Unwrap(info[0].As<Object>());
+    int interface_index = static_cast<int>(info[1].As<Number>());
     (void)oc_endpoint_set_local_address(ep, interface_index);
     return info.Env().Undefined();
 }

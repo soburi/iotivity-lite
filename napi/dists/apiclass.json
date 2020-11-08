@@ -8,13 +8,6 @@
 	"assert_role": "oc_assert_role",
 	"auto_assert_roles": "oc_auto_assert_roles",
 	"close_session": "oc_close_session",
-	"collection_add_link": "oc_collection_add_link",
-	"collection_add_mandatory_rt": "oc_collection_add_mandatory_rt",
-	"collection_add_supported_rt": "oc_collection_add_supported_rt",
-	"collection_get_collections": "oc_collection_get_collections",
-	"collection_get_links": "oc_collection_get_links",
-	"collection_remove_link": "oc_collection_remove_link",
-	"delete_collection": "oc_delete_collection",
 	"delete_link": "oc_delete_link",
 	"delete_resource": "oc_delete_resource",
 	"device_bind_resource_type": "oc_device_bind_resource_type",
@@ -48,7 +41,6 @@
 	"main_init": "oc_main_init",
 	"main_loop": "helper_main_loop",
 	"main_shutdown": "oc_main_shutdown",
-	"new_collection": "oc_new_collection",
 	"new_link": "oc_new_link",
 	"remove_delayed_callback": "oc_remove_delayed_callback",
 	"remove_ownership_status_cb": "oc_remove_ownership_status_cb",
@@ -68,6 +60,16 @@
 	"set_separate_response_buffer": "oc_set_separate_response_buffer",
 	"stop_multicast": "oc_stop_multicast",
 	"stop_observe": "oc_stop_observe"
+  },
+  "OCCollection": {
+	"add_link": "oc_collection_add_link",
+	"add_mandatory_rt": "oc_collection_add_mandatory_rt",
+	"add_supported_rt": "oc_collection_add_supported_rt",
+	"get_collections": "oc_collection_get_collections",
+	"get_links": "oc_collection_get_links",
+	"remove_link": "oc_collection_remove_link",
+	"delete_collection": "oc_delete_collection",
+	"new_collection": "oc_new_collection"
   },
   "OCObt": {
 	"ace_add_permission": "oc_obt_ace_add_permission",

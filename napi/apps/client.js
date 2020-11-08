@@ -97,11 +97,11 @@ function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
   console.log("-- discovery --");
 
   //OC.Main.do_ip_multicast(uri, "", get_light, "hoge");
+/*
   console.dir(endpoints)
   for(let ep of endpoints) {
     console.dir(ep);
   }
-/*
   console.dir(di);
   console.dir(uri);
   console.dir(types);

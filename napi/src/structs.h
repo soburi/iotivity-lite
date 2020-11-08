@@ -407,6 +407,14 @@ public:
 
     Napi::Value get_iterator(const Napi::CallbackInfo& info);
 
+    Napi::Value add_link(const Napi::CallbackInfo& info);
+    Napi::Value add_mandatory_rt(const Napi::CallbackInfo& info);
+    Napi::Value add_supported_rt(const Napi::CallbackInfo& info);
+    static Napi::Value get_collections(const Napi::CallbackInfo& info);
+    Napi::Value get_links(const Napi::CallbackInfo& info);
+    Napi::Value remove_link(const Napi::CallbackInfo& info);
+    static Napi::Value delete_collection(const Napi::CallbackInfo& info);
+    static Napi::Value new_collection(const Napi::CallbackInfo& info);
 
     std::shared_ptr<oc_collection_s> m_pvalue;
 };
@@ -500,7 +508,7 @@ public:
     Napi::Value endpoint_string_parse_path(const Napi::CallbackInfo& info);
     Napi::Value ipv6_endpoint_is_link_local(const Napi::CallbackInfo& info);
     Napi::Value compare_address(const Napi::CallbackInfo& info);
-    Napi::Value set_local_address(const Napi::CallbackInfo& info);
+    static Napi::Value set_local_address(const Napi::CallbackInfo& info);
 
     std::shared_ptr<oc_endpoint_t> m_pvalue;
 };

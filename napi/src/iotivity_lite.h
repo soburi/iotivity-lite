@@ -142,13 +142,6 @@ public:
     static Napi::Value auto_assert_roles(const Napi::CallbackInfo& info);
 #endif
     static Napi::Value close_session(const Napi::CallbackInfo& info);
-    static Napi::Value collection_add_link(const Napi::CallbackInfo& info);
-    static Napi::Value collection_add_mandatory_rt(const Napi::CallbackInfo& info);
-    static Napi::Value collection_add_supported_rt(const Napi::CallbackInfo& info);
-    static Napi::Value collection_get_collections(const Napi::CallbackInfo& info);
-    static Napi::Value collection_get_links(const Napi::CallbackInfo& info);
-    static Napi::Value collection_remove_link(const Napi::CallbackInfo& info);
-    static Napi::Value delete_collection(const Napi::CallbackInfo& info);
     static Napi::Value delete_link(const Napi::CallbackInfo& info);
     static Napi::Value delete_resource(const Napi::CallbackInfo& info);
     static Napi::Value device_bind_resource_type(const Napi::CallbackInfo& info);
@@ -186,7 +179,6 @@ public:
     static Napi::Value main_init(const Napi::CallbackInfo& info);
     static Napi::Value main_loop(const Napi::CallbackInfo& info);
     static Napi::Value main_shutdown(const Napi::CallbackInfo& info);
-    static Napi::Value new_collection(const Napi::CallbackInfo& info);
     static Napi::Value new_link(const Napi::CallbackInfo& info);
     static Napi::Value remove_delayed_callback(const Napi::CallbackInfo& info);
 #if defined(OC_SECURITY)

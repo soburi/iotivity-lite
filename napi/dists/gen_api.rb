@@ -270,7 +270,8 @@ EXTRA_ACCESSOR = {
 }
 
 EXTRA_VALUE= {
-  'oc_collection_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_collection_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); 
+  oeprator oc_resource_s*() { return oc_resource_s* ptr = reinterpret_cast<oc_resource_s*>(m_pvalue.get()); }',
   'oc_link_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
   'oc_sec_ace_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
   'oc_ace_res_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
@@ -1455,7 +1456,11 @@ INSTANCE_FUNCS = [
   'OCEndpoint::endpoint_string_parse_path',
   'OCEndpoint::ipv6_endpoint_is_link_local',
   'OCEndpoint::compare_address',
-  'OCEndpoint::set_local_address',
+  'OCCollection::add_link',
+  'OCCollection::add_mandatory_rt',
+  'OCCollection::add_supported_rt',
+  'OCCollection::get_links',
+  'OCCollection::remove_link',
 ]
 
 IGNORE_FUNCS = [

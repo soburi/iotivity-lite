@@ -13,6 +13,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("BufferSettings", OCBufferSettings::GetClass(env));
     exports.Set("Clock", OCClock::GetClass(env));
     exports.Set("Cloud", OCCloud::GetClass(env));
+    exports.Set("Collection", OCCollection::GetClass(env));
     exports.Set("CoreRes", OCCoreRes::GetClass(env));
     exports.Set("Cred", OCCred::GetClass(env));
     exports.Set("Endpoint", OCEndpoint::GetClass(env));
@@ -461,13 +462,6 @@ Napi::Function OCMain::GetClass(Napi::Env env) {
         StaticMethod("auto_assert_roles", &OCMain::auto_assert_roles),
 #endif
         StaticMethod("close_session", &OCMain::close_session),
-        StaticMethod("collection_add_link", &OCMain::collection_add_link),
-        StaticMethod("collection_add_mandatory_rt", &OCMain::collection_add_mandatory_rt),
-        StaticMethod("collection_add_supported_rt", &OCMain::collection_add_supported_rt),
-        StaticMethod("collection_get_collections", &OCMain::collection_get_collections),
-        StaticMethod("collection_get_links", &OCMain::collection_get_links),
-        StaticMethod("collection_remove_link", &OCMain::collection_remove_link),
-        StaticMethod("delete_collection", &OCMain::delete_collection),
         StaticMethod("delete_link", &OCMain::delete_link),
         StaticMethod("delete_resource", &OCMain::delete_resource),
         StaticMethod("device_bind_resource_type", &OCMain::device_bind_resource_type),
@@ -505,7 +499,6 @@ Napi::Function OCMain::GetClass(Napi::Env env) {
         StaticMethod("main_init", &OCMain::main_init),
         StaticMethod("main_loop", &OCMain::main_loop),
         StaticMethod("main_shutdown", &OCMain::main_shutdown),
-        StaticMethod("new_collection", &OCMain::new_collection),
         StaticMethod("new_link", &OCMain::new_link),
         StaticMethod("remove_delayed_callback", &OCMain::remove_delayed_callback),
 #if defined(OC_SECURITY)
@@ -620,53 +613,6 @@ Value OCMain::auto_assert_roles(const CallbackInfo& info) {
 Value OCMain::close_session(const CallbackInfo& info) {
     OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Object>());
     (void)oc_close_session(endpoint);
-    return info.Env().Undefined();
-}
-
-Value OCMain::collection_add_link(const CallbackInfo& info) {
-    OCResource& collection = *OCResource::Unwrap(info[0].As<Object>());
-    OCLink& link = *OCLink::Unwrap(info[1].As<Object>());
-    (void)oc_collection_add_link(collection, link);
-    return info.Env().Undefined();
-}
-
-Value OCMain::collection_add_mandatory_rt(const CallbackInfo& info) {
-    OCResource& collection = *OCResource::Unwrap(info[0].As<Object>());
-    std::string rt_ = info[1].As<String>().Utf8Value();
-    const char* rt = rt_.c_str();
-    return Boolean::New(info.Env(), oc_collection_add_mandatory_rt(collection, rt));
-}
-
-Value OCMain::collection_add_supported_rt(const CallbackInfo& info) {
-    OCResource& collection = *OCResource::Unwrap(info[0].As<Object>());
-    std::string rt_ = info[1].As<String>().Utf8Value();
-    const char* rt = rt_.c_str();
-    return Boolean::New(info.Env(), oc_collection_add_supported_rt(collection, rt));
-}
-
-Value OCMain::collection_get_collections(const CallbackInfo& info) {
-    shared_ptr<oc_resource_t> sp(oc_collection_get_collections(), nop_deleter);
-    auto args = External<shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
-    return OCResource::constructor.New({args});
-}
-
-Value OCMain::collection_get_links(const CallbackInfo& info) {
-    OCResource& collection = *OCResource::Unwrap(info[0].As<Object>());
-    shared_ptr<oc_link_t> sp(oc_collection_get_links(collection), nop_deleter);
-    auto args = External<shared_ptr<oc_link_t>>::New(info.Env(), &sp);
-    return OCLink::constructor.New({args});
-}
-
-Value OCMain::collection_remove_link(const CallbackInfo& info) {
-    OCResource& collection = *OCResource::Unwrap(info[0].As<Object>());
-    OCLink& link = *OCLink::Unwrap(info[1].As<Object>());
-    (void)oc_collection_remove_link(collection, link);
-    return info.Env().Undefined();
-}
-
-Value OCMain::delete_collection(const CallbackInfo& info) {
-    OCResource& collection = *OCResource::Unwrap(info[0].As<Object>());
-    (void)oc_delete_collection(collection);
     return info.Env().Undefined();
 }
 
@@ -989,18 +935,6 @@ Value OCMain::main_shutdown(const CallbackInfo& info) {
     terminate_main_loop();
     (void)oc_main_shutdown();
     return info.Env().Undefined();
-}
-
-Value OCMain::new_collection(const CallbackInfo& info) {
-    std::string name_ = info[0].As<String>().Utf8Value();
-    const char* name = name_.c_str();
-    std::string uri_ = info[1].As<String>().Utf8Value();
-    const char* uri = uri_.c_str();
-    uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Number>().Uint32Value());
-    size_t device = static_cast<size_t>(info[3].As<Number>().Uint32Value());
-    shared_ptr<oc_resource_t> sp(oc_new_collection(name, uri, num_resource_types, device), nop_deleter);
-    auto args = External<shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
-    return OCResource::constructor.New({args});
 }
 
 Value OCMain::new_link(const CallbackInfo& info) {
