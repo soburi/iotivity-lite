@@ -42,9 +42,11 @@ MTDIMPL = <<MTDIMPL
 Napi::Value CLASS::METHOD(const Napi::CallbackInfo& info) { return N_PREFIXMETHOD(info); };
 MTDIMPL
 
-BINDIMPL = <<BINDIMPL
+APICTOR = <<APICTOR
 CLASS::CLASS(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+APICTOR
 
+BINDIMPL = <<BINDIMPL
 Napi::Function CLASS::GetClass(Napi::Env env) {
     return DefineClass(env, "CLASS", {
 BINDIMPL
@@ -301,7 +303,21 @@ EXTRA_VALUE= {
 "
 }
 
-CTOR_OVERRIDE = {
+OVERRIDE_CTOR = {
+  "OCRepresentation" => '
+OCRepresentation::OCRepresentation(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+    if (info.Length() == 0) {
+        //TODO m_pvalue = std::shared_ptr<oc_rep_s>( oc_rep_new(), oc_free_rep);
+    }
+    else if (info.Length() == 1 && info[0].IsExternal()) {
+        m_pvalue = *(info[0].As<Napi::External<std::shared_ptr<oc_rep_s>>>().Data());
+    }
+    else {
+        Napi::TypeError::New(info.Env(), "You need to name yourself")
+            .ThrowAsJavaScriptException();
+    }
+}',
   "oc_string_array_iterator_t" => '
 OCStringArrayIterator::OCStringArrayIterator(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -1619,8 +1635,8 @@ def gen_classimpl(type, h)
 
   impl = GETCLASSIMPL.gsub(/\/\* accessor \*\//, gen_accessor(type, hh)).gsub(/CLASSNAME/, gen_classname(type))
 
-  if CTOR_OVERRIDE.has_key?(type)
-    impl += CTOR_OVERRIDE[type]
+  if OVERRIDE_CTOR.has_key?(type)
+    impl += OVERRIDE_CTOR[type]
   else
     impl += CTORIMPL.gsub(/STRUCTNAME/, type).gsub(/CLASSNAME/, gen_classname(type))
   end
@@ -2046,6 +2062,11 @@ File.open('src/iotivity_lite.cc', 'w') do |f|
   f.print "}\n"
 
   apis.keys.sort.each do |cls|
+    if OVERRIDE_CTOR.has_key?(cls)
+      f.print OVERRIDE_CTOR[cls] + "\n"
+    else
+      f.print APICTOR.gsub(/CLASS/, cls) + "\n"
+    end
     f.print BINDIMPL.gsub(/CLASS/, cls)
     apis[cls].keys.each do |mtd|
       if INSTANCE_FUNCS.include?(cls + "::" + mtd)
