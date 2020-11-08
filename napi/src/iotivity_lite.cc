@@ -19,6 +19,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("EnumUtil", OCEnumUtil::GetClass(env));
     exports.Set("Introspection", OCIntrospection::GetClass(env));
     exports.Set("Main", OCMain::GetClass(env));
+    exports.Set("NetworkMonitor", OCNetworkMonitor::GetClass(env));
     exports.Set("Obt", OCObt::GetClass(env));
     exports.Set("Pki", OCPki::GetClass(env));
     exports.Set("Random", OCRandom::GetClass(env));
@@ -1281,6 +1282,43 @@ Napi::Value OCMain::stop_observe(const Napi::CallbackInfo& info) {
 }
 
 Napi::FunctionReference OCMain::constructor;
+
+OCNetworkMonitor::OCNetworkMonitor(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCNetworkMonitor::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCNetworkMonitor", {
+        OCNetworkMonitor::StaticMethod("add_network_interface_event_callback", &OCNetworkMonitor::add_network_interface_event_callback),
+        OCNetworkMonitor::StaticMethod("remove_network_interface_event_callback", &OCNetworkMonitor::remove_network_interface_event_callback),
+        OCNetworkMonitor::StaticMethod("add_session_event_callback", &OCNetworkMonitor::add_session_event_callback),
+        OCNetworkMonitor::StaticMethod("remove_session_event_callback", &OCNetworkMonitor::remove_session_event_callback),
+    });
+}
+
+Napi::Value OCNetworkMonitor::add_network_interface_event_callback(const Napi::CallbackInfo& info) {
+  interface_event_handler_t cb = nullptr;
+  Napi::Function cb_ = info[0].As<Napi::Function>();
+  return Napi::Number::New(info.Env(), oc_add_network_interface_event_callback(cb));
+}
+
+Napi::Value OCNetworkMonitor::remove_network_interface_event_callback(const Napi::CallbackInfo& info) {
+  interface_event_handler_t cb = nullptr;
+  Napi::Function cb_ = info[0].As<Napi::Function>();
+  return Napi::Number::New(info.Env(), oc_remove_network_interface_event_callback(cb));
+}
+
+Napi::Value OCNetworkMonitor::add_session_event_callback(const Napi::CallbackInfo& info) {
+  session_event_handler_t cb = nullptr;
+  Napi::Function cb_ = info[0].As<Napi::Function>();
+  return Napi::Number::New(info.Env(), oc_add_session_event_callback(cb));
+}
+
+Napi::Value OCNetworkMonitor::remove_session_event_callback(const Napi::CallbackInfo& info) {
+  session_event_handler_t cb = nullptr;
+  Napi::Function cb_ = info[0].As<Napi::Function>();
+  return Napi::Number::New(info.Env(), oc_remove_session_event_callback(cb));
+}
+
+Napi::FunctionReference OCNetworkMonitor::constructor;
 
 OCObt::OCObt(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 

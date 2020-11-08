@@ -207,6 +207,18 @@ public:
   static Napi::Value stop_observe(const Napi::CallbackInfo& info);
 };
 
+class OCNetworkMonitor : public Napi::ObjectWrap<OCNetworkMonitor>
+{
+public:
+  OCNetworkMonitor(const Napi::CallbackInfo&);
+  static Napi::Function GetClass(Napi::Env);
+  static Napi::FunctionReference constructor;
+  static Napi::Value add_network_interface_event_callback(const Napi::CallbackInfo& info);
+  static Napi::Value remove_network_interface_event_callback(const Napi::CallbackInfo& info);
+  static Napi::Value add_session_event_callback(const Napi::CallbackInfo& info);
+  static Napi::Value remove_session_event_callback(const Napi::CallbackInfo& info);
+};
+
 class OCObt : public Napi::ObjectWrap<OCObt>
 {
 public:

@@ -29,18 +29,6 @@ Napi::Value N_oc_abort(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
-Napi::Value N_oc_add_network_interface_event_callback(const Napi::CallbackInfo& info) {
-  interface_event_handler_t cb = nullptr;
-  Napi::Function cb_ = info[0].As<Napi::Function>();
-  return Napi::Number::New(info.Env(), oc_add_network_interface_event_callback(cb));
-}
-
-Napi::Value N_oc_add_session_event_callback(const Napi::CallbackInfo& info) {
-  session_event_handler_t cb = nullptr;
-  Napi::Function cb_ = info[0].As<Napi::Function>();
-  return Napi::Number::New(info.Env(), oc_add_session_event_callback(cb));
-}
-
 Napi::Value N_oc_allocate_message(const Napi::CallbackInfo& info) {
   std::shared_ptr<oc_message_t> sp(oc_allocate_message());
   auto args = Napi::External<std::shared_ptr<oc_message_t>>::New(info.Env(), &sp);
@@ -500,18 +488,6 @@ Napi::Value N_oc_recv_message(const Napi::CallbackInfo& info) {
   OCMessage& message = *OCMessage::Unwrap(info[0].As<Napi::Object>());
   (void)oc_recv_message(message);
   return info.Env().Undefined();
-}
-
-Napi::Value N_oc_remove_network_interface_event_callback(const Napi::CallbackInfo& info) {
-  interface_event_handler_t cb = nullptr;
-  Napi::Function cb_ = info[0].As<Napi::Function>();
-  return Napi::Number::New(info.Env(), oc_remove_network_interface_event_callback(cb));
-}
-
-Napi::Value N_oc_remove_session_event_callback(const Napi::CallbackInfo& info) {
-  session_event_handler_t cb = nullptr;
-  Napi::Function cb_ = info[0].As<Napi::Function>();
-  return Napi::Number::New(info.Env(), oc_remove_session_event_callback(cb));
 }
 
 Napi::Value N_oc_rep_get_encoded_payload_size(const Napi::CallbackInfo& info) {

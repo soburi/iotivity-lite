@@ -275,5 +275,11 @@
 	"set_text_string": "helper_rep_set_text_string",
 	"set_uint": "helper_rep_set_uint",
 	"to_json": "oc_rep_to_json"
+  },
+  "OCNetworkMonitor": {
+	"add_network_interface_event_callback": "oc_add_network_interface_event_callback",
+	"remove_network_interface_event_callback": "oc_remove_network_interface_event_callback",
+	"add_session_event_callback": "oc_add_session_event_callback",
+	"remove_session_event_callback": "oc_remove_session_event_callback"
   }
 }
