@@ -470,6 +470,13 @@ Napi::Value N_oc_rep_new(const Napi::CallbackInfo& info) {
   return info.Env().Undefined();
 }
 
+Napi::Value N_oc_resource_set_default_interface(const Napi::CallbackInfo& info) {
+  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[1].As<Napi::Number>().Uint32Value());
+  (void)oc_resource_set_default_interface(resource, iface_mask);
+  return info.Env().Undefined();
+}
+
 Napi::Value N_oc_send_buffer(const Napi::CallbackInfo& info) {
   OCMessage& message = *OCMessage::Unwrap(info[0].As<Napi::Object>());
   return Napi::Number::New(info.Env(), oc_send_buffer(message));

@@ -238,20 +238,6 @@ EXTRA_ACCESSOR = {
   'oc_string_array_t' => '
     InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCStringArray::get_iterator),
   ',
-=begin
-  'oc_resource_s' => '
-    InstanceMethod("bind_resource_interface", &OCResource::bind_resource_interface),
-    InstanceMethod("bind_resource_type",      &OCResource::bind_resource_type),
-#if defined(OC_SECURITY)
-    InstanceMethod("make_public",             &OCResource::make_public),
-#endif
-    InstanceMethod("set_discoverable",        &OCResource::set_discoverable),
-    InstanceMethod("set_observable",          &OCResource::set_observable),
-    InstanceMethod("set_periodic_observable", &OCResource::set_periodic_observable),
-    InstanceMethod("set_properties_cbs",      &OCResource::set_properties_cbs),
-    InstanceMethod("set_request_handler",     &OCResource::set_request_handler),
-  ',
-=end
 }
 
 EXTRA_VALUE= {
@@ -283,19 +269,6 @@ EXTRA_VALUE= {
   Napi::Value get_value;\n\
   Napi::Value post_value;\n\
   Napi::Value put_value;\n"
-=begin
-  Napi::Value bind_resource_interface(const Napi::CallbackInfo& info);
-  Napi::Value bind_resource_type(const Napi::CallbackInfo& info);
-#if defined(OC_SECURITY)
-  Napi::Value make_public(const Napi::CallbackInfo& info);
-#endif
-  Napi::Value set_discoverable(const Napi::CallbackInfo& info);
-  Napi::Value set_observable(const Napi::CallbackInfo& info);
-  Napi::Value set_periodic_observable(const Napi::CallbackInfo& info);
-  Napi::Value set_properties_cbs(const Napi::CallbackInfo& info);
-  Napi::Value set_request_handler(const Napi::CallbackInfo& info);
-"
-=end
 }
 
 OVERRIDE_CTOR = {
@@ -849,15 +822,28 @@ STR
   'oc_rep_get_encoder_buf' => {
     'invoke' => 'return Napi::Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(oc_rep_get_encoder_buf()), oc_rep_get_encoded_payload_size() );'
   },
-=begin
   'oc_resource_set_request_handler' => {
-    '2' => "  oc_request_callback_t callback = nullptr;\n",
+    '1' => '  oc_request_callback_t callback = nullptr;
+  switch(method) {
+  case OC_GET:
+    get_handler.Reset(info[1].As<Napi::Function>());
+    get_value = info[2];
+    break;
+  case OC_POST:
+    post_handler.Reset(info[1].As<Napi::Function>());
+    post_value = info[2];
+    break;
+  case OC_PUT:
+    put_handler.Reset(info[1].As<Napi::Function>());
+    put_value = info[2];
+    break;
+  }
+',
     '3' => <<~STR
                    callback_helper_t* user_data = new_callback_helper_t(info, 2, 3);
                    if(!user_data) callback = nullptr;
               STR
   },
-=end
   'oc_resource_set_properties_cbs' => {
     '1' => "  oc_get_properties_cb_t get_properties = oc_resource_set_properties_cbs_get_helper;\n",
     '3' => "  oc_set_properties_cb_t set_properties = oc_resource_set_properties_cbs_set_helper;\n",
@@ -1097,6 +1083,7 @@ INSTANCE_FUNCS = [
   'OCResource::set_discoverable',
   'OCResource::set_observable',
   'OCResource::set_periodic_observable',
+  'OCResource::set_properties_cbs',
 ]
 
 IGNORE_FUNCS = [

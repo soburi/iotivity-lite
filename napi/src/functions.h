@@ -81,6 +81,7 @@ Napi::Value N_oc_network_event_handler_mutex_unlock(const Napi::CallbackInfo&);
 Napi::Value N_oc_network_interface_event(const Napi::CallbackInfo&);
 Napi::Value N_oc_recv_message(const Napi::CallbackInfo&);
 Napi::Value N_oc_rep_new(const Napi::CallbackInfo&);
+Napi::Value N_oc_resource_set_default_interface(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_buffer(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_discovery_request(const Napi::CallbackInfo&);
 Napi::Value N_oc_send_message(const Napi::CallbackInfo&);

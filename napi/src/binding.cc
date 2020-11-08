@@ -99,6 +99,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("oc_init_query_iterator", Napi::Function::New(env, N_oc_init_query_iterator));
   exports.Set("oc_iterate_query", Napi::Function::New(env, N_oc_iterate_query));
   exports.Set("oc_iterate_query_get_values", Napi::Function::New(env, N_oc_iterate_query_get_values));
+  exports.Set("oc_resource_set_default_interface", Napi::Function::New(env, N_oc_resource_set_default_interface));
   exports.Set("oc_main_poll", Napi::Function::New(env, N_oc_main_poll));
   exports.Set("oc_abort", Napi::Function::New(env, N_oc_abort));
   exports.Set("oc_exit", Napi::Function::New(env, N_oc_exit));

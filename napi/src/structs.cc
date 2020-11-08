@@ -3719,16 +3719,14 @@ Napi::Value OCResource::set_periodic_observable(const Napi::CallbackInfo& info) 
 }
 
 Napi::Value OCResource::set_properties_cbs(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+// 0 get_properties, oc_get_properties_cb_t
   oc_get_properties_cb_t get_properties = oc_resource_set_properties_cbs_get_helper;
 //
   callback_helper_t* get_propr_user_data = new_callback_helper_t(info, 1, 2);
   if(!get_propr_user_data) get_properties = nullptr;
   oc_set_properties_cb_t set_properties = oc_resource_set_properties_cbs_set_helper;
-//
-  callback_helper_t* set_props_user_data = new_callback_helper_t(info, 3, 4);
-  if(!set_props_user_data) set_properties = nullptr;
-  (void)oc_resource_set_properties_cbs(resource, get_properties, get_propr_user_data, set_properties, set_props_user_data);
+  (void)0;
   return info.Env().Undefined();
 }
 
@@ -3736,7 +3734,20 @@ Napi::Value OCResource::set_request_handler(const Napi::CallbackInfo& info) {
   OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
   oc_method_t method = static_cast<oc_method_t>(info[0].As<Napi::Number>().Uint32Value());
   oc_request_callback_t callback = nullptr;
-  Napi::Function callback_ = info[1].As<Napi::Function>();
+  switch(method) {
+  case OC_GET:
+    get_handler.Reset(info[1].As<Napi::Function>());
+    get_value = info[2];
+    break;
+  case OC_POST:
+    post_handler.Reset(info[1].As<Napi::Function>());
+    post_value = info[2];
+    break;
+  case OC_PUT:
+    put_handler.Reset(info[1].As<Napi::Function>());
+    put_value = info[2];
+    break;
+  }
   void* user_data = info[2];
   (void)oc_resource_set_request_handler(resource, method, callback, user_data);
   return info.Env().Undefined();

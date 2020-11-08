@@ -153,15 +153,6 @@ public:
   static Napi::Value remove_ownership_status_cb(const Napi::CallbackInfo& info);
   static Napi::Value reset(const Napi::CallbackInfo& info);
   static Napi::Value reset_device(const Napi::CallbackInfo& info);
-  static Napi::Value resource_bind_resource_interface(const Napi::CallbackInfo& info);
-  static Napi::Value resource_bind_resource_type(const Napi::CallbackInfo& info);
-  static Napi::Value resource_make_public(const Napi::CallbackInfo& info);
-  static Napi::Value resource_set_default_interface(const Napi::CallbackInfo& info);
-  static Napi::Value resource_set_discoverable(const Napi::CallbackInfo& info);
-  static Napi::Value resource_set_observable(const Napi::CallbackInfo& info);
-  static Napi::Value resource_set_periodic_observable(const Napi::CallbackInfo& info);
-  static Napi::Value resource_set_properties_cbs(const Napi::CallbackInfo& info);
-  static Napi::Value resource_set_request_handler(const Napi::CallbackInfo& info);
   static Napi::Value ri_is_app_resource_valid(const Napi::CallbackInfo& info);
   static Napi::Value send_diagnostic_message(const Napi::CallbackInfo& info);
   static Napi::Value send_ping(const Napi::CallbackInfo& info);
