@@ -67,7 +67,7 @@ CCPROLOGUE = <<CCPROLOGUE
 #include "helper.h"
 
 #define CHECK_CALLBACK_FUNC(info, order, helper)  ((info.Length() >= order &&                           info[order].IsFunction()) ? helper : nullptr)
-#define CHECK_CALLBACK_CONTEXT(info, fn_i, ctx_i) ((info.Length() >= fn_i  && info.Length() >= ctx_i &&  info[fn_i].IsFunction()) ? new SafeCallbackHelper(info[fn_i].As<Function>(), info[ctx_i]));
+#define CHECK_CALLBACK_CONTEXT(info, fn_i, ctx_i) ((info.Length() >= fn_i  && info.Length() >= ctx_i &&  info[fn_i].IsFunction()) ? new SafeCallbackHelper(info[fn_i].As<Function>(), info[ctx_i]) : nullptr);
 
 using namespace std;
 using namespace Napi;
