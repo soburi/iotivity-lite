@@ -1,6 +1,9 @@
 #pragma once
-#include <napi.h>
+
+#ifdef __cplusplus
 extern "C" {
+#endif
+
 #include <oc_api.h>
 #include <oc_base64.h>
 #include <oc_blockwise.h>
@@ -30,16 +33,6 @@ extern "C" {
 #include <oc_connectivity.h>
 #include <oc_assert.h>
 #include <oc_mem_trace.h>
-#include <coap.h>
-#include <coap_signal.h>
-#include <constants.h>
-#include <engine.h>
-#include <observe.h>
-#include <oc_coap.h>
-#include <separate.h>
-#include <transactions.h>
-}
-
 
 struct oc_separate_response_iterator_t {
     oc_separate_response_t* current;
@@ -86,16 +79,16 @@ struct oc_session_event_cb_iterator_t {
 struct oc_rep_iterator_t {
     oc_rep_s* current;
 };
-
-
-
+struct oc_endpoint_iterator_t {
+    oc_endpoint_t* current;
+};
 
 struct oc_string_array_iterator_t {
     oc_string_array_t array;
     uint32_t index;
 };
 
-struct oc_endpoint_iterator_t {
-    oc_endpoint_t* current;
-};
 
+#ifdef __cplusplus
+}
+#endif
