@@ -35,6 +35,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
   exports.Set("PlatformInfo", OCPlatformInfo::GetClass(env));
   exports.Set("Process", OCProcess::GetClass(env));
   exports.Set("PropertiesCb", OCPropertiesCb::GetClass(env));
+  exports.Set("Representation", OCRepresentation::GetClass(env));
   exports.Set("Value", OCValue::GetClass(env));
   exports.Set("RequestHandler", OCRequestHandler::GetClass(env));
   exports.Set("Request", OCRequest::GetClass(env));

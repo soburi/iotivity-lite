@@ -19,6 +19,7 @@ apis = open(ARGV[3]) do |io|
   JSON.load(io)
 end
 
+APIS = apis
 
 
 formatter = REXML::Formatters::Pretty.new
@@ -108,6 +109,7 @@ public:
   operator STRUCTNAME*() { return m_pvalue.get(); }
 /* setget */
 /* extra_value */
+/* apis */
   std::shared_ptr<STRUCTNAME> m_pvalue;
 };
 CLSDECL
@@ -250,18 +252,6 @@ EXTRA_ACCESSOR = {
 }
 
 EXTRA_VALUE= {
-  'OCRepresentation' => '
-  operator oc_rep_s*() { return m_pvalue.get(); }
-  Napi::Value get_name(const Napi::CallbackInfo&);
-         void set_name(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_type(const Napi::CallbackInfo&);
-         void set_type(const Napi::CallbackInfo&, const Napi::Value&);
-  Napi::Value get_value(const Napi::CallbackInfo&);
-         void set_value(const Napi::CallbackInfo&, const Napi::Value&);
-
-
-  std::shared_ptr<oc_rep_s> m_pvalue;
-  ',
   'oc_string_array_iterator_t' => '
     Napi::Value get_next(const Napi::CallbackInfo& info);
   ',
@@ -1050,7 +1040,7 @@ IGNORE_TYPES = {
   "oc_blockwise_state_s" => [ /^next$/, ],
   "oc_network_interface_cb" => [/^next$/],
   "oc_session_event_cb" => [/^next$/],
-  "oc_rep_s" => nil, #[/^next$/ ],
+  "oc_rep_s" => [/^next$/ ],
 
 #  "coap_transaction" => [/^next$/],
 #  "coap_observer" => [/^next$/, /^resource$/, /^token$/,],
@@ -1541,11 +1531,35 @@ def format_ignore(key, h)
   end
 end
 
+def gen_apimtd_decl(cls, f)
+    APIS[cls].keys.each do |mtd|
+      if INSTANCE_FUNCS.include?(cls + "::" + mtd)
+        f.print INSTANCEMTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
+      else
+        f.print STATICMTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
+      end
+    end
+    if EXTRA_VALUE[cls] != nil
+      f.print "#{EXTRA_VALUE[cls]}\n"
+    end
+end
+
+
 def gen_classdecl(key, h)
   return "" if IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil
   hh = format_ignore(key, h)
 
-  decl = CLSDECL.gsub(/STRUCTNAME/, key).gsub(/CLASSNAME/, gen_classname(key)).gsub(/\/\* setget \*\//, gen_setget_decl(key, hh)).gsub(/\/\* extra_value \*\//, gen_extra_value_decl(key, hh))
+  apidecl = ""
+  if APIS.keys.include?(gen_classname(key))
+    print gen_classname(key)
+    sio = StringIO.new()
+    gen_apimtd_decl(gen_classname(key), sio)
+    sio.rewind
+    apidecl = sio.read
+    #raise
+  end
+
+  decl = CLSDECL.gsub(/STRUCTNAME/, key).gsub(/CLASSNAME/, gen_classname(key)).gsub(/\/\* setget \*\//, gen_setget_decl(key, hh)).gsub(/\/\* extra_value \*\//, gen_extra_value_decl(key, hh)).gsub(/\/\* apis \*\//, apidecl)
   if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
     decl = "#if #{IFDEF_TYPES[key]}\n" + decl + "#endif\n"
   end
@@ -2037,17 +2051,11 @@ end
 File.open('src/iotivity_lite.h', 'w') do |f|
   f.print HPROLOGUE
   apis.keys.sort.each do |cls|
+    next if struct_table.keys.collect{|k| gen_classname(k)}.include?(cls)
+
     f.print APICLSDECL.gsub(/CLASS/, cls)
-    apis[cls].keys.each do |mtd|
-      if INSTANCE_FUNCS.include?(cls + "::" + mtd)
-        f.print INSTANCEMTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
-      else
-        f.print STATICMTDDECL.gsub(/CLASS/, cls).gsub(/METHOD/, mtd)
-      end
-    end
-    if EXTRA_VALUE[cls] != nil
-      f.print "#{EXTRA_VALUE[cls]}\n"
-    end
+
+    gen_apimtd_decl(cls, f)
     f.print "};\n"
     f.print "\n"
   end
@@ -2062,6 +2070,7 @@ File.open('src/iotivity_lite.cc', 'w') do |f|
   f.print "}\n"
 
   apis.keys.sort.each do |cls|
+    next if struct_table.keys.collect{|k| gen_classname(k)}.include?(cls)
     if OVERRIDE_CTOR.has_key?(cls)
       f.print OVERRIDE_CTOR[cls] + "\n"
     else
