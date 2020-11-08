@@ -1177,12 +1177,10 @@ OCCollection::~OCCollection()
 OCCollection::OCCollection(const CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
-        /*
+        /* TODO
         m_pvalue = shared_ptr<oc_collection_s>(
-                       reinterpret_cast<oc_collection_s*>(oc_new_collection()),
-        [](oc_collection_s* x) {
-            oc_delete_collection( reinterpret_cast<oc_collection_s*>(x) );
-        } );
+          reinterpret_cast<oc_collection_s*>(oc_new_collection()),
+          [](oc_collection_s* x){ oc_delete_collection( reinterpret_cast<oc_collection_s*>(x) );} );
         */
     }
     else if (info.Length() == 1 && info[0].IsExternal()) {
@@ -1436,24 +1434,6 @@ Value OCCollection::remove_link(const CallbackInfo& info) {
     OCLink& link = *OCLink::Unwrap(info[0].As<Object>());
     (void)oc_collection_remove_link(collection, link);
     return info.Env().Undefined();
-}
-
-Value OCCollection::delete_collection(const CallbackInfo& info) {
-    OCResource& collection = *OCResource::Unwrap(info[0].As<Object>());
-    (void)oc_delete_collection(collection);
-    return info.Env().Undefined();
-}
-
-Value OCCollection::new_collection(const CallbackInfo& info) {
-    std::string name_ = info[0].As<String>().Utf8Value();
-    const char* name = name_.c_str();
-    std::string uri_ = info[1].As<String>().Utf8Value();
-    const char* uri = uri_.c_str();
-    uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Number>().Uint32Value());
-    size_t device = static_cast<size_t>(info[3].As<Number>().Uint32Value());
-    shared_ptr<oc_resource_t> sp(oc_new_collection(name, uri, num_resource_types, device), nop_deleter);
-    auto args = External<shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
-    return OCResource::constructor.New({args});
 }
 
 
