@@ -239,33 +239,36 @@ EXTRA_ACCESSOR = {
     InstanceAccessor("type", &OCRepresentation::get_type, &OCRepresentation::set_type),
     InstanceAccessor("value", &OCRepresentation::get_value, &OCRepresentation::set_value),
   ',
-  'oc_endpoint_iterator_t' => '
-    InstanceMethod("next", &OCEndpointIterator::get_next),
-  ',
-  'oc_endpoint_t' => '
-    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCEndpoint::get_iterator),
-  ',
-  'oc_string_array_iterator_t' => '
-    InstanceMethod("next", &OCStringArrayIterator::get_next),
-  ',
-  'oc_string_array_t' => '
-    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCStringArray::get_iterator),
-  ',
+  'oc_endpoint_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+  'oc_string_array_t' => '    InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &CLASSNAME::get_iterator), ',
+
+  'oc_endpoint_iterator_t' => '    InstanceMethod("next", &CLASSNAME::get_next), ',
+  'oc_string_array_iterator_t' => '    InstanceMethod("next", &CLASSNAME::get_next), ',
 }
 
 EXTRA_VALUE= {
-  'oc_endpoint_iterator_t' => '
-    Napi::Value get_next(const Napi::CallbackInfo& info);
-  ',
-  'oc_endpoint_t' => '
-    Napi::Value get_iterator(const Napi::CallbackInfo& info);
-  ',
-  'oc_string_array_iterator_t' => '
-    Napi::Value get_next(const Napi::CallbackInfo& info);
-  ',
-  'oc_string_array_t' => '
-    Napi::Value get_iterator(const Napi::CallbackInfo& info);
-  ',
+  'oc_separate_response_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_collection_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_link_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_sec_ace_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_ace_res_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_cloud_context_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_link_params_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_rt_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_etimer' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_event_callback_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_message_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_resource_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_role_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_blockwise_status_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_session_event_cb' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_rep_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+
+  'oc_endpoint_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+  'oc_string_array_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
+
+  'oc_endpoint_iterator_t' => ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
+  'oc_string_array_iterator_t' => ' Napi::Value get_next(const Napi::CallbackInfo& info); ',
   "oc_handler_t" => "\
   Napi::FunctionReference init;\n\
 #if defined(OC_SERVER)\n\
@@ -2186,7 +2189,7 @@ File.open('src/iotivity_lite.cc', 'w') do |f|
     end
 
     if EXTRA_ACCESSOR.has_key?(cls)
-      f.print EXTRA_ACCESSOR[cls] + "\n"
+      f.print EXTRA_ACCESSOR[cls].gsub(/CLASS/, cls) + "\n"
     end
 
     f.print "    });\n"

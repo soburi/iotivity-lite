@@ -11,21 +11,21 @@
 static void nop_deleter(void*) { }
 
 struct main_context_t {
-  std::thread helper_poll_event_thread;
-  std::mutex helper_sync_lock;
-  std::mutex helper_cs_mutex;
-  std::unique_lock<std::mutex> helper_cs;
-  std::condition_variable helper_cv;
-  Napi::FunctionReference oc_handler_init_ref;
-  Napi::FunctionReference oc_handler_register_resources_ref;
-  Napi::FunctionReference oc_handler_requests_entry_ref;
-  int jni_quit;
+    std::thread helper_poll_event_thread;
+    std::mutex helper_sync_lock;
+    std::mutex helper_cs_mutex;
+    std::unique_lock<std::mutex> helper_cs;
+    std::condition_variable helper_cv;
+    Napi::FunctionReference oc_handler_init_ref;
+    Napi::FunctionReference oc_handler_register_resources_ref;
+    Napi::FunctionReference oc_handler_requests_entry_ref;
+    int jni_quit;
 };
 
 class main_loop_t {
 public:
-  Napi::Promise::Deferred deferred;
-  Napi::ThreadSafeFunction tsfn;
+    Napi::Promise::Deferred deferred;
+    Napi::ThreadSafeFunction tsfn;
 };
 
 
@@ -33,11 +33,11 @@ extern main_loop_t* main_loop_ctx;
 
 struct callback_helper_t {
 public:
-  Napi::FunctionReference function;
-  Napi::ObjectReference value;
-  Napi::AsyncContext async_context;
+    Napi::FunctionReference function;
+    Napi::ObjectReference value;
+    Napi::AsyncContext async_context;
 
-  callback_helper_t(const Napi::CallbackInfo& info) : async_context(info.Env(), "") { }
+    callback_helper_t(const Napi::CallbackInfo& info) : async_context(info.Env(), "") { }
 };
 
 class SafeCallbackHelper {
@@ -76,17 +76,17 @@ void oc_add_device_helper(void* param);
 
 oc_discovery_flags_t
 helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t types,
-          oc_interface_mask_t iface_mask, oc_endpoint_t *endpoint,
-          oc_resource_properties_t bm, void *user_data);
+                            oc_interface_mask_t iface_mask, oc_endpoint_t *endpoint,
+                            oc_resource_properties_t bm, void *user_data);
 
 oc_discovery_flags_t
 helper_oc_discovery_all_handler(const char*, const char*, oc_string_array_t, oc_interface_mask_t,
-    oc_endpoint_t*, oc_resource_properties_t, bool, void*);
+                                oc_endpoint_t*, oc_resource_properties_t, bool, void*);
 
 void helper_oc_response_handler(oc_client_response_t* response);
 
 void helper_oc_ownership_status_cb(const oc_uuid_t* device_uuid,
-    size_t device_index, bool owned, void* user_data);
+                                   size_t device_index, bool owned, void* user_data);
 oc_event_callback_retval_t helper_oc_trigger(void* data);
 
 void helper_oc_factory_presets_cb(size_t device, void* data);
