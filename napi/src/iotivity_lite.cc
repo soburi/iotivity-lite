@@ -807,9 +807,10 @@ Value OCMain::indicate_separate_response(const CallbackInfo& info) {
 Value OCMain::init_platform(const CallbackInfo& info) {
     std::string mfg_name_ = info[0].As<String>().Utf8Value();
     const char* mfg_name = mfg_name_.c_str();
-    oc_init_platform_cb_t init_platform_cb = oc_init_platform_helper;
-    callback_helper_t* data = new_callback_helper_t(info, 1, 2);
-    if(!data) init_platform_cb = nullptr;
+    auto init_platform_cb = CHECK_CALLBACK_FUNC(info, 1, oc_init_platform_helper);
+    const int O_FUNC = 1;
+    SafeCallbackHelper* data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 2);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_init_platform(mfg_name, init_platform_cb, data));
 }
 

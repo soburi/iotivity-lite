@@ -1058,11 +1058,9 @@ FUNC_OVERRIDE = {
 STR
   },
   'oc_init_platform' => {
-    '1' => "  oc_init_platform_cb_t init_platform_cb = oc_init_platform_helper;\n",
-    '2' => <<~STR
-                   callback_helper_t* data = new_callback_helper_t(info, 1, 2);
-                   if(!data) init_platform_cb = nullptr;
-              STR
+    '1' => '  auto init_platform_cb = CHECK_CALLBACK_FUNC(info, ORDER, oc_init_platform_helper); const int O_FUNC = ORDER;',
+    '2' => '  SafeCallbackHelper* data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
   },
   'oc_add_device' => {
     '5' => '  auto add_device_cb = CHECK_CALLBACK_FUNC(info, ORDER, oc_add_device_helper); const int O_FUNC = ORDER;',
@@ -1338,10 +1336,10 @@ STR
   },
 }
 
-WRAPPERNAME = { 'oc_ipv4_addr_t' => "OCIPv4Addr",
-                'oc_ipv6_addr_t' => "OCIPv6Addr",
-                'oc_le_addr_t' => "OCLEAddr",
-                "oc_endpoint_t::dev_addr" => "DevAddr",
+WRAPPERNAME = { 'oc_ipv4_addr_t' => 'OCIPv4Addr',
+                'oc_ipv6_addr_t' => 'OCIPv6Addr',
+                'oc_le_addr_t' => 'OCLEAddr',
+                'oc_endpoint_t::dev_addr' => 'DevAddr',
                 'oc_sec_ace_t' => 'OCSecurityAce',
                 'oc_sec_acl_s' => 'OCSecurityAcl',
                 'oc_cps_t' => 'OCCloudPrivisoningStatus',
@@ -1423,7 +1421,7 @@ IGNORE_TYPES = {
 'coap_method_t' => nil,
 'coap_option_t' => nil,
 'coap_status_t' => nil,
-  "oc_handler_t" => [ /^signal_event_loop$/ ],
+  'oc_handler_t' => [ /^signal_event_loop$/ ],
 # nested type
   "oc_properties_cb_t" => [ /cb/, /get_props/, /set_props/, /user_data/ ],
   "oc_ace_subject_t" => [ /role/, /^authority$/ ],
