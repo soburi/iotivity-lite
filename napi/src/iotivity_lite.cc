@@ -1987,8 +1987,14 @@ Napi::Value OCRepresentation::get_object(const Napi::CallbackInfo& info) {
   OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Napi::Object>());
   std::string key_ = info[0].As<Napi::String>().Utf8Value();
   const char* key = key_.c_str();
-// 1 value, oc_rep_t**
-  return Napi::Boolean::New(info.Env(), 0);
+
+  oc_rep_t* ret;
+  bool success = oc_rep_get_object(rep, key, &ret);
+  if (!success) { return info.Env().Undefined(); }
+
+  std::shared_ptr<oc_rep_t> sp(ret);
+  auto accessor = Napi::External<std::shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+  return OCRepresentation::constructor.New({ accessor });
 }
 
 Napi::Value OCRepresentation::get_object_array(const Napi::CallbackInfo& info) {
