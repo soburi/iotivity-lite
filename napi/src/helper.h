@@ -53,16 +53,10 @@ public:
 
 callback_helper_t* new_callback_helper_t(const Napi::CallbackInfo& info, int idx_func, int idx_val);
 
-//extern Napi::FunctionReference oc_handler_init_ref;
-//extern Napi::FunctionReference oc_handler_register_resources_ref;
-//extern Napi::FunctionReference oc_handler_requests_entry_ref;
-
 extern Napi::FunctionReference oc_swupdate_cb_validate_purl_ref;
 extern Napi::FunctionReference oc_swupdate_cb_check_new_version_ref;
 extern Napi::FunctionReference oc_swupdate_cb_download_update_ref;
 extern Napi::FunctionReference oc_swupdate_cb_perform_upgrade_ref;
-
-Napi::Value N_helper_main_loop(const Napi::CallbackInfo& info);
 
 void terminate_main_loop();
 

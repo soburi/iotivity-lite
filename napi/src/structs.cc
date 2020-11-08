@@ -3675,15 +3675,15 @@ void OCResource::set_uri(const Napi::CallbackInfo& info, const Napi::Value& valu
 }
 
 Napi::Value OCResource::bind_resource_interface(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[1].As<Napi::Number>().Uint32Value());
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+  oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[0].As<Napi::Number>().Uint32Value());
   (void)oc_resource_bind_resource_interface(resource, iface_mask);
   return info.Env().Undefined();
 }
 
 Napi::Value OCResource::bind_resource_type(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  std::string type_ = info[1].As<Napi::String>().Utf8Value();
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+  std::string type_ = info[0].As<Napi::String>().Utf8Value();
   const char* type = type_.c_str();
   (void)oc_resource_bind_resource_type(resource, type);
   return info.Env().Undefined();
@@ -3691,29 +3691,29 @@ Napi::Value OCResource::bind_resource_type(const Napi::CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Napi::Value OCResource::make_public(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
   (void)oc_resource_make_public(resource);
   return info.Env().Undefined();
 }
 #endif
 
 Napi::Value OCResource::set_discoverable(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  bool state = info[1].As<Napi::Boolean>().Value();
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+  bool state = info[0].As<Napi::Boolean>().Value();
   (void)oc_resource_set_discoverable(resource, state);
   return info.Env().Undefined();
 }
 
 Napi::Value OCResource::set_observable(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  bool state = info[1].As<Napi::Boolean>().Value();
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+  bool state = info[0].As<Napi::Boolean>().Value();
   (void)oc_resource_set_observable(resource, state);
   return info.Env().Undefined();
 }
 
 Napi::Value OCResource::set_periodic_observable(const Napi::CallbackInfo& info) {
-  OCResource& resource = *OCResource::Unwrap(info[0].As<Napi::Object>());
-  uint16_t seconds = static_cast<uint16_t>(info[1].As<Napi::Number>().Uint32Value());
+  OCResource& resource = *OCResource::Unwrap(info.This().As<Napi::Object>());
+  uint16_t seconds = static_cast<uint16_t>(info[0].As<Napi::Number>().Uint32Value());
   (void)oc_resource_set_periodic_observable(resource, seconds);
   return info.Env().Undefined();
 }

@@ -976,12 +976,12 @@ public:
   Napi::Value put_value;
 
 
-  static Napi::Value bind_resource_interface(const Napi::CallbackInfo& info);
-  static Napi::Value bind_resource_type(const Napi::CallbackInfo& info);
-  static Napi::Value make_public(const Napi::CallbackInfo& info);
-  static Napi::Value set_discoverable(const Napi::CallbackInfo& info);
-  static Napi::Value set_observable(const Napi::CallbackInfo& info);
-  static Napi::Value set_periodic_observable(const Napi::CallbackInfo& info);
+  Napi::Value bind_resource_interface(const Napi::CallbackInfo& info);
+  Napi::Value bind_resource_type(const Napi::CallbackInfo& info);
+  Napi::Value make_public(const Napi::CallbackInfo& info);
+  Napi::Value set_discoverable(const Napi::CallbackInfo& info);
+  Napi::Value set_observable(const Napi::CallbackInfo& info);
+  Napi::Value set_periodic_observable(const Napi::CallbackInfo& info);
   static Napi::Value set_properties_cbs(const Napi::CallbackInfo& info);
   Napi::Value set_request_handler(const Napi::CallbackInfo& info);
 

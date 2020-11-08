@@ -1091,6 +1091,12 @@ INSTANCE_FUNCS = [
   "OCRepresentation::get_int_array",
   "OCRepresentation::to_json",
   "OCResource::set_request_handler",
+  'OCResource::bind_resource_interface',
+  'OCResource::bind_resource_type',
+  'OCResource::make_public',
+  'OCResource::set_discoverable',
+  'OCResource::set_observable',
+  'OCResource::set_periodic_observable',
 ]
 
 IGNORE_FUNCS = [
