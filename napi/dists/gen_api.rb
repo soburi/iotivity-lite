@@ -271,7 +271,7 @@ EXTRA_ACCESSOR = {
 
 EXTRA_VALUE= {
   'oc_collection_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); 
-  oeprator oc_resource_s*() { return oc_resource_s* ptr = reinterpret_cast<oc_resource_s*>(m_pvalue.get()); }',
+ operator oc_resource_s*() { return reinterpret_cast<oc_resource_s*>(m_pvalue.get()); }',
   'oc_link_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
   'oc_sec_ace_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
   'oc_ace_res_t' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
@@ -933,6 +933,11 @@ m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();",
 }
 
 FUNC_OVERRIDE = {
+  'oc_collection_add_link' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());' },
+  'oc_collection_add_mandatory_rt' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());' },
+  'oc_collection_add_supported_rt' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());' },
+  'oc_collection_get_links' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());' },
+  'oc_collection_remove_link' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());' },
   'oc_parse_rep' => {
     '1' => '  int payload_size = info[0].As<Buffer<const uint8_t>>().Length();',
     '2' => '',
@@ -947,7 +952,7 @@ FUNC_OVERRIDE = {
   return OCRepresentation::constructor.New({ accessor });'
   },
   'oc_rep_get_object' => {
-    '1' => '',
+    '2' => '',
     'invoke' => '
   oc_rep_t* ret;
   bool success = oc_rep_get_object(rep, key, &ret);
@@ -958,8 +963,8 @@ FUNC_OVERRIDE = {
   return OCRepresentation::constructor.New({ accessor });'
   },
   'oc_rep_get_string' => {
-    '1' => '',
     '2' => '',
+    '3' => '',
     'invoke' => '
   char* ret; size_t sz;
   bool success = oc_rep_get_string(rep, key, &ret, &sz);
@@ -967,7 +972,7 @@ FUNC_OVERRIDE = {
   return String::New(info.Env(), ret, sz);'
   },
   'oc_rep_get_int' => {
-    '1' => '',
+    '2' => '',
     'invoke' => '
   int64_t ret;
   bool success = oc_rep_get_int(rep, key, &ret);
@@ -975,7 +980,7 @@ FUNC_OVERRIDE = {
   return Number::New(info.Env(), ret);'
   },
   'oc_rep_get_bool' => {
-    '1' => '',
+    '2' => '',
     'invoke' => '
   bool ret;
   bool success = oc_rep_get_bool(rep, key, &ret);
@@ -983,7 +988,7 @@ FUNC_OVERRIDE = {
   return Boolean::New(info.Env(), ret);'
   },
   'oc_rep_get_double' => {
-    '1' => '',
+    '2' => '',
     'invoke' => '
   double ret;
   bool success = oc_rep_get_double(rep, key, &ret);
@@ -991,8 +996,8 @@ FUNC_OVERRIDE = {
   return Number::New(info.Env(), ret);'
   },
   'oc_rep_get_double_array' => {
-    '1' => '',
     '2' => '',
+    '3' => '',
     'invoke' => '
   double* ret;  size_t sz;
   bool success = oc_rep_get_double_array(rep, key, &ret, &sz);
@@ -1004,8 +1009,8 @@ FUNC_OVERRIDE = {
   return array;'
   },
   'oc_rep_get_int_array' => {
-    '1' => '',
     '2' => '',
+    '3' => '',
     'invoke' => '
   int64_t* ret;  size_t sz;
   bool success = oc_rep_get_int_array(rep, key, &ret, &sz);
@@ -1181,7 +1186,7 @@ STR
     'invoke' => 'return Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(oc_rep_get_encoder_buf()), oc_rep_get_encoded_payload_size() );'
   },
   'oc_resource_set_request_handler' => {
-    '1' => '  oc_request_callback_t callback = nullptr;
+    '2' => '  oc_request_callback_t callback = nullptr;
   switch(method) {
   case OC_GET:
     get_handler.Reset(info[1].As<Function>());
@@ -1197,20 +1202,20 @@ STR
     break;
   }
 ',
-    '3' => <<~STR
+    '4' => <<~STR
                    callback_helper_t* user_data = new_callback_helper_t(info, 2, 3);
                    if(!user_data) callback = nullptr;
               STR
   },
   'oc_resource_set_properties_cbs' => {
-    '1' => "  oc_get_properties_cb_t get_properties = oc_resource_set_properties_cbs_get_helper;\n",
-    '3' => "  oc_set_properties_cb_t set_properties = oc_resource_set_properties_cbs_set_helper;\n",
-    '2' => <<~STR,
+    '2' => "  oc_get_properties_cb_t get_properties = oc_resource_set_properties_cbs_get_helper;\n",
+    '4' => "  oc_set_properties_cb_t set_properties = oc_resource_set_properties_cbs_set_helper;\n",
+    '3' => <<~STR,
                  //
                    callback_helper_t* get_propr_user_data = new_callback_helper_t(info, 1, 2);
                    if(!get_propr_user_data) get_properties = nullptr;
               STR
-    '4' => <<~STR,
+    '5' => <<~STR,
                  //
                    callback_helper_t* set_props_user_data = new_callback_helper_t(info, 3, 4);
                    if(!set_props_user_data) set_properties = nullptr;
@@ -2154,9 +2159,9 @@ def gen_funcimpl(func, name, param, instance)
     index = ".This()" if i == -1
 
     #p ty
-    if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name][i.to_s]
+    if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name][ii.to_s]
       #p ty + " OVERRIDE"
-      decl +=  FUNC_OVERRIDE[name][i.to_s]
+      decl +=  FUNC_OVERRIDE[name][ii.to_s]
       args.append(n)
     elsif ty == 'uint8_t' or ty == 'uint16_t' or ty == 'uint32_t' or ty == 'size_t'
       decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Number>().Uint32Value());\n"

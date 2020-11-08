@@ -1432,7 +1432,7 @@ Value OCCollection::remove_link(const CallbackInfo& info) {
 }
 
 Value OCCollection::delete_collection(const CallbackInfo& info) {
-    OCCollection& collection = *OCCollection::Unwrap(info[0].As<Object>());
+    OCResource& collection = *OCResource::Unwrap(info[0].As<Object>());
     (void)oc_delete_collection(collection);
     return info.Env().Undefined();
 }

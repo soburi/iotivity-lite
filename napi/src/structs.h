@@ -406,6 +406,9 @@ public:
     void set_uri(const Napi::CallbackInfo&, const Napi::Value&);
 
     Napi::Value get_iterator(const Napi::CallbackInfo& info);
+    operator oc_resource_s*() {
+        return reinterpret_cast<oc_resource_s*>(m_pvalue.get());
+    }
 
     Napi::Value add_link(const Napi::CallbackInfo& info);
     Napi::Value add_mandatory_rt(const Napi::CallbackInfo& info);
