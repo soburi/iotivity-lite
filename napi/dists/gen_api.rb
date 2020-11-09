@@ -1047,14 +1047,7 @@ FUNC_OVERRIDE = {
   'helper_main_loop' => {
     'invoke' => <<~STR
 //
-  main_loop_ctx = new main_loop_t{ Promise::Deferred::New(info.Env()),
-                               ThreadSafeFunction::New(info.Env(),
-                               Function::New(info.Env(), [](const CallbackInfo& info) {
-  main_loop_ctx->deferred.Resolve(info.Env().Undefined() );
-  delete main_loop_ctx;
-  main_loop_ctx = nullptr;
-  }), "main_loop_resolve", 0, 1) };
-  return main_loop_ctx->deferred.Promise();
+  return main_context->deferred.Promise();
 STR
   },
   'oc_init_platform' => {
@@ -1281,8 +1274,13 @@ STR
   'oc_main_init' => {
     'invoke' => <<~STR
 //
-  struct main_context_t* mainctx = new main_context_t();
-
+  struct main_context_t* mainctx = new main_context_t{Promise::Deferred::New(info.Env()),
+                                     ThreadSafeFunction::New(info.Env(),
+    Function::New(info.Env(), [](const CallbackInfo& info) {
+        main_context->deferred.Resolve(info.Env().Undefined());
+        delete main_context;
+        main_context = nullptr;
+    }), "main_loop_resolve", 0, 1) };
   handler.m_pvalue->signal_event_loop = helper_oc_handler_signal_event_loop;
   handler.m_pvalue->init = nullptr;
   handler.m_pvalue->register_resources = nullptr;
@@ -1320,10 +1318,10 @@ STR
   return info.Env().Undefined();\n" ,
   'oc_swupdate_set_impl' => {
     'invoke' => "\
-  oc_swupdate_cb_validate_purl_ref.Reset(swupdate_impl.validate_purl.Value());\n\
-  oc_swupdate_cb_check_new_version_ref.Reset(swupdate_impl.check_new_version.Value());\n\
-  oc_swupdate_cb_download_update_ref.Reset(swupdate_impl.download_update.Value());\n\
-  oc_swupdate_cb_perform_upgrade_ref.Reset(swupdate_impl.perform_upgrade.Value());\n\
+  main_context->oc_swupdate_cb_validate_purl_ref.Reset(swupdate_impl.validate_purl.Value());\n\
+  main_context->oc_swupdate_cb_check_new_version_ref.Reset(swupdate_impl.check_new_version.Value());\n\
+  main_context->oc_swupdate_cb_download_update_ref.Reset(swupdate_impl.download_update.Value());\n\
+  main_context->oc_swupdate_cb_perform_upgrade_ref.Reset(swupdate_impl.perform_upgrade.Value());\n\
   swupdate_impl.m_pvalue->validate_purl = oc_swupdate_cb_validate_purl_helper;\n\
   swupdate_impl.m_pvalue->check_new_version = oc_swupdate_cb_check_new_version_helper;\n\
   swupdate_impl.m_pvalue->download_update = oc_swupdate_cb_download_update_helper;\n\

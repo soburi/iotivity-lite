@@ -874,14 +874,15 @@ Value OCMain::link_add_rel(const CallbackInfo& info) {
 Value OCMain::main_init(const CallbackInfo& info) {
     OCHandler& handler = *OCHandler::Unwrap(info[0].As<Object>());
 //
-    struct main_context_t* mainctx = new main_context_t{Promise::Deferred::New(info.Env()),
-                                     ThreadSafeFunction::New(info.Env(),
-    Function::New(info.Env(), [](const CallbackInfo& info) {
-        main_context->deferred.Resolve(info.Env().Undefined());
-        delete main_context;
-        main_context = nullptr;
-    }), "main_loop_resolve", 0, 1) };
-
+    struct main_context_t* mainctx = new main_context_t {
+        Promise::Deferred::New(info.Env()),
+                ThreadSafeFunction::New(info.Env(),
+        Function::New(info.Env(), [](const CallbackInfo& info) {
+            main_context->deferred.Resolve(info.Env().Undefined());
+            delete main_context;
+            main_context = nullptr;
+        }), "main_loop_resolve", 0, 1)
+    };
     handler.m_pvalue->signal_event_loop = helper_oc_handler_signal_event_loop;
     handler.m_pvalue->init = nullptr;
     handler.m_pvalue->register_resources = nullptr;

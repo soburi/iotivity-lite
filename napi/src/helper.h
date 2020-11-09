@@ -7,7 +7,6 @@
 #include <system_error>
 #include <napi-thread-safe-callback.hpp>
 
-
 static void nop_deleter(void*) { }
 extern struct main_context_t* main_context;
 
@@ -17,10 +16,9 @@ public:
     Napi::Value value;
     Napi::Env env;
 
-    SafeCallbackHelper(const Napi::Function&, const Napi::Value&);
+    SafeCallbackHelper(const Napi::Function&f, const Napi::Value&v) : function(f), value(v), env(f.Env()) {}
     virtual ~SafeCallbackHelper() {}
 };
-
 
 struct main_context_t {
     Napi::Promise::Deferred deferred;
@@ -46,18 +44,7 @@ struct main_context_t {
     int jni_quit;
 };
 
-class main_loop_t {
-public:
 
-};
-
-
-extern main_loop_t* main_loop_ctx;
-
-extern Napi::FunctionReference oc_swupdate_cb_validate_purl_ref;
-extern Napi::FunctionReference oc_swupdate_cb_check_new_version_ref;
-extern Napi::FunctionReference oc_swupdate_cb_download_update_ref;
-extern Napi::FunctionReference oc_swupdate_cb_perform_upgrade_ref;
 
 void terminate_main_loop();
 

@@ -7,15 +7,6 @@ using namespace std;
 using namespace Napi;
 
 struct main_context_t* main_context;
-main_loop_t* main_loop_ctx;
-
-
-SafeCallbackHelper::SafeCallbackHelper(const Function& fn, const Value& val)
-    : function(fn)
-    , value(val)
-    , env(fn.Env())
-{
-}
 
 Value OCAceResource::get_iterator(const CallbackInfo& info)
 {
