@@ -313,28 +313,39 @@ helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array
 void helper_oc_response_handler(oc_client_response_t* response)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(response->user_data);
-    helper->function.call(
-        [&](Env env, vector<napi_value>& args)
-    {
-        shared_ptr<oc_client_response_t> sp(response, nop_deleter);
-        auto accessor = External<shared_ptr<oc_client_response_t>>::New(helper->env, &sp);
-        args = { OCClientResponse::constructor.New({ accessor }) };
-    });
+    try {
+        helper->function.call(
+            [&](Env env, vector<napi_value>& args)
+        {
+            shared_ptr<oc_client_response_t> sp(response, nop_deleter);
+            auto accessor = External<shared_ptr<oc_client_response_t>>::New(helper->env, &sp);
+            args = { OCClientResponse::constructor.New({ accessor }) };
+        });
+    }
+    catch (exception e) {
+        helper->function.callError(e.what());
+    }
 }
 
 void helper_oc_ownership_status_cb(const oc_uuid_t* device_uuid,
                                    size_t device_index, bool owned, void* user_data)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(user_data);
-    helper->function.call(
-        [&](Env env, vector<napi_value>& args)
-    {
-        shared_ptr<oc_uuid_t> uuid_sp(const_cast<oc_uuid_t*>(device_uuid), nop_deleter);
-        auto  device_uuid_ = OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(helper->env, &uuid_sp) });
-        auto device_index_ = Number::New(helper->env, device_index);
-        auto        owned_ = Boolean::New(helper->env, owned);
-        args = { device_uuid_, device_index_, owned_, helper->value };
-    });
+
+    try {
+        helper->function.call(
+            [&](Env env, vector<napi_value>& args)
+        {
+            shared_ptr<oc_uuid_t> uuid_sp(const_cast<oc_uuid_t*>(device_uuid), nop_deleter);
+            auto  device_uuid_ = OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(helper->env, &uuid_sp) });
+            auto device_index_ = Number::New(helper->env, device_index);
+            auto        owned_ = Boolean::New(helper->env, owned);
+            args = { device_uuid_, device_index_, owned_, helper->value };
+        });
+    }
+    catch (exception e) {
+        helper->function.callError(e.what());
+    }
 }
 
 oc_event_callback_retval_t helper_oc_trigger(void* data)
@@ -367,27 +378,38 @@ oc_event_callback_retval_t helper_oc_trigger(void* data)
 void helper_oc_factory_presets_cb(size_t device, void* data)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
-    helper->function.call(
-        [&](Env env, vector<napi_value>& args)
-    {
-        auto device_ = Number::New(helper->env, device);
-        args = { device_, helper->value };
-    });
+    try {
+        helper->function.call(
+            [&](Env env, vector<napi_value>& args)
+        {
+            auto device_ = Number::New(helper->env, device);
+            args = { device_, helper->value };
+        });
+    }
+    catch (exception e) {
+        helper->function.callError(e.what());
+    }
 }
 
 void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* data)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
-    helper->function.call(
-        [&](Env env, vector<napi_value>& args)
-    {
-        auto pin_ = Uint8Array::New(helper->env, pin_len);
-        for (uint32_t i = 0; i < pin_len; i++)
+
+    try {
+        helper->function.call(
+            [&](Env env, vector<napi_value>& args)
         {
-            pin_[i] = pin[i];
-        }
-        args = { pin_, helper->value };
-    });
+            auto pin_ = Uint8Array::New(helper->env, pin_len);
+            for (uint32_t i = 0; i < pin_len; i++)
+            {
+                pin_[i] = pin[i];
+            }
+            args = { pin_, helper->value };
+        });
+    }
+    catch (exception e) {
+        helper->function.callError(e.what());
+    }
 }
 
 int oc_swupdate_cb_validate_purl_helper(const char *url)
