@@ -462,8 +462,8 @@ void helper_poll_event_thread(struct main_context_t* mainctx)
     }
 
     OC_DBG("jni_quit\n");
-    napi_status status = main_loop_ctx->tsfn.BlockingCall();
-    main_loop_ctx->tsfn.Release();
+    napi_status status = main_context->tsfn.BlockingCall();
+    main_context->tsfn.Release();
 
     OC_DBG("JNI: - oc_main_shutdown %s", __func__);
     oc_main_shutdown();

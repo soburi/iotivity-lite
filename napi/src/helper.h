@@ -23,6 +23,9 @@ public:
 
 
 struct main_context_t {
+    Napi::Promise::Deferred deferred;
+    Napi::ThreadSafeFunction tsfn;
+
     std::thread helper_poll_event_thread;
     std::mutex helper_sync_lock;
     std::mutex helper_cs_mutex;
@@ -32,8 +35,6 @@ struct main_context_t {
     Napi::FunctionReference oc_handler_init_ref;
     Napi::FunctionReference oc_handler_register_resources_ref;
     Napi::FunctionReference oc_handler_requests_entry_ref;
-
-
 
     Napi::FunctionReference oc_swupdate_cb_validate_purl_ref;
     Napi::FunctionReference oc_swupdate_cb_check_new_version_ref;
@@ -47,8 +48,7 @@ struct main_context_t {
 
 class main_loop_t {
 public:
-    Napi::Promise::Deferred deferred;
-    Napi::ThreadSafeFunction tsfn;
+
 };
 
 
