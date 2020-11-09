@@ -263,7 +263,13 @@ helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t t
         return OC_STOP_DISCOVERY;
     });
 
-    return future.get();
+    try {
+        return future.get();
+    }
+    catch (exception e) {
+        helper->function.callError(e.what());
+        return OC_STOP_DISCOVERY;
+    }
 }
 
 oc_discovery_flags_t
@@ -295,7 +301,13 @@ helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array
         return OC_STOP_DISCOVERY;
     });
 
-    return future.get();
+    try {
+        return future.get();
+    }
+    catch (exception e) {
+        helper->function.callError(e.what());
+        return OC_STOP_DISCOVERY;
+    }
 }
 
 void helper_oc_response_handler(oc_client_response_t* response)
@@ -342,7 +354,14 @@ oc_event_callback_retval_t helper_oc_trigger(void* data)
         }
         return OC_EVENT_DONE;
     });
-    return future.get();
+
+    try {
+        return future.get();
+    }
+    catch (exception e) {
+        helper->function.callError(e.what());
+        return OC_EVENT_DONE;
+    }
 }
 
 void helper_oc_factory_presets_cb(size_t device, void* data)
