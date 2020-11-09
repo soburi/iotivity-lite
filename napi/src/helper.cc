@@ -459,8 +459,6 @@ void helper_poll_event_thread(struct main_context_t* mainctx)
     OC_DBG("JNI: - oc_main_shutdown %s", __func__);
     oc_main_shutdown();
     OC_DBG("end oc_main_shutdown");
-    delete main_context;
-    main_context = nullptr;
 }
 
 
