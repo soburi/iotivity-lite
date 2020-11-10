@@ -1,8 +1,100 @@
 #include "structs.h"
 #include "functions.h"
+#include "iotivity_lite.h"
 using namespace std;
 using namespace Napi;
 Napi::Object module_init(Napi::Env env, Napi::Object exports) {
+    exports.Set("add_collection", Napi::Function::New(env, OCMain::add_collection));
+    exports.Set("add_device", Napi::Function::New(env, OCMain::add_device));
+#if defined(OC_SECURITY)
+    exports.Set("add_ownership_status_cb", Napi::Function::New(env, OCMain::add_ownership_status_cb));
+#endif
+    exports.Set("add_resource", Napi::Function::New(env, OCMain::add_resource));
+#if defined(OC_SECURITY) && defined(OC_PKI)
+    exports.Set("assert_all_roles", Napi::Function::New(env, OCMain::assert_all_roles));
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
+    exports.Set("assert_role", Napi::Function::New(env, OCMain::assert_role));
+#endif
+#if defined(OC_SECURITY) && defined(OC_PKI)
+    exports.Set("auto_assert_roles", Napi::Function::New(env, OCMain::auto_assert_roles));
+#endif
+    exports.Set("close_session", Napi::Function::New(env, OCMain::close_session));
+    exports.Set("delete_link", Napi::Function::New(env, OCMain::delete_link));
+    exports.Set("delete_resource", Napi::Function::New(env, OCMain::delete_resource));
+    exports.Set("device_bind_resource_type", Napi::Function::New(env, OCMain::device_bind_resource_type));
+    exports.Set("do_delete", Napi::Function::New(env, OCMain::do_delete));
+    exports.Set("do_get", Napi::Function::New(env, OCMain::do_get));
+    exports.Set("do_ip_discovery", Napi::Function::New(env, OCMain::do_ip_discovery));
+    exports.Set("do_ip_discovery_all", Napi::Function::New(env, OCMain::do_ip_discovery_all));
+    exports.Set("do_ip_discovery_all_at_endpoint", Napi::Function::New(env, OCMain::do_ip_discovery_all_at_endpoint));
+    exports.Set("do_ip_discovery_at_endpoint", Napi::Function::New(env, OCMain::do_ip_discovery_at_endpoint));
+    exports.Set("do_ip_multicast", Napi::Function::New(env, OCMain::do_ip_multicast));
+    exports.Set("do_observe", Napi::Function::New(env, OCMain::do_observe));
+    exports.Set("do_post", Napi::Function::New(env, OCMain::do_post));
+    exports.Set("do_put", Napi::Function::New(env, OCMain::do_put));
+    exports.Set("do_realm_local_ipv6_discovery", Napi::Function::New(env, OCMain::do_realm_local_ipv6_discovery));
+    exports.Set("do_realm_local_ipv6_discovery_all", Napi::Function::New(env, OCMain::do_realm_local_ipv6_discovery_all));
+    exports.Set("do_realm_local_ipv6_multicast", Napi::Function::New(env, OCMain::do_realm_local_ipv6_multicast));
+    exports.Set("do_site_local_ipv6_discovery", Napi::Function::New(env, OCMain::do_site_local_ipv6_discovery));
+    exports.Set("do_site_local_ipv6_discovery_all", Napi::Function::New(env, OCMain::do_site_local_ipv6_discovery_all));
+    exports.Set("do_site_local_ipv6_multicast", Napi::Function::New(env, OCMain::do_site_local_ipv6_multicast));
+    exports.Set("free_server_endpoints", Napi::Function::New(env, OCMain::free_server_endpoints));
+#if defined(OC_SECURITY) && defined(OC_PKI)
+    exports.Set("get_all_roles", Napi::Function::New(env, OCMain::get_all_roles));
+#endif
+    exports.Set("get_con_res_announced", Napi::Function::New(env, OCMain::get_con_res_announced));
+    exports.Set("ignore_request", Napi::Function::New(env, OCMain::ignore_request));
+    exports.Set("indicate_separate_response", Napi::Function::New(env, OCMain::indicate_separate_response));
+    exports.Set("init_platform", Napi::Function::New(env, OCMain::init_platform));
+    exports.Set("init_post", Napi::Function::New(env, OCMain::init_post));
+    exports.Set("init_put", Napi::Function::New(env, OCMain::init_put));
+#if defined(OC_SECURITY)
+    exports.Set("is_owned_device", Napi::Function::New(env, OCMain::is_owned_device));
+#endif
+    exports.Set("link_add_link_param", Napi::Function::New(env, OCMain::link_add_link_param));
+    exports.Set("link_add_rel", Napi::Function::New(env, OCMain::link_add_rel));
+    exports.Set("main_init", Napi::Function::New(env, OCMain::main_init));
+    exports.Set("main_loop", Napi::Function::New(env, OCMain::main_loop));
+    exports.Set("main_shutdown", Napi::Function::New(env, OCMain::main_shutdown));
+    exports.Set("new_link", Napi::Function::New(env, OCMain::new_link));
+    exports.Set("remove_delayed_callback", Napi::Function::New(env, OCMain::remove_delayed_callback));
+#if defined(OC_SECURITY)
+    exports.Set("remove_ownership_status_cb", Napi::Function::New(env, OCMain::remove_ownership_status_cb));
+#endif
+#if defined(OC_SECURITY)
+    exports.Set("reset", Napi::Function::New(env, OCMain::reset));
+#endif
+#if defined(OC_SECURITY)
+    exports.Set("reset_device", Napi::Function::New(env, OCMain::reset_device));
+#endif
+    exports.Set("ri_is_app_resource_valid", Napi::Function::New(env, OCMain::ri_is_app_resource_valid));
+    exports.Set("send_diagnostic_message", Napi::Function::New(env, OCMain::send_diagnostic_message));
+#if defined(OC_TCP)
+    exports.Set("send_ping", Napi::Function::New(env, OCMain::send_ping));
+#endif
+    exports.Set("send_response", Napi::Function::New(env, OCMain::send_response));
+    exports.Set("send_response_raw", Napi::Function::New(env, OCMain::send_response_raw));
+    exports.Set("send_separate_response", Napi::Function::New(env, OCMain::send_separate_response));
+    exports.Set("set_con_res_announced", Napi::Function::New(env, OCMain::set_con_res_announced));
+    exports.Set("set_con_write_cb", Napi::Function::New(env, OCMain::set_con_write_cb));
+    exports.Set("set_delayed_callback", Napi::Function::New(env, OCMain::set_delayed_callback));
+    exports.Set("set_factory_presets_cb", Napi::Function::New(env, OCMain::set_factory_presets_cb));
+#if defined(OC_SECURITY)
+    exports.Set("set_random_pin_callback", Napi::Function::New(env, OCMain::set_random_pin_callback));
+#endif
+    exports.Set("set_separate_response_buffer", Napi::Function::New(env, OCMain::set_separate_response_buffer));
+    exports.Set("stop_multicast", Napi::Function::New(env, OCMain::stop_multicast));
+    exports.Set("stop_observe", Napi::Function::New(env, OCMain::stop_observe));
+    exports.Set("set_mtu_size", Napi::Function::New(env, OCMain::set_mtu_size));
+    exports.Set("get_mtu_size", Napi::Function::New(env, OCMain::get_mtu_size));
+    exports.Set("set_max_app_data_size", Napi::Function::New(env, OCMain::set_max_app_data_size));
+    exports.Set("get_max_app_data_size", Napi::Function::New(env, OCMain::get_max_app_data_size));
+    exports.Set("get_block_size", Napi::Function::New(env, OCMain::get_block_size));
+    exports.Set("add_network_interface_event_callback", Napi::Function::New(env, OCMain::add_network_interface_event_callback));
+    exports.Set("remove_network_interface_event_callback", Napi::Function::New(env, OCMain::remove_network_interface_event_callback));
+    exports.Set("add_session_event_callback", Napi::Function::New(env, OCMain::add_session_event_callback));
+    exports.Set("remove_session_event_callback", Napi::Function::New(env, OCMain::remove_session_event_callback));
     exports.Set("CborEncoder", OCCborEncoder::GetClass(env));
     exports.Set("AceResourceIterator", OCAceResourceIterator::GetClass(env));
     exports.Set("AceResource", OCAceResource::GetClass(env));

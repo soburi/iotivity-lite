@@ -2471,10 +2471,21 @@ end
 File.open('src/binding.cc', 'w') do |f|
   f.print "#include \"structs.h\"\n"
   f.print "#include \"functions.h\"\n"
+  f.print "#include \"iotivity_lite.h\"\n"
   f.print "using namespace std;\n"
   f.print "using namespace Napi;\n"
 
   f.print "Napi::Object module_init(Napi::Env env, Napi::Object exports) {\n"
+
+  apis["OCMain"].each do |mtd, func|
+    next if IGNORE_FUNCS.include?(func)
+    expset = "  exports.Set(\"#{mtd}\", Napi::Function::New(env, OCMain::#{mtd}));\n"
+    if IFDEF_FUNCS.include?(func)
+      expset = "#if #{IFDEF_FUNCS[func]}\n" + expset + "#endif\n"
+    end
+    f.print "#{expset}"
+  end
+
   struct_table.keys.sort.each do |key|
     h = func_table[key]
     next if struct_table.keys.collect{|k| gen_classname(k)}.include?(key)
@@ -2530,6 +2541,7 @@ end
 File.open('src/iotivity_lite.cc', 'w') do |f|
   f.print CCPROLOGUE
   apis.keys.sort.each do |cls|
+    next if cls == "OCMain"
     f.print EXPORTIMPL.gsub(/NAMESPACE/, cls.gsub(/^OC/, '')).gsub(/CLASS/, cls)
   end
   f.print "    return module_init(env, exports);\n"

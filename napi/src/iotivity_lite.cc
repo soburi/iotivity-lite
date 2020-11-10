@@ -22,7 +22,6 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("Endpoint", OCEndpoint::GetClass(env));
     exports.Set("EnumUtil", OCEnumUtil::GetClass(env));
     exports.Set("Introspection", OCIntrospection::GetClass(env));
-    exports.Set("Main", OCMain::GetClass(env));
     exports.Set("Obt", OCObt::GetClass(env));
     exports.Set("Pki", OCPki::GetClass(env));
     exports.Set("Random", OCRandom::GetClass(env));
