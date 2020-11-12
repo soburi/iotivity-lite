@@ -244,10 +244,6 @@ helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t t
 
     auto future = helper->function.call<oc_discovery_flags_t>(
     [&](Env env, vector<napi_value>& args) {
-        auto obj = helper->objref.Value().As<Object>();
-
-        auto v = obj.Get("v");
-
         auto         di_ = String::New(helper->env, di);
         auto        uri_ = String::New(helper->env, uri);
         shared_ptr<oc_string_array_t> types_sp(&types, nop_deleter);
@@ -256,7 +252,7 @@ helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t t
         auto   endpoint_ = OCEndpoint::constructor.New({ External<shared_ptr<oc_endpoint_t>>::New(helper->env, &endpoint_sp) });
         auto iface_mask_ = Number::New(helper->env, iface_mask);
         auto         bm_ = Number::New(helper->env, bm);
-        args = {di_, uri_, types_, iface_mask_, endpoint_, bm_, v };
+        args = { di_, uri_, types_, iface_mask_, endpoint_, bm_, helper->Value() };
     },
     [&](const Value& val) {
         if (val.IsNumber()) {

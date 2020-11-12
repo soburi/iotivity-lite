@@ -31,6 +31,9 @@ public:
     TestHelper(const Napi::Function& f, const Napi::Object& v) : function(f), env(v.Env()) {
         objref = Napi::Persistent(v);
     }
+
+    Napi::Value Value() { return objref.Get("v"); }
+
     virtual ~TestHelper() {}
 };
 
