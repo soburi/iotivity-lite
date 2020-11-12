@@ -240,7 +240,7 @@ helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t t
                             oc_interface_mask_t iface_mask, oc_endpoint_t *endpoint,
                             oc_resource_properties_t bm, void *user_data)
 {
-    TestHelper* helper = reinterpret_cast<TestHelper*>(user_data);
+    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(user_data);
 
     auto future = helper->function.call<oc_discovery_flags_t>(
     [&](Env env, vector<napi_value>& args) {
@@ -290,7 +290,7 @@ helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array
         auto iface_mask_ = Number::New(helper->env, iface_mask);
         auto       more_ = Boolean::New(helper->env, more);
         auto         bm_ = Number::New(helper->env, bm);
-        args = { di_, uri_, types_, iface_mask_, endpoint_, bm_, more_, helper->value };
+        args = { di_, uri_, types_, iface_mask_, endpoint_, bm_, more_, helper->Value() };
     },
     [&](const Value& val) {
         if (val.IsNumber()) {
@@ -341,7 +341,7 @@ void helper_oc_ownership_status_cb(const oc_uuid_t* device_uuid,
             auto  device_uuid_ = OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(helper->env, &uuid_sp) });
             auto device_index_ = Number::New(helper->env, device_index);
             auto        owned_ = Boolean::New(helper->env, owned);
-            args = { device_uuid_, device_index_, owned_, helper->value };
+            args = { device_uuid_, device_index_, owned_, helper->Value() };
         });
     }
     catch (exception e) {
@@ -355,7 +355,7 @@ oc_event_callback_retval_t helper_oc_trigger(void* data)
     auto future = helper->function.call< oc_event_callback_retval_t>(
                       [&](Env env, vector<napi_value>& args)
     {
-        args = { helper->value };
+        args = { helper->Value() };
     },
     [&](const Value& val) {
         if (val.IsNumber()) {
@@ -384,7 +384,7 @@ void helper_oc_factory_presets_cb(size_t device, void* data)
             [&](Env env, vector<napi_value>& args)
         {
             auto device_ = Number::New(helper->env, device);
-            args = { device_, helper->value };
+            args = { device_, helper->Value() };
         });
     }
     catch (exception e) {
@@ -405,7 +405,7 @@ void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* dat
             {
                 pin_[i] = pin[i];
             }
-            args = { pin_, helper->value };
+            args = { pin_, helper->Value() };
         });
     }
     catch (exception e) {
