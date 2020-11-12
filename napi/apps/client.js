@@ -29,11 +29,11 @@ function app_init()
   console.log("app_init");
 
   console.log("call oc_init_platform");
-  var ret = OC.Main.init_platform("Intel Corporation", null, null);
+  var ret = OC.init_platform("Intel Corporation", null, null);
   console.log("end call oc_init_platform");
 
   console.log("call oc_add_device");
-  ret |= OC.Main.add_device("/oic/d", "oic.d.phone", "Generic Client", "ocf.1.0.0",
+  ret |= OC.add_device("/oic/d", "oic.d.phone", "Generic Client", "ocf.1.0.0",
                        "ocf.res.1.0.0", null, null);
 
   return ret;
@@ -96,7 +96,7 @@ function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
 {
   console.log("-- discovery --");
 
-  //OC.Main.do_ip_multicast(uri, "", get_light, "hoge");
+  //OC.do_ip_multicast(uri, "", get_light, "hoge");
 /*
   console.dir(endpoints)
   for(let ep of endpoints) {
@@ -136,13 +136,13 @@ function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
 function issue_requests()
 {
   console.log("-- issue_requests --");
-  OC.Main.do_ip_discovery("core.light", discovery, "discovery_data");
+  OC.do_ip_discovery("core.light", discovery, "discovery_data");
 }
 
 function handle_signal()
 {
   console.log("OC.oc_main_shutdown()");
-  OC.Main.main_shutdown();
+  OC.main_shutdown();
   console.log("end OC.oc_main_shutdown()");
 }
 
@@ -156,9 +156,9 @@ async function main() {
   handler.requests_entry = issue_requests;
 
   console.log("OC.oc_main_init(handler)");
-  var init = OC.Main.main_init(handler);
+  var init = OC.main_init(handler);
   console.log("end OC.oc_main_init(handler)");
-  await OC.Main.main_loop();
+  await OC.main_loop();
   console.log("end OC.oc_main_loop()");
 };
 
