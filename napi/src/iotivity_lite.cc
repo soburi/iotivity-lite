@@ -645,7 +645,6 @@ Value OCMain::do_ip_discovery(const CallbackInfo& info) {
 
     Napi::Object obj = Napi::Object::New(info.Env());
     obj.Set("v", info[2]);
-    obj.Set("w", info[1].As<Function>());
 
     TestHelper* user_data = new TestHelper(info[1].As<Function>(), obj);
     //main_context->callback_helper_array.push_back(shared_ptr<TestHelper>(user_data));

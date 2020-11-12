@@ -28,9 +28,8 @@ public:
     Napi::Env env;
     Napi::ObjectReference objref;
 
-
-    TestHelper(const Napi::Function& f, const Napi::Object& v) : function(f), objref(Napi::Persistent(v)), env(v.Env()) {
-    
+    TestHelper(const Napi::Function& f, const Napi::Object& v) : function(f), env(v.Env()) {
+        objref = Napi::Persistent(v);
     }
     virtual ~TestHelper() {}
 };
