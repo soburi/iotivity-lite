@@ -224,13 +224,6 @@ Value N_oc_dns_lookup(const CallbackInfo& info) {
     return Number::New(info.Env(), oc_dns_lookup(domain, addr, flags));
 }
 
-Value N_oc_endpoint_list_copy(const CallbackInfo& info) {
-// 0 dst, oc_endpoint_t**
-    OCEndpoint& src = *OCEndpoint::Unwrap(info[1].As<Object>());
-    (void)0;
-    return info.Env().Undefined();
-}
-
 Value N_oc_exit(const CallbackInfo& info) {
     int status = static_cast<int>(info[0].As<Number>());
     (void)oc_exit(status);

@@ -505,6 +505,7 @@ public:
     Napi::Value to_string(const Napi::CallbackInfo& info);
     Napi::Value compare(const Napi::CallbackInfo& info);
     Napi::Value copy(const Napi::CallbackInfo& info);
+    Napi::Value list_copy(const Napi::CallbackInfo& info);
     static Napi::Value string_to_endpoint(const Napi::CallbackInfo& info);
     Napi::Value endpoint_string_parse_path(const Napi::CallbackInfo& info);
     Napi::Value ipv6_endpoint_is_link_local(const Napi::CallbackInfo& info);

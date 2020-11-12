@@ -1744,10 +1744,21 @@ Value OCEndpoint::compare(const CallbackInfo& info) {
 }
 
 Value OCEndpoint::copy(const CallbackInfo& info) {
-    OCEndpoint& dst = *OCEndpoint::Unwrap(info.This().As<Object>());
+    oc_endpoint_t* dst = nullptr;
     OCEndpoint& src = *OCEndpoint::Unwrap(info[0].As<Object>());
     (void)oc_endpoint_copy(dst, src);
-    return info.Env().Undefined();
+    shared_ptr<oc_endpoint_t> sp(dst, nop_deleter);
+    auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({accessor});
+}
+
+Value OCEndpoint::list_copy(const CallbackInfo& info) {
+    OCEndpoint& src = *OCEndpoint::Unwrap(info[0].As<Object>());
+    oc_endpoint_t** dst = nullptr;
+    oc_endpoint_list_copy(dst, src);
+    shared_ptr<oc_endpoint_t> sp(*dst, nop_deleter);
+    auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    return OCEndpoint::constructor.New({accessor});
 }
 
 Value OCEndpoint::string_to_endpoint(const CallbackInfo& info) {

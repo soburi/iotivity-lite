@@ -111,13 +111,12 @@ function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
   console.dir(bm);
   console.log(user_data);
 
-/*
   for(let t of types) {
     console.dir(t);
     if(t == "core.light") {
       console.log("core.light = " + uri);
       a_light = uri;
-      light_server = OC.oc_endpoint_copy(endpoint);
+      light_server = endpoints.list_copy();
       console.log(a_light);
       console.log(light_server);
       console.log(OC.Qos);
@@ -125,7 +124,7 @@ function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
       OC.oc_do_get(a_light, light_server, null, get_light, OC.Qos.LOW_QOS, null)
     }
   }
-*/
+
   return 0
 }
 
@@ -139,7 +138,6 @@ function issue_requests()
 {
   console.log("-- issue_requests --");
 
-  //OC.set_delayed_callbac(1, trigger, 1);
   OC.do_ip_discovery("core.light", discovery, "discovery_data");
 }
 

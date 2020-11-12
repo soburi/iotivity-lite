@@ -39,7 +39,6 @@ Napi::Value N_oc_core_get_resource_by_index(const Napi::CallbackInfo&);
 Napi::Value N_oc_core_populate_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_create_discovery_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_dns_lookup(const Napi::CallbackInfo&);
-Napi::Value N_oc_endpoint_list_copy(const Napi::CallbackInfo&);
 Napi::Value N_oc_exit(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_collection_by_uri(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_diagnostic_message(const Napi::CallbackInfo&);

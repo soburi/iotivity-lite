@@ -956,6 +956,18 @@ m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();",
 }
 
 FUNC_OVERRIDE = {
+  'oc_endpoint_copy' => { '0' => 'oc_endpoint_t* dst = nullptr;',
+    'invoke' => ' (void)oc_endpoint_copy(dst, src);
+  shared_ptr<oc_endpoint_t> sp(dst, nop_deleter);
+  auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+  return OCEndpoint::constructor.New({accessor});' },
+  'oc_endpoint_list_copy' => {
+    '0' => '',
+    'invoke' => 'oc_endpoint_t** dst = nullptr;
+  oc_endpoint_list_copy(dst, src);
+  shared_ptr<oc_endpoint_t> sp(*dst, nop_deleter);
+  auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+  return OCEndpoint::constructor.New({accessor});' },
   'oc_collection_add_link' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());' },
   'oc_collection_add_mandatory_rt' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());' },
   'oc_collection_add_supported_rt' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());' },
@@ -1499,6 +1511,7 @@ INSTANCE_FUNCS = [
   'OCEndpoint::to_string',
   'OCEndpoint::compare',
   'OCEndpoint::copy',
+  'OCEndpoint::list_copy',
   'OCEndpoint::endpoint_string_parse_path',
   'OCEndpoint::ipv6_endpoint_is_link_local',
   'OCEndpoint::compare_address',

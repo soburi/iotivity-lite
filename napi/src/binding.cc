@@ -256,7 +256,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("oc_core_populate_resource", Napi::Function::New(env, N_oc_core_populate_resource));
     exports.Set("oc_store_uri", Napi::Function::New(env, N_oc_store_uri));
     exports.Set("oc_create_discovery_resource", Napi::Function::New(env, N_oc_create_discovery_resource));
-    exports.Set("oc_endpoint_list_copy", Napi::Function::New(env, N_oc_endpoint_list_copy));
     exports.Set("oc_concat_strings", Napi::Function::New(env, N_oc_concat_strings));
     exports.Set("oc_join_string_array", Napi::Function::New(env, N_oc_join_string_array));
     exports.Set("oc_memb_init", Napi::Function::New(env, N_oc_memb_init));
