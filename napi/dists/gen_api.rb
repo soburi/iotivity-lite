@@ -1939,7 +1939,12 @@ def gen_accessor(type, ftable)
 
   if APIS.keys.include?(gen_classname(type))
     list2 = APIS[gen_classname(type)].collect do |mtd, func|
-      accr = INSTANCEBIND.gsub(/METHOD/, mtd).gsub(/CLASS/, gen_classname(type))
+      cls = gen_classname(type)
+      if INSTANCE_FUNCS.include?(cls + "::" + mtd)
+        accr = INSTANCEBIND.gsub(/METHOD/, mtd).gsub(/CLASS/, cls)
+      else
+        bind = STATICBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, APIS[cls][mtd])
+      end
     end
     list += list2.join();
   end
