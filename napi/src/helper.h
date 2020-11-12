@@ -16,8 +16,23 @@ public:
     Napi::Value value;
     Napi::Env env;
 
-    SafeCallbackHelper(const Napi::Function&f, const Napi::Value&v) : function(f), value(v), env(f.Env()) {}
+    SafeCallbackHelper(const Napi::Function&f, const Napi::Value&v) : function(f), value(v), env(f.Env()) {
+    }
     virtual ~SafeCallbackHelper() {}
+};
+
+
+class TestHelper {
+public:
+    ThreadSafeCallback function;
+    Napi::Env env;
+    Napi::ObjectReference objref;
+
+
+    TestHelper(const Napi::Function& f, const Napi::Object& v) : function(f), objref(Napi::Persistent(v)), env(v.Env()) {
+    
+    }
+    virtual ~TestHelper() {}
 };
 
 struct main_context_t {

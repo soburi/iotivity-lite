@@ -96,12 +96,6 @@ function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
 {
   console.log("-- discovery --");
 
-  //OC.do_ip_multicast(uri, "", get_light, "hoge");
-/*
-  console.dir(endpoints)
-  for(let ep of endpoints) {
-    console.dir(ep);
-  }
   console.dir(di);
   console.dir(uri);
   console.dir(types);
@@ -110,11 +104,14 @@ function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
   }
 
   console.dir(iface_mask);
-  console.dir(endpoint);
-  //for(let ep of endpoints) {
-  //}
+  console.dir(endpoints);
+  for(let ep of endpoints) {
+    console.dir(ep);
+  }
   console.dir(bm);
+  console.log(user_data);
 
+/*
   for(let t of types) {
     console.dir(t);
     if(t == "core.light") {
@@ -128,14 +125,21 @@ function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
       OC.oc_do_get(a_light, light_server, null, get_light, OC.Qos.LOW_QOS, null)
     }
   }
-  //console.log(user_data);
 */
   return 0
+}
+
+function trigger(data)
+{
+	console.log("trigger");
+	console.log(data);
 }
 
 function issue_requests()
 {
   console.log("-- issue_requests --");
+
+  //OC.set_delayed_callbac(1, trigger, 1);
   OC.do_ip_discovery("core.light", discovery, "discovery_data");
 }
 

@@ -641,10 +641,14 @@ Value OCMain::do_get(const CallbackInfo& info) {
 Value OCMain::do_ip_discovery(const CallbackInfo& info) {
     std::string rt_ = info[0].As<String>().Utf8Value();
     const char* rt = rt_.c_str();
-    auto handler = CHECK_CALLBACK_FUNC(info, 1, helper_oc_discovery_handler);
-    const int O_FUNC = 1;
-    SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 2);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    auto handler = helper_oc_discovery_handler;
+
+    Napi::Object obj = Napi::Object::New(info.Env());
+    obj.Set("v", info[2]);
+    obj.Set("w", info[1].As<Function>());
+
+    TestHelper* user_data = new TestHelper(info[1].As<Function>(), obj);
+    //main_context->callback_helper_array.push_back(shared_ptr<TestHelper>(user_data));
     return Boolean::New(info.Env(), oc_do_ip_discovery(rt, handler, user_data));
 }
 

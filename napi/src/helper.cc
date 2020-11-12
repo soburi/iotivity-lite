@@ -234,15 +234,20 @@ void helper_oc_resource_set_request_handler(oc_request_t* req, oc_interface_mask
 
 }
 
+
 oc_discovery_flags_t
 helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t types,
                             oc_interface_mask_t iface_mask, oc_endpoint_t *endpoint,
                             oc_resource_properties_t bm, void *user_data)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(user_data);
+    TestHelper* helper = reinterpret_cast<TestHelper*>(user_data);
 
     auto future = helper->function.call<oc_discovery_flags_t>(
     [&](Env env, vector<napi_value>& args) {
+        auto obj = helper->objref.Value().As<Object>();
+
+        auto v = obj.Get("v");
+
         auto         di_ = String::New(helper->env, di);
         auto        uri_ = String::New(helper->env, uri);
         shared_ptr<oc_string_array_t> types_sp(&types, nop_deleter);
@@ -251,7 +256,7 @@ helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t t
         auto   endpoint_ = OCEndpoint::constructor.New({ External<shared_ptr<oc_endpoint_t>>::New(helper->env, &endpoint_sp) });
         auto iface_mask_ = Number::New(helper->env, iface_mask);
         auto         bm_ = Number::New(helper->env, bm);
-        args = {di_, uri_, types_, iface_mask_, endpoint_, bm_, helper->value };
+        args = {di_, uri_, types_, iface_mask_, endpoint_, bm_, v };
     },
     [&](const Value& val) {
         if (val.IsNumber()) {
