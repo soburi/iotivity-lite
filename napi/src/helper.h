@@ -28,8 +28,11 @@ public:
     Napi::Env env;
     Napi::ObjectReference objref;
 
-    TestHelper(const Napi::Function& f, const Napi::Object& v) : function(f), env(v.Env()) {
-        objref = Napi::Persistent(v);
+    TestHelper(const Napi::Function& f, const Napi::Value& v) : function(f), env(v.Env()) {
+        Napi::Object obj = Napi::Object::New(v.Env());
+        obj.Set("v", v);
+
+        objref = Napi::Persistent(obj);
     }
 
     Napi::Value Value() { return objref.Get("v"); }

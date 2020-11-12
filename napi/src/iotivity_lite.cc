@@ -643,10 +643,7 @@ Value OCMain::do_ip_discovery(const CallbackInfo& info) {
     const char* rt = rt_.c_str();
     auto handler = helper_oc_discovery_handler;
 
-    Napi::Object obj = Napi::Object::New(info.Env());
-    obj.Set("v", info[2]);
-
-    TestHelper* user_data = new TestHelper(info[1].As<Function>(), obj);
+    TestHelper* user_data = new TestHelper(info[1].As<Function>(), info[2]);
     //main_context->callback_helper_array.push_back(shared_ptr<TestHelper>(user_data));
     return Boolean::New(info.Env(), oc_do_ip_discovery(rt, handler, user_data));
 }
