@@ -1936,6 +1936,16 @@ def gen_accessor(type, ftable)
     accr
   end
   list = list.join()
+
+  if APIS.keys.include?(gen_classname(type))
+    list2 = APIS[gen_classname(type)].collect do |mtd, func|
+      accr = INSTANCEBIND.gsub(/METHOD/, mtd).gsub(/CLASS/, gen_classname(type))
+    end
+    list += list2.join();
+  end
+
+
+
   if EXTRA_ACCESSOR.has_key?(type)
     list += EXTRA_ACCESSOR[type]
   end
@@ -2509,6 +2519,8 @@ File.open('src/binding.cc', 'w') do |f|
       end
       f.print "#{impl}"
     end
+
+
   end
 
 
