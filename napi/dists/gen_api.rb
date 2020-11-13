@@ -974,7 +974,24 @@ m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();",
   }
 }
 
-FUNC_OVERRIDE = {
+OVERRIDE_FUNC = {
+  'oc_rep_to_json' => {
+  'invoke' => '
+    bool pretty_print = (info.Length() >= 1) ? info[0].As<Boolean>().Value() : false;
+
+    size_t buf_size = 0;
+    size_t print_size = 0;
+    char* buf = nullptr;
+    do {
+        if (buf) delete[] buf;
+        buf = new char[buf_size];
+        print_size = oc_rep_to_json(rep, buf, buf_size, pretty_print);
+    } while (buf_size == print_size);
+
+    auto ret = String::New(info.Env(), buf, print_size);
+    delete[] buf;
+    return ret;
+  '},
   'oc_uuid_to_str' => { '1' => '', '2' => '',
     'invoke' => '
   char buffer[OC_UUID_LEN] = { 0 };
@@ -1528,7 +1545,7 @@ INSTANCE_FUNCS = [
   "OCRepresentation::get_string_array",
   "OCRepresentation::get_int",
   "OCRepresentation::get_int_array",
-  "OCRepresentation::to_json",
+  "OCRepresentation::toString",
   "OCResource::set_request_handler",
   'OCResource::bind_resource_interface',
   'OCResource::bind_resource_type',
@@ -2253,8 +2270,8 @@ def gen_funcimpl(func, name, param, instance)
   args = []
   decl = "Value #{func}(const CallbackInfo& info) {\n"
   
-  if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name].is_a?(String)
-    decl += FUNC_OVERRIDE[name]
+  if OVERRIDE_FUNC[name] and OVERRIDE_FUNC[name].is_a?(String)
+    decl += OVERRIDE_FUNC[name]
     decl += "}\n"
     return decl
   end
@@ -2267,9 +2284,9 @@ def gen_funcimpl(func, name, param, instance)
     index = ".This()" if i == -1
 
     #p ty
-    if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name][ii.to_s]
+    if OVERRIDE_FUNC[name] and OVERRIDE_FUNC[name][ii.to_s]
       #p ty + " OVERRIDE"
-      decl +=  FUNC_OVERRIDE[name][ii.to_s].gsub(/ORDER/, i.to_s)
+      decl +=  OVERRIDE_FUNC[name][ii.to_s].gsub(/ORDER/, i.to_s)
       args.append(n)
     elsif ty == 'uint8_t' or ty == 'uint16_t' or ty == 'uint32_t' or ty == 'size_t'
       decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Number>().Uint32Value());\n"
@@ -2396,8 +2413,8 @@ def gen_funcimpl(func, name, param, instance)
     invoke += "  //func return unknown #{type}\n"
   end
 
-  if FUNC_OVERRIDE[name] and FUNC_OVERRIDE[name]['invoke']
-    decl +=  FUNC_OVERRIDE[name]['invoke'] + "\n" #+ "  /*\n " + invoke + "  */\n"
+  if OVERRIDE_FUNC[name] and OVERRIDE_FUNC[name]['invoke']
+    decl +=  OVERRIDE_FUNC[name]['invoke'] + "\n" #+ "  /*\n " + invoke + "  */\n"
   else
     decl += invoke
   end

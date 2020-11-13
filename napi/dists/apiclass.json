@@ -227,7 +227,7 @@
 	"get_string_array": "oc_rep_get_string_array",
 	"get_int": "oc_rep_get_int",
 	"get_int_array": "oc_rep_get_int_array",
-	"to_json": "oc_rep_to_json",
+	"toString": "oc_rep_to_json",
 
 	"parse": "oc_parse_rep",
 	"set_pool": "oc_rep_set_pool",

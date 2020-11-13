@@ -2791,7 +2791,7 @@ Napi::Function OCRepresentation::GetClass(Napi::Env env) {
         InstanceMethod("get_string_array", &OCRepresentation::get_string_array),
         InstanceMethod("get_int", &OCRepresentation::get_int),
         InstanceMethod("get_int_array", &OCRepresentation::get_int_array),
-        InstanceMethod("to_json", &OCRepresentation::to_json),
+        InstanceMethod("toString", &OCRepresentation::toString),
         StaticMethod("parse", &OCRepresentation::parse),
         StaticMethod("set_pool", &OCRepresentation::set_pool),
         StaticMethod("get_encoded_payload_size", &OCRepresentation::get_encoded_payload_size),
@@ -3046,12 +3046,27 @@ Value OCRepresentation::get_int_array(const CallbackInfo& info) {
     return array;
 }
 
-Value OCRepresentation::to_json(const CallbackInfo& info) {
+Value OCRepresentation::toString(const CallbackInfo& info) {
     OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
     char* buf = const_cast<char*>(info[0].As<String>().Utf8Value().c_str());
     size_t buf_size = static_cast<size_t>(info[1].As<Number>().Uint32Value());
     bool pretty_print = info[2].As<Boolean>().Value();
-    return Number::New(info.Env(), oc_rep_to_json(rep, buf, buf_size, pretty_print));
+
+    bool pretty_print = (info.Length() >= 1) ? info[0].As<Boolean>().Value() : false;
+
+    size_t buf_size = 0;
+    size_t print_size = 0;
+    char* buf = nullptr;
+    do {
+        if (buf) delete[] buf;
+        buf = new char[buf_size];
+        print_size = oc_rep_to_json(rep, buf, buf_size, pretty_print);
+    } while (buf_size == print_size);
+
+    auto ret = String::New(info.Env(), buf, print_size);
+    delete[] buf;
+    return ret;
+
 }
 
 Value OCRepresentation::parse(const CallbackInfo& info) {

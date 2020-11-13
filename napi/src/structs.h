@@ -905,7 +905,7 @@ public:
     Napi::Value get_string_array(const Napi::CallbackInfo& info);
     Napi::Value get_int(const Napi::CallbackInfo& info);
     Napi::Value get_int_array(const Napi::CallbackInfo& info);
-    Napi::Value to_json(const Napi::CallbackInfo& info);
+    Napi::Value toString(const Napi::CallbackInfo& info);
     static Napi::Value parse(const Napi::CallbackInfo& info);
     static Napi::Value set_pool(const Napi::CallbackInfo& info);
     static Napi::Value get_encoded_payload_size(const Napi::CallbackInfo& info);
