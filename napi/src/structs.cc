@@ -3047,9 +3047,6 @@ Value OCRepresentation::get_int_array(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::toString(const CallbackInfo& info) {
-    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
-    char* buf = const_cast<char*>(info[0].As<String>().Utf8Value().c_str());
-    size_t buf_size = static_cast<size_t>(info[1].As<Number>().Uint32Value());
     bool pretty_print = info[2].As<Boolean>().Value();
 
     bool pretty_print = (info.Length() >= 1) ? info[0].As<Boolean>().Value() : false;

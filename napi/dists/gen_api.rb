@@ -975,7 +975,7 @@ m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();",
 }
 
 OVERRIDE_FUNC = {
-  'oc_rep_to_json' => {
+  'oc_rep_to_json' => { '0' => '', '1' => '', '2' => '', '3' => '',
   'invoke' => '
     bool pretty_print = (info.Length() >= 1) ? info[0].As<Boolean>().Value() : false;
 
