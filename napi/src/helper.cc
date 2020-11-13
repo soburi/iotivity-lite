@@ -287,20 +287,14 @@ helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array
         args = { di_, uri_, types_, iface_mask_, endpoint_, bm_, more_, helper->Value() };
     },
     [&](const Value& val) {
-        if (val.IsNumber()) {
-            return static_cast<oc_discovery_flags_t>(val.As<Number>().Uint32Value());
-        }
-        else {
-            helper->function.callError("invalid return type");
-        }
-        return OC_STOP_DISCOVERY;
+        return static_cast<oc_discovery_flags_t>(val.ToNumber().Uint32Value());
     });
 
     try {
         return future.get();
     }
     catch (exception e) {
-        helper->function.callError(e.what());
+        helper->function.error(e.what());
         return OC_STOP_DISCOVERY;
     }
 }
@@ -318,7 +312,7 @@ void helper_oc_response_handler(oc_client_response_t* response)
         });
     }
     catch (exception e) {
-        helper->function.callError(e.what());
+        helper->function.error(e.what());
     }
 }
 
@@ -339,7 +333,7 @@ void helper_oc_ownership_status_cb(const oc_uuid_t* device_uuid,
         });
     }
     catch (exception e) {
-        helper->function.callError(e.what());
+        helper->function.error(e.what());
     }
 }
 
@@ -352,20 +346,14 @@ oc_event_callback_retval_t helper_oc_trigger(void* data)
         args = { helper->Value() };
     },
     [&](const Value& val) {
-        if (val.IsNumber()) {
-            return static_cast<oc_event_callback_retval_t>(val.As<Number>().Uint32Value());
-        }
-        else {
-            helper->function.callError("invalid return type");
-        }
-        return OC_EVENT_DONE;
+        return static_cast<oc_event_callback_retval_t>(val.ToNumber().Uint32Value());
     });
 
     try {
         return future.get();
     }
     catch (exception e) {
-        helper->function.callError(e.what());
+        helper->function.error(e.what());
         return OC_EVENT_DONE;
     }
 }
@@ -382,7 +370,7 @@ void helper_oc_factory_presets_cb(size_t device, void* data)
         });
     }
     catch (exception e) {
-        helper->function.callError(e.what());
+        helper->function.error(e.what());
     }
 }
 
@@ -403,7 +391,7 @@ void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* dat
         });
     }
     catch (exception e) {
-        helper->function.callError(e.what());
+        helper->function.error(e.what());
     }
 }
 
@@ -411,10 +399,7 @@ int oc_swupdate_cb_validate_purl_helper(const char *url)
 {
     String Nurl = String::New(main_context->oc_swupdate_cb_validate_purl_ref.Env(), url);
     Value ret = main_context->oc_swupdate_cb_validate_purl_ref.Call({Nurl});
-    if(ret.IsNumber()) {
-        return ret.As<Number>().Int32Value();
-    }
-    return 0;
+    return ret.ToNumber().Int32Value();
 }
 
 int oc_swupdate_cb_check_new_version_helper(size_t device, const char *url, const char *version)
@@ -423,10 +408,7 @@ int oc_swupdate_cb_check_new_version_helper(size_t device, const char *url, cons
     String Nurl = String::New(main_context->oc_swupdate_cb_check_new_version_ref.Env(), url);
     String Nversion = String::New(main_context->oc_swupdate_cb_check_new_version_ref.Env(), version);
     Value ret = main_context->oc_swupdate_cb_check_new_version_ref.Call({Ndevice, Nurl, Nversion});
-    if(ret.IsNumber()) {
-        return ret.As<Number>().Int32Value();
-    }
-    return 0;
+    return ret.ToNumber().Int32Value();
 }
 
 int oc_swupdate_cb_download_update_helper(size_t device, const char *url)
@@ -434,10 +416,7 @@ int oc_swupdate_cb_download_update_helper(size_t device, const char *url)
     Number Ndevice = Number::New(main_context->oc_swupdate_cb_download_update_ref.Env(), device);
     String Nurl = String::New(main_context->oc_swupdate_cb_download_update_ref.Env(), url);
     Value ret = main_context->oc_swupdate_cb_download_update_ref.Call({Ndevice, Nurl});
-    if(ret.IsNumber()) {
-        return ret.As<Number>().Int32Value();
-    }
-    return 0;
+    return ret.ToNumber().Int32Value();
 }
 
 int oc_swupdate_cb_perform_upgrade_helper(size_t device, const char *url)
@@ -445,10 +424,7 @@ int oc_swupdate_cb_perform_upgrade_helper(size_t device, const char *url)
     Number Ndevice = Number::New(main_context->oc_swupdate_cb_perform_upgrade_ref.Env(), device);
     String Nurl = String::New(main_context->oc_swupdate_cb_perform_upgrade_ref.Env(), url);
     Value ret = main_context->oc_swupdate_cb_perform_upgrade_ref.Call({Ndevice, Nurl});
-    if(ret.IsNumber()) {
-        return ret.As<Number>().Int32Value();
-    }
-    return 0;
+    return ret.ToNumber().Int32Value();
 }
 
 
