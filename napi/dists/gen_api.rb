@@ -1750,7 +1750,10 @@ IGNORE_FUNCS = [
 'oc_new_endpoint',
 
 'oc_delete_collection',
-'oc_new_collection'
+'oc_new_collection',
+
+'oc_gen_uuid',
+'oc_str_to_uuid',
 ]
 
 IFDEF_TYPES = {

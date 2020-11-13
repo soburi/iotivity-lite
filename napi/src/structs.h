@@ -1406,9 +1406,7 @@ public:
     void set_id(const Napi::CallbackInfo&, const Napi::Value&);
 
 
-    static Napi::Value str_to_uuid(const Napi::CallbackInfo& info);
     Napi::Value toString(const Napi::CallbackInfo& info);
-    static Napi::Value gen_uuid(const Napi::CallbackInfo& info);
 
     std::shared_ptr<oc_uuid_t> m_pvalue;
 };

@@ -196,9 +196,7 @@
 	"write": "oc_storage_write"
   },
   "OCUuid": {
-	"str_to_uuid": "oc_str_to_uuid",
-	"toString": "oc_uuid_to_str",
-	"gen_uuid": "oc_gen_uuid"
+	"toString": "oc_uuid_to_str"
   },
   "OCCore": {
 	"init": "oc_core_init",

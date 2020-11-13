@@ -4748,9 +4748,7 @@ Napi::FunctionReference OCUuid::constructor;
 Napi::Function OCUuid::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCUuid", {
         InstanceAccessor("id", &OCUuid::get_id, &OCUuid::set_id),
-        StaticMethod("str_to_uuid", &OCUuid::str_to_uuid),
         InstanceMethod("toString", &OCUuid::toString),
-        StaticMethod("gen_uuid", &OCUuid::gen_uuid),
 
     });
 
@@ -4794,26 +4792,12 @@ void OCUuid::set_id(const Napi::CallbackInfo& info, const Napi::Value& value)
     }
 }
 
-Value OCUuid::str_to_uuid(const CallbackInfo& info) {
-    std::string str_ = info[0].As<String>().Utf8Value();
-    const char* str = str_.c_str();
-    OCUuid& uuid = *OCUuid::Unwrap(info[1].As<Object>());
-    (void)oc_str_to_uuid(str, uuid);
-    return info.Env().Undefined();
-}
-
 Value OCUuid::toString(const CallbackInfo& info) {
     OCUuid& uuid = *OCUuid::Unwrap(info.This().As<Object>());
 
     char buffer[OC_UUID_LEN] = { 0 };
     (void)oc_uuid_to_str(uuid, buffer, OC_UUID_LEN);
     return String::New(info.Env(), buffer);
-}
-
-Value OCUuid::gen_uuid(const CallbackInfo& info) {
-    OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Object>());
-    (void)oc_gen_uuid(uuid);
-    return info.Env().Undefined();
 }
 
 
