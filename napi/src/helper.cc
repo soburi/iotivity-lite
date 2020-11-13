@@ -255,20 +255,14 @@ helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t t
         args = { di_, uri_, types_, iface_mask_, endpoint_, bm_, helper->Value() };
     },
     [&](const Value& val) {
-        if (val.IsNumber()) {
-            return static_cast<oc_discovery_flags_t>(val.As<Number>().Uint32Value());
-        }
-        else {
-            helper->function.callError("invalid return type");
-        }
-        return OC_STOP_DISCOVERY;
+        return static_cast<oc_discovery_flags_t>(val.ToNumber().Uint32Value());
     });
 
     try {
         return future.get();
     }
     catch (exception e) {
-        helper->function.callError(e.what());
+        helper->function.error(e.what());
         return OC_STOP_DISCOVERY;
     }
 }
@@ -472,26 +466,33 @@ void helper_poll_event_thread(struct main_context_t* mainctx)
 
     OC_DBG("inside the JNI jni_poll_event\n");
     oc_clock_time_t next_event;
-    while (main_context->jni_quit != 1) {
-        OC_DBG("JNI: - lock %s\n", __func__);
-        main_context->helper_sync_lock.lock();
-        OC_DBG("calling oc_main_poll from JNI code\n");
-        next_event = oc_main_poll();
-        main_context->helper_sync_lock.unlock();
-        OC_DBG("JNI: - unlock %s\n", __func__);
 
-        if (next_event == 0) {
-            unique_lock<mutex> helper_cs(main_context->helper_cs_mutex);
-            main_context->helper_cv.wait(helper_cs);
-        }
-        else {
-            oc_clock_time_t now = oc_clock_time();
-            if (now < next_event) {
-                chrono::milliseconds duration((next_event - now) * 1000 / OC_CLOCK_SECOND);
+    try {
+        while (main_context->jni_quit != 1) {
+            OC_DBG("JNI: - lock %s\n", __func__);
+            main_context->helper_sync_lock.lock();
+            OC_DBG("calling oc_main_poll from JNI code\n");
+            next_event = oc_main_poll();
+            main_context->helper_sync_lock.unlock();
+            OC_DBG("JNI: - unlock %s\n", __func__);
+
+            if (next_event == 0) {
                 unique_lock<mutex> helper_cs(main_context->helper_cs_mutex);
-                main_context->helper_cv.wait_for(helper_cs, duration);
+                main_context->helper_cv.wait(helper_cs);
+            }
+            else {
+                oc_clock_time_t now = oc_clock_time();
+                if (now < next_event) {
+                    chrono::milliseconds duration((next_event - now) * 1000 / OC_CLOCK_SECOND);
+                    unique_lock<mutex> helper_cs(main_context->helper_cs_mutex);
+                    main_context->helper_cv.wait_for(helper_cs, duration);
+                }
             }
         }
+    }
+    catch (exception e)
+    {
+        OC_DBG("helper_poll_event_thread: exception=%s", e.what());
     }
 
     OC_DBG("jni_quit\n");
