@@ -1412,14 +1412,14 @@ Value OCCollection::add_link(const CallbackInfo& info) {
 
 Value OCCollection::add_mandatory_rt(const CallbackInfo& info) {
     OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());
-    std::string rt_ = info[0].ToString().Utf8Value();
+    auto rt_ = info[0].ToString().Utf8Value();
     const char* rt = rt_.c_str();
     return Boolean::New(info.Env(), oc_collection_add_mandatory_rt(collection, rt));
 }
 
 Value OCCollection::add_supported_rt(const CallbackInfo& info) {
     OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());
-    std::string rt_ = info[0].ToString().Utf8Value();
+    auto rt_ = info[0].ToString().Utf8Value();
     const char* rt = rt_.c_str();
     return Boolean::New(info.Env(), oc_collection_add_supported_rt(collection, rt));
 }
@@ -1807,7 +1807,7 @@ Value OCEndpoint::compare_address(const CallbackInfo& info) {
 
 Value OCEndpoint::set_local_address(const CallbackInfo& info) {
     OCEndpoint& ep = *OCEndpoint::Unwrap(info[0].ToObject());
-    int interface_index = static_cast<int>(info[1].ToNumber());
+    auto interface_index = static_cast<int>(info[1].ToNumber());
     (void)oc_endpoint_set_local_address(ep, interface_index);
     return info.Env().Undefined();
 }
@@ -2896,7 +2896,7 @@ void OCRepresentation::set_value(const Napi::CallbackInfo& info, const Napi::Val
 
 Value OCRepresentation::get_bool(const CallbackInfo& info) {
     OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
-    std::string key_ = info[0].ToString().Utf8Value();
+    auto key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 
     bool ret;
@@ -2909,7 +2909,7 @@ Value OCRepresentation::get_bool(const CallbackInfo& info) {
 
 Value OCRepresentation::get_bool_array(const CallbackInfo& info) {
     OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
-    std::string key_ = info[0].ToString().Utf8Value();
+    auto key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 1 value, bool**
     size_t* size = reinterpret_cast<size_t*>(info[2].As<Uint32Array>().Data());
@@ -2918,7 +2918,7 @@ Value OCRepresentation::get_bool_array(const CallbackInfo& info) {
 
 Value OCRepresentation::get_byte_string(const CallbackInfo& info) {
     OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
-    std::string key_ = info[0].ToString().Utf8Value();
+    auto key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 1 value, char**
     size_t* size = reinterpret_cast<size_t*>(info[2].As<Uint32Array>().Data());
@@ -2927,7 +2927,7 @@ Value OCRepresentation::get_byte_string(const CallbackInfo& info) {
 
 Value OCRepresentation::get_byte_string_array(const CallbackInfo& info) {
     OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
-    std::string key_ = info[0].ToString().Utf8Value();
+    auto key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
     OCStringArray& value = *OCStringArray::Unwrap(info[1].ToObject());
     size_t* size = reinterpret_cast<size_t*>(info[2].As<Uint32Array>().Data());
@@ -2940,7 +2940,7 @@ Value OCRepresentation::get_cbor_errno(const CallbackInfo& info) {
 
 Value OCRepresentation::get_double(const CallbackInfo& info) {
     OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
-    std::string key_ = info[0].ToString().Utf8Value();
+    auto key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 
     double ret;
@@ -2953,7 +2953,7 @@ Value OCRepresentation::get_double(const CallbackInfo& info) {
 
 Value OCRepresentation::get_double_array(const CallbackInfo& info) {
     OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
-    std::string key_ = info[0].ToString().Utf8Value();
+    auto key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 
     double* ret;
@@ -2971,7 +2971,7 @@ Value OCRepresentation::get_double_array(const CallbackInfo& info) {
 
 Value OCRepresentation::get_object(const CallbackInfo& info) {
     OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
-    std::string key_ = info[0].ToString().Utf8Value();
+    auto key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 
     oc_rep_t* ret;
@@ -2987,7 +2987,7 @@ Value OCRepresentation::get_object(const CallbackInfo& info) {
 
 Value OCRepresentation::get_object_array(const CallbackInfo& info) {
     OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
-    std::string key_ = info[0].ToString().Utf8Value();
+    auto key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 1 value, oc_rep_t**
     return Boolean::New(info.Env(), 0);
@@ -2995,7 +2995,7 @@ Value OCRepresentation::get_object_array(const CallbackInfo& info) {
 
 Value OCRepresentation::get_string(const CallbackInfo& info) {
     OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
-    std::string key_ = info[0].ToString().Utf8Value();
+    auto key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 
     char* ret;
@@ -3009,7 +3009,7 @@ Value OCRepresentation::get_string(const CallbackInfo& info) {
 
 Value OCRepresentation::get_string_array(const CallbackInfo& info) {
     OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
-    std::string key_ = info[0].ToString().Utf8Value();
+    auto key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
     OCStringArray& value = *OCStringArray::Unwrap(info[1].ToObject());
     size_t* size = reinterpret_cast<size_t*>(info[2].As<Uint32Array>().Data());
@@ -3018,7 +3018,7 @@ Value OCRepresentation::get_string_array(const CallbackInfo& info) {
 
 Value OCRepresentation::get_int(const CallbackInfo& info) {
     OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
-    std::string key_ = info[0].ToString().Utf8Value();
+    auto key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 
     int64_t ret;
@@ -3031,7 +3031,7 @@ Value OCRepresentation::get_int(const CallbackInfo& info) {
 
 Value OCRepresentation::get_int_array(const CallbackInfo& info) {
     OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
-    std::string key_ = info[0].ToString().Utf8Value();
+    auto key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 
     int64_t* ret;
@@ -3120,7 +3120,7 @@ Value OCRepresentation::add_double(const CallbackInfo& info) {
 
 Value OCRepresentation::add_text_string(const CallbackInfo& info) {
     OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].ToObject());
-    std::string value_ = info[1].ToString().Utf8Value();
+    auto value_ = info[1].ToString().Utf8Value();
     const char* value = value_.c_str();
     (void)helper_rep_add_text_string(arrayObject, value);
     return info.Env().Undefined();
@@ -3181,7 +3181,7 @@ Value OCRepresentation::get_rep_from_root_object(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::new_buffer(const CallbackInfo& info) {
-    int size = static_cast<int>(info[0].ToNumber());
+    auto size = static_cast<int>(info[0].ToNumber());
     (void)helper_rep_new_buffer(size);
     return info.Env().Undefined();
 }
@@ -3229,7 +3229,7 @@ Value OCRepresentation::oc_array_to_string_array(const CallbackInfo& info) {
 
 Value OCRepresentation::open_array(const CallbackInfo& info) {
     OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
-    std::string key_ = info[1].ToString().Utf8Value();
+    auto key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
     shared_ptr<CborEncoder> sp(helper_rep_open_array(parent, key), nop_deleter);
     auto args = External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
@@ -3238,7 +3238,7 @@ Value OCRepresentation::open_array(const CallbackInfo& info) {
 
 Value OCRepresentation::open_object(const CallbackInfo& info) {
     OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
-    std::string key_ = info[1].ToString().Utf8Value();
+    auto key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
     shared_ptr<CborEncoder> sp(helper_rep_open_object(parent, key), nop_deleter);
     auto args = External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
@@ -3247,7 +3247,7 @@ Value OCRepresentation::open_object(const CallbackInfo& info) {
 
 Value OCRepresentation::set_boolean(const CallbackInfo& info) {
     OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
-    std::string key_ = info[1].ToString().Utf8Value();
+    auto key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
     bool value = info[2].ToBoolean().Value();
     (void)helper_rep_set_boolean(object, key, value);
@@ -3256,46 +3256,46 @@ Value OCRepresentation::set_boolean(const CallbackInfo& info) {
 
 Value OCRepresentation::set_bool_array(const CallbackInfo& info) {
     OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
-    std::string key_ = info[1].ToString().Utf8Value();
+    auto key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 2 values, bool*
-    int length = static_cast<int>(info[3].ToNumber());
+    auto length = static_cast<int>(info[3].ToNumber());
     (void)0;
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_byte_string(const CallbackInfo& info) {
     OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
-    std::string key_ = info[1].ToString().Utf8Value();
+    auto key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
     const unsigned char* value = info[2].As<Buffer<const uint8_t>>().Data();
-    size_t length = static_cast<size_t>(info[3].ToNumber().Uint32Value());
+    auto length = static_cast<size_t>(info[3].ToNumber().Uint32Value());
     (void)helper_rep_set_byte_string(object, key, value, length);
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_double(const CallbackInfo& info) {
     OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
-    std::string key_ = info[1].ToString().Utf8Value();
+    auto key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
-    double value = info[2].ToNumber().DoubleValue();
+    auto value = info[2].ToNumber().DoubleValue();
     (void)helper_rep_set_double(object, key, value);
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_double_array(const CallbackInfo& info) {
     OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
-    std::string key_ = info[1].ToString().Utf8Value();
+    auto key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 2 values, double*
-    int length = static_cast<int>(info[3].ToNumber());
+    auto length = static_cast<int>(info[3].ToNumber());
     (void)0;
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_key(const CallbackInfo& info) {
     OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
-    std::string key_ = info[1].ToString().Utf8Value();
+    auto key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
     (void)helper_rep_set_key(parent, key);
     return info.Env().Undefined();
@@ -3303,26 +3303,26 @@ Value OCRepresentation::set_key(const CallbackInfo& info) {
 
 Value OCRepresentation::set_long(const CallbackInfo& info) {
     OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
-    std::string key_ = info[1].ToString().Utf8Value();
+    auto key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
-    int64_t value = static_cast<int64_t>(info[2].ToNumber());
+    auto value = static_cast<int64_t>(info[2].ToNumber());
     (void)helper_rep_set_long(object, key, value);
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_long_array(const CallbackInfo& info) {
     OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
-    std::string key_ = info[1].ToString().Utf8Value();
+    auto key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 2 values, int64_t*
-    int length = static_cast<int>(info[3].ToNumber());
+    auto length = static_cast<int>(info[3].ToNumber());
     (void)0;
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_string_array(const CallbackInfo& info) {
     OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
-    std::string key_ = info[1].ToString().Utf8Value();
+    auto key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 2 values, oc_string_array_t
     (void)0;
@@ -3331,9 +3331,9 @@ Value OCRepresentation::set_string_array(const CallbackInfo& info) {
 
 Value OCRepresentation::set_text_string(const CallbackInfo& info) {
     OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
-    std::string key_ = info[1].ToString().Utf8Value();
+    auto key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
-    std::string value_ = info[2].ToString().Utf8Value();
+    auto value_ = info[2].ToString().Utf8Value();
     const char* value = value_.c_str();
     (void)helper_rep_set_text_string(object, key, value);
     return info.Env().Undefined();
@@ -3341,7 +3341,7 @@ Value OCRepresentation::set_text_string(const CallbackInfo& info) {
 
 Value OCRepresentation::set_uint(const CallbackInfo& info) {
     OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
-    std::string key_ = info[1].ToString().Utf8Value();
+    auto key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 2 value, unsigned int
     (void)0;
@@ -3848,14 +3848,14 @@ void OCResource::set_uri(const Napi::CallbackInfo& info, const Napi::Value& valu
 
 Value OCResource::bind_resource_interface(const CallbackInfo& info) {
     OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
-    oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[0].ToNumber().Uint32Value());
+    auto iface_mask = static_cast<oc_interface_mask_t>(info[0].ToNumber().Uint32Value());
     (void)oc_resource_bind_resource_interface(resource, iface_mask);
     return info.Env().Undefined();
 }
 
 Value OCResource::bind_resource_type(const CallbackInfo& info) {
     OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
-    std::string type_ = info[0].ToString().Utf8Value();
+    auto type_ = info[0].ToString().Utf8Value();
     const char* type = type_.c_str();
     (void)oc_resource_bind_resource_type(resource, type);
     return info.Env().Undefined();
@@ -3871,7 +3871,7 @@ Value OCResource::make_public(const CallbackInfo& info) {
 
 Value OCResource::set_default_interface(const CallbackInfo& info) {
     OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
-    oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[0].ToNumber().Uint32Value());
+    auto iface_mask = static_cast<oc_interface_mask_t>(info[0].ToNumber().Uint32Value());
     (void)oc_resource_set_default_interface(resource, iface_mask);
     return info.Env().Undefined();
 }
@@ -3892,7 +3892,7 @@ Value OCResource::set_observable(const CallbackInfo& info) {
 
 Value OCResource::set_periodic_observable(const CallbackInfo& info) {
     OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
-    uint16_t seconds = static_cast<uint16_t>(info[0].ToNumber().Uint32Value());
+    auto seconds = static_cast<uint16_t>(info[0].ToNumber().Uint32Value());
     (void)oc_resource_set_periodic_observable(resource, seconds);
     return info.Env().Undefined();
 }
@@ -3913,7 +3913,7 @@ Value OCResource::set_properties_cbs(const CallbackInfo& info) {
 
 Value OCResource::set_request_handler(const CallbackInfo& info) {
     OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
-    oc_method_t method = static_cast<oc_method_t>(info[0].ToNumber().Uint32Value());
+    auto method = static_cast<oc_method_t>(info[0].ToNumber().Uint32Value());
     oc_request_callback_t callback = nullptr;
     switch(method) {
     case OC_GET:
@@ -4507,14 +4507,14 @@ void OCCred::set_subjectuuid(const Napi::CallbackInfo& info, const Napi::Value& 
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCCred::read_credusage(const CallbackInfo& info) {
-    oc_sec_credusage_t credusage = static_cast<oc_sec_credusage_t>(info[0].ToNumber().Uint32Value());
+    auto credusage = static_cast<oc_sec_credusage_t>(info[0].ToNumber().Uint32Value());
     return String::New(info.Env(), oc_cred_read_credusage(credusage));
 }
 #endif
 
 #if defined(OC_SECURITY)
 Value OCCred::read_encoding(const CallbackInfo& info) {
-    oc_sec_encoding_t encoding = static_cast<oc_sec_encoding_t>(info[0].ToNumber().Uint32Value());
+    auto encoding = static_cast<oc_sec_encoding_t>(info[0].ToNumber().Uint32Value());
     return String::New(info.Env(), oc_cred_read_encoding(encoding));
 }
 #endif
@@ -4535,7 +4535,7 @@ Value OCCred::parse_encoding(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCCred::credtype_string(const CallbackInfo& info) {
-    oc_sec_credtype_t credtype = static_cast<oc_sec_credtype_t>(info[0].ToNumber().Uint32Value());
+    auto credtype = static_cast<oc_sec_credtype_t>(info[0].ToNumber().Uint32Value());
     return String::New(info.Env(), oc_cred_credtype_string(credtype));
 }
 #endif

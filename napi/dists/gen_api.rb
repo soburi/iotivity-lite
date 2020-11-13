@@ -2290,25 +2290,25 @@ def gen_funcimpl(func, name, param, instance)
       decl +=  OVERRIDE_FUNC[name][ii.to_s].gsub(/ORDER/, i.to_s)
       args.append(n)
     elsif ty == 'uint8_t' or ty == 'uint16_t' or ty == 'uint32_t' or ty == 'size_t'
-      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.ToNumber().Uint32Value());\n"
+      decl += "  auto #{n} = static_cast<#{ty}>(info#{index}.ToNumber().Uint32Value());\n"
       args.append(n)
     elsif ty == 'double'
-      decl += "  #{ty} #{n} = info#{index}.ToNumber().DoubleValue();\n"
+      decl += "  auto #{n} = info#{index}.ToNumber().DoubleValue();\n"
       args.append(n)
     elsif ty == 'oc_clock_time_t'
-      decl += "  #{ty} #{n} = static_cast<uint64_t>(info#{index}.ToNumber().Int64Value());\n"
+      decl += "  auto #{n} = static_cast<uint64_t>(info#{index}.ToNumber().Int64Value());\n"
       args.append(n)
     elsif ty == 'void*'
       decl += "  #{ty} #{n} = info#{index};\n"
       args.append(n)
     elsif ty == 'const char*'
-      decl += "  std::string #{n}_ = info#{index}.ToString().Utf8Value(); #{ty} #{n} = #{n}_.c_str();\n"
+      decl += "  auto #{n}_ = info#{index}.ToString().Utf8Value(); #{ty} #{n} = #{n}_.c_str();\n"
       args.append(n)
     elsif ty == 'char*'
-      decl += "  std::string #{n}_ = info#{index}.ToString().Utf8Value(); #{ty} #{n} = const_cast<char*>(#{n}_.c_str());\n"
+      decl += "  auto #{n}_ = info#{index}.ToString().Utf8Value(); #{ty} #{n} = const_cast<char*>(#{n}_.c_str());\n"
       args.append(n)
     elsif ty == 'const char'
-      decl += "  #{ty} #{n} = static_cast<uint8_t>(info#{index}.ToNumber().Uint32Value());\n"
+      decl += "  auto #{n} = static_cast<uint8_t>(info#{index}.ToNumber().Uint32Value());\n"
       args.append(n)
     elsif ty == 'const unsigned char*'
       decl += "  #{ty} #{n} = info#{index}.As<Buffer<const uint8_t>>().Data();\n"
@@ -2354,7 +2354,7 @@ def gen_funcimpl(func, name, param, instance)
       args.append(n)
     elsif match_any?(ty, PRIMITIVES)
       #p ty + " PRIMITIVES"
-      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.ToNumber());\n"
+      decl += "  auto #{n} = static_cast<#{ty}>(info#{index}.ToNumber());\n"
       args.append(n)
     elsif is_struct_ptr?(ty)
       #p ty + " struct_ptr"
@@ -2366,7 +2366,7 @@ def gen_funcimpl(func, name, param, instance)
 
       args.append(n)
     elsif ENUMS.include?(typedef_map(ty.gsub(/^enum /,'') ) )
-      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.ToNumber().Uint32Value());\n"
+      decl += "  auto #{n} = static_cast<#{ty}>(info#{index}.ToNumber().Uint32Value());\n"
       args.append(n)
     else
       decl += "// #{i} #{n}, #{ty}\n"
