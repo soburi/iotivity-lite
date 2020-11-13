@@ -577,9 +577,9 @@ OCResource::OCResource(const CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 4) {
      string name_ = info[0].ToString().Utf8Value();
-     const char* name = name_.c_str();
+     auto name = name_.c_str();
      string uri_ = info[1].ToString().Utf8Value();
-     const char* uri = uri_.c_str();
+     auto uri = uri_.c_str();
      uint8_t num_resource_types = static_cast<uint8_t>(info[2].ToNumber().Uint32Value());
      size_t device = static_cast<size_t>(info[3].ToNumber().Uint32Value());
 
@@ -1173,25 +1173,25 @@ STR
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_get' => {
-    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { std::string query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
+    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { auto query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
     '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
     '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_delete' => {
-    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { std::string query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
+    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { auto query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
     '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
     '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_observe' => {
-    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { std::string query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
+    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { auto query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
     '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
     '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_init_post' => {
-    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { std::string query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
+    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { auto query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
     '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
     '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
@@ -2302,28 +2302,28 @@ def gen_funcimpl(func, name, param, instance)
       decl += "  #{ty} #{n} = info#{index};\n"
       args.append(n)
     elsif ty == 'const char*'
-      decl += "  auto #{n}_ = info#{index}.ToString().Utf8Value(); #{ty} #{n} = #{n}_.c_str();\n"
+      decl += "  auto #{n}_ = info#{index}.ToString().Utf8Value(); auto #{n} = #{n}_.c_str();\n"
       args.append(n)
     elsif ty == 'char*'
-      decl += "  auto #{n}_ = info#{index}.ToString().Utf8Value(); #{ty} #{n} = const_cast<char*>(#{n}_.c_str());\n"
+      decl += "  auto #{n}_ = info#{index}.ToString().Utf8Value(); auto #{n} = const_cast<char*>(#{n}_.c_str());\n"
       args.append(n)
     elsif ty == 'const char'
       decl += "  auto #{n} = static_cast<uint8_t>(info#{index}.ToNumber().Uint32Value());\n"
       args.append(n)
     elsif ty == 'const unsigned char*'
-      decl += "  #{ty} #{n} = info#{index}.As<Buffer<const uint8_t>>().Data();\n"
+      decl += "  auto #{n} = info#{index}.As<Buffer<const uint8_t>>().Data();\n"
       args.append(n)
     elsif ty == 'const uint8_t*'
-      decl += "  #{ty} #{n} = info#{index}.As<Buffer<const uint8_t>>().Data();\n"
+      decl += "  auto #{n} = info#{index}.As<Buffer<const uint8_t>>().Data();\n"
       args.append(n)
     elsif ty == 'uint8_t*'
-      decl += "  #{ty} #{n} = info#{index}.As<Buffer<uint8_t>>().Data();\n"
+      decl += "  auto #{n} = info#{index}.As<Buffer<uint8_t>>().Data();\n"
       args.append(n)
     elsif ty == 'size_t*'
-      decl += "  #{ty} #{n} = reinterpret_cast<size_t*>(info#{index}.As<Uint32Array>().Data());\n"
+      decl += "  auto #{n} = reinterpret_cast<size_t*>(info#{index}.As<Uint32Array>().Data());\n"
       args.append(n)
     elsif ty == 'bool'
-      decl += "  #{ty} #{n} = info#{index}.ToBoolean().Value();\n"
+      decl += "  auto #{n} = info#{index}.ToBoolean().Value();\n"
       args.append(n)
     elsif ty == 'oc_response_handler_t' or
           ty == 'interface_event_handler_t' or
@@ -2362,7 +2362,7 @@ def gen_funcimpl(func, name, param, instance)
       raw_ty = raw_ty.gsub(/^struct /, "")
       raw_ty = raw_ty.gsub(/^const /, "")
       raw_ty = TYPEDEFS[raw_ty] if TYPEDEFS.keys.include?(raw_ty)
-      decl += "  #{gen_classname(raw_ty)}& #{n} = *#{gen_classname(raw_ty)}::Unwrap(info#{index}.ToObject());\n"
+      decl += "  auto& #{n} = *#{gen_classname(raw_ty)}::Unwrap(info#{index}.ToObject());\n"
 
       args.append(n)
     elsif ENUMS.include?(typedef_map(ty.gsub(/^enum /,'') ) )
