@@ -1750,8 +1750,9 @@ Value OCEndpoint::toString(const CallbackInfo& info) {
     OCEndpoint& endpoint = *OCEndpoint::Unwrap(info.This().As<Object>());
     oc_string_t endpoint_str;
     int ret = oc_endpoint_to_string(endpoint, &endpoint_str);
-    int(ret) {
-        TypeError::New(info.Env(), "oc_endpoint_to_string failed.").ThrowAsJavaScriptException();
+    if(ret) {
+        TypeError::New(info.Env(), "You need to name yourself")
+            .ThrowAsJavaScriptException();
     }
     return String::New(info.Env(), oc_string(endpoint_str));
 
@@ -4767,6 +4768,11 @@ OCUuid::OCUuid(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
         m_pvalue = shared_ptr<oc_uuid_t>(new oc_uuid_t());
+        oc_str_to_uuid(info[0].As<String>().Utf8Value().c_str(), m_pvalue.get());
+    }
+    else if (info.Length() == 1 && info[0].IsString()) {
+        m_pvalue = shared_ptr<oc_uuid_t>(new oc_uuid_t());
+        oc_str_to_uuid(info[0].As<String>().Utf8Value().c_str(), m_pvalue.get());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
         m_pvalue = *(info[0].As<External<shared_ptr<oc_uuid_t>>>().Data());
@@ -4798,10 +4804,9 @@ Value OCUuid::str_to_uuid(const CallbackInfo& info) {
 
 Value OCUuid::toString(const CallbackInfo& info) {
     OCUuid& uuid = *OCUuid::Unwrap(info.This().As<Object>());
-    char* buffer = const_cast<char*>(info[0].As<String>().Utf8Value().c_str());
-    int buflen = static_cast<int>(info[1].As<Number>());
-    (void)oc_uuid_to_str(uuid, buffer, buflen);
-    return info.Env().Undefined();
+    char buffer[OC_UUID_LEN] = { 0 };
+    (void)oc_uuid_to_str(uuid, buffer, OC_UUID_LEN);
+    return String::New(info.Env(), buffer);
 }
 
 Value OCUuid::gen_uuid(const CallbackInfo& info) {
