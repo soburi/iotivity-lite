@@ -1776,7 +1776,7 @@ Value OCEndpoint::list_copy(const CallbackInfo& info) {
     OCEndpoint& src = *OCEndpoint::Unwrap(info.This().As<Object>());
     oc_endpoint_t* dst = nullptr;
     oc_endpoint_list_copy(&dst, src);
-    shared_ptr<oc_endpoint_t> sp(dst/*TODO*/);
+    shared_ptr<oc_endpoint_t> sp(dst /* TODO */);
     auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
     return OCEndpoint::constructor.New({accessor});
 }

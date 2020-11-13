@@ -1013,9 +1013,9 @@ OVERRIDE_FUNC = {
   'oc_endpoint_list_copy' => {
     '0' => '',
     '1' => 'OCEndpoint& src = *OCEndpoint::Unwrap(info.This().As<Object>());',
-    'invoke' => 'oc_endpoint_t** dst = nullptr;
-  oc_endpoint_list_copy(dst, src);
-  shared_ptr<oc_endpoint_t> sp(*dst, nop_deleter);
+    'invoke' => 'oc_endpoint_t* dst = nullptr;
+  oc_endpoint_list_copy(&dst, src);
+  shared_ptr<oc_endpoint_t> sp(dst /* TODO */);
   auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
   return OCEndpoint::constructor.New({accessor});' },
   'oc_collection_add_link' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());' },
