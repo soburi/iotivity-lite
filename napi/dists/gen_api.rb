@@ -984,6 +984,7 @@ OVERRIDE_FUNC = {
     char* buf = nullptr;
     do {
         if (buf) delete[] buf;
+        buf_size += 1024;
         buf = new char[buf_size];
         print_size = oc_rep_to_json(rep, buf, buf_size, pretty_print);
     } while (buf_size == print_size);
