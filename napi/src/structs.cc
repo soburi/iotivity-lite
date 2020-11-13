@@ -2718,7 +2718,8 @@ Napi::Value OCProcess::get_name(const Napi::CallbackInfo& info)
 
 void OCProcess::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->name = value.ToString().Utf8Value().c_str();
+    std::string name_ = value.ToString().Utf8Value();
+    m_pvalue->name = name_.c_str();
 }
 
 Napi::Value OCProcess::get_needspoll(const Napi::CallbackInfo& info)

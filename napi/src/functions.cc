@@ -63,7 +63,8 @@ Value N_oc_check_if_collection(const CallbackInfo& info) {
 
 Value N_oc_clock_encode_time_rfc3339(const CallbackInfo& info) {
     oc_clock_time_t time = static_cast<uint64_t>(info[0].ToNumber().Int64Value());
-    char* out_buf = const_cast<char*>(info[1].ToString().Utf8Value().c_str());
+    std::string out_buf_ = info[1].ToString().Utf8Value();
+    char* out_buf = const_cast<char*>(out_buf_.c_str());
     size_t out_buf_len = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_clock_encode_time_rfc3339(time, out_buf, out_buf_len));
 }
@@ -76,7 +77,8 @@ Value N_oc_clock_parse_time_rfc3339(const CallbackInfo& info) {
 }
 
 Value N_oc_clock_time_rfc3339(const CallbackInfo& info) {
-    char* out_buf = const_cast<char*>(info[0].ToString().Utf8Value().c_str());
+    std::string out_buf_ = info[0].ToString().Utf8Value();
+    char* out_buf = const_cast<char*>(out_buf_.c_str());
     size_t out_buf_len = static_cast<size_t>(info[1].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_clock_time_rfc3339(out_buf, out_buf_len));
 }

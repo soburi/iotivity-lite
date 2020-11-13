@@ -791,7 +791,7 @@ m_pvalue->buffer_size = value.As<Buffer<uint8_t>>().Length();",
     "get"=> "return perform_upgrade_function;"
   },
   "oc_process::name"=> {
-    "set"=>"  m_pvalue->VALNAME = value.ToString().Utf8Value().c_str();",
+    "set"=>"  std::string name_ = value.ToString().Utf8Value(); m_pvalue->VALNAME = name_.c_str();",
     "get"=>"  return String::New(info.Env(), m_pvalue->VALNAME);"
   },
   "oc_blockwise_state_s::buffer"=> {
@@ -1173,31 +1173,31 @@ STR
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_get' => {
-    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].ToString().Utf8Value().c_str(); }',
+    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { std::string query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
     '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
     '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_delete' => {
-    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].ToString().Utf8Value().c_str(); }',
+    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { std::string query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
     '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
     '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_observe' => {
-    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].ToString().Utf8Value().c_str(); }',
+    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { std::string query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
     '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
     '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_init_post' => {
-    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].ToString().Utf8Value().c_str(); }',
+    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { std::string query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
     '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
     '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_init_put' => {
-    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].ToString().Utf8Value().c_str(); }',
+    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { std::string query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
     '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
     '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
@@ -2302,10 +2302,10 @@ def gen_funcimpl(func, name, param, instance)
       decl += "  #{ty} #{n} = info#{index};\n"
       args.append(n)
     elsif ty == 'const char*'
-      decl += "  std::string #{n}_ = info#{index}.ToString().Utf8Value();\n  #{ty} #{n} = #{n}_.c_str();\n"
+      decl += "  std::string #{n}_ = info#{index}.ToString().Utf8Value(); #{ty} #{n} = #{n}_.c_str();\n"
       args.append(n)
     elsif ty == 'char*'
-      decl += "  #{ty} #{n} = const_cast<char*>(info#{index}.ToString().Utf8Value().c_str());\n"
+      decl += "  std::string #{n}_ = info#{index}.ToString().Utf8Value(); #{ty} #{n} = const_cast<char*>(#{n}_.c_str());\n"
       args.append(n)
     elsif ty == 'const char'
       decl += "  #{ty} #{n} = static_cast<uint8_t>(info#{index}.ToNumber().Uint32Value());\n"

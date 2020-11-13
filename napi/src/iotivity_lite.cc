@@ -612,7 +612,8 @@ Value OCMain::do_delete(const CallbackInfo& info) {
     OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
     const char* query = nullptr;
     if (info[2].IsString()) {
-        query = info[2].ToString().Utf8Value().c_str();
+        std::string query_ = info[2].ToString().Utf8Value();
+        query = query_.c_str();
     }
     auto handler = CHECK_CALLBACK_FUNC(info, 3, helper_oc_response_handler);
     const int O_FUNC = 3;
@@ -628,7 +629,8 @@ Value OCMain::do_get(const CallbackInfo& info) {
     OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
     const char* query = nullptr;
     if (info[2].IsString()) {
-        query = info[2].ToString().Utf8Value().c_str();
+        std::string query_ = info[2].ToString().Utf8Value();
+        query = query_.c_str();
     }
     auto handler = CHECK_CALLBACK_FUNC(info, 3, helper_oc_response_handler);
     const int O_FUNC = 3;
@@ -694,7 +696,8 @@ Value OCMain::do_observe(const CallbackInfo& info) {
     OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
     const char* query = nullptr;
     if (info[2].IsString()) {
-        query = info[2].ToString().Utf8Value().c_str();
+        std::string query_ = info[2].ToString().Utf8Value();
+        query = query_.c_str();
     }
     auto handler = CHECK_CALLBACK_FUNC(info, 3, helper_oc_response_handler);
     const int O_FUNC = 3;
@@ -819,7 +822,8 @@ Value OCMain::init_post(const CallbackInfo& info) {
     OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
     const char* query = nullptr;
     if (info[2].IsString()) {
-        query = info[2].ToString().Utf8Value().c_str();
+        std::string query_ = info[2].ToString().Utf8Value();
+        query = query_.c_str();
     }
     auto handler = CHECK_CALLBACK_FUNC(info, 3, helper_oc_response_handler);
     const int O_FUNC = 3;
@@ -835,7 +839,8 @@ Value OCMain::init_put(const CallbackInfo& info) {
     OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
     const char* query = nullptr;
     if (info[2].IsString()) {
-        query = info[2].ToString().Utf8Value().c_str();
+        std::string query_ = info[2].ToString().Utf8Value();
+        query = query_.c_str();
     }
     auto handler = CHECK_CALLBACK_FUNC(info, 3, helper_oc_response_handler);
     const int O_FUNC = 3;
@@ -1614,7 +1619,8 @@ Value OCObt::retrieve_own_creds(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::set_sd_info(const CallbackInfo& info) {
-    char* name = const_cast<char*>(info[0].ToString().Utf8Value().c_str());
+    std::string name_ = info[0].ToString().Utf8Value();
+    char* name = const_cast<char*>(name_.c_str());
     bool priv = info[1].ToBoolean().Value();
     (void)oc_obt_set_sd_info(name, priv);
     return info.Env().Undefined();
