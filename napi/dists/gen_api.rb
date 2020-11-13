@@ -340,7 +340,7 @@ OCUuid::OCUuid(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
         m_pvalue = shared_ptr<oc_uuid_t>(new oc_uuid_t());
-        oc_str_to_uuid(info[0].ToString().Utf8Value().c_str(), m_pvalue.get());
+        oc_gen_uuid(m_pvalue.get());
     }
     else if (info.Length() == 1 && info[0].IsString()) {
         m_pvalue = shared_ptr<oc_uuid_t>(new oc_uuid_t());

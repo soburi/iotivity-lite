@@ -225,7 +225,12 @@
         'MACOSX_DEPLOYMENT_TARGET': '10.7'
       },
       'msvs_settings': {
-        'VCCLCompilerTool': { 'ExceptionHandling': 1 },
+        'VCCLCompilerTool': {
+	  'ExceptionHandling': 1,
+	  'AdditionalOptions': [
+                  '/wd26812',
+          ]
+	}
       }
     }
   ]

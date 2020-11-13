@@ -3057,6 +3057,7 @@ Value OCRepresentation::toString(const CallbackInfo& info) {
     char* buf = nullptr;
     do {
         if (buf) delete[] buf;
+        buf_size += 1024;
         buf = new char[buf_size];
         print_size = oc_rep_to_json(rep, buf, buf_size, pretty_print);
     } while (buf_size == print_size);
@@ -4779,7 +4780,7 @@ OCUuid::OCUuid(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
         m_pvalue = shared_ptr<oc_uuid_t>(new oc_uuid_t());
-        oc_str_to_uuid(info[0].ToString().Utf8Value().c_str(), m_pvalue.get());
+        oc_gen_uuid(m_pvalue.get());
     }
     else if (info.Length() == 1 && info[0].IsString()) {
         m_pvalue = shared_ptr<oc_uuid_t>(new oc_uuid_t());

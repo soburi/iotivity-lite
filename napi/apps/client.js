@@ -127,7 +127,7 @@ function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
     }
   }
 
-  return "hoge";
+  return 0;
 }
 
 function trigger(data)
@@ -152,6 +152,13 @@ function handle_signal()
 
 async function main() {
   process.on('SIGINT', handle_signal);
+
+  var uuid = new OC.Uuid();
+
+  console.dir(uuid);
+  console.log(uuid);
+
+  console.log(uuid.id);
 
   //OC.oc_storage_config("./simpleclient_creds");
 
