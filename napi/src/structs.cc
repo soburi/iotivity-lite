@@ -1773,10 +1773,10 @@ Value OCEndpoint::copy(const CallbackInfo& info) {
 }
 
 Value OCEndpoint::list_copy(const CallbackInfo& info) {
-    OCEndpoint& src = *OCEndpoint::Unwrap(info[0].As<Object>());
-    oc_endpoint_t** dst = nullptr;
-    oc_endpoint_list_copy(dst, src);
-    shared_ptr<oc_endpoint_t> sp(*dst, nop_deleter);
+    OCEndpoint& src = *OCEndpoint::Unwrap(info.This().As<Object>());
+    oc_endpoint_t* dst = nullptr;
+    oc_endpoint_list_copy(&dst, src);
+    shared_ptr<oc_endpoint_t> sp(dst/*TODO*/);
     auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
     return OCEndpoint::constructor.New({accessor});
 }
@@ -3047,6 +3047,7 @@ Value OCRepresentation::get_int_array(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::toString(const CallbackInfo& info) {
+    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
 
     bool pretty_print = (info.Length() >= 1) ? info[0].As<Boolean>().Value() : false;
 

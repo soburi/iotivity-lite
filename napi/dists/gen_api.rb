@@ -975,7 +975,7 @@ m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();",
 }
 
 OVERRIDE_FUNC = {
-  'oc_rep_to_json' => { '0' => '', '1' => '', '2' => '', '3' => '',
+  'oc_rep_to_json' => { '1' => '', '2' => '', '3' => '',
   'invoke' => '
     bool pretty_print = (info.Length() >= 1) ? info[0].As<Boolean>().Value() : false;
 
@@ -1012,6 +1012,7 @@ OVERRIDE_FUNC = {
   return OCEndpoint::constructor.New({accessor});' },
   'oc_endpoint_list_copy' => {
     '0' => '',
+    '1' => 'OCEndpoint& src = *OCEndpoint::Unwrap(info.This().As<Object>());',
     'invoke' => 'oc_endpoint_t** dst = nullptr;
   oc_endpoint_list_copy(dst, src);
   shared_ptr<oc_endpoint_t> sp(*dst, nop_deleter);
