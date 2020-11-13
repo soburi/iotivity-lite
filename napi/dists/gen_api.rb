@@ -335,6 +335,25 @@ EXTRA_VALUE= {
 }
 
 OVERRIDE_CTOR = {
+  'oc_uuid_t' => '
+OCUuid::OCUuid(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+    if (info.Length() == 0) {
+        m_pvalue = shared_ptr<oc_uuid_t>(new oc_uuid_t());
+        oc_str_to_uuid(info[0].As<String>().Utf8Value().c_str(), m_pvalue.get());
+    }
+    else if (info.Length() == 1 && info[0].IsString()) {
+        m_pvalue = shared_ptr<oc_uuid_t>(new oc_uuid_t());
+        oc_str_to_uuid(info[0].As<String>().Utf8Value().c_str(), m_pvalue.get());
+    }
+    else if (info.Length() == 1 && info[0].IsExternal() ) {
+        m_pvalue = *(info[0].As<External<shared_ptr<oc_uuid_t>>>().Data());
+    }
+    else {
+        TypeError::New(info.Env(), "You need to name yourself")
+        .ThrowAsJavaScriptException();
+    }
+}',
   "oc_collection_s" => '
 OCCollection::OCCollection(const CallbackInfo& info) : ObjectWrap(info)
 {
@@ -956,10 +975,15 @@ m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();",
 }
 
 FUNC_OVERRIDE = {
+  'oc_uuid_to_str' => { '1' => '', '2' => '',
+    'invoke' => '
+  char buffer[OC_UUID_LEN] = { 0 };
+  (void)oc_uuid_to_str(uuid, buffer, OC_UUID_LEN);
+  return String::New(info.Env(), buffer);'},
   'oc_endpoint_to_string' => { '1' => 'oc_string_t endpoint_str;',
   'invoke' => '
   int ret = oc_endpoint_to_string(endpoint, &endpoint_str);
-  int(ret) {
+  if(ret) {
     TypeError::New(info.Env(), "oc_endpoint_to_string failed.").ThrowAsJavaScriptException();
   }
   return String::New(info.Env(), oc_string(endpoint_str));

@@ -1751,8 +1751,7 @@ Value OCEndpoint::toString(const CallbackInfo& info) {
     oc_string_t endpoint_str;
     int ret = oc_endpoint_to_string(endpoint, &endpoint_str);
     if(ret) {
-        TypeError::New(info.Env(), "You need to name yourself")
-            .ThrowAsJavaScriptException();
+        TypeError::New(info.Env(), "oc_endpoint_to_string failed.").ThrowAsJavaScriptException();
     }
     return String::New(info.Env(), oc_string(endpoint_str));
 
@@ -4764,6 +4763,7 @@ Napi::Function OCUuid::GetClass(Napi::Env env) {
 OCUuid::~OCUuid()
 {
 }
+
 OCUuid::OCUuid(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
@@ -4804,6 +4804,7 @@ Value OCUuid::str_to_uuid(const CallbackInfo& info) {
 
 Value OCUuid::toString(const CallbackInfo& info) {
     OCUuid& uuid = *OCUuid::Unwrap(info.This().As<Object>());
+
     char buffer[OC_UUID_LEN] = { 0 };
     (void)oc_uuid_to_str(uuid, buffer, OC_UUID_LEN);
     return String::New(info.Env(), buffer);
