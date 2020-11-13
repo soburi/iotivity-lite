@@ -1750,13 +1750,11 @@ Value OCEndpoint::toString(const CallbackInfo& info) {
     OCEndpoint& endpoint = *OCEndpoint::Unwrap(info.This().As<Object>());
     oc_string_t endpoint_str;
     int ret = oc_endpoint_to_string(endpoint, &endpoint_str);
-
-    if (ret) {
-        TypeError::New(info.Env(), "You need to name yourself")
-            .ThrowAsJavaScriptException();
+    int(ret) {
+        TypeError::New(info.Env(), "oc_endpoint_to_string failed.").ThrowAsJavaScriptException();
     }
-
     return String::New(info.Env(), oc_string(endpoint_str));
+
 }
 
 Value OCEndpoint::compare(const CallbackInfo& info) {
