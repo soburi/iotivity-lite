@@ -2524,8 +2524,6 @@ File.open('src/binding.cc', 'w') do |f|
       end
       f.print "#{impl}"
     end
-
-
   end
 
 
@@ -2540,6 +2538,38 @@ File.open('src/binding.cc', 'w') do |f|
     end
   end
 
+  enum_table.keys.sort.each do |key|
+    if not (IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil)
+      impl = "  exports.Set(\"#{gen_classname(key).gsub(/^OC/,'')}\", #{gen_classname(key)}::GetClass(env));\n"
+      if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
+        impl = "#if #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
+      end
+      f.print "#{impl}"
+    end
+  end
+
+  enum_list = []
+  enum_table.each do |key, enums|
+    enums.each do |enum, none|
+      enum_list.push([key, enum])
+    end
+  end
+
+  enum_list.sort!{|a, b| a[1].gsub(/^OC_/,'') <=> b[1].gsub(/^OC_/,'') }
+
+  #enum_table.keys.sort.each do |key|
+  #  enums = enum_table[key]
+  enum_list.each do |ee|
+    key = ee[0]
+    en = ee[1]
+    if not (IGNORE_TYPES.has_key?(key) and IGNORE_TYPES[key] == nil)
+      impl = "  exports.DefineProperty(Napi::PropertyDescriptor::Accessor(\"#{en.gsub(/^OC_/, '')}\", &#{gen_classname(key)}::get_#{en}));\n"
+      if IFDEF_TYPES.has_key?(key) and IFDEF_TYPES[key].is_a?(String)
+        impl = "#if #{IFDEF_TYPES[key]}\n" + impl + "#endif\n"
+      end
+      f.print "#{impl}"
+    end
+  end
 
   func_table.each do |key, h|
     next if apis.values.collect{|v| v.values }.flatten.include?(key)
