@@ -3047,7 +3047,6 @@ Value OCRepresentation::get_int_array(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::toString(const CallbackInfo& info) {
-    bool pretty_print = info[2].As<Boolean>().Value();
 
     bool pretty_print = (info.Length() >= 1) ? info[0].As<Boolean>().Value() : false;
 
