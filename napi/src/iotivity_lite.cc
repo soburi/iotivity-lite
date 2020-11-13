@@ -60,7 +60,7 @@ Value OCClock::seconds(const CallbackInfo& info) {
 }
 
 Value OCClock::wait(const CallbackInfo& info) {
-    oc_clock_time_t t = static_cast<uint64_t>(info[0].As<Number>().Int64Value());
+    oc_clock_time_t t = static_cast<uint64_t>(info[0].ToNumber().Int64Value());
     (void)oc_clock_wait(t);
     return info.Env().Undefined();
 }
@@ -118,7 +118,7 @@ Napi::FunctionReference OCCloud::constructor;
 
 #if defined(OC_CLOUD)
 Value OCCloud::get_context(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
     shared_ptr<oc_cloud_context_t> sp(oc_cloud_get_context(device), nop_deleter);
     auto args = External<shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
     return OCCloudContext::constructor.New({args});
@@ -127,7 +127,7 @@ Value OCCloud::get_context(const CallbackInfo& info) {
 
 #if defined(OC_CLOUD)
 Value OCCloud::manager_start(const CallbackInfo& info) {
-    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Object>());
+    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].ToObject());
     oc_cloud_cb_t cb = nullptr;
     Function cb_ = info[1].As<Function>();
     void* data = info[2];
@@ -137,14 +137,14 @@ Value OCCloud::manager_start(const CallbackInfo& info) {
 
 #if defined(OC_CLOUD)
 Value OCCloud::manager_stop(const CallbackInfo& info) {
-    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Object>());
+    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].ToObject());
     return Number::New(info.Env(), oc_cloud_manager_stop(ctx));
 }
 #endif
 
 #if defined(OC_CLOUD)
 Value OCCloud::cloud_login(const CallbackInfo& info) {
-    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Object>());
+    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].ToObject());
     oc_cloud_cb_t cb = nullptr;
     Function cb_ = info[1].As<Function>();
     void* data = info[2];
@@ -154,7 +154,7 @@ Value OCCloud::cloud_login(const CallbackInfo& info) {
 
 #if defined(OC_CLOUD)
 Value OCCloud::cloud_logout(const CallbackInfo& info) {
-    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Object>());
+    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].ToObject());
     oc_cloud_cb_t cb = nullptr;
     Function cb_ = info[1].As<Function>();
     void* data = info[2];
@@ -164,7 +164,7 @@ Value OCCloud::cloud_logout(const CallbackInfo& info) {
 
 #if defined(OC_CLOUD)
 Value OCCloud::cloud_refresh_token(const CallbackInfo& info) {
-    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Object>());
+    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].ToObject());
     oc_cloud_cb_t cb = nullptr;
     Function cb_ = info[1].As<Function>();
     void* data = info[2];
@@ -174,21 +174,21 @@ Value OCCloud::cloud_refresh_token(const CallbackInfo& info) {
 
 #if defined(OC_CLOUD)
 Value OCCloud::get_token_expiry(const CallbackInfo& info) {
-    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Object>());
+    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].ToObject());
     return Number::New(info.Env(), oc_cloud_get_token_expiry(ctx));
 }
 #endif
 
 #if defined(OC_CLOUD)
 Value OCCloud::add_resource(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info[0].As<Object>());
+    OCResource& resource = *OCResource::Unwrap(info[0].ToObject());
     return Number::New(info.Env(), oc_cloud_add_resource(resource));
 }
 #endif
 
 #if defined(OC_CLOUD)
 Value OCCloud::delete_resource(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info[0].As<Object>());
+    OCResource& resource = *OCResource::Unwrap(info[0].ToObject());
     (void)oc_cloud_delete_resource(resource);
     return info.Env().Undefined();
 }
@@ -196,14 +196,14 @@ Value OCCloud::delete_resource(const CallbackInfo& info) {
 
 #if defined(OC_CLOUD)
 Value OCCloud::publish_resources(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_cloud_publish_resources(device));
 }
 #endif
 
 #if defined(OC_CLOUD)
 Value OCCloud::discover_resources(const CallbackInfo& info) {
-    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Object>());
+    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].ToObject());
     oc_discovery_all_handler_t handler = nullptr;
     Function handler_ = info[1].As<Function>();
     void* user_data = info[2];
@@ -213,14 +213,14 @@ Value OCCloud::discover_resources(const CallbackInfo& info) {
 
 #if defined(OC_CLOUD)
 Value OCCloud::provision_conf_resource(const CallbackInfo& info) {
-    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Object>());
-    std::string server_ = info[1].As<String>().Utf8Value();
+    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].ToObject());
+    std::string server_ = info[1].ToString().Utf8Value();
     const char* server = server_.c_str();
-    std::string access_token_ = info[2].As<String>().Utf8Value();
+    std::string access_token_ = info[2].ToString().Utf8Value();
     const char* access_token = access_token_.c_str();
-    std::string server_id_ = info[3].As<String>().Utf8Value();
+    std::string server_id_ = info[3].ToString().Utf8Value();
     const char* server_id = server_id_.c_str();
-    std::string auth_provider_ = info[4].As<String>().Utf8Value();
+    std::string auth_provider_ = info[4].ToString().Utf8Value();
     const char* auth_provider = auth_provider_.c_str();
     return Number::New(info.Env(), oc_cloud_provision_conf_resource(ctx, server, access_token, server_id, auth_provider));
 }
@@ -228,7 +228,7 @@ Value OCCloud::provision_conf_resource(const CallbackInfo& info) {
 
 #if defined(OC_CLOUD)
 Value OCCloud::cloud_register(const CallbackInfo& info) {
-    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Object>());
+    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].ToObject());
     oc_cloud_cb_t cb = nullptr;
     Function cb_ = info[1].As<Function>();
     void* data = info[2];
@@ -238,7 +238,7 @@ Value OCCloud::cloud_register(const CallbackInfo& info) {
 
 #if defined(OC_CLOUD)
 Value OCCloud::cloud_deregister(const CallbackInfo& info) {
-    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].As<Object>());
+    OCCloudContext& ctx = *OCCloudContext::Unwrap(info[0].ToObject());
     oc_cloud_cb_t cb = nullptr;
     Function cb_ = info[1].As<Function>();
     void* data = info[2];
@@ -274,7 +274,7 @@ Value OCCore::init(const CallbackInfo& info) {
 }
 
 Value OCCore::init_platform(const CallbackInfo& info) {
-    std::string mfg_name_ = info[0].As<String>().Utf8Value();
+    std::string mfg_name_ = info[0].ToString().Utf8Value();
     const char* mfg_name = mfg_name_.c_str();
     oc_core_init_platform_cb_t init_cb = nullptr;
     Function init_cb_ = info[1].As<Function>();
@@ -294,14 +294,14 @@ Value OCCore::get_num_devices(const CallbackInfo& info) {
 }
 
 Value OCCore::get_device_id(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
     shared_ptr<oc_uuid_t> sp(oc_core_get_device_id(device), nop_deleter);
     auto args = External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
     return OCUuid::constructor.New({args});
 }
 
 Value OCCore::get_device_info(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
     shared_ptr<oc_device_info_t> sp(oc_core_get_device_info(device), nop_deleter);
     auto args = External<shared_ptr<oc_device_info_t>>::New(info.Env(), &sp);
     return OCDeviceInfo::constructor.New({args});
@@ -314,28 +314,28 @@ Value OCCore::get_platform_info(const CallbackInfo& info) {
 }
 
 Value OCCore::get_resource_by_uri(const CallbackInfo& info) {
-    std::string uri_ = info[0].As<String>().Utf8Value();
+    std::string uri_ = info[0].ToString().Utf8Value();
     const char* uri = uri_.c_str();
-    size_t device = static_cast<size_t>(info[1].As<Number>().Uint32Value());
+    size_t device = static_cast<size_t>(info[1].ToNumber().Uint32Value());
     shared_ptr<oc_resource_t> sp(oc_core_get_resource_by_uri(uri, device), nop_deleter);
     auto args = External<shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
     return OCResource::constructor.New({args});
 }
 
 Value OCCore::filter_resource_by_rt(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info[0].As<Object>());
-    OCRequest& request = *OCRequest::Unwrap(info[1].As<Object>());
+    OCResource& resource = *OCResource::Unwrap(info[0].ToObject());
+    OCRequest& request = *OCRequest::Unwrap(info[1].ToObject());
     return Boolean::New(info.Env(), oc_filter_resource_by_rt(resource, request));
 }
 
 Value OCCore::is_DCR(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info[0].As<Object>());
-    size_t device = static_cast<size_t>(info[1].As<Number>().Uint32Value());
+    OCResource& resource = *OCResource::Unwrap(info[0].ToObject());
+    size_t device = static_cast<size_t>(info[1].ToNumber().Uint32Value());
     return Boolean::New(info.Env(), oc_core_is_DCR(resource, device));
 }
 
 Value OCCore::set_latency(const CallbackInfo& info) {
-    int latency = static_cast<int>(info[0].As<Number>());
+    int latency = static_cast<int>(info[0].ToNumber());
     (void)oc_core_set_latency(latency);
     return info.Env().Undefined();
 }
@@ -345,15 +345,15 @@ Value OCCore::get_latency(const CallbackInfo& info) {
 }
 
 Value OCCore::add_new_device(const CallbackInfo& info) {
-    std::string uri_ = info[0].As<String>().Utf8Value();
+    std::string uri_ = info[0].ToString().Utf8Value();
     const char* uri = uri_.c_str();
-    std::string rt_ = info[1].As<String>().Utf8Value();
+    std::string rt_ = info[1].ToString().Utf8Value();
     const char* rt = rt_.c_str();
-    std::string name_ = info[2].As<String>().Utf8Value();
+    std::string name_ = info[2].ToString().Utf8Value();
     const char* name = name_.c_str();
-    std::string spec_version_ = info[3].As<String>().Utf8Value();
+    std::string spec_version_ = info[3].ToString().Utf8Value();
     const char* spec_version = spec_version_.c_str();
-    std::string data_model_version_ = info[4].As<String>().Utf8Value();
+    std::string data_model_version_ = info[4].ToString().Utf8Value();
     const char* data_model_version = data_model_version_.c_str();
     oc_core_add_device_cb_t add_device_cb = nullptr;
     Function add_device_cb_ = info[5].As<Function>();
@@ -375,12 +375,12 @@ Napi::FunctionReference OCEnumUtil::constructor;
 
 
 Value OCEnumUtil::enum_to_str(const CallbackInfo& info) {
-    oc_enum_t val = static_cast<oc_enum_t>(info[0].As<Number>().Uint32Value());
+    oc_enum_t val = static_cast<oc_enum_t>(info[0].ToNumber().Uint32Value());
     return String::New(info.Env(), oc_enum_to_str(val));
 }
 
 Value OCEnumUtil::pos_desc_to_str(const CallbackInfo& info) {
-    oc_pos_description_t pos = static_cast<oc_pos_description_t>(info[0].As<Number>().Uint32Value());
+    oc_pos_description_t pos = static_cast<oc_pos_description_t>(info[0].ToNumber().Uint32Value());
     return String::New(info.Env(), oc_enum_pos_desc_to_str(pos));
 }
 
@@ -398,9 +398,9 @@ Napi::FunctionReference OCIntrospection::constructor;
 
 #if defined(OC_IDD_API)
 Value OCIntrospection::set_introspection_data(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
     uint8_t* IDD = info[1].As<Buffer<uint8_t>>().Data();
-    size_t IDD_size = static_cast<size_t>(info[2].As<Number>().Uint32Value());
+    size_t IDD_size = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     (void)oc_set_introspection_data(device, IDD, IDD_size);
     return info.Env().Undefined();
 }
@@ -507,21 +507,21 @@ Napi::FunctionReference OCMain::constructor;
 
 
 Value OCMain::add_collection(const CallbackInfo& info) {
-    OCResource& collection = *OCResource::Unwrap(info[0].As<Object>());
+    OCResource& collection = *OCResource::Unwrap(info[0].ToObject());
     (void)oc_add_collection(collection);
     return info.Env().Undefined();
 }
 
 Value OCMain::add_device(const CallbackInfo& info) {
-    std::string uri_ = info[0].As<String>().Utf8Value();
+    std::string uri_ = info[0].ToString().Utf8Value();
     const char* uri = uri_.c_str();
-    std::string rt_ = info[1].As<String>().Utf8Value();
+    std::string rt_ = info[1].ToString().Utf8Value();
     const char* rt = rt_.c_str();
-    std::string name_ = info[2].As<String>().Utf8Value();
+    std::string name_ = info[2].ToString().Utf8Value();
     const char* name = name_.c_str();
-    std::string spec_version_ = info[3].As<String>().Utf8Value();
+    std::string spec_version_ = info[3].ToString().Utf8Value();
     const char* spec_version = spec_version_.c_str();
-    std::string data_model_version_ = info[4].As<String>().Utf8Value();
+    std::string data_model_version_ = info[4].ToString().Utf8Value();
     const char* data_model_version = data_model_version_.c_str();
     auto add_device_cb = CHECK_CALLBACK_FUNC(info, 5, helper_oc_add_device_cb);
     const int O_FUNC = 5;
@@ -542,13 +542,13 @@ Value OCMain::add_ownership_status_cb(const CallbackInfo& info) {
 #endif
 
 Value OCMain::add_resource(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info[0].As<Object>());
+    OCResource& resource = *OCResource::Unwrap(info[0].ToObject());
     return Boolean::New(info.Env(), oc_add_resource(resource));
 }
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCMain::assert_all_roles(const CallbackInfo& info) {
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].ToObject());
     auto handler = CHECK_CALLBACK_FUNC(info, 1, helper_oc_response_handler);
     const int O_FUNC = 1;
     SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 2);
@@ -560,11 +560,11 @@ Value OCMain::assert_all_roles(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCMain::assert_role(const CallbackInfo& info) {
-    std::string role_ = info[0].As<String>().Utf8Value();
+    std::string role_ = info[0].ToString().Utf8Value();
     const char* role = role_.c_str();
-    std::string authority_ = info[1].As<String>().Utf8Value();
+    std::string authority_ = info[1].ToString().Utf8Value();
     const char* authority = authority_.c_str();
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[2].As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[2].ToObject());
     auto handler = CHECK_CALLBACK_FUNC(info, 3, helper_oc_response_handler);
     const int O_FUNC = 3;
     SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 4);
@@ -575,71 +575,71 @@ Value OCMain::assert_role(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCMain::auto_assert_roles(const CallbackInfo& info) {
-    bool auto_assert = info[0].As<Boolean>().Value();
+    bool auto_assert = info[0].ToBoolean().Value();
     (void)oc_auto_assert_roles(auto_assert);
     return info.Env().Undefined();
 }
 #endif
 
 Value OCMain::close_session(const CallbackInfo& info) {
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].ToObject());
     (void)oc_close_session(endpoint);
     return info.Env().Undefined();
 }
 
 Value OCMain::delete_link(const CallbackInfo& info) {
-    OCLink& link = *OCLink::Unwrap(info[0].As<Object>());
+    OCLink& link = *OCLink::Unwrap(info[0].ToObject());
     (void)oc_delete_link(link);
     return info.Env().Undefined();
 }
 
 Value OCMain::delete_resource(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info[0].As<Object>());
+    OCResource& resource = *OCResource::Unwrap(info[0].ToObject());
     return Boolean::New(info.Env(), oc_delete_resource(resource));
 }
 
 Value OCMain::device_bind_resource_type(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
-    std::string type_ = info[1].As<String>().Utf8Value();
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
+    std::string type_ = info[1].ToString().Utf8Value();
     const char* type = type_.c_str();
     (void)oc_device_bind_resource_type(device, type);
     return info.Env().Undefined();
 }
 
 Value OCMain::do_delete(const CallbackInfo& info) {
-    std::string uri_ = info[0].As<String>().Utf8Value();
+    std::string uri_ = info[0].ToString().Utf8Value();
     const char* uri = uri_.c_str();
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
     const char* query = nullptr;
     if (info[2].IsString()) {
-        query = info[2].As<String>().Utf8Value().c_str();
+        query = info[2].ToString().Utf8Value().c_str();
     }
     auto handler = CHECK_CALLBACK_FUNC(info, 3, helper_oc_response_handler);
     const int O_FUNC = 3;
-    oc_qos_t qos = static_cast<oc_qos_t>(info[4].As<Number>().Uint32Value());
+    oc_qos_t qos = static_cast<oc_qos_t>(info[4].ToNumber().Uint32Value());
     SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 5);
     main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
     return Boolean::New(info.Env(), oc_do_delete(uri, endpoint, query, handler, qos, user_data));
 }
 
 Value OCMain::do_get(const CallbackInfo& info) {
-    std::string uri_ = info[0].As<String>().Utf8Value();
+    std::string uri_ = info[0].ToString().Utf8Value();
     const char* uri = uri_.c_str();
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
     const char* query = nullptr;
     if (info[2].IsString()) {
-        query = info[2].As<String>().Utf8Value().c_str();
+        query = info[2].ToString().Utf8Value().c_str();
     }
     auto handler = CHECK_CALLBACK_FUNC(info, 3, helper_oc_response_handler);
     const int O_FUNC = 3;
-    oc_qos_t qos = static_cast<oc_qos_t>(info[4].As<Number>().Uint32Value());
+    oc_qos_t qos = static_cast<oc_qos_t>(info[4].ToNumber().Uint32Value());
     SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 5);
     main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
     return Boolean::New(info.Env(), oc_do_get(uri, endpoint, query, handler, qos, user_data));
 }
 
 Value OCMain::do_ip_discovery(const CallbackInfo& info) {
-    std::string rt_ = info[0].As<String>().Utf8Value();
+    std::string rt_ = info[0].ToString().Utf8Value();
     const char* rt = rt_.c_str();
     auto handler = CHECK_CALLBACK_FUNC(info, 1, helper_oc_discovery_handler);
     const int O_FUNC = 1;
@@ -659,27 +659,27 @@ Value OCMain::do_ip_discovery_all(const CallbackInfo& info) {
 Value OCMain::do_ip_discovery_all_at_endpoint(const CallbackInfo& info) {
     auto handler = CHECK_CALLBACK_FUNC(info, 0, helper_oc_discovery_all_handler);
     const int O_FUNC = 0;
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
     SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 2);
     main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
     return Boolean::New(info.Env(), oc_do_ip_discovery_all_at_endpoint(handler, endpoint, user_data));
 }
 
 Value OCMain::do_ip_discovery_at_endpoint(const CallbackInfo& info) {
-    std::string rt_ = info[0].As<String>().Utf8Value();
+    std::string rt_ = info[0].ToString().Utf8Value();
     const char* rt = rt_.c_str();
     auto handler = CHECK_CALLBACK_FUNC(info, 1, helper_oc_discovery_handler);
     const int O_FUNC = 1;
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[2].As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[2].ToObject());
     SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 3);
     main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
     return Boolean::New(info.Env(), oc_do_ip_discovery_at_endpoint(rt, handler, endpoint, user_data));
 }
 
 Value OCMain::do_ip_multicast(const CallbackInfo& info) {
-    std::string uri_ = info[0].As<String>().Utf8Value();
+    std::string uri_ = info[0].ToString().Utf8Value();
     const char* uri = uri_.c_str();
-    std::string query_ = info[1].As<String>().Utf8Value();
+    std::string query_ = info[1].ToString().Utf8Value();
     const char* query = query_.c_str();
     auto handler = CHECK_CALLBACK_FUNC(info, 2, helper_oc_response_handler);
     const int O_FUNC = 2;
@@ -689,16 +689,16 @@ Value OCMain::do_ip_multicast(const CallbackInfo& info) {
 }
 
 Value OCMain::do_observe(const CallbackInfo& info) {
-    std::string uri_ = info[0].As<String>().Utf8Value();
+    std::string uri_ = info[0].ToString().Utf8Value();
     const char* uri = uri_.c_str();
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
     const char* query = nullptr;
     if (info[2].IsString()) {
-        query = info[2].As<String>().Utf8Value().c_str();
+        query = info[2].ToString().Utf8Value().c_str();
     }
     auto handler = CHECK_CALLBACK_FUNC(info, 3, helper_oc_response_handler);
     const int O_FUNC = 3;
-    oc_qos_t qos = static_cast<oc_qos_t>(info[4].As<Number>().Uint32Value());
+    oc_qos_t qos = static_cast<oc_qos_t>(info[4].ToNumber().Uint32Value());
     SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 5);
     main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
     return Boolean::New(info.Env(), oc_do_observe(uri, endpoint, query, handler, qos, user_data));
@@ -713,7 +713,7 @@ Value OCMain::do_put(const CallbackInfo& info) {
 }
 
 Value OCMain::do_realm_local_ipv6_discovery(const CallbackInfo& info) {
-    std::string rt_ = info[0].As<String>().Utf8Value();
+    std::string rt_ = info[0].ToString().Utf8Value();
     const char* rt = rt_.c_str();
     auto handler = CHECK_CALLBACK_FUNC(info, 1, helper_oc_discovery_handler);
     const int O_FUNC = 1;
@@ -731,9 +731,9 @@ Value OCMain::do_realm_local_ipv6_discovery_all(const CallbackInfo& info) {
 }
 
 Value OCMain::do_realm_local_ipv6_multicast(const CallbackInfo& info) {
-    std::string uri_ = info[0].As<String>().Utf8Value();
+    std::string uri_ = info[0].ToString().Utf8Value();
     const char* uri = uri_.c_str();
-    std::string query_ = info[1].As<String>().Utf8Value();
+    std::string query_ = info[1].ToString().Utf8Value();
     const char* query = query_.c_str();
     auto handler = CHECK_CALLBACK_FUNC(info, 2, helper_oc_response_handler);
     const int O_FUNC = 2;
@@ -743,7 +743,7 @@ Value OCMain::do_realm_local_ipv6_multicast(const CallbackInfo& info) {
 }
 
 Value OCMain::do_site_local_ipv6_discovery(const CallbackInfo& info) {
-    std::string rt_ = info[0].As<String>().Utf8Value();
+    std::string rt_ = info[0].ToString().Utf8Value();
     const char* rt = rt_.c_str();
     auto handler = CHECK_CALLBACK_FUNC(info, 1, helper_oc_discovery_handler);
     const int O_FUNC = 1;
@@ -761,9 +761,9 @@ Value OCMain::do_site_local_ipv6_discovery_all(const CallbackInfo& info) {
 }
 
 Value OCMain::do_site_local_ipv6_multicast(const CallbackInfo& info) {
-    std::string uri_ = info[0].As<String>().Utf8Value();
+    std::string uri_ = info[0].ToString().Utf8Value();
     const char* uri = uri_.c_str();
-    std::string query_ = info[1].As<String>().Utf8Value();
+    std::string query_ = info[1].ToString().Utf8Value();
     const char* query = query_.c_str();
     auto handler = CHECK_CALLBACK_FUNC(info, 2, helper_oc_response_handler);
     const int O_FUNC = 2;
@@ -773,7 +773,7 @@ Value OCMain::do_site_local_ipv6_multicast(const CallbackInfo& info) {
 }
 
 Value OCMain::free_server_endpoints(const CallbackInfo& info) {
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].ToObject());
     (void)oc_free_server_endpoints(endpoint);
     return info.Env().Undefined();
 }
@@ -791,20 +791,20 @@ Value OCMain::get_con_res_announced(const CallbackInfo& info) {
 }
 
 Value OCMain::ignore_request(const CallbackInfo& info) {
-    OCRequest& request = *OCRequest::Unwrap(info[0].As<Object>());
+    OCRequest& request = *OCRequest::Unwrap(info[0].ToObject());
     (void)oc_ignore_request(request);
     return info.Env().Undefined();
 }
 
 Value OCMain::indicate_separate_response(const CallbackInfo& info) {
-    OCRequest& request = *OCRequest::Unwrap(info[0].As<Object>());
-    OCSeparateResponse& response = *OCSeparateResponse::Unwrap(info[1].As<Object>());
+    OCRequest& request = *OCRequest::Unwrap(info[0].ToObject());
+    OCSeparateResponse& response = *OCSeparateResponse::Unwrap(info[1].ToObject());
     (void)oc_indicate_separate_response(request, response);
     return info.Env().Undefined();
 }
 
 Value OCMain::init_platform(const CallbackInfo& info) {
-    std::string mfg_name_ = info[0].As<String>().Utf8Value();
+    std::string mfg_name_ = info[0].ToString().Utf8Value();
     const char* mfg_name = mfg_name_.c_str();
     auto init_platform_cb = CHECK_CALLBACK_FUNC(info, 1, helper_oc_init_platform_cb);
     const int O_FUNC = 1;
@@ -814,32 +814,32 @@ Value OCMain::init_platform(const CallbackInfo& info) {
 }
 
 Value OCMain::init_post(const CallbackInfo& info) {
-    std::string uri_ = info[0].As<String>().Utf8Value();
+    std::string uri_ = info[0].ToString().Utf8Value();
     const char* uri = uri_.c_str();
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
     const char* query = nullptr;
     if (info[2].IsString()) {
-        query = info[2].As<String>().Utf8Value().c_str();
+        query = info[2].ToString().Utf8Value().c_str();
     }
     auto handler = CHECK_CALLBACK_FUNC(info, 3, helper_oc_response_handler);
     const int O_FUNC = 3;
-    oc_qos_t qos = static_cast<oc_qos_t>(info[4].As<Number>().Uint32Value());
+    oc_qos_t qos = static_cast<oc_qos_t>(info[4].ToNumber().Uint32Value());
     SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 5);
     main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
     return Boolean::New(info.Env(), oc_init_post(uri, endpoint, query, handler, qos, user_data));
 }
 
 Value OCMain::init_put(const CallbackInfo& info) {
-    std::string uri_ = info[0].As<String>().Utf8Value();
+    std::string uri_ = info[0].ToString().Utf8Value();
     const char* uri = uri_.c_str();
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
     const char* query = nullptr;
     if (info[2].IsString()) {
-        query = info[2].As<String>().Utf8Value().c_str();
+        query = info[2].ToString().Utf8Value().c_str();
     }
     auto handler = CHECK_CALLBACK_FUNC(info, 3, helper_oc_response_handler);
     const int O_FUNC = 3;
-    oc_qos_t qos = static_cast<oc_qos_t>(info[4].As<Number>().Uint32Value());
+    oc_qos_t qos = static_cast<oc_qos_t>(info[4].ToNumber().Uint32Value());
     SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 5);
     main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
     return Boolean::New(info.Env(), oc_init_put(uri, endpoint, query, handler, qos, user_data));
@@ -847,31 +847,31 @@ Value OCMain::init_put(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCMain::is_owned_device(const CallbackInfo& info) {
-    size_t device_index = static_cast<size_t>(info[0].As<Number>().Uint32Value());
+    size_t device_index = static_cast<size_t>(info[0].ToNumber().Uint32Value());
     return Boolean::New(info.Env(), oc_is_owned_device(device_index));
 }
 #endif
 
 Value OCMain::link_add_link_param(const CallbackInfo& info) {
-    OCLink& link = *OCLink::Unwrap(info[0].As<Object>());
-    std::string key_ = info[1].As<String>().Utf8Value();
+    OCLink& link = *OCLink::Unwrap(info[0].ToObject());
+    std::string key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
-    std::string value_ = info[2].As<String>().Utf8Value();
+    std::string value_ = info[2].ToString().Utf8Value();
     const char* value = value_.c_str();
     (void)oc_link_add_link_param(link, key, value);
     return info.Env().Undefined();
 }
 
 Value OCMain::link_add_rel(const CallbackInfo& info) {
-    OCLink& link = *OCLink::Unwrap(info[0].As<Object>());
-    std::string rel_ = info[1].As<String>().Utf8Value();
+    OCLink& link = *OCLink::Unwrap(info[0].ToObject());
+    std::string rel_ = info[1].ToString().Utf8Value();
     const char* rel = rel_.c_str();
     (void)oc_link_add_rel(link, rel);
     return info.Env().Undefined();
 }
 
 Value OCMain::main_init(const CallbackInfo& info) {
-    OCHandler& handler = *OCHandler::Unwrap(info[0].As<Object>());
+    OCHandler& handler = *OCHandler::Unwrap(info[0].ToObject());
 //
     struct main_context_t* mainctx = new main_context_t {
         Promise::Deferred::New(info.Env()),
@@ -927,7 +927,7 @@ Value OCMain::main_shutdown(const CallbackInfo& info) {
 }
 
 Value OCMain::new_link(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info[0].As<Object>());
+    OCResource& resource = *OCResource::Unwrap(info[0].ToObject());
     shared_ptr<oc_link_t> sp(oc_new_link(resource), nop_deleter);
     auto args = External<shared_ptr<oc_link_t>>::New(info.Env(), &sp);
     return OCLink::constructor.New({args});
@@ -960,32 +960,32 @@ Value OCMain::reset(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCMain::reset_device(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
     (void)oc_reset_device(device);
     return info.Env().Undefined();
 }
 #endif
 
 Value OCMain::ri_is_app_resource_valid(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info[0].As<Object>());
+    OCResource& resource = *OCResource::Unwrap(info[0].ToObject());
     return Boolean::New(info.Env(), oc_ri_is_app_resource_valid(resource));
 }
 
 Value OCMain::send_diagnostic_message(const CallbackInfo& info) {
-    OCRequest& request = *OCRequest::Unwrap(info[0].As<Object>());
-    std::string msg_ = info[1].As<String>().Utf8Value();
+    OCRequest& request = *OCRequest::Unwrap(info[0].ToObject());
+    std::string msg_ = info[1].ToString().Utf8Value();
     const char* msg = msg_.c_str();
-    size_t msg_len = static_cast<size_t>(info[2].As<Number>().Uint32Value());
-    oc_status_t response_code = static_cast<oc_status_t>(info[3].As<Number>().Uint32Value());
+    size_t msg_len = static_cast<size_t>(info[2].ToNumber().Uint32Value());
+    oc_status_t response_code = static_cast<oc_status_t>(info[3].ToNumber().Uint32Value());
     (void)oc_send_diagnostic_message(request, msg, msg_len, response_code);
     return info.Env().Undefined();
 }
 
 #if defined(OC_TCP)
 Value OCMain::send_ping(const CallbackInfo& info) {
-    bool custody = info[0].As<Boolean>().Value();
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Object>());
-    uint16_t timeout_seconds = static_cast<uint16_t>(info[2].As<Number>().Uint32Value());
+    bool custody = info[0].ToBoolean().Value();
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
+    uint16_t timeout_seconds = static_cast<uint16_t>(info[2].ToNumber().Uint32Value());
     auto handler = CHECK_CALLBACK_FUNC(info, 3, helper_oc_response_handler);
     const int O_FUNC = 3;
     SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 4);
@@ -995,31 +995,31 @@ Value OCMain::send_ping(const CallbackInfo& info) {
 #endif
 
 Value OCMain::send_response(const CallbackInfo& info) {
-    OCRequest& request = *OCRequest::Unwrap(info[0].As<Object>());
-    oc_status_t response_code = static_cast<oc_status_t>(info[1].As<Number>().Uint32Value());
+    OCRequest& request = *OCRequest::Unwrap(info[0].ToObject());
+    oc_status_t response_code = static_cast<oc_status_t>(info[1].ToNumber().Uint32Value());
     (void)oc_send_response(request, response_code);
     return info.Env().Undefined();
 }
 
 Value OCMain::send_response_raw(const CallbackInfo& info) {
-    OCRequest& request = *OCRequest::Unwrap(info[0].As<Object>());
+    OCRequest& request = *OCRequest::Unwrap(info[0].ToObject());
     const uint8_t* payload = info[1].As<Buffer<const uint8_t>>().Data();
-    size_t size = static_cast<size_t>(info[2].As<Number>().Uint32Value());
-    oc_content_format_t content_format = static_cast<oc_content_format_t>(info[3].As<Number>().Uint32Value());
-    oc_status_t response_code = static_cast<oc_status_t>(info[4].As<Number>().Uint32Value());
+    size_t size = static_cast<size_t>(info[2].ToNumber().Uint32Value());
+    oc_content_format_t content_format = static_cast<oc_content_format_t>(info[3].ToNumber().Uint32Value());
+    oc_status_t response_code = static_cast<oc_status_t>(info[4].ToNumber().Uint32Value());
     (void)oc_send_response_raw(request, payload, size, content_format, response_code);
     return info.Env().Undefined();
 }
 
 Value OCMain::send_separate_response(const CallbackInfo& info) {
-    OCSeparateResponse& handle = *OCSeparateResponse::Unwrap(info[0].As<Object>());
-    oc_status_t response_code = static_cast<oc_status_t>(info[1].As<Number>().Uint32Value());
+    OCSeparateResponse& handle = *OCSeparateResponse::Unwrap(info[0].ToObject());
+    oc_status_t response_code = static_cast<oc_status_t>(info[1].ToNumber().Uint32Value());
     (void)oc_send_separate_response(handle, response_code);
     return info.Env().Undefined();
 }
 
 Value OCMain::set_con_res_announced(const CallbackInfo& info) {
-    bool announce = info[0].As<Boolean>().Value();
+    bool announce = info[0].ToBoolean().Value();
     (void)oc_set_con_res_announced(announce);
     return info.Env().Undefined();
 }
@@ -1034,7 +1034,7 @@ Value OCMain::set_con_write_cb(const CallbackInfo& info) {
 Value OCMain::set_delayed_callback(const CallbackInfo& info) {
     auto callback = CHECK_CALLBACK_FUNC(info, 1, helper_oc_trigger);
     const int O_FUNC = 1;
-    uint16_t seconds = static_cast<uint16_t>(info[2].As<Number>().Uint32Value());
+    uint16_t seconds = static_cast<uint16_t>(info[2].ToNumber().Uint32Value());
     SafeCallbackHelper* cb_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 0);
     main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(cb_data));
     (void)oc_set_delayed_callback(cb_data, callback, seconds);
@@ -1063,26 +1063,26 @@ Value OCMain::set_random_pin_callback(const CallbackInfo& info) {
 #endif
 
 Value OCMain::set_separate_response_buffer(const CallbackInfo& info) {
-    OCSeparateResponse& handle = *OCSeparateResponse::Unwrap(info[0].As<Object>());
+    OCSeparateResponse& handle = *OCSeparateResponse::Unwrap(info[0].ToObject());
     (void)oc_set_separate_response_buffer(handle);
     return info.Env().Undefined();
 }
 
 Value OCMain::stop_multicast(const CallbackInfo& info) {
-    OCClientResponse& response = *OCClientResponse::Unwrap(info[0].As<Object>());
+    OCClientResponse& response = *OCClientResponse::Unwrap(info[0].ToObject());
     (void)oc_stop_multicast(response);
     return info.Env().Undefined();
 }
 
 Value OCMain::stop_observe(const CallbackInfo& info) {
-    std::string uri_ = info[0].As<String>().Utf8Value();
+    std::string uri_ = info[0].ToString().Utf8Value();
     const char* uri = uri_.c_str();
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
     return Boolean::New(info.Env(), oc_stop_observe(uri, endpoint));
 }
 
 Value OCMain::set_mtu_size(const CallbackInfo& info) {
-    size_t mtu_size = static_cast<size_t>(info[0].As<Number>().Uint32Value());
+    size_t mtu_size = static_cast<size_t>(info[0].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_set_mtu_size(mtu_size));
 }
 
@@ -1091,7 +1091,7 @@ Value OCMain::get_mtu_size(const CallbackInfo& info) {
 }
 
 Value OCMain::set_max_app_data_size(const CallbackInfo& info) {
-    size_t size = static_cast<size_t>(info[0].As<Number>().Uint32Value());
+    size_t size = static_cast<size_t>(info[0].ToNumber().Uint32Value());
     (void)oc_set_max_app_data_size(size);
     return info.Env().Undefined();
 }
@@ -1256,8 +1256,8 @@ Napi::FunctionReference OCObt::constructor;
 
 #if defined(OC_SECURITY)
 Value OCObt::ace_add_permission(const CallbackInfo& info) {
-    OCSecurityAce& ace = *OCSecurityAce::Unwrap(info[0].As<Object>());
-    oc_ace_permissions_t permission = static_cast<oc_ace_permissions_t>(info[1].As<Number>().Uint32Value());
+    OCSecurityAce& ace = *OCSecurityAce::Unwrap(info[0].ToObject());
+    oc_ace_permissions_t permission = static_cast<oc_ace_permissions_t>(info[1].ToNumber().Uint32Value());
     (void)oc_obt_ace_add_permission(ace, permission);
     return info.Env().Undefined();
 }
@@ -1265,7 +1265,7 @@ Value OCObt::ace_add_permission(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::ace_new_resource(const CallbackInfo& info) {
-    OCSecurityAce& ace = *OCSecurityAce::Unwrap(info[0].As<Object>());
+    OCSecurityAce& ace = *OCSecurityAce::Unwrap(info[0].ToObject());
     shared_ptr<oc_ace_res_t> sp(oc_obt_ace_new_resource(ace), nop_deleter);
     auto args = External<shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
     return OCAceResource::constructor.New({args});
@@ -1274,8 +1274,8 @@ Value OCObt::ace_new_resource(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::ace_resource_set_href(const CallbackInfo& info) {
-    OCAceResource& resource = *OCAceResource::Unwrap(info[0].As<Object>());
-    std::string href_ = info[1].As<String>().Utf8Value();
+    OCAceResource& resource = *OCAceResource::Unwrap(info[0].ToObject());
+    std::string href_ = info[1].ToString().Utf8Value();
     const char* href = href_.c_str();
     (void)oc_obt_ace_resource_set_href(resource, href);
     return info.Env().Undefined();
@@ -1284,8 +1284,8 @@ Value OCObt::ace_resource_set_href(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::ace_resource_set_wc(const CallbackInfo& info) {
-    OCAceResource& resource = *OCAceResource::Unwrap(info[0].As<Object>());
-    oc_ace_wildcard_t wc = static_cast<oc_ace_wildcard_t>(info[1].As<Number>().Uint32Value());
+    OCAceResource& resource = *OCAceResource::Unwrap(info[0].ToObject());
+    oc_ace_wildcard_t wc = static_cast<oc_ace_wildcard_t>(info[1].ToNumber().Uint32Value());
     (void)oc_obt_ace_resource_set_wc(resource, wc);
     return info.Env().Undefined();
 }
@@ -1293,10 +1293,10 @@ Value OCObt::ace_resource_set_wc(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCObt::add_roleid(const CallbackInfo& info) {
-    OCRole& roles = *OCRole::Unwrap(info[0].As<Object>());
-    std::string role_ = info[1].As<String>().Utf8Value();
+    OCRole& roles = *OCRole::Unwrap(info[0].ToObject());
+    std::string role_ = info[1].ToString().Utf8Value();
     const char* role = role_.c_str();
-    std::string authority_ = info[2].As<String>().Utf8Value();
+    std::string authority_ = info[2].ToString().Utf8Value();
     const char* authority = authority_.c_str();
     shared_ptr<oc_role_t> sp(oc_obt_add_roleid(roles, role, authority), nop_deleter);
     auto args = External<shared_ptr<oc_role_t>>::New(info.Env(), &sp);
@@ -1306,8 +1306,8 @@ Value OCObt::add_roleid(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::delete_ace_by_aceid(const CallbackInfo& info) {
-    OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Object>());
-    int aceid = static_cast<int>(info[1].As<Number>());
+    OCUuid& uuid = *OCUuid::Unwrap(info[0].ToObject());
+    int aceid = static_cast<int>(info[1].ToNumber());
     oc_obt_status_cb_t cb = nullptr;
     Function cb_ = info[2].As<Function>();
     void* data = info[3];
@@ -1317,8 +1317,8 @@ Value OCObt::delete_ace_by_aceid(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::delete_cred_by_credid(const CallbackInfo& info) {
-    OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Object>());
-    int credid = static_cast<int>(info[1].As<Number>());
+    OCUuid& uuid = *OCUuid::Unwrap(info[0].ToObject());
+    int credid = static_cast<int>(info[1].ToNumber());
     oc_obt_status_cb_t cb = nullptr;
     Function cb_ = info[2].As<Function>();
     void* data = info[3];
@@ -1328,14 +1328,14 @@ Value OCObt::delete_cred_by_credid(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::delete_own_cred_by_credid(const CallbackInfo& info) {
-    int credid = static_cast<int>(info[0].As<Number>());
+    int credid = static_cast<int>(info[0].ToNumber());
     return Number::New(info.Env(), oc_obt_delete_own_cred_by_credid(credid));
 }
 #endif
 
 #if defined(OC_SECURITY)
 Value OCObt::device_hard_reset(const CallbackInfo& info) {
-    OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Object>());
+    OCUuid& uuid = *OCUuid::Unwrap(info[0].ToObject());
     oc_obt_device_status_cb_t cb = nullptr;
     Function cb_ = info[1].As<Function>();
     void* data = info[2];
@@ -1345,7 +1345,7 @@ Value OCObt::device_hard_reset(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::discover_all_resources(const CallbackInfo& info) {
-    OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Object>());
+    OCUuid& uuid = *OCUuid::Unwrap(info[0].ToObject());
     oc_discovery_all_handler_t handler = nullptr;
     Function handler_ = info[1].As<Function>();
     void* data = info[2];
@@ -1409,7 +1409,7 @@ Value OCObt::discover_unowned_devices_site_local_ipv6(const CallbackInfo& info) 
 
 #if defined(OC_SECURITY)
 Value OCObt::free_ace(const CallbackInfo& info) {
-    OCSecurityAce& ace = *OCSecurityAce::Unwrap(info[0].As<Object>());
+    OCSecurityAce& ace = *OCSecurityAce::Unwrap(info[0].ToObject());
     (void)oc_obt_free_ace(ace);
     return info.Env().Undefined();
 }
@@ -1417,7 +1417,7 @@ Value OCObt::free_ace(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::free_acl(const CallbackInfo& info) {
-    OCSecurityAcl& acl = *OCSecurityAcl::Unwrap(info[0].As<Object>());
+    OCSecurityAcl& acl = *OCSecurityAcl::Unwrap(info[0].ToObject());
     (void)oc_obt_free_acl(acl);
     return info.Env().Undefined();
 }
@@ -1425,7 +1425,7 @@ Value OCObt::free_acl(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::free_creds(const CallbackInfo& info) {
-    OCCreds& creds = *OCCreds::Unwrap(info[0].As<Object>());
+    OCCreds& creds = *OCCreds::Unwrap(info[0].ToObject());
     (void)oc_obt_free_creds(creds);
     return info.Env().Undefined();
 }
@@ -1433,7 +1433,7 @@ Value OCObt::free_creds(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCObt::free_roleid(const CallbackInfo& info) {
-    OCRole& roles = *OCRole::Unwrap(info[0].As<Object>());
+    OCRole& roles = *OCRole::Unwrap(info[0].ToObject());
     (void)oc_obt_free_roleid(roles);
     return info.Env().Undefined();
 }
@@ -1447,7 +1447,7 @@ Value OCObt::init(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::new_ace_for_connection(const CallbackInfo& info) {
-    oc_ace_connection_type_t conn = static_cast<oc_ace_connection_type_t>(info[0].As<Number>().Uint32Value());
+    oc_ace_connection_type_t conn = static_cast<oc_ace_connection_type_t>(info[0].ToNumber().Uint32Value());
     shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_connection(conn), nop_deleter);
     auto args = External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
     return OCSecurityAce::constructor.New({args});
@@ -1456,9 +1456,9 @@ Value OCObt::new_ace_for_connection(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::new_ace_for_role(const CallbackInfo& info) {
-    std::string role_ = info[0].As<String>().Utf8Value();
+    std::string role_ = info[0].ToString().Utf8Value();
     const char* role = role_.c_str();
-    std::string authority_ = info[1].As<String>().Utf8Value();
+    std::string authority_ = info[1].ToString().Utf8Value();
     const char* authority = authority_.c_str();
     shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_role(role, authority), nop_deleter);
     auto args = External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
@@ -1468,7 +1468,7 @@ Value OCObt::new_ace_for_role(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::new_ace_for_subject(const CallbackInfo& info) {
-    OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Object>());
+    OCUuid& uuid = *OCUuid::Unwrap(info[0].ToObject());
     shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_subject(uuid), nop_deleter);
     auto args = External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
     return OCSecurityAce::constructor.New({args});
@@ -1477,7 +1477,7 @@ Value OCObt::new_ace_for_subject(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCObt::perform_cert_otm(const CallbackInfo& info) {
-    OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Object>());
+    OCUuid& uuid = *OCUuid::Unwrap(info[0].ToObject());
     oc_obt_device_status_cb_t cb = nullptr;
     Function cb_ = info[1].As<Function>();
     void* data = info[2];
@@ -1487,7 +1487,7 @@ Value OCObt::perform_cert_otm(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::perform_just_works_otm(const CallbackInfo& info) {
-    OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Object>());
+    OCUuid& uuid = *OCUuid::Unwrap(info[0].ToObject());
     oc_obt_device_status_cb_t cb = nullptr;
     Function cb_ = info[1].As<Function>();
     void* data = info[2];
@@ -1497,9 +1497,9 @@ Value OCObt::perform_just_works_otm(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::perform_random_pin_otm(const CallbackInfo& info) {
-    OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Object>());
+    OCUuid& uuid = *OCUuid::Unwrap(info[0].ToObject());
     const unsigned char* pin = info[1].As<Buffer<const uint8_t>>().Data();
-    size_t pin_len = static_cast<size_t>(info[2].As<Number>().Uint32Value());
+    size_t pin_len = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     oc_obt_device_status_cb_t cb = nullptr;
     Function cb_ = info[3].As<Function>();
     void* data = info[4];
@@ -1509,8 +1509,8 @@ Value OCObt::perform_random_pin_otm(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::provision_ace(const CallbackInfo& info) {
-    OCUuid& subject = *OCUuid::Unwrap(info[0].As<Object>());
-    OCSecurityAce& ace = *OCSecurityAce::Unwrap(info[1].As<Object>());
+    OCUuid& subject = *OCUuid::Unwrap(info[0].ToObject());
+    OCSecurityAce& ace = *OCSecurityAce::Unwrap(info[1].ToObject());
     oc_obt_device_status_cb_t cb = nullptr;
     Function cb_ = info[2].As<Function>();
     void* data = info[3];
@@ -1520,7 +1520,7 @@ Value OCObt::provision_ace(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::provision_auth_wildcard_ace(const CallbackInfo& info) {
-    OCUuid& subject = *OCUuid::Unwrap(info[0].As<Object>());
+    OCUuid& subject = *OCUuid::Unwrap(info[0].ToObject());
     oc_obt_device_status_cb_t cb = nullptr;
     Function cb_ = info[1].As<Function>();
     void* data = info[2];
@@ -1530,7 +1530,7 @@ Value OCObt::provision_auth_wildcard_ace(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCObt::provision_identity_certificate(const CallbackInfo& info) {
-    OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Object>());
+    OCUuid& uuid = *OCUuid::Unwrap(info[0].ToObject());
     oc_obt_status_cb_t cb = nullptr;
     Function cb_ = info[1].As<Function>();
     void* data = info[2];
@@ -1540,8 +1540,8 @@ Value OCObt::provision_identity_certificate(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::provision_pairwise_credentials(const CallbackInfo& info) {
-    OCUuid& uuid1 = *OCUuid::Unwrap(info[0].As<Object>());
-    OCUuid& uuid2 = *OCUuid::Unwrap(info[1].As<Object>());
+    OCUuid& uuid1 = *OCUuid::Unwrap(info[0].ToObject());
+    OCUuid& uuid2 = *OCUuid::Unwrap(info[1].ToObject());
     oc_obt_status_cb_t cb = nullptr;
     Function cb_ = info[2].As<Function>();
     void* data = info[3];
@@ -1551,8 +1551,8 @@ Value OCObt::provision_pairwise_credentials(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCObt::provision_role_certificate(const CallbackInfo& info) {
-    OCRole& roles = *OCRole::Unwrap(info[0].As<Object>());
-    OCUuid& uuid = *OCUuid::Unwrap(info[1].As<Object>());
+    OCRole& roles = *OCRole::Unwrap(info[0].ToObject());
+    OCUuid& uuid = *OCUuid::Unwrap(info[1].ToObject());
     oc_obt_status_cb_t cb = nullptr;
     Function cb_ = info[2].As<Function>();
     void* data = info[3];
@@ -1562,10 +1562,10 @@ Value OCObt::provision_role_certificate(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::provision_role_wildcard_ace(const CallbackInfo& info) {
-    OCUuid& subject = *OCUuid::Unwrap(info[0].As<Object>());
-    std::string role_ = info[1].As<String>().Utf8Value();
+    OCUuid& subject = *OCUuid::Unwrap(info[0].ToObject());
+    std::string role_ = info[1].ToString().Utf8Value();
     const char* role = role_.c_str();
-    std::string authority_ = info[2].As<String>().Utf8Value();
+    std::string authority_ = info[2].ToString().Utf8Value();
     const char* authority = authority_.c_str();
     oc_obt_device_status_cb_t cb = nullptr;
     Function cb_ = info[3].As<Function>();
@@ -1576,7 +1576,7 @@ Value OCObt::provision_role_wildcard_ace(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::request_random_pin(const CallbackInfo& info) {
-    OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Object>());
+    OCUuid& uuid = *OCUuid::Unwrap(info[0].ToObject());
     oc_obt_device_status_cb_t cb = nullptr;
     Function cb_ = info[1].As<Function>();
     void* data = info[2];
@@ -1586,7 +1586,7 @@ Value OCObt::request_random_pin(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::retrieve_acl(const CallbackInfo& info) {
-    OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Object>());
+    OCUuid& uuid = *OCUuid::Unwrap(info[0].ToObject());
     oc_obt_acl_cb_t cb = nullptr;
     Function cb_ = info[1].As<Function>();
     void* data = info[2];
@@ -1596,7 +1596,7 @@ Value OCObt::retrieve_acl(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::retrieve_creds(const CallbackInfo& info) {
-    OCUuid& subject = *OCUuid::Unwrap(info[0].As<Object>());
+    OCUuid& subject = *OCUuid::Unwrap(info[0].ToObject());
     oc_obt_creds_cb_t cb = nullptr;
     Function cb_ = info[1].As<Function>();
     void* data = info[2];
@@ -1614,8 +1614,8 @@ Value OCObt::retrieve_own_creds(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::set_sd_info(const CallbackInfo& info) {
-    char* name = const_cast<char*>(info[0].As<String>().Utf8Value().c_str());
-    bool priv = info[1].As<Boolean>().Value();
+    char* name = const_cast<char*>(info[0].ToString().Utf8Value().c_str());
+    bool priv = info[1].ToBoolean().Value();
     (void)oc_obt_set_sd_info(name, priv);
     return info.Env().Undefined();
 }
@@ -1654,49 +1654,49 @@ Napi::FunctionReference OCPki::constructor;
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCPki::add_mfg_cert(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
     const unsigned char* cert = info[1].As<Buffer<const uint8_t>>().Data();
-    size_t cert_size = static_cast<size_t>(info[2].As<Number>().Uint32Value());
+    size_t cert_size = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     const unsigned char* key = info[3].As<Buffer<const uint8_t>>().Data();
-    size_t key_size = static_cast<size_t>(info[4].As<Number>().Uint32Value());
+    size_t key_size = static_cast<size_t>(info[4].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_pki_add_mfg_cert(device, cert, cert_size, key, key_size));
 }
 #endif
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCPki::add_mfg_trust_anchor(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
     const unsigned char* cert = info[1].As<Buffer<const uint8_t>>().Data();
-    size_t cert_size = static_cast<size_t>(info[2].As<Number>().Uint32Value());
+    size_t cert_size = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_pki_add_mfg_trust_anchor(device, cert, cert_size));
 }
 #endif
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCPki::add_mfg_intermediate_cert(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
-    int credid = static_cast<int>(info[1].As<Number>());
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
+    int credid = static_cast<int>(info[1].ToNumber());
     const unsigned char* cert = info[2].As<Buffer<const uint8_t>>().Data();
-    size_t cert_size = static_cast<size_t>(info[3].As<Number>().Uint32Value());
+    size_t cert_size = static_cast<size_t>(info[3].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_pki_add_mfg_intermediate_cert(device, credid, cert, cert_size));
 }
 #endif
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCPki::add_trust_anchor(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
     const unsigned char* cert = info[1].As<Buffer<const uint8_t>>().Data();
-    size_t cert_size = static_cast<size_t>(info[2].As<Number>().Uint32Value());
+    size_t cert_size = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_pki_add_trust_anchor(device, cert, cert_size));
 }
 #endif
 
 #if defined(OC_SECURITY)
 Value OCPki::set_security_profile(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
-    oc_sp_types_t supported_profiles = static_cast<oc_sp_types_t>(info[1].As<Number>().Uint32Value());
-    oc_sp_types_t current_profile = static_cast<oc_sp_types_t>(info[2].As<Number>().Uint32Value());
-    int mfg_credid = static_cast<int>(info[3].As<Number>());
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
+    oc_sp_types_t supported_profiles = static_cast<oc_sp_types_t>(info[1].ToNumber().Uint32Value());
+    oc_sp_types_t current_profile = static_cast<oc_sp_types_t>(info[2].ToNumber().Uint32Value());
+    int mfg_credid = static_cast<int>(info[3].ToNumber());
     (void)oc_pki_set_security_profile(device, supported_profiles, current_profile, mfg_credid);
     return info.Env().Undefined();
 }
@@ -1754,10 +1754,10 @@ Napi::FunctionReference OCSWUpdate::constructor;
 
 #if defined(OC_SOFTWARE_UPDATE)
 Value OCSWUpdate::notify_downloaded(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
-    std::string version_ = info[1].As<String>().Utf8Value();
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
+    std::string version_ = info[1].ToString().Utf8Value();
     const char* version = version_.c_str();
-    oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[2].As<Number>().Uint32Value());
+    oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[2].ToNumber().Uint32Value());
     (void)oc_swupdate_notify_downloaded(device, version, result);
     return info.Env().Undefined();
 }
@@ -1765,11 +1765,11 @@ Value OCSWUpdate::notify_downloaded(const CallbackInfo& info) {
 
 #if defined(OC_SOFTWARE_UPDATE)
 Value OCSWUpdate::notify_upgrading(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
-    std::string version_ = info[1].As<String>().Utf8Value();
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
+    std::string version_ = info[1].ToString().Utf8Value();
     const char* version = version_.c_str();
-    oc_clock_time_t timestamp = static_cast<uint64_t>(info[2].As<Number>().Int64Value());
-    oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[3].As<Number>().Uint32Value());
+    oc_clock_time_t timestamp = static_cast<uint64_t>(info[2].ToNumber().Int64Value());
+    oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[3].ToNumber().Uint32Value());
     (void)oc_swupdate_notify_upgrading(device, version, timestamp, result);
     return info.Env().Undefined();
 }
@@ -1777,8 +1777,8 @@ Value OCSWUpdate::notify_upgrading(const CallbackInfo& info) {
 
 #if defined(OC_SOFTWARE_UPDATE)
 Value OCSWUpdate::notify_done(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
-    oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[1].As<Number>().Uint32Value());
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
+    oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[1].ToNumber().Uint32Value());
     (void)oc_swupdate_notify_done(device, result);
     return info.Env().Undefined();
 }
@@ -1786,10 +1786,10 @@ Value OCSWUpdate::notify_done(const CallbackInfo& info) {
 
 #if defined(OC_SOFTWARE_UPDATE)
 Value OCSWUpdate::notify_new_version_available(const CallbackInfo& info) {
-    size_t device = static_cast<size_t>(info[0].As<Number>().Uint32Value());
-    std::string version_ = info[1].As<String>().Utf8Value();
+    size_t device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
+    std::string version_ = info[1].ToString().Utf8Value();
     const char* version = version_.c_str();
-    oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[2].As<Number>().Uint32Value());
+    oc_swupdate_result_t result = static_cast<oc_swupdate_result_t>(info[2].ToNumber().Uint32Value());
     (void)oc_swupdate_notify_new_version_available(device, version, result);
     return info.Env().Undefined();
 }
@@ -1797,7 +1797,7 @@ Value OCSWUpdate::notify_new_version_available(const CallbackInfo& info) {
 
 #if defined(OC_SOFTWARE_UPDATE)
 Value OCSWUpdate::set_impl(const CallbackInfo& info) {
-    OCSoftwareUpdateHandler& swupdate_impl = *OCSoftwareUpdateHandler::Unwrap(info[0].As<Object>());
+    OCSoftwareUpdateHandler& swupdate_impl = *OCSoftwareUpdateHandler::Unwrap(info[0].ToObject());
     main_context->oc_swupdate_cb_validate_purl_ref.Reset(swupdate_impl.validate_purl.Value());
     main_context->oc_swupdate_cb_check_new_version_ref.Reset(swupdate_impl.check_new_version.Value());
     main_context->oc_swupdate_cb_download_update_ref.Reset(swupdate_impl.download_update.Value());
@@ -1831,7 +1831,7 @@ Napi::FunctionReference OCSession::constructor;
 
 #if defined(OC_TCP)
 Value OCSession::start_event(const CallbackInfo& info) {
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].ToObject());
     (void)oc_session_start_event(endpoint);
     return info.Env().Undefined();
 }
@@ -1839,7 +1839,7 @@ Value OCSession::start_event(const CallbackInfo& info) {
 
 #if defined(OC_TCP)
 Value OCSession::end_event(const CallbackInfo& info) {
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[0].ToObject());
     (void)oc_session_end_event(endpoint);
     return info.Env().Undefined();
 }
@@ -1847,7 +1847,7 @@ Value OCSession::end_event(const CallbackInfo& info) {
 
 #if defined(OC_TCP)
 Value OCSession::set_event_delay(const CallbackInfo& info) {
-    int secs = static_cast<int>(info[0].As<Number>());
+    int secs = static_cast<int>(info[0].ToNumber());
     (void)oc_session_events_set_event_delay(secs);
     return info.Env().Undefined();
 }
@@ -1866,24 +1866,24 @@ Napi::FunctionReference OCStorage::constructor;
 
 
 Value OCStorage::config(const CallbackInfo& info) {
-    std::string store_ = info[0].As<String>().Utf8Value();
+    std::string store_ = info[0].ToString().Utf8Value();
     const char* store = store_.c_str();
     return Number::New(info.Env(), oc_storage_config(store));
 }
 
 Value OCStorage::read(const CallbackInfo& info) {
-    std::string store_ = info[0].As<String>().Utf8Value();
+    std::string store_ = info[0].ToString().Utf8Value();
     const char* store = store_.c_str();
     uint8_t* buf = info[1].As<Buffer<uint8_t>>().Data();
-    size_t size = static_cast<size_t>(info[2].As<Number>().Uint32Value());
+    size_t size = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_storage_read(store, buf, size));
 }
 
 Value OCStorage::write(const CallbackInfo& info) {
-    std::string store_ = info[0].As<String>().Utf8Value();
+    std::string store_ = info[0].ToString().Utf8Value();
     const char* store = store_.c_str();
     uint8_t* buf = info[1].As<Buffer<uint8_t>>().Data();
-    size_t size = static_cast<size_t>(info[2].As<Number>().Uint32Value());
+    size_t size = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_storage_write(store, buf, size));
 }
 

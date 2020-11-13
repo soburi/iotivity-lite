@@ -127,7 +127,7 @@ function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
     }
   }
 
-  return 0;
+  return "hoge";
 }
 
 function trigger(data)

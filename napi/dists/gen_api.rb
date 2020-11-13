@@ -207,19 +207,19 @@ GENERIC_GET = {           "bool"  => "  return Boolean::New(info.Env(), m_pvalue
                 "oc_clock_time_t" => "  return Number::New(info.Env(), m_pvalue->VALNAME);",
                          "size_t" => "  return Number::New(info.Env(), m_pvalue->VALNAME);",
 }
-GENERIC_SET = {           "bool"  => "  m_pvalue->VALNAME = value.As<Boolean>().Value();",
-                           "int"  => "  m_pvalue->VALNAME = static_cast<int>(value.As<Number>());",
-                 "unsigned char"  => "  m_pvalue->VALNAME = static_cast<unsigned char>(value.As<Number>().Uint32Value());",
-                "unsigned short"  => "  m_pvalue->VALNAME = static_cast<unsigned short>(value.As<Number>().Uint32Value());",
-                "uint8_t"  => "  m_pvalue->VALNAME = static_cast<uint8_t>(value.As<Number>().Uint32Value());",
-                "uint16_t"  => "  m_pvalue->VALNAME = static_cast<uint16_t>(value.As<Number>().Uint32Value());",
-                "uint32_t" => "  m_pvalue->VALNAME = static_cast<uint32_t>(value.As<Number>());",
-                "uint64_t" => "  m_pvalue->VALNAME = static_cast<uint64_t>(value.As<Number>());",
-                "int32_t" => "  m_pvalue->VALNAME = value.As<Number>().Int32Value();",
-                "int64_t" => "  m_pvalue->VALNAME = value.As<Number>().Int64Value();",
-                "double" => "  m_pvalue->VALNAME = value.As<Number>().DoubleValue();",
-                "oc_clock_time_t" => "  m_pvalue->VALNAME = static_cast<uint32_t>(value.As<Number>().Uint32Value());",
-                "size_t" => "  m_pvalue->VALNAME = static_cast<uint32_t>(value.As<Number>().Uint32Value());",
+GENERIC_SET = {           "bool"  => "  m_pvalue->VALNAME = value.ToBoolean().Value();",
+                           "int"  => "  m_pvalue->VALNAME = static_cast<int>(value.ToNumber());",
+                 "unsigned char"  => "  m_pvalue->VALNAME = static_cast<unsigned char>(value.ToNumber().Uint32Value());",
+                "unsigned short"  => "  m_pvalue->VALNAME = static_cast<unsigned short>(value.ToNumber().Uint32Value());",
+                "uint8_t"  => "  m_pvalue->VALNAME = static_cast<uint8_t>(value.ToNumber().Uint32Value());",
+                "uint16_t"  => "  m_pvalue->VALNAME = static_cast<uint16_t>(value.ToNumber().Uint32Value());",
+                "uint32_t" => "  m_pvalue->VALNAME = static_cast<uint32_t>(value.ToNumber());",
+                "uint64_t" => "  m_pvalue->VALNAME = static_cast<uint64_t>(value.ToNumber());",
+                "int32_t" => "  m_pvalue->VALNAME = value.ToNumber().Int32Value();",
+                "int64_t" => "  m_pvalue->VALNAME = value.ToNumber().Int64Value();",
+                "double" => "  m_pvalue->VALNAME = value.ToNumber().DoubleValue();",
+                "oc_clock_time_t" => "  m_pvalue->VALNAME = static_cast<uint32_t>(value.ToNumber().Uint32Value());",
+                "size_t" => "  m_pvalue->VALNAME = static_cast<uint32_t>(value.ToNumber().Uint32Value());",
 }
 
 STRUCT_SET = "  m_pvalue->VALNAME = *(*(value.As<External<shared_ptr<STRUCTNAME>>>().Data()));"
@@ -229,7 +229,7 @@ STRUCT_GET = "\
   auto accessor = External<shared_ptr<STRUCTNAME>>::New(info.Env(), &sp);
   return WRAPNAME::constructor.New({accessor});"
 
-ENUM_SET = "  m_pvalue->VALNAME = static_cast<STRUCTNAME>(value.As<Number>().Uint32Value());"
+ENUM_SET = "  m_pvalue->VALNAME = static_cast<STRUCTNAME>(value.ToNumber().Uint32Value());"
 ENUM_GET = "  return Number::New(info.Env(), m_pvalue->VALNAME);"
 
 
@@ -340,11 +340,11 @@ OCUuid::OCUuid(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
         m_pvalue = shared_ptr<oc_uuid_t>(new oc_uuid_t());
-        oc_str_to_uuid(info[0].As<String>().Utf8Value().c_str(), m_pvalue.get());
+        oc_str_to_uuid(info[0].ToString().Utf8Value().c_str(), m_pvalue.get());
     }
     else if (info.Length() == 1 && info[0].IsString()) {
         m_pvalue = shared_ptr<oc_uuid_t>(new oc_uuid_t());
-        oc_str_to_uuid(info[0].As<String>().Utf8Value().c_str(), m_pvalue.get());
+        oc_str_to_uuid(info[0].ToString().Utf8Value().c_str(), m_pvalue.get());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
         m_pvalue = *(info[0].As<External<shared_ptr<oc_uuid_t>>>().Data());
@@ -576,12 +576,12 @@ OCStringArrayIterator::OCStringArrayIterator(const CallbackInfo& info) : ObjectW
 OCResource::OCResource(const CallbackInfo& info) : ObjectWrap(info)
 {
   if (info.Length() == 4) {
-     string name_ = info[0].As<String>().Utf8Value();
+     string name_ = info[0].ToString().Utf8Value();
      const char* name = name_.c_str();
-     string uri_ = info[1].As<String>().Utf8Value();
+     string uri_ = info[1].ToString().Utf8Value();
      const char* uri = uri_.c_str();
-     uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Number>().Uint32Value());
-     size_t device = static_cast<size_t>(info[3].As<Number>().Uint32Value());
+     uint8_t num_resource_types = static_cast<uint8_t>(info[2].ToNumber().Uint32Value());
+     size_t device = static_cast<size_t>(info[3].ToNumber().Uint32Value());
 
      m_pvalue = shared_ptr<oc_resource_s>( oc_new_resource(name, uri, num_resource_types, device), nop_deleter /* TODO */);
   }
@@ -791,7 +791,7 @@ m_pvalue->buffer_size = value.As<Buffer<uint8_t>>().Length();",
     "get"=> "return perform_upgrade_function;"
   },
   "oc_process::name"=> {
-    "set"=>"  m_pvalue->VALNAME = value.As<String>().Utf8Value().c_str();",
+    "set"=>"  m_pvalue->VALNAME = value.ToString().Utf8Value().c_str();",
     "get"=>"  return String::New(info.Env(), m_pvalue->VALNAME);"
   },
   "oc_blockwise_state_s::buffer"=> {
@@ -907,11 +907,11 @@ m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();",
     "array[2] = m_pvalue->tag_pos_rel[2];\n" +
     "return array;"},
   "oc_resource_s::tag_func_desc"=>
-  {"set"=> '  oc_resource_tag_func_desc(m_pvalue.get(), static_cast<oc_enum_t>(value.As<Number>().Uint32Value()));',
+  {"set"=> '  oc_resource_tag_func_desc(m_pvalue.get(), static_cast<oc_enum_t>(value.ToNumber().Uint32Value()));',
    "get"=> '  return Number::New(info.Env(), m_pvalue->tag_func_desc);'
   },
   "oc_resource_s::tag_pos_desc"=>
-  {"set"=> '  oc_resource_tag_pos_desc(m_pvalue.get(), static_cast<oc_pos_description_t>(value.As<Number>().Uint32Value()));',
+  {"set"=> '  oc_resource_tag_pos_desc(m_pvalue.get(), static_cast<oc_pos_description_t>(value.ToNumber().Uint32Value()));',
    "get"=> '  return Number::New(info.Env(), m_pvalue->tag_pos_desc);'
   },
   "oc_resource_s::tag_pos_rel"=>
@@ -977,7 +977,7 @@ m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();",
 OVERRIDE_FUNC = {
   'oc_rep_to_json' => { '1' => '', '2' => '', '3' => '',
   'invoke' => '
-    bool pretty_print = (info.Length() >= 1) ? info[0].As<Boolean>().Value() : false;
+    bool pretty_print = (info.Length() >= 1) ? info[0].ToBoolean().Value() : false;
 
     size_t buf_size = 0;
     size_t print_size = 0;
@@ -1012,17 +1012,17 @@ OVERRIDE_FUNC = {
   return OCEndpoint::constructor.New({accessor});' },
   'oc_endpoint_list_copy' => {
     '0' => '',
-    '1' => 'OCEndpoint& src = *OCEndpoint::Unwrap(info.This().As<Object>());',
+    '1' => 'OCEndpoint& src = *OCEndpoint::Unwrap(info.This().ToObject());',
     'invoke' => 'oc_endpoint_t* dst = nullptr;
   oc_endpoint_list_copy(&dst, src);
   shared_ptr<oc_endpoint_t> sp(dst /* TODO */);
   auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
   return OCEndpoint::constructor.New({accessor});' },
-  'oc_collection_add_link' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());' },
-  'oc_collection_add_mandatory_rt' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());' },
-  'oc_collection_add_supported_rt' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());' },
-  'oc_collection_get_links' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());' },
-  'oc_collection_remove_link' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());' },
+  'oc_collection_add_link' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());' },
+  'oc_collection_add_mandatory_rt' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());' },
+  'oc_collection_add_supported_rt' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());' },
+  'oc_collection_get_links' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());' },
+  'oc_collection_remove_link' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());' },
   'oc_parse_rep' => {
     '1' => '  int payload_size = info[0].As<Buffer<const uint8_t>>().Length();',
     '2' => '',
@@ -1173,31 +1173,31 @@ STR
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_get' => {
-    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].As<String>().Utf8Value().c_str(); }',
+    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].ToString().Utf8Value().c_str(); }',
     '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
     '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_delete' => {
-    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].As<String>().Utf8Value().c_str(); }',
+    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].ToString().Utf8Value().c_str(); }',
     '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
     '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_observe' => {
-    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].As<String>().Utf8Value().c_str(); }',
+    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].ToString().Utf8Value().c_str(); }',
     '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
     '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_init_post' => {
-    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].As<String>().Utf8Value().c_str(); }',
+    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].ToString().Utf8Value().c_str(); }',
     '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
     '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_init_put' => {
-    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].As<String>().Utf8Value().c_str(); }',
+    '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { query = info[ORDER].ToString().Utf8Value().c_str(); }',
     '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
     '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
@@ -2290,25 +2290,25 @@ def gen_funcimpl(func, name, param, instance)
       decl +=  OVERRIDE_FUNC[name][ii.to_s].gsub(/ORDER/, i.to_s)
       args.append(n)
     elsif ty == 'uint8_t' or ty == 'uint16_t' or ty == 'uint32_t' or ty == 'size_t'
-      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Number>().Uint32Value());\n"
+      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.ToNumber().Uint32Value());\n"
       args.append(n)
     elsif ty == 'double'
-      decl += "  #{ty} #{n} = info#{index}.As<Number>().DoubleValue();\n"
+      decl += "  #{ty} #{n} = info#{index}.ToNumber().DoubleValue();\n"
       args.append(n)
     elsif ty == 'oc_clock_time_t'
-      decl += "  #{ty} #{n} = static_cast<uint64_t>(info#{index}.As<Number>().Int64Value());\n"
+      decl += "  #{ty} #{n} = static_cast<uint64_t>(info#{index}.ToNumber().Int64Value());\n"
       args.append(n)
     elsif ty == 'void*'
       decl += "  #{ty} #{n} = info#{index};\n"
       args.append(n)
     elsif ty == 'const char*'
-      decl += "  std::string #{n}_ = info#{index}.As<String>().Utf8Value();\n  #{ty} #{n} = #{n}_.c_str();\n"
+      decl += "  std::string #{n}_ = info#{index}.ToString().Utf8Value();\n  #{ty} #{n} = #{n}_.c_str();\n"
       args.append(n)
     elsif ty == 'char*'
-      decl += "  #{ty} #{n} = const_cast<char*>(info#{index}.As<String>().Utf8Value().c_str());\n"
+      decl += "  #{ty} #{n} = const_cast<char*>(info#{index}.ToString().Utf8Value().c_str());\n"
       args.append(n)
     elsif ty == 'const char'
-      decl += "  #{ty} #{n} = static_cast<uint8_t>(info#{index}.As<Number>().Uint32Value());\n"
+      decl += "  #{ty} #{n} = static_cast<uint8_t>(info#{index}.ToNumber().Uint32Value());\n"
       args.append(n)
     elsif ty == 'const unsigned char*'
       decl += "  #{ty} #{n} = info#{index}.As<Buffer<const uint8_t>>().Data();\n"
@@ -2323,7 +2323,7 @@ def gen_funcimpl(func, name, param, instance)
       decl += "  #{ty} #{n} = reinterpret_cast<size_t*>(info#{index}.As<Uint32Array>().Data());\n"
       args.append(n)
     elsif ty == 'bool'
-      decl += "  #{ty} #{n} = info#{index}.As<Boolean>().Value();\n"
+      decl += "  #{ty} #{n} = info#{index}.ToBoolean().Value();\n"
       args.append(n)
     elsif ty == 'oc_response_handler_t' or
           ty == 'interface_event_handler_t' or
@@ -2354,7 +2354,7 @@ def gen_funcimpl(func, name, param, instance)
       args.append(n)
     elsif match_any?(ty, PRIMITIVES)
       #p ty + " PRIMITIVES"
-      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Number>());\n"
+      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.ToNumber());\n"
       args.append(n)
     elsif is_struct_ptr?(ty)
       #p ty + " struct_ptr"
@@ -2362,11 +2362,11 @@ def gen_funcimpl(func, name, param, instance)
       raw_ty = raw_ty.gsub(/^struct /, "")
       raw_ty = raw_ty.gsub(/^const /, "")
       raw_ty = TYPEDEFS[raw_ty] if TYPEDEFS.keys.include?(raw_ty)
-      decl += "  #{gen_classname(raw_ty)}& #{n} = *#{gen_classname(raw_ty)}::Unwrap(info#{index}.As<Object>());\n"
+      decl += "  #{gen_classname(raw_ty)}& #{n} = *#{gen_classname(raw_ty)}::Unwrap(info#{index}.ToObject());\n"
 
       args.append(n)
     elsif ENUMS.include?(typedef_map(ty.gsub(/^enum /,'') ) )
-      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.As<Number>().Uint32Value());\n"
+      decl += "  #{ty} #{n} = static_cast<#{ty}>(info#{index}.ToNumber().Uint32Value());\n"
       args.append(n)
     else
       decl += "// #{i} #{n}, #{ty}\n"

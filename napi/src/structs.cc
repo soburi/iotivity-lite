@@ -61,7 +61,7 @@ Napi::Value OCAceResource::get_interfaces(const Napi::CallbackInfo& info)
 
 void OCAceResource::set_interfaces(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->interfaces = static_cast<oc_interface_mask_t>(value.As<Number>().Uint32Value());
+    m_pvalue->interfaces = static_cast<oc_interface_mask_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCAceResource::get_types(const Napi::CallbackInfo& info)
@@ -83,7 +83,7 @@ Napi::Value OCAceResource::get_wildcard(const Napi::CallbackInfo& info)
 
 void OCAceResource::set_wildcard(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->wildcard = static_cast<oc_ace_wildcard_t>(value.As<Number>().Uint32Value());
+    m_pvalue->wildcard = static_cast<oc_ace_wildcard_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::FunctionReference OCBlockwiseRequestState::constructor;
@@ -194,7 +194,7 @@ Napi::Value OCBlockwiseResponseState::get_observe_seq(const Napi::CallbackInfo& 
 
 void OCBlockwiseResponseState::set_observe_seq(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->observe_seq = value.As<Number>().Int32Value();
+    m_pvalue->observe_seq = value.ToNumber().Int32Value();
 }
 #endif
 
@@ -303,7 +303,7 @@ Napi::Value OCBlockwiseState::get_method(const Napi::CallbackInfo& info)
 
 void OCBlockwiseState::set_method(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->method = static_cast<oc_method_t>(value.As<Number>().Uint32Value());
+    m_pvalue->method = static_cast<oc_method_t>(value.ToNumber().Uint32Value());
 }
 
 #if defined(OC_CLIENT)
@@ -314,7 +314,7 @@ Napi::Value OCBlockwiseState::get_mid(const Napi::CallbackInfo& info)
 
 void OCBlockwiseState::set_mid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->mid = static_cast<uint16_t>(value.As<Number>().Uint32Value());
+    m_pvalue->mid = static_cast<uint16_t>(value.ToNumber().Uint32Value());
 }
 #endif
 
@@ -325,7 +325,7 @@ Napi::Value OCBlockwiseState::get_next_block_offset(const Napi::CallbackInfo& in
 
 void OCBlockwiseState::set_next_block_offset(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->next_block_offset = static_cast<uint32_t>(value.As<Number>());
+    m_pvalue->next_block_offset = static_cast<uint32_t>(value.ToNumber());
 }
 
 Napi::Value OCBlockwiseState::get_payload_size(const Napi::CallbackInfo& info)
@@ -335,7 +335,7 @@ Napi::Value OCBlockwiseState::get_payload_size(const Napi::CallbackInfo& info)
 
 void OCBlockwiseState::set_payload_size(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->payload_size = static_cast<uint32_t>(value.As<Number>());
+    m_pvalue->payload_size = static_cast<uint32_t>(value.ToNumber());
 }
 
 Napi::Value OCBlockwiseState::get_ref_count(const Napi::CallbackInfo& info)
@@ -345,7 +345,7 @@ Napi::Value OCBlockwiseState::get_ref_count(const Napi::CallbackInfo& info)
 
 void OCBlockwiseState::set_ref_count(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->ref_count = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->ref_count = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCBlockwiseState::get_role(const Napi::CallbackInfo& info)
@@ -355,7 +355,7 @@ Napi::Value OCBlockwiseState::get_role(const Napi::CallbackInfo& info)
 
 void OCBlockwiseState::set_role(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->role = static_cast<oc_blockwise_role_t>(value.As<Number>().Uint32Value());
+    m_pvalue->role = static_cast<oc_blockwise_role_t>(value.ToNumber().Uint32Value());
 }
 
 #if defined(OC_CLIENT)
@@ -380,7 +380,7 @@ Napi::Value OCBlockwiseState::get_token_len(const Napi::CallbackInfo& info)
 
 void OCBlockwiseState::set_token_len(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->token_len = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->token_len = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 #endif
 
@@ -448,7 +448,7 @@ Napi::Value OCClientCallback::get_discovery(const Napi::CallbackInfo& info)
 
 void OCClientCallback::set_discovery(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->discovery = value.As<Boolean>().Value();
+    m_pvalue->discovery = value.ToBoolean().Value();
 }
 
 Napi::Value OCClientCallback::get_endpoint(const Napi::CallbackInfo& info)
@@ -482,7 +482,7 @@ Napi::Value OCClientCallback::get_method(const Napi::CallbackInfo& info)
 
 void OCClientCallback::set_method(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->method = static_cast<oc_method_t>(value.As<Number>().Uint32Value());
+    m_pvalue->method = static_cast<oc_method_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCClientCallback::get_mid(const Napi::CallbackInfo& info)
@@ -492,7 +492,7 @@ Napi::Value OCClientCallback::get_mid(const Napi::CallbackInfo& info)
 
 void OCClientCallback::set_mid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->mid = static_cast<uint16_t>(value.As<Number>().Uint32Value());
+    m_pvalue->mid = static_cast<uint16_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCClientCallback::get_multicast(const Napi::CallbackInfo& info)
@@ -502,7 +502,7 @@ Napi::Value OCClientCallback::get_multicast(const Napi::CallbackInfo& info)
 
 void OCClientCallback::set_multicast(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->multicast = value.As<Boolean>().Value();
+    m_pvalue->multicast = value.ToBoolean().Value();
 }
 
 Napi::Value OCClientCallback::get_observe_seq(const Napi::CallbackInfo& info)
@@ -512,7 +512,7 @@ Napi::Value OCClientCallback::get_observe_seq(const Napi::CallbackInfo& info)
 
 void OCClientCallback::set_observe_seq(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->observe_seq = value.As<Number>().Int32Value();
+    m_pvalue->observe_seq = value.ToNumber().Int32Value();
 }
 
 Napi::Value OCClientCallback::get_qos(const Napi::CallbackInfo& info)
@@ -522,7 +522,7 @@ Napi::Value OCClientCallback::get_qos(const Napi::CallbackInfo& info)
 
 void OCClientCallback::set_qos(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->qos = static_cast<oc_qos_t>(value.As<Number>().Uint32Value());
+    m_pvalue->qos = static_cast<oc_qos_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCClientCallback::get_query(const Napi::CallbackInfo& info)
@@ -544,7 +544,7 @@ Napi::Value OCClientCallback::get_ref_count(const Napi::CallbackInfo& info)
 
 void OCClientCallback::set_ref_count(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->ref_count = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->ref_count = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCClientCallback::get_separate(const Napi::CallbackInfo& info)
@@ -554,7 +554,7 @@ Napi::Value OCClientCallback::get_separate(const Napi::CallbackInfo& info)
 
 void OCClientCallback::set_separate(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->separate = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->separate = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCClientCallback::get_stop_multicast_receive(const Napi::CallbackInfo& info)
@@ -564,7 +564,7 @@ Napi::Value OCClientCallback::get_stop_multicast_receive(const Napi::CallbackInf
 
 void OCClientCallback::set_stop_multicast_receive(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->stop_multicast_receive = value.As<Boolean>().Value();
+    m_pvalue->stop_multicast_receive = value.ToBoolean().Value();
 }
 
 Napi::Value OCClientCallback::get_timestamp(const Napi::CallbackInfo& info)
@@ -574,7 +574,7 @@ Napi::Value OCClientCallback::get_timestamp(const Napi::CallbackInfo& info)
 
 void OCClientCallback::set_timestamp(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->timestamp = static_cast<uint32_t>(value.As<Number>().Uint32Value());
+    m_pvalue->timestamp = static_cast<uint32_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCClientCallback::get_token(const Napi::CallbackInfo& info)
@@ -596,7 +596,7 @@ Napi::Value OCClientCallback::get_token_len(const Napi::CallbackInfo& info)
 
 void OCClientCallback::set_token_len(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->token_len = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->token_len = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCClientCallback::get_uri(const Napi::CallbackInfo& info)
@@ -727,7 +727,7 @@ Napi::Value OCClientResponse::get__payload_len(const Napi::CallbackInfo& info)
 
 void OCClientResponse::set__payload_len(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->_payload_len = static_cast<uint32_t>(value.As<Number>().Uint32Value());
+    m_pvalue->_payload_len = static_cast<uint32_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCClientResponse::get_code(const Napi::CallbackInfo& info)
@@ -737,7 +737,7 @@ Napi::Value OCClientResponse::get_code(const Napi::CallbackInfo& info)
 
 void OCClientResponse::set_code(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->code = static_cast<oc_status_t>(value.As<Number>().Uint32Value());
+    m_pvalue->code = static_cast<oc_status_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCClientResponse::get_content_format(const Napi::CallbackInfo& info)
@@ -747,7 +747,7 @@ Napi::Value OCClientResponse::get_content_format(const Napi::CallbackInfo& info)
 
 void OCClientResponse::set_content_format(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->content_format = static_cast<oc_content_format_t>(value.As<Number>().Uint32Value());
+    m_pvalue->content_format = static_cast<oc_content_format_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCClientResponse::get_endpoint(const Napi::CallbackInfo& info)
@@ -769,7 +769,7 @@ Napi::Value OCClientResponse::get_observe_option(const Napi::CallbackInfo& info)
 
 void OCClientResponse::set_observe_option(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->observe_option = static_cast<int>(value.As<Number>());
+    m_pvalue->observe_option = static_cast<int>(value.ToNumber());
 }
 
 Napi::Value OCClientResponse::get_payload(const Napi::CallbackInfo& info)
@@ -870,7 +870,7 @@ Napi::Value OCCloudContext::get_cloud_ep_state(const Napi::CallbackInfo& info)
 
 void OCCloudContext::set_cloud_ep_state(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->cloud_ep_state = static_cast<oc_session_state_t>(value.As<Number>().Uint32Value());
+    m_pvalue->cloud_ep_state = static_cast<oc_session_state_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCloudContext::get_cloud_manager(const Napi::CallbackInfo& info)
@@ -880,7 +880,7 @@ Napi::Value OCCloudContext::get_cloud_manager(const Napi::CallbackInfo& info)
 
 void OCCloudContext::set_cloud_manager(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->cloud_manager = value.As<Boolean>().Value();
+    m_pvalue->cloud_manager = value.ToBoolean().Value();
 }
 
 Napi::Value OCCloudContext::get_device(const Napi::CallbackInfo& info)
@@ -890,7 +890,7 @@ Napi::Value OCCloudContext::get_device(const Napi::CallbackInfo& info)
 
 void OCCloudContext::set_device(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->device = static_cast<uint32_t>(value.As<Number>().Uint32Value());
+    m_pvalue->device = static_cast<uint32_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCloudContext::get_expires_in(const Napi::CallbackInfo& info)
@@ -900,7 +900,7 @@ Napi::Value OCCloudContext::get_expires_in(const Napi::CallbackInfo& info)
 
 void OCCloudContext::set_expires_in(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->expires_in = static_cast<uint16_t>(value.As<Number>().Uint32Value());
+    m_pvalue->expires_in = static_cast<uint16_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCloudContext::get_last_error(const Napi::CallbackInfo& info)
@@ -910,7 +910,7 @@ Napi::Value OCCloudContext::get_last_error(const Napi::CallbackInfo& info)
 
 void OCCloudContext::set_last_error(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->last_error = static_cast<oc_cloud_error_t>(value.As<Number>().Uint32Value());
+    m_pvalue->last_error = static_cast<oc_cloud_error_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCloudContext::get_rd_delete_all(const Napi::CallbackInfo& info)
@@ -920,7 +920,7 @@ Napi::Value OCCloudContext::get_rd_delete_all(const Napi::CallbackInfo& info)
 
 void OCCloudContext::set_rd_delete_all(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->rd_delete_all = value.As<Boolean>().Value();
+    m_pvalue->rd_delete_all = value.ToBoolean().Value();
 }
 
 Napi::Value OCCloudContext::get_rd_delete_resources(const Napi::CallbackInfo& info)
@@ -966,7 +966,7 @@ Napi::Value OCCloudContext::get_retry_count(const Napi::CallbackInfo& info)
 
 void OCCloudContext::set_retry_count(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->retry_count = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->retry_count = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCloudContext::get_retry_refresh_token_count(const Napi::CallbackInfo& info)
@@ -976,7 +976,7 @@ Napi::Value OCCloudContext::get_retry_refresh_token_count(const Napi::CallbackIn
 
 void OCCloudContext::set_retry_refresh_token_count(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->retry_refresh_token_count = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->retry_refresh_token_count = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCloudContext::get_store(const Napi::CallbackInfo& info)
@@ -1082,7 +1082,7 @@ Napi::Value OCCloudStore::get_cps(const Napi::CallbackInfo& info)
 
 void OCCloudStore::set_cps(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->cps = static_cast<oc_cps_t>(value.As<Number>().Uint32Value());
+    m_pvalue->cps = static_cast<oc_cps_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCloudStore::get_device(const Napi::CallbackInfo& info)
@@ -1092,7 +1092,7 @@ Napi::Value OCCloudStore::get_device(const Napi::CallbackInfo& info)
 
 void OCCloudStore::set_device(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->device = static_cast<uint32_t>(value.As<Number>().Uint32Value());
+    m_pvalue->device = static_cast<uint32_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCloudStore::get_refresh_token(const Napi::CallbackInfo& info)
@@ -1126,7 +1126,7 @@ Napi::Value OCCloudStore::get_status(const Napi::CallbackInfo& info)
 
 void OCCloudStore::set_status(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->status = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->status = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCloudStore::get_uid(const Napi::CallbackInfo& info)
@@ -1206,7 +1206,7 @@ Napi::Value OCCollection::get_default_interface(const Napi::CallbackInfo& info)
 
 void OCCollection::set_default_interface(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->default_interface = static_cast<oc_interface_mask_t>(value.As<Number>().Uint32Value());
+    m_pvalue->default_interface = static_cast<oc_interface_mask_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCollection::get_delete_handler(const Napi::CallbackInfo& info)
@@ -1228,7 +1228,7 @@ Napi::Value OCCollection::get_device(const Napi::CallbackInfo& info)
 
 void OCCollection::set_device(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->device = static_cast<uint32_t>(value.As<Number>().Uint32Value());
+    m_pvalue->device = static_cast<uint32_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCollection::get_get_handler(const Napi::CallbackInfo& info)
@@ -1262,7 +1262,7 @@ Napi::Value OCCollection::get_interfaces(const Napi::CallbackInfo& info)
 
 void OCCollection::set_interfaces(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->interfaces = static_cast<oc_interface_mask_t>(value.As<Number>().Uint32Value());
+    m_pvalue->interfaces = static_cast<oc_interface_mask_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCollection::get_name(const Napi::CallbackInfo& info)
@@ -1284,7 +1284,7 @@ Napi::Value OCCollection::get_num_links(const Napi::CallbackInfo& info)
 
 void OCCollection::set_num_links(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->num_links = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->num_links = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCollection::get_num_observers(const Napi::CallbackInfo& info)
@@ -1294,7 +1294,7 @@ Napi::Value OCCollection::get_num_observers(const Napi::CallbackInfo& info)
 
 void OCCollection::set_num_observers(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->num_observers = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->num_observers = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCollection::get_post_handler(const Napi::CallbackInfo& info)
@@ -1316,7 +1316,7 @@ Napi::Value OCCollection::get_properties(const Napi::CallbackInfo& info)
 
 void OCCollection::set_properties(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->properties = static_cast<oc_resource_properties_t>(value.As<Number>().Uint32Value());
+    m_pvalue->properties = static_cast<oc_resource_properties_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCollection::get_put_handler(const Napi::CallbackInfo& info)
@@ -1350,7 +1350,7 @@ Napi::Value OCCollection::get_tag_pos_desc(const Napi::CallbackInfo& info)
 
 void OCCollection::set_tag_pos_desc(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->tag_pos_desc = static_cast<oc_pos_description_t>(value.As<Number>().Uint32Value());
+    m_pvalue->tag_pos_desc = static_cast<oc_pos_description_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCollection::get_tag_pos_func(const Napi::CallbackInfo& info)
@@ -1360,7 +1360,7 @@ Napi::Value OCCollection::get_tag_pos_func(const Napi::CallbackInfo& info)
 
 void OCCollection::set_tag_pos_func(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->tag_pos_func = static_cast<oc_enum_t>(value.As<Number>().Uint32Value());
+    m_pvalue->tag_pos_func = static_cast<oc_enum_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCCollection::get_tag_pos_rel(const Napi::CallbackInfo& info)
@@ -1404,22 +1404,22 @@ void OCCollection::set_uri(const Napi::CallbackInfo& info, const Napi::Value& va
 }
 
 Value OCCollection::add_link(const CallbackInfo& info) {
-    OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());
-    OCLink& link = *OCLink::Unwrap(info[0].As<Object>());
+    OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());
+    OCLink& link = *OCLink::Unwrap(info[0].ToObject());
     (void)oc_collection_add_link(collection, link);
     return info.Env().Undefined();
 }
 
 Value OCCollection::add_mandatory_rt(const CallbackInfo& info) {
-    OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());
-    std::string rt_ = info[0].As<String>().Utf8Value();
+    OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());
+    std::string rt_ = info[0].ToString().Utf8Value();
     const char* rt = rt_.c_str();
     return Boolean::New(info.Env(), oc_collection_add_mandatory_rt(collection, rt));
 }
 
 Value OCCollection::add_supported_rt(const CallbackInfo& info) {
-    OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());
-    std::string rt_ = info[0].As<String>().Utf8Value();
+    OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());
+    std::string rt_ = info[0].ToString().Utf8Value();
     const char* rt = rt_.c_str();
     return Boolean::New(info.Env(), oc_collection_add_supported_rt(collection, rt));
 }
@@ -1431,15 +1431,15 @@ Value OCCollection::get_collections(const CallbackInfo& info) {
 }
 
 Value OCCollection::get_links(const CallbackInfo& info) {
-    OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());
+    OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());
     shared_ptr<oc_link_t> sp(oc_collection_get_links(collection), nop_deleter);
     auto args = External<shared_ptr<oc_link_t>>::New(info.Env(), &sp);
     return OCLink::constructor.New({args});
 }
 
 Value OCCollection::remove_link(const CallbackInfo& info) {
-    OCCollection& collection = *OCCollection::Unwrap(info.This().As<Object>());
-    OCLink& link = *OCLink::Unwrap(info[0].As<Object>());
+    OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());
+    OCLink& link = *OCLink::Unwrap(info[0].ToObject());
     (void)oc_collection_remove_link(collection, link);
     return info.Env().Undefined();
 }
@@ -1495,7 +1495,7 @@ Napi::Value OCCredData::get_encoding(const Napi::CallbackInfo& info)
 
 void OCCredData::set_encoding(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->encoding = static_cast<oc_sec_encoding_t>(value.As<Number>().Uint32Value());
+    m_pvalue->encoding = static_cast<oc_sec_encoding_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::FunctionReference OCDeviceInfo::constructor;
@@ -1691,7 +1691,7 @@ Napi::Value OCEndpoint::get_device(const Napi::CallbackInfo& info)
 
 void OCEndpoint::set_device(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->device = static_cast<uint32_t>(value.As<Number>().Uint32Value());
+    m_pvalue->device = static_cast<uint32_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCEndpoint::get_di(const Napi::CallbackInfo& info)
@@ -1713,7 +1713,7 @@ Napi::Value OCEndpoint::get_flags(const Napi::CallbackInfo& info)
 
 void OCEndpoint::set_flags(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->flags = static_cast<transport_flags>(value.As<Number>().Uint32Value());
+    m_pvalue->flags = static_cast<transport_flags>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCEndpoint::get_interface_index(const Napi::CallbackInfo& info)
@@ -1723,7 +1723,7 @@ Napi::Value OCEndpoint::get_interface_index(const Napi::CallbackInfo& info)
 
 void OCEndpoint::set_interface_index(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->interface_index = static_cast<int>(value.As<Number>());
+    m_pvalue->interface_index = static_cast<int>(value.ToNumber());
 }
 
 Napi::Value OCEndpoint::get_priority(const Napi::CallbackInfo& info)
@@ -1733,7 +1733,7 @@ Napi::Value OCEndpoint::get_priority(const Napi::CallbackInfo& info)
 
 void OCEndpoint::set_priority(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->priority = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->priority = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCEndpoint::get_version(const Napi::CallbackInfo& info)
@@ -1743,11 +1743,11 @@ Napi::Value OCEndpoint::get_version(const Napi::CallbackInfo& info)
 
 void OCEndpoint::set_version(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->version = static_cast<ocf_version_t>(value.As<Number>().Uint32Value());
+    m_pvalue->version = static_cast<ocf_version_t>(value.ToNumber().Uint32Value());
 }
 
 Value OCEndpoint::toString(const CallbackInfo& info) {
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info.This().As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info.This().ToObject());
     oc_string_t endpoint_str;
     int ret = oc_endpoint_to_string(endpoint, &endpoint_str);
     if(ret) {
@@ -1758,14 +1758,14 @@ Value OCEndpoint::toString(const CallbackInfo& info) {
 }
 
 Value OCEndpoint::compare(const CallbackInfo& info) {
-    OCEndpoint& ep1 = *OCEndpoint::Unwrap(info.This().As<Object>());
-    OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[0].As<Object>());
+    OCEndpoint& ep1 = *OCEndpoint::Unwrap(info.This().ToObject());
+    OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[0].ToObject());
     return Number::New(info.Env(), oc_endpoint_compare(ep1, ep2));
 }
 
 Value OCEndpoint::copy(const CallbackInfo& info) {
     oc_endpoint_t* dst = nullptr;
-    OCEndpoint& src = *OCEndpoint::Unwrap(info[0].As<Object>());
+    OCEndpoint& src = *OCEndpoint::Unwrap(info[0].ToObject());
     (void)oc_endpoint_copy(dst, src);
     shared_ptr<oc_endpoint_t> sp(dst, nop_deleter);
     auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
@@ -1773,7 +1773,7 @@ Value OCEndpoint::copy(const CallbackInfo& info) {
 }
 
 Value OCEndpoint::list_copy(const CallbackInfo& info) {
-    OCEndpoint& src = *OCEndpoint::Unwrap(info.This().As<Object>());
+    OCEndpoint& src = *OCEndpoint::Unwrap(info.This().ToObject());
     oc_endpoint_t* dst = nullptr;
     oc_endpoint_list_copy(&dst, src);
     shared_ptr<oc_endpoint_t> sp(dst /* TODO */);
@@ -1782,32 +1782,32 @@ Value OCEndpoint::list_copy(const CallbackInfo& info) {
 }
 
 Value OCEndpoint::string_to_endpoint(const CallbackInfo& info) {
-    OCMmem& endpoint_str = *OCMmem::Unwrap(info[0].As<Object>());
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].As<Object>());
-    OCMmem& uri = *OCMmem::Unwrap(info[2].As<Object>());
+    OCMmem& endpoint_str = *OCMmem::Unwrap(info[0].ToObject());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
+    OCMmem& uri = *OCMmem::Unwrap(info[2].ToObject());
     return Number::New(info.Env(), oc_string_to_endpoint(endpoint_str, endpoint, uri));
 }
 
 Value OCEndpoint::endpoint_string_parse_path(const CallbackInfo& info) {
-    OCMmem& endpoint_str = *OCMmem::Unwrap(info.This().As<Object>());
-    OCMmem& path = *OCMmem::Unwrap(info[0].As<Object>());
+    OCMmem& endpoint_str = *OCMmem::Unwrap(info.This().ToObject());
+    OCMmem& path = *OCMmem::Unwrap(info[0].ToObject());
     return Number::New(info.Env(), oc_endpoint_string_parse_path(endpoint_str, path));
 }
 
 Value OCEndpoint::ipv6_endpoint_is_link_local(const CallbackInfo& info) {
-    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info.This().As<Object>());
+    OCEndpoint& endpoint = *OCEndpoint::Unwrap(info.This().ToObject());
     return Number::New(info.Env(), oc_ipv6_endpoint_is_link_local(endpoint));
 }
 
 Value OCEndpoint::compare_address(const CallbackInfo& info) {
-    OCEndpoint& ep1 = *OCEndpoint::Unwrap(info.This().As<Object>());
-    OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[0].As<Object>());
+    OCEndpoint& ep1 = *OCEndpoint::Unwrap(info.This().ToObject());
+    OCEndpoint& ep2 = *OCEndpoint::Unwrap(info[0].ToObject());
     return Number::New(info.Env(), oc_endpoint_compare_address(ep1, ep2));
 }
 
 Value OCEndpoint::set_local_address(const CallbackInfo& info) {
-    OCEndpoint& ep = *OCEndpoint::Unwrap(info[0].As<Object>());
-    int interface_index = static_cast<int>(info[1].As<Number>());
+    OCEndpoint& ep = *OCEndpoint::Unwrap(info[0].ToObject());
+    int interface_index = static_cast<int>(info[1].ToNumber());
     (void)oc_endpoint_set_local_address(ep, interface_index);
     return info.Env().Undefined();
 }
@@ -2062,7 +2062,7 @@ Napi::Value OCIPv4Addr::get_port(const Napi::CallbackInfo& info)
 
 void OCIPv4Addr::set_port(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->port = static_cast<uint16_t>(value.As<Number>().Uint32Value());
+    m_pvalue->port = static_cast<uint16_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::FunctionReference OCIPv6Addr::constructor;
@@ -2130,7 +2130,7 @@ Napi::Value OCIPv6Addr::get_port(const Napi::CallbackInfo& info)
 
 void OCIPv6Addr::set_port(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->port = static_cast<uint16_t>(value.As<Number>().Uint32Value());
+    m_pvalue->port = static_cast<uint16_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCIPv6Addr::get_scope(const Napi::CallbackInfo& info)
@@ -2140,7 +2140,7 @@ Napi::Value OCIPv6Addr::get_scope(const Napi::CallbackInfo& info)
 
 void OCIPv6Addr::set_scope(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->scope = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->scope = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::FunctionReference OCLEAddr::constructor;
@@ -2203,7 +2203,7 @@ Napi::Value OCLEAddr::get_type(const Napi::CallbackInfo& info)
 
 void OCLEAddr::set_type(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->type = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->type = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::FunctionReference OCLinkParams::constructor;
@@ -2301,7 +2301,7 @@ Napi::Value OCLink::get_ins(const Napi::CallbackInfo& info)
 
 void OCLink::set_ins(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->ins = value.As<Number>().Int64Value();
+    m_pvalue->ins = value.ToNumber().Int64Value();
 }
 
 Napi::Value OCLink::get_interfaces(const Napi::CallbackInfo& info)
@@ -2311,7 +2311,7 @@ Napi::Value OCLink::get_interfaces(const Napi::CallbackInfo& info)
 
 void OCLink::set_interfaces(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->interfaces = static_cast<oc_interface_mask_t>(value.As<Number>().Uint32Value());
+    m_pvalue->interfaces = static_cast<oc_interface_mask_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCLink::get_rel(const Napi::CallbackInfo& info)
@@ -2389,7 +2389,7 @@ Napi::Value OCMemb::get_num(const Napi::CallbackInfo& info)
 
 void OCMemb::set_num(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->num = static_cast<unsigned short>(value.As<Number>().Uint32Value());
+    m_pvalue->num = static_cast<unsigned short>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCMemb::get_size(const Napi::CallbackInfo& info)
@@ -2399,7 +2399,7 @@ Napi::Value OCMemb::get_size(const Napi::CallbackInfo& info)
 
 void OCMemb::set_size(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->size = static_cast<unsigned short>(value.As<Number>().Uint32Value());
+    m_pvalue->size = static_cast<unsigned short>(value.ToNumber().Uint32Value());
 }
 
 Napi::FunctionReference OCMessage::constructor;
@@ -2462,7 +2462,7 @@ Napi::Value OCMessage::get_encrypted(const Napi::CallbackInfo& info)
 
 void OCMessage::set_encrypted(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->encrypted = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->encrypted = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 #endif
 
@@ -2485,7 +2485,7 @@ Napi::Value OCMessage::get_length(const Napi::CallbackInfo& info)
 
 void OCMessage::set_length(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->length = static_cast<uint32_t>(value.As<Number>().Uint32Value());
+    m_pvalue->length = static_cast<uint32_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCMessage::get_pool(const Napi::CallbackInfo& info)
@@ -2508,7 +2508,7 @@ Napi::Value OCMessage::get_read_offset(const Napi::CallbackInfo& info)
 
 void OCMessage::set_read_offset(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->read_offset = static_cast<uint32_t>(value.As<Number>().Uint32Value());
+    m_pvalue->read_offset = static_cast<uint32_t>(value.ToNumber().Uint32Value());
 }
 #endif
 
@@ -2519,7 +2519,7 @@ Napi::Value OCMessage::get_ref_count(const Napi::CallbackInfo& info)
 
 void OCMessage::set_ref_count(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->ref_count = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->ref_count = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::FunctionReference OCMmem::constructor;
@@ -2559,7 +2559,7 @@ Napi::Value OCMmem::get_size(const Napi::CallbackInfo& info)
 
 void OCMmem::set_size(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->size = static_cast<uint32_t>(value.As<Number>().Uint32Value());
+    m_pvalue->size = static_cast<uint32_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::FunctionReference OCNetworkInterfaceCb::constructor;
@@ -2718,7 +2718,7 @@ Napi::Value OCProcess::get_name(const Napi::CallbackInfo& info)
 
 void OCProcess::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->name = value.As<String>().Utf8Value().c_str();
+    m_pvalue->name = value.ToString().Utf8Value().c_str();
 }
 
 Napi::Value OCProcess::get_needspoll(const Napi::CallbackInfo& info)
@@ -2728,7 +2728,7 @@ Napi::Value OCProcess::get_needspoll(const Napi::CallbackInfo& info)
 
 void OCProcess::set_needspoll(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->needspoll = static_cast<unsigned char>(value.As<Number>().Uint32Value());
+    m_pvalue->needspoll = static_cast<unsigned char>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCProcess::get_state(const Napi::CallbackInfo& info)
@@ -2738,7 +2738,7 @@ Napi::Value OCProcess::get_state(const Napi::CallbackInfo& info)
 
 void OCProcess::set_state(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->state = static_cast<unsigned char>(value.As<Number>().Uint32Value());
+    m_pvalue->state = static_cast<unsigned char>(value.ToNumber().Uint32Value());
 }
 
 Napi::FunctionReference OCPropertiesCb::constructor;
@@ -2878,7 +2878,7 @@ Napi::Value OCRepresentation::get_type(const Napi::CallbackInfo& info)
 
 void OCRepresentation::set_type(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->type = static_cast<oc_rep_value_type_t>(value.As<Number>().Uint32Value());
+    m_pvalue->type = static_cast<oc_rep_value_type_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCRepresentation::get_value(const Napi::CallbackInfo& info)
@@ -2894,8 +2894,8 @@ void OCRepresentation::set_value(const Napi::CallbackInfo& info, const Napi::Val
 }
 
 Value OCRepresentation::get_bool(const CallbackInfo& info) {
-    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
-    std::string key_ = info[0].As<String>().Utf8Value();
+    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
+    std::string key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 
     bool ret;
@@ -2907,8 +2907,8 @@ Value OCRepresentation::get_bool(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::get_bool_array(const CallbackInfo& info) {
-    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
-    std::string key_ = info[0].As<String>().Utf8Value();
+    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
+    std::string key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 1 value, bool**
     size_t* size = reinterpret_cast<size_t*>(info[2].As<Uint32Array>().Data());
@@ -2916,8 +2916,8 @@ Value OCRepresentation::get_bool_array(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::get_byte_string(const CallbackInfo& info) {
-    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
-    std::string key_ = info[0].As<String>().Utf8Value();
+    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
+    std::string key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 1 value, char**
     size_t* size = reinterpret_cast<size_t*>(info[2].As<Uint32Array>().Data());
@@ -2925,10 +2925,10 @@ Value OCRepresentation::get_byte_string(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::get_byte_string_array(const CallbackInfo& info) {
-    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
-    std::string key_ = info[0].As<String>().Utf8Value();
+    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
+    std::string key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
-    OCStringArray& value = *OCStringArray::Unwrap(info[1].As<Object>());
+    OCStringArray& value = *OCStringArray::Unwrap(info[1].ToObject());
     size_t* size = reinterpret_cast<size_t*>(info[2].As<Uint32Array>().Data());
     return Boolean::New(info.Env(), oc_rep_get_byte_string_array(rep, key, value, size));
 }
@@ -2938,8 +2938,8 @@ Value OCRepresentation::get_cbor_errno(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::get_double(const CallbackInfo& info) {
-    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
-    std::string key_ = info[0].As<String>().Utf8Value();
+    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
+    std::string key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 
     double ret;
@@ -2951,8 +2951,8 @@ Value OCRepresentation::get_double(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::get_double_array(const CallbackInfo& info) {
-    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
-    std::string key_ = info[0].As<String>().Utf8Value();
+    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
+    std::string key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 
     double* ret;
@@ -2969,8 +2969,8 @@ Value OCRepresentation::get_double_array(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::get_object(const CallbackInfo& info) {
-    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
-    std::string key_ = info[0].As<String>().Utf8Value();
+    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
+    std::string key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 
     oc_rep_t* ret;
@@ -2985,16 +2985,16 @@ Value OCRepresentation::get_object(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::get_object_array(const CallbackInfo& info) {
-    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
-    std::string key_ = info[0].As<String>().Utf8Value();
+    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
+    std::string key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 1 value, oc_rep_t**
     return Boolean::New(info.Env(), 0);
 }
 
 Value OCRepresentation::get_string(const CallbackInfo& info) {
-    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
-    std::string key_ = info[0].As<String>().Utf8Value();
+    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
+    std::string key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 
     char* ret;
@@ -3007,17 +3007,17 @@ Value OCRepresentation::get_string(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::get_string_array(const CallbackInfo& info) {
-    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
-    std::string key_ = info[0].As<String>().Utf8Value();
+    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
+    std::string key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
-    OCStringArray& value = *OCStringArray::Unwrap(info[1].As<Object>());
+    OCStringArray& value = *OCStringArray::Unwrap(info[1].ToObject());
     size_t* size = reinterpret_cast<size_t*>(info[2].As<Uint32Array>().Data());
     return Boolean::New(info.Env(), oc_rep_get_string_array(rep, key, value, size));
 }
 
 Value OCRepresentation::get_int(const CallbackInfo& info) {
-    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
-    std::string key_ = info[0].As<String>().Utf8Value();
+    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
+    std::string key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 
     int64_t ret;
@@ -3029,8 +3029,8 @@ Value OCRepresentation::get_int(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::get_int_array(const CallbackInfo& info) {
-    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
-    std::string key_ = info[0].As<String>().Utf8Value();
+    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
+    std::string key_ = info[0].ToString().Utf8Value();
     const char* key = key_.c_str();
 
     int64_t* ret;
@@ -3047,9 +3047,9 @@ Value OCRepresentation::get_int_array(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::toString(const CallbackInfo& info) {
-    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().As<Object>());
+    OCRepresentation& rep = *OCRepresentation::Unwrap(info.This().ToObject());
 
-    bool pretty_print = (info.Length() >= 1) ? info[0].As<Boolean>().Value() : false;
+    bool pretty_print = (info.Length() >= 1) ? info[0].ToBoolean().Value() : false;
 
     size_t buf_size = 0;
     size_t print_size = 0;
@@ -3082,7 +3082,7 @@ Value OCRepresentation::parse(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::set_pool(const CallbackInfo& info) {
-    OCMemb& rep_objects_pool = *OCMemb::Unwrap(info[0].As<Object>());
+    OCMemb& rep_objects_pool = *OCMemb::Unwrap(info[0].ToObject());
     (void)oc_rep_set_pool(rep_objects_pool);
     return info.Env().Undefined();
 }
@@ -3096,14 +3096,14 @@ Value OCRepresentation::get_encoder_buf(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::add_boolean(const CallbackInfo& info) {
-    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Object>());
+    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].ToObject());
 // 1 value, const bool
     (void)0;
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::add_byte_string(const CallbackInfo& info) {
-    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Object>());
+    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].ToObject());
     const unsigned char* value = info[1].As<Buffer<const uint8_t>>().Data();
 // 2 length, const size_t
     (void)0;
@@ -3111,15 +3111,15 @@ Value OCRepresentation::add_byte_string(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::add_double(const CallbackInfo& info) {
-    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Object>());
+    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].ToObject());
 // 1 value, const double
     (void)0;
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::add_text_string(const CallbackInfo& info) {
-    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    std::string value_ = info[1].As<String>().Utf8Value();
+    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].ToObject());
+    std::string value_ = info[1].ToString().Utf8Value();
     const char* value = value_.c_str();
     (void)helper_rep_add_text_string(arrayObject, value);
     return info.Env().Undefined();
@@ -3131,15 +3131,15 @@ Value OCRepresentation::clear_cbor_errno(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::close_array(const CallbackInfo& info) {
-    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[1].As<Object>());
+    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
+    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[1].ToObject());
     (void)helper_rep_close_array(object, arrayObject);
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::close_object(const CallbackInfo& info) {
-    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[1].As<Object>());
+    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
+    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[1].ToObject());
     (void)helper_rep_close_object(parent, object);
     return info.Env().Undefined();
 }
@@ -3150,8 +3150,8 @@ Value OCRepresentation::delete_buffer(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::end_array(const CallbackInfo& info) {
-    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[1].As<Object>());
+    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
+    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[1].ToObject());
     (void)helper_rep_end_array(parent, arrayObject);
     return info.Env().Undefined();
 }
@@ -3162,8 +3162,8 @@ Value OCRepresentation::end_links_array(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::end_object(const CallbackInfo& info) {
-    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[1].As<Object>());
+    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
+    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[1].ToObject());
     (void)helper_rep_end_object(parent, object);
     return info.Env().Undefined();
 }
@@ -3180,42 +3180,42 @@ Value OCRepresentation::get_rep_from_root_object(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::new_buffer(const CallbackInfo& info) {
-    int size = static_cast<int>(info[0].As<Number>());
+    int size = static_cast<int>(info[0].ToNumber());
     (void)helper_rep_new_buffer(size);
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::object_array_start_item(const CallbackInfo& info) {
-    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].As<Object>());
+    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[0].ToObject());
     shared_ptr<CborEncoder> sp(helper_rep_object_array_start_item(arrayObject), nop_deleter);
     auto args = External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
     return OCCborEncoder::constructor.New({args});
 }
 
 Value OCRepresentation::object_array_end_item(const CallbackInfo& info) {
-    OCCborEncoder& parentArrayObject = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[1].As<Object>());
+    OCCborEncoder& parentArrayObject = *OCCborEncoder::Unwrap(info[0].ToObject());
+    OCCborEncoder& arrayObject = *OCCborEncoder::Unwrap(info[1].ToObject());
     (void)helper_rep_object_array_end_item(parentArrayObject, arrayObject);
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::oc_array_to_bool_array(const CallbackInfo& info) {
-    OCArray& array = *OCArray::Unwrap(info[0].As<Object>());
+    OCArray& array = *OCArray::Unwrap(info[0].ToObject());
     return Buffer<bool>::New(info.Env(), oc_bool_array(*static_cast<oc_array_t*>(array)), oc_bool_array_size(*(oc_array_t*)array));
 }
 
 Value OCRepresentation::oc_array_to_double_array(const CallbackInfo& info) {
-    OCArray& array = *OCArray::Unwrap(info[0].As<Object>());
+    OCArray& array = *OCArray::Unwrap(info[0].ToObject());
     return Buffer<double>::New(info.Env(), oc_double_array(*static_cast<oc_array_t*>(array)), oc_double_array_size(*(oc_array_t*)array));
 }
 
 Value OCRepresentation::oc_array_to_int_array(const CallbackInfo& info) {
-    OCArray& array = *OCArray::Unwrap(info[0].As<Object>());
+    OCArray& array = *OCArray::Unwrap(info[0].ToObject());
     return Buffer<int64_t>::New(info.Env(), oc_int_array(*static_cast<oc_array_t*>(array)), oc_int_array_size(*(oc_array_t*)array));
 }
 
 Value OCRepresentation::oc_array_to_string_array(const CallbackInfo& info) {
-    OCArray& array = *OCArray::Unwrap(info[0].As<Object>());
+    OCArray& array = *OCArray::Unwrap(info[0].ToObject());
     size_t sz = oc_string_array_get_allocated_size(*(oc_array_t*)array);
     oc_string_array_t* strarray = reinterpret_cast<oc_string_array_t*>((oc_array_t*)array);
     auto buf = Array::New(info.Env(), sz);
@@ -3227,8 +3227,8 @@ Value OCRepresentation::oc_array_to_string_array(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::open_array(const CallbackInfo& info) {
-    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    std::string key_ = info[1].As<String>().Utf8Value();
+    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
+    std::string key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
     shared_ptr<CborEncoder> sp(helper_rep_open_array(parent, key), nop_deleter);
     auto args = External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
@@ -3236,8 +3236,8 @@ Value OCRepresentation::open_array(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::open_object(const CallbackInfo& info) {
-    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    std::string key_ = info[1].As<String>().Utf8Value();
+    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
+    std::string key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
     shared_ptr<CborEncoder> sp(helper_rep_open_object(parent, key), nop_deleter);
     auto args = External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
@@ -3245,83 +3245,83 @@ Value OCRepresentation::open_object(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::set_boolean(const CallbackInfo& info) {
-    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    std::string key_ = info[1].As<String>().Utf8Value();
+    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
+    std::string key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
-    bool value = info[2].As<Boolean>().Value();
+    bool value = info[2].ToBoolean().Value();
     (void)helper_rep_set_boolean(object, key, value);
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_bool_array(const CallbackInfo& info) {
-    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    std::string key_ = info[1].As<String>().Utf8Value();
+    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
+    std::string key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 2 values, bool*
-    int length = static_cast<int>(info[3].As<Number>());
+    int length = static_cast<int>(info[3].ToNumber());
     (void)0;
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_byte_string(const CallbackInfo& info) {
-    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    std::string key_ = info[1].As<String>().Utf8Value();
+    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
+    std::string key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
     const unsigned char* value = info[2].As<Buffer<const uint8_t>>().Data();
-    size_t length = static_cast<size_t>(info[3].As<Number>().Uint32Value());
+    size_t length = static_cast<size_t>(info[3].ToNumber().Uint32Value());
     (void)helper_rep_set_byte_string(object, key, value, length);
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_double(const CallbackInfo& info) {
-    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    std::string key_ = info[1].As<String>().Utf8Value();
+    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
+    std::string key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
-    double value = info[2].As<Number>().DoubleValue();
+    double value = info[2].ToNumber().DoubleValue();
     (void)helper_rep_set_double(object, key, value);
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_double_array(const CallbackInfo& info) {
-    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    std::string key_ = info[1].As<String>().Utf8Value();
+    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
+    std::string key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 2 values, double*
-    int length = static_cast<int>(info[3].As<Number>());
+    int length = static_cast<int>(info[3].ToNumber());
     (void)0;
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_key(const CallbackInfo& info) {
-    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    std::string key_ = info[1].As<String>().Utf8Value();
+    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
+    std::string key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
     (void)helper_rep_set_key(parent, key);
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_long(const CallbackInfo& info) {
-    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    std::string key_ = info[1].As<String>().Utf8Value();
+    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
+    std::string key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
-    int64_t value = static_cast<int64_t>(info[2].As<Number>());
+    int64_t value = static_cast<int64_t>(info[2].ToNumber());
     (void)helper_rep_set_long(object, key, value);
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_long_array(const CallbackInfo& info) {
-    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    std::string key_ = info[1].As<String>().Utf8Value();
+    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
+    std::string key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 2 values, int64_t*
-    int length = static_cast<int>(info[3].As<Number>());
+    int length = static_cast<int>(info[3].ToNumber());
     (void)0;
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_string_array(const CallbackInfo& info) {
-    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    std::string key_ = info[1].As<String>().Utf8Value();
+    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
+    std::string key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 2 values, oc_string_array_t
     (void)0;
@@ -3329,18 +3329,18 @@ Value OCRepresentation::set_string_array(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::set_text_string(const CallbackInfo& info) {
-    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    std::string key_ = info[1].As<String>().Utf8Value();
+    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
+    std::string key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
-    std::string value_ = info[2].As<String>().Utf8Value();
+    std::string value_ = info[2].ToString().Utf8Value();
     const char* value = value_.c_str();
     (void)helper_rep_set_text_string(object, key, value);
     return info.Env().Undefined();
 }
 
 Value OCRepresentation::set_uint(const CallbackInfo& info) {
-    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].As<Object>());
-    std::string key_ = info[1].As<String>().Utf8Value();
+    OCCborEncoder& object = *OCCborEncoder::Unwrap(info[0].ToObject());
+    std::string key_ = info[1].ToString().Utf8Value();
     const char* key = key_.c_str();
 // 2 value, unsigned int
     (void)0;
@@ -3348,7 +3348,7 @@ Value OCRepresentation::set_uint(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::start_array(const CallbackInfo& info) {
-    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Object>());
+    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
     shared_ptr<CborEncoder> sp(helper_rep_start_array(parent), nop_deleter);
     auto args = External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
     return OCCborEncoder::constructor.New({args});
@@ -3361,7 +3361,7 @@ Value OCRepresentation::start_links_array(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::start_object(const CallbackInfo& info) {
-    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].As<Object>());
+    OCCborEncoder& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
     shared_ptr<CborEncoder> sp(helper_rep_start_object(parent), nop_deleter);
     auto args = External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
     return OCCborEncoder::constructor.New({args});
@@ -3480,7 +3480,7 @@ Napi::Value OCRequest::get__payload_len(const Napi::CallbackInfo& info)
 
 void OCRequest::set__payload_len(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->_payload_len = static_cast<uint32_t>(value.As<Number>().Uint32Value());
+    m_pvalue->_payload_len = static_cast<uint32_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCRequest::get_content_format(const Napi::CallbackInfo& info)
@@ -3490,7 +3490,7 @@ Napi::Value OCRequest::get_content_format(const Napi::CallbackInfo& info)
 
 void OCRequest::set_content_format(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->content_format = static_cast<oc_content_format_t>(value.As<Number>().Uint32Value());
+    m_pvalue->content_format = static_cast<oc_content_format_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCRequest::get_origin(const Napi::CallbackInfo& info)
@@ -3522,7 +3522,7 @@ Napi::Value OCRequest::get_query_len(const Napi::CallbackInfo& info)
 
 void OCRequest::set_query_len(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->query_len = static_cast<uint32_t>(value.As<Number>().Uint32Value());
+    m_pvalue->query_len = static_cast<uint32_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCRequest::get_request_payload(const Napi::CallbackInfo& info)
@@ -3612,12 +3612,12 @@ OCResource::~OCResource()
 OCResource::OCResource(const CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 4) {
-        string name_ = info[0].As<String>().Utf8Value();
+        string name_ = info[0].ToString().Utf8Value();
         const char* name = name_.c_str();
-        string uri_ = info[1].As<String>().Utf8Value();
+        string uri_ = info[1].ToString().Utf8Value();
         const char* uri = uri_.c_str();
-        uint8_t num_resource_types = static_cast<uint8_t>(info[2].As<Number>().Uint32Value());
-        size_t device = static_cast<size_t>(info[3].As<Number>().Uint32Value());
+        uint8_t num_resource_types = static_cast<uint8_t>(info[2].ToNumber().Uint32Value());
+        size_t device = static_cast<size_t>(info[3].ToNumber().Uint32Value());
 
         m_pvalue = shared_ptr<oc_resource_s>( oc_new_resource(name, uri, num_resource_types, device), nop_deleter /* TODO */);
     }
@@ -3636,7 +3636,7 @@ Napi::Value OCResource::get_default_interface(const Napi::CallbackInfo& info)
 
 void OCResource::set_default_interface(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->default_interface = static_cast<oc_interface_mask_t>(value.As<Number>().Uint32Value());
+    m_pvalue->default_interface = static_cast<oc_interface_mask_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCResource::get_delete_handler(const Napi::CallbackInfo& info)
@@ -3658,7 +3658,7 @@ Napi::Value OCResource::get_device(const Napi::CallbackInfo& info)
 
 void OCResource::set_device(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->device = static_cast<uint32_t>(value.As<Number>().Uint32Value());
+    m_pvalue->device = static_cast<uint32_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCResource::get_get_handler(const Napi::CallbackInfo& info)
@@ -3692,7 +3692,7 @@ Napi::Value OCResource::get_interfaces(const Napi::CallbackInfo& info)
 
 void OCResource::set_interfaces(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->interfaces = static_cast<oc_interface_mask_t>(value.As<Number>().Uint32Value());
+    m_pvalue->interfaces = static_cast<oc_interface_mask_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCResource::get_name(const Napi::CallbackInfo& info)
@@ -3715,7 +3715,7 @@ Napi::Value OCResource::get_num_links(const Napi::CallbackInfo& info)
 
 void OCResource::set_num_links(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->num_links = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->num_links = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 #endif
 
@@ -3726,7 +3726,7 @@ Napi::Value OCResource::get_num_observers(const Napi::CallbackInfo& info)
 
 void OCResource::set_num_observers(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->num_observers = static_cast<uint8_t>(value.As<Number>().Uint32Value());
+    m_pvalue->num_observers = static_cast<uint8_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCResource::get_observe_period_seconds(const Napi::CallbackInfo& info)
@@ -3736,7 +3736,7 @@ Napi::Value OCResource::get_observe_period_seconds(const Napi::CallbackInfo& inf
 
 void OCResource::set_observe_period_seconds(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->observe_period_seconds = static_cast<uint16_t>(value.As<Number>().Uint32Value());
+    m_pvalue->observe_period_seconds = static_cast<uint16_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCResource::get_post_handler(const Napi::CallbackInfo& info)
@@ -3758,7 +3758,7 @@ Napi::Value OCResource::get_properties(const Napi::CallbackInfo& info)
 
 void OCResource::set_properties(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->properties = static_cast<oc_resource_properties_t>(value.As<Number>().Uint32Value());
+    m_pvalue->properties = static_cast<oc_resource_properties_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCResource::get_put_handler(const Napi::CallbackInfo& info)
@@ -3792,7 +3792,7 @@ Napi::Value OCResource::get_tag_func_desc(const Napi::CallbackInfo& info)
 
 void OCResource::set_tag_func_desc(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    oc_resource_tag_func_desc(m_pvalue.get(), static_cast<oc_enum_t>(value.As<Number>().Uint32Value()));
+    oc_resource_tag_func_desc(m_pvalue.get(), static_cast<oc_enum_t>(value.ToNumber().Uint32Value()));
 }
 
 Napi::Value OCResource::get_tag_pos_desc(const Napi::CallbackInfo& info)
@@ -3802,7 +3802,7 @@ Napi::Value OCResource::get_tag_pos_desc(const Napi::CallbackInfo& info)
 
 void OCResource::set_tag_pos_desc(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    oc_resource_tag_pos_desc(m_pvalue.get(), static_cast<oc_pos_description_t>(value.As<Number>().Uint32Value()));
+    oc_resource_tag_pos_desc(m_pvalue.get(), static_cast<oc_pos_description_t>(value.ToNumber().Uint32Value()));
 }
 
 Napi::Value OCResource::get_tag_pos_rel(const Napi::CallbackInfo& info)
@@ -3846,15 +3846,15 @@ void OCResource::set_uri(const Napi::CallbackInfo& info, const Napi::Value& valu
 }
 
 Value OCResource::bind_resource_interface(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info.This().As<Object>());
-    oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[0].As<Number>().Uint32Value());
+    OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
+    oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[0].ToNumber().Uint32Value());
     (void)oc_resource_bind_resource_interface(resource, iface_mask);
     return info.Env().Undefined();
 }
 
 Value OCResource::bind_resource_type(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info.This().As<Object>());
-    std::string type_ = info[0].As<String>().Utf8Value();
+    OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
+    std::string type_ = info[0].ToString().Utf8Value();
     const char* type = type_.c_str();
     (void)oc_resource_bind_resource_type(resource, type);
     return info.Env().Undefined();
@@ -3862,42 +3862,42 @@ Value OCResource::bind_resource_type(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCResource::make_public(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info.This().As<Object>());
+    OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
     (void)oc_resource_make_public(resource);
     return info.Env().Undefined();
 }
 #endif
 
 Value OCResource::set_default_interface(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info.This().As<Object>());
-    oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[0].As<Number>().Uint32Value());
+    OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
+    oc_interface_mask_t iface_mask = static_cast<oc_interface_mask_t>(info[0].ToNumber().Uint32Value());
     (void)oc_resource_set_default_interface(resource, iface_mask);
     return info.Env().Undefined();
 }
 
 Value OCResource::set_discoverable(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info.This().As<Object>());
-    bool state = info[0].As<Boolean>().Value();
+    OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
+    bool state = info[0].ToBoolean().Value();
     (void)oc_resource_set_discoverable(resource, state);
     return info.Env().Undefined();
 }
 
 Value OCResource::set_observable(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info.This().As<Object>());
-    bool state = info[0].As<Boolean>().Value();
+    OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
+    bool state = info[0].ToBoolean().Value();
     (void)oc_resource_set_observable(resource, state);
     return info.Env().Undefined();
 }
 
 Value OCResource::set_periodic_observable(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info.This().As<Object>());
-    uint16_t seconds = static_cast<uint16_t>(info[0].As<Number>().Uint32Value());
+    OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
+    uint16_t seconds = static_cast<uint16_t>(info[0].ToNumber().Uint32Value());
     (void)oc_resource_set_periodic_observable(resource, seconds);
     return info.Env().Undefined();
 }
 
 Value OCResource::set_properties_cbs(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info.This().As<Object>());
+    OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
     auto get_props = CHECK_CALLBACK_FUNC(info, 0, oc_resource_set_properties_cbs_get_helper);
     const int O_FUNC_G = 0;
     SafeCallbackHelper* get_propr_user_data  =  CHECK_CALLBACK_CONTEXT(info, O_FUNC_G, 1);
@@ -3911,8 +3911,8 @@ Value OCResource::set_properties_cbs(const CallbackInfo& info) {
 }
 
 Value OCResource::set_request_handler(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info.This().As<Object>());
-    oc_method_t method = static_cast<oc_method_t>(info[0].As<Number>().Uint32Value());
+    OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
+    oc_method_t method = static_cast<oc_method_t>(info[0].ToNumber().Uint32Value());
     oc_request_callback_t callback = nullptr;
     switch(method) {
     case OC_GET:
@@ -3934,13 +3934,13 @@ Value OCResource::set_request_handler(const CallbackInfo& info) {
 }
 
 Value OCResource::process_baseline_interface(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info.This().As<Object>());
+    OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
     (void)oc_process_baseline_interface(resource);
     return info.Env().Undefined();
 }
 
 Value OCResource::notify_observers(const CallbackInfo& info) {
-    OCResource& resource = *OCResource::Unwrap(info.This().As<Object>());
+    OCResource& resource = *OCResource::Unwrap(info.This().ToObject());
     return Number::New(info.Env(), oc_notify_observers(resource));
 }
 
@@ -3997,7 +3997,7 @@ Napi::Value OCResponseBuffer::get_buffer_size(const Napi::CallbackInfo& info)
 
 void OCResponseBuffer::set_buffer_size(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->buffer_size = static_cast<uint16_t>(value.As<Number>().Uint32Value());
+    m_pvalue->buffer_size = static_cast<uint16_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCResponseBuffer::get_code(const Napi::CallbackInfo& info)
@@ -4007,7 +4007,7 @@ Napi::Value OCResponseBuffer::get_code(const Napi::CallbackInfo& info)
 
 void OCResponseBuffer::set_code(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->code = static_cast<int>(value.As<Number>());
+    m_pvalue->code = static_cast<int>(value.ToNumber());
 }
 
 Napi::Value OCResponseBuffer::get_content_format(const Napi::CallbackInfo& info)
@@ -4017,7 +4017,7 @@ Napi::Value OCResponseBuffer::get_content_format(const Napi::CallbackInfo& info)
 
 void OCResponseBuffer::set_content_format(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->content_format = static_cast<oc_content_format_t>(value.As<Number>().Uint32Value());
+    m_pvalue->content_format = static_cast<oc_content_format_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCResponseBuffer::get_response_length(const Napi::CallbackInfo& info)
@@ -4027,7 +4027,7 @@ Napi::Value OCResponseBuffer::get_response_length(const Napi::CallbackInfo& info
 
 void OCResponseBuffer::set_response_length(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->response_length = static_cast<uint16_t>(value.As<Number>().Uint32Value());
+    m_pvalue->response_length = static_cast<uint16_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::FunctionReference OCResponse::constructor;
@@ -4222,7 +4222,7 @@ Napi::Value OCSecurityAce::get_aceid(const Napi::CallbackInfo& info)
 
 void OCSecurityAce::set_aceid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->aceid = static_cast<int>(value.As<Number>());
+    m_pvalue->aceid = static_cast<int>(value.ToNumber());
 }
 
 Napi::Value OCSecurityAce::get_permission(const Napi::CallbackInfo& info)
@@ -4232,7 +4232,7 @@ Napi::Value OCSecurityAce::get_permission(const Napi::CallbackInfo& info)
 
 void OCSecurityAce::set_permission(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->permission = static_cast<oc_ace_permissions_t>(value.As<Number>().Uint32Value());
+    m_pvalue->permission = static_cast<oc_ace_permissions_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCSecurityAce::get_subject(const Napi::CallbackInfo& info)
@@ -4254,7 +4254,7 @@ Napi::Value OCSecurityAce::get_subject_type(const Napi::CallbackInfo& info)
 
 void OCSecurityAce::set_subject_type(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->subject_type = static_cast<oc_ace_subject_type_t>(value.As<Number>().Uint32Value());
+    m_pvalue->subject_type = static_cast<oc_ace_subject_type_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::FunctionReference OCSecurityAcl::constructor;
@@ -4431,7 +4431,7 @@ Napi::Value OCCred::get_credid(const Napi::CallbackInfo& info)
 
 void OCCred::set_credid(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->credid = static_cast<int>(value.As<Number>());
+    m_pvalue->credid = static_cast<int>(value.ToNumber());
 }
 
 Napi::Value OCCred::get_credtype(const Napi::CallbackInfo& info)
@@ -4441,7 +4441,7 @@ Napi::Value OCCred::get_credtype(const Napi::CallbackInfo& info)
 
 void OCCred::set_credtype(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->credtype = static_cast<oc_sec_credtype_t>(value.As<Number>().Uint32Value());
+    m_pvalue->credtype = static_cast<oc_sec_credtype_t>(value.ToNumber().Uint32Value());
 }
 
 #if defined(OC_PKI)
@@ -4452,7 +4452,7 @@ Napi::Value OCCred::get_credusage(const Napi::CallbackInfo& info)
 
 void OCCred::set_credusage(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->credusage = static_cast<oc_sec_credusage_t>(value.As<Number>().Uint32Value());
+    m_pvalue->credusage = static_cast<oc_sec_credusage_t>(value.ToNumber().Uint32Value());
 }
 #endif
 
@@ -4463,7 +4463,7 @@ Napi::Value OCCred::get_owner_cred(const Napi::CallbackInfo& info)
 
 void OCCred::set_owner_cred(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->owner_cred = value.As<Boolean>().Value();
+    m_pvalue->owner_cred = value.ToBoolean().Value();
 }
 
 Napi::Value OCCred::get_privatedata(const Napi::CallbackInfo& info)
@@ -4506,35 +4506,35 @@ void OCCred::set_subjectuuid(const Napi::CallbackInfo& info, const Napi::Value& 
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCCred::read_credusage(const CallbackInfo& info) {
-    oc_sec_credusage_t credusage = static_cast<oc_sec_credusage_t>(info[0].As<Number>().Uint32Value());
+    oc_sec_credusage_t credusage = static_cast<oc_sec_credusage_t>(info[0].ToNumber().Uint32Value());
     return String::New(info.Env(), oc_cred_read_credusage(credusage));
 }
 #endif
 
 #if defined(OC_SECURITY)
 Value OCCred::read_encoding(const CallbackInfo& info) {
-    oc_sec_encoding_t encoding = static_cast<oc_sec_encoding_t>(info[0].As<Number>().Uint32Value());
+    oc_sec_encoding_t encoding = static_cast<oc_sec_encoding_t>(info[0].ToNumber().Uint32Value());
     return String::New(info.Env(), oc_cred_read_encoding(encoding));
 }
 #endif
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCCred::parse_credusage(const CallbackInfo& info) {
-    OCMmem& credusage_string = *OCMmem::Unwrap(info[0].As<Object>());
+    OCMmem& credusage_string = *OCMmem::Unwrap(info[0].ToObject());
     return Number::New(info.Env(), oc_cred_parse_credusage(credusage_string));
 }
 #endif
 
 #if defined(OC_SECURITY)
 Value OCCred::parse_encoding(const CallbackInfo& info) {
-    OCMmem& encoding_string = *OCMmem::Unwrap(info[0].As<Object>());
+    OCMmem& encoding_string = *OCMmem::Unwrap(info[0].ToObject());
     return Number::New(info.Env(), oc_cred_parse_encoding(encoding_string));
 }
 #endif
 
 #if defined(OC_SECURITY)
 Value OCCred::credtype_string(const CallbackInfo& info) {
-    oc_sec_credtype_t credtype = static_cast<oc_sec_credtype_t>(info[0].As<Number>().Uint32Value());
+    oc_sec_credtype_t credtype = static_cast<oc_sec_credtype_t>(info[0].ToNumber().Uint32Value());
     return String::New(info.Env(), oc_cred_credtype_string(credtype));
 }
 #endif
@@ -4578,7 +4578,7 @@ Napi::Value OCSeparateResponse::get_active(const Napi::CallbackInfo& info)
 
 void OCSeparateResponse::set_active(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->active = static_cast<int>(value.As<Number>());
+    m_pvalue->active = static_cast<int>(value.ToNumber());
 }
 
 Napi::Value OCSeparateResponse::get_buffer(const Napi::CallbackInfo& info)
@@ -4742,7 +4742,7 @@ Napi::Value OCTimer::get_interval(const Napi::CallbackInfo& info)
 
 void OCTimer::set_interval(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->interval = static_cast<uint32_t>(value.As<Number>().Uint32Value());
+    m_pvalue->interval = static_cast<uint32_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCTimer::get_start(const Napi::CallbackInfo& info)
@@ -4752,7 +4752,7 @@ Napi::Value OCTimer::get_start(const Napi::CallbackInfo& info)
 
 void OCTimer::set_start(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->start = static_cast<uint32_t>(value.As<Number>().Uint32Value());
+    m_pvalue->start = static_cast<uint32_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::FunctionReference OCUuid::constructor;
@@ -4778,11 +4778,11 @@ OCUuid::OCUuid(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
         m_pvalue = shared_ptr<oc_uuid_t>(new oc_uuid_t());
-        oc_str_to_uuid(info[0].As<String>().Utf8Value().c_str(), m_pvalue.get());
+        oc_str_to_uuid(info[0].ToString().Utf8Value().c_str(), m_pvalue.get());
     }
     else if (info.Length() == 1 && info[0].IsString()) {
         m_pvalue = shared_ptr<oc_uuid_t>(new oc_uuid_t());
-        oc_str_to_uuid(info[0].As<String>().Utf8Value().c_str(), m_pvalue.get());
+        oc_str_to_uuid(info[0].ToString().Utf8Value().c_str(), m_pvalue.get());
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
         m_pvalue = *(info[0].As<External<shared_ptr<oc_uuid_t>>>().Data());
@@ -4805,7 +4805,7 @@ void OCUuid::set_id(const Napi::CallbackInfo& info, const Napi::Value& value)
 }
 
 Value OCUuid::toString(const CallbackInfo& info) {
-    OCUuid& uuid = *OCUuid::Unwrap(info.This().As<Object>());
+    OCUuid& uuid = *OCUuid::Unwrap(info.This().ToObject());
 
     char buffer[OC_UUID_LEN] = { 0 };
     (void)oc_uuid_to_str(uuid, buffer, OC_UUID_LEN);
@@ -4851,7 +4851,7 @@ Napi::Value OCAceSubject::get_conn(const Napi::CallbackInfo& info)
 
 void OCAceSubject::set_conn(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->conn = static_cast<oc_ace_connection_type_t>(value.As<Number>().Uint32Value());
+    m_pvalue->conn = static_cast<oc_ace_connection_type_t>(value.ToNumber().Uint32Value());
 }
 
 Napi::Value OCAceSubject::get_uuid(const Napi::CallbackInfo& info)
@@ -4989,7 +4989,7 @@ Napi::Value OCValue::get_boolean(const Napi::CallbackInfo& info)
 
 void OCValue::set_boolean(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->boolean = value.As<Boolean>().Value();
+    m_pvalue->boolean = value.ToBoolean().Value();
 }
 
 Napi::Value OCValue::get_double_p(const Napi::CallbackInfo& info)
@@ -4999,7 +4999,7 @@ Napi::Value OCValue::get_double_p(const Napi::CallbackInfo& info)
 
 void OCValue::set_double_p(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->double_p = value.As<Number>().DoubleValue();
+    m_pvalue->double_p = value.ToNumber().DoubleValue();
 }
 
 Napi::Value OCValue::get_integer(const Napi::CallbackInfo& info)
@@ -5009,7 +5009,7 @@ Napi::Value OCValue::get_integer(const Napi::CallbackInfo& info)
 
 void OCValue::set_integer(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->integer = value.As<Number>().Int64Value();
+    m_pvalue->integer = value.ToNumber().Int64Value();
 }
 
 Napi::Value OCValue::get_object(const Napi::CallbackInfo& info)
