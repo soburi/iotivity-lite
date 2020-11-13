@@ -957,8 +957,11 @@ m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();",
 
 FUNC_OVERRIDE = {
   'oc_endpoint_to_string' => { '1' => 'oc_string_t endpoint_str;',
-  'invoke' => '  int ret = oc_endpoint_to_string(endpoint, &endpoint_str);
-  int(ret) { TypeError::New(info.Env(), "oc_endpoint_to_string failed.").ThrowAsJavaScriptException(); }
+  'invoke' => '
+  int ret = oc_endpoint_to_string(endpoint, &endpoint_str);
+  int(ret) {
+    TypeError::New(info.Env(), "oc_endpoint_to_string failed.").ThrowAsJavaScriptException();
+  }
   return String::New(info.Env(), oc_string(endpoint_str));
 '},
   'oc_endpoint_copy' => { '0' => 'oc_endpoint_t* dst = nullptr;',
