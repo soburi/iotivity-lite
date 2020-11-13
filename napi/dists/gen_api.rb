@@ -1508,7 +1508,7 @@ INSTANCE_FUNCS = [
   'OCResource::set_properties_cbs',
   'OCResource::process_baseline_interface',
   'OCResource::notify_observers',
-  'OCEndpoint::to_string',
+  'OCEndpoint::toString',
   'OCEndpoint::compare',
   'OCEndpoint::copy',
   'OCEndpoint::list_copy',
@@ -1520,6 +1520,7 @@ INSTANCE_FUNCS = [
   'OCCollection::add_supported_rt',
   'OCCollection::get_links',
   'OCCollection::remove_link',
+  'OCUuid::toString'
 ]
 
 IGNORE_FUNCS = [

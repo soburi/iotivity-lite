@@ -1626,7 +1626,7 @@ Napi::Function OCEndpoint::GetClass(Napi::Env env) {
         InstanceAccessor("interface_index", &OCEndpoint::get_interface_index, &OCEndpoint::set_interface_index),
         InstanceAccessor("priority", &OCEndpoint::get_priority, &OCEndpoint::set_priority),
         InstanceAccessor("version", &OCEndpoint::get_version, &OCEndpoint::set_version),
-        InstanceMethod("to_string", &OCEndpoint::to_string),
+        InstanceMethod("toString", &OCEndpoint::toString),
         InstanceMethod("compare", &OCEndpoint::compare),
         InstanceMethod("copy", &OCEndpoint::copy),
         InstanceMethod("list_copy", &OCEndpoint::list_copy),
@@ -1746,10 +1746,17 @@ void OCEndpoint::set_version(const Napi::CallbackInfo& info, const Napi::Value& 
     m_pvalue->version = static_cast<ocf_version_t>(value.As<Number>().Uint32Value());
 }
 
-Value OCEndpoint::to_string(const CallbackInfo& info) {
+Value OCEndpoint::toString(const CallbackInfo& info) {
     OCEndpoint& endpoint = *OCEndpoint::Unwrap(info.This().As<Object>());
-    OCMmem& endpoint_str = *OCMmem::Unwrap(info[0].As<Object>());
-    return Number::New(info.Env(), oc_endpoint_to_string(endpoint, endpoint_str));
+    oc_string_t endpoint_str;
+    int ret = oc_endpoint_to_string(endpoint, &endpoint_str);
+
+    if (ret) {
+        TypeError::New(info.Env(), "You need to name yourself")
+            .ThrowAsJavaScriptException();
+    }
+
+    return String::New(info.Env(), oc_string(endpoint_str));
 }
 
 Value OCEndpoint::compare(const CallbackInfo& info) {
@@ -4744,7 +4751,7 @@ Napi::Function OCUuid::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCUuid", {
         InstanceAccessor("id", &OCUuid::get_id, &OCUuid::set_id),
         StaticMethod("str_to_uuid", &OCUuid::str_to_uuid),
-        StaticMethod("uuid_to_str", &OCUuid::uuid_to_str),
+        InstanceMethod("toString", &OCUuid::toString),
         StaticMethod("gen_uuid", &OCUuid::gen_uuid),
 
     });
@@ -4791,10 +4798,10 @@ Value OCUuid::str_to_uuid(const CallbackInfo& info) {
     return info.Env().Undefined();
 }
 
-Value OCUuid::uuid_to_str(const CallbackInfo& info) {
-    OCUuid& uuid = *OCUuid::Unwrap(info[0].As<Object>());
-    char* buffer = const_cast<char*>(info[1].As<String>().Utf8Value().c_str());
-    int buflen = static_cast<int>(info[2].As<Number>());
+Value OCUuid::toString(const CallbackInfo& info) {
+    OCUuid& uuid = *OCUuid::Unwrap(info.This().As<Object>());
+    char* buffer = const_cast<char*>(info[0].As<String>().Utf8Value().c_str());
+    int buflen = static_cast<int>(info[1].As<Number>());
     (void)oc_uuid_to_str(uuid, buffer, buflen);
     return info.Env().Undefined();
 }

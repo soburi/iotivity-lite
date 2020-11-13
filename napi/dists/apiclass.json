@@ -149,7 +149,7 @@
 	"credtype_string": "oc_cred_credtype_string"
   },
   "OCEndpoint": {
-	"to_string": "oc_endpoint_to_string",
+	"toString": "oc_endpoint_to_string",
 	"compare": "oc_endpoint_compare",
 	"copy": "oc_endpoint_copy",
 	"list_copy": "oc_endpoint_list_copy",
@@ -197,7 +197,7 @@
   },
   "OCUuid": {
 	"str_to_uuid": "oc_str_to_uuid",
-	"uuid_to_str": "oc_uuid_to_str",
+	"toString": "oc_uuid_to_str",
 	"gen_uuid": "oc_gen_uuid"
   },
   "OCCore": {

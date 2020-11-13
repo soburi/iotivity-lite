@@ -502,7 +502,7 @@ public:
 
     Napi::Value get_iterator(const Napi::CallbackInfo& info);
 
-    Napi::Value to_string(const Napi::CallbackInfo& info);
+    Napi::Value toString(const Napi::CallbackInfo& info);
     Napi::Value compare(const Napi::CallbackInfo& info);
     Napi::Value copy(const Napi::CallbackInfo& info);
     Napi::Value list_copy(const Napi::CallbackInfo& info);
@@ -1407,7 +1407,7 @@ public:
 
 
     static Napi::Value str_to_uuid(const Napi::CallbackInfo& info);
-    static Napi::Value uuid_to_str(const Napi::CallbackInfo& info);
+    Napi::Value toString(const Napi::CallbackInfo& info);
     static Napi::Value gen_uuid(const Napi::CallbackInfo& info);
 
     std::shared_ptr<oc_uuid_t> m_pvalue;

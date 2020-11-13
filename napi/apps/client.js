@@ -107,6 +107,9 @@ function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
   console.dir(endpoints);
   for(let ep of endpoints) {
     console.dir(ep);
+    console.log("" + ep);
+    console.log(`${ep}`);         // => hint == "string"
+    console.log(+ep);             // => hint == "number"
   }
   console.dir(bm);
   console.log(user_data);
@@ -119,9 +122,8 @@ function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
       light_server = endpoints.list_copy();
       console.log(a_light);
       console.log(light_server);
-      console.log(OC.Qos);
-      console.log(OC.Qos.LOW_QOS);
-      OC.oc_do_get(a_light, light_server, null, get_light, OC.Qos.LOW_QOS, null)
+      console.log(OC.LOW_QOS);
+      OC.oc_do_get(a_light, light_server, null, get_light, OC.LOW_QOS, null)
     }
   }
 
