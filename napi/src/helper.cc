@@ -198,23 +198,32 @@ void helper_oc_handler_requests_entry()
 
 void helper_oc_init_platform_cb(void* param)
 {
-    printf("oc_init_platform_helper");
-    /*
-      callback_helper_t* helper = (callback_helper_t*)param;
-    //  HandleScope(helper->function.Env());
-    //  CallbackScope scope(helper->function.Env(), helper->async_context);
-      helper->function.MakeCallback(helper->function.Env().Null(), {helper->value.Value()});
-    printf("end oc_init_platform_helper\n");
-    */
+    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(param);
+    try {
+        helper->function.call(
+            [&](Env env, vector<napi_value>& args)
+        {
+            args = { helper->Value() };
+        });
+    }
+    catch (exception e) {
+        helper->function.error(e.what());
+    }
 }
 
 void helper_oc_add_device_cb(void* param)
 {
-    printf("oc_add_device_helper\n");
-//   callback_helper_t* helper = (callback_helper_t*)param;
-//   CallbackScope scope(helper->function.Env(), helper->async_context);
-//   helper->function.MakeCallback(helper->function.Env().Null(), {helper->value.Value()});
-    printf("end oc_add_device_helper\n");
+    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(param);
+    try {
+        helper->function.call(
+            [&](Env env, vector<napi_value>& args)
+        {
+            args = { helper->Value() };
+        });
+    }
+    catch (exception e) {
+        helper->function.error(e.what());
+    }
 }
 
 void oc_resource_set_properties_cbs_get_helper(oc_resource_t* res, oc_interface_mask_t mask, void* data) { }
