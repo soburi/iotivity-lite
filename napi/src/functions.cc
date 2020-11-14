@@ -116,24 +116,6 @@ Value N_oc_get_diagnostic_message(const CallbackInfo& info) {
     return Boolean::New(info.Env(), 0);
 }
 
-Value N_oc_get_link_by_uri(const CallbackInfo& info) {
-    auto& collection = *OCCollection::Unwrap(info[0].ToObject());
-    auto uri_path_ = info[1].ToString().Utf8Value();
-    auto uri_path = uri_path_.c_str();
-    auto uri_path_len = static_cast<int>(info[2].ToNumber());
-    shared_ptr<oc_link_t> sp(oc_get_link_by_uri(collection, uri_path, uri_path_len), nop_deleter);
-    auto args = External<shared_ptr<oc_link_t>>::New(info.Env(), &sp);
-    return OCLink::constructor.New({args});
-}
-
-Value N_oc_get_next_collection_with_link(const CallbackInfo& info) {
-    auto& resource = *OCResource::Unwrap(info[0].ToObject());
-    auto& start = *OCCollection::Unwrap(info[1].ToObject());
-    shared_ptr<oc_collection_t> sp(oc_get_next_collection_with_link(resource, start), nop_deleter);
-    auto args = External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
-    return OCCollection::constructor.New({args});
-}
-
 Value N_oc_get_query_value(const CallbackInfo& info) {
     auto& request = *OCRequest::Unwrap(info[0].ToObject());
     auto key_ = info[1].ToString().Utf8Value();

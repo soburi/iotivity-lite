@@ -892,7 +892,9 @@ Napi::Function OCCollection::GetClass(Napi::Env env) {
         StaticMethod("alloc", &OCCollection::alloc),
         StaticMethod("free", &OCCollection::free),
         StaticMethod("get_all", &OCCollection::get_all),
+        StaticMethod("get_next_collection_with_link", &OCCollection::get_next_collection_with_link),
         StaticMethod("get_collection_by_uri", &OCCollection::get_collection_by_uri),
+        StaticMethod("get_link_by_uri", &OCCollection::get_link_by_uri),
         InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCCollection::get_iterator),
     });
 
@@ -1192,6 +1194,14 @@ Value OCCollection::get_all(const CallbackInfo& info) {
     return OCCollection::constructor.New({args});
 }
 
+Value OCCollection::get_next_collection_with_link(const CallbackInfo& info) {
+    auto& resource = *OCResource::Unwrap(info[0].ToObject());
+    auto& start = *OCCollection::Unwrap(info[1].ToObject());
+    shared_ptr<oc_collection_t> sp(oc_get_next_collection_with_link(resource, start), nop_deleter);
+    auto args = External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
+    return OCCollection::constructor.New({args});
+}
+
 Value OCCollection::get_collection_by_uri(const CallbackInfo& info) {
     auto uri_path_ = info[0].ToString().Utf8Value();
     auto uri_path = uri_path_.c_str();
@@ -1200,6 +1210,16 @@ Value OCCollection::get_collection_by_uri(const CallbackInfo& info) {
     shared_ptr<oc_collection_t> sp(oc_get_collection_by_uri(uri_path, uri_path_len, device), nop_deleter);
     auto args = External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
     return OCCollection::constructor.New({args});
+}
+
+Value OCCollection::get_link_by_uri(const CallbackInfo& info) {
+    auto& collection = *OCCollection::Unwrap(info[0].ToObject());
+    auto uri_path_ = info[1].ToString().Utf8Value();
+    auto uri_path = uri_path_.c_str();
+    auto uri_path_len = static_cast<int>(info[2].ToNumber());
+    shared_ptr<oc_link_t> sp(oc_get_link_by_uri(collection, uri_path, uri_path_len), nop_deleter);
+    auto args = External<shared_ptr<oc_link_t>>::New(info.Env(), &sp);
+    return OCLink::constructor.New({args});
 }
 
 

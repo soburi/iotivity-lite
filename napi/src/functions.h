@@ -25,8 +25,6 @@ Napi::Value N_oc_connectivity_shutdown(const Napi::CallbackInfo&);
 Napi::Value N_oc_create_discovery_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_exit(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_diagnostic_message(const Napi::CallbackInfo&);
-Napi::Value N_oc_get_link_by_uri(const Napi::CallbackInfo&);
-Napi::Value N_oc_get_next_collection_with_link(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_query_value(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_request_payload_raw(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_response_payload_raw(const Napi::CallbackInfo&);

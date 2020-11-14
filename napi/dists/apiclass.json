@@ -84,7 +84,9 @@
 	"alloc": "oc_collection_alloc",
 	"free": "oc_collection_free",
 	"get_all": "oc_collection_get_all",
-	"get_collection_by_uri": "oc_get_collection_by_uri"
+	"get_next_collection_with_link": "oc_get_next_collection_with_link",
+	"get_collection_by_uri": "oc_get_collection_by_uri",
+	"get_link_by_uri": "oc_get_link_by_uri"
   },
   "OCObt": {
 	"ace_add_permission": "oc_obt_ace_add_permission",
