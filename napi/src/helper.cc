@@ -473,6 +473,42 @@ void helper_oc_obt_status_cb(int status, void* data)
     }
 }
 
+void helper_oc_obt_creds_cb(struct oc_sec_creds_t* creds, void* data)
+{
+    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+
+    try {
+        helper->function.call(
+            [&](Env env, vector<napi_value>& args)
+        {
+            shared_ptr<oc_sec_creds_t> creds_sp(creds, nop_deleter);
+            auto      creds_ = OCUuid::constructor.New({ External<shared_ptr<oc_sec_creds_t>>::New(helper->env, &creds_sp) });
+            args = { creds_, helper->Value() };
+        });
+    }
+    catch (exception e) {
+        helper->function.error(e.what());
+    }
+}
+
+void helper_oc_obt_acl_cb(oc_sec_acl_t* acl, void* data)
+{
+    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+
+    try {
+        helper->function.call(
+            [&](Env env, vector<napi_value>& args)
+        {
+            shared_ptr<oc_sec_acl_t> acl_sp(acl, nop_deleter);
+            auto      acl_ = OCUuid::constructor.New({ External<shared_ptr<oc_sec_acl_t>>::New(helper->env, &acl_sp) });
+            args = { acl_, helper->Value() };
+        });
+    }
+    catch (exception e) {
+        helper->function.error(e.what());
+    }
+}
+
 
 
 int oc_swupdate_cb_validate_purl_helper(const char *url)

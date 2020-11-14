@@ -101,6 +101,10 @@ void helper_oc_obt_discovery_cb(oc_uuid_t* uuid, oc_endpoint_t* eps, void* data)
 int helper_oc_obt_device_status_cb(oc_uuid_t* uuid, int status, void* data);
 void helper_oc_obt_status_cb(int status, void* data);
 
+void helper_oc_obt_creds_cb(struct oc_sec_creds_t* creds, void* data);
+void helper_oc_obt_acl_cb(oc_sec_acl_t* acl, void* data);
+
+
 int oc_swupdate_cb_validate_purl_helper(const char *url);
 int oc_swupdate_cb_check_new_version_helper(size_t device, const char *url, const char *version);
 int oc_swupdate_cb_download_update_helper(size_t device, const char *url);
