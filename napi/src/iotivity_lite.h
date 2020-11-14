@@ -13,6 +13,9 @@ public:
     static Napi::Value time(const Napi::CallbackInfo& info);
     static Napi::Value seconds(const Napi::CallbackInfo& info);
     static Napi::Value wait(const Napi::CallbackInfo& info);
+    static Napi::Value encode_time_refc3339(const Napi::CallbackInfo& info);
+    static Napi::Value parse_time_rfc3339(const Napi::CallbackInfo& info);
+    static Napi::Value time_rfc3339(const Napi::CallbackInfo& info);
 };
 
 class OCCloud : public Napi::ObjectWrap<OCCloud>
@@ -84,6 +87,9 @@ public:
     static Napi::Value set_latency(const Napi::CallbackInfo& info);
     static Napi::Value get_latency(const Napi::CallbackInfo& info);
     static Napi::Value add_new_device(const Napi::CallbackInfo& info);
+    static Napi::Value encode_interfaces_mask(const Napi::CallbackInfo& info);
+    static Napi::Value get_resource_by_index(const Napi::CallbackInfo& info);
+    static Napi::Value populate_resource(const Napi::CallbackInfo& info);
 };
 
 class OCEnumUtil : public Napi::ObjectWrap<OCEnumUtil>

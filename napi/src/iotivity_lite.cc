@@ -38,6 +38,9 @@ Napi::Function OCClock::GetClass(Napi::Env env) {
         StaticMethod("time", &OCClock::time),
         StaticMethod("seconds", &OCClock::seconds),
         StaticMethod("wait", &OCClock::wait),
+        StaticMethod("encode_time_refc3339", &OCClock::encode_time_refc3339),
+        StaticMethod("parse_time_rfc3339", &OCClock::parse_time_rfc3339),
+        StaticMethod("time_rfc3339", &OCClock::time_rfc3339),
     });
 }
 Napi::FunctionReference OCClock::constructor;
@@ -60,6 +63,28 @@ Value OCClock::wait(const CallbackInfo& info) {
     auto t = static_cast<uint64_t>(info[0].ToNumber().Int64Value());
     (void)oc_clock_wait(t);
     return info.Env().Undefined();
+}
+
+Value OCClock::encode_time_refc3339(const CallbackInfo& info) {
+    auto time = static_cast<uint64_t>(info[0].ToNumber().Int64Value());
+    auto out_buf_ = info[1].ToString().Utf8Value();
+    auto out_buf = const_cast<char*>(out_buf_.c_str());
+    auto out_buf_len = static_cast<size_t>(info[2].ToNumber().Uint32Value());
+    return Number::New(info.Env(), oc_clock_encode_time_rfc3339(time, out_buf, out_buf_len));
+}
+
+Value OCClock::parse_time_rfc3339(const CallbackInfo& info) {
+    auto in_buf_ = info[0].ToString().Utf8Value();
+    auto in_buf = in_buf_.c_str();
+    auto in_buf_len = static_cast<size_t>(info[1].ToNumber().Uint32Value());
+    return Number::New(info.Env(), oc_clock_parse_time_rfc3339(in_buf, in_buf_len));
+}
+
+Value OCClock::time_rfc3339(const CallbackInfo& info) {
+    auto out_buf_ = info[0].ToString().Utf8Value();
+    auto out_buf = const_cast<char*>(out_buf_.c_str());
+    auto out_buf_len = static_cast<size_t>(info[1].ToNumber().Uint32Value());
+    return Number::New(info.Env(), oc_clock_time_rfc3339(out_buf, out_buf_len));
 }
 
 OCCloud::OCCloud(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
@@ -260,6 +285,9 @@ Napi::Function OCCore::GetClass(Napi::Env env) {
         StaticMethod("set_latency", &OCCore::set_latency),
         StaticMethod("get_latency", &OCCore::get_latency),
         StaticMethod("add_new_device", &OCCore::add_new_device),
+        StaticMethod("encode_interfaces_mask", &OCCore::encode_interfaces_mask),
+        StaticMethod("get_resource_by_index", &OCCore::get_resource_by_index),
+        StaticMethod("populate_resource", &OCCore::populate_resource),
     });
 }
 Napi::FunctionReference OCCore::constructor;
@@ -358,6 +386,42 @@ Value OCCore::add_new_device(const CallbackInfo& info) {
     shared_ptr<oc_device_info_t> sp(oc_core_add_new_device(uri, rt, name, spec_version, data_model_version, add_device_cb, data), nop_deleter);
     auto args = External<shared_ptr<oc_device_info_t>>::New(info.Env(), &sp);
     return OCDeviceInfo::constructor.New({args});
+}
+
+Value OCCore::encode_interfaces_mask(const CallbackInfo& info) {
+    auto& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
+    auto iface_mask = static_cast<oc_interface_mask_t>(info[1].ToNumber().Uint32Value());
+    (void)oc_core_encode_interfaces_mask(parent, iface_mask);
+    return info.Env().Undefined();
+}
+
+Value OCCore::get_resource_by_index(const CallbackInfo& info) {
+    auto type = static_cast<int>(info[0].ToNumber());
+    auto device = static_cast<size_t>(info[1].ToNumber().Uint32Value());
+    shared_ptr<oc_resource_t> sp(oc_core_get_resource_by_index(type, device), nop_deleter);
+    auto args = External<shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
+    return OCResource::constructor.New({args});
+}
+
+Value OCCore::populate_resource(const CallbackInfo& info) {
+    auto core_resource = static_cast<int>(info[0].ToNumber());
+    auto device_index = static_cast<size_t>(info[1].ToNumber().Uint32Value());
+    auto uri_ = info[2].ToString().Utf8Value();
+    auto uri = uri_.c_str();
+    auto iface_mask = static_cast<oc_interface_mask_t>(info[3].ToNumber().Uint32Value());
+    auto default_interface = static_cast<oc_interface_mask_t>(info[4].ToNumber().Uint32Value());
+    auto properties = static_cast<int>(info[5].ToNumber());
+    oc_request_callback_t get_cb = nullptr;
+    Function get_cb_ = info[6].As<Function>();
+    oc_request_callback_t put_cb = nullptr;
+    Function put_cb_ = info[7].As<Function>();
+    oc_request_callback_t post_cb = nullptr;
+    Function post_cb_ = info[8].As<Function>();
+    oc_request_callback_t delete_cb = nullptr;
+    Function delete_cb_ = info[9].As<Function>();
+    auto num_resource_types = static_cast<int>(info[10].ToNumber());
+    (void)oc_core_populate_resource(core_resource, device_index, uri, iface_mask, default_interface, properties, get_cb, put_cb, post_cb, delete_cb, num_resource_types);
+    return info.Env().Undefined();
 }
 
 OCEnumUtil::OCEnumUtil(const Napi::CallbackInfo& info) : ObjectWrap(info) { }

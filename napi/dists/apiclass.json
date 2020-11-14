@@ -76,7 +76,11 @@
 	"add_supported_rt": "oc_collection_add_supported_rt",
 	"get_collections": "oc_collection_get_collections",
 	"get_links": "oc_collection_get_links",
-	"remove_link": "oc_collection_remove_link"
+	"remove_link": "oc_collection_remove_link",
+	"add": "oc_collection_add",
+	"alloc": "oc_collection_alloc",
+	"free": "oc_collection_free",
+	"get_all": "oc_collection_get_all"
   },
   "OCObt": {
 	"ace_add_permission": "oc_obt_ace_add_permission",
@@ -123,7 +127,10 @@
 	"init": "oc_clock_init",
 	"time": "oc_clock_time",
 	"seconds": "oc_clock_seconds",
-	"wait": "oc_clock_wait"
+	"wait": "oc_clock_wait",
+	"encode_time_refc3339":"oc_clock_encode_time_rfc3339",
+	"parse_time_rfc3339": "oc_clock_parse_time_rfc3339",
+	"time_rfc3339": "oc_clock_time_rfc3339"
   },
   "OCCloud": {
 	"get_context": "oc_cloud_get_context",
@@ -211,7 +218,10 @@
 	"is_DCR": "oc_core_is_DCR",
 	"set_latency": "oc_core_set_latency",
 	"get_latency": "oc_core_get_latency",
-	"add_new_device": "oc_core_add_new_device"
+	"add_new_device": "oc_core_add_new_device",
+	"encode_interfaces_mask": "oc_core_encode_interfaces_mask",
+	"get_resource_by_index": "oc_core_get_resource_by_index",
+	"populate_resource": "oc_core_populate_resource"
   },
   "OCRepresentation": {
 	"get_bool": "oc_rep_get_bool",

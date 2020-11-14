@@ -522,14 +522,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("oc_recv_message", Napi::Function::New(env, N_oc_recv_message));
     exports.Set("oc_send_message", Napi::Function::New(env, N_oc_send_message));
     exports.Set("oc_set_buffers_avail_cb", Napi::Function::New(env, N_oc_set_buffers_avail_cb));
-    exports.Set("oc_clock_encode_time_rfc3339", Napi::Function::New(env, N_oc_clock_encode_time_rfc3339));
-    exports.Set("oc_clock_parse_time_rfc3339", Napi::Function::New(env, N_oc_clock_parse_time_rfc3339));
-    exports.Set("oc_clock_time_rfc3339", Napi::Function::New(env, N_oc_clock_time_rfc3339));
     exports.Set("oc_check_if_collection", Napi::Function::New(env, N_oc_check_if_collection));
-    exports.Set("oc_collection_add", Napi::Function::New(env, N_oc_collection_add));
-    exports.Set("oc_collection_alloc", Napi::Function::New(env, N_oc_collection_alloc));
-    exports.Set("oc_collection_free", Napi::Function::New(env, N_oc_collection_free));
-    exports.Set("oc_collection_get_all", Napi::Function::New(env, N_oc_collection_get_all));
 #if defined(OC_COLLECTIONS_IF_CREATE)
     exports.Set("oc_collections_free_rt_factories", Napi::Function::New(env, N_oc_collections_free_rt_factories));
 #endif
@@ -549,9 +542,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("oc_dns_lookup", Napi::Function::New(env, N_oc_dns_lookup));
     exports.Set("oc_send_buffer", Napi::Function::New(env, N_oc_send_buffer));
     exports.Set("oc_send_discovery_request", Napi::Function::New(env, N_oc_send_discovery_request));
-    exports.Set("oc_core_encode_interfaces_mask", Napi::Function::New(env, N_oc_core_encode_interfaces_mask));
-    exports.Set("oc_core_get_resource_by_index", Napi::Function::New(env, N_oc_core_get_resource_by_index));
-    exports.Set("oc_core_populate_resource", Napi::Function::New(env, N_oc_core_populate_resource));
     exports.Set("oc_store_uri", Napi::Function::New(env, N_oc_store_uri));
     exports.Set("oc_create_discovery_resource", Napi::Function::New(env, N_oc_create_discovery_resource));
     exports.Set("oc_concat_strings", Napi::Function::New(env, N_oc_concat_strings));

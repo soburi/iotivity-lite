@@ -8,19 +8,12 @@ Napi::Value N_oc_allocate_message_from_pool(const Napi::CallbackInfo&);
 Napi::Value N_oc_base64_decode(const Napi::CallbackInfo&);
 Napi::Value N_oc_base64_encode(const Napi::CallbackInfo&);
 Napi::Value N_oc_check_if_collection(const Napi::CallbackInfo&);
-Napi::Value N_oc_clock_encode_time_rfc3339(const Napi::CallbackInfo&);
-Napi::Value N_oc_clock_parse_time_rfc3339(const Napi::CallbackInfo&);
-Napi::Value N_oc_clock_time_rfc3339(const Napi::CallbackInfo&);
 #if defined(OC_SECURITY)
 Napi::Value N_oc_close_all_tls_sessions(const Napi::CallbackInfo&);
 #endif
 #if defined(OC_SECURITY)
 Napi::Value N_oc_close_all_tls_sessions_for_device(const Napi::CallbackInfo&);
 #endif
-Napi::Value N_oc_collection_add(const Napi::CallbackInfo&);
-Napi::Value N_oc_collection_alloc(const Napi::CallbackInfo&);
-Napi::Value N_oc_collection_free(const Napi::CallbackInfo&);
-Napi::Value N_oc_collection_get_all(const Napi::CallbackInfo&);
 #if defined(OC_COLLECTIONS_IF_CREATE)
 Napi::Value N_oc_collections_add_rt_factory(const Napi::CallbackInfo&);
 #endif
@@ -34,9 +27,6 @@ Napi::Value N_oc_connectivity_end_session(const Napi::CallbackInfo&);
 Napi::Value N_oc_connectivity_get_endpoints(const Napi::CallbackInfo&);
 Napi::Value N_oc_connectivity_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_connectivity_shutdown(const Napi::CallbackInfo&);
-Napi::Value N_oc_core_encode_interfaces_mask(const Napi::CallbackInfo&);
-Napi::Value N_oc_core_get_resource_by_index(const Napi::CallbackInfo&);
-Napi::Value N_oc_core_populate_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_create_discovery_resource(const Napi::CallbackInfo&);
 Napi::Value N_oc_dns_lookup(const Napi::CallbackInfo&);
 Napi::Value N_oc_exit(const Napi::CallbackInfo&);

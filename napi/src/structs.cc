@@ -888,6 +888,10 @@ Napi::Function OCCollection::GetClass(Napi::Env env) {
         StaticMethod("get_collections", &OCCollection::get_collections),
         InstanceMethod("get_links", &OCCollection::get_links),
         InstanceMethod("remove_link", &OCCollection::remove_link),
+        StaticMethod("add", &OCCollection::add),
+        StaticMethod("alloc", &OCCollection::alloc),
+        StaticMethod("free", &OCCollection::free),
+        StaticMethod("get_all", &OCCollection::get_all),
         InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCCollection::get_iterator),
     });
 
@@ -1161,6 +1165,30 @@ Value OCCollection::remove_link(const CallbackInfo& info) {
     auto& link = *OCLink::Unwrap(info[0].ToObject());
     (void)oc_collection_remove_link(collection, link);
     return info.Env().Undefined();
+}
+
+Value OCCollection::add(const CallbackInfo& info) {
+    auto& collection = *OCCollection::Unwrap(info[0].ToObject());
+    (void)oc_collection_add(collection);
+    return info.Env().Undefined();
+}
+
+Value OCCollection::alloc(const CallbackInfo& info) {
+    shared_ptr<oc_collection_t> sp(oc_collection_alloc(), nop_deleter);
+    auto args = External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
+    return OCCollection::constructor.New({args});
+}
+
+Value OCCollection::free(const CallbackInfo& info) {
+    auto& collection = *OCCollection::Unwrap(info[0].ToObject());
+    (void)oc_collection_free(collection);
+    return info.Env().Undefined();
+}
+
+Value OCCollection::get_all(const CallbackInfo& info) {
+    shared_ptr<oc_collection_t> sp(oc_collection_get_all(), nop_deleter);
+    auto args = External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
+    return OCCollection::constructor.New({args});
 }
 
 
