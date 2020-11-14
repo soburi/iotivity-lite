@@ -507,10 +507,6 @@
     "value": "void*",
     "done": "bool"
   },
-  "oc_blockwise_state_iterator_t": {
-    "value": "void*",
-    "done": "bool"
-  },
   "oc_session_event_cb_iterator_t": {
     "value": "void*",
     "done": "bool"

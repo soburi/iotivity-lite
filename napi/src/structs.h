@@ -72,56 +72,6 @@ public:
 
 
 
-class OCBlockwiseState : public Napi::ObjectWrap<OCBlockwiseState>
-{
-public:
-    OCBlockwiseState(const Napi::CallbackInfo&);
-    virtual ~OCBlockwiseState();
-    static Napi::Function GetClass(Napi::Env);
-    static Napi::FunctionReference constructor;
-    operator oc_blockwise_state_s*() {
-        return m_pvalue.get();
-    }
-    Napi::Value get_buffer(const Napi::CallbackInfo&);
-    void set_buffer(const Napi::CallbackInfo&, const Napi::Value&);
-#if defined(OC_CLEINT)
-    Napi::Value get_client_cb(const Napi::CallbackInfo&);
-    void set_client_cb(const Napi::CallbackInfo&, const Napi::Value&);
-#endif
-    Napi::Value get_endpoint(const Napi::CallbackInfo&);
-    void set_endpoint(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_href(const Napi::CallbackInfo&);
-    void set_href(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_method(const Napi::CallbackInfo&);
-    void set_method(const Napi::CallbackInfo&, const Napi::Value&);
-#if defined(OC_CLIENT)
-    Napi::Value get_mid(const Napi::CallbackInfo&);
-    void set_mid(const Napi::CallbackInfo&, const Napi::Value&);
-#endif
-    Napi::Value get_next_block_offset(const Napi::CallbackInfo&);
-    void set_next_block_offset(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_payload_size(const Napi::CallbackInfo&);
-    void set_payload_size(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_ref_count(const Napi::CallbackInfo&);
-    void set_ref_count(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_role(const Napi::CallbackInfo&);
-    void set_role(const Napi::CallbackInfo&, const Napi::Value&);
-#if defined(OC_CLIENT)
-    Napi::Value get_token(const Napi::CallbackInfo&);
-    void set_token(const Napi::CallbackInfo&, const Napi::Value&);
-#endif
-#if defined(OC_CLIENT)
-    Napi::Value get_token_len(const Napi::CallbackInfo&);
-    void set_token_len(const Napi::CallbackInfo&, const Napi::Value&);
-#endif
-    Napi::Value get_uri_query(const Napi::CallbackInfo&);
-    void set_uri_query(const Napi::CallbackInfo&, const Napi::Value&);
-
-    Napi::Value get_iterator(const Napi::CallbackInfo& info);
-
-
-    std::shared_ptr<oc_blockwise_state_s> m_pvalue;
-};
 
 class OCClientCallback : public Napi::ObjectWrap<OCClientCallback>
 {
@@ -1699,27 +1649,6 @@ public:
 
 
     std::shared_ptr<oc_role_iterator_t> m_pvalue;
-};
-
-class OCBlockwiseStateIterator : public Napi::ObjectWrap<OCBlockwiseStateIterator>
-{
-public:
-    OCBlockwiseStateIterator(const Napi::CallbackInfo&);
-    virtual ~OCBlockwiseStateIterator();
-    static Napi::Function GetClass(Napi::Env);
-    static Napi::FunctionReference constructor;
-    operator oc_blockwise_state_iterator_t*() {
-        return m_pvalue.get();
-    }
-    Napi::Value get_value(const Napi::CallbackInfo&);
-    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_done(const Napi::CallbackInfo&);
-    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
-
-    Napi::Value get_next(const Napi::CallbackInfo& info);
-
-
-    std::shared_ptr<oc_blockwise_state_iterator_t> m_pvalue;
 };
 
 class OCSessionEventCbIterator : public Napi::ObjectWrap<OCSessionEventCbIterator>

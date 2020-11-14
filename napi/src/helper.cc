@@ -142,11 +142,7 @@ Value OCRoleIterator::get_next(const CallbackInfo& info)
     m_pvalue->current = m_pvalue->current->next;
     return info.This();
 }
-Value OCBlockwiseStateIterator::get_next(const CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
+
 Value OCSessionEventCbIterator::get_next(const CallbackInfo& info)
 {
     m_pvalue->current = m_pvalue->current->next;
