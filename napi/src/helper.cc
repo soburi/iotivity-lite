@@ -409,6 +409,72 @@ void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* dat
     }
 }
 
+
+void helper_oc_obt_discovery_cb(oc_uuid_t* uuid, oc_endpoint_t* eps, void* data)
+{
+    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+
+    try {
+        helper->function.call(
+            [&](Env env, vector<napi_value>& args)
+        {
+            shared_ptr<oc_uuid_t> uuuid_sp(uuid, nop_deleter);
+            auto      uuid_ = OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(helper->env, &uuuid_sp) });
+            shared_ptr<oc_endpoint_t> eps_sp(eps, nop_deleter);
+            auto      eps_ = OCEndpoint::constructor.New({ External<shared_ptr<oc_endpoint_t>>::New(helper->env, &eps_sp) });
+
+            args = { uuid_, eps_, helper->Value() };
+        });
+    }
+    catch (exception e) {
+        helper->function.error(e.what());
+    }
+}
+
+int helper_oc_obt_device_status_cb(oc_uuid_t* uuid, int status, void* data)
+{
+    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+    auto future = helper->function.call<int>(
+                      [&](Env env, vector<napi_value>& args)
+    {
+        shared_ptr<oc_uuid_t> uuuid_sp(uuid, nop_deleter);
+        auto      uuid_ = OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(helper->env, &uuuid_sp) });
+        auto    status_ = Number::New(helper->env, status);
+
+        args = { uuid_, status_, helper->Value() };
+    },
+    [&](const Value& val) {
+        return val.ToNumber().Int32Value();
+    });
+
+    try {
+        return future.get();
+    }
+    catch (exception e) {
+        helper->function.error(e.what());
+        return -1;
+    }
+}
+
+void helper_oc_obt_status_cb(int status, void* data)
+{
+    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+
+    try {
+        helper->function.call(
+            [&](Env env, vector<napi_value>& args)
+        {
+            auto    status_ = Number::New(helper->env, status);
+            args = { status_, helper->Value() };
+        });
+    }
+    catch (exception e) {
+        helper->function.error(e.what());
+    }
+}
+
+
+
 int oc_swupdate_cb_validate_purl_helper(const char *url)
 {
     String Nurl = String::New(main_context->oc_swupdate_cb_validate_purl_ref.Env(), url);

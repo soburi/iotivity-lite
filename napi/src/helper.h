@@ -96,6 +96,11 @@ oc_event_callback_retval_t helper_oc_trigger(void* data);
 void helper_oc_factory_presets_cb(size_t device, void* data);
 void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* data);
 
+
+void helper_oc_obt_discovery_cb(oc_uuid_t* uuid, oc_endpoint_t* eps, void* data);
+int helper_oc_obt_device_status_cb(oc_uuid_t* uuid, int status, void* data);
+void helper_oc_obt_status_cb(int status, void* data);
+
 int oc_swupdate_cb_validate_purl_helper(const char *url);
 int oc_swupdate_cb_check_new_version_helper(size_t device, const char *url, const char *version);
 int oc_swupdate_cb_download_update_helper(size_t device, const char *url);
