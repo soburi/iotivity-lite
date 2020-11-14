@@ -1991,7 +1991,9 @@ Napi::Value OCLink::get_interfaces(const Napi::CallbackInfo& info)
 
 void OCLink::set_interfaces(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->interfaces = static_cast<oc_interface_mask_t>(value.ToNumber().Uint32Value());
+
+    auto& link = *OCLink::Unwrap(info.This().ToObject());
+    oc_link_set_interfaces(link, static_cast<oc_interface_mask_t>(value.ToNumber().Uint32Value()));
 }
 
 Napi::Value OCLink::get_rel(const Napi::CallbackInfo& info)

@@ -596,7 +596,12 @@ OCResource::OCResource(const CallbackInfo& info) : ObjectWrap(info)
 }
 
 SETGET_OVERRIDE = {
-
+  "oc_link_s::interfaces" => {
+    "get" => "return Number::New(info.Env(), m_pvalue->interfaces);",
+    "set" => '
+    auto& link = *OCLink::Unwrap(info.This().ToObject());
+    oc_link_set_interfaces(link, static_cast<oc_interface_mask_t>(value.ToNumber().Uint32Value()));'
+  },
   "oc_collection_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_collection_iterator_t::value" => { "set" => "",
     "get" => '
