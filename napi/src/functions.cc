@@ -43,15 +43,15 @@ Value N_oc_allocate_message_from_pool(const CallbackInfo& info) {
 }
 
 Value N_oc_base64_decode(const CallbackInfo& info) {
-    auto str = info[0].As<Buffer<uint8_t>>().Data();
+    auto str = reinterpret_cast<uint8_t*>(info[0].As<TypedArray>().ArrayBuffer().Data());
     auto len = static_cast<size_t>(info[1].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_base64_decode(str, len));
 }
 
 Value N_oc_base64_encode(const CallbackInfo& info) {
-    auto input = info[0].As<Buffer<const uint8_t>>().Data();
+    auto input = reinterpret_cast<const uint8_t*>(info[0].As<TypedArray>().ArrayBuffer().Data());
     auto input_len = static_cast<size_t>(info[1].ToNumber().Uint32Value());
-    auto output_buffer = info[2].As<Buffer<uint8_t>>().Data();
+    auto output_buffer = reinterpret_cast<uint8_t*>(info[2].As<TypedArray>().ArrayBuffer().Data());
     auto output_buffer_len = static_cast<size_t>(info[3].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_base64_encode(input, input_len, output_buffer, output_buffer_len));
 }

@@ -182,7 +182,7 @@ Napi::Value OCBlockwiseResponseState::get_etag(const Napi::CallbackInfo& info)
 void OCBlockwiseResponseState::set_etag(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
     for(uint32_t i=0; i<COAP_ETAG_LEN; i++) {
-        m_pvalue->etag[i] = value.As<Buffer<uint8_t>>().Data()[i];
+        m_pvalue->etag[i] = reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data())[i];
     }
 }
 
@@ -255,8 +255,8 @@ Napi::Value OCBlockwiseState::get_buffer(const Napi::CallbackInfo& info)
 
 void OCBlockwiseState::set_buffer(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) {
-        m_pvalue->buffer[i] = value.As<Buffer<uint8_t>>().Data()[i];
+    for(uint32_t i=0; i<value.As<TypedArray>().ArrayBuffer().ByteLength(); i++) {
+        m_pvalue->buffer[i] = reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data())[i];
     }
 }
 
@@ -367,7 +367,7 @@ Napi::Value OCBlockwiseState::get_token(const Napi::CallbackInfo& info)
 void OCBlockwiseState::set_token(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
     for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) {
-        m_pvalue->token[i] = value.As<Buffer<uint8_t>>().Data()[i];
+        m_pvalue->token[i] = reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data())[i];
     }
 }
 #endif
@@ -585,7 +585,7 @@ Napi::Value OCClientCallback::get_token(const Napi::CallbackInfo& info)
 void OCClientCallback::set_token(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
     for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) {
-        m_pvalue->token[i] = value.As<Buffer<uint8_t>>().Data()[i];
+        m_pvalue->token[i] = reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data())[i];
     }
 }
 
@@ -716,8 +716,8 @@ Napi::Value OCClientResponse::get__payload(const Napi::CallbackInfo& info)
 
 void OCClientResponse::set__payload(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->_payload =    value.As<Buffer<uint8_t>>().Data();
-    m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();
+    m_pvalue->_payload =    reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data()); //TODO
+    m_pvalue->_payload_len = value.As<TypedArray>().ArrayBuffer().ByteLength();
 }
 
 Napi::Value OCClientResponse::get__payload_len(const Napi::CallbackInfo& info)
@@ -2378,7 +2378,7 @@ Napi::Value OCMemb::get_count(const Napi::CallbackInfo& info)
 void OCMemb::set_count(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
     for(uint32_t i=0; i<m_pvalue->num; i++) {
-        m_pvalue->count[i] = value.As<Buffer<int8_t>>().Data()[i];
+        m_pvalue->count[i] = reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data())[i];
     }
 }
 
@@ -2449,8 +2449,8 @@ Napi::Value OCMessage::get_data(const Napi::CallbackInfo& info)
 
 void OCMessage::set_data(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) {
-        m_pvalue->data[i] = value.As<Buffer<uint8_t>>().Data()[i];
+    for(uint32_t i=0; i<value.As<TypedArray>().ArrayBuffer().ByteLength(); i++) {
+        m_pvalue->data[i] = reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data())[i];
     }
 }
 
@@ -3069,8 +3069,8 @@ Value OCRepresentation::toString(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::parse(const CallbackInfo& info) {
-    auto payload = info[0].As<Buffer<const uint8_t>>().Data();
-    int payload_size = info[0].As<Buffer<const uint8_t>>().Length();
+    auto payload = reinterpret_cast<const uint8_t*>(info[0].As<TypedArray>().ArrayBuffer().Data());
+    int payload_size = info[0].As<TypedArray>().ArrayBuffer().ByteLength();
 
     oc_rep_t* ret;
     int err = oc_parse_rep(payload, payload_size, &ret);
@@ -3106,7 +3106,7 @@ Value OCRepresentation::add_boolean(const CallbackInfo& info) {
 
 Value OCRepresentation::add_byte_string(const CallbackInfo& info) {
     auto& arrayObject = *OCCborEncoder::Unwrap(info[0].ToObject());
-    auto value = info[1].As<Buffer<const uint8_t>>().Data();
+    auto value = reinterpret_cast<const unsigned char*>(info[1].As<TypedArray>().ArrayBuffer().Data());
 // 2 length, const size_t
     (void)0;
     return info.Env().Undefined();
@@ -3269,7 +3269,7 @@ Value OCRepresentation::set_byte_string(const CallbackInfo& info) {
     auto& object = *OCCborEncoder::Unwrap(info[0].ToObject());
     auto key_ = info[1].ToString().Utf8Value();
     auto key = key_.c_str();
-    auto value = info[2].As<Buffer<const uint8_t>>().Data();
+    auto value = reinterpret_cast<const unsigned char*>(info[2].As<TypedArray>().ArrayBuffer().Data());
     auto length = static_cast<size_t>(info[3].ToNumber().Uint32Value());
     (void)helper_rep_set_byte_string(object, key, value, length);
     return info.Env().Undefined();
@@ -3472,7 +3472,7 @@ Napi::Value OCRequest::get__payload(const Napi::CallbackInfo& info)
 
 void OCRequest::set__payload(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    /* nop */
+    m_pvalue->_payload=     reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data()); //TODO
 }
 
 Napi::Value OCRequest::get__payload_len(const Napi::CallbackInfo& info)
@@ -3514,7 +3514,7 @@ Napi::Value OCRequest::get_query(const Napi::CallbackInfo& info)
 
 void OCRequest::set_query(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    /* nop */
+    m_pvalue->query=     reinterpret_cast<const char*>(value.As<TypedArray>().ArrayBuffer().Data()); //TODO
 }
 
 Napi::Value OCRequest::get_query_len(const Napi::CallbackInfo& info)
@@ -3988,8 +3988,8 @@ Napi::Value OCResponseBuffer::get_buffer(const Napi::CallbackInfo& info)
 
 void OCResponseBuffer::set_buffer(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->buffer =     value.As<Buffer<uint8_t>>().Data();
-    m_pvalue->buffer_size = value.As<Buffer<uint8_t>>().Length();
+    m_pvalue->buffer =     reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data()); //TODO
+    m_pvalue->buffer_size = value.As<TypedArray>().ArrayBuffer().ByteLength();
 }
 
 Napi::Value OCResponseBuffer::get_buffer_size(const Napi::CallbackInfo& info)
@@ -4397,7 +4397,6 @@ OCCred::OCCred(const Napi::CallbackInfo& info) : ObjectWrap(info)
 #if defined(OC_PKI)
 Napi::Value OCCred::get_chain(const Napi::CallbackInfo& info)
 {
-//
     shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->chain);
     auto accessor = External<shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
     return OCCred::constructor.New({accessor});
@@ -4413,7 +4412,6 @@ void OCCred::set_chain(const Napi::CallbackInfo& info, const Napi::Value& value)
 #if defined(OC_PKI)
 Napi::Value OCCred::get_child(const Napi::CallbackInfo& info)
 {
-//
     shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->child);
     auto accessor = External<shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
     return OCCred::constructor.New({accessor});
@@ -4590,7 +4588,7 @@ Napi::Value OCSeparateResponse::get_buffer(const Napi::CallbackInfo& info)
 
 void OCSeparateResponse::set_buffer(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->buffer =     value.As<Buffer<uint8_t>>().Data();
+    m_pvalue->buffer =     reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data()); //TODO
 }
 
 Napi::FunctionReference OCSessionEventCb::constructor;
@@ -4802,7 +4800,7 @@ Napi::Value OCUuid::get_id(const Napi::CallbackInfo& info)
 void OCUuid::set_id(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
     for(uint32_t i=0; i<16; i++) {
-        m_pvalue->id[i] = info[0].As<Buffer<uint8_t>>().Data()[i];
+        m_pvalue->id[i] = reinterpret_cast<uint8_t*>(info[0].As<TypedArray>().ArrayBuffer().Data())[i];
     }
 }
 

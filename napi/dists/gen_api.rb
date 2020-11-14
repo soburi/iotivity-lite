@@ -735,14 +735,14 @@ SETGET_OVERRIDE = {
   },
   "oc_separate_response_s::buffer" => {
     "set" => "\
-m_pvalue->buffer =     value.As<Buffer<uint8_t>>().Data();",
+m_pvalue->buffer =     reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data()); //TODO",
     "get" =>
 "return Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, OC_MAX_APP_DATA_SIZE);"
   },
   "oc_response_buffer_s::buffer" => {
     "set" => "\
-m_pvalue->buffer =     value.As<Buffer<uint8_t>>().Data();
-m_pvalue->buffer_size = value.As<Buffer<uint8_t>>().Length();",
+m_pvalue->buffer =     reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data()); //TODO
+m_pvalue->buffer_size = value.As<TypedArray>().ArrayBuffer().ByteLength();",
     "get" =>
 "return Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, m_pvalue->buffer_size);"
   },
@@ -795,54 +795,49 @@ m_pvalue->buffer_size = value.As<Buffer<uint8_t>>().Length();",
     "get"=>"  return String::New(info.Env(), m_pvalue->VALNAME);"
   },
   "oc_blockwise_state_s::buffer"=> {
-    "set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->buffer[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
+    "set"=> "for(uint32_t i=0; i<value.As<TypedArray>().ArrayBuffer().ByteLength(); i++) { m_pvalue->buffer[i] = reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data())[i]; }",
     "get"=> "return Buffer<uint8_t>::New(info.Env(), m_pvalue->buffer, OC_MAX_APP_DATA_SIZE);"
   },
   "oc_message_s::data"=> {
-    "set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->data[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
+    "set"=> "for(uint32_t i=0; i<value.As<TypedArray>().ArrayBuffer().ByteLength(); i++) { m_pvalue->data[i] = reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data())[i]; }",
     "get"=>"return Buffer<uint8_t>::New(info.Env(), m_pvalue->data, OC_PDU_SIZE);"
   },
   "oc_request_t::_payload"=> {
-    #"set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->_payload[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
-    "set" => "/* nop */",
+    "set" => "m_pvalue->_payload=     reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data()); //TODO",
     "get"=> "return Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(m_pvalue->_payload), m_pvalue->_payload_len);"
   },
   "oc_client_response_t::_payload"=> {
     "set" => "\
-m_pvalue->_payload =    value.As<Buffer<uint8_t>>().Data();
-m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();",
+m_pvalue->_payload =    reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data()); //TODO
+m_pvalue->_payload_len = value.As<TypedArray>().ArrayBuffer().ByteLength();",
     "get" =>
 "return Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(m_pvalue->_payload), m_pvalue->_payload_len);"
-    #"set"=> "for(uint32_t i=0; i<value.As<Buffer<uint8_t>>().Length(); i++) { m_pvalue->_payload[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
-    #"get"=> "return Buffer<uint8_t>::New(info.Env(), m_pvalue->_payload, m_pvalue->_payload_len);"
   },
   "oc_uuid_t::id"=>
   {"set"=>
-    "for(uint32_t i=0; i<16; i++) { m_pvalue->id[i] = info[0].As<Buffer<uint8_t>>().Data()[i]; }",
+    "for(uint32_t i=0; i<16; i++) { m_pvalue->id[i] = reinterpret_cast<uint8_t*>(info[0].As<TypedArray>().ArrayBuffer().Data())[i]; }",
    "get"=>"return Buffer<uint8_t>::New(info.Env(), m_pvalue->id, 16);"},
   "oc_blockwise_response_state_s::etag"=>
   {"set"=>
-    "for(uint32_t i=0; i<COAP_ETAG_LEN; i++) { m_pvalue->VALNAME[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
+    "for(uint32_t i=0; i<COAP_ETAG_LEN; i++) { m_pvalue->VALNAME[i] = reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data())[i]; }",
    "get"=>"return Buffer<uint8_t>::New(info.Env(), m_pvalue->etag, COAP_ETAG_LEN);"},
   "oc_blockwise_state_s::token"=>
   {"set"=>
-    "for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) { m_pvalue->token[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
+    "for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) { m_pvalue->token[i] = reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data())[i]; }",
    "get"=>
     "return Buffer<uint8_t>::New(info.Env(), m_pvalue->token, COAP_TOKEN_LEN);"},
   "oc_client_cb_t::token"=>
   {"set"=>
-    "for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) { m_pvalue->token[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
+    "for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) { m_pvalue->token[i] = reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data())[i]; }",
    "get"=>
     "return Buffer<uint8_t>::New(info.Env(), m_pvalue->token, COAP_TOKEN_LEN);"},
   "oc_request_t::query"=>
-  {#"set"=>
-   # "for(uint32_t i=0; i<m_pvalue->query_len; i++) { m_pvalue->query[i] = value.As<Buffer<uint8_t>>().Data()[i]; }",
-   "set"=> "/* nop */",
+  {"set" => "m_pvalue->query=     reinterpret_cast<const char*>(value.As<TypedArray>().ArrayBuffer().Data()); //TODO",
    "get"=>
     "return Buffer<char>::New(info.Env(), const_cast<char*>(m_pvalue->query), m_pvalue->query_len);"},
   "oc_memb::count"=>
   {"set"=>
-    "for(uint32_t i=0; i<m_pvalue->num; i++) { m_pvalue->count[i] = value.As<Buffer<int8_t>>().Data()[i]; }",
+    "for(uint32_t i=0; i<m_pvalue->num; i++) { m_pvalue->count[i] = reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data())[i]; }",
    "get"=>"return Buffer<char>::New(info.Env(), m_pvalue->count, m_pvalue->num);"},
   "oc_le_addr_t::address"=>
   {"set"=>
@@ -957,7 +952,6 @@ m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();",
   "oc_sec_cred_t::chain"=>
   {"set"=> "  m_pvalue->chain = *(*(value.As<External<shared_ptr<oc_sec_cred_t*>>>().Data()));",
    "get"=> <<~STR
-    //
       shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->chain);
       auto accessor = External<shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
       return OCCred::constructor.New({accessor});
@@ -966,7 +960,6 @@ m_pvalue->_payload_len = value.As<Buffer<uint8_t>>().Length();",
   "oc_sec_cred_t::child"=>
   {"set"=> "  m_pvalue->child = *(*(value.As<External<shared_ptr<oc_sec_cred_t*>>>().Data()));",
    "get"=> <<~STR
-    //
       shared_ptr<oc_sec_cred_t*> sp(&m_pvalue->child);
       auto accessor = External<shared_ptr<oc_sec_cred_t*>>::New(info.Env(), &sp);
       return OCCred::constructor.New({accessor});
@@ -1025,7 +1018,7 @@ OVERRIDE_FUNC = {
   'oc_collection_get_links' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());' },
   'oc_collection_remove_link' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());' },
   'oc_parse_rep' => {
-    '1' => '  int payload_size = info[0].As<Buffer<const uint8_t>>().Length();',
+    '1' => '  int payload_size = info[0].As<TypedArray>().ArrayBuffer().ByteLength();',
     '2' => '',
     'invoke' => '
 
@@ -1109,7 +1102,6 @@ OVERRIDE_FUNC = {
   },
   'helper_main_loop' => {
     'invoke' => <<~STR
-//
   return main_context->deferred.Promise();
 STR
   },
@@ -1336,7 +1328,6 @@ STR
   },
   'oc_main_init' => {
     'invoke' => <<~STR
-//
   struct main_context_t* mainctx = new main_context_t{Promise::Deferred::New(info.Env()),
                                      ThreadSafeFunction::New(info.Env(),
     Function::New(info.Env(), [](const CallbackInfo& info) {
@@ -2312,13 +2303,13 @@ def gen_funcimpl(func, name, param, instance)
       decl += "  auto #{n} = static_cast<uint8_t>(info#{index}.ToNumber().Uint32Value());\n"
       args.append(n)
     elsif ty == 'const unsigned char*'
-      decl += "  auto #{n} = info#{index}.As<Buffer<const uint8_t>>().Data();\n"
+      decl += "  auto #{n} = reinterpret_cast<const unsigned char*>(info#{index}.As<TypedArray>().ArrayBuffer().Data());\n"
       args.append(n)
     elsif ty == 'const uint8_t*'
-      decl += "  auto #{n} = info#{index}.As<Buffer<const uint8_t>>().Data();\n"
+      decl += "  auto #{n} = reinterpret_cast<const uint8_t*>(info#{index}.As<TypedArray>().ArrayBuffer().Data());\n"
       args.append(n)
     elsif ty == 'uint8_t*'
-      decl += "  auto #{n} = info#{index}.As<Buffer<uint8_t>>().Data();\n"
+      decl += "  auto #{n} = reinterpret_cast<uint8_t*>(info#{index}.As<TypedArray>().ArrayBuffer().Data());\n"
       args.append(n)
     elsif ty == 'size_t*'
       decl += "  auto #{n} = reinterpret_cast<size_t*>(info#{index}.As<Uint32Array>().Data());\n"

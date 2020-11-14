@@ -399,7 +399,7 @@ Napi::FunctionReference OCIntrospection::constructor;
 #if defined(OC_IDD_API)
 Value OCIntrospection::set_introspection_data(const CallbackInfo& info) {
     auto device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
-    auto IDD = info[1].As<Buffer<uint8_t>>().Data();
+    auto IDD = reinterpret_cast<uint8_t*>(info[1].As<TypedArray>().ArrayBuffer().Data());
     auto IDD_size = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     (void)oc_set_introspection_data(device, IDD, IDD_size);
     return info.Env().Undefined();
@@ -877,7 +877,6 @@ Value OCMain::link_add_rel(const CallbackInfo& info) {
 
 Value OCMain::main_init(const CallbackInfo& info) {
     auto& handler = *OCHandler::Unwrap(info[0].ToObject());
-//
     struct main_context_t* mainctx = new main_context_t {
         Promise::Deferred::New(info.Env()),
                 ThreadSafeFunction::New(info.Env(),
@@ -920,7 +919,6 @@ Value OCMain::main_init(const CallbackInfo& info) {
 }
 
 Value OCMain::main_loop(const CallbackInfo& info) {
-//
     return main_context->deferred.Promise();
 
 }
@@ -1008,7 +1006,7 @@ Value OCMain::send_response(const CallbackInfo& info) {
 
 Value OCMain::send_response_raw(const CallbackInfo& info) {
     auto& request = *OCRequest::Unwrap(info[0].ToObject());
-    auto payload = info[1].As<Buffer<const uint8_t>>().Data();
+    auto payload = reinterpret_cast<const uint8_t*>(info[1].As<TypedArray>().ArrayBuffer().Data());
     auto size = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     auto content_format = static_cast<oc_content_format_t>(info[3].ToNumber().Uint32Value());
     auto response_code = static_cast<oc_status_t>(info[4].ToNumber().Uint32Value());
@@ -1503,7 +1501,7 @@ Value OCObt::perform_just_works_otm(const CallbackInfo& info) {
 #if defined(OC_SECURITY)
 Value OCObt::perform_random_pin_otm(const CallbackInfo& info) {
     auto& uuid = *OCUuid::Unwrap(info[0].ToObject());
-    auto pin = info[1].As<Buffer<const uint8_t>>().Data();
+    auto pin = reinterpret_cast<const unsigned char*>(info[1].As<TypedArray>().ArrayBuffer().Data());
     auto pin_len = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     oc_obt_device_status_cb_t cb = nullptr;
     Function cb_ = info[3].As<Function>();
@@ -1661,9 +1659,9 @@ Napi::FunctionReference OCPki::constructor;
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCPki::add_mfg_cert(const CallbackInfo& info) {
     auto device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
-    auto cert = info[1].As<Buffer<const uint8_t>>().Data();
+    auto cert = reinterpret_cast<const unsigned char*>(info[1].As<TypedArray>().ArrayBuffer().Data());
     auto cert_size = static_cast<size_t>(info[2].ToNumber().Uint32Value());
-    auto key = info[3].As<Buffer<const uint8_t>>().Data();
+    auto key = reinterpret_cast<const unsigned char*>(info[3].As<TypedArray>().ArrayBuffer().Data());
     auto key_size = static_cast<size_t>(info[4].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_pki_add_mfg_cert(device, cert, cert_size, key, key_size));
 }
@@ -1672,7 +1670,7 @@ Value OCPki::add_mfg_cert(const CallbackInfo& info) {
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCPki::add_mfg_trust_anchor(const CallbackInfo& info) {
     auto device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
-    auto cert = info[1].As<Buffer<const uint8_t>>().Data();
+    auto cert = reinterpret_cast<const unsigned char*>(info[1].As<TypedArray>().ArrayBuffer().Data());
     auto cert_size = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_pki_add_mfg_trust_anchor(device, cert, cert_size));
 }
@@ -1682,7 +1680,7 @@ Value OCPki::add_mfg_trust_anchor(const CallbackInfo& info) {
 Value OCPki::add_mfg_intermediate_cert(const CallbackInfo& info) {
     auto device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
     auto credid = static_cast<int>(info[1].ToNumber());
-    auto cert = info[2].As<Buffer<const uint8_t>>().Data();
+    auto cert = reinterpret_cast<const unsigned char*>(info[2].As<TypedArray>().ArrayBuffer().Data());
     auto cert_size = static_cast<size_t>(info[3].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_pki_add_mfg_intermediate_cert(device, credid, cert, cert_size));
 }
@@ -1691,7 +1689,7 @@ Value OCPki::add_mfg_intermediate_cert(const CallbackInfo& info) {
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCPki::add_trust_anchor(const CallbackInfo& info) {
     auto device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
-    auto cert = info[1].As<Buffer<const uint8_t>>().Data();
+    auto cert = reinterpret_cast<const unsigned char*>(info[1].As<TypedArray>().ArrayBuffer().Data());
     auto cert_size = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_pki_add_trust_anchor(device, cert, cert_size));
 }
@@ -1880,7 +1878,7 @@ Value OCStorage::config(const CallbackInfo& info) {
 Value OCStorage::read(const CallbackInfo& info) {
     auto store_ = info[0].ToString().Utf8Value();
     auto store = store_.c_str();
-    auto buf = info[1].As<Buffer<uint8_t>>().Data();
+    auto buf = reinterpret_cast<uint8_t*>(info[1].As<TypedArray>().ArrayBuffer().Data());
     auto size = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_storage_read(store, buf, size));
 }
@@ -1888,7 +1886,7 @@ Value OCStorage::read(const CallbackInfo& info) {
 Value OCStorage::write(const CallbackInfo& info) {
     auto store_ = info[0].ToString().Utf8Value();
     auto store = store_.c_str();
-    auto buf = info[1].As<Buffer<uint8_t>>().Data();
+    auto buf = reinterpret_cast<uint8_t*>(info[1].As<TypedArray>().ArrayBuffer().Data());
     auto size = static_cast<size_t>(info[2].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_storage_write(store, buf, size));
 }
