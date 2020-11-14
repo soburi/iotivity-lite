@@ -3507,7 +3507,7 @@ Value OCResource::set_properties_cbs(const CallbackInfo& info) {
 Value OCResource::set_request_handler(const CallbackInfo& info) {
     auto& resource = *OCResource::Unwrap(info.This().ToObject());
     auto method = static_cast<oc_method_t>(info[0].ToNumber().Uint32Value());
-    oc_request_callback_t callback = nullptr;
+    oc_request_callback_t callback = helper_oc_resource_set_request_handler;
     switch(method) {
     case OC_GET:
         get_handler.Reset(info[1].As<Function>());
@@ -3523,6 +3523,9 @@ Value OCResource::set_request_handler(const CallbackInfo& info) {
         break;
     }
     void* user_data = info[2];
+
+    SafeCallbackHelper* helper = new SafeCallbackHelper(info[1].As<Function>(), info[2]);
+
     (void)oc_resource_set_request_handler(resource, method, callback, user_data);
     return info.Env().Undefined();
 }
