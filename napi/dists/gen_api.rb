@@ -1709,6 +1709,11 @@ IGNORE_FUNCS = [
 'coap_register_as_transaction_handler',
 'coap_send_transaction',
 
+
+'handle_coap_signal_message',
+'handle_network_interface_event_callback',
+'handle_session_event_callback',
+
 'abort_impl',
 'exit_impl',
 '_oc_alloc_string',
