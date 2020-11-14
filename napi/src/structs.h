@@ -70,47 +70,7 @@ public:
     std::shared_ptr<oc_ace_res_t> m_pvalue;
 };
 
-class OCBlockwiseRequestState : public Napi::ObjectWrap<OCBlockwiseRequestState>
-{
-public:
-    OCBlockwiseRequestState(const Napi::CallbackInfo&);
-    virtual ~OCBlockwiseRequestState();
-    static Napi::Function GetClass(Napi::Env);
-    static Napi::FunctionReference constructor;
-    operator oc_blockwise_request_state_s*() {
-        return m_pvalue.get();
-    }
-    Napi::Value get_base(const Napi::CallbackInfo&);
-    void set_base(const Napi::CallbackInfo&, const Napi::Value&);
 
-
-
-    std::shared_ptr<oc_blockwise_request_state_s> m_pvalue;
-};
-
-class OCBlockwiseResponseState : public Napi::ObjectWrap<OCBlockwiseResponseState>
-{
-public:
-    OCBlockwiseResponseState(const Napi::CallbackInfo&);
-    virtual ~OCBlockwiseResponseState();
-    static Napi::Function GetClass(Napi::Env);
-    static Napi::FunctionReference constructor;
-    operator oc_blockwise_response_state_s*() {
-        return m_pvalue.get();
-    }
-    Napi::Value get_base(const Napi::CallbackInfo&);
-    void set_base(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_etag(const Napi::CallbackInfo&);
-    void set_etag(const Napi::CallbackInfo&, const Napi::Value&);
-#if defined(OC_CLIENT)
-    Napi::Value get_observe_seq(const Napi::CallbackInfo&);
-    void set_observe_seq(const Napi::CallbackInfo&, const Napi::Value&);
-#endif
-
-
-
-    std::shared_ptr<oc_blockwise_response_state_s> m_pvalue;
-};
 
 class OCBlockwiseState : public Napi::ObjectWrap<OCBlockwiseState>
 {

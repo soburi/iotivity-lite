@@ -100,8 +100,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("AceResource", OCAceResource::GetClass(env));
     exports.Set("AceSubject", OCAceSubject::GetClass(env));
     exports.Set("Array", OCArray::GetClass(env));
-    exports.Set("BlockwiseRequestState", OCBlockwiseRequestState::GetClass(env));
-    exports.Set("BlockwiseResponseState", OCBlockwiseResponseState::GetClass(env));
     exports.Set("BlockwiseStateIterator", OCBlockwiseStateIterator::GetClass(env));
     exports.Set("BlockwiseState", OCBlockwiseState::GetClass(env));
     exports.Set("ClientCallback", OCClientCallback::GetClass(env));

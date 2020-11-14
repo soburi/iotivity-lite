@@ -1459,6 +1459,11 @@ TYPEDEFS = {
   }
 
 IGNORE_TYPES = {
+'oc_blockwise_request_state_s' => nil,
+'oc_blockwise_response_state_s' => nil,
+'oc_blockwise_state_s' => nil,
+
+
 'coap_observer' => nil,
 'coap_packet_t' => nil,
 'coap_separate' => nil,
