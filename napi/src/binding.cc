@@ -115,8 +115,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("EndpointIterator", OCEndpointIterator::GetClass(env));
     exports.Set("Endpoint", OCEndpoint::GetClass(env));
     exports.Set("DevAddr", DevAddr::GetClass(env));
-    exports.Set("Etimer", OCEtimer::GetClass(env));
-    exports.Set("EtimerIterator", OCEtimerIterator::GetClass(env));
     exports.Set("EventCallbackIterator", OCEventCallbackIterator::GetClass(env));
     exports.Set("EventCallback", OCEventCallback::GetClass(env));
     exports.Set("Handler", OCHandler::GetClass(env));
@@ -133,7 +131,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("Mmem", OCMmem::GetClass(env));
     exports.Set("NetworkInterfaceCb", OCNetworkInterfaceCb::GetClass(env));
     exports.Set("PlatformInfo", OCPlatformInfo::GetClass(env));
-    exports.Set("Process", OCProcess::GetClass(env));
     exports.Set("PropertiesCb", OCPropertiesCb::GetClass(env));
     exports.Set("RepresentationIterator", OCRepresentationIterator::GetClass(env));
     exports.Set("Representation", OCRepresentation::GetClass(env));

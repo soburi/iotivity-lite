@@ -1703,60 +1703,6 @@ Value OCEndpoint::set_local_address(const CallbackInfo& info) {
 }
 
 
-Napi::FunctionReference OCEtimer::constructor;
-
-Napi::Function OCEtimer::GetClass(Napi::Env env) {
-    auto func = DefineClass(env, "OCEtimer", {
-        InstanceAccessor("p", &OCEtimer::get_p, &OCEtimer::set_p),
-        InstanceAccessor("timer", &OCEtimer::get_timer, &OCEtimer::set_timer),
-        InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCEtimer::get_iterator),
-    });
-
-    constructor = Napi::Persistent(func);
-    constructor.SuppressDestruct();
-
-    return func;
-}
-
-OCEtimer::~OCEtimer()
-{
-}
-OCEtimer::OCEtimer(const Napi::CallbackInfo& info) : ObjectWrap(info)
-{
-    if (info.Length() == 0) {
-        m_pvalue = shared_ptr<oc_etimer>(new oc_etimer());
-    }
-    else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<External<shared_ptr<oc_etimer>>>().Data());
-    }
-    else {
-        TypeError::New(info.Env(), "You need to name yourself")
-        .ThrowAsJavaScriptException();
-    }
-}
-Napi::Value OCEtimer::get_p(const Napi::CallbackInfo& info)
-{
-    shared_ptr<oc_process*> sp(&m_pvalue->p, nop_deleter);
-    auto accessor = External<shared_ptr<oc_process*>>::New(info.Env(), &sp);
-    return OCProcess::constructor.New({accessor});
-}
-
-void OCEtimer::set_p(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-    m_pvalue->p = *(*(value.As<External<shared_ptr<oc_process*>>>().Data()));
-}
-
-Napi::Value OCEtimer::get_timer(const Napi::CallbackInfo& info)
-{
-    shared_ptr<oc_timer> sp(&m_pvalue->timer, nop_deleter);
-    auto accessor = External<shared_ptr<oc_timer>>::New(info.Env(), &sp);
-    return OCTimer::constructor.New({accessor});
-}
-
-void OCEtimer::set_timer(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-    m_pvalue->timer = *(*(value.As<External<shared_ptr<oc_timer>>>().Data()));
-}
 
 Napi::FunctionReference OCEventCallback::constructor;
 
@@ -1764,7 +1710,6 @@ Napi::Function OCEventCallback::GetClass(Napi::Env env) {
     auto func = DefineClass(env, "OCEventCallback", {
         InstanceAccessor("callback", &OCEventCallback::get_callback, &OCEventCallback::set_callback),
         InstanceAccessor("data", &OCEventCallback::get_data, &OCEventCallback::set_data),
-        InstanceAccessor("timer", &OCEventCallback::get_timer, &OCEventCallback::set_timer),
         InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCEventCallback::get_iterator),
     });
 
@@ -1808,18 +1753,6 @@ Napi::Value OCEventCallback::get_data(const Napi::CallbackInfo& info)
 void OCEventCallback::set_data(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
     callback_data = value;
-}
-
-Napi::Value OCEventCallback::get_timer(const Napi::CallbackInfo& info)
-{
-    shared_ptr<oc_etimer> sp(&m_pvalue->timer, nop_deleter);
-    auto accessor = External<shared_ptr<oc_etimer>>::New(info.Env(), &sp);
-    return OCEtimer::constructor.New({accessor});
-}
-
-void OCEventCallback::set_timer(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-    m_pvalue->timer = *(*(value.As<External<shared_ptr<oc_etimer>>>().Data()));
 }
 
 Napi::FunctionReference OCHandler::constructor;
@@ -2569,68 +2502,6 @@ void OCPlatformInfo::set_pi(const Napi::CallbackInfo& info, const Napi::Value& v
     m_pvalue->pi = *(*(value.As<External<shared_ptr<oc_uuid_t>>>().Data()));
 }
 
-Napi::FunctionReference OCProcess::constructor;
-
-Napi::Function OCProcess::GetClass(Napi::Env env) {
-    auto func = DefineClass(env, "OCProcess", {
-        InstanceAccessor("name", &OCProcess::get_name, &OCProcess::set_name),
-        InstanceAccessor("needspoll", &OCProcess::get_needspoll, &OCProcess::set_needspoll),
-        InstanceAccessor("state", &OCProcess::get_state, &OCProcess::set_state),
-
-    });
-
-    constructor = Napi::Persistent(func);
-    constructor.SuppressDestruct();
-
-    return func;
-}
-
-OCProcess::~OCProcess()
-{
-}
-OCProcess::OCProcess(const Napi::CallbackInfo& info) : ObjectWrap(info)
-{
-    if (info.Length() == 0) {
-        m_pvalue = shared_ptr<oc_process>(new oc_process());
-    }
-    else if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = *(info[0].As<External<shared_ptr<oc_process>>>().Data());
-    }
-    else {
-        TypeError::New(info.Env(), "You need to name yourself")
-        .ThrowAsJavaScriptException();
-    }
-}
-Napi::Value OCProcess::get_name(const Napi::CallbackInfo& info)
-{
-    return String::New(info.Env(), m_pvalue->name);
-}
-
-void OCProcess::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-    std::string name_ = value.ToString().Utf8Value();
-    m_pvalue->name = name_.c_str();
-}
-
-Napi::Value OCProcess::get_needspoll(const Napi::CallbackInfo& info)
-{
-    return Number::New(info.Env(), m_pvalue->needspoll);
-}
-
-void OCProcess::set_needspoll(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-    m_pvalue->needspoll = static_cast<unsigned char>(value.ToNumber().Uint32Value());
-}
-
-Napi::Value OCProcess::get_state(const Napi::CallbackInfo& info)
-{
-    return Number::New(info.Env(), m_pvalue->state);
-}
-
-void OCProcess::set_state(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-    m_pvalue->state = static_cast<unsigned char>(value.ToNumber().Uint32Value());
-}
 
 Napi::FunctionReference OCPropertiesCb::constructor;
 
@@ -5491,58 +5362,6 @@ Napi::Value OCResourceTypeIterator::get_done(const Napi::CallbackInfo& info)
 }
 
 void OCResourceTypeIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
-Napi::FunctionReference OCEtimerIterator::constructor;
-
-Napi::Function OCEtimerIterator::GetClass(Napi::Env env) {
-    auto func = DefineClass(env, "OCEtimerIterator", {
-        InstanceAccessor("value", &OCEtimerIterator::get_value, &OCEtimerIterator::set_value),
-        InstanceAccessor("done", &OCEtimerIterator::get_done, &OCEtimerIterator::set_done),
-        InstanceMethod("next", &OCEtimerIterator::get_next),
-    });
-
-    constructor = Napi::Persistent(func);
-    constructor.SuppressDestruct();
-
-    return func;
-}
-
-OCEtimerIterator::~OCEtimerIterator()
-{
-}
-
-OCEtimerIterator::OCEtimerIterator(const CallbackInfo& info) : ObjectWrap(info)
-{
-    if (info.Length() == 1 && info[0].IsExternal() ) {
-        m_pvalue = shared_ptr<oc_etimer_iterator_t>(new oc_etimer_iterator_t());
-        m_pvalue->current = info[0].As<External<shared_ptr<oc_etimer>>>().Data()->get();
-    }
-    else {
-        TypeError::New(info.Env(), "You need to name yourself").ThrowAsJavaScriptException();
-    }
-}
-Napi::Value OCEtimerIterator::get_value(const Napi::CallbackInfo& info)
-{
-
-    shared_ptr<oc_etimer> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_etimer>>::New(info.Env(), &sp);
-    return OCEtimer::constructor.New({ accessor });
-}
-
-void OCEtimerIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
-{
-
-}
-
-Napi::Value OCEtimerIterator::get_done(const Napi::CallbackInfo& info)
-{
-    return Boolean::New(info.Env(), m_pvalue->current == nullptr);
-}
-
-void OCEtimerIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
 
 }

@@ -495,10 +495,6 @@
     "value": "void*",
     "done": "bool"
   },
-  "oc_etimer_iterator_t": {
-    "value": "void*",
-    "done": "bool"
-  },
   "oc_event_callback_iterator_t": {
     "value": "void*",
     "done": "bool"

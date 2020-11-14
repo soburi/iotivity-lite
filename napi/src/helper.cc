@@ -26,12 +26,6 @@ Value OCCollection::get_iterator(const CallbackInfo& info)
     return OCCollectionIterator::constructor.New({ args });
 }
 
-Value OCEtimer::get_iterator(const CallbackInfo& info)
-{
-    auto args = External<shared_ptr<oc_etimer>>::New(info.Env(), &m_pvalue);
-    return OCStringArrayIterator::constructor.New({ args });
-}
-
 Value OCEventCallback::get_iterator(const CallbackInfo& info)
 {
     auto args = External<shared_ptr<oc_event_callback_s>>::New(info.Env(), &m_pvalue);
@@ -129,11 +123,6 @@ Value OCLinkParamsIterator::get_next(const CallbackInfo& info)
     return info.This();
 }
 Value OCResourceTypeIterator::get_next(const CallbackInfo& info)
-{
-    m_pvalue->current = m_pvalue->current->next;
-    return info.This();
-}
-Value OCEtimerIterator::get_next(const CallbackInfo& info)
 {
     m_pvalue->current = m_pvalue->current->next;
     return info.This();

@@ -475,26 +475,6 @@ public:
     std::shared_ptr<oc_endpoint_t> m_pvalue;
 };
 
-class OCEtimer : public Napi::ObjectWrap<OCEtimer>
-{
-public:
-    OCEtimer(const Napi::CallbackInfo&);
-    virtual ~OCEtimer();
-    static Napi::Function GetClass(Napi::Env);
-    static Napi::FunctionReference constructor;
-    operator oc_etimer*() {
-        return m_pvalue.get();
-    }
-    Napi::Value get_p(const Napi::CallbackInfo&);
-    void set_p(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_timer(const Napi::CallbackInfo&);
-    void set_timer(const Napi::CallbackInfo&, const Napi::Value&);
-
-    Napi::Value get_iterator(const Napi::CallbackInfo& info);
-
-
-    std::shared_ptr<oc_etimer> m_pvalue;
-};
 
 class OCEventCallback : public Napi::ObjectWrap<OCEventCallback>
 {
@@ -513,8 +493,6 @@ public:
 
     Napi::Value get_data(const Napi::CallbackInfo&);
     void set_data(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_timer(const Napi::CallbackInfo&);
-    void set_timer(const Napi::CallbackInfo&, const Napi::Value&);
 
     Napi::Value get_iterator(const Napi::CallbackInfo& info);
 
@@ -795,27 +773,6 @@ public:
     std::shared_ptr<oc_platform_info_t> m_pvalue;
 };
 
-class OCProcess : public Napi::ObjectWrap<OCProcess>
-{
-public:
-    OCProcess(const Napi::CallbackInfo&);
-    virtual ~OCProcess();
-    static Napi::Function GetClass(Napi::Env);
-    static Napi::FunctionReference constructor;
-    operator oc_process*() {
-        return m_pvalue.get();
-    }
-    Napi::Value get_name(const Napi::CallbackInfo&);
-    void set_name(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_needspoll(const Napi::CallbackInfo&);
-    void set_needspoll(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_state(const Napi::CallbackInfo&);
-    void set_state(const Napi::CallbackInfo&, const Napi::Value&);
-
-
-
-    std::shared_ptr<oc_process> m_pvalue;
-};
 
 class OCPropertiesCb : public Napi::ObjectWrap<OCPropertiesCb>
 {
@@ -1679,27 +1636,6 @@ public:
 
 
     std::shared_ptr<oc_rt_iterator_t> m_pvalue;
-};
-
-class OCEtimerIterator : public Napi::ObjectWrap<OCEtimerIterator>
-{
-public:
-    OCEtimerIterator(const Napi::CallbackInfo&);
-    virtual ~OCEtimerIterator();
-    static Napi::Function GetClass(Napi::Env);
-    static Napi::FunctionReference constructor;
-    operator oc_etimer_iterator_t*() {
-        return m_pvalue.get();
-    }
-    Napi::Value get_value(const Napi::CallbackInfo&);
-    void set_value(const Napi::CallbackInfo&, const Napi::Value&);
-    Napi::Value get_done(const Napi::CallbackInfo&);
-    void set_done(const Napi::CallbackInfo&, const Napi::Value&);
-
-    Napi::Value get_next(const Napi::CallbackInfo& info);
-
-
-    std::shared_ptr<oc_etimer_iterator_t> m_pvalue;
 };
 
 class OCEventCallbackIterator : public Napi::ObjectWrap<OCEventCallbackIterator>
