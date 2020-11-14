@@ -274,6 +274,7 @@ EXTRA_ACCESSOR = {
 }
 
 EXTRA_VALUE= {
+  'oc_client_response_t' => ' Napi::ObjectReference user_data_ref;',
   'oc_client_cb_t' => ' Napi::ObjectReference user_data_ref;',
   'oc_collection_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); 
  operator oc_resource_s*() { return reinterpret_cast<oc_resource_s*>(m_pvalue.get()); }',
@@ -806,6 +807,14 @@ m_pvalue->buffer_size = value.As<TypedArray>().ArrayBuffer().ByteLength();",
   "oc_request_t::_payload"=> {
     "set" => "m_pvalue->_payload=     reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data()); //TODO",
     "get"=> "return Buffer<uint8_t>::New(info.Env(), const_cast<uint8_t*>(m_pvalue->_payload), m_pvalue->_payload_len);"
+  },
+  "oc_client_response_t::user_data"=>
+  {"set"=> "
+      Napi::Object obj = Napi::Object::New(info.Env());
+      obj.Set(\"user_data\", value);
+      user_data_ref = Napi::Persistent(obj);",
+   "get"=>
+     "return user_data_ref.Get(\"user_data\");",
   },
   "oc_client_response_t::_payload"=> {
     "set" => "\
@@ -1510,6 +1519,7 @@ IGNORE_TYPES = {
   "oc_network_interface_cb" => [/^next$/],
   "oc_session_event_cb" => [/^next$/],
   "oc_rep_s" => [/^next$/ ],
+  "oc_client_cb_t" => [ /^next$/],
 
 #  "coap_transaction" => [/^next$/],
 #  "coap_observer" => [/^next$/, /^resource$/, /^token$/,],
@@ -1517,11 +1527,10 @@ IGNORE_TYPES = {
 #  "coap_separate" => [/^token$/, /^next$/],
 
 # void pointer
-  "oc_client_cb_t" => [ /^next$/],
   "oc_memb" => [/mem/, /buffers_avail_cb/],
   "oc_mmem" => [/ptr/, /^next$/],
 # internal
-  "oc_client_response_t" => [/^client_cb$/, /^user_data$/],
+  "oc_client_response_t" => [/^client_cb$/],
 
   "pool" => nil,
   "@3" => nil,

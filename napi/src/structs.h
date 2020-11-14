@@ -179,7 +179,10 @@ public:
     void set_observe_option(const Napi::CallbackInfo&, const Napi::Value&);
     Napi::Value get_payload(const Napi::CallbackInfo&);
     void set_payload(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_user_data(const Napi::CallbackInfo&);
+    void set_user_data(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::ObjectReference user_data_ref;
 
 
     std::shared_ptr<oc_client_response_t> m_pvalue;

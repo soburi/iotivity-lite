@@ -391,6 +391,7 @@ Napi::Function OCClientResponse::GetClass(Napi::Env env) {
         InstanceAccessor("endpoint", &OCClientResponse::get_endpoint, &OCClientResponse::set_endpoint),
         InstanceAccessor("observe_option", &OCClientResponse::get_observe_option, &OCClientResponse::set_observe_option),
         InstanceAccessor("payload", &OCClientResponse::get_payload, &OCClientResponse::set_payload),
+        InstanceAccessor("user_data", &OCClientResponse::get_user_data, &OCClientResponse::set_user_data),
 
     });
 
@@ -489,6 +490,19 @@ Napi::Value OCClientResponse::get_payload(const Napi::CallbackInfo& info)
 void OCClientResponse::set_payload(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
     m_pvalue->payload = *(*(value.As<External<shared_ptr<oc_rep_t*>>>().Data()));
+}
+
+Napi::Value OCClientResponse::get_user_data(const Napi::CallbackInfo& info)
+{
+    return user_data_ref.Get("user_data");
+}
+
+void OCClientResponse::set_user_data(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+    Napi::Object obj = Napi::Object::New(info.Env());
+    obj.Set("user_data", value);
+    user_data_ref = Napi::Persistent(obj);
 }
 
 Napi::FunctionReference OCCloudContext::constructor;
