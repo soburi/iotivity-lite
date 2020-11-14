@@ -550,15 +550,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("oc_memb_inmemb", Napi::Function::New(env, N_oc_memb_inmemb));
     exports.Set("oc_memb_numfree", Napi::Function::New(env, N_oc_memb_numfree));
     exports.Set("oc_memb_set_buffers_avail_cb", Napi::Function::New(env, N_oc_memb_set_buffers_avail_cb));
-#if defined(OC_MEMORY_TRACE)
-    exports.Set("oc_mem_trace_add_pace", Napi::Function::New(env, N_oc_mem_trace_add_pace));
-#endif
-#if defined(OC_MEMORY_TRACE)
-    exports.Set("oc_mem_trace_init", Napi::Function::New(env, N_oc_mem_trace_init));
-#endif
-#if defined(OC_MEMORY_TRACE)
-    exports.Set("oc_mem_trace_shutdown", Napi::Function::New(env, N_oc_mem_trace_shutdown));
-#endif
     exports.Set("oc_mmem_init", Napi::Function::New(env, N_oc_mmem_init));
     exports.Set("oc_network_event", Napi::Function::New(env, N_oc_network_event));
     exports.Set("oc_network_interface_event", Napi::Function::New(env, N_oc_network_interface_event));

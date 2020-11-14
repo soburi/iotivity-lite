@@ -246,32 +246,6 @@ Value N_oc_link_set_interfaces(const CallbackInfo& info) {
     return info.Env().Undefined();
 }
 
-#if defined(OC_MEMORY_TRACE)
-Value N_oc_mem_trace_add_pace(const CallbackInfo& info) {
-    auto func_ = info[0].ToString().Utf8Value();
-    auto func = func_.c_str();
-    auto size = static_cast<int>(info[1].ToNumber());
-    auto type = static_cast<int>(info[2].ToNumber());
-    void* address = info[3];
-    (void)oc_mem_trace_add_pace(func, size, type, address);
-    return info.Env().Undefined();
-}
-#endif
-
-#if defined(OC_MEMORY_TRACE)
-Value N_oc_mem_trace_init(const CallbackInfo& info) {
-    (void)oc_mem_trace_init();
-    return info.Env().Undefined();
-}
-#endif
-
-#if defined(OC_MEMORY_TRACE)
-Value N_oc_mem_trace_shutdown(const CallbackInfo& info) {
-    (void)oc_mem_trace_shutdown();
-    return info.Env().Undefined();
-}
-#endif
-
 Value N_oc_memb_init(const CallbackInfo& info) {
     auto& m = *OCMemb::Unwrap(info[0].ToObject());
     (void)oc_memb_init(m);

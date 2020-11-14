@@ -297,5 +297,10 @@
 
 	"process_baseline_interface": "oc_process_baseline_interface",
 	"notify_observers": "oc_notify_observers"
+  },
+  "OCMemTrace": {
+	"add_pace": "oc_mem_trace_add_pace",
+	"init": "oc_mem_trace_init",
+	"shutdown": "oc_mem_trace_shutdown"
   }
 }

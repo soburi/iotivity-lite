@@ -214,6 +214,23 @@ public:
     static Napi::Value base64_encode(const Napi::CallbackInfo& info);
 };
 
+class OCMemTrace : public Napi::ObjectWrap<OCMemTrace>
+{
+public:
+    OCMemTrace(const Napi::CallbackInfo&);
+    static Napi::Function GetClass(Napi::Env);
+    static Napi::FunctionReference constructor;
+#if defined(OC_MEMORY_TRACE)
+    static Napi::Value add_pace(const Napi::CallbackInfo& info);
+#endif
+#if defined(OC_MEMORY_TRACE)
+    static Napi::Value init(const Napi::CallbackInfo& info);
+#endif
+#if defined(OC_MEMORY_TRACE)
+    static Napi::Value shutdown(const Napi::CallbackInfo& info);
+#endif
+};
+
 class OCObt : public Napi::ObjectWrap<OCObt>
 {
 public:

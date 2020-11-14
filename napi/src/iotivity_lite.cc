@@ -19,6 +19,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("Endpoint", OCEndpoint::GetClass(env));
     exports.Set("EnumUtil", OCEnumUtil::GetClass(env));
     exports.Set("Introspection", OCIntrospection::GetClass(env));
+    exports.Set("MemTrace", OCMemTrace::GetClass(env));
     exports.Set("Obt", OCObt::GetClass(env));
     exports.Set("Pki", OCPki::GetClass(env));
     exports.Set("Random", OCRandom::GetClass(env));
@@ -1207,6 +1208,50 @@ Value OCMain::base64_encode(const CallbackInfo& info) {
     auto output_buffer_len = static_cast<size_t>(info[3].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_base64_encode(input, input_len, output_buffer, output_buffer_len));
 }
+
+OCMemTrace::OCMemTrace(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
+
+Napi::Function OCMemTrace::GetClass(Napi::Env env) {
+    return DefineClass(env, "OCMemTrace", {
+#if defined(OC_MEMORY_TRACE)
+        StaticMethod("add_pace", &OCMemTrace::add_pace),
+#endif
+#if defined(OC_MEMORY_TRACE)
+        StaticMethod("init", &OCMemTrace::init),
+#endif
+#if defined(OC_MEMORY_TRACE)
+        StaticMethod("shutdown", &OCMemTrace::shutdown),
+#endif
+    });
+}
+Napi::FunctionReference OCMemTrace::constructor;
+
+
+#if defined(OC_MEMORY_TRACE)
+Value OCMemTrace::add_pace(const CallbackInfo& info) {
+    auto func_ = info[0].ToString().Utf8Value();
+    auto func = func_.c_str();
+    auto size = static_cast<int>(info[1].ToNumber());
+    auto type = static_cast<int>(info[2].ToNumber());
+    void* address = info[3];
+    (void)oc_mem_trace_add_pace(func, size, type, address);
+    return info.Env().Undefined();
+}
+#endif
+
+#if defined(OC_MEMORY_TRACE)
+Value OCMemTrace::init(const CallbackInfo& info) {
+    (void)oc_mem_trace_init();
+    return info.Env().Undefined();
+}
+#endif
+
+#if defined(OC_MEMORY_TRACE)
+Value OCMemTrace::shutdown(const CallbackInfo& info) {
+    (void)oc_mem_trace_shutdown();
+    return info.Env().Undefined();
+}
+#endif
 
 OCObt::OCObt(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
 
