@@ -109,16 +109,6 @@ Value N_oc_exit(const CallbackInfo& info) {
     return info.Env().Undefined();
 }
 
-Value N_oc_get_collection_by_uri(const CallbackInfo& info) {
-    auto uri_path_ = info[0].ToString().Utf8Value();
-    auto uri_path = uri_path_.c_str();
-    auto uri_path_len = static_cast<size_t>(info[1].ToNumber().Uint32Value());
-    auto device = static_cast<size_t>(info[2].ToNumber().Uint32Value());
-    shared_ptr<oc_collection_t> sp(oc_get_collection_by_uri(uri_path, uri_path_len, device), nop_deleter);
-    auto args = External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
-    return OCCollection::constructor.New({args});
-}
-
 Value N_oc_get_diagnostic_message(const CallbackInfo& info) {
     auto& response = *OCClientResponse::Unwrap(info[0].ToObject());
 // 1 msg, const char**

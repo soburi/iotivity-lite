@@ -336,6 +336,7 @@ public:
     static Napi::Value alloc(const Napi::CallbackInfo& info);
     static Napi::Value free(const Napi::CallbackInfo& info);
     static Napi::Value get_all(const Napi::CallbackInfo& info);
+    static Napi::Value get_collection_by_uri(const Napi::CallbackInfo& info);
 
     std::shared_ptr<oc_collection_s> m_pvalue;
 };

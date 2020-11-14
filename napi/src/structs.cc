@@ -892,6 +892,7 @@ Napi::Function OCCollection::GetClass(Napi::Env env) {
         StaticMethod("alloc", &OCCollection::alloc),
         StaticMethod("free", &OCCollection::free),
         StaticMethod("get_all", &OCCollection::get_all),
+        StaticMethod("get_collection_by_uri", &OCCollection::get_collection_by_uri),
         InstanceMethod(Napi::Symbol::WellKnown(env, "iterator"), &OCCollection::get_iterator),
     });
 
@@ -1187,6 +1188,16 @@ Value OCCollection::free(const CallbackInfo& info) {
 
 Value OCCollection::get_all(const CallbackInfo& info) {
     shared_ptr<oc_collection_t> sp(oc_collection_get_all(), nop_deleter);
+    auto args = External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
+    return OCCollection::constructor.New({args});
+}
+
+Value OCCollection::get_collection_by_uri(const CallbackInfo& info) {
+    auto uri_path_ = info[0].ToString().Utf8Value();
+    auto uri_path = uri_path_.c_str();
+    auto uri_path_len = static_cast<size_t>(info[1].ToNumber().Uint32Value());
+    auto device = static_cast<size_t>(info[2].ToNumber().Uint32Value());
+    shared_ptr<oc_collection_t> sp(oc_get_collection_by_uri(uri_path, uri_path_len, device), nop_deleter);
     auto args = External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
     return OCCollection::constructor.New({args});
 }

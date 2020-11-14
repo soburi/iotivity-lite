@@ -526,7 +526,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
 #if defined(OC_COLLECTIONS_IF_CREATE)
     exports.Set("oc_collections_free_rt_factories", Napi::Function::New(env, N_oc_collections_free_rt_factories));
 #endif
-    exports.Set("oc_get_collection_by_uri", Napi::Function::New(env, N_oc_get_collection_by_uri));
     exports.Set("oc_get_link_by_uri", Napi::Function::New(env, N_oc_get_link_by_uri));
     exports.Set("oc_get_next_collection_with_link", Napi::Function::New(env, N_oc_get_next_collection_with_link));
     exports.Set("oc_handle_collection_request", Napi::Function::New(env, N_oc_handle_collection_request));
