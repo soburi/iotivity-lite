@@ -214,11 +214,23 @@ bool oc_resource_set_properties_cbs_set_helper(oc_resource_t* res, oc_rep_t* rep
     return true;
 }
 
-void helper_oc_resource_set_request_handler(oc_request_t* req, oc_interface_mask_t mask, void* data)
+void helper_oc_resource_set_request_handler(oc_request_t* request, oc_interface_mask_t mask, void* data)
 {
-
+    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+    try {
+        helper->function.call(
+            [&](Env env, vector<napi_value>& args)
+        {
+            shared_ptr<oc_request_t> req_sp(request, nop_deleter);
+            auto accessor = External<shared_ptr<oc_request_t>>::New(helper->env, &req_sp);
+            auto mask_ = Number::New(helper->env, mask);
+            args = { OCRequest::constructor.New({ accessor }), mask_, helper->Value() };
+        });
+    }
+    catch (exception e) {
+        helper->function.error(e.what());
+    }
 }
-
 
 oc_discovery_flags_t
 helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t types,
