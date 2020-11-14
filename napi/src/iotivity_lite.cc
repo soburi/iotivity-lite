@@ -562,6 +562,8 @@ Napi::Function OCMain::GetClass(Napi::Env env) {
         StaticMethod("remove_network_interface_event_callback", &OCMain::remove_network_interface_event_callback),
         StaticMethod("add_session_event_callback", &OCMain::add_session_event_callback),
         StaticMethod("remove_session_event_callback", &OCMain::remove_session_event_callback),
+        StaticMethod("base64_decode", &OCMain::base64_decode),
+        StaticMethod("base64_encode", &OCMain::base64_encode),
     });
 }
 Napi::FunctionReference OCMain::constructor;
@@ -1190,6 +1192,20 @@ Value OCMain::remove_session_event_callback(const CallbackInfo& info) {
     session_event_handler_t cb = nullptr;
     Function cb_ = info[0].As<Function>();
     return Number::New(info.Env(), oc_remove_session_event_callback(cb));
+}
+
+Value OCMain::base64_decode(const CallbackInfo& info) {
+    auto str = reinterpret_cast<uint8_t*>(info[0].As<TypedArray>().ArrayBuffer().Data());
+    auto len = static_cast<size_t>(info[1].ToNumber().Uint32Value());
+    return Number::New(info.Env(), oc_base64_decode(str, len));
+}
+
+Value OCMain::base64_encode(const CallbackInfo& info) {
+    auto input = reinterpret_cast<const uint8_t*>(info[0].As<TypedArray>().ArrayBuffer().Data());
+    auto input_len = static_cast<size_t>(info[1].ToNumber().Uint32Value());
+    auto output_buffer = reinterpret_cast<uint8_t*>(info[2].As<TypedArray>().ArrayBuffer().Data());
+    auto output_buffer_len = static_cast<size_t>(info[3].ToNumber().Uint32Value());
+    return Number::New(info.Env(), oc_base64_encode(input, input_len, output_buffer, output_buffer_len));
 }
 
 OCObt::OCObt(const Napi::CallbackInfo& info) : ObjectWrap(info) { }

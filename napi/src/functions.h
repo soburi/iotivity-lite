@@ -5,8 +5,6 @@ Napi::Value N_handle_session_event_callback(const Napi::CallbackInfo&);
 Napi::Value N_oc_abort(const Napi::CallbackInfo&);
 Napi::Value N_oc_allocate_message(const Napi::CallbackInfo&);
 Napi::Value N_oc_allocate_message_from_pool(const Napi::CallbackInfo&);
-Napi::Value N_oc_base64_decode(const Napi::CallbackInfo&);
-Napi::Value N_oc_base64_encode(const Napi::CallbackInfo&);
 Napi::Value N_oc_check_if_collection(const Napi::CallbackInfo&);
 #if defined(OC_SECURITY)
 Napi::Value N_oc_close_all_tls_sessions(const Napi::CallbackInfo&);

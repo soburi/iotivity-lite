@@ -42,20 +42,6 @@ Value N_oc_allocate_message_from_pool(const CallbackInfo& info) {
     return OCMessage::constructor.New({args});
 }
 
-Value N_oc_base64_decode(const CallbackInfo& info) {
-    auto str = reinterpret_cast<uint8_t*>(info[0].As<TypedArray>().ArrayBuffer().Data());
-    auto len = static_cast<size_t>(info[1].ToNumber().Uint32Value());
-    return Number::New(info.Env(), oc_base64_decode(str, len));
-}
-
-Value N_oc_base64_encode(const CallbackInfo& info) {
-    auto input = reinterpret_cast<const uint8_t*>(info[0].As<TypedArray>().ArrayBuffer().Data());
-    auto input_len = static_cast<size_t>(info[1].ToNumber().Uint32Value());
-    auto output_buffer = reinterpret_cast<uint8_t*>(info[2].As<TypedArray>().ArrayBuffer().Data());
-    auto output_buffer_len = static_cast<size_t>(info[3].ToNumber().Uint32Value());
-    return Number::New(info.Env(), oc_base64_encode(input, input_len, output_buffer, output_buffer_len));
-}
-
 Value N_oc_check_if_collection(const CallbackInfo& info) {
     auto& resource = *OCResource::Unwrap(info[0].ToObject());
     return Boolean::New(info.Env(), oc_check_if_collection(resource));

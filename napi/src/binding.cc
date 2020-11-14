@@ -95,6 +95,8 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("remove_network_interface_event_callback", Napi::Function::New(env, OCMain::remove_network_interface_event_callback));
     exports.Set("add_session_event_callback", Napi::Function::New(env, OCMain::add_session_event_callback));
     exports.Set("remove_session_event_callback", Napi::Function::New(env, OCMain::remove_session_event_callback));
+    exports.Set("base64_decode", Napi::Function::New(env, OCMain::base64_decode));
+    exports.Set("base64_encode", Napi::Function::New(env, OCMain::base64_encode));
     exports.Set("CborEncoder", OCCborEncoder::GetClass(env));
     exports.Set("AceResourceIterator", OCAceResourceIterator::GetClass(env));
     exports.Set("AceResource", OCAceResource::GetClass(env));
@@ -506,8 +508,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("oc_iterate_query_get_values", Napi::Function::New(env, N_oc_iterate_query_get_values));
     exports.Set("oc_abort", Napi::Function::New(env, N_oc_abort));
     exports.Set("oc_exit", Napi::Function::New(env, N_oc_exit));
-    exports.Set("oc_base64_decode", Napi::Function::New(env, N_oc_base64_decode));
-    exports.Set("oc_base64_encode", Napi::Function::New(env, N_oc_base64_encode));
     exports.Set("oc_allocate_message", Napi::Function::New(env, N_oc_allocate_message));
     exports.Set("oc_allocate_message_from_pool", Napi::Function::New(env, N_oc_allocate_message_from_pool));
 #if defined(OC_SECURITY)

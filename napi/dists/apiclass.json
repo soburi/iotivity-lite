@@ -68,7 +68,9 @@
 	"add_network_interface_event_callback": "oc_add_network_interface_event_callback",
 	"remove_network_interface_event_callback": "oc_remove_network_interface_event_callback",
 	"add_session_event_callback": "oc_add_session_event_callback",
-	"remove_session_event_callback": "oc_remove_session_event_callback"
+	"remove_session_event_callback": "oc_remove_session_event_callback",
+	"base64_decode": "oc_base64_decode",
+	"base64_encode": "oc_base64_encode"
   },
   "OCCollection": {
 	"add_link": "oc_collection_add_link",

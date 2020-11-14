@@ -210,6 +210,8 @@ public:
     static Napi::Value remove_network_interface_event_callback(const Napi::CallbackInfo& info);
     static Napi::Value add_session_event_callback(const Napi::CallbackInfo& info);
     static Napi::Value remove_session_event_callback(const Napi::CallbackInfo& info);
+    static Napi::Value base64_decode(const Napi::CallbackInfo& info);
+    static Napi::Value base64_encode(const Napi::CallbackInfo& info);
 };
 
 class OCObt : public Napi::ObjectWrap<OCObt>
