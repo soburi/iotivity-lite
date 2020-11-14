@@ -212,6 +212,7 @@ public:
     static Napi::Value remove_session_event_callback(const Napi::CallbackInfo& info);
     static Napi::Value base64_decode(const Napi::CallbackInfo& info);
     static Napi::Value base64_encode(const Napi::CallbackInfo& info);
+    static Napi::Value dns_lookup(const Napi::CallbackInfo& info);
 };
 
 class OCMemTrace : public Napi::ObjectWrap<OCMemTrace>

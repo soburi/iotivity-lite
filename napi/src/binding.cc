@@ -97,6 +97,7 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("remove_session_event_callback", Napi::Function::New(env, OCMain::remove_session_event_callback));
     exports.Set("base64_decode", Napi::Function::New(env, OCMain::base64_decode));
     exports.Set("base64_encode", Napi::Function::New(env, OCMain::base64_encode));
+    exports.Set("dns_lookup", Napi::Function::New(env, OCMain::dns_lookup));
     exports.Set("CborEncoder", OCCborEncoder::GetClass(env));
     exports.Set("AceResourceIterator", OCAceResourceIterator::GetClass(env));
     exports.Set("AceResource", OCAceResource::GetClass(env));
@@ -494,7 +495,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.DefineProperty(Napi::PropertyDescriptor::Accessor("TEXT_XML", &OCContentFormat::get_TEXT_XML));
     exports.DefineProperty(Napi::PropertyDescriptor::Accessor("VIDEO_RAW", &OCContentFormat::get_VIDEO_RAW));
     exports.DefineProperty(Napi::PropertyDescriptor::Accessor("__NUM_OC_STATUS_CODES__", &OCStatus::get___NUM_OC_STATUS_CODES__));
-    exports.Set("handle_coap_signal_message", Napi::Function::New(env, N_handle_coap_signal_message));
 #if defined(OC_COLLECTIONS_IF_CREATE)
     exports.Set("oc_collections_add_rt_factory", Napi::Function::New(env, N_oc_collections_add_rt_factory));
 #endif
@@ -530,15 +530,12 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("oc_get_link_by_uri", Napi::Function::New(env, N_oc_get_link_by_uri));
     exports.Set("oc_get_next_collection_with_link", Napi::Function::New(env, N_oc_get_next_collection_with_link));
     exports.Set("oc_handle_collection_request", Napi::Function::New(env, N_oc_handle_collection_request));
-    exports.Set("handle_network_interface_event_callback", Napi::Function::New(env, N_handle_network_interface_event_callback));
-    exports.Set("handle_session_event_callback", Napi::Function::New(env, N_handle_session_event_callback));
 #if defined(OC_TCP)
     exports.Set("oc_connectivity_end_session", Napi::Function::New(env, N_oc_connectivity_end_session));
 #endif
     exports.Set("oc_connectivity_get_endpoints", Napi::Function::New(env, N_oc_connectivity_get_endpoints));
     exports.Set("oc_connectivity_init", Napi::Function::New(env, N_oc_connectivity_init));
     exports.Set("oc_connectivity_shutdown", Napi::Function::New(env, N_oc_connectivity_shutdown));
-    exports.Set("oc_dns_lookup", Napi::Function::New(env, N_oc_dns_lookup));
     exports.Set("oc_send_buffer", Napi::Function::New(env, N_oc_send_buffer));
     exports.Set("oc_send_discovery_request", Napi::Function::New(env, N_oc_send_discovery_request));
     exports.Set("oc_store_uri", Napi::Function::New(env, N_oc_store_uri));

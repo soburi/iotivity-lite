@@ -3,25 +3,6 @@
 #include "helper.h"
 using namespace std;
 using namespace Napi;
-Value N_handle_coap_signal_message(const CallbackInfo& info) {
-    void* packet = info[0];
-    auto& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
-    return Number::New(info.Env(), handle_coap_signal_message(packet, endpoint));
-}
-
-Value N_handle_network_interface_event_callback(const CallbackInfo& info) {
-    auto event = static_cast<oc_interface_event_t>(info[0].ToNumber().Uint32Value());
-    (void)handle_network_interface_event_callback(event);
-    return info.Env().Undefined();
-}
-
-Value N_handle_session_event_callback(const CallbackInfo& info) {
-    auto& endpoint = *OCEndpoint::Unwrap(info[0].ToObject());
-    auto state = static_cast<oc_session_state_t>(info[1].ToNumber().Uint32Value());
-    (void)handle_session_event_callback(endpoint, state);
-    return info.Env().Undefined();
-}
-
 Value N_oc_abort(const CallbackInfo& info) {
     auto msg_ = info[0].ToString().Utf8Value();
     auto msg = msg_.c_str();
@@ -120,14 +101,6 @@ Value N_oc_create_discovery_resource(const CallbackInfo& info) {
     auto device = static_cast<size_t>(info[1].ToNumber().Uint32Value());
     (void)oc_create_discovery_resource(resource_idx, device);
     return info.Env().Undefined();
-}
-
-Value N_oc_dns_lookup(const CallbackInfo& info) {
-    auto domain_ = info[0].ToString().Utf8Value();
-    auto domain = domain_.c_str();
-    auto& addr = *OCMmem::Unwrap(info[1].ToObject());
-    auto flags = static_cast<enum transport_flags>(info[2].ToNumber().Uint32Value());
-    return Number::New(info.Env(), oc_dns_lookup(domain, addr, flags));
 }
 
 Value N_oc_exit(const CallbackInfo& info) {

@@ -1,7 +1,4 @@
 #include "helper.h"
-Napi::Value N_handle_coap_signal_message(const Napi::CallbackInfo&);
-Napi::Value N_handle_network_interface_event_callback(const Napi::CallbackInfo&);
-Napi::Value N_handle_session_event_callback(const Napi::CallbackInfo&);
 Napi::Value N_oc_abort(const Napi::CallbackInfo&);
 Napi::Value N_oc_allocate_message(const Napi::CallbackInfo&);
 Napi::Value N_oc_allocate_message_from_pool(const Napi::CallbackInfo&);
@@ -26,7 +23,6 @@ Napi::Value N_oc_connectivity_get_endpoints(const Napi::CallbackInfo&);
 Napi::Value N_oc_connectivity_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_connectivity_shutdown(const Napi::CallbackInfo&);
 Napi::Value N_oc_create_discovery_resource(const Napi::CallbackInfo&);
-Napi::Value N_oc_dns_lookup(const Napi::CallbackInfo&);
 Napi::Value N_oc_exit(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_collection_by_uri(const Napi::CallbackInfo&);
 Napi::Value N_oc_get_diagnostic_message(const Napi::CallbackInfo&);

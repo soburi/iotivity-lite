@@ -565,6 +565,7 @@ Napi::Function OCMain::GetClass(Napi::Env env) {
         StaticMethod("remove_session_event_callback", &OCMain::remove_session_event_callback),
         StaticMethod("base64_decode", &OCMain::base64_decode),
         StaticMethod("base64_encode", &OCMain::base64_encode),
+        StaticMethod("dns_lookup", &OCMain::dns_lookup),
     });
 }
 Napi::FunctionReference OCMain::constructor;
@@ -1207,6 +1208,14 @@ Value OCMain::base64_encode(const CallbackInfo& info) {
     auto output_buffer = reinterpret_cast<uint8_t*>(info[2].As<TypedArray>().ArrayBuffer().Data());
     auto output_buffer_len = static_cast<size_t>(info[3].ToNumber().Uint32Value());
     return Number::New(info.Env(), oc_base64_encode(input, input_len, output_buffer, output_buffer_len));
+}
+
+Value OCMain::dns_lookup(const CallbackInfo& info) {
+    auto domain_ = info[0].ToString().Utf8Value();
+    auto domain = domain_.c_str();
+    auto& addr = *OCMmem::Unwrap(info[1].ToObject());
+    auto flags = static_cast<enum transport_flags>(info[2].ToNumber().Uint32Value());
+    return Number::New(info.Env(), oc_dns_lookup(domain, addr, flags));
 }
 
 OCMemTrace::OCMemTrace(const Napi::CallbackInfo& info) : ObjectWrap(info) { }
