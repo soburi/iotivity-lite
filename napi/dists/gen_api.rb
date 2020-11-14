@@ -1270,6 +1270,42 @@ STR
     '1' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
+  'oc_obt_discovery_resources' => {
+    '1' => '  auto handler = check_callback_func(info, ORDER, helper_oc_discovery_all_handler); const int O_FUNC = ORDER;',
+    '2' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(handler));',
+  },
+  'oc_obt_discover_owned_devices' => {
+    '0' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_discovery_cb); const int O_FUNC = ORDER;',
+    '1' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
+  'oc_obt_discover_owned_devices_realm_local_ipv6' => {
+    '0' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_discovery_cb); const int O_FUNC = ORDER;',
+    '1' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
+  'oc_obt_discover_owned_devices_site_local_ipv6' => {
+    '0' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_discovery_cb); const int O_FUNC = ORDER;',
+    '1' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
+  'oc_obt_discover_unowned_devices' => {
+    '0' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_discovery_cb); const int O_FUNC = ORDER;',
+    '1' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
+  'oc_obt_discover_unowned_devices_realm_local_ipv6' => {
+    '0' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_discovery_cb); const int O_FUNC = ORDER;',
+    '1' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
+  'oc_obt_discover_unowned_devices_site_local_ipv6' => {
+    '0' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_discovery_cb); const int O_FUNC = ORDER;',
+    '1' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
+  ##
   'helper_rep_oc_array_to_int_array' => { 
     'invoke' => "\
       return Buffer<int64_t>::New(info.Env(), oc_int_array(*static_cast<oc_array_t*>(array)), oc_int_array_size(*(oc_array_t*)array));",

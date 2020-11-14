@@ -1489,54 +1489,60 @@ Value OCObt::discover_all_resources(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::discover_owned_devices(const CallbackInfo& info) {
-    oc_obt_discovery_cb_t cb = nullptr;
-    Function cb_ = info[0].As<Function>();
-    void* data = info[1];
+    auto cb = check_callback_func(info, 0, helper_oc_obt_discovery_cb);
+    const int O_FUNC = 0;
+    auto data =  check_callback_context(info, O_FUNC, 1);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_obt_discover_owned_devices(cb, data));
 }
 #endif
 
 #if defined(OC_SECURITY)
 Value OCObt::discover_owned_devices_realm_local_ipv6(const CallbackInfo& info) {
-    oc_obt_discovery_cb_t cb = nullptr;
-    Function cb_ = info[0].As<Function>();
-    void* data = info[1];
+    auto cb = check_callback_func(info, 0, helper_oc_obt_discovery_cb);
+    const int O_FUNC = 0;
+    auto data =  check_callback_context(info, O_FUNC, 1);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_obt_discover_owned_devices_realm_local_ipv6(cb, data));
 }
 #endif
 
 #if defined(OC_SECURITY)
 Value OCObt::discover_owned_devices_site_local_ipv6(const CallbackInfo& info) {
-    oc_obt_discovery_cb_t cb = nullptr;
-    Function cb_ = info[0].As<Function>();
-    void* data = info[1];
+    auto cb = check_callback_func(info, 0, helper_oc_obt_discovery_cb);
+    const int O_FUNC = 0;
+    auto data =  check_callback_context(info, O_FUNC, 1);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_obt_discover_owned_devices_site_local_ipv6(cb, data));
 }
 #endif
 
 #if defined(OC_SECURITY)
 Value OCObt::discover_unowned_devices(const CallbackInfo& info) {
-    oc_obt_discovery_cb_t cb = nullptr;
-    Function cb_ = info[0].As<Function>();
-    void* data = info[1];
+    auto cb = check_callback_func(info, 0, helper_oc_obt_discovery_cb);
+    const int O_FUNC = 0;
+    auto data =  check_callback_context(info, O_FUNC, 1);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_obt_discover_unowned_devices(cb, data));
 }
 #endif
 
 #if defined(OC_SECURITY)
 Value OCObt::discover_unowned_devices_realm_local_ipv6(const CallbackInfo& info) {
-    oc_obt_discovery_cb_t cb = nullptr;
-    Function cb_ = info[0].As<Function>();
-    void* data = info[1];
+    auto cb = check_callback_func(info, 0, helper_oc_obt_discovery_cb);
+    const int O_FUNC = 0;
+    auto data =  check_callback_context(info, O_FUNC, 1);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_obt_discover_unowned_devices_realm_local_ipv6(cb, data));
 }
 #endif
 
 #if defined(OC_SECURITY)
 Value OCObt::discover_unowned_devices_site_local_ipv6(const CallbackInfo& info) {
-    oc_obt_discovery_cb_t cb = nullptr;
-    Function cb_ = info[0].As<Function>();
-    void* data = info[1];
+    auto cb = check_callback_func(info, 0, helper_oc_obt_discovery_cb);
+    const int O_FUNC = 0;
+    auto data =  check_callback_context(info, O_FUNC, 1);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_obt_discover_unowned_devices_site_local_ipv6(cb, data));
 }
 #endif
