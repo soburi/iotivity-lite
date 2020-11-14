@@ -66,9 +66,6 @@ CCPROLOGUE = <<CCPROLOGUE
 #include "functions.h"
 #include "helper.h"
 
-#define CHECK_CALLBACK_FUNC(info, order, helper)  ((info.Length() >= order &&                           info[order].IsFunction()) ? helper : nullptr)
-#define CHECK_CALLBACK_CONTEXT(info, fn_i, ctx_i) ((info.Length() >= fn_i  && info.Length() >= ctx_i &&  info[fn_i].IsFunction()) ? new SafeCallbackHelper(info[fn_i].As<Function>(), info[ctx_i]) : nullptr);
-
 using namespace std;
 using namespace Napi;
 
@@ -1124,21 +1121,21 @@ OVERRIDE_FUNC = {
 STR
   },
   'oc_init_platform' => {
-    '1' => '  auto init_platform_cb = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_init_platform_cb); const int O_FUNC = ORDER;',
-    '2' => '  SafeCallbackHelper* data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '1' => '  auto init_platform_cb = check_callback_func(info, ORDER, helper_oc_init_platform_cb); const int O_FUNC = ORDER;',
+    '2' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
   },
   'oc_add_device' => {
-    '5' => '  auto add_device_cb = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_add_device_cb); const int O_FUNC = ORDER;',
-    '6' => '  SafeCallbackHelper* data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '5' => '  auto add_device_cb = check_callback_func(info, ORDER, helper_oc_add_device_cb); const int O_FUNC = ORDER;',
+    '6' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
   },
   'oc_resource_set_properties_cbs' => {
-    '1' => '  auto get_props = CHECK_CALLBACK_FUNC(info, ORDER, oc_resource_set_properties_cbs_get_helper); const int O_FUNC_G = ORDER;',
-    '2' => '  SafeCallbackHelper* get_propr_user_data  =  CHECK_CALLBACK_CONTEXT(info, O_FUNC_G, ORDER);
+    '1' => '  auto get_props = check_callback_func(info, ORDER, oc_resource_set_properties_cbs_get_helper); const int O_FUNC_G = ORDER;',
+    '2' => '  auto get_propr_user_data  =  check_callback_context(info, O_FUNC_G, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(get_propr_user_data));',
-    '3' => '  auto set_props = CHECK_CALLBACK_FUNC(info, ORDER, oc_resource_set_properties_cbs_set_helper); const int O_FUNC_S = ORDER;',
-    '4' => '  SafeCallbackHelper* set_props_user_data  =  CHECK_CALLBACK_CONTEXT(info, O_FUNC_S, ORDER);
+    '3' => '  auto set_props = check_callback_func(info, ORDER, oc_resource_set_properties_cbs_set_helper); const int O_FUNC_S = ORDER;',
+    '4' => '  auto set_props_user_data  =  check_callback_context(info, O_FUNC_S, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(set_props_user_data));',
     'invoke' => '    (void)oc_resource_set_properties_cbs(resource, get_props, get_propr_user_data, set_props, set_props_user_data);
     return info.Env().Undefined();'
@@ -1146,126 +1143,126 @@ STR
   },
   'oc_set_delayed_callback' => {
     '0' => '',
-    '1' => '  auto callback = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_trigger); const int O_FUNC = ORDER;',
-    'invoke' => '  SafeCallbackHelper* cb_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, 0);
+    '1' => '  auto callback = check_callback_func(info, ORDER, helper_oc_trigger); const int O_FUNC = ORDER;',
+    'invoke' => '  auto cb_data =  check_callback_context(info, O_FUNC, 0);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(cb_data));
   (void)oc_set_delayed_callback(cb_data, callback, seconds);
   return info.Env().Undefined();
   ',
   },
   'oc_add_ownership_status_cb' => {
-    '0' => '  auto cb = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_ownership_status_cb); const int O_FUNC = ORDER;',
-    '1' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '0' => '  auto cb = check_callback_func(info, ORDER, helper_oc_ownership_status_cb); const int O_FUNC = ORDER;',
+    '1' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_set_factory_presets_cb' => {
-    '0' => '  auto cb = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_factory_presets_cb); const int O_FUNC = ORDER;',
-    '1' => '  SafeCallbackHelper* data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '0' => '  auto cb = check_callback_func(info, ORDER, helper_oc_factory_presets_cb); const int O_FUNC = ORDER;',
+    '1' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
   },
   'oc_set_random_pin_callback' => {
-    '0' => '  auto cb = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_random_pin_cb); const int O_FUNC = ORDER;',
-    '1' => '  SafeCallbackHelper* data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '0' => '  auto cb = check_callback_func(info, ORDER, helper_oc_random_pin_cb); const int O_FUNC = ORDER;',
+    '1' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
   },
   'oc_send_ping' => {
-    '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
-    '4' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '3' => '  auto handler = check_callback_func(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
+    '4' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_assert_all_roles' => {
-    '1' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
-    '2' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '1' => '  auto handler = check_callback_func(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
+    '2' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_assert_role' => {
-    '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
-    '4' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '3' => '  auto handler = check_callback_func(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
+    '4' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_get' => {
     '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { auto query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
-    '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
-    '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '3' => '  auto handler = check_callback_func(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
+    '5' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_delete' => {
     '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { auto query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
-    '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
-    '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '3' => '  auto handler = check_callback_func(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
+    '5' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_observe' => {
     '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { auto query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
-    '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
-    '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '3' => '  auto handler = check_callback_func(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
+    '5' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_init_post' => {
     '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { auto query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
-    '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
-    '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '3' => '  auto handler = check_callback_func(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
+    '5' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_init_put' => {
     '2' => '  const char* query = nullptr; if (info[ORDER].IsString()) { std::string query_ = info[ORDER].ToString().Utf8Value(); query = query_.c_str(); }',
-    '3' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
-    '5' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '3' => '  auto handler = check_callback_func(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
+    '5' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_ip_multicast' => {
-    '2' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
-    '3' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '2' => '  auto handler = check_callback_func(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
+    '3' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_realm_local_ipv6_multicast' => {
-    '2' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
-    '3' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '2' => '  auto handler = check_callback_func(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
+    '3' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_site_local_ipv6_multicast' => {
-    '2' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
-    '3' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '2' => '  auto handler = check_callback_func(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
+    '3' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_ip_discovery' => {
-    '1' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_discovery_handler); const int O_FUNC = ORDER;',
-    '2' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '1' => '  auto handler = check_callback_func(info, ORDER, helper_oc_discovery_handler); const int O_FUNC = ORDER;',
+    '2' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_ip_discovery_all' => {
-    '0' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_discovery_all_handler); const int O_FUNC = ORDER;',
-    '1' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '0' => '  auto handler = check_callback_func(info, ORDER, helper_oc_discovery_all_handler); const int O_FUNC = ORDER;',
+    '1' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_ip_discovery_at_endpoint' => {
-    '1' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_discovery_handler); const int O_FUNC = ORDER;',
-    '3' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '1' => '  auto handler = check_callback_func(info, ORDER, helper_oc_discovery_handler); const int O_FUNC = ORDER;',
+    '3' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_ip_discovery_all_at_endpoint' => {
-    '0' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_discovery_all_handler); const int O_FUNC = ORDER;',
-    '2' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '0' => '  auto handler = check_callback_func(info, ORDER, helper_oc_discovery_all_handler); const int O_FUNC = ORDER;',
+    '2' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_realm_local_ipv6_discovery' => {
-    '1' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_discovery_handler); const int O_FUNC = ORDER;',
-    '2' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '1' => '  auto handler = check_callback_func(info, ORDER, helper_oc_discovery_handler); const int O_FUNC = ORDER;',
+    '2' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_realm_local_ipv6_discovery_all' => {
-    '0' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_discovery_all_handler); const int O_FUNC = ORDER;',
-    '1' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '0' => '  auto handler = check_callback_func(info, ORDER, helper_oc_discovery_all_handler); const int O_FUNC = ORDER;',
+    '1' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_site_local_ipv6_discovery' => {
-    '1' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_discovery_handler); const int O_FUNC = ORDER;',
-    '2' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '1' => '  auto handler = check_callback_func(info, ORDER, helper_oc_discovery_handler); const int O_FUNC = ORDER;',
+    '2' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'oc_do_site_local_ipv6_discovery_all' => {
-    '0' => '  auto handler = CHECK_CALLBACK_FUNC(info, ORDER, helper_oc_discovery_all_handler); const int O_FUNC = ORDER;',
-    '1' => '  SafeCallbackHelper* user_data =  CHECK_CALLBACK_CONTEXT(info, O_FUNC, ORDER);
+    '0' => '  auto handler = check_callback_func(info, ORDER, helper_oc_discovery_all_handler); const int O_FUNC = ORDER;',
+    '1' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));',
   },
   'helper_rep_oc_array_to_int_array' => { 
@@ -2501,8 +2498,6 @@ File.open('src/structs.cc', 'w') do |f|
   f.print "#include \"iotivity_lite.h\"\n"
   f.print "using namespace std;\n"
   f.print "using namespace Napi;\n"
-  f.print '#define CHECK_CALLBACK_FUNC(info, order, helper)  ((info.Length() >= order &&                           info[order].IsFunction()) ? helper : nullptr)' + "\n"
-  f.print '#define CHECK_CALLBACK_CONTEXT(info, fn_i, ctx_i) ((info.Length() >= fn_i  && info.Length() >= ctx_i &&  info[fn_i].IsFunction()) ? new SafeCallbackHelper(info[fn_i].As<Function>(), info[ctx_i]) : nullptr);' + "\n"
 
   struct_table.each do |key, h|
     f.print gen_classimpl(key, h)

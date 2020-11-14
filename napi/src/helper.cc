@@ -11,8 +11,8 @@ struct main_context_t* main_context;
 
 SafeCallbackHelper* check_callback_context(const Napi::CallbackInfo& info, uint32_t fn_order, uint32_t ctx_order) {
     return (info.Length() >= fn_order && info.Length() >= ctx_order && info[fn_order].IsFunction())
-        ? new SafeCallbackHelper(info[fn_order].As<Napi::Function>(), info[ctx_order])
-        : nullptr;
+           ? new SafeCallbackHelper(info[fn_order].As<Napi::Function>(), info[ctx_order])
+           : nullptr;
 }
 
 
