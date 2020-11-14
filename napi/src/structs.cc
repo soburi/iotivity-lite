@@ -3,10 +3,9 @@
 #include "iotivity_lite.h"
 using namespace std;
 using namespace Napi;
-#define CHECK_CALLBACK_FUNC(info, order, helper)  ((info.Length() >= order &&                           info[order].IsFunction()) ? helper : nullptr)
-#define CHECK_CALLBACK_CONTEXT(info, fn_i, ctx_i) ((info.Length() >= fn_i  && info.Length() >= ctx_i &&  info[fn_i].IsFunction()) ? new SafeCallbackHelper(info[fn_i].As<Function>(), info[ctx_i]) : nullptr);
 
-
+#define check_callback_func(info, order, helper)  check_callback_func(info, order, helper)
+#define check_callback_context(info, fn_i, ctx_i) check_callback_context(info, fn_i, ctx_i)
 
 
 Napi::FunctionReference OCAceResource::constructor;
@@ -3490,15 +3489,18 @@ Value OCResource::set_periodic_observable(const CallbackInfo& info) {
     return info.Env().Undefined();
 }
 
+
+
+
 Value OCResource::set_properties_cbs(const CallbackInfo& info) {
     auto& resource = *OCResource::Unwrap(info.This().ToObject());
-    auto get_props = CHECK_CALLBACK_FUNC(info, 0, oc_resource_set_properties_cbs_get_helper);
+    auto get_props = check_callback_func(info, 0, oc_resource_set_properties_cbs_get_helper);
     const int O_FUNC_G = 0;
-    SafeCallbackHelper* get_propr_user_data  =  CHECK_CALLBACK_CONTEXT(info, O_FUNC_G, 1);
+    SafeCallbackHelper* get_propr_user_data  =  check_callback_context(info, O_FUNC_G, 1);
     main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(get_propr_user_data));
-    auto set_props = CHECK_CALLBACK_FUNC(info, 2, oc_resource_set_properties_cbs_set_helper);
+    auto set_props = check_callback_func(info, 2, oc_resource_set_properties_cbs_set_helper);
     const int O_FUNC_S = 2;
-    SafeCallbackHelper* set_props_user_data  =  CHECK_CALLBACK_CONTEXT(info, O_FUNC_S, 3);
+    SafeCallbackHelper* set_props_user_data  =  check_callback_context(info, O_FUNC_S, 3);
     main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(set_props_user_data));
     (void)oc_resource_set_properties_cbs(resource, get_props, get_propr_user_data, set_props, set_props_user_data);
     return info.Env().Undefined();
@@ -3507,7 +3509,7 @@ Value OCResource::set_properties_cbs(const CallbackInfo& info) {
 Value OCResource::set_request_handler(const CallbackInfo& info) {
     auto& resource = *OCResource::Unwrap(info.This().ToObject());
     auto method = static_cast<oc_method_t>(info[0].ToNumber().Uint32Value());
-    oc_request_callback_t callback = helper_oc_resource_set_request_handler;
+    oc_request_callback_t callback = nullptr;
     switch(method) {
     case OC_GET:
         get_handler.Reset(info[1].As<Function>());
@@ -3523,9 +3525,6 @@ Value OCResource::set_request_handler(const CallbackInfo& info) {
         break;
     }
     void* user_data = info[2];
-
-    SafeCallbackHelper* helper = new SafeCallbackHelper(info[1].As<Function>(), info[2]);
-
     (void)oc_resource_set_request_handler(resource, method, callback, user_data);
     return info.Env().Undefined();
 }

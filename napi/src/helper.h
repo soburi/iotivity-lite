@@ -6,6 +6,7 @@
 #include <condition_variable>
 #include <system_error>
 #include <napi-thread-safe-callback.hpp>
+#include <napi.h>
 
 static void nop_deleter(void*) { }
 extern struct main_context_t* main_context;
@@ -28,6 +29,14 @@ public:
     }
     virtual ~SafeCallbackHelper() {}
 };
+
+
+template<typename FPTR>
+FPTR check_callback_func(const Napi::CallbackInfo& info, uint32_t order, FPTR cbfunc) {
+    return ((info.Length() >= order && info[order].IsFunction()) ? cbfunc : nullptr);
+}
+
+SafeCallbackHelper* check_callback_context(const Napi::CallbackInfo& info, uint32_t fn_order, uint32_t ctx_order);
 
 struct main_context_t {
     Napi::Promise::Deferred deferred;
