@@ -530,7 +530,6 @@ Napi::Object module_init(Napi::Env env, Napi::Object exports) {
     exports.Set("oc_get_link_by_uri", Napi::Function::New(env, N_oc_get_link_by_uri));
     exports.Set("oc_get_next_collection_with_link", Napi::Function::New(env, N_oc_get_next_collection_with_link));
     exports.Set("oc_handle_collection_request", Napi::Function::New(env, N_oc_handle_collection_request));
-    exports.Set("oc_link_set_interfaces", Napi::Function::New(env, N_oc_link_set_interfaces));
     exports.Set("handle_network_interface_event_callback", Napi::Function::New(env, N_handle_network_interface_event_callback));
     exports.Set("handle_session_event_callback", Napi::Function::New(env, N_handle_session_event_callback));
 #if defined(OC_TCP)

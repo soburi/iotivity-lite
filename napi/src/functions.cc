@@ -239,13 +239,6 @@ Value N_oc_join_string_array(const CallbackInfo& info) {
     return info.Env().Undefined();
 }
 
-Value N_oc_link_set_interfaces(const CallbackInfo& info) {
-    auto& link = *OCLink::Unwrap(info[0].ToObject());
-    auto new_interfaces = static_cast<oc_interface_mask_t>(info[1].ToNumber().Uint32Value());
-    (void)oc_link_set_interfaces(link, new_interfaces);
-    return info.Env().Undefined();
-}
-
 Value N_oc_memb_init(const CallbackInfo& info) {
     auto& m = *OCMemb::Unwrap(info[0].ToObject());
     (void)oc_memb_init(m);

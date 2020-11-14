@@ -1788,6 +1788,7 @@ IGNORE_FUNCS = [
 
 'oc_gen_uuid',
 'oc_str_to_uuid',
+'oc_link_set_interfaces',
 ]
 
 IFDEF_TYPES = {

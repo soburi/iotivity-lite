@@ -41,7 +41,6 @@ Napi::Value N_oc_internal_allocate_outgoing_message(const Napi::CallbackInfo&);
 Napi::Value N_oc_iterate_query(const Napi::CallbackInfo&);
 Napi::Value N_oc_iterate_query_get_values(const Napi::CallbackInfo&);
 Napi::Value N_oc_join_string_array(const Napi::CallbackInfo&);
-Napi::Value N_oc_link_set_interfaces(const Napi::CallbackInfo&);
 Napi::Value N_oc_memb_init(const Napi::CallbackInfo&);
 Napi::Value N_oc_memb_inmemb(const Napi::CallbackInfo&);
 Napi::Value N_oc_memb_numfree(const Napi::CallbackInfo&);
