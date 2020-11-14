@@ -109,6 +109,7 @@ Napi::Function OCClientCallback::GetClass(Napi::Env env) {
         InstanceAccessor("token", &OCClientCallback::get_token, &OCClientCallback::set_token),
         InstanceAccessor("token_len", &OCClientCallback::get_token_len, &OCClientCallback::set_token_len),
         InstanceAccessor("uri", &OCClientCallback::get_uri, &OCClientCallback::set_uri),
+        InstanceAccessor("user_data", &OCClientCallback::get_user_data, &OCClientCallback::set_user_data),
 
     });
 
@@ -302,6 +303,19 @@ Napi::Value OCClientCallback::get_uri(const Napi::CallbackInfo& info)
 void OCClientCallback::set_uri(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
     m_pvalue->uri = *(*(value.As<External<shared_ptr<oc_mmem>>>().Data()));
+}
+
+Napi::Value OCClientCallback::get_user_data(const Napi::CallbackInfo& info)
+{
+    return user_data_ref.Get("user_data");
+}
+
+void OCClientCallback::set_user_data(const Napi::CallbackInfo& info, const Napi::Value& value)
+{
+
+    Napi::Object obj = Napi::Object::New(info.Env());
+    obj.Set("user_data", value);
+    user_data_ref = Napi::Persistent(obj);
 }
 
 Napi::FunctionReference OCClientHandler::constructor;

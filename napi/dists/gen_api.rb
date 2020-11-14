@@ -274,6 +274,7 @@ EXTRA_ACCESSOR = {
 }
 
 EXTRA_VALUE= {
+  'oc_client_cb_t' => ' Napi::ObjectReference user_data_ref;',
   'oc_collection_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); 
  operator oc_resource_s*() { return reinterpret_cast<oc_resource_s*>(m_pvalue.get()); }',
   'oc_link_s' => ' Napi::Value get_iterator(const Napi::CallbackInfo& info); ',
@@ -826,6 +827,14 @@ m_pvalue->_payload_len = value.As<TypedArray>().ArrayBuffer().ByteLength();",
     "for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) { m_pvalue->token[i] = reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data())[i]; }",
    "get"=>
     "return Buffer<uint8_t>::New(info.Env(), m_pvalue->token, COAP_TOKEN_LEN);"},
+  "oc_client_cb_t::user_data"=>
+  {"set"=> "
+      Napi::Object obj = Napi::Object::New(info.Env());
+      obj.Set(\"user_data\", value);
+      user_data_ref = Napi::Persistent(obj);",
+   "get"=>
+     "return user_data_ref.Get(\"user_data\");",
+  },
   "oc_client_cb_t::token"=>
   {"set"=>
     "for(uint32_t i=0; i<COAP_TOKEN_LEN; i++) { m_pvalue->token[i] = reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data())[i]; }",
@@ -1508,7 +1517,7 @@ IGNORE_TYPES = {
 #  "coap_separate" => [/^token$/, /^next$/],
 
 # void pointer
-  "oc_client_cb_t" => [ /user_data/, /^next$/],
+  "oc_client_cb_t" => [ /^next$/],
   "oc_memb" => [/mem/, /buffers_avail_cb/],
   "oc_mmem" => [/ptr/, /^next$/],
 # internal

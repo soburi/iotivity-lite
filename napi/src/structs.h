@@ -115,7 +115,10 @@ public:
     void set_token_len(const Napi::CallbackInfo&, const Napi::Value&);
     Napi::Value get_uri(const Napi::CallbackInfo&);
     void set_uri(const Napi::CallbackInfo&, const Napi::Value&);
+    Napi::Value get_user_data(const Napi::CallbackInfo&);
+    void set_user_data(const Napi::CallbackInfo&, const Napi::Value&);
 
+    Napi::ObjectReference user_data_ref;
 
 
     std::shared_ptr<oc_client_cb_t> m_pvalue;
