@@ -69,6 +69,8 @@ void terminate_main_loop();
 extern "C" {
 #endif
 
+void helper_endpoint_list_delete(oc_endpoint_t* eps);
+
 int  helper_oc_handler_init();
 void helper_oc_handler_signal_event_loop();
 void helper_oc_handler_register_resources();

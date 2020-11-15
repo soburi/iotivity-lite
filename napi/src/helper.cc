@@ -199,12 +199,18 @@ void helper_oc_handler_requests_entry()
 void helper_oc_init_platform_cb(void* param)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(param);
+
+    auto future = helper->function.call<void*>(
+                      [&](Env env, vector<napi_value>& args)
+    {
+        args = { helper->Value() };
+    },
+    [&](const Value& val) {
+        return nullptr;
+    });
+
     try {
-        helper->function.call(
-            [&](Env env, vector<napi_value>& args)
-        {
-            args = { helper->Value() };
-        });
+        future.get();
     }
     catch (exception e) {
         helper->function.error(e.what());
@@ -214,12 +220,18 @@ void helper_oc_init_platform_cb(void* param)
 void helper_oc_add_device_cb(void* param)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(param);
+
+    auto future = helper->function.call<void*>(
+                      [&](Env env, vector<napi_value>& args)
+    {
+        args = { helper->Value() };
+    },
+    [&](const Value& val) {
+        return nullptr;
+    });
+
     try {
-        helper->function.call(
-            [&](Env env, vector<napi_value>& args)
-        {
-            args = { helper->Value() };
-        });
+        future.get();
     }
     catch (exception e) {
         helper->function.error(e.what());
@@ -234,15 +246,21 @@ bool oc_resource_set_properties_cbs_set_helper(oc_resource_t* res, oc_rep_t* rep
 void helper_oc_resource_set_request_handler(oc_request_t* request, oc_interface_mask_t mask, void* data)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+
+    auto future = helper->function.call<void*>(
+                      [&](Env env, vector<napi_value>& args)
+    {
+        shared_ptr<oc_request_t> req_sp(request, nop_deleter);
+        auto accessor = External<shared_ptr<oc_request_t>>::New(env, &req_sp);
+        auto mask_ = Number::New(env, mask);
+        args = { OCRequest::constructor.New({ accessor }), mask_, helper->Value() };
+    },
+    [&](const Value& val) {
+        return nullptr;
+    });
+
     try {
-        helper->function.call(
-            [&](Env env, vector<napi_value>& args)
-        {
-            shared_ptr<oc_request_t> req_sp(request, nop_deleter);
-            auto accessor = External<shared_ptr<oc_request_t>>::New(env, &req_sp);
-            auto mask_ = Number::New(env, mask);
-            args = { OCRequest::constructor.New({ accessor }), mask_, helper->Value() };
-        });
+        future.get();
     }
     catch (exception e) {
         helper->function.error(e.what());
@@ -316,14 +334,20 @@ helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array
 void helper_oc_response_handler(oc_client_response_t* response)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(response->user_data);
+
+    auto future = helper->function.call<void*>(
+                      [&](Env env, vector<napi_value>& args)
+    {
+        shared_ptr<oc_client_response_t> sp(response, nop_deleter);
+        auto accessor = External<shared_ptr<oc_client_response_t>>::New(env, &sp);
+        args = { OCClientResponse::constructor.New({ accessor }) };
+    },
+    [&](const Value& val) {
+        return nullptr;
+    });
+
     try {
-        helper->function.call(
-            [&](Env env, vector<napi_value>& args)
-        {
-            shared_ptr<oc_client_response_t> sp(response, nop_deleter);
-            auto accessor = External<shared_ptr<oc_client_response_t>>::New(env, &sp);
-            args = { OCClientResponse::constructor.New({ accessor }) };
-        });
+        future.get();
     }
     catch (exception e) {
         helper->function.error(e.what());
@@ -335,16 +359,22 @@ void helper_oc_ownership_status_cb(const oc_uuid_t* device_uuid,
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(user_data);
 
+
+    auto future = helper->function.call<void*>(
+                      [&](Env env, vector<napi_value>& args)
+    {
+        shared_ptr<oc_uuid_t> uuid_sp(const_cast<oc_uuid_t*>(device_uuid), nop_deleter);
+        auto  device_uuid_ = OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(env, &uuid_sp) });
+        auto device_index_ = Number::New(env, device_index);
+        auto        owned_ = Boolean::New(env, owned);
+        args = { device_uuid_, device_index_, owned_, helper->Value() };
+    },
+    [&](const Value& val) {
+        return nullptr;
+    });
+
     try {
-        helper->function.call(
-            [&](Env env, vector<napi_value>& args)
-        {
-            shared_ptr<oc_uuid_t> uuid_sp(const_cast<oc_uuid_t*>(device_uuid), nop_deleter);
-            auto  device_uuid_ = OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(env, &uuid_sp) });
-            auto device_index_ = Number::New(env, device_index);
-            auto        owned_ = Boolean::New(env, owned);
-            args = { device_uuid_, device_index_, owned_, helper->Value() };
-        });
+        future.get();
     }
     catch (exception e) {
         helper->function.error(e.what());
@@ -375,13 +405,18 @@ oc_event_callback_retval_t helper_oc_trigger(void* data)
 void helper_oc_factory_presets_cb(size_t device, void* data)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+    auto future = helper->function.call<void*>(
+                      [&](Env env, vector<napi_value>& args)
+    {
+        auto device_ = Number::New(env, device);
+        args = { device_, helper->Value() };
+    },
+    [&](const Value& val) {
+        return nullptr;
+    });
+
     try {
-        helper->function.call(
-            [&](Env env, vector<napi_value>& args)
-        {
-            auto device_ = Number::New(env, device);
-            args = { device_, helper->Value() };
-        });
+        future.get();
     }
     catch (exception e) {
         helper->function.error(e.what());
@@ -392,17 +427,22 @@ void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* dat
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
 
-    try {
-        helper->function.call(
-            [&](Env env, vector<napi_value>& args)
+    auto future = helper->function.call<void*>(
+                      [&](Env env, vector<napi_value>& args)
+    {
+        auto pin_ = Uint8Array::New(env, pin_len);
+        for (uint32_t i = 0; i < pin_len; i++)
         {
-            auto pin_ = Uint8Array::New(env, pin_len);
-            for (uint32_t i = 0; i < pin_len; i++)
-            {
-                pin_[i] = pin[i];
-            }
-            args = { pin_, helper->Value() };
-        });
+            pin_[i] = pin[i];
+        }
+        args = { pin_, helper->Value() };
+    },
+    [&](const Value& val) {
+        return nullptr;
+    });
+
+    try {
+        future.get();
     }
     catch (exception e) {
         helper->function.error(e.what());
@@ -478,13 +518,18 @@ void helper_oc_obt_status_cb(int status, void* data)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
 
+    auto future = helper->function.call<void*>(
+                      [&](Env env, vector<napi_value>& args)
+    {
+        auto    status_ = Number::New(env, status);
+        args = { status_, helper->Value() };
+    },
+    [&](const Value& val) {
+        return nullptr;
+    });
+
     try {
-        helper->function.call(
-            [&](Env env, vector<napi_value>& args)
-        {
-            auto    status_ = Number::New(env, status);
-            args = { status_, helper->Value() };
-        });
+        future.get();
     }
     catch (exception e) {
         helper->function.error(e.what());
@@ -495,14 +540,20 @@ void helper_oc_obt_creds_cb(struct oc_sec_creds_t* creds, void* data)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
 
+
+    auto future = helper->function.call<void*>(
+                      [&](Env env, vector<napi_value>& args)
+    {
+        shared_ptr<oc_sec_creds_t> creds_sp(creds, nop_deleter);
+        auto      creds_ = OCUuid::constructor.New({ External<shared_ptr<oc_sec_creds_t>>::New(env, &creds_sp) });
+        args = { creds_, helper->Value() };
+    },
+    [&](const Value& val) {
+        return nullptr;
+    });
+
     try {
-        helper->function.call(
-            [&](Env env, vector<napi_value>& args)
-        {
-            shared_ptr<oc_sec_creds_t> creds_sp(creds, nop_deleter);
-            auto      creds_ = OCUuid::constructor.New({ External<shared_ptr<oc_sec_creds_t>>::New(env, &creds_sp) });
-            args = { creds_, helper->Value() };
-        });
+        future.get();
     }
     catch (exception e) {
         helper->function.error(e.what());
@@ -513,14 +564,20 @@ void helper_oc_obt_acl_cb(oc_sec_acl_t* acl, void* data)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
 
+
+    auto future = helper->function.call<void*>(
+                      [&](Env env, vector<napi_value>& args)
+    {
+        shared_ptr<oc_sec_acl_t> acl_sp(acl, nop_deleter);
+        auto      acl_ = OCUuid::constructor.New({ External<shared_ptr<oc_sec_acl_t>>::New(env, &acl_sp) });
+        args = { acl_, helper->Value() };
+    },
+    [&](const Value& val) {
+        return nullptr;
+    });
+
     try {
-        helper->function.call(
-            [&](Env env, vector<napi_value>& args)
-        {
-            shared_ptr<oc_sec_acl_t> acl_sp(acl, nop_deleter);
-            auto      acl_ = OCUuid::constructor.New({ External<shared_ptr<oc_sec_acl_t>>::New(env, &acl_sp) });
-            args = { acl_, helper->Value() };
-        });
+        future.get();
     }
     catch (exception e) {
         helper->function.error(e.what());
