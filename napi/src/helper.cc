@@ -422,8 +422,7 @@ void helper_oc_obt_discovery_cb(oc_uuid_t* uuid, oc_endpoint_t* eps, void* data)
             auto      uuid_ = OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(env, &uuuid_sp) });
             shared_ptr<oc_endpoint_t> eps_sp(eps, nop_deleter);
             auto      eps_ = OCEndpoint::constructor.New({ External<shared_ptr<oc_endpoint_t>>::New(env, &eps_sp) });
-
-            args = { uuid_, eps_, helper->Value() };
+            args = { uuid_, eps_, /*TODO*/ };
         });
     }
     catch (exception e) {
