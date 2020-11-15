@@ -409,21 +409,40 @@ void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* dat
     }
 }
 
+void helper_endpoint_list_delete(oc_endpoint_t* eps)
+{
+    oc_endpoint_t* next = nullptr;
+
+    do {
+        next = eps->next;
+        oc_free_endpoint(eps);
+        eps = next;
+    } while (next != nullptr);
+}
 
 void helper_oc_obt_discovery_cb(oc_uuid_t* uuid, oc_endpoint_t* eps, void* data)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
 
+    shared_ptr<oc_uuid_t> uuid_sp(new oc_uuid_t(*uuid));
+    oc_endpoint_t* eps_list;
+    oc_endpoint_list_copy(&eps_list, eps);
+    shared_ptr<oc_endpoint_t> eps_sp(eps_list, helper_endpoint_list_delete);
+
+    auto future = helper->function.call<void*>(
+                      [&](Env env, vector<napi_value>& args)
+    {
+        auto     uuid_= OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(env, &uuid_sp) });
+
+        auto    eps_js = OCEndpoint::constructor.New({ External<shared_ptr<oc_endpoint_t>>::New(env, &eps_sp) });
+        args = { uuid_, eps_js };
+    },
+    [&](const Value& val) {
+        return nullptr;
+    });
+
     try {
-        helper->function.call(
-            [&](Env env, vector<napi_value>& args)
-        {
-            shared_ptr<oc_uuid_t> uuuid_sp(uuid, nop_deleter);
-            auto      uuid_ = OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(env, &uuuid_sp) });
-            shared_ptr<oc_endpoint_t> eps_sp(eps, nop_deleter);
-            auto      eps_ = OCEndpoint::constructor.New({ External<shared_ptr<oc_endpoint_t>>::New(env, &eps_sp) });
-            args = { uuid_, eps_, /*TODO*/ };
-        });
+        future.get();
     }
     catch (exception e) {
         helper->function.error(e.what());
