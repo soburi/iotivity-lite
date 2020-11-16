@@ -9,7 +9,7 @@
     "test": "node --napi-modules napi/test/test_binding.js"
   },
   "gypfile": true,
-  "name": "iotivity-lite",
+  "name": "iotivity-lite-node",
   "version": "1.0.0",
   "description": "IoTivity-Lite API",
   "author": "tokita.hiroshi@gmail.com",
