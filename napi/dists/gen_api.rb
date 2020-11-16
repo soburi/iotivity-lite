@@ -1275,6 +1275,11 @@ STR
     '2' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(handler));',
   },
+  'oc_obt_device_hard_reset' => {
+    '1' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_device_status_cb); const int O_FUNC = ORDER;',
+    '2' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
   'oc_obt_discover_owned_devices' => {
     '0' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_discovery_cb); const int O_FUNC = ORDER;',
     '1' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
@@ -1303,6 +1308,41 @@ STR
   'oc_obt_discover_unowned_devices_site_local_ipv6' => {
     '0' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_discovery_cb); const int O_FUNC = ORDER;',
     '1' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
+  'oc_obt_perform_cert_otm' => {
+    '1' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_device_status_cb); const int O_FUNC = ORDER;',
+    '2' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
+  'oc_obt_perform_just_works_otm' => {
+    '1' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_device_status_cb); const int O_FUNC = ORDER;',
+    '2' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
+  'oc_obt_perform_random_pin_otm' => {
+    '3' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_device_status_cb); const int O_FUNC = ORDER;',
+    '4' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
+  'oc_obt_provision_ace' => {
+    '2' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_device_status_cb); const int O_FUNC = ORDER;',
+    '3' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
+  'oc_obt_provision_auth_wildcard_ace' => {
+    '1' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_device_status_cb); const int O_FUNC = ORDER;',
+    '2' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
+  'oc_obt_provision_role_wildcard_ace' => {
+    '3' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_device_status_cb); const int O_FUNC = ORDER;',
+    '4' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
+  main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
+  },
+  'oc_obt_request_random_pin' => {
+    '1' => '  auto cb = check_callback_func(info, ORDER, helper_oc_obt_device_status_cb); const int O_FUNC = ORDER;',
+    '2' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
   main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));',
   },
   ##

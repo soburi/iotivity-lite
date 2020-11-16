@@ -1470,9 +1470,10 @@ Value OCObt::delete_own_cred_by_credid(const CallbackInfo& info) {
 #if defined(OC_SECURITY)
 Value OCObt::device_hard_reset(const CallbackInfo& info) {
     auto& uuid = *OCUuid::Unwrap(info[0].ToObject());
-    oc_obt_device_status_cb_t cb = nullptr;
-    Function cb_ = info[1].As<Function>();
-    void* data = info[2];
+    auto cb = check_callback_func(info, 1, helper_oc_obt_device_status_cb);
+    const int O_FUNC = 1;
+    auto data =  check_callback_context(info, O_FUNC, 2);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_obt_device_hard_reset(uuid, cb, data));
 }
 #endif
@@ -1618,9 +1619,10 @@ Value OCObt::new_ace_for_subject(const CallbackInfo& info) {
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCObt::perform_cert_otm(const CallbackInfo& info) {
     auto& uuid = *OCUuid::Unwrap(info[0].ToObject());
-    oc_obt_device_status_cb_t cb = nullptr;
-    Function cb_ = info[1].As<Function>();
-    void* data = info[2];
+    auto cb = check_callback_func(info, 1, helper_oc_obt_device_status_cb);
+    const int O_FUNC = 1;
+    auto data =  check_callback_context(info, O_FUNC, 2);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_obt_perform_cert_otm(uuid, cb, data));
 }
 #endif
@@ -1628,9 +1630,10 @@ Value OCObt::perform_cert_otm(const CallbackInfo& info) {
 #if defined(OC_SECURITY)
 Value OCObt::perform_just_works_otm(const CallbackInfo& info) {
     auto& uuid = *OCUuid::Unwrap(info[0].ToObject());
-    oc_obt_device_status_cb_t cb = nullptr;
-    Function cb_ = info[1].As<Function>();
-    void* data = info[2];
+    auto cb = check_callback_func(info, 1, helper_oc_obt_device_status_cb);
+    const int O_FUNC = 1;
+    auto data =  check_callback_context(info, O_FUNC, 2);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_obt_perform_just_works_otm(uuid, cb, data));
 }
 #endif
@@ -1640,9 +1643,10 @@ Value OCObt::perform_random_pin_otm(const CallbackInfo& info) {
     auto& uuid = *OCUuid::Unwrap(info[0].ToObject());
     auto pin = reinterpret_cast<const unsigned char*>(info[1].As<TypedArray>().ArrayBuffer().Data());
     auto pin_len = static_cast<size_t>(info[2].ToNumber().Uint32Value());
-    oc_obt_device_status_cb_t cb = nullptr;
-    Function cb_ = info[3].As<Function>();
-    void* data = info[4];
+    auto cb = check_callback_func(info, 3, helper_oc_obt_device_status_cb);
+    const int O_FUNC = 3;
+    auto data =  check_callback_context(info, O_FUNC, 4);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_obt_perform_random_pin_otm(uuid, pin, pin_len, cb, data));
 }
 #endif
@@ -1651,9 +1655,10 @@ Value OCObt::perform_random_pin_otm(const CallbackInfo& info) {
 Value OCObt::provision_ace(const CallbackInfo& info) {
     auto& subject = *OCUuid::Unwrap(info[0].ToObject());
     auto& ace = *OCSecurityAce::Unwrap(info[1].ToObject());
-    oc_obt_device_status_cb_t cb = nullptr;
-    Function cb_ = info[2].As<Function>();
-    void* data = info[3];
+    auto cb = check_callback_func(info, 2, helper_oc_obt_device_status_cb);
+    const int O_FUNC = 2;
+    auto data =  check_callback_context(info, O_FUNC, 3);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_obt_provision_ace(subject, ace, cb, data));
 }
 #endif
@@ -1661,9 +1666,10 @@ Value OCObt::provision_ace(const CallbackInfo& info) {
 #if defined(OC_SECURITY)
 Value OCObt::provision_auth_wildcard_ace(const CallbackInfo& info) {
     auto& subject = *OCUuid::Unwrap(info[0].ToObject());
-    oc_obt_device_status_cb_t cb = nullptr;
-    Function cb_ = info[1].As<Function>();
-    void* data = info[2];
+    auto cb = check_callback_func(info, 1, helper_oc_obt_device_status_cb);
+    const int O_FUNC = 1;
+    auto data =  check_callback_context(info, O_FUNC, 2);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_obt_provision_auth_wildcard_ace(subject, cb, data));
 }
 #endif
@@ -1707,9 +1713,10 @@ Value OCObt::provision_role_wildcard_ace(const CallbackInfo& info) {
     auto role = role_.c_str();
     auto authority_ = info[2].ToString().Utf8Value();
     auto authority = authority_.c_str();
-    oc_obt_device_status_cb_t cb = nullptr;
-    Function cb_ = info[3].As<Function>();
-    void* data = info[4];
+    auto cb = check_callback_func(info, 3, helper_oc_obt_device_status_cb);
+    const int O_FUNC = 3;
+    auto data =  check_callback_context(info, O_FUNC, 4);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_obt_provision_role_wildcard_ace(subject, role, authority, cb, data));
 }
 #endif
@@ -1717,9 +1724,10 @@ Value OCObt::provision_role_wildcard_ace(const CallbackInfo& info) {
 #if defined(OC_SECURITY)
 Value OCObt::request_random_pin(const CallbackInfo& info) {
     auto& uuid = *OCUuid::Unwrap(info[0].ToObject());
-    oc_obt_device_status_cb_t cb = nullptr;
-    Function cb_ = info[1].As<Function>();
-    void* data = info[2];
+    auto cb = check_callback_func(info, 1, helper_oc_obt_device_status_cb);
+    const int O_FUNC = 1;
+    auto data =  check_callback_context(info, O_FUNC, 2);
+    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
     return Number::New(info.Env(), oc_obt_request_random_pin(uuid, cb, data));
 }
 #endif

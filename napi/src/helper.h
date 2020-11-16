@@ -99,7 +99,7 @@ void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* dat
 
 
 void helper_oc_obt_discovery_cb(oc_uuid_t* uuid, oc_endpoint_t* eps, void* data);
-int helper_oc_obt_device_status_cb(oc_uuid_t* uuid, int status, void* data);
+void helper_oc_obt_device_status_cb(oc_uuid_t* uuid, int status, void* data);
 void helper_oc_obt_status_cb(int status, void* data);
 
 void helper_oc_obt_creds_cb(struct oc_sec_creds_t* creds, void* data);

@@ -464,7 +464,7 @@ void helper_oc_obt_discovery_cb(oc_uuid_t* uuid, oc_endpoint_t* eps, void* data)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
 
-    shared_ptr<oc_uuid_t> uuid_sp(new oc_uuid_t(*uuid));
+    shared_ptr<oc_uuid_t> uuid_sp(new oc_uuid_t(*uuid), nop_deleter);
     oc_endpoint_t* eps_list;
     oc_endpoint_list_copy(&eps_list, eps);
     shared_ptr<oc_endpoint_t> eps_sp(eps_list, helper_endpoint_list_delete);
@@ -489,10 +489,10 @@ void helper_oc_obt_discovery_cb(oc_uuid_t* uuid, oc_endpoint_t* eps, void* data)
     }
 }
 
-int helper_oc_obt_device_status_cb(oc_uuid_t* uuid, int status, void* data)
+void helper_oc_obt_device_status_cb(oc_uuid_t* uuid, int status, void* data)
 {
     SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
-    auto future = helper->function.call<int>(
+    auto future = helper->function.call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
         shared_ptr<oc_uuid_t> uuuid_sp(uuid, nop_deleter);
@@ -502,15 +502,14 @@ int helper_oc_obt_device_status_cb(oc_uuid_t* uuid, int status, void* data)
         args = { uuid_, status_, helper->Value() };
     },
     [&](const Value& val) {
-        return val.ToNumber().Int32Value();
+        return nullptr;
     });
 
     try {
-        return future.get();
+        future.get();
     }
     catch (exception e) {
         helper->function.error(e.what());
-        return -1;
     }
 }
 
