@@ -1,3 +1,4 @@
+#pragma once
 #include "helper.h"
 Napi::Value N_oc_abort(const Napi::CallbackInfo&);
 Napi::Value N_oc_allocate_message(const Napi::CallbackInfo&);

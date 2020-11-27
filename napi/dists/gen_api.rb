@@ -62,7 +62,6 @@ MTDBIND
 
 CCPROLOGUE = <<CCPROLOGUE
 #include "iotivity_lite.h"
-//#include "structs.h"
 #include "functions.h"
 #include "helper.h"
 
@@ -2522,6 +2521,7 @@ end
 
 
 File.open('src/functions.h', 'w') do |f|
+  f.print "#pragma once\n"
   f.print "#include \"helper.h\"\n"
 
   #func_table.each do |key, h|
@@ -2575,47 +2575,7 @@ File.open('src/iotivity_lite.h', 'w') do |f|
 
   f.print "#include <napi.h>\n"
   f.print "#include <memory>\n"
-  f.print "extern \"C\" {\n"
-  f.print "#include <oc_api.h>\n"
-  f.print "#include <oc_base64.h>\n"
-  f.print "#include <oc_blockwise.h>\n"
-  f.print "#include <oc_buffer.h>\n"
-  f.print "#include <oc_buffer_settings.h>\n"
-  f.print "#include <oc_client_state.h>\n"
-  f.print "#include <oc_clock_util.h>\n"
-  f.print "#include <oc_cloud.h>\n"
-  f.print "#include <oc_collection.h>\n"
-  f.print "#include <oc_core_res.h>\n"
-  f.print "#include <oc_cred.h>\n"
-  f.print "#include <oc_discovery.h>\n"
-  f.print "#include <oc_endpoint.h>\n"
-  f.print "#include <oc_enums.h>\n"
-  f.print "#include <oc_helpers.h>\n"
-  f.print "#include <oc_introspection.h>\n"
-  f.print "#include <oc_network_events.h>\n"
-  f.print "#include <oc_network_monitor.h>\n"
-  f.print "#include <oc_obt.h>\n"
-  f.print "#include <oc_pki.h>\n"
-  f.print "#include <oc_rep.h>\n"
-  f.print "#include <oc_ri.h>\n"
-  f.print "#include <oc_session_events.h>\n"
-  f.print "#include <oc_signal_event_loop.h>\n"
-  f.print "#include <oc_swupdate.h>\n"
-  f.print "#include <oc_uuid.h>\n"
-#  f.print "#include <server_introspection.dat.h>\n"
-  f.print "#include <oc_connectivity.h>\n"
-  f.print "#include <oc_assert.h>\n"
-  f.print "#include <oc_mem_trace.h>\n"
-  f.print "#include <coap.h>\n"
-  f.print "#include <coap_signal.h>\n"
-  f.print "#include <constants.h>\n"
-  f.print "#include <engine.h>\n"
-  f.print "#include <observe.h>\n"
-  f.print "#include <oc_coap.h>\n"
-  f.print "#include <separate.h>\n"
-  f.print "#include <transactions.h>\n"
-  f.print "}\n"
-  f.print "#include \"extra.h\"\n"
+  f.print "#include \"helper.h\"\n"
 
   struct_table.each do |key, h|
     f.print gen_classdecl(key, h)

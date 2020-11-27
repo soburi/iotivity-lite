@@ -1,5 +1,4 @@
 #include "iotivity_lite.h"
-//#include "structs.h"
 #include "functions.h"
 #include "helper.h"
 

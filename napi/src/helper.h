@@ -1,14 +1,13 @@
 #pragma once
 
-//#include "iotivity_lite.h"
 #include <thread>
 #include <mutex>
 #include <condition_variable>
 #include <system_error>
 #include <napi-thread-safe-callback.hpp>
 #include <napi.h>
-extern "C" {
 
+extern "C" {
 #include <oc_api.h>
 #include <oc_base64.h>
 #include <oc_blockwise.h>
@@ -38,7 +37,6 @@ extern "C" {
 #include <oc_connectivity.h>
 #include <oc_assert.h>
 #include <oc_mem_trace.h>
-
 }
 
 struct oc_separate_response_iterator_t {
