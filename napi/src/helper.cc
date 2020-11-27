@@ -1,4 +1,5 @@
 #include "helper.h"
+#include "iotivity_lite.h"
 #include <chrono>
 
 using namespace std;
