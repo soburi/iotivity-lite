@@ -9,9 +9,11 @@ struct main_context_t* main_context;
 
 
 ThreadSafeCallback* check_callback_context(const Napi::CallbackInfo& info, uint32_t fn_order, uint32_t ctx_order) {
-    return (info.Length() >= fn_order && info.Length() >= ctx_order && info[fn_order].IsFunction())
-           ? new ThreadSafeCallback(info[fn_order].As<Napi::Function>())
-           : nullptr;
+    ThreadSafeCallback* cb = (info.Length() >= fn_order && info.Length() >= ctx_order && info[fn_order].IsFunction())
+                             ? new ThreadSafeCallback(info[fn_order].As<Napi::Function>())
+                             : nullptr;
+    if(cb) main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(cb));
+    return cb;
 }
 
 
