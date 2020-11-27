@@ -101,18 +101,18 @@ extern struct main_context_t* main_context;
 class SafeCallbackHelper {
 public:
     ThreadSafeCallback function;
-    Napi::ObjectReference objref;
+    //Napi::ObjectReference objref;
 
     SafeCallbackHelper(const Napi::Function& f, const Napi::Value& v) : function(f) {
-        Napi::Object obj = Napi::Object::New(v.Env());
-        obj.Set("v", v);
+ //       Napi::Object obj = Napi::Object::New(v.Env());
+//        obj.Set("v", v);
 
-        objref = Napi::Persistent(obj);
+        //objref = Napi::Persistent(obj);
     }
 
-    Napi::Value Value() {
-        return objref.Get("v");
-    }
+ //   Napi::Value Value() {
+ //       return objref.Get("v");
+ //   }
     virtual ~SafeCallbackHelper() {}
 };
 

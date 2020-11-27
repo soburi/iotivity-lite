@@ -202,7 +202,7 @@ void helper_oc_init_platform_cb(void* param)
     auto future = helper->function.call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
-        args = { helper->Value() };
+        args = {  };
     },
     [&](const Value& val) {
         return nullptr;
@@ -223,7 +223,7 @@ void helper_oc_add_device_cb(void* param)
     auto future = helper->function.call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
-        args = { helper->Value() };
+        args = {  };
     },
     [&](const Value& val) {
         return nullptr;
@@ -252,7 +252,7 @@ void helper_oc_resource_set_request_handler(oc_request_t* request, oc_interface_
         shared_ptr<oc_request_t> req_sp(request, nop_deleter);
         auto accessor = External<shared_ptr<oc_request_t>>::New(env, &req_sp);
         auto mask_ = Number::New(env, mask);
-        args = { OCRequest::constructor.New({ accessor }), mask_, helper->Value() };
+        args = { OCRequest::constructor.New({ accessor }), mask_ };
     },
     [&](const Value& val) {
         return nullptr;
@@ -283,7 +283,7 @@ helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t t
         auto   endpoint_ = OCEndpoint::constructor.New({ External<shared_ptr<oc_endpoint_t>>::New(env, &endpoint_sp) });
         auto iface_mask_ = Number::New(env, iface_mask);
         auto         bm_ = Number::New(env, bm);
-        args = { di_, uri_, types_, iface_mask_, endpoint_, bm_, helper->Value() };
+        args = { di_, uri_, types_, iface_mask_, endpoint_, bm_ };
     },
     [&](const Value& val) {
         return static_cast<oc_discovery_flags_t>(val.ToNumber().Uint32Value());
@@ -315,7 +315,7 @@ helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array
         auto iface_mask_ = Number::New(env, iface_mask);
         auto       more_ = Boolean::New(env, more);
         auto         bm_ = Number::New(env, bm);
-        args = { di_, uri_, types_, iface_mask_, endpoint_, bm_, more_, helper->Value() };
+        args = { di_, uri_, types_, iface_mask_, endpoint_, bm_, more_ };
     },
     [&](const Value& val) {
         return static_cast<oc_discovery_flags_t>(val.ToNumber().Uint32Value());
@@ -366,7 +366,7 @@ void helper_oc_ownership_status_cb(const oc_uuid_t* device_uuid,
         auto  device_uuid_ = OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(env, &uuid_sp) });
         auto device_index_ = Number::New(env, device_index);
         auto        owned_ = Boolean::New(env, owned);
-        args = { device_uuid_, device_index_, owned_, helper->Value() };
+        args = { device_uuid_, device_index_, owned_ };
     },
     [&](const Value& val) {
         return nullptr;
@@ -386,7 +386,7 @@ oc_event_callback_retval_t helper_oc_trigger(void* data)
     auto future = helper->function.call< oc_event_callback_retval_t>(
                       [&](Env env, vector<napi_value>& args)
     {
-        args = { helper->Value() };
+        args = {  };
     },
     [&](const Value& val) {
         return static_cast<oc_event_callback_retval_t>(val.ToNumber().Uint32Value());
@@ -408,7 +408,7 @@ void helper_oc_factory_presets_cb(size_t device, void* data)
                       [&](Env env, vector<napi_value>& args)
     {
         auto device_ = Number::New(env, device);
-        args = { device_, helper->Value() };
+        args = { device_ };
     },
     [&](const Value& val) {
         return nullptr;
@@ -434,7 +434,7 @@ void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* dat
         {
             pin_[i] = pin[i];
         }
-        args = { pin_, helper->Value() };
+        args = { pin_ };
     },
     [&](const Value& val) {
         return nullptr;
@@ -498,7 +498,7 @@ void helper_oc_obt_device_status_cb(oc_uuid_t* uuid, int status, void* data)
         auto      uuid_ = OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(env, &uuuid_sp) });
         auto    status_ = Number::New(env, status);
 
-        args = { uuid_, status_, helper->Value() };
+        args = { uuid_, status_ };
     },
     [&](const Value& val) {
         return nullptr;
@@ -520,7 +520,7 @@ void helper_oc_obt_status_cb(int status, void* data)
                       [&](Env env, vector<napi_value>& args)
     {
         auto    status_ = Number::New(env, status);
-        args = { status_, helper->Value() };
+        args = { status_ };
     },
     [&](const Value& val) {
         return nullptr;
@@ -544,7 +544,7 @@ void helper_oc_obt_creds_cb(struct oc_sec_creds_t* creds, void* data)
     {
         shared_ptr<oc_sec_creds_t> creds_sp(creds, nop_deleter);
         auto      creds_ = OCUuid::constructor.New({ External<shared_ptr<oc_sec_creds_t>>::New(env, &creds_sp) });
-        args = { creds_, helper->Value() };
+        args = { creds_ };
     },
     [&](const Value& val) {
         return nullptr;
@@ -568,7 +568,7 @@ void helper_oc_obt_acl_cb(oc_sec_acl_t* acl, void* data)
     {
         shared_ptr<oc_sec_acl_t> acl_sp(acl, nop_deleter);
         auto      acl_ = OCUuid::constructor.New({ External<shared_ptr<oc_sec_acl_t>>::New(env, &acl_sp) });
-        args = { acl_, helper->Value() };
+        args = { acl_ };
     },
     [&](const Value& val) {
         return nullptr;
