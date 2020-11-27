@@ -8,9 +8,9 @@ using namespace Napi;
 struct main_context_t* main_context;
 
 
-SafeCallbackHelper* check_callback_context(const Napi::CallbackInfo& info, uint32_t fn_order, uint32_t ctx_order) {
+ThreadSafeCallback* check_callback_context(const Napi::CallbackInfo& info, uint32_t fn_order, uint32_t ctx_order) {
     return (info.Length() >= fn_order && info.Length() >= ctx_order && info[fn_order].IsFunction())
-           ? new SafeCallbackHelper(info[fn_order].As<Napi::Function>(), info[ctx_order])
+           ? new ThreadSafeCallback(info[fn_order].As<Napi::Function>())
            : nullptr;
 }
 
@@ -197,9 +197,9 @@ void helper_oc_handler_requests_entry()
 
 void helper_oc_init_platform_cb(void* param)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(param);
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(param);
 
-    auto future = helper->function.call<void*>(
+    auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
         args = {  };
@@ -212,15 +212,15 @@ void helper_oc_init_platform_cb(void* param)
         future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
     }
 }
 
 void helper_oc_add_device_cb(void* param)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(param);
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(param);
 
-    auto future = helper->function.call<void*>(
+    auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
         args = {  };
@@ -233,7 +233,7 @@ void helper_oc_add_device_cb(void* param)
         future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
     }
 }
 
@@ -244,9 +244,9 @@ bool oc_resource_set_properties_cbs_set_helper(oc_resource_t* res, oc_rep_t* rep
 
 void helper_oc_resource_set_request_handler(oc_request_t* request, oc_interface_mask_t mask, void* data)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(data);
 
-    auto future = helper->function.call<void*>(
+    auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
         shared_ptr<oc_request_t> req_sp(request, nop_deleter);
@@ -262,7 +262,7 @@ void helper_oc_resource_set_request_handler(oc_request_t* request, oc_interface_
         future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
     }
 }
 
@@ -271,9 +271,9 @@ helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t t
                             oc_interface_mask_t iface_mask, oc_endpoint_t *endpoint,
                             oc_resource_properties_t bm, void *user_data)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(user_data);
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(user_data);
 
-    auto future = helper->function.call<oc_discovery_flags_t>(
+    auto future = helper->call<oc_discovery_flags_t>(
     [&](Env env, vector<napi_value>& args) {
         auto         di_ = String::New(env, di);
         auto        uri_ = String::New(env, uri);
@@ -293,7 +293,7 @@ helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t t
         return future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
         return OC_STOP_DISCOVERY;
     }
 }
@@ -302,9 +302,9 @@ oc_discovery_flags_t
 helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array_t types, oc_interface_mask_t iface_mask,
                                 oc_endpoint_t* endpoint, oc_resource_properties_t bm, bool more, void* user_data)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(user_data);
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(user_data);
 
-    auto future = helper->function.call<oc_discovery_flags_t>(
+    auto future = helper->call<oc_discovery_flags_t>(
     [&](Env env, vector<napi_value>& args) {
         auto         di_ = String::New(env, di);
         auto        uri_ = String::New(env, uri);
@@ -325,16 +325,16 @@ helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array
         return future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
         return OC_STOP_DISCOVERY;
     }
 }
 
 void helper_oc_response_handler(oc_client_response_t* response)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(response->user_data);
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(response->user_data);
 
-    auto future = helper->function.call<void*>(
+    auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
         shared_ptr<oc_client_response_t> sp(response, nop_deleter);
@@ -349,17 +349,17 @@ void helper_oc_response_handler(oc_client_response_t* response)
         future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
     }
 }
 
 void helper_oc_ownership_status_cb(const oc_uuid_t* device_uuid,
                                    size_t device_index, bool owned, void* user_data)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(user_data);
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(user_data);
 
 
-    auto future = helper->function.call<void*>(
+    auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
         shared_ptr<oc_uuid_t> uuid_sp(const_cast<oc_uuid_t*>(device_uuid), nop_deleter);
@@ -376,14 +376,14 @@ void helper_oc_ownership_status_cb(const oc_uuid_t* device_uuid,
         future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
     }
 }
 
 oc_event_callback_retval_t helper_oc_trigger(void* data)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
-    auto future = helper->function.call< oc_event_callback_retval_t>(
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(data);
+    auto future = helper->call< oc_event_callback_retval_t>(
                       [&](Env env, vector<napi_value>& args)
     {
         args = {  };
@@ -396,15 +396,15 @@ oc_event_callback_retval_t helper_oc_trigger(void* data)
         return future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
         return OC_EVENT_DONE;
     }
 }
 
 void helper_oc_factory_presets_cb(size_t device, void* data)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
-    auto future = helper->function.call<void*>(
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(data);
+    auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
         auto device_ = Number::New(env, device);
@@ -418,15 +418,15 @@ void helper_oc_factory_presets_cb(size_t device, void* data)
         future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
     }
 }
 
 void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* data)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(data);
 
-    auto future = helper->function.call<void*>(
+    auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
         auto pin_ = Uint8Array::New(env, pin_len);
@@ -444,7 +444,7 @@ void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* dat
         future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
     }
 }
 
@@ -461,14 +461,14 @@ void helper_endpoint_list_delete(oc_endpoint_t* eps)
 
 void helper_oc_obt_discovery_cb(oc_uuid_t* uuid, oc_endpoint_t* eps, void* data)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(data);
 
     shared_ptr<oc_uuid_t> uuid_sp(new oc_uuid_t(*uuid), nop_deleter);
     oc_endpoint_t* eps_list;
     oc_endpoint_list_copy(&eps_list, eps);
     shared_ptr<oc_endpoint_t> eps_sp(eps_list, helper_endpoint_list_delete);
 
-    auto future = helper->function.call<void*>(
+    auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
         auto     uuid_= OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(env, &uuid_sp) });
@@ -484,14 +484,14 @@ void helper_oc_obt_discovery_cb(oc_uuid_t* uuid, oc_endpoint_t* eps, void* data)
         future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
     }
 }
 
 void helper_oc_obt_device_status_cb(oc_uuid_t* uuid, int status, void* data)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
-    auto future = helper->function.call<void*>(
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(data);
+    auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
         shared_ptr<oc_uuid_t> uuuid_sp(uuid, nop_deleter);
@@ -508,15 +508,15 @@ void helper_oc_obt_device_status_cb(oc_uuid_t* uuid, int status, void* data)
         future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
     }
 }
 
 void helper_oc_obt_status_cb(int status, void* data)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(data);
 
-    auto future = helper->function.call<void*>(
+    auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
         auto    status_ = Number::New(env, status);
@@ -530,16 +530,16 @@ void helper_oc_obt_status_cb(int status, void* data)
         future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
     }
 }
 
 void helper_oc_obt_creds_cb(struct oc_sec_creds_t* creds, void* data)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(data);
 
 
-    auto future = helper->function.call<void*>(
+    auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
         shared_ptr<oc_sec_creds_t> creds_sp(creds, nop_deleter);
@@ -554,16 +554,16 @@ void helper_oc_obt_creds_cb(struct oc_sec_creds_t* creds, void* data)
         future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
     }
 }
 
 void helper_oc_obt_acl_cb(oc_sec_acl_t* acl, void* data)
 {
-    SafeCallbackHelper* helper = reinterpret_cast<SafeCallbackHelper*>(data);
+    ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(data);
 
 
-    auto future = helper->function.call<void*>(
+    auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
         shared_ptr<oc_sec_acl_t> acl_sp(acl, nop_deleter);
@@ -578,7 +578,7 @@ void helper_oc_obt_acl_cb(oc_sec_acl_t* acl, void* data)
         future.get();
     }
     catch (exception e) {
-        helper->function.error(e.what());
+        helper->error(e.what());
     }
 }
 

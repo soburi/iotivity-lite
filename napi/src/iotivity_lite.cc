@@ -590,7 +590,7 @@ Value OCMain::add_device(const CallbackInfo& info) {
     auto add_device_cb = check_callback_func(info, 5, helper_oc_add_device_cb);
     const int O_FUNC = 5;
     auto data =  check_callback_context(info, O_FUNC, 6);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_add_device(uri, rt, name, spec_version, data_model_version, add_device_cb, data));
 }
 
@@ -599,7 +599,7 @@ Value OCMain::add_ownership_status_cb(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 0, helper_oc_ownership_status_cb);
     const int O_FUNC = 0;
     auto user_data =  check_callback_context(info, O_FUNC, 1);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     (void)oc_add_ownership_status_cb(cb, user_data);
     return info.Env().Undefined();
 }
@@ -616,7 +616,7 @@ Value OCMain::assert_all_roles(const CallbackInfo& info) {
     auto handler = check_callback_func(info, 1, helper_oc_response_handler);
     const int O_FUNC = 1;
     auto user_data =  check_callback_context(info, O_FUNC, 2);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     (void)oc_assert_all_roles(endpoint, handler, user_data);
     return info.Env().Undefined();
 }
@@ -632,7 +632,7 @@ Value OCMain::assert_role(const CallbackInfo& info) {
     auto handler = check_callback_func(info, 3, helper_oc_response_handler);
     const int O_FUNC = 3;
     auto user_data =  check_callback_context(info, O_FUNC, 4);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_assert_role(role, authority, endpoint, handler, user_data));
 }
 #endif
@@ -683,7 +683,7 @@ Value OCMain::do_delete(const CallbackInfo& info) {
     const int O_FUNC = 3;
     auto qos = static_cast<oc_qos_t>(info[4].ToNumber().Uint32Value());
     auto user_data =  check_callback_context(info, O_FUNC, 5);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_delete(uri, endpoint, query, handler, qos, user_data));
 }
 
@@ -700,7 +700,7 @@ Value OCMain::do_get(const CallbackInfo& info) {
     const int O_FUNC = 3;
     auto qos = static_cast<oc_qos_t>(info[4].ToNumber().Uint32Value());
     auto user_data =  check_callback_context(info, O_FUNC, 5);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_get(uri, endpoint, query, handler, qos, user_data));
 }
 
@@ -710,7 +710,7 @@ Value OCMain::do_ip_discovery(const CallbackInfo& info) {
     auto handler = check_callback_func(info, 1, helper_oc_discovery_handler);
     const int O_FUNC = 1;
     auto user_data =  check_callback_context(info, O_FUNC, 2);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_ip_discovery(rt, handler, user_data));
 }
 
@@ -718,7 +718,7 @@ Value OCMain::do_ip_discovery_all(const CallbackInfo& info) {
     auto handler = check_callback_func(info, 0, helper_oc_discovery_all_handler);
     const int O_FUNC = 0;
     auto user_data =  check_callback_context(info, O_FUNC, 1);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_ip_discovery_all(handler, user_data));
 }
 
@@ -727,7 +727,7 @@ Value OCMain::do_ip_discovery_all_at_endpoint(const CallbackInfo& info) {
     const int O_FUNC = 0;
     auto& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
     auto user_data =  check_callback_context(info, O_FUNC, 2);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_ip_discovery_all_at_endpoint(handler, endpoint, user_data));
 }
 
@@ -738,7 +738,7 @@ Value OCMain::do_ip_discovery_at_endpoint(const CallbackInfo& info) {
     const int O_FUNC = 1;
     auto& endpoint = *OCEndpoint::Unwrap(info[2].ToObject());
     auto user_data =  check_callback_context(info, O_FUNC, 3);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_ip_discovery_at_endpoint(rt, handler, endpoint, user_data));
 }
 
@@ -750,7 +750,7 @@ Value OCMain::do_ip_multicast(const CallbackInfo& info) {
     auto handler = check_callback_func(info, 2, helper_oc_response_handler);
     const int O_FUNC = 2;
     auto user_data =  check_callback_context(info, O_FUNC, 3);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_ip_multicast(uri, query, handler, user_data));
 }
 
@@ -767,7 +767,7 @@ Value OCMain::do_observe(const CallbackInfo& info) {
     const int O_FUNC = 3;
     auto qos = static_cast<oc_qos_t>(info[4].ToNumber().Uint32Value());
     auto user_data =  check_callback_context(info, O_FUNC, 5);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_observe(uri, endpoint, query, handler, qos, user_data));
 }
 
@@ -785,7 +785,7 @@ Value OCMain::do_realm_local_ipv6_discovery(const CallbackInfo& info) {
     auto handler = check_callback_func(info, 1, helper_oc_discovery_handler);
     const int O_FUNC = 1;
     auto user_data =  check_callback_context(info, O_FUNC, 2);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_realm_local_ipv6_discovery(rt, handler, user_data));
 }
 
@@ -793,7 +793,7 @@ Value OCMain::do_realm_local_ipv6_discovery_all(const CallbackInfo& info) {
     auto handler = check_callback_func(info, 0, helper_oc_discovery_all_handler);
     const int O_FUNC = 0;
     auto user_data =  check_callback_context(info, O_FUNC, 1);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_realm_local_ipv6_discovery_all(handler, user_data));
 }
 
@@ -805,7 +805,7 @@ Value OCMain::do_realm_local_ipv6_multicast(const CallbackInfo& info) {
     auto handler = check_callback_func(info, 2, helper_oc_response_handler);
     const int O_FUNC = 2;
     auto user_data =  check_callback_context(info, O_FUNC, 3);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_realm_local_ipv6_multicast(uri, query, handler, user_data));
 }
 
@@ -815,7 +815,7 @@ Value OCMain::do_site_local_ipv6_discovery(const CallbackInfo& info) {
     auto handler = check_callback_func(info, 1, helper_oc_discovery_handler);
     const int O_FUNC = 1;
     auto user_data =  check_callback_context(info, O_FUNC, 2);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_site_local_ipv6_discovery(rt, handler, user_data));
 }
 
@@ -823,7 +823,7 @@ Value OCMain::do_site_local_ipv6_discovery_all(const CallbackInfo& info) {
     auto handler = check_callback_func(info, 0, helper_oc_discovery_all_handler);
     const int O_FUNC = 0;
     auto user_data =  check_callback_context(info, O_FUNC, 1);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_site_local_ipv6_discovery_all(handler, user_data));
 }
 
@@ -835,7 +835,7 @@ Value OCMain::do_site_local_ipv6_multicast(const CallbackInfo& info) {
     auto handler = check_callback_func(info, 2, helper_oc_response_handler);
     const int O_FUNC = 2;
     auto user_data =  check_callback_context(info, O_FUNC, 3);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_site_local_ipv6_multicast(uri, query, handler, user_data));
 }
 
@@ -876,7 +876,7 @@ Value OCMain::init_platform(const CallbackInfo& info) {
     auto init_platform_cb = check_callback_func(info, 1, helper_oc_init_platform_cb);
     const int O_FUNC = 1;
     auto data =  check_callback_context(info, O_FUNC, 2);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_init_platform(mfg_name, init_platform_cb, data));
 }
 
@@ -893,7 +893,7 @@ Value OCMain::init_post(const CallbackInfo& info) {
     const int O_FUNC = 3;
     auto qos = static_cast<oc_qos_t>(info[4].ToNumber().Uint32Value());
     auto user_data =  check_callback_context(info, O_FUNC, 5);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_init_post(uri, endpoint, query, handler, qos, user_data));
 }
 
@@ -910,7 +910,7 @@ Value OCMain::init_put(const CallbackInfo& info) {
     const int O_FUNC = 3;
     auto qos = static_cast<oc_qos_t>(info[4].ToNumber().Uint32Value());
     auto user_data =  check_callback_context(info, O_FUNC, 5);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_init_put(uri, endpoint, query, handler, qos, user_data));
 }
 
@@ -1056,7 +1056,7 @@ Value OCMain::send_ping(const CallbackInfo& info) {
     auto handler = check_callback_func(info, 3, helper_oc_response_handler);
     const int O_FUNC = 3;
     auto user_data =  check_callback_context(info, O_FUNC, 4);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_send_ping(custody, endpoint, timeout_seconds, handler, user_data));
 }
 #endif
@@ -1103,7 +1103,7 @@ Value OCMain::set_delayed_callback(const CallbackInfo& info) {
     const int O_FUNC = 1;
     auto seconds = static_cast<uint16_t>(info[2].ToNumber().Uint32Value());
     auto cb_data =  check_callback_context(info, O_FUNC, 0);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(cb_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(cb_data));
     (void)oc_set_delayed_callback(cb_data, callback, seconds);
     return info.Env().Undefined();
 
@@ -1113,7 +1113,7 @@ Value OCMain::set_factory_presets_cb(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 0, helper_oc_factory_presets_cb);
     const int O_FUNC = 0;
     auto data =  check_callback_context(info, O_FUNC, 1);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     (void)oc_set_factory_presets_cb(cb, data);
     return info.Env().Undefined();
 }
@@ -1123,7 +1123,7 @@ Value OCMain::set_random_pin_callback(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 0, helper_oc_random_pin_cb);
     const int O_FUNC = 0;
     auto data =  check_callback_context(info, O_FUNC, 1);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     (void)oc_set_random_pin_callback(cb, data);
     return info.Env().Undefined();
 }
@@ -1472,7 +1472,7 @@ Value OCObt::device_hard_reset(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 1, helper_oc_obt_device_status_cb);
     const int O_FUNC = 1;
     auto data =  check_callback_context(info, O_FUNC, 2);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_obt_device_hard_reset(uuid, cb, data));
 }
 #endif
@@ -1492,7 +1492,7 @@ Value OCObt::discover_owned_devices(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 0, helper_oc_obt_discovery_cb);
     const int O_FUNC = 0;
     auto data =  check_callback_context(info, O_FUNC, 1);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_obt_discover_owned_devices(cb, data));
 }
 #endif
@@ -1502,7 +1502,7 @@ Value OCObt::discover_owned_devices_realm_local_ipv6(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 0, helper_oc_obt_discovery_cb);
     const int O_FUNC = 0;
     auto data =  check_callback_context(info, O_FUNC, 1);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_obt_discover_owned_devices_realm_local_ipv6(cb, data));
 }
 #endif
@@ -1512,7 +1512,7 @@ Value OCObt::discover_owned_devices_site_local_ipv6(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 0, helper_oc_obt_discovery_cb);
     const int O_FUNC = 0;
     auto data =  check_callback_context(info, O_FUNC, 1);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_obt_discover_owned_devices_site_local_ipv6(cb, data));
 }
 #endif
@@ -1522,7 +1522,7 @@ Value OCObt::discover_unowned_devices(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 0, helper_oc_obt_discovery_cb);
     const int O_FUNC = 0;
     auto data =  check_callback_context(info, O_FUNC, 1);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_obt_discover_unowned_devices(cb, data));
 }
 #endif
@@ -1532,7 +1532,7 @@ Value OCObt::discover_unowned_devices_realm_local_ipv6(const CallbackInfo& info)
     auto cb = check_callback_func(info, 0, helper_oc_obt_discovery_cb);
     const int O_FUNC = 0;
     auto data =  check_callback_context(info, O_FUNC, 1);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_obt_discover_unowned_devices_realm_local_ipv6(cb, data));
 }
 #endif
@@ -1542,7 +1542,7 @@ Value OCObt::discover_unowned_devices_site_local_ipv6(const CallbackInfo& info) 
     auto cb = check_callback_func(info, 0, helper_oc_obt_discovery_cb);
     const int O_FUNC = 0;
     auto data =  check_callback_context(info, O_FUNC, 1);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_obt_discover_unowned_devices_site_local_ipv6(cb, data));
 }
 #endif
@@ -1621,7 +1621,7 @@ Value OCObt::perform_cert_otm(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 1, helper_oc_obt_device_status_cb);
     const int O_FUNC = 1;
     auto data =  check_callback_context(info, O_FUNC, 2);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_obt_perform_cert_otm(uuid, cb, data));
 }
 #endif
@@ -1632,7 +1632,7 @@ Value OCObt::perform_just_works_otm(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 1, helper_oc_obt_device_status_cb);
     const int O_FUNC = 1;
     auto data =  check_callback_context(info, O_FUNC, 2);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_obt_perform_just_works_otm(uuid, cb, data));
 }
 #endif
@@ -1645,7 +1645,7 @@ Value OCObt::perform_random_pin_otm(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 3, helper_oc_obt_device_status_cb);
     const int O_FUNC = 3;
     auto data =  check_callback_context(info, O_FUNC, 4);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_obt_perform_random_pin_otm(uuid, pin, pin_len, cb, data));
 }
 #endif
@@ -1657,7 +1657,7 @@ Value OCObt::provision_ace(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 2, helper_oc_obt_device_status_cb);
     const int O_FUNC = 2;
     auto data =  check_callback_context(info, O_FUNC, 3);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_obt_provision_ace(subject, ace, cb, data));
 }
 #endif
@@ -1668,7 +1668,7 @@ Value OCObt::provision_auth_wildcard_ace(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 1, helper_oc_obt_device_status_cb);
     const int O_FUNC = 1;
     auto data =  check_callback_context(info, O_FUNC, 2);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_obt_provision_auth_wildcard_ace(subject, cb, data));
 }
 #endif
@@ -1715,7 +1715,7 @@ Value OCObt::provision_role_wildcard_ace(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 3, helper_oc_obt_device_status_cb);
     const int O_FUNC = 3;
     auto data =  check_callback_context(info, O_FUNC, 4);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_obt_provision_role_wildcard_ace(subject, role, authority, cb, data));
 }
 #endif
@@ -1726,7 +1726,7 @@ Value OCObt::request_random_pin(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 1, helper_oc_obt_device_status_cb);
     const int O_FUNC = 1;
     auto data =  check_callback_context(info, O_FUNC, 2);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     return Number::New(info.Env(), oc_obt_request_random_pin(uuid, cb, data));
 }
 #endif
@@ -6136,11 +6136,11 @@ Value OCResource::set_properties_cbs(const CallbackInfo& info) {
     auto get_props = check_callback_func(info, 0, oc_resource_set_properties_cbs_get_helper);
     const int O_FUNC_G = 0;
     auto get_propr_user_data  =  check_callback_context(info, O_FUNC_G, 1);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(get_propr_user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(get_propr_user_data));
     auto set_props = check_callback_func(info, 2, oc_resource_set_properties_cbs_set_helper);
     const int O_FUNC_S = 2;
     auto set_props_user_data  =  check_callback_context(info, O_FUNC_S, 3);
-    main_context->callback_helper_array.push_back(shared_ptr<SafeCallbackHelper>(set_props_user_data));
+    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(set_props_user_data));
     (void)oc_resource_set_properties_cbs(resource, get_props, get_propr_user_data, set_props, set_props_user_data);
     return info.Env().Undefined();
 }

@@ -98,31 +98,12 @@ struct oc_string_array_iterator_t {
 static void nop_deleter(void*) { }
 extern struct main_context_t* main_context;
 
-class SafeCallbackHelper {
-public:
-    ThreadSafeCallback function;
-    //Napi::ObjectReference objref;
-
-    SafeCallbackHelper(const Napi::Function& f, const Napi::Value& v) : function(f) {
- //       Napi::Object obj = Napi::Object::New(v.Env());
-//        obj.Set("v", v);
-
-        //objref = Napi::Persistent(obj);
-    }
-
- //   Napi::Value Value() {
- //       return objref.Get("v");
- //   }
-    virtual ~SafeCallbackHelper() {}
-};
-
-
 template<typename FPTR>
 FPTR check_callback_func(const Napi::CallbackInfo& info, uint32_t order, FPTR cbfunc) {
     return ((info.Length() >= order && info[order].IsFunction()) ? cbfunc : nullptr);
 }
 
-SafeCallbackHelper* check_callback_context(const Napi::CallbackInfo& info, uint32_t fn_order, uint32_t ctx_order);
+ThreadSafeCallback* check_callback_context(const Napi::CallbackInfo& info, uint32_t fn_order, uint32_t ctx_order);
 
 struct main_context_t {
     Napi::Promise::Deferred deferred;
@@ -143,7 +124,7 @@ struct main_context_t {
     Napi::FunctionReference oc_swupdate_cb_download_update_ref;
     Napi::FunctionReference oc_swupdate_cb_perform_upgrade_ref;
 
-    std::vector< std::shared_ptr<SafeCallbackHelper> > callback_helper_array;
+    std::vector< std::shared_ptr<ThreadSafeCallback> > callback_helper_array;
 
     int jni_quit;
 };
