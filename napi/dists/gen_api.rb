@@ -62,7 +62,7 @@ MTDBIND
 
 CCPROLOGUE = <<CCPROLOGUE
 #include "iotivity_lite.h"
-#include "structs.h"
+//#include "structs.h"
 #include "functions.h"
 #include "helper.h"
 
@@ -2521,7 +2521,56 @@ def gen_funcimpl(func, name, param, instance)
 end
 
 
-File.open('src/structs.h', 'w') do |f|
+File.open('src/functions.h', 'w') do |f|
+  f.print "#include \"helper.h\"\n"
+
+  #func_table.each do |key, h|
+  #  if not IFDEF_FUNCS.include?(key) #TODO
+  #    f.print gen_funcdecl(key, h) + "\n"
+  #  end
+  #end 
+
+  func_table.keys.sort.each do |key|
+    h = func_table[key]
+    next if IGNORE_FUNCS.include?(key)
+    next if apis.values.collect{|v| v.values }.flatten.include?(key)
+    expset = gen_funcdecl(key, h) + "\n"
+    if IFDEF_FUNCS.include?(key)
+      expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
+    end
+    f.print "#{expset}"
+  end
+
+end
+
+
+File.open('src/functions.cc', 'w') do |f|
+  f.print "#include \"functions.h\"\n"
+  f.print "#include \"iotivity_lite.h\"\n"
+  f.print "#include \"helper.h\"\n"
+  f.print "using namespace std;\n"
+  f.print "using namespace Napi;\n"
+
+  #func_table.each do |key, h|
+  #  if not IFDEF_FUNCS.include?(key)
+  #    f.print gen_funcimpl(key, h) + "\n"
+  #  end
+  #end 
+  func_table.keys.sort.each do |key|
+    h = func_table[key]
+    next if IGNORE_FUNCS.include?(key)
+    next if apis.values.collect{|v| v.values }.flatten.include?(key)
+    expset = gen_funcimpl("N_"+ key, key, h, false)
+    if IFDEF_FUNCS.include?(key)
+      expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
+    end
+    f.print "#{expset}\n"
+  end
+end
+
+
+#File.open('src/structs.h', 'w') do |f|
+File.open('src/iotivity_lite.h', 'w') do |f|
   f.print "#pragma once\n"
 
   f.print "#include <napi.h>\n"
@@ -2577,57 +2626,8 @@ File.open('src/structs.h', 'w') do |f|
     f.print gen_enum_classdecl(key, h)
     f.print "\n"
   end
-end
+#end
 
-File.open('src/functions.h', 'w') do |f|
-  f.print "#include \"helper.h\"\n"
-
-  #func_table.each do |key, h|
-  #  if not IFDEF_FUNCS.include?(key) #TODO
-  #    f.print gen_funcdecl(key, h) + "\n"
-  #  end
-  #end 
-
-  func_table.keys.sort.each do |key|
-    h = func_table[key]
-    next if IGNORE_FUNCS.include?(key)
-    next if apis.values.collect{|v| v.values }.flatten.include?(key)
-    expset = gen_funcdecl(key, h) + "\n"
-    if IFDEF_FUNCS.include?(key)
-      expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
-    end
-    f.print "#{expset}"
-  end
-
-end
-
-
-File.open('src/functions.cc', 'w') do |f|
-  f.print "#include \"functions.h\"\n"
-  f.print "#include \"iotivity_lite.h\"\n"
-  f.print "#include \"helper.h\"\n"
-  f.print "using namespace std;\n"
-  f.print "using namespace Napi;\n"
-
-  #func_table.each do |key, h|
-  #  if not IFDEF_FUNCS.include?(key)
-  #    f.print gen_funcimpl(key, h) + "\n"
-  #  end
-  #end 
-  func_table.keys.sort.each do |key|
-    h = func_table[key]
-    next if IGNORE_FUNCS.include?(key)
-    next if apis.values.collect{|v| v.values }.flatten.include?(key)
-    expset = gen_funcimpl("N_"+ key, key, h, false)
-    if IFDEF_FUNCS.include?(key)
-      expset = "#if #{IFDEF_FUNCS[key]}\n" + expset + "#endif\n"
-    end
-    f.print "#{expset}\n"
-  end
-end
-
-
-File.open('src/iotivity_lite.h', 'w') do |f|
   f.print HPROLOGUE
   apis.keys.sort.each do |cls|
     next if struct_table.keys.collect{|k| gen_classname(k)}.include?(cls)

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "structs.h"
+#include "iotivity_lite.h"
 #include <thread>
 #include <mutex>
 #include <condition_variable>

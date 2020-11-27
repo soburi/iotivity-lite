@@ -1,6 +1,4 @@
 #include "helper.h"
-#include "structs.h"
-#include "iotivity_lite.h"
 #include <chrono>
 
 using namespace std;
