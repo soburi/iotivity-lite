@@ -226,7 +226,7 @@
         'VCCLCompilerTool': {
 	  'ExceptionHandling': 1,
 	  'AdditionalOptions': [
-                  '/wd26812',
+                  '/wd26812', '/bigobj'
           ]
 	}
       }
