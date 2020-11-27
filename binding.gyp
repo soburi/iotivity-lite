@@ -13,7 +13,6 @@
         'napi/src/iotivity_lite.cc',
         'napi/src/structs.cc',
         'napi/src/functions.cc',
-        'napi/src/binding.cc',
         'napi/src/helper.cc',
         'api/c-timestamp/timestamp_compare.c',
         'api/c-timestamp/timestamp_format.c',

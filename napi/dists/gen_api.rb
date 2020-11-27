@@ -2646,12 +2646,63 @@ File.open('src/functions.cc', 'w') do |f|
 end
 
 
-File.open('src/binding.cc', 'w') do |f|
-  f.print "#include \"structs.h\"\n"
-  f.print "#include \"functions.h\"\n"
-  f.print "#include \"iotivity_lite.h\"\n"
-  f.print "using namespace std;\n"
-  f.print "using namespace Napi;\n"
+File.open('src/iotivity_lite.h', 'w') do |f|
+  f.print HPROLOGUE
+  apis.keys.sort.each do |cls|
+    next if struct_table.keys.collect{|k| gen_classname(k)}.include?(cls)
+
+    f.print APICLSDECL.gsub(/CLASS/, cls)
+
+    gen_apimtd_decl(cls, f)
+    f.print "};\n"
+    f.print "\n"
+  end
+end
+
+
+File.open('src/iotivity_lite.cc', 'w') do |f|
+  f.print CCPROLOGUE
+  apis.keys.sort.each do |cls|
+    next if cls == "OCMain"
+    f.print EXPORTIMPL.gsub(/NAMESPACE/, cls.gsub(/^OC/, '')).gsub(/CLASS/, cls)
+  end
+  f.print "    return module_init(env, exports);\n"
+  f.print "}\n"
+
+  apis.keys.sort.each do |cls|
+    next if struct_table.keys.collect{|k| gen_classname(k)}.include?(cls)
+    if OVERRIDE_CTOR.has_key?(cls)
+      f.print OVERRIDE_CTOR[cls] + "\n"
+    else
+      f.print APICTOR.gsub(/CLASS/, cls) + "\n"
+    end
+    f.print BINDIMPL.gsub(/CLASS/, cls)
+    apis[cls].keys.each do |mtd|
+      bind = ""
+      if INSTANCE_FUNCS.include?(cls + "::" + mtd)
+        bind = INSTANCEBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
+      else
+        bind = STATICBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
+      end
+      if IFDEF_FUNCS.include?(apis[cls][mtd])
+        bind = "#if #{IFDEF_FUNCS[apis[cls][mtd]]}\n" + bind + "#endif\n"
+      end
+      f.print bind
+    end
+
+    if EXTRA_ACCESSOR.has_key?(cls)
+      f.print EXTRA_ACCESSOR[cls].gsub(/CLASS/, cls) + "\n"
+    end
+
+    f.print "    });\n"
+    f.print "}\n"
+
+    f.print "Napi::FunctionReference CLASS::constructor;".gsub(/CLASS/, cls)
+
+    f.print "\n"
+    f.print "\n"
+    gen_apimtd_impl(cls, f)
+  end
 
   f.print "Napi::Object module_init(Napi::Env env, Napi::Object exports) {\n"
 
@@ -2733,64 +2784,6 @@ File.open('src/binding.cc', 'w') do |f|
 
   f.print "  return exports;\n"
   f.print "}\n"
-end
-
-File.open('src/iotivity_lite.h', 'w') do |f|
-  f.print HPROLOGUE
-  apis.keys.sort.each do |cls|
-    next if struct_table.keys.collect{|k| gen_classname(k)}.include?(cls)
-
-    f.print APICLSDECL.gsub(/CLASS/, cls)
-
-    gen_apimtd_decl(cls, f)
-    f.print "};\n"
-    f.print "\n"
-  end
-end
-
-File.open('src/iotivity_lite.cc', 'w') do |f|
-  f.print CCPROLOGUE
-  apis.keys.sort.each do |cls|
-    next if cls == "OCMain"
-    f.print EXPORTIMPL.gsub(/NAMESPACE/, cls.gsub(/^OC/, '')).gsub(/CLASS/, cls)
-  end
-  f.print "    return module_init(env, exports);\n"
-  f.print "}\n"
-
-  apis.keys.sort.each do |cls|
-    next if struct_table.keys.collect{|k| gen_classname(k)}.include?(cls)
-    if OVERRIDE_CTOR.has_key?(cls)
-      f.print OVERRIDE_CTOR[cls] + "\n"
-    else
-      f.print APICTOR.gsub(/CLASS/, cls) + "\n"
-    end
-    f.print BINDIMPL.gsub(/CLASS/, cls)
-    apis[cls].keys.each do |mtd|
-      bind = ""
-      if INSTANCE_FUNCS.include?(cls + "::" + mtd)
-        bind = INSTANCEBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
-      else
-        bind = STATICBIND.gsub(/CLASS/, cls).gsub(/METHOD/, mtd).gsub(/PREFIX/, apis[cls][mtd])
-      end
-      if IFDEF_FUNCS.include?(apis[cls][mtd])
-        bind = "#if #{IFDEF_FUNCS[apis[cls][mtd]]}\n" + bind + "#endif\n"
-      end
-      f.print bind
-    end
-
-    if EXTRA_ACCESSOR.has_key?(cls)
-      f.print EXTRA_ACCESSOR[cls].gsub(/CLASS/, cls) + "\n"
-    end
-
-    f.print "    });\n"
-    f.print "}\n"
-
-    f.print "Napi::FunctionReference CLASS::constructor;".gsub(/CLASS/, cls)
-
-    f.print "\n"
-    f.print "\n"
-    gen_apimtd_impl(cls, f)
-  end
 end
 
 
