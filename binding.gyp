@@ -11,7 +11,6 @@
       'target_name': 'iotivity-lite-native',
       'sources': [
         'napi/src/iotivity_lite.cc',
-        'napi/src/structs.cc',
         'napi/src/functions.cc',
         'napi/src/helper.cc',
         'api/c-timestamp/timestamp_compare.c',

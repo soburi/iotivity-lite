@@ -2579,25 +2579,6 @@ File.open('src/structs.h', 'w') do |f|
   end
 end
 
-File.open('src/structs.cc', 'w') do |f|
-  f.print "#include \"structs.h\"\n"
-  f.print "#include \"helper.h\"\n"
-  f.print "#include \"iotivity_lite.h\"\n"
-  f.print "using namespace std;\n"
-  f.print "using namespace Napi;\n"
-
-  struct_table.each do |key, h|
-    f.print gen_classimpl(key, h)
-    f.print "\n"
-  end
-
-
-  enum_table.each do |key, h|
-    f.print gen_enumclassimpl(key, h)
-    f.print "\n"
-  end
-end
-
 File.open('src/functions.h', 'w') do |f|
   f.print "#include \"helper.h\"\n"
 
@@ -2784,8 +2765,26 @@ File.open('src/iotivity_lite.cc', 'w') do |f|
 
   f.print "  return exports;\n"
   f.print "}\n"
-end
+#end
 
+#File.open('src/structs.cc', 'w') do |f|
+#  f.print "#include \"structs.h\"\n"
+#  f.print "#include \"helper.h\"\n"
+#  f.print "#include \"iotivity_lite.h\"\n"
+#  f.print "using namespace std;\n"
+#  f.print "using namespace Napi;\n"
+
+  struct_table.each do |key, h|
+    f.print gen_classimpl(key, h)
+    f.print "\n"
+  end
+
+
+  enum_table.each do |key, h|
+    f.print gen_enumclassimpl(key, h)
+    f.print "\n"
+  end
+end
 
 File.open('lib/iotivity-lite.js', 'w') do |f|
 
