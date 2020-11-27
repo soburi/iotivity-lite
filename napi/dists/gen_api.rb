@@ -2709,10 +2709,12 @@ end
 File.open('lib/iotivity-lite.js', 'w') do |f|
 
   f.print <<STR
-var path = '../build/Release/';
-if (process.env.IOTIVITY_LITE_NODE_DEBUG == '1') { path = '../build/Debug/'; }
-const addon = require(path + 'iotivity-lite-native');
-module.exports = addon;
+try {
+  module.exports = require('../../build/Debug/iotivity-lite-native');
+}
+catch(error) {
+  module.exports = require('../../build/Release/iotivity-lite-native');
+}
 STR
 end
 
