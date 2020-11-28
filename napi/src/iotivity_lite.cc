@@ -2954,6 +2954,9 @@ OCClientResponse::OCClientResponse(const Napi::CallbackInfo& info) : ObjectWrap(
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
         m_pvalue = *(info[0].As<External<shared_ptr<oc_client_response_t>>>().Data());
+        oc_rep_s* rep = m_pvalue->payload;
+        char* n = oc_string(rep->name);
+        int type = rep->type;
     }
     else {
         TypeError::New(info.Env(), "You need to name yourself")
@@ -3025,8 +3028,12 @@ void OCClientResponse::set_observe_option(const Napi::CallbackInfo& info, const 
 
 Napi::Value OCClientResponse::get_payload(const Napi::CallbackInfo& info)
 {
-    shared_ptr<oc_rep_t*> sp(&m_pvalue->payload, nop_deleter);
-    auto accessor = External<shared_ptr<oc_rep_t*>>::New(info.Env(), &sp);
+    //shared_ptr<oc_rep_t*> sp(&, nop_deleter);
+    auto accessor = External<oc_rep_t>::New(info.Env(), m_pvalue->payload);
+
+    //char* n = oc_string((*sp)->name);
+    //int type = (*sp)->type;
+
     return OCRepresentation::constructor.New({accessor});
 }
 
@@ -5049,7 +5056,14 @@ OCRepresentation::OCRepresentation(const CallbackInfo& info) : ObjectWrap(info)
         //TODO m_pvalue = shared_ptr<oc_rep_s>( oc_rep_new(), oc_free_rep);
     }
     else if (info.Length() == 1 && info[0].IsExternal()) {
-        m_pvalue = *(info[0].As<External<shared_ptr<oc_rep_s>>>().Data());
+        oc_rep_s* ptr = info[0].As<External<oc_rep_s>>().Data();
+        //m_pvalue = *();
+        char* n = oc_string(ptr->name);
+        int type = ptr->type;
+
+        m_pvalue = shared_ptr<oc_rep_s>(ptr, nop_deleter);
+
+        
     }
     else {
         TypeError::New(info.Env(), "You need to name yourself")
@@ -5058,9 +5072,11 @@ OCRepresentation::OCRepresentation(const CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCRepresentation::get_name(const Napi::CallbackInfo& info)
 {
-    shared_ptr<oc_mmem> sp(&m_pvalue->name, nop_deleter);
-    auto accessor = External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
-    return OCMmem::constructor.New({accessor});
+    //shared_ptr<oc_mmem> sp(&m_pvalue->name, nop_deleter);
+    const char* str = oc_string(m_pvalue->name);
+    return String::New(info.Env(),  str);
+//    auto accessor = External<shared_ptr<oc_mmem>>::New(info.Env(), &sp);
+//    return OCMmem::constructor.New({accessor});
 }
 
 void OCRepresentation::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
