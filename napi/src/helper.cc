@@ -91,7 +91,7 @@ Value OCSessionEventCb::get_iterator(const CallbackInfo& info)
 
 Value OCEndpoint::get_iterator(const CallbackInfo& info)
 {
-    auto args = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &m_pvalue);
+    auto args = External<oc_endpoint_t>::New(info.Env(), m_pvalue.get());
     return OCEndpointIterator::constructor.New({ args });
 }
 
@@ -282,7 +282,7 @@ helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t t
         shared_ptr<oc_string_array_t> types_sp(&types, nop_deleter);
         auto      types_ = OCStringArray::constructor.New({ External<shared_ptr<oc_string_array_t>>::New(env, &types_sp) });
         shared_ptr<oc_endpoint_t> endpoint_sp(endpoint, nop_deleter);
-        auto   endpoint_ = OCEndpoint::constructor.New({ External<shared_ptr<oc_endpoint_t>>::New(env, &endpoint_sp) });
+        auto   endpoint_ = OCEndpoint::constructor.New({ External<oc_endpoint_t>::New(env, endpoint) });
         auto iface_mask_ = Number::New(env, iface_mask);
         auto         bm_ = Number::New(env, bm);
         args = { di_, uri_, types_, iface_mask_, endpoint_, bm_ };
@@ -472,17 +472,22 @@ void helper_oc_obt_discovery_cb(oc_uuid_t* uuid, oc_endpoint_t* eps, void* data)
 {
     ThreadSafeCallback* helper = reinterpret_cast<ThreadSafeCallback*>(data);
 
+    oc_string_t epstr;
+    oc_alloc_string(&epstr, 128);
+    oc_endpoint_to_string(eps, &epstr);
+    printf("%s", oc_string(epstr));
+
     shared_ptr<oc_uuid_t> uuid_sp(new oc_uuid_t(*uuid), nop_deleter);
     oc_endpoint_t* eps_list;
     oc_endpoint_list_copy(&eps_list, eps);
-    shared_ptr<oc_endpoint_t> eps_sp(eps_list, helper_endpoint_list_delete);
+    //shared_ptr<oc_endpoint_t> eps_sp(eps_list, helper_endpoint_list_delete);
 
     auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
-        auto     uuid_= OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(env, &uuid_sp) });
+        auto     uuid_= OCUuid::constructor.New({ External<oc_uuid_t>::New(env, uuid) });
 
-        auto    eps_js = OCEndpoint::constructor.New({ External<shared_ptr<oc_endpoint_t>>::New(env, &eps_sp) });
+        auto    eps_js = OCEndpoint::constructor.New({ External<oc_endpoint_t>::New(env, eps_list) });
         args = { uuid_, eps_js };
     },
     [&](const Value& val) {
@@ -504,7 +509,9 @@ void helper_oc_obt_device_status_cb(oc_uuid_t* uuid, int status, void* data)
                       [&](Env env, vector<napi_value>& args)
     {
         shared_ptr<oc_uuid_t> uuuid_sp(uuid, nop_deleter);
-        auto      uuid_ = OCUuid::constructor.New({ External<shared_ptr<oc_uuid_t>>::New(env, &uuuid_sp) });
+        char buf[OC_UUID_LEN + 1] = { 0 };
+        oc_uuid_to_str(uuid, buf, OC_UUID_LEN);
+        auto      uuid_ = OCUuid::constructor.New({ String::New(env, buf) });
         auto    status_ = Number::New(env, status);
 
         args = { uuid_, status_ };
