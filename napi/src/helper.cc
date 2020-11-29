@@ -339,14 +339,10 @@ void helper_oc_response_handler(oc_client_response_t* response)
     auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
+        auto accessor = External<oc_client_response_t>::New(env, response);
 
-
-        shared_ptr<oc_client_response_t> sp(response, nop_deleter);
-        auto accessor = External<shared_ptr<oc_client_response_t>>::New(env, &sp);
-
-        oc_rep_s* rep = sp->payload;
-        char* n = oc_string(rep->name);
-        int type = rep->type;
+        char* n = oc_string(response->payload->name);
+        int type = response->payload->type;
 
         args = { OCClientResponse::constructor.New({ accessor }) };
     },

@@ -594,6 +594,10 @@ OCResource::OCResource(const CallbackInfo& info) : ObjectWrap(info)
 }
 
 SETGET_OVERRIDE = {
+  "oc_rep_s::name" => {
+    "get" => "return String::New(info.Env(), oc_string(m_pvalue->name));",
+    "set" => "oc_new_string(&m_pvalue->name, value.As<String>().Utf8Value().c_str(), value.As<String>().Utf8Value().length());",
+  },
   "oc_link_s::interfaces" => {
     "get" => "return Number::New(info.Env(), m_pvalue->interfaces);",
     "set" => '
