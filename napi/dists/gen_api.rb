@@ -820,6 +820,11 @@ m_pvalue->buffer_size = value.As<TypedArray>().ArrayBuffer().ByteLength();",
    "get"=>
      "return user_data_ref.Get(\"user_data\");",
   },
+  "oc_client_response_t::payload"=> {
+    "get" => 'auto accessor = External<oc_rep_s>::New(info.Env(), m_pvalue->payload);
+    return OCRepresentation::constructor.New({accessor});',
+    "set" => 'm_pvalue->payload = *(value.As<External<oc_rep_t*>>().Data());'
+  },
   "oc_client_response_t::_payload"=> {
     "set" => "\
 m_pvalue->_payload =    reinterpret_cast<uint8_t*>(value.As<TypedArray>().ArrayBuffer().Data()); //TODO

@@ -685,14 +685,7 @@ Value OCMain::do_delete(const CallbackInfo& info) {
 Value OCMain::do_get(const CallbackInfo& info) {
     auto uri_ = info[0].ToString().Utf8Value();
     auto uri = uri_.c_str();
-    auto endpoint = OCEndpoint::Unwrap(info[1].ToObject());
-
-    oc_string_t epstr;
-    oc_alloc_string(&epstr, 128);
-    oc_endpoint_to_string(*endpoint, &epstr);
-
-    printf("%s", oc_string(epstr));
-    
+    auto& endpoint = *OCEndpoint::Unwrap(info[1].ToObject());
     const char* query = nullptr;
     if (info[2].IsString()) {
         auto query_ = info[2].ToString().Utf8Value();
@@ -702,7 +695,7 @@ Value OCMain::do_get(const CallbackInfo& info) {
     const int O_FUNC = 3;
     auto qos = static_cast<oc_qos_t>(info[4].ToNumber().Uint32Value());
     auto user_data =  check_callback_context(info, O_FUNC, 5);
-    return Boolean::New(info.Env(), oc_do_get(uri, *endpoint, query, handler, qos, user_data));
+    return Boolean::New(info.Env(), oc_do_get(uri, endpoint, query, handler, qos, user_data));
 }
 
 Value OCMain::do_ip_discovery(const CallbackInfo& info) {
@@ -3025,9 +3018,6 @@ void OCClientResponse::set_observe_option(const Napi::CallbackInfo& info, const 
 
 Napi::Value OCClientResponse::get_payload(const Napi::CallbackInfo& info)
 {
-    oc_string_t str = m_pvalue->payload->name;
-    const char* c = oc_string(str);
-    oc_rep_s* ptr = m_pvalue->payload;
     auto accessor = External<oc_rep_s>::New(info.Env(), m_pvalue->payload);
     return OCRepresentation::constructor.New({accessor});
 }
@@ -5014,8 +5004,6 @@ OCRepresentation::OCRepresentation(const CallbackInfo& info) : ObjectWrap(info)
         //TODO m_pvalue = shared_ptr<oc_rep_s>( oc_rep_new(), oc_free_rep);
     }
     else if (info.Length() == 1 && info[0].IsExternal()) {
-        oc_rep_s* ptr = info[0].As<External<oc_rep_s>>().Data();
-        const char* str = oc_string(ptr->name);
         m_pvalue = shared_ptr<oc_rep_s>(info[0].As<External<oc_rep_s>>().Data(), nop_deleter);
     }
     else {
@@ -5025,13 +5013,12 @@ OCRepresentation::OCRepresentation(const CallbackInfo& info) : ObjectWrap(info)
 }
 Napi::Value OCRepresentation::get_name(const Napi::CallbackInfo& info)
 {
-    const char* str = oc_string(m_pvalue->name);
-    return String::New(info.Env(), str);
+    return String::New(info.Env(), oc_string(m_pvalue->name));
 }
 
 void OCRepresentation::set_name(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    m_pvalue->name = *(value.As<External<oc_mmem>>().Data());
+    oc_new_string(&m_pvalue->name, value.As<String>().Utf8Value().c_str(), value.As<String>().Utf8Value().length());
 }
 
 Napi::Value OCRepresentation::get_type(const Napi::CallbackInfo& info)
