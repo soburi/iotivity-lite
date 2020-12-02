@@ -11,15 +11,13 @@ Value N_oc_abort(const CallbackInfo& info) {
 }
 
 Value N_oc_allocate_message(const CallbackInfo& info) {
-    shared_ptr<oc_message_t> sp(oc_allocate_message(), nop_deleter);
-    auto args = External<shared_ptr<oc_message_t>>::New(info.Env(), &sp);
+    auto args = External<oc_message_t>::New(info.Env(), oc_allocate_message());
     return OCMessage::constructor.New({args});
 }
 
 Value N_oc_allocate_message_from_pool(const CallbackInfo& info) {
     auto& pool = *OCMemb::Unwrap(info[0].ToObject());
-    shared_ptr<oc_message_t> sp(oc_allocate_message_from_pool(pool), nop_deleter);
-    auto args = External<shared_ptr<oc_message_t>>::New(info.Env(), &sp);
+    auto args = External<oc_message_t>::New(info.Env(), oc_allocate_message_from_pool(pool));
     return OCMessage::constructor.New({args});
 }
 
@@ -80,8 +78,7 @@ Value N_oc_connectivity_end_session(const CallbackInfo& info) {
 
 Value N_oc_connectivity_get_endpoints(const CallbackInfo& info) {
     auto device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
-    shared_ptr<oc_endpoint_t> sp(oc_connectivity_get_endpoints(device), nop_deleter);
-    auto args = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    auto args = External<oc_endpoint_t>::New(info.Env(), oc_connectivity_get_endpoints(device));
     return OCEndpoint::constructor.New({args});
 }
 
@@ -154,8 +151,7 @@ Value N_oc_init_query_iterator(const CallbackInfo& info) {
 }
 
 Value N_oc_internal_allocate_outgoing_message(const CallbackInfo& info) {
-    shared_ptr<oc_message_t> sp(oc_internal_allocate_outgoing_message(), nop_deleter);
-    auto args = External<shared_ptr<oc_message_t>>::New(info.Env(), &sp);
+    auto args = External<oc_message_t>::New(info.Env(), oc_internal_allocate_outgoing_message());
     return OCMessage::constructor.New({args});
 }
 

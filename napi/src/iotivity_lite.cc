@@ -141,8 +141,7 @@ Napi::FunctionReference OCCloud::constructor;
 #if defined(OC_CLOUD)
 Value OCCloud::get_context(const CallbackInfo& info) {
     auto device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
-    shared_ptr<oc_cloud_context_t> sp(oc_cloud_get_context(device), nop_deleter);
-    auto args = External<shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
+    auto args = External<oc_cloud_context_t>::New(info.Env(), oc_cloud_get_context(device));
     return OCCloudContext::constructor.New({args});
 }
 #endif
@@ -304,8 +303,7 @@ Value OCCore::init_platform(const CallbackInfo& info) {
     oc_core_init_platform_cb_t init_cb = nullptr;
     Function init_cb_ = info[1].As<Function>();
     void* data = info[2];
-    shared_ptr<oc_platform_info_t> sp(oc_core_init_platform(mfg_name, init_cb, data), nop_deleter);
-    auto args = External<shared_ptr<oc_platform_info_t>>::New(info.Env(), &sp);
+    auto args = External<oc_platform_info_t>::New(info.Env(), oc_core_init_platform(mfg_name, init_cb, data));
     return OCPlatformInfo::constructor.New({args});
 }
 
@@ -320,21 +318,18 @@ Value OCCore::get_num_devices(const CallbackInfo& info) {
 
 Value OCCore::get_device_id(const CallbackInfo& info) {
     auto device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
-    shared_ptr<oc_uuid_t> sp(oc_core_get_device_id(device), nop_deleter);
-    auto args = External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+    auto args = External<oc_uuid_t>::New(info.Env(), oc_core_get_device_id(device));
     return OCUuid::constructor.New({args});
 }
 
 Value OCCore::get_device_info(const CallbackInfo& info) {
     auto device = static_cast<size_t>(info[0].ToNumber().Uint32Value());
-    shared_ptr<oc_device_info_t> sp(oc_core_get_device_info(device), nop_deleter);
-    auto args = External<shared_ptr<oc_device_info_t>>::New(info.Env(), &sp);
+    auto args = External<oc_device_info_t>::New(info.Env(), oc_core_get_device_info(device));
     return OCDeviceInfo::constructor.New({args});
 }
 
 Value OCCore::get_platform_info(const CallbackInfo& info) {
-    shared_ptr<oc_platform_info_t> sp(oc_core_get_platform_info(), nop_deleter);
-    auto args = External<shared_ptr<oc_platform_info_t>>::New(info.Env(), &sp);
+    auto args = External<oc_platform_info_t>::New(info.Env(), oc_core_get_platform_info());
     return OCPlatformInfo::constructor.New({args});
 }
 
@@ -342,8 +337,7 @@ Value OCCore::get_resource_by_uri(const CallbackInfo& info) {
     auto uri_ = info[0].ToString().Utf8Value();
     auto uri = uri_.c_str();
     auto device = static_cast<size_t>(info[1].ToNumber().Uint32Value());
-    shared_ptr<oc_resource_t> sp(oc_core_get_resource_by_uri(uri, device), nop_deleter);
-    auto args = External<shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
+    auto args = External<oc_resource_t>::New(info.Env(), oc_core_get_resource_by_uri(uri, device));
     return OCResource::constructor.New({args});
 }
 
@@ -383,8 +377,7 @@ Value OCCore::add_new_device(const CallbackInfo& info) {
     oc_core_add_device_cb_t add_device_cb = nullptr;
     Function add_device_cb_ = info[5].As<Function>();
     void* data = info[6];
-    shared_ptr<oc_device_info_t> sp(oc_core_add_new_device(uri, rt, name, spec_version, data_model_version, add_device_cb, data), nop_deleter);
-    auto args = External<shared_ptr<oc_device_info_t>>::New(info.Env(), &sp);
+    auto args = External<oc_device_info_t>::New(info.Env(), oc_core_add_new_device(uri, rt, name, spec_version, data_model_version, add_device_cb, data));
     return OCDeviceInfo::constructor.New({args});
 }
 
@@ -398,8 +391,7 @@ Value OCCore::encode_interfaces_mask(const CallbackInfo& info) {
 Value OCCore::get_resource_by_index(const CallbackInfo& info) {
     auto type = static_cast<int>(info[0].ToNumber());
     auto device = static_cast<size_t>(info[1].ToNumber().Uint32Value());
-    shared_ptr<oc_resource_t> sp(oc_core_get_resource_by_index(type, device), nop_deleter);
-    auto args = External<shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
+    auto args = External<oc_resource_t>::New(info.Env(), oc_core_get_resource_by_index(type, device));
     return OCResource::constructor.New({args});
 }
 
@@ -818,7 +810,6 @@ Value OCMain::do_site_local_ipv6_multicast(const CallbackInfo& info) {
     auto handler = check_callback_func(info, 2, helper_oc_response_handler);
     const int O_FUNC = 2;
     auto user_data =  check_callback_context(info, O_FUNC, 3);
-    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));
     return Boolean::New(info.Env(), oc_do_site_local_ipv6_multicast(uri, query, handler, user_data));
 }
 
@@ -830,8 +821,7 @@ Value OCMain::free_server_endpoints(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY) && defined(OC_PKI)
 Value OCMain::get_all_roles(const CallbackInfo& info) {
-    shared_ptr<oc_role_t> sp(oc_get_all_roles(), nop_deleter);
-    auto args = External<shared_ptr<oc_role_t>>::New(info.Env(), &sp);
+    auto args = External<oc_role_t>::New(info.Env(), oc_get_all_roles());
     return OCRole::constructor.New({args});
 }
 #endif
@@ -975,8 +965,7 @@ Value OCMain::main_shutdown(const CallbackInfo& info) {
 
 Value OCMain::new_link(const CallbackInfo& info) {
     auto& resource = *OCResource::Unwrap(info[0].ToObject());
-    shared_ptr<oc_link_t> sp(oc_new_link(resource), nop_deleter);
-    auto args = External<shared_ptr<oc_link_t>>::New(info.Env(), &sp);
+    auto args = External<oc_link_t>::New(info.Env(), oc_new_link(resource));
     return OCLink::constructor.New({args});
 }
 
@@ -1100,7 +1089,6 @@ Value OCMain::set_random_pin_callback(const CallbackInfo& info) {
     auto cb = check_callback_func(info, 0, helper_oc_random_pin_cb);
     const int O_FUNC = 0;
     auto data =  check_callback_context(info, O_FUNC, 1);
-    main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));
     (void)oc_set_random_pin_callback(cb, data);
     return info.Env().Undefined();
 }
@@ -1376,8 +1364,7 @@ Value OCObt::ace_add_permission(const CallbackInfo& info) {
 #if defined(OC_SECURITY)
 Value OCObt::ace_new_resource(const CallbackInfo& info) {
     auto& ace = *OCSecurityAce::Unwrap(info[0].ToObject());
-    shared_ptr<oc_ace_res_t> sp(oc_obt_ace_new_resource(ace), nop_deleter);
-    auto args = External<shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
+    auto args = External<oc_ace_res_t>::New(info.Env(), oc_obt_ace_new_resource(ace));
     return OCAceResource::constructor.New({args});
 }
 #endif
@@ -1408,8 +1395,7 @@ Value OCObt::add_roleid(const CallbackInfo& info) {
     auto role = role_.c_str();
     auto authority_ = info[2].ToString().Utf8Value();
     auto authority = authority_.c_str();
-    shared_ptr<oc_role_t> sp(oc_obt_add_roleid(roles, role, authority), nop_deleter);
-    auto args = External<shared_ptr<oc_role_t>>::New(info.Env(), &sp);
+    auto args = External<oc_role_t>::New(info.Env(), oc_obt_add_roleid(roles, role, authority));
     return OCRole::constructor.New({args});
 }
 #endif
@@ -1558,8 +1544,7 @@ Value OCObt::init(const CallbackInfo& info) {
 #if defined(OC_SECURITY)
 Value OCObt::new_ace_for_connection(const CallbackInfo& info) {
     auto conn = static_cast<oc_ace_connection_type_t>(info[0].ToNumber().Uint32Value());
-    shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_connection(conn), nop_deleter);
-    auto args = External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
+    auto args = External<oc_sec_ace_t>::New(info.Env(), oc_obt_new_ace_for_connection(conn));
     return OCSecurityAce::constructor.New({args});
 }
 #endif
@@ -1570,8 +1555,7 @@ Value OCObt::new_ace_for_role(const CallbackInfo& info) {
     auto role = role_.c_str();
     auto authority_ = info[1].ToString().Utf8Value();
     auto authority = authority_.c_str();
-    shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_role(role, authority), nop_deleter);
-    auto args = External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
+    auto args = External<oc_sec_ace_t>::New(info.Env(), oc_obt_new_ace_for_role(role, authority));
     return OCSecurityAce::constructor.New({args});
 }
 #endif
@@ -1579,8 +1563,7 @@ Value OCObt::new_ace_for_role(const CallbackInfo& info) {
 #if defined(OC_SECURITY)
 Value OCObt::new_ace_for_subject(const CallbackInfo& info) {
     auto& uuid = *OCUuid::Unwrap(info[0].ToObject());
-    shared_ptr<oc_sec_ace_t> sp(oc_obt_new_ace_for_subject(uuid), nop_deleter);
-    auto args = External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
+    auto args = External<oc_sec_ace_t>::New(info.Env(), oc_obt_new_ace_for_subject(uuid));
     return OCSecurityAce::constructor.New({args});
 }
 #endif
@@ -1716,8 +1699,7 @@ Value OCObt::retrieve_creds(const CallbackInfo& info) {
 
 #if defined(OC_SECURITY)
 Value OCObt::retrieve_own_creds(const CallbackInfo& info) {
-    shared_ptr<oc_sec_creds_t> sp(oc_obt_retrieve_own_creds(), nop_deleter);
-    auto args = External<shared_ptr<oc_sec_creds_t>>::New(info.Env(), &sp);
+    auto args = External<oc_sec_creds_t>::New(info.Env(), oc_obt_retrieve_own_creds());
     return OCCreds::constructor.New({args});
 }
 #endif
@@ -3667,15 +3649,13 @@ Value OCCollection::add_supported_rt(const CallbackInfo& info) {
 }
 
 Value OCCollection::get_collections(const CallbackInfo& info) {
-    shared_ptr<oc_resource_t> sp(oc_collection_get_collections(), nop_deleter);
-    auto args = External<shared_ptr<oc_resource_t>>::New(info.Env(), &sp);
+    auto args = External<oc_resource_t>::New(info.Env(), oc_collection_get_collections());
     return OCResource::constructor.New({args});
 }
 
 Value OCCollection::get_links(const CallbackInfo& info) {
     OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());
-    shared_ptr<oc_link_t> sp(oc_collection_get_links(collection), nop_deleter);
-    auto args = External<shared_ptr<oc_link_t>>::New(info.Env(), &sp);
+    auto args = External<oc_link_t>::New(info.Env(), oc_collection_get_links(collection));
     return OCLink::constructor.New({args});
 }
 
@@ -3693,8 +3673,7 @@ Value OCCollection::add(const CallbackInfo& info) {
 }
 
 Value OCCollection::alloc(const CallbackInfo& info) {
-    shared_ptr<oc_collection_t> sp(oc_collection_alloc(), nop_deleter);
-    auto args = External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
+    auto args = External<oc_collection_t>::New(info.Env(), oc_collection_alloc());
     return OCCollection::constructor.New({args});
 }
 
@@ -3705,16 +3684,14 @@ Value OCCollection::free(const CallbackInfo& info) {
 }
 
 Value OCCollection::get_all(const CallbackInfo& info) {
-    shared_ptr<oc_collection_t> sp(oc_collection_get_all(), nop_deleter);
-    auto args = External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
+    auto args = External<oc_collection_t>::New(info.Env(), oc_collection_get_all());
     return OCCollection::constructor.New({args});
 }
 
 Value OCCollection::get_next_collection_with_link(const CallbackInfo& info) {
     auto& resource = *OCResource::Unwrap(info[0].ToObject());
     auto& start = *OCCollection::Unwrap(info[1].ToObject());
-    shared_ptr<oc_collection_t> sp(oc_get_next_collection_with_link(resource, start), nop_deleter);
-    auto args = External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
+    auto args = External<oc_collection_t>::New(info.Env(), oc_get_next_collection_with_link(resource, start));
     return OCCollection::constructor.New({args});
 }
 
@@ -3723,8 +3700,7 @@ Value OCCollection::get_collection_by_uri(const CallbackInfo& info) {
     auto uri_path = uri_path_.c_str();
     auto uri_path_len = static_cast<size_t>(info[1].ToNumber().Uint32Value());
     auto device = static_cast<size_t>(info[2].ToNumber().Uint32Value());
-    shared_ptr<oc_collection_t> sp(oc_get_collection_by_uri(uri_path, uri_path_len, device), nop_deleter);
-    auto args = External<shared_ptr<oc_collection_t>>::New(info.Env(), &sp);
+    auto args = External<oc_collection_t>::New(info.Env(), oc_get_collection_by_uri(uri_path, uri_path_len, device));
     return OCCollection::constructor.New({args});
 }
 
@@ -3733,8 +3709,7 @@ Value OCCollection::get_link_by_uri(const CallbackInfo& info) {
     auto uri_path_ = info[1].ToString().Utf8Value();
     auto uri_path = uri_path_.c_str();
     auto uri_path_len = static_cast<int>(info[2].ToNumber());
-    shared_ptr<oc_link_t> sp(oc_get_link_by_uri(collection, uri_path, uri_path_len), nop_deleter);
-    auto args = External<shared_ptr<oc_link_t>>::New(info.Env(), &sp);
+    auto args = External<oc_link_t>::New(info.Env(), oc_get_link_by_uri(collection, uri_path, uri_path_len));
     return OCLink::constructor.New({args});
 }
 
@@ -3982,14 +3957,17 @@ void OCEndpoint::set_device(const Napi::CallbackInfo& info, const Napi::Value& v
 
 Napi::Value OCEndpoint::get_di(const Napi::CallbackInfo& info)
 {
-    shared_ptr<oc_uuid_t> sp(&m_pvalue->di, nop_deleter);
-    auto accessor = External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+
+    char buf[OC_UUID_LEN + 1] = { 0 };
+    oc_uuid_to_str(&m_pvalue->di, buf, OC_UUID_LEN);
+    auto  accessor = OCUuid::constructor.New({ String::New(info.Env(), buf) });
+
     return OCUuid::constructor.New({accessor});
 }
 
 void OCEndpoint::set_di(const Napi::CallbackInfo& info, const Napi::Value& value)
 {
-    oc_endpoint_set_di(m_pvalue.get(), value.As<External<shared_ptr<oc_uuid_t>>>().Data()->get() );
+    oc_endpoint_set_di(m_pvalue.get(), value.As<External<oc_uuid_t>>().Data() );
 }
 
 Napi::Value OCEndpoint::get_flags(const Napi::CallbackInfo& info)
@@ -5129,7 +5107,7 @@ Value OCRepresentation::get_object(const CallbackInfo& info) {
     }
 
     shared_ptr<oc_rep_t> sp(ret, nop_deleter);
-    auto accessor = External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_rep_t>::New(info.Env(), ret);
     return OCRepresentation::constructor.New({ accessor });
 }
 
@@ -5227,7 +5205,7 @@ Value OCRepresentation::parse(const CallbackInfo& info) {
         return info.Env().Undefined();
     }
     shared_ptr<oc_rep_t> sp(ret, nop_deleter);
-    auto accessor = External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_rep_t>::New(info.Env(), ret);
     return OCRepresentation::constructor.New({ accessor });
 }
 
@@ -5324,8 +5302,7 @@ Value OCRepresentation::end_root_object(const CallbackInfo& info) {
 }
 
 Value OCRepresentation::get_rep_from_root_object(const CallbackInfo& info) {
-    shared_ptr<oc_rep_t> sp(helper_rep_get_rep_from_root_object(), nop_deleter);
-    auto args = External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+    auto args = External<oc_rep_t>::New(info.Env(), helper_rep_get_rep_from_root_object());
     return OCRepresentation::constructor.New({args});
 }
 
@@ -5337,8 +5314,7 @@ Value OCRepresentation::new_buffer(const CallbackInfo& info) {
 
 Value OCRepresentation::object_array_start_item(const CallbackInfo& info) {
     auto& arrayObject = *OCCborEncoder::Unwrap(info[0].ToObject());
-    shared_ptr<CborEncoder> sp(helper_rep_object_array_start_item(arrayObject), nop_deleter);
-    auto args = External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+    auto args = External<CborEncoder>::New(info.Env(), helper_rep_object_array_start_item(arrayObject));
     return OCCborEncoder::constructor.New({args});
 }
 
@@ -5380,8 +5356,7 @@ Value OCRepresentation::open_array(const CallbackInfo& info) {
     auto& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
     auto key_ = info[1].ToString().Utf8Value();
     auto key = key_.c_str();
-    shared_ptr<CborEncoder> sp(helper_rep_open_array(parent, key), nop_deleter);
-    auto args = External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+    auto args = External<CborEncoder>::New(info.Env(), helper_rep_open_array(parent, key));
     return OCCborEncoder::constructor.New({args});
 }
 
@@ -5389,8 +5364,7 @@ Value OCRepresentation::open_object(const CallbackInfo& info) {
     auto& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
     auto key_ = info[1].ToString().Utf8Value();
     auto key = key_.c_str();
-    shared_ptr<CborEncoder> sp(helper_rep_open_object(parent, key), nop_deleter);
-    auto args = External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+    auto args = External<CborEncoder>::New(info.Env(), helper_rep_open_object(parent, key));
     return OCCborEncoder::constructor.New({args});
 }
 
@@ -5499,27 +5473,23 @@ Value OCRepresentation::set_uint(const CallbackInfo& info) {
 
 Value OCRepresentation::start_array(const CallbackInfo& info) {
     auto& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
-    shared_ptr<CborEncoder> sp(helper_rep_start_array(parent), nop_deleter);
-    auto args = External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+    auto args = External<CborEncoder>::New(info.Env(), helper_rep_start_array(parent));
     return OCCborEncoder::constructor.New({args});
 }
 
 Value OCRepresentation::start_links_array(const CallbackInfo& info) {
-    shared_ptr<CborEncoder> sp(helper_rep_start_links_array(), nop_deleter);
-    auto args = External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+    auto args = External<CborEncoder>::New(info.Env(), helper_rep_start_links_array());
     return OCCborEncoder::constructor.New({args});
 }
 
 Value OCRepresentation::start_object(const CallbackInfo& info) {
     auto& parent = *OCCborEncoder::Unwrap(info[0].ToObject());
-    shared_ptr<CborEncoder> sp(helper_rep_start_object(parent), nop_deleter);
-    auto args = External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+    auto args = External<CborEncoder>::New(info.Env(), helper_rep_start_object(parent));
     return OCCborEncoder::constructor.New({args});
 }
 
 Value OCRepresentation::start_root_object(const CallbackInfo& info) {
-    shared_ptr<CborEncoder> sp(helper_rep_start_root_object(), nop_deleter);
-    auto args = External<shared_ptr<CborEncoder>>::New(info.Env(), &sp);
+    auto args = External<CborEncoder>::New(info.Env(), helper_rep_start_root_object());
     return OCCborEncoder::constructor.New({args});
 }
 
@@ -7335,8 +7305,7 @@ OCEndpointIterator::OCEndpointIterator(const CallbackInfo& info) : ObjectWrap(in
 Napi::Value OCEndpointIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    shared_ptr<oc_endpoint_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_endpoint_t>::New(info.Env(), m_pvalue->current);
     return OCEndpoint::constructor.New({ accessor });
 }
 
@@ -7387,8 +7356,7 @@ OCCollectionIterator::OCCollectionIterator(const CallbackInfo& info) : ObjectWra
 Napi::Value OCCollectionIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    shared_ptr<oc_collection_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_collection_s>>::New(info.Env(), &sp);
+    auto accessor = External<oc_collection_s>::New(info.Env(), m_pvalue->current);
     return OCCollection::constructor.New({ accessor });
 }
 
@@ -7439,8 +7407,7 @@ OCLinkIterator::OCLinkIterator(const CallbackInfo& info) : ObjectWrap(info)
 Napi::Value OCLinkIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    shared_ptr<oc_link_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_link_s>>::New(info.Env(), &sp);
+    auto accessor = External<oc_link_s>::New(info.Env(), m_pvalue->current);
     return OCLink::constructor.New({ accessor });
 }
 
@@ -7491,8 +7458,7 @@ OCSecurityAceIterator::OCSecurityAceIterator(const CallbackInfo& info) : ObjectW
 Napi::Value OCSecurityAceIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    shared_ptr<oc_sec_ace_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_sec_ace_t>::New(info.Env(), m_pvalue->current);
     return OCSecurityAce::constructor.New({ accessor });
 }
 
@@ -7543,8 +7509,7 @@ OCAceResourceIterator::OCAceResourceIterator(const CallbackInfo& info) : ObjectW
 Napi::Value OCAceResourceIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    shared_ptr<oc_ace_res_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_ace_res_t>::New(info.Env(), m_pvalue->current);
     return OCAceResource::constructor.New({ accessor });
 }
 
@@ -7595,8 +7560,7 @@ OCCloudContextIterator::OCCloudContextIterator(const CallbackInfo& info) : Objec
 Napi::Value OCCloudContextIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    shared_ptr<oc_cloud_context_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_cloud_context_t>::New(info.Env(), m_pvalue->current);
     return OCCloudContext::constructor.New({ accessor });
 }
 
@@ -7647,8 +7611,7 @@ OCLinkParamsIterator::OCLinkParamsIterator(const CallbackInfo& info) : ObjectWra
 Napi::Value OCLinkParamsIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    shared_ptr<oc_link_params_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_link_params_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_link_params_t>::New(info.Env(), m_pvalue->current);
     return OCLink::constructor.New({ accessor });
 }
 
@@ -7699,8 +7662,7 @@ OCResourceTypeIterator::OCResourceTypeIterator(const CallbackInfo& info) : Objec
 Napi::Value OCResourceTypeIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    shared_ptr<oc_rt_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_rt_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_rt_t>::New(info.Env(), m_pvalue->current);
     return OCResourceType::constructor.New({ accessor });
 }
 
@@ -7751,8 +7713,7 @@ OCEventCallbackIterator::OCEventCallbackIterator(const CallbackInfo& info) : Obj
 Napi::Value OCEventCallbackIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    shared_ptr<oc_event_callback_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_event_callback_s>>::New(info.Env(), &sp);
+    auto accessor = External<oc_event_callback_s>::New(info.Env(), m_pvalue->current);
     return OCEventCallback::constructor.New({ accessor });
 }
 
@@ -7803,8 +7764,7 @@ OCMessageIterator::OCMessageIterator(const CallbackInfo& info) : ObjectWrap(info
 Napi::Value OCMessageIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    shared_ptr<oc_message_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_message_s>>::New(info.Env(), &sp);
+    auto accessor = External<oc_message_s>::New(info.Env(), m_pvalue->current);
     return OCMessage::constructor.New({ accessor });
 }
 
@@ -7855,8 +7815,7 @@ OCRoleIterator::OCRoleIterator(const CallbackInfo& info) : ObjectWrap(info)
 Napi::Value OCRoleIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    shared_ptr<oc_role_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_role_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_role_t>::New(info.Env(), m_pvalue->current);
     return OCRole::constructor.New({ accessor });
 }
 
@@ -7907,8 +7866,7 @@ OCSessionEventCbIterator::OCSessionEventCbIterator(const CallbackInfo& info) : O
 Napi::Value OCSessionEventCbIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    shared_ptr<oc_session_event_cb> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_session_event_cb>>::New(info.Env(), &sp);
+    auto accessor = External<oc_session_event_cb>::New(info.Env(), m_pvalue->current);
     return OCSessionEventCb::constructor.New({ accessor });
 }
 
@@ -7959,8 +7917,7 @@ OCRepresentationIterator::OCRepresentationIterator(const CallbackInfo& info) : O
 Napi::Value OCRepresentationIterator::get_value(const Napi::CallbackInfo& info)
 {
 
-    shared_ptr<oc_rep_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_rep_s>>::New(info.Env(), &sp);
+    auto accessor = External<oc_rep_s>::New(info.Env(), m_pvalue->current);
     return OCRepresentation::constructor.New({ accessor });
 }
 

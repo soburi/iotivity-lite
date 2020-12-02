@@ -607,88 +607,77 @@ SETGET_OVERRIDE = {
   "oc_collection_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_collection_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_collection_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_collection_s>>::New(info.Env(), &sp);
+    auto accessor = External<oc_collection_s>::New(info.Env(), m_pvalue->current);
     return OCCollection::constructor.New({ accessor });',
   },
 
   "oc_link_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_link_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_link_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_link_s>>::New(info.Env(), &sp);
+    auto accessor = External<oc_link_s>::New(info.Env(), m_pvalue->current);
     return OCLink::constructor.New({ accessor });',
   },
 
   "oc_sec_ace_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_sec_ace_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_sec_ace_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_sec_ace_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_sec_ace_t>::New(info.Env(), m_pvalue->current);
     return OCSecurityAce::constructor.New({ accessor });',
   },
 
   "oc_ace_res_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_ace_res_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_ace_res_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_ace_res_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_ace_res_t>::New(info.Env(), m_pvalue->current);
     return OCAceResource::constructor.New({ accessor });',
   },
 
   "oc_cloud_context_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_cloud_context_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_cloud_context_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_cloud_context_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_cloud_context_t>::New(info.Env(), m_pvalue->current);
     return OCCloudContext::constructor.New({ accessor });',
   },
 
   "oc_link_params_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_link_params_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_link_params_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_link_params_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_link_params_t>::New(info.Env(), m_pvalue->current);
     return OCLink::constructor.New({ accessor });',
   },
 
   "oc_rt_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_rt_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_rt_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_rt_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_rt_t>::New(info.Env(), m_pvalue->current);
     return OCResourceType::constructor.New({ accessor });',
   },
 
   "oc_etimer_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_etimer_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_etimer> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_etimer>>::New(info.Env(), &sp);
+    auto accessor = External<oc_etimer>::New(info.Env(), m_pvalue->current);
     return OCEtimer::constructor.New({ accessor });',
   },
 
   "oc_event_callback_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_event_callback_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_event_callback_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_event_callback_s>>::New(info.Env(), &sp);
+    auto accessor = External<oc_event_callback_s>::New(info.Env(), m_pvalue->current);
     return OCEventCallback::constructor.New({ accessor });',
   },
 
   "oc_message_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_message_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_message_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_message_s>>::New(info.Env(), &sp);
+    auto accessor = External<oc_message_s>::New(info.Env(), m_pvalue->current);
     return OCMessage::constructor.New({ accessor });',
   },
 
   "oc_role_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_role_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_role_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_role_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_role_t>::New(info.Env(), m_pvalue->current);
     return OCRole::constructor.New({ accessor });',
   },
 
@@ -696,16 +685,14 @@ SETGET_OVERRIDE = {
   "oc_blockwise_state_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_blockwise_state_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_blockwise_state_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_blockwise_state_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_blockwise_state_t>::New(info.Env(), m_pvalue->current);
     return OCBlockwiseState::constructor.New({ accessor });',
   },
 
   "oc_session_event_cb_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_session_event_cb_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_session_event_cb> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_session_event_cb>>::New(info.Env(), &sp);
+    auto accessor = External<oc_session_event_cb>::New(info.Env(), m_pvalue->current);
     return OCSessionEventCb::constructor.New({ accessor });',
   },
 
@@ -713,16 +700,14 @@ SETGET_OVERRIDE = {
   "oc_rep_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_rep_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_rep_s> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_rep_s>>::New(info.Env(), &sp);
+    auto accessor = External<oc_rep_s>::New(info.Env(), m_pvalue->current);
     return OCRepresentation::constructor.New({ accessor });',
   },
 
   "oc_endpoint_iterator_t::done" => { "set" => "", "get" => '  return Boolean::New(info.Env(), m_pvalue->current == nullptr);', },
   "oc_endpoint_iterator_t::value" => { "set" => "",
     "get" => '
-    shared_ptr<oc_endpoint_t> sp(m_pvalue->current, nop_deleter);
-    auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
+    auto accessor = External<oc_endpoint_t>::New(info.Env(), m_pvalue->current);
     return OCEndpoint::constructor.New({ accessor });',
   },
   "oc_string_array_iterator_t::done" => {
@@ -734,10 +719,13 @@ SETGET_OVERRIDE = {
     "set" => "",
   },
   "oc_endpoint_t::di" => {
-    "get" => '  shared_ptr<oc_uuid_t> sp(&m_pvalue->di, nop_deleter);
-  auto accessor = External<shared_ptr<oc_uuid_t>>::New(info.Env(), &sp);
+    "get" => '
+  char buf[OC_UUID_LEN + 1] = { 0 };
+  oc_uuid_to_str(&m_pvalue->di, buf, OC_UUID_LEN);
+  auto  accessor = OCUuid::constructor.New({ String::New(info.Env(), buf) });
+
   return OCUuid::constructor.New({accessor});',
-    "set" => '  oc_endpoint_set_di(m_pvalue.get(), value.As<External<shared_ptr<oc_uuid_t>>>().Data()->get() );',
+    "set" => '  oc_endpoint_set_di(m_pvalue.get(), value.As<External<oc_uuid_t>>().Data() );',
   },
   "oc_separate_response_s::buffer" => {
     "set" => "\
@@ -1054,7 +1042,7 @@ OVERRIDE_FUNC = {
 
   if (err) { return info.Env().Undefined(); }
   shared_ptr<oc_rep_t> sp(ret, nop_deleter);
-  auto accessor = External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+  auto accessor = External<oc_rep_t>::New(info.Env(), ret);
   return OCRepresentation::constructor.New({ accessor });'
   },
   'oc_rep_get_object' => {
@@ -1065,7 +1053,7 @@ OVERRIDE_FUNC = {
   if (!success) { return info.Env().Undefined(); }
 
   shared_ptr<oc_rep_t> sp(ret, nop_deleter);
-  auto accessor = External<shared_ptr<oc_rep_t>>::New(info.Env(), &sp);
+  auto accessor = External<oc_rep_t>::New(info.Env(), ret);
   return OCRepresentation::constructor.New({ accessor });'
   },
   'oc_rep_get_string' => {
@@ -1167,8 +1155,7 @@ STR
   },
   'oc_set_random_pin_callback' => {
     '0' => '  auto cb = check_callback_func(info, ORDER, helper_oc_random_pin_cb); const int O_FUNC = ORDER;',
-    '1' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);
-  main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(data));',
+    '1' => '  auto data =  check_callback_context(info, O_FUNC, ORDER);',
   },
   'oc_send_ping' => {
     '3' => '  auto handler = check_callback_func(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
@@ -1217,8 +1204,7 @@ STR
   },
   'oc_do_site_local_ipv6_multicast' => {
     '2' => '  auto handler = check_callback_func(info, ORDER, helper_oc_response_handler); const int O_FUNC = ORDER;',
-    '3' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);
-  main_context->callback_helper_array.push_back(shared_ptr<ThreadSafeCallback>(user_data));',
+    '3' => '  auto user_data =  check_callback_context(info, O_FUNC, ORDER);',
   },
   'oc_do_ip_discovery' => {
     '1' => '  auto handler = check_callback_func(info, ORDER, helper_oc_discovery_handler); const int O_FUNC = ORDER;',
@@ -2470,8 +2456,7 @@ def gen_funcimpl(func, name, param, instance)
   elsif type =~ /.*\*$/
     #p type
     type = type.gsub(/\*$/, "")
-    invoke += "  shared_ptr<#{type}> sp(#{call_func}, nop_deleter);\n"
-    invoke += "  auto args = External<shared_ptr<#{type}>>::New(info.Env(), &sp);\n"
+    invoke += "  auto args = External<#{type}>::New(info.Env(), #{call_func});\n"
     invoke += "  return #{gen_classname(type).gsub(/\*+$/,'')}::constructor.New({args});\n"
   elsif ENUMS.include?(type)
     invoke += "  return Number::New(info.Env(), #{call_func});\n"
