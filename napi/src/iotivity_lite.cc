@@ -3918,6 +3918,10 @@ OCEndpoint::OCEndpoint(const Napi::CallbackInfo& info) : ObjectWrap(info)
     else if (info.Length() == 1 && info[0].IsExternal() ) {
         m_pvalue = shared_ptr<oc_endpoint_t>(info[0].As<External<oc_endpoint_t>>().Data(), nop_deleter);
     }
+    else if (info.Length() == 2 && info[0].IsExternal() && info[1].IsExternal()) {
+        fp_endpoint_deleter fp = (fp_endpoint_deleter)(info[0].As<External<void>>().Data());
+        m_pvalue = shared_ptr<oc_endpoint_t>(info[0].As<External<oc_endpoint_t>>().Data(), fp);
+    }
     else {
         TypeError::New(info.Env(), "You need to name yourself")
         .ThrowAsJavaScriptException();
@@ -7215,6 +7219,10 @@ OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
         m_pvalue = shared_ptr<oc_string_array_t>(info[0].As<External<oc_string_array_t>>().Data(), nop_deleter);
+    }
+    else if (info.Length() == 2 && info[0].IsExternal() && info[0].IsExternal()) {
+        fp_strin_garray_deleter fp = (fp_strin_garray_deleter)(info[0].As<External<void>>().Data());
+        m_pvalue = shared_ptr<oc_string_array_t>(info[0].As<External<oc_string_array_t>>().Data(), fp);
     }
     else {
         TypeError::New(info.Env(), "You need to name yourself")

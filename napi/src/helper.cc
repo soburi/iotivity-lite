@@ -251,7 +251,7 @@ void helper_oc_resource_set_request_handler(oc_request_t* request, oc_interface_
     auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
-        auto accessor = External<oc_request_t>::New(env, request);
+        auto accessor = External<oc_request_t>::New(env, request); //TODO
         auto mask_ = Number::New(env, mask);
         args = { OCRequest::constructor.New({ accessor }), mask_ };
     },
@@ -278,8 +278,15 @@ helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t t
     [&](Env env, vector<napi_value>& args) {
         auto         di_ = String::New(env, di);
         auto        uri_ = String::New(env, uri);
-        auto      types_ = OCStringArray::constructor.New({ External<oc_string_array_t>::New(env, &types) });
-        auto   endpoint_ = OCEndpoint::constructor.New({ External<oc_endpoint_t>::New(env, endpoint) });
+
+        oc_string_array_t* clone_types = nullptr;
+        helper_string_array_copy(clone_types, types);
+        auto      types_ = OCStringArray::constructor.New({ External<oc_string_array_t>::New(env, clone_types),  External<void>::New(env, _oc_free_string) });
+
+        oc_endpoint_t** clone_ep = nullptr;
+        oc_endpoint_list_copy(clone_ep, endpoint);
+        auto   endpoint_ = OCEndpoint::constructor.New({ External<oc_endpoint_t>::New(env, *clone_ep),  External<void>::New(env, helper_endpoint_list_delete) });
+
         auto iface_mask_ = Number::New(env, iface_mask);
         auto         bm_ = Number::New(env, bm);
         args = { di_, uri_, types_, iface_mask_, endpoint_, bm_ };
@@ -307,8 +314,15 @@ helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array
     [&](Env env, vector<napi_value>& args) {
         auto         di_ = String::New(env, di);
         auto        uri_ = String::New(env, uri);
-        auto      types_ = OCStringArray::constructor.New({ External<oc_string_array_t>::New(env, &types) });
-        auto   endpoint_ = OCEndpoint::constructor.New({ External<oc_endpoint_t>::New(env, endpoint) });
+
+        oc_string_array_t* clone_types = nullptr;
+        helper_string_array_copy(clone_types, types);
+        auto      types_ = OCStringArray::constructor.New({ External<oc_string_array_t>::New(env, clone_types),  External<void>::New(env, _oc_free_string) });
+
+        oc_endpoint_t** clone_ep = nullptr;
+        oc_endpoint_list_copy(clone_ep, endpoint);
+        auto   endpoint_ = OCEndpoint::constructor.New({ External<oc_endpoint_t>::New(env, *clone_ep),  External<void>::New(env, helper_endpoint_list_delete) });
+
         auto iface_mask_ = Number::New(env, iface_mask);
         auto       more_ = Boolean::New(env, more);
         auto         bm_ = Number::New(env, bm);
@@ -334,7 +348,7 @@ void helper_oc_response_handler(oc_client_response_t* response)
     auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
-        auto accessor = External<oc_client_response_t>::New(env, response);
+        auto accessor = External<oc_client_response_t>::New(env, response); //TODO
         args = { OCClientResponse::constructor.New({ accessor }) };
     },
     [&](const Value& val) {
@@ -445,6 +459,18 @@ void helper_oc_random_pin_cb(const unsigned char* pin, size_t pin_len, void* dat
     }
 }
 
+void helper_string_array_copy(oc_string_array_t* clone, oc_string_array_t strarray)
+{
+    int num = (int)oc_string_array_get_allocated_size(strarray);
+    oc_new_string_array(clone, num);
+    for (int i = 0; i < num; i++) {
+        oc_string_array_add_item(*clone, oc_string_array_get_item(strarray, i));
+    }
+}
+
+
+
+
 void helper_endpoint_list_delete(oc_endpoint_t* eps)
 {
     oc_endpoint_t* next = nullptr;
@@ -463,7 +489,9 @@ void helper_oc_obt_discovery_cb(oc_uuid_t* uuid, oc_endpoint_t* eps, void* data)
     auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
-        auto     uuid_= OCUuid::constructor.New({ External<oc_uuid_t>::New(env, uuid) });
+        char buf[OC_UUID_LEN + 1] = { 0 };
+        oc_uuid_to_str(uuid, buf, OC_UUID_LEN);
+        auto  uuid_ = OCUuid::constructor.New({ String::New(env, buf) });
 
         auto    eps_js = OCEndpoint::constructor.New({ External<oc_endpoint_t>::New(env, eps) });
         args = { uuid_, eps_js };
@@ -535,7 +563,7 @@ void helper_oc_obt_creds_cb(struct oc_sec_creds_t* creds, void* data)
     auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
-        auto      creds_ = OCUuid::constructor.New({ External<oc_sec_creds_t>::New(env, creds) });
+        auto      creds_ = OCCreds::constructor.New({ External<oc_sec_creds_t>::New(env, creds) }); //TODO
         args = { creds_ };
     },
     [&](const Value& val) {
@@ -558,7 +586,7 @@ void helper_oc_obt_acl_cb(oc_sec_acl_t* acl, void* data)
     auto future = helper->call<void*>(
                       [&](Env env, vector<napi_value>& args)
     {
-        auto      acl_ = OCSecurityAcl::constructor.New({ External<oc_sec_acl_t>::New(env, acl) });
+        auto      acl_ = OCSecurityAcl::constructor.New({ External<oc_sec_acl_t>::New(env, acl) }); //TODO
         args = { acl_ };
     },
     [&](const Value& val) {
