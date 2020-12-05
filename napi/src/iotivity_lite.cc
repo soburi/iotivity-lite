@@ -6042,6 +6042,8 @@ Value OCResource::set_request_handler(const CallbackInfo& info) {
         put_handler.Reset(info[1].As<Function>());
         put_value = info[2];
         break;
+    case OC_DELETE:
+        break;
     }
     void* user_data = info[2];
     (void)oc_resource_set_request_handler(resource, method, callback, user_data);
@@ -7058,7 +7060,6 @@ Napi::Value OCValue::toString(const Napi::CallbackInfo& info)
     case OC_REP_NIL:
     {
         return info.Env().Undefined().ToString();
-        Napi::String s;
     }
     case OC_REP_INT:
     {
@@ -7093,7 +7094,7 @@ Napi::Value OCValue::toString(const Napi::CallbackInfo& info)
         size_t sz = oc_int_array_size(m_pvalue->array);
         Napi::Array nary = Napi::Array::New(info.Env(), sz);
 
-        for (int i = 0; i < sz; i++) {
+        for (auto i = 0u; i < sz; i++) {
             //nary[i] = Napi::BigInt::New(info.Env(), ary[i]);
         }
         return nary.ToString();
@@ -7104,7 +7105,7 @@ Napi::Value OCValue::toString(const Napi::CallbackInfo& info)
         size_t sz = oc_double_array_size(m_pvalue->array);
         Napi::Array nary = Napi::Array::New(info.Env(), sz);
 
-        for (int i = 0; i < sz; i++) {
+        for (auto i = 0u; i < sz; i++) {
             nary[i] = Napi::Number::New(info.Env(), ary[i]);
         }
         return nary.ToString();
@@ -7115,7 +7116,7 @@ Napi::Value OCValue::toString(const Napi::CallbackInfo& info)
         size_t sz = oc_bool_array_size(m_pvalue->array);
         Napi::Array nary = Napi::Array::New(info.Env(), sz);
         
-        for (int i = 0; i < sz; i++) {
+        for (auto i = 0u; i < sz; i++) {
             nary[i] = Napi::Boolean::New(info.Env(), ary[i]);
         }
         return nary.ToString();
@@ -7127,7 +7128,7 @@ Napi::Value OCValue::toString(const Napi::CallbackInfo& info)
         size_t sz = oc_string_array_get_allocated_size(m_pvalue->array);
 
         Napi::Array nary = Napi::Array::New(info.Env(), sz);
-        int i = 0;
+        auto i = 0u;
         do {
             nary[i] = Napi::String::New(info.Env(), oc_string(*ary) );
             ary = ary->next;

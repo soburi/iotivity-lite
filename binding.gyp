@@ -215,6 +215,7 @@
                   '__OC_RANDOM',
       ],
       'dependencies': ["<!(node -p \"require('node-addon-api').gyp\")"],
+      'cflags': [ '-Wno-unused-function', '-Wno-unused-variable', '-Wno-unused-but-set-variable' ],
       'cflags!': [ '-fno-exceptions' ],
       'cflags_cc!': [ '-fno-exceptions' ],
       'xcode_settings': {
