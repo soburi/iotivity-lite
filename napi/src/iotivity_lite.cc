@@ -3921,7 +3921,7 @@ OCEndpoint::OCEndpoint(const Napi::CallbackInfo& info) : ObjectWrap(info)
     }
     else if (info.Length() == 2 && info[0].IsExternal() && info[1].IsExternal()) {
         fp_endpoint_deleter fp = (fp_endpoint_deleter)(info[0].As<External<void>>().Data());
-        m_pvalue = shared_ptr<oc_endpoint_t>(info[0].As<External<oc_endpoint_t>>().Data(), fp);
+        m_pvalue = shared_ptr<oc_endpoint_t>(info[0].As<External<oc_endpoint_t>>().Data(), nop_deleter);
     }
     else {
         TypeError::New(info.Env(), "You need to name yourself")
@@ -7224,7 +7224,7 @@ OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
     }
     else if (info.Length() == 2 && info[0].IsExternal() && info[1].IsExternal()) {
         fp_string_array_deleter fp = (fp_string_array_deleter)(info[0].As<External<void>>().Data());
-        m_pvalue = shared_ptr<oc_string_array_t>(info[0].As<External<oc_string_array_t>>().Data(), fp);
+        m_pvalue = shared_ptr<oc_string_array_t>(info[0].As<External<oc_string_array_t>>().Data(), nop_deleter);
     }
     else {
         TypeError::New(info.Env(), "You need to name yourself")
@@ -7255,7 +7255,7 @@ OCStringArrayIterator::OCStringArrayIterator(const CallbackInfo& info) : ObjectW
     if (info.Length() == 1 && info[0].IsExternal() ) {
         m_pvalue = shared_ptr<oc_string_array_iterator_t>(new oc_string_array_iterator_t());
         m_pvalue->index = -1;
-        m_pvalue->array = *info[0].As<External<oc_string_array_t>>().Data();
+        m_pvalue->array = info[0].As<External<oc_string_array_t>>().Data();
     }
     else {
         TypeError::New(info.Env(), "You need to name yourself")
@@ -7264,7 +7264,7 @@ OCStringArrayIterator::OCStringArrayIterator(const CallbackInfo& info) : ObjectW
 }
 Napi::Value OCStringArrayIterator::get_value(const Napi::CallbackInfo& info)
 {
-    return String::New(info.Env(), oc_string_array_get_item(m_pvalue->array, m_pvalue->index));
+    return String::New(info.Env(), oc_string_array_get_item(*m_pvalue->array, m_pvalue->index));
 }
 
 void OCStringArrayIterator::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -7274,7 +7274,7 @@ void OCStringArrayIterator::set_value(const Napi::CallbackInfo& info, const Napi
 
 Napi::Value OCStringArrayIterator::get_done(const Napi::CallbackInfo& info)
 {
-    return Boolean::New(info.Env(), m_pvalue->index >= oc_string_array_get_allocated_size(m_pvalue->array));
+    return Boolean::New(info.Env(), m_pvalue->index >= oc_string_array_get_allocated_size(*m_pvalue->array));
 }
 
 void OCStringArrayIterator::set_done(const Napi::CallbackInfo& info, const Napi::Value& value)

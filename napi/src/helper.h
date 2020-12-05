@@ -89,7 +89,7 @@ struct oc_endpoint_iterator_t {
 };
 
 struct oc_string_array_iterator_t {
-    oc_string_array_t array;
+    oc_string_array_t* array;
     uint32_t index;
 };
 

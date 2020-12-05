@@ -279,13 +279,14 @@ helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t t
         auto         di_ = String::New(env, di);
         auto        uri_ = String::New(env, uri);
 
-        oc_string_array_t clone_types;
-        helper_string_array_copy(&clone_types, types);
-        auto      types_ = OCStringArray::constructor.New({ External<oc_string_array_t>::New(env, &clone_types),  External<void>::New(env, _oc_free_string) });
+        oc_string_array_t* clone_types = new oc_string_array_t();
+        helper_string_array_copy(clone_types, types);
 
-        oc_endpoint_t** clone_ep = nullptr;
-        oc_endpoint_list_copy(clone_ep, endpoint);
-        auto   endpoint_ = OCEndpoint::constructor.New({ External<oc_endpoint_t>::New(env, *clone_ep),  External<void>::New(env, helper_endpoint_list_delete) });
+        auto      types_ = OCStringArray::constructor.New({ External<oc_string_array_t>::New(env, clone_types),  External<void>::New(env, _oc_free_string) });
+
+        oc_endpoint_t* clone_ep = nullptr;
+        oc_endpoint_list_copy(&clone_ep, endpoint);
+        auto   endpoint_ = OCEndpoint::constructor.New({ External<oc_endpoint_t>::New(env, clone_ep),  External<void>::New(env, helper_endpoint_list_delete) });
 
         auto iface_mask_ = Number::New(env, iface_mask);
         auto         bm_ = Number::New(env, bm);
@@ -319,9 +320,9 @@ helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array
         helper_string_array_copy(&clone_types, types);
         auto      types_ = OCStringArray::constructor.New({ External<oc_string_array_t>::New(env, &clone_types),  External<void>::New(env, _oc_free_string) });
 
-        oc_endpoint_t** clone_ep = nullptr;
-        oc_endpoint_list_copy(clone_ep, endpoint);
-        auto   endpoint_ = OCEndpoint::constructor.New({ External<oc_endpoint_t>::New(env, *clone_ep),  External<void>::New(env, helper_endpoint_list_delete) });
+        oc_endpoint_t* clone_ep = nullptr;
+        oc_endpoint_list_copy(&clone_ep, endpoint);
+        auto   endpoint_ = OCEndpoint::constructor.New({ External<oc_endpoint_t>::New(env, clone_ep),  External<void>::New(env, helper_endpoint_list_delete) });
 
         auto iface_mask_ = Number::New(env, iface_mask);
         auto       more_ = Boolean::New(env, more);
