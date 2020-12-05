@@ -10,7 +10,7 @@
   },
   "gypfile": true,
   "name": "iotivity-lite",
-  "version": "0.1.2-node2",
+  "version": "0.1.2-node3",
   "description": "IoTivity-Lite API",
   "author": "tokita.hiroshi@gmail.com",
   "license": "Apache-2.0"
