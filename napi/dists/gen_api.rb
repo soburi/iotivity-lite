@@ -332,6 +332,42 @@ EXTRA_VALUE= {
 }
 
 OVERRIDE_CTOR = {
+  'oc_string_array_t' =>'
+OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+    if (info.Length() == 0) {
+        m_pvalue = shared_ptr<oc_string_array_t>(new oc_string_array_t());
+    }
+    else if (info.Length() == 1 && info[0].IsExternal() ) {
+        m_pvalue = shared_ptr<oc_string_array_t>(info[0].As<External<oc_string_array_t>>().Data(), nop_deleter);
+    }
+    else if (info.Length() == 2 && info[0].IsExternal() && info[1].IsExternal()) {
+        fp_string_array_deleter fp = (fp_string_array_deleter)(info[0].As<External<void>>().Data());
+        m_pvalue = shared_ptr<oc_string_array_t>(info[0].As<External<oc_string_array_t>>().Data(), fp);
+    }
+    else {
+        TypeError::New(info.Env(), "You need to name yourself")
+        .ThrowAsJavaScriptException();
+    }
+}',
+  'oc_endpoint_t' =>'
+OCEndpoint::OCEndpoint(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+    if (info.Length() == 0) {
+        m_pvalue = shared_ptr<oc_endpoint_t>(new oc_endpoint_t());
+    }
+    else if (info.Length() == 1 && info[0].IsExternal() ) {
+        m_pvalue = shared_ptr<oc_endpoint_t>(info[0].As<External<oc_endpoint_t>>().Data(), nop_deleter);
+    }
+    else if (info.Length() == 2 && info[0].IsExternal() && info[1].IsExternal()) {
+        fp_endpoint_deleter fp = (fp_endpoint_deleter)(info[0].As<External<void>>().Data());
+        m_pvalue = shared_ptr<oc_endpoint_t>(info[0].As<External<oc_endpoint_t>>().Data(), fp);
+    }
+    else {
+        TypeError::New(info.Env(), "You need to name yourself")
+        .ThrowAsJavaScriptException();
+    }
+}',
   'oc_uuid_t' => '
 OCUuid::OCUuid(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {

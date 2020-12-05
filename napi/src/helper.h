@@ -138,7 +138,7 @@ extern "C" {
 #endif
 
 typedef void (*fp_endpoint_deleter)(oc_endpoint_t*);
-typedef void (*fp_strin_garray_deleter)(oc_string_array_t*);
+typedef void (*fp_string_array_deleter)(oc_string_array_t*);
 
 void helper_string_array_copy(oc_string_array_t* clone, oc_string_array_t strarray);
 void helper_endpoint_list_delete(oc_endpoint_t* eps);

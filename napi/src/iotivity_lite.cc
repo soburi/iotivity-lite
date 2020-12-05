@@ -3910,6 +3910,7 @@ Napi::Function OCEndpoint::GetClass(Napi::Env env) {
 OCEndpoint::~OCEndpoint()
 {
 }
+
 OCEndpoint::OCEndpoint(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
@@ -7212,6 +7213,7 @@ Napi::Function OCStringArray::GetClass(Napi::Env env) {
 OCStringArray::~OCStringArray()
 {
 }
+
 OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
     if (info.Length() == 0) {
@@ -7220,8 +7222,8 @@ OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
     else if (info.Length() == 1 && info[0].IsExternal() ) {
         m_pvalue = shared_ptr<oc_string_array_t>(info[0].As<External<oc_string_array_t>>().Data(), nop_deleter);
     }
-    else if (info.Length() == 2 && info[0].IsExternal() && info[0].IsExternal()) {
-        fp_strin_garray_deleter fp = (fp_strin_garray_deleter)(info[0].As<External<void>>().Data());
+    else if (info.Length() == 2 && info[0].IsExternal() && info[1].IsExternal()) {
+        fp_string_array_deleter fp = (fp_string_array_deleter)(info[0].As<External<void>>().Data());
         m_pvalue = shared_ptr<oc_string_array_t>(info[0].As<External<oc_string_array_t>>().Data(), fp);
     }
     else {
@@ -7229,7 +7231,6 @@ OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
         .ThrowAsJavaScriptException();
     }
 }
-
 Napi::FunctionReference OCStringArrayIterator::constructor;
 
 Napi::Function OCStringArrayIterator::GetClass(Napi::Env env) {

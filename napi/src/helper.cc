@@ -279,9 +279,9 @@ helper_oc_discovery_handler(const char *di, const char *uri, oc_string_array_t t
         auto         di_ = String::New(env, di);
         auto        uri_ = String::New(env, uri);
 
-        oc_string_array_t* clone_types = nullptr;
-        helper_string_array_copy(clone_types, types);
-        auto      types_ = OCStringArray::constructor.New({ External<oc_string_array_t>::New(env, clone_types),  External<void>::New(env, _oc_free_string) });
+        oc_string_array_t clone_types;
+        helper_string_array_copy(&clone_types, types);
+        auto      types_ = OCStringArray::constructor.New({ External<oc_string_array_t>::New(env, &clone_types),  External<void>::New(env, _oc_free_string) });
 
         oc_endpoint_t** clone_ep = nullptr;
         oc_endpoint_list_copy(clone_ep, endpoint);
@@ -315,9 +315,9 @@ helper_oc_discovery_all_handler(const char* di, const char* uri, oc_string_array
         auto         di_ = String::New(env, di);
         auto        uri_ = String::New(env, uri);
 
-        oc_string_array_t* clone_types = nullptr;
-        helper_string_array_copy(clone_types, types);
-        auto      types_ = OCStringArray::constructor.New({ External<oc_string_array_t>::New(env, clone_types),  External<void>::New(env, _oc_free_string) });
+        oc_string_array_t clone_types;
+        helper_string_array_copy(&clone_types, types);
+        auto      types_ = OCStringArray::constructor.New({ External<oc_string_array_t>::New(env, &clone_types),  External<void>::New(env, _oc_free_string) });
 
         oc_endpoint_t** clone_ep = nullptr;
         oc_endpoint_list_copy(clone_ep, endpoint);
