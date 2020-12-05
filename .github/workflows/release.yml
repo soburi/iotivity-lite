@@ -10,6 +10,11 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: true
+
+    - name: apply patch
+      run: (cd deps/mbedtls; for P in ../../patches/*.patch ; do patch -r - -s -N -p1 < $P ; done)
+      shell: bash
+
     # npmに公開する.npmrcファイルを設定する
     - uses: actions/setup-node@v1
       with:
