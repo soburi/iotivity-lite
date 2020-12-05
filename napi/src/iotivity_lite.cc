@@ -4994,8 +4994,12 @@ OCRepresentation::OCRepresentation(const CallbackInfo& info) : ObjectWrap(info)
         .ThrowAsJavaScriptException();
     }
 }
+
 Napi::Value OCRepresentation::get_name(const Napi::CallbackInfo& info)
 {
+    if (m_pvalue->name.ptr == nullptr) {
+        return String::New(info.Env(), "");
+    }
     return String::New(info.Env(), oc_string(m_pvalue->name));
 }
 
@@ -5017,7 +5021,8 @@ void OCRepresentation::set_type(const Napi::CallbackInfo& info, const Napi::Valu
 Napi::Value OCRepresentation::get_value(const Napi::CallbackInfo& info)
 {
     auto accessor = External<oc_rep_s::oc_rep_value>::New(info.Env(), &m_pvalue->value);
-    return OCValue::constructor.New({accessor});
+    
+    return OCValue::constructor.New({accessor, Napi::Number::New(info.Env(), m_pvalue->type) });
 }
 
 void OCRepresentation::set_value(const Napi::CallbackInfo& info, const Napi::Value& value)
@@ -7038,13 +7043,116 @@ Napi::Function OCValue::GetClass(Napi::Env env) {
         InstanceAccessor("object", &OCValue::get_object, &OCValue::set_object),
         InstanceAccessor("object_array", &OCValue::get_object_array, &OCValue::set_object_array),
         InstanceAccessor("string", &OCValue::get_string, &OCValue::set_string),
-
+        InstanceMethod("toString", &OCValue::toString),
     });
 
     constructor = Napi::Persistent(func);
     constructor.SuppressDestruct();
 
     return func;
+}
+
+Napi::Value OCValue::toString(const Napi::CallbackInfo& info)
+{
+    switch (type) {
+    case OC_REP_NIL:
+    {
+        return info.Env().Undefined().ToString();
+        Napi::String s;
+    }
+    case OC_REP_INT:
+    {
+        return Napi::Number::New(info.Env(), m_pvalue->integer).ToString();
+    }
+    case OC_REP_DOUBLE:
+    {
+        return Napi::Number::New(info.Env(), m_pvalue->double_p).ToString();
+    }
+    case OC_REP_BOOL:
+    {
+        return Napi::Boolean::New(info.Env(), m_pvalue->boolean).ToString();
+    }
+    case OC_REP_BYTE_STRING:
+    case OC_REP_STRING:
+    {
+        return Napi::String::New(info.Env(), oc_string(m_pvalue->string));
+    }
+    case OC_REP_OBJECT:
+    {
+        char* buf = new char[2048];
+        oc_rep_to_json(m_pvalue->object, buf, 2048, true);
+
+        Napi::String ret = Napi::String::New(info.Env(), buf);
+        delete[] buf;
+        return ret;
+    }
+    case OC_REP_ARRAY:
+    case OC_REP_INT_ARRAY:
+    {
+        int64_t* ary = oc_int_array(m_pvalue->array);
+        size_t sz = oc_int_array_size(m_pvalue->array);
+        Napi::Array nary = Napi::Array::New(info.Env(), sz);
+
+        for (int i = 0; i < sz; i++) {
+            //nary[i] = Napi::BigInt::New(info.Env(), ary[i]);
+        }
+        return nary.ToString();
+    }
+    case OC_REP_DOUBLE_ARRAY:
+    {
+        double* ary = oc_double_array(m_pvalue->array);
+        size_t sz = oc_double_array_size(m_pvalue->array);
+        Napi::Array nary = Napi::Array::New(info.Env(), sz);
+
+        for (int i = 0; i < sz; i++) {
+            nary[i] = Napi::Number::New(info.Env(), ary[i]);
+        }
+        return nary.ToString();
+    }
+    case OC_REP_BOOL_ARRAY:
+    {
+        bool* ary = oc_bool_array(m_pvalue->array);
+        size_t sz = oc_bool_array_size(m_pvalue->array);
+        Napi::Array nary = Napi::Array::New(info.Env(), sz);
+        
+        for (int i = 0; i < sz; i++) {
+            nary[i] = Napi::Boolean::New(info.Env(), ary[i]);
+        }
+        return nary.ToString();
+    }
+    case OC_REP_BYTE_STRING_ARRAY:
+    case OC_REP_STRING_ARRAY:
+    {
+        oc_string_array_t* ary = &m_pvalue->array;
+        size_t sz = oc_string_array_get_allocated_size(m_pvalue->array);
+
+        Napi::Array nary = Napi::Array::New(info.Env(), sz);
+        int i = 0;
+        do {
+            nary[i] = Napi::String::New(info.Env(), oc_string(*ary) );
+            ary = ary->next;
+            i++;
+        } while (ary->next != nullptr);
+        return nary.ToString();
+    }
+    case OC_REP_OBJECT_ARRAY:
+    {
+        oc_rep_s* rep = m_pvalue->object_array;
+
+        char* buf = new char[2048];
+        oc_rep_to_json(m_pvalue->object_array, buf, 2048, true);
+
+        Napi::String ret =  Napi::String::New(info.Env(), buf);
+        delete[] buf;
+
+        return ret;
+    }
+    default:
+    {
+        return Napi::String::New(info.Env(), "");
+    }
+    }
+
 }
 
 OCValue::~OCValue()
@@ -7057,6 +7165,10 @@ OCValue::OCValue(const Napi::CallbackInfo& info) : ObjectWrap(info)
     }
     else if (info.Length() == 1 && info[0].IsExternal() ) {
         m_pvalue = shared_ptr<oc_rep_s::oc_rep_value>(info[0].As<External<oc_rep_s::oc_rep_value>>().Data(), nop_deleter);
+    }
+    else if (info.Length() == 2 && info[0].IsExternal() && info[1].IsNumber() ) {
+        m_pvalue = shared_ptr<oc_rep_s::oc_rep_value>(info[0].As<External<oc_rep_s::oc_rep_value>>().Data(), nop_deleter);
+        type = static_cast<oc_rep_value_type_t>(info[1].As<Number>().Int32Value() );
     }
     else {
         TypeError::New(info.Env(), "You need to name yourself")
