@@ -18,7 +18,7 @@ jobs:
     # npmに公開する.npmrcファイルを設定する
     - uses: actions/setup-node@v1
       with:
-        node-version: '10.x'
+        node-version: '14.x'
         registry-url: 'https://registry.npmjs.org'
     - run: npm install
     # npmに公開する
@@ -26,13 +26,13 @@ jobs:
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     # GitHub パッケージに公開する .npmrc ファイルを設定する
-    - uses: actions/setup-node@v1
-      with:
-        registry-url: 'https://npm.pkg.github.com'
-        # デフォルトはワークフローファイルを所有するユーザまたは Organization
-        scope: '@soburi/iotivity-lite'
+    #- uses: actions/setup-node@v1
+    #  with:
+    #    registry-url: 'https://npm.pkg.github.com'
+    #    # デフォルトはワークフローファイルを所有するユーザまたは Organization
+    #    scope: '@soburi/iotivity-lite'
     # GitHub パッケージに公開する
-    - run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #- run: npm publish
+    #  env:
+    #    NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
