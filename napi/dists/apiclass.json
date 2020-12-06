@@ -306,5 +306,8 @@
 	"add_pace": "oc_mem_trace_add_pace",
 	"init": "oc_mem_trace_init",
 	"shutdown": "oc_mem_trace_shutdown"
+  },
+  "OCValue": {
+	"toString": "helper_oc_value_to_string"
   }
 }

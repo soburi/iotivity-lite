@@ -3528,5 +3528,13 @@
        "type": "void*",
        "param": {
        }
+},
+"helper_oc_value_to_string": {
+       "type": "void*",
+       "param": {
+	         "env": "napi_env",
+                 "value": "oc_rep_s::oc_rep_value*",
+		 "type": "oc_rep_value_type_t"
+       }
 }
 }

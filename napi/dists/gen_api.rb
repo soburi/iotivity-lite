@@ -328,10 +328,31 @@ EXTRA_VALUE= {
   Napi::FunctionReference put_handler;\n\
   Napi::Value get_value;\n\
   Napi::Value post_value;\n\
-  Napi::Value put_value;\n"
+  Napi::Value put_value;\n",
+  "oc_rep_s::oc_rep_value" => "\
+  oc_rep_value_type_t type;"
 }
 
 OVERRIDE_CTOR = {
+  'oc_rep_s::oc_rep_value' =>'
+OCValue::OCValue(const Napi::CallbackInfo& info) : ObjectWrap(info)
+{
+    if (info.Length() == 0) {
+        m_pvalue = shared_ptr<oc_rep_s::oc_rep_value>(new oc_rep_s::oc_rep_value());
+    }
+    else if (info.Length() == 1 && info[0].IsExternal() ) {
+        m_pvalue = shared_ptr<oc_rep_s::oc_rep_value>(info[0].As<External<oc_rep_s::oc_rep_value>>().Data(), nop_deleter);
+    }
+    else if (info.Length() == 2 && info[0].IsExternal() && info[1].IsNumber() ) {
+        m_pvalue = shared_ptr<oc_rep_s::oc_rep_value>(info[0].As<External<oc_rep_s::oc_rep_value>>().Data(), nop_deleter);
+        type = static_cast<oc_rep_value_type_t>(info[1].As<Number>().Int32Value() );
+    }
+    else {
+        TypeError::New(info.Env(), "You need to name yourself")
+        .ThrowAsJavaScriptException();
+    }
+}
+  ',
   'oc_string_array_t' =>'
 OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
 {
@@ -343,7 +364,7 @@ OCStringArray::OCStringArray(const Napi::CallbackInfo& info) : ObjectWrap(info)
     }
     else if (info.Length() == 2 && info[0].IsExternal() && info[1].IsExternal()) {
         fp_string_array_deleter fp = (fp_string_array_deleter)(info[0].As<External<void>>().Data());
-        m_pvalue = shared_ptr<oc_string_array_t>(info[0].As<External<oc_string_array_t>>().Data(), fp);
+        m_pvalue = shared_ptr<oc_string_array_t>(info[0].As<External<oc_string_array_t>>().Data(), nop_deleter); //TODO
     }
     else {
         TypeError::New(info.Env(), "You need to name yourself")
@@ -361,7 +382,7 @@ OCEndpoint::OCEndpoint(const Napi::CallbackInfo& info) : ObjectWrap(info)
     }
     else if (info.Length() == 2 && info[0].IsExternal() && info[1].IsExternal()) {
         fp_endpoint_deleter fp = (fp_endpoint_deleter)(info[0].As<External<void>>().Data());
-        m_pvalue = shared_ptr<oc_endpoint_t>(info[0].As<External<oc_endpoint_t>>().Data(), fp);
+        m_pvalue = shared_ptr<oc_endpoint_t>(info[0].As<External<oc_endpoint_t>>().Data(), nop_deleter); //TODO
     }
     else {
         TypeError::New(info.Env(), "You need to name yourself")
@@ -597,7 +618,7 @@ OCStringArrayIterator::OCStringArrayIterator(const CallbackInfo& info) : ObjectW
   if (info.Length() == 1 && info[0].IsExternal() ) {
      m_pvalue = shared_ptr<oc_string_array_iterator_t>(new oc_string_array_iterator_t());
      m_pvalue->index = -1;
-     m_pvalue->array = *info[0].As<External<oc_string_array_t>>().Data();
+     m_pvalue->array = info[0].As<External<oc_string_array_t>>().Data();
   }
   else {
         TypeError::New(info.Env(), "You need to name yourself")
@@ -630,8 +651,16 @@ OCResource::OCResource(const CallbackInfo& info) : ObjectWrap(info)
 }
 
 SETGET_OVERRIDE = {
+  "oc_rep_s::value" => {
+    "get" => "auto accessor = External<oc_rep_s::oc_rep_value>::New(info.Env(), &m_pvalue->value);\
+              return OCValue::constructor.New({accessor, Napi::Number::New(info.Env(), m_pvalue->type) });",
+    "set" => "m_pvalue->value = *(value.As<External<oc_rep_s::oc_rep_value>>().Data());",
+  },
   "oc_rep_s::name" => {
-    "get" => "return String::New(info.Env(), oc_string(m_pvalue->name));",
+    "get" => "if (m_pvalue->name.ptr == nullptr) {
+        return String::New(info.Env(), \"\");
+    }
+    return String::New(info.Env(), oc_string(m_pvalue->name));",
     "set" => "oc_new_string(&m_pvalue->name, value.As<String>().Utf8Value().c_str(), value.As<String>().Utf8Value().length());",
   },
   "oc_link_s::interfaces" => {
@@ -747,11 +776,11 @@ SETGET_OVERRIDE = {
     return OCEndpoint::constructor.New({ accessor });',
   },
   "oc_string_array_iterator_t::done" => {
-    "get" => "return Boolean::New(info.Env(), m_pvalue->index >= oc_string_array_get_allocated_size(m_pvalue->array));",
+    "get" => "return Boolean::New(info.Env(), m_pvalue->index >= oc_string_array_get_allocated_size(*m_pvalue->array));",
     "set" => "",
   },
   "oc_string_array_iterator_t::value" => {
-    "get" => "return String::New(info.Env(), oc_string_array_get_item(m_pvalue->array, m_pvalue->index));",
+    "get" => "return String::New(info.Env(), oc_string_array_get_item(*m_pvalue->array, m_pvalue->index));",
     "set" => "",
   },
   "oc_endpoint_t::di" => {
@@ -1019,19 +1048,22 @@ m_pvalue->_payload_len = value.As<TypedArray>().ArrayBuffer().ByteLength();",
 }
 
 OVERRIDE_FUNC = {
+  'helper_oc_value_to_string' => { '0' => '', '1' => '', '2' => '',
+  'invoke' => 'return Napi::Value(info.Env(), helper_oc_value_to_string(info.Env(), m_pvalue.get(), type));'
+  },
   'oc_rep_to_json' => { '1' => '', '2' => '', '3' => '',
   'invoke' => '
     bool pretty_print = (info.Length() >= 1) ? info[0].ToBoolean().Value() : false;
 
     size_t buf_size = 0;
-    size_t print_size = 0;
+    size_t print_size = 1023;
     char* buf = nullptr;
     do {
+        buf_size = print_size+1;
         if (buf) delete[] buf;
-        buf_size += 1024;
         buf = new char[buf_size];
         print_size = oc_rep_to_json(rep, buf, buf_size, pretty_print);
-    } while (buf_size == print_size);
+    } while (buf_size <= print_size);
 
     auto ret = String::New(info.Env(), buf, print_size);
     delete[] buf;
@@ -1052,17 +1084,15 @@ OVERRIDE_FUNC = {
 '},
   'oc_endpoint_copy' => { '0' => 'oc_endpoint_t* dst = nullptr;',
     'invoke' => ' (void)oc_endpoint_copy(dst, src);
-  shared_ptr<oc_endpoint_t> sp(dst, nop_deleter);
-  auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
-  return OCEndpoint::constructor.New({accessor});' },
+    auto accessor = External<oc_endpoint_t>::New(info.Env(), dst);
+    return OCEndpoint::constructor.New({ accessor, External<void>::New(info.Env(), (void*)helper_endpoint_list_delete) });' },
   'oc_endpoint_list_copy' => {
     '0' => '',
     '1' => 'OCEndpoint& src = *OCEndpoint::Unwrap(info.This().ToObject());',
     'invoke' => 'oc_endpoint_t* dst = nullptr;
   oc_endpoint_list_copy(&dst, src);
-  shared_ptr<oc_endpoint_t> sp(dst /* TODO */);
-  auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
-  return OCEndpoint::constructor.New({accessor});' },
+  auto accessor = External<oc_endpoint_t>::New(info.Env(), dst);
+  return OCEndpoint::constructor.New({ accessor, External<void>::New(info.Env(), (void*)helper_endpoint_list_delete) });' },
   'oc_collection_add_link' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());' },
   'oc_collection_add_mandatory_rt' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());' },
   'oc_collection_add_supported_rt' => { '0' => '  OCCollection& collection = *OCCollection::Unwrap(info.This().ToObject());' },
@@ -1404,6 +1434,8 @@ STR
     put_handler.Reset(info[1].As<Function>());
     put_value = info[2];
     break;
+  case OC_DELETE:
+    break;
   }
 ',
     '4' => <<~STR
@@ -1651,7 +1683,8 @@ INSTANCE_FUNCS = [
   'OCCollection::add_supported_rt',
   'OCCollection::get_links',
   'OCCollection::remove_link',
-  'OCUuid::toString'
+  'OCUuid::toString',
+  'OCValue::toString'
 ]
 
 IGNORE_FUNCS = [

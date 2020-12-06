@@ -1319,11 +1319,11 @@ public:
     Napi::Value get_string(const Napi::CallbackInfo&);
     void set_string(const Napi::CallbackInfo&, const Napi::Value&);
 
+    oc_rep_value_type_t type;
+
     Napi::Value toString(const Napi::CallbackInfo& info);
 
     std::shared_ptr<oc_rep_s::oc_rep_value> m_pvalue;
-
-    oc_rep_value_type_t type;
 };
 
 class OCCborEncoder : public Napi::ObjectWrap<OCCborEncoder>

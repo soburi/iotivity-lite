@@ -469,6 +469,109 @@ void helper_string_array_copy(oc_string_array_t* clone, oc_string_array_t strarr
     }
 }
 
+napi_value helper_oc_value_to_string(napi_env ev, oc_rep_s::oc_rep_value* value, oc_rep_value_type_t type)
+{
+    Napi::Env env = Napi::Env(ev);
+
+    switch (type) {
+    case OC_REP_NIL:
+    {
+        return env.Undefined().ToString();
+    }
+    case OC_REP_INT:
+    {
+        return Napi::Number::New(env, value->integer).ToString();
+    }
+    case OC_REP_DOUBLE:
+    {
+        return Napi::Number::New(env, value->double_p).ToString();
+    }
+    case OC_REP_BOOL:
+    {
+        return Napi::Boolean::New(env, value->boolean).ToString();
+    }
+    case OC_REP_BYTE_STRING:
+    case OC_REP_STRING:
+    {
+        return Napi::String::New(env, oc_string(value->string));
+    }
+    case OC_REP_OBJECT:
+    {
+        char* buf = new char[2048];
+        oc_rep_to_json(value->object, buf, 2048, true);
+
+        Napi::String ret = Napi::String::New(env, buf);
+        delete[] buf;
+        return ret;
+    }
+    case OC_REP_ARRAY:
+    case OC_REP_INT_ARRAY:
+    {
+        int64_t* ary = oc_int_array(value->array);
+        size_t sz = oc_int_array_size(value->array);
+        Napi::Array nary = Napi::Array::New(env, sz);
+
+        for (auto i = 0u; i < sz; i++) {
+            //nary[i] = Napi::BigInt::New(env, ary[i]);
+        }
+        return nary.ToString();
+    }
+    case OC_REP_DOUBLE_ARRAY:
+    {
+        double* ary = oc_double_array(value->array);
+        size_t sz = oc_double_array_size(value->array);
+        Napi::Array nary = Napi::Array::New(env, sz);
+
+        for (auto i = 0u; i < sz; i++) {
+            nary[i] = Napi::Number::New(env, ary[i]);
+        }
+        return nary.ToString();
+    }
+    case OC_REP_BOOL_ARRAY:
+    {
+        bool* ary = oc_bool_array(value->array);
+        size_t sz = oc_bool_array_size(value->array);
+        Napi::Array nary = Napi::Array::New(env, sz);
+
+        for (auto i = 0u; i < sz; i++) {
+            nary[i] = Napi::Boolean::New(env, ary[i]);
+        }
+        return nary.ToString();
+    }
+    case OC_REP_BYTE_STRING_ARRAY:
+    case OC_REP_STRING_ARRAY:
+    {
+        oc_string_array_t* ary = &value->array;
+        size_t sz = oc_string_array_get_allocated_size(value->array);
+
+        Napi::Array nary = Napi::Array::New(env, sz);
+        auto i = 0u;
+        do {
+            nary[i] = Napi::String::New(env, oc_string(*ary));
+            ary = ary->next;
+            i++;
+        } while (ary->next != nullptr);
+        return nary.ToString();
+    }
+    case OC_REP_OBJECT_ARRAY:
+    {
+        oc_rep_s* rep = value->object_array;
+
+        char* buf = new char[2048];
+        oc_rep_to_json(value->object_array, buf, 2048, true);
+
+        Napi::String ret = Napi::String::New(env, buf);
+        delete[] buf;
+
+        return ret;
+    }
+    default:
+    {
+        return Napi::String::New(env, "");
+    }
+    }
+
+}
 
 
 

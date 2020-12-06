@@ -140,6 +140,8 @@ extern "C" {
 typedef void (*fp_endpoint_deleter)(oc_endpoint_t*);
 typedef void (*fp_string_array_deleter)(oc_string_array_t*);
 
+napi_value helper_oc_value_to_string(napi_env ev, oc_rep_s::oc_rep_value* value, oc_rep_value_type_t type);
+
 void helper_string_array_copy(oc_string_array_t* clone, oc_string_array_t strarray);
 void helper_endpoint_list_delete(oc_endpoint_t* eps);
 
