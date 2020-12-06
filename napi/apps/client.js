@@ -90,31 +90,28 @@ function get_light(client_response)
 {
   console.log("-- get_light --");
   console.dir(client_response);
+  console.log(client_response.payload.toString());
 }
 
-function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
+function discovery(di, uri, types, iface_mask, endpoints, bm)
 {
   console.log("-- discovery --");
 
   console.dir(di);
   console.dir(uri);
   console.dir(types);
-  for(let t of types) {
+  for(var t of types) {
     console.dir(t);
   }
 
   console.dir(iface_mask);
   console.dir(endpoints);
-  for(let ep of endpoints) {
-    console.log("toobj " + ep);
-    console.log("tostr");
-    console.log(`${ep}`);         // => hint == "string"
-    console.log(+ep);             // => hint == "number"
+  for(var ep of endpoints) {
+    console.log(`${ep}`);
   }
   console.dir(bm);
-  console.log(user_data);
 
-  for(let t of types) {
+  for(var t of types) {
     console.dir(t);
     if(t == "core.light") {
       console.log("core.light = " + uri);
@@ -123,7 +120,8 @@ function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
       console.log("a_lignt = " + a_light);
       console.log("light_server = " + light_server);
       console.log("OC.LOW_QOS = " + OC.LOW_QOS);
-      OC.do_get(a_light, light_server, null, get_light, OC.LOW_QOS, null)
+      //OC.do_get(a_light, light_server, null, get_light, OC.HIGH_QOS)
+      OC.do_get('/oic/d', light_server, null, get_light, OC.HIGH_QOS)
     }
   }
 
@@ -132,15 +130,14 @@ function discovery(di, uri, types, iface_mask, endpoints, bm, user_data)
 
 function trigger(data)
 {
-	console.log("trigger");
-	console.log(data);
+  console.log("trigger");
+  console.log(data);
 }
 
 function issue_requests()
 {
   console.log("-- issue_requests --");
-
-  OC.do_ip_discovery("core.light", discovery, "discovery_data");
+  OC.do_ip_discovery("core.light", discovery);
 }
 
 function handle_signal()

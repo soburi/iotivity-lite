@@ -3916,7 +3916,30 @@ OCEndpoint::OCEndpoint(const Napi::CallbackInfo& info) : ObjectWrap(info)
     if (info.Length() == 0) {
         m_pvalue = shared_ptr<oc_endpoint_t>(new oc_endpoint_t());
     }
-    else if (info.Length() == 1 && info[0].IsExternal() ) {
+    else if (info.Length() == 1 && info[0].IsArray()) {
+        Napi::Array ary = info[0].As<Napi::Array>();
+
+        oc_endpoint_t* head = nullptr;
+        oc_endpoint_t* prev = nullptr;
+        for (uint32_t i = 0; i < ary.Length(); i++) {
+            Napi::String s = ary.Get(i).As<Napi::String>();
+            oc_endpoint_t* newep = oc_new_endpoint();
+            oc_string_t ostr;
+            oc_alloc_string(&ostr, s.Utf8Value().length());
+            oc_string_to_endpoint(&ostr, newep, nullptr);
+            if (prev != nullptr) {;
+                prev->next = newep;
+            }
+            else{
+                head = newep;
+            }
+           
+            prev = newep;
+        }
+
+        m_pvalue = shared_ptr<oc_endpoint_t>(head, helper_endpoint_list_delete);
+    }
+    else if (info.Length() == 1 && info[0].IsExternal()) {
         m_pvalue = shared_ptr<oc_endpoint_t>(info[0].As<External<oc_endpoint_t>>().Data(), nop_deleter);
     }
     else if (info.Length() == 2 && info[0].IsExternal() && info[1].IsExternal()) {
@@ -4033,21 +4056,19 @@ Value OCEndpoint::compare(const CallbackInfo& info) {
 }
 
 Value OCEndpoint::copy(const CallbackInfo& info) {
-    oc_endpoint_t* dst = nullptr;
     auto& src = *OCEndpoint::Unwrap(info[0].ToObject());
+    oc_endpoint_t* dst = nullptr;
     (void)oc_endpoint_copy(dst, src);
-    shared_ptr<oc_endpoint_t> sp(dst, nop_deleter);
-    auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({accessor});
+    auto accessor = External<oc_endpoint_t>::New(info.Env(), dst);
+    return OCEndpoint::constructor.New({ accessor, External<void>::New(info.Env(), (void*)helper_endpoint_list_delete) });
 }
 
 Value OCEndpoint::list_copy(const CallbackInfo& info) {
     OCEndpoint& src = *OCEndpoint::Unwrap(info.This().ToObject());
     oc_endpoint_t* dst = nullptr;
     oc_endpoint_list_copy(&dst, src);
-    shared_ptr<oc_endpoint_t> sp(dst /* TODO */);
-    auto accessor = External<shared_ptr<oc_endpoint_t>>::New(info.Env(), &sp);
-    return OCEndpoint::constructor.New({accessor});
+    auto accessor = External<oc_endpoint_t>::New(info.Env(), dst);
+    return OCEndpoint::constructor.New({ accessor, External<void>::New(info.Env(), (void*)helper_endpoint_list_delete) });
 }
 
 Value OCEndpoint::string_to_endpoint(const CallbackInfo& info) {
@@ -5189,14 +5210,14 @@ Value OCRepresentation::toString(const CallbackInfo& info) {
     bool pretty_print = (info.Length() >= 1) ? info[0].ToBoolean().Value() : false;
 
     size_t buf_size = 0;
-    size_t print_size = 0;
+    size_t print_size = 1023;
     char* buf = nullptr;
     do {
+        buf_size = print_size+1;
         if (buf) delete[] buf;
-        buf_size += 1024;
         buf = new char[buf_size];
         print_size = oc_rep_to_json(rep, buf, buf_size, pretty_print);
-    } while (buf_size == print_size);
+    } while (buf_size <= print_size);
 
     auto ret = String::New(info.Env(), buf, print_size);
     delete[] buf;
