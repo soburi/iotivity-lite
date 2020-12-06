@@ -30,7 +30,7 @@ jobs:
       with:
         registry-url: 'https://npm.pkg.github.com'
         # デフォルトはワークフローファイルを所有するユーザまたは Organization
-        #scope: '@octocat'
+        scope: '@soburi/iotivity-lite'
     # GitHub パッケージに公開する
     - run: npm publish
       env:
