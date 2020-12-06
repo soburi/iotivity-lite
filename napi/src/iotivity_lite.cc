@@ -10,6 +10,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports);
 NODE_API_MODULE(addon, Init)
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
+    oc_random_init();
     exports.Set("Clock", OCClock::GetClass(env));
     exports.Set("Cloud", OCCloud::GetClass(env));
     exports.Set("Collection", OCCollection::GetClass(env));

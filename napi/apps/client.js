@@ -150,12 +150,12 @@ function handle_signal()
 async function main() {
   process.on('SIGINT', handle_signal);
 
-  var uuid = new OC.Uuid();
+  //var uuid = new OC.Uuid();
 
-  console.dir(uuid);
-  console.log(uuid);
+  //console.dir(uuid);
+  //console.log(uuid);
 
-  console.log(uuid.id);
+  //console.log(uuid.id);
 
   //OC.oc_storage_config("./simpleclient_creds");
 
